@@ -18,7 +18,7 @@ zGetPointerTable:
     ld     h,(hl)          ; 000011 66
     ld     l,a             ; 000012 6F
     ex     af,af          ; 000013 08
-    ret                    ; 000014 C9
+	ret
     nop                    ; 000015 00
     nop                    ; 000016 00
     nop                    ; 000017 00
@@ -31,11 +31,14 @@ zPointerTableOffset:
     nop                    ; 00001D 00
     nop                    ; 00001E 00
     nop                    ; 00001F 00
+
+zReadPointer:
     ld     a,(hl)          ; 000020 7E
     inc    hl              ; 000021 23
     ld     h,(hl)          ; 000022 66
     ld     l,a             ; 000023 6F
-    ret                    ; 000024 C9
+	ret
+
     nop                    ; 000025 00
     nop                    ; 000026 00
     nop                    ; 000027 00
@@ -62,8 +65,7 @@ zVInt:
     push   iy              ; 00003A FD E5
     exx                    ; 00003C D9
 
-
-    call   $07c6           ; 00003D CD C6 07
+	call	zDoUpdate
 	call	zUpdateEverything
 
 	; DAC bankswitch
@@ -147,7 +149,7 @@ zWriteFMII:
 
 zUpdateEverything:
 	call	zPauseUnpause
-	call	TempoWait
+	call	zTempoWait
 	call	zDoMusicFadeOut
 	call	zCycleSoundQueue
 	call	zUpdateSFXTracks
@@ -316,7 +318,7 @@ zGetNextNote_cont:
     ld     a,(de)          ; 0001C7 1A
     inc    de              ; 0001C8 13
     cp     $e0             ; 0001C9 FE E0
-    jp     nc,$0958        ; 0001CB D2 58 09
+	jp	nc,zHandleFMorPSGCoordFlag
     ex     af,af          ; 0001CE 08
 	call	zKeyOffIfActive
     ex     af,af          ; 0001D2 08
@@ -325,11 +327,13 @@ zGetNextNote_cont:
     or     a               ; 0001DA B7
 	jp	p,zStoreDuration
     sub    $81             ; 0001DE D6 81
-    jp     p,$01e8         ; 0001E0 F2 E8 01
-    call   $0d8f           ; 0001E3 CD 8F 0D
+	jp	p,@gotNote
+	call	zRestTrack
 	jr	zGetNoteDuration
+
+@gotNote:
     add    a,(ix+$05)      ; 0001E8 DD 86 05
-    ld     hl,$081d        ; 0001EB 21 1D 08
+	ld	hl,zPSGFrequencies
     push   af              ; 0001EE F5
 	rst	zPointerTableOffset
     pop    af              ; 0001F0 F1
@@ -352,7 +356,7 @@ zGetNextNote_cont:
 
 @gotDisplacement:
     add    a,e             ; 000207 83
-    ld     hl,$08c5        ; 000208 21 C5 08
+	ld	hl,zFMFrequencies
 	rst	zPointerTableOffset
     ex     af,af          ; 00020C 08
     or     h               ; 00020D B4
@@ -479,11 +483,11 @@ zDoFMVolEnv:
     ld     c,$0a           ; 0002B6 0E 0A
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
-    call   $0d5d           ; 0002BA CD 5D 0D
+	call	zDoVolEnv
     ld     h,(ix+$1d)      ; 0002BD DD 66 1D
     ld     l,(ix+$1c)      ; 0002C0 DD 6E 1C
-    ld     de,$03f3        ; 0002C3 11 F3 03
-    ld     b,$04           ; 0002C6 06 04
+	ld	de,zFMInstrumentTLTable
+	ld	b,zFMInstrumentTLTable_End-zFMInstrumentTLTable
     ld     c,(ix+$19)      ; 0002C8 DD 4E 19
 
 @loop:
@@ -649,14 +653,16 @@ zUpdateFreq:
     ld     c,a             ; 0003C2 4F
     add    hl,bc           ; 0003C3 09
     ret                    ; 0003C4 C9
+
+zGetFMInstrumentPointer:
     ld     hl,($1c37)      ; 0003C5 2A 37 1C
     ld     a,($1c19)       ; 0003C8 3A 19 1C
     or     a               ; 0003CB B7
-	jr	z,zGetFMInstrumentPointer
+	jr	z,zGetFMInstrumentOffset
     ld     l,(ix+$2a)      ; 0003CE DD 6E 2A
     ld     h,(ix+$2b)      ; 0003D1 DD 66 2B
 
-zGetFMInstrumentPointer:
+zGetFMInstrumentOffset:
     xor    a               ; 0003D4 AF
     or     b               ; 0003D5 B0
     ret    z               ; 0003D6 C8
@@ -730,7 +736,7 @@ zSendFMInstrument:
 	djnz	@loop
     ld     (ix+$1c),l      ; 000413 DD 75 1C
     ld     (ix+$1d),h      ; 000416 DD 74 1D
-    jp     $0a1c           ; 000419 C3 1C 0A
+	jp	zSendTL
 
 zSendFMInstrData:
     ld     a,(de)          ; 00041C 1A
@@ -798,14 +804,16 @@ zPlayMusic:
 	call	zStopAllSound
     pop    af              ; 00047E F1
     push   af              ; 00047F F5
-    ld     hl,$08dd        ; 000480 21 DD 08
+	ld	hl,z80_MusicBanks
     add    a,l             ; 000483 85
     ld     l,a             ; 000484 6F
     adc    a,h             ; 000485 8C
     sub    l               ; 000486 95
     ld     h,a             ; 000487 67
-    ld     ($048c),hl      ; 000488 22 8C 04
-    ld     a,($08dd)       ; 00048B 3A DD 08
+	ld	(zloc_48B+1),hl
+
+zloc_48B:
+	ld	a,(z80_MusicBanks)
     ld     ($1c04),a       ; 00048E 32 04 1C
 
 	; music bankswitch
@@ -835,7 +843,7 @@ zPlayMusic:
 	rst	zPointerTableOffset
     push   hl              ; 0004B3 E5
     push   hl              ; 0004B4 E5
-    rst    20h             ; 0004B5 E7
+	rst	zReadPointer
     ld     ($1c37),hl      ; 0004B6 22 37 1C
     pop    hl              ; 0004B9 E1
     pop    iy              ; 0004BA FD E1
@@ -899,17 +907,20 @@ zClearNextSound:
 	ret
 
 zFMDACInitBytes:
-    add    a,b             ; 000533 80
-    ld     b,$80           ; 000534 06 80
-    nop                    ; 000536 00
-    add    a,b             ; 000537 80
-    ld     bc,$0280        ; 000538 01 80 02
-    add    a,b             ; 00053B 80
-    inc    b               ; 00053C 04
-    add    a,b             ; 00053D 80
-    dec    b               ; 00053E 05
-    add    a,b             ; 00053F 80
-	db	6
+	db	$80
+	db	$06
+	db	$80
+	db	$00
+	db	$80
+	db	$01
+	db	$80
+	db	$02
+	db	$80
+	db	$04
+	db	$80
+	db	$05
+	db	$80
+	db	$06
 
 zPSGInitBytes:
 	db	$80
@@ -944,7 +955,7 @@ zPlaySound:
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
     push   hl              ; 000562 E5
-    rst    20h             ; 000563 E7
+	rst	zReadPointer
     ld     ($1c39),hl      ; 000564 22 39 1C
     xor    a               ; 000567 AF
     ld     ($1c15),a       ; 000568 32 15 1C
@@ -1024,7 +1035,7 @@ zGetSFXChannelPointers:
 
 @isPSG:
     ld     a,$1f           ; 0005EB 3E 1F
-    call   $0d98           ; 0005ED CD 98 0D
+	call	zSilencePSGChannel
     ld     a,$ff           ; 0005F0 3E FF
     ld     ($7f11),a       ; 0005F2 32 11 7F
     ld     a,c             ; 0005F5 79
@@ -1217,7 +1228,7 @@ zDoMusicFadeOut:
     bit    2,(ix+$00)      ; 000719 DD CB 00 56
 	jr	nz,@nextTrack
     push   bc              ; 00071F C5
-    call   $0a1c           ; 000720 CD 1C 0A
+	call	zSendTL
     pop    bc              ; 000723 C1
 
 @nextTrack:
@@ -1312,7 +1323,7 @@ zPSGSilenceAll:
     pop    bc              ; 0007AC C1
 	jp	zClearNextSound
 
-TempoWait:
+zTempoWait:
     ld     a,($1c05)       ; 0007B0 3A 05 1C
     ld     hl,$1c13        ; 0007B3 21 13 1C
     add    a,(hl)          ; 0007B6 86
@@ -1328,11 +1339,14 @@ TempoWait:
 	djnz	@loop
 	ret
 
+zDoUpdate:
     ld     a,r             ; 0007C6 ED 5F
     ld     ($1c17),a       ; 0007C8 32 17 1C
     ld     de,$1c0a        ; 0007CB 11 0A 1C
-    call   $07d4           ; 0007CE CD D4 07
-    call   $07d4           ; 0007D1 CD D4 07
+	call	zloc_7D4
+	call	zloc_7D4
+
+zloc_7D4:
     ld     a,(de)          ; 0007D4 1A
     or     a               ; 0007D5 B7
     ret    z               ; 0007D6 C8
@@ -1389,229 +1403,176 @@ zPlaySegaSound:
     pop    hl              ; 00081B E1
 	ret
 
-    rst    38h             ; 00081D FF
-    inc    bc              ; 00081E 03
-    rst    38h             ; 00081F FF
-    inc    bc              ; 000820 03
-    rst    38h             ; 000821 FF
-    inc    bc              ; 000822 03
-    rst    38h             ; 000823 FF
-    inc    bc              ; 000824 03
-    rst    38h             ; 000825 FF
-    inc    bc              ; 000826 03
-    rst    38h             ; 000827 FF
-    inc    bc              ; 000828 03
-    rst    38h             ; 000829 FF
-    inc    bc              ; 00082A 03
-    rst    38h             ; 00082B FF
-    inc    bc              ; 00082C 03
-    rst    38h             ; 00082D FF
-    inc    bc              ; 00082E 03
-    rst    30h             ; 00082F F7
-    inc    bc              ; 000830 03
-    cp     (hl)            ; 000831 BE
-    inc    bc              ; 000832 03
-    adc    a,b             ; 000833 88
-    inc    bc              ; 000834 03
-    ld     d,(hl)          ; 000835 56
-    inc    bc              ; 000836 03
-    ld     h,$03           ; 000837 26 03
-    ld     sp,hl           ; 000839 F9
-    ld     (bc),a          ; 00083A 02
-    adc    a,$02           ; 00083B CE 02
-    and    l               ; 00083D A5
-    ld     (bc),a          ; 00083E 02
-    add    a,b             ; 00083F 80
-    ld     (bc),a          ; 000840 02
-    ld     e,h             ; 000841 5C
-    ld     (bc),a          ; 000842 02
-    ld     a,($1a02)       ; 000843 3A 02 1A
-    ld     (bc),a          ; 000846 02
-    ei                     ; 000847 FB
-    ld     bc,$01df        ; 000848 01 DF 01
-    call   nz,$ab01        ; 00084B C4 01 AB
-    ld     bc,$0193        ; 00084E 01 93 01
-    ld     a,l             ; 000851 7D
-    ld     bc,$0167        ; 000852 01 67 01
-    ld     d,e             ; 000855 53
-    ld     bc,$0140        ; 000856 01 40 01
-    ld     l,$01           ; 000859 2E 01
-    dec    e               ; 00085B 1D
-    ld     bc,$010d        ; 00085C 01 0D 01
-    cp     $00             ; 00085F FE 00
-    rst    28h             ; 000861 EF
-    nop                    ; 000862 00
-    jp     po,$d600        ; 000863 E2 00 D6
-    nop                    ; 000866 00
-    ret                    ; 000867 C9
-    nop                    ; 000868 00
-    cp     (hl)            ; 000869 BE
-    nop                    ; 00086A 00
-    or     h               ; 00086B B4
-    nop                    ; 00086C 00
-    xor    c               ; 00086D A9
-    nop                    ; 00086E 00
-    and    b               ; 00086F A0
-    nop                    ; 000870 00
-    sub    a               ; 000871 97
-    nop                    ; 000872 00
-    adc    a,a             ; 000873 8F
-    nop                    ; 000874 00
-    add    a,a             ; 000875 87
-    nop                    ; 000876 00
-    ld     a,a             ; 000877 7F
-    nop                    ; 000878 00
-    ld     a,b             ; 000879 78
-    nop                    ; 00087A 00
-    ld     (hl),c          ; 00087B 71
-    nop                    ; 00087C 00
-    ld     l,e             ; 00087D 6B
-    nop                    ; 00087E 00
-    ld     h,l             ; 00087F 65
-    nop                    ; 000880 00
-    ld     e,a             ; 000881 5F
-    nop                    ; 000882 00
-    ld     e,d             ; 000883 5A
-    nop                    ; 000884 00
-    ld     d,l             ; 000885 55
-    nop                    ; 000886 00
-    ld     d,b             ; 000887 50
-    nop                    ; 000888 00
-    ld     c,e             ; 000889 4B
-    nop                    ; 00088A 00
-    ld     b,a             ; 00088B 47
-    nop                    ; 00088C 00
-    ld     b,e             ; 00088D 43
-    nop                    ; 00088E 00
-    ld     b,b             ; 00088F 40
-    nop                    ; 000890 00
-    inc    a               ; 000891 3C
-    nop                    ; 000892 00
-    add    hl,sp           ; 000893 39
-    nop                    ; 000894 00
-    ld     (hl),$00        ; 000895 36 00
-    inc    sp              ; 000897 33
-    nop                    ; 000898 00
-    jr     nc,$089b        ; 000899 30 00
-    dec    l               ; 00089B 2D
-    nop                    ; 00089C 00
-    dec    hl              ; 00089D 2B
-    nop                    ; 00089E 00
-    jr     z,$08a1         ; 00089F 28 00
-    ld     h,$00           ; 0008A1 26 00
-    inc    h               ; 0008A3 24
-    nop                    ; 0008A4 00
-    ld     ($2000),hl      ; 0008A5 22 00 20
-    nop                    ; 0008A8 00
-    rra                    ; 0008A9 1F
-    nop                    ; 0008AA 00
-    dec    e               ; 0008AB 1D
-    nop                    ; 0008AC 00
-    dec    de              ; 0008AD 1B
-    nop                    ; 0008AE 00
-    ld     a,(de)          ; 0008AF 1A
-    nop                    ; 0008B0 00
-    jr     $08b3           ; 0008B1 18 00
-    rla                    ; 0008B3 17
-    nop                    ; 0008B4 00
-    ld     d,$00           ; 0008B5 16 00
-    dec    d               ; 0008B7 15
-    nop                    ; 0008B8 00
-    inc    de              ; 0008B9 13
-    nop                    ; 0008BA 00
-    ld     (de),a          ; 0008BB 12
-    nop                    ; 0008BC 00
-    ld     de,$1000        ; 0008BD 11 00 10
-    nop                    ; 0008C0 00
-    nop                    ; 0008C1 00
-    nop                    ; 0008C2 00
-    nop                    ; 0008C3 00
-    nop                    ; 0008C4 00
-    add    a,h             ; 0008C5 84
-    ld     (bc),a          ; 0008C6 02
-    xor    e               ; 0008C7 AB
-    ld     (bc),a          ; 0008C8 02
-    out    ($02),a         ; 0008C9 D3 02
-    cp     $02             ; 0008CB FE 02
-    dec    l               ; 0008CD 2D
-    inc    bc              ; 0008CE 03
-    ld     e,h             ; 0008CF 5C
-    inc    bc              ; 0008D0 03
-    adc    a,a             ; 0008D1 8F
-    inc    bc              ; 0008D2 03
-    push   bc              ; 0008D3 C5
-    inc    bc              ; 0008D4 03
-    rst    38h             ; 0008D5 FF
-    inc    bc              ; 0008D6 03
-    inc    a               ; 0008D7 3C
-    inc    b               ; 0008D8 04
-    ld     a,h             ; 0008D9 7C
-    inc    b               ; 0008DA 04
-    ret    nz              ; 0008DB C0
-    inc    b               ; 0008DC 04
-    ld     b,$06           ; 0008DD 06 06
-    ld     b,$06           ; 0008DF 06 06
-    ld     b,$06           ; 0008E1 06 06
-    rlca                   ; 0008E3 07
-    rlca                   ; 0008E4 07
-    rlca                   ; 0008E5 07
-    rlca                   ; 0008E6 07
-    rlca                   ; 0008E7 07
-    rlca                   ; 0008E8 07
-    rlca                   ; 0008E9 07
-    ex     af,af          ; 0008EA 08
-    ex     af,af          ; 0008EB 08
-    ex     af,af          ; 0008EC 08
-    ex     af,af          ; 0008ED 08
-    ex     af,af          ; 0008EE 08
-    ex     af,af          ; 0008EF 08
-    ex     af,af          ; 0008F0 08
-    ex     af,af          ; 0008F1 08
-    ex     af,af          ; 0008F2 08
-    add    hl,bc           ; 0008F3 09
-    add    hl,bc           ; 0008F4 09
-    add    hl,bc           ; 0008F5 09
-    add    hl,bc           ; 0008F6 09
-    add    hl,bc           ; 0008F7 09
-    add    hl,bc           ; 0008F8 09
-    add    hl,bc           ; 0008F9 09
-    add    hl,bc           ; 0008FA 09
-    add    hl,bc           ; 0008FB 09
-    add    hl,bc           ; 0008FC 09
-    add    hl,bc           ; 0008FD 09
-    add    hl,bc           ; 0008FE 09
-    ld     a,(bc)          ; 0008FF 0A
-    ld     a,(bc)          ; 000900 0A
-    ld     a,(bc)          ; 000901 0A
-    ld     a,(bc)          ; 000902 0A
-    ld     a,(bc)          ; 000903 0A
-    ld     a,(bc)          ; 000904 0A
-    ld     a,(bc)          ; 000905 0A
-    ld     a,(bc)          ; 000906 0A
-    ld     a,(bc)          ; 000907 0A
-    ld     a,(bc)          ; 000908 0A
-    ld     a,(bc)          ; 000909 0A
-    ld     a,(bc)          ; 00090A 0A
-    ld     a,(bc)          ; 00090B 0A
-    dec    bc              ; 00090C 0B
-    dec    bc              ; 00090D 0B
+zPSGFrequencies:
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03FF
+	dw	$03F7
+	dw	$03BE
+	dw	$0388
+	dw	$0356
+	dw	$0326
+	dw	$02F9
+	dw	$02CE
+	dw	$02A5
+	dw	$0280
+	dw	$025C
+	dw	$023A
+	dw	$02A1
+	dw	$01FB
+	dw	$01DF
+	dw	$01C4
+	dw	$01AB
+	dw	$0193
+	dw	$017D
+	dw	$0167
+	dw	$0153
+	dw	$0140
+	dw	$012E
+	dw	$011D
+	dw	$010D
+	dw	$00FE
+	dw	$00EF
+	dw	$00E2
+	dw	$00D6
+	dw	$00C9
+	dw	$00BE
+	dw	$00B4
+	dw	$00A9
+	dw	$00A0
+	dw	$0097
+	dw	$008F
+	dw	$0087
+	dw	$007F
+	dw	$0078
+	dw	$0071
+	dw	$006B
+	dw	$0065
+	dw	$005F
+	dw	$005A
+	dw	$0055
+	dw	$0050
+	dw	$004B
+	dw	$0047
+	dw	$0043
+	dw	$003C
+	dw	$0039
+	dw	$0036
+	dw	$0033
+	dw	$0030
+	dw	$002D
+	dw	$002B
+	dw	$0028
+	dw	$0026
+	dw	$0024
+	dw	$0022
+	dw	$0020
+	dw	$001F
+	dw	$001D
+	dw	$001B
+	dw	$001A
+	dw	$0018
+	dw	$0017
+	dw	$0016
+	dw	$0015
+	dw	$0013
+	dw	$0012
+	dw	$0011
+	dw	$0010
+	dw	$0000
+	dw	$0000
+
+zFMFrequencies:
+	dw	$0284
+	dw	$02AB
+	dw	$02D3
+	dw	$02FE
+	dw	$032D
+	dw	$035C
+	dw	$038F
+	dw	$03C5
+	dw	$03FF
+	dw	$043C
+	dw	$047C
+	dw	$04C0
+
+z80_MusicBanks:
+	db	$06
+	db	$06
+	db	$06
+	db	$06
+	db	$06
+	db	$06
+	db	$07
+	db	$07
+	db	$07
+	db	$07
+	db	$07
+	db	$07
+	db	$07
+	db	$08
+	db	$08
+	db	$08
+	db	$08
+	db	$08
+	db	$08
+	db	$08
+	db	$08
+	db	$08
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$09
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0A
+	db	$0B
+	db	$0B
 
 zUpdateDACTrack:
 	call	zTrackRunTimer
     ret    nz              ; 000911 C0
     ld     e,(ix+$03)      ; 000912 DD 5E 03
     ld     d,(ix+$04)      ; 000915 DD 56 04
+
+zUpdateDACTrack_cont:
     ld     a,(de)          ; 000918 1A
     inc    de              ; 000919 13
     cp     $e0             ; 00091A FE E0
-    jp     nc,$094e        ; 00091C D2 4E 09
+	jp	nc,zHandleDACCoordFlag
     or     a               ; 00091F B7
-    jp     m,$0927         ; 000920 FA 27 09
+	jp	m,@gotSample
     dec    de              ; 000923 1B
     ld     a,(ix+$0d)      ; 000924 DD 7E 0D
+
+@gotSample:
     ld     (ix+$0d),a      ; 000927 DD 77 0D
     cp     $80             ; 00092A FE 80
-    jp     z,$093e         ; 00092C CA 3E 09
+	jp	z,zUpdateDACTrack_GetDuration
     res    7,a             ; 00092F CB BF
     push   de              ; 000931 D5
     ex     af,af          ; 000932 08
@@ -1620,6 +1581,8 @@ zUpdateDACTrack:
     ex     af,af          ; 000939 08
     ld     ($1c06),a       ; 00093A 32 06 1C
     pop    de              ; 00093D D1
+
+zUpdateDACTrack_GetDuration:
     ld     a,(de)          ; 00093E 1A
     inc    de              ; 00093F 13
     or     a               ; 000940 B7
@@ -1628,12 +1591,16 @@ zUpdateDACTrack:
     ld     a,(ix+$0c)      ; 000945 DD 7E 0C
     ld     (ix+$0b),a      ; 000948 DD 77 0B
 	jp	zFinishTrackUpdate
-    ld     hl,$0954        ; 00094E 21 54 09
+	ld	hl,zloc_954
+
+zHandleDACCoordFlag:
 	jp	zHandleCoordFlag
 
+zloc_954:
     inc    de              ; 000954 13
-    jp     $0918           ; 000955 C3 18 09
+	jp	zUpdateDACTrack_cont
 
+zHandleFMorPSGCoordFlag:
 	ld	hl,zloc_964
 
 zHandleCoordFlag:
@@ -1649,74 +1616,47 @@ zloc_964:
 	jp	zGetNextNote_cont
 
 zCoordFlagSwitchTable:
-    cp     d               ; 000968 BA
-    add    hl,bc           ; 000969 09
-    exx                    ; 00096A D9
-    add    hl,bc           ; 00096B 09
-    add    ix,bc           ; 00096C DD 09
-    pop    hl              ; 00096E E1
-    add    hl,bc           ; 00096F 09
-    rst    20h             ; 000970 E7
-    add    hl,bc           ; 000971 09
-    inc    bc              ; 000972 03
-    ld     a,(bc)          ; 000973 0A
-    dec    b               ; 000974 05
-    ld     a,(bc)          ; 000975 0A
-    dec    a               ; 000976 3D
-    ld     a,(bc)          ; 000977 0A
-    ld     b,e             ; 000978 43
-    ld     a,(bc)          ; 000979 0A
-    adc    a,$09           ; 00097A CE 09
-    or     (hl)            ; 00097C B6
-    add    hl,bc           ; 00097D 09
-    ld     c,l             ; 00097E 4D
-    ld     a,(bc)          ; 00097F 0A
-    ld     h,e             ; 000980 63
-    ld     a,(bc)          ; 000981 0A
-    ld     a,l             ; 000982 7D
-    ld     a,(bc)          ; 000983 0A
-    add    a,e             ; 000984 83
-    ld     a,(bc)          ; 000985 0A
-    sub    b               ; 000986 90
-    ld     a,(bc)          ; 000987 0A
-	rst	zGetPointerTable
-    ld     a,(bc)          ; 000989 0A
-    db     $dd             ; 00098A DD
-    ld     a,(bc)          ; 00098B 0A
-    jp     pe,$830a        ; 00098C EA 0A 83
-    dec    bc              ; 00098F 0B
-    push   hl              ; 000990 E5
-    ld     a,(bc)          ; 000991 0A
-    and    d               ; 000992 A2
-    dec    bc              ; 000993 0B
-    xor    e               ; 000994 AB
-    dec    bc              ; 000995 0B
-    or     c               ; 000996 B1
-    dec    bc              ; 000997 0B
-    ret    z               ; 000998 C8
-    dec    bc              ; 000999 0B
-    jp     po,$f50b        ; 00099A E2 0B F5
-    dec    bc              ; 00099D 0B
-    ei                     ; 00099E FB
-    dec    bc              ; 00099F 0B
-    ld     (bc),a          ; 0009A0 02
-    inc    c               ; 0009A1 0C
-    inc    bc              ; 0009A2 03
-    inc    c               ; 0009A3 0C
-    ld     de,$580c        ; 0009A4 11 0C 58
-    inc    c               ; 0009A7 0C
-    ld     e,a             ; 0009A8 5F
-    inc    c               ; 0009A9 0C
-    ld     h,e             ; 0009AA 63
-    inc    c               ; 0009AB 0C
-    ld     l,e             ; 0009AC 6B
-    inc    c               ; 0009AD 0C
-    and    (hl)            ; 0009AE A6
-    inc    c               ; 0009AF 0C
-    or     h               ; 0009B0 B4
-    inc    c               ; 0009B1 0C
-    jp     $de0c           ; 0009B2 C3 0C DE
-    inc    c               ; 0009B5 0C
+	dw	cfPanningAMSFMS
+	dw	cfDetune
+	dw	cfFadeInToPrevious
+	dw	cfSilenceStopTrack
+	dw	cfSetVolume
+	dw	cfChangeVolume2
+	dw	cfChangeVolume
+	dw	cfPreventAttack
+	dw	cfNoteFill
+	dw	cfSpindashRev
+	dw	cfPlayDACSample
+	dw	cfConditionalJump
+	dw	cfChangePSGVolume
+	dw	cfSetKey
+	dw	cfSendFMI
+	dw	cfSetVoice
+	dw	cfModulation
+	dw	cfAlterModulation
+	dw	cfStopTrack
+	dw	cfSetPSGNoise
+	dw	cfSetModulation
+	dw	cfSetPSGVolEnv
+	dw	cfJumpTo
+	dw	cfRepeatAtPos
+	dw	cfJumpToGosub
+	dw	cfJumpReturn
+	dw	cfDisableModulation
+	dw	cfChangeTransposition
+	dw	cfSpecialSFX
+	dw	cfToggleAltFreqMode
+	dw	cfFM3SpecialMode
+	dw	cfMetaCF
+
+zExtraCoordFlagSwitchTable:
+	dw	cfSetTempo
+	dw	cfPlaySoundByIndex
+	dw	cfHaltSound
+	dw	cfCopyData
+	dw	cfSetTempoDivider
+	dw	cfSetSSGEG
+	dw	cfFMVolEnv
 
 cfPlayDACSample:
     ld     ($1c06),a       ; 0009B6 32 06 1C
@@ -1738,6 +1678,7 @@ zDoChangePan:
     pop    de              ; 0009CC D1
 	ret
 
+cfSpindashRev:
     ld     a,(ix+$07)      ; 0009CE DD 7E 07
     or     a               ; 0009D1 B7
     ret    z               ; 0009D2 C8
@@ -1757,54 +1698,77 @@ cfSilenceStopTrack:
 	call	zFMSilenceChannel
 	jp	cfStopTrack
 
+cfSetVolume:
     bit    7,(ix+$01)      ; 0009E7 DD CB 01 7E
-    jr     z,$09fa         ; 0009EB 28 0D
+	jr	z,@notPSG
     srl    a               ; 0009ED CB 3F
     srl    a               ; 0009EF CB 3F
     srl    a               ; 0009F1 CB 3F
     xor    $0f             ; 0009F3 EE 0F
     and    $0f             ; 0009F5 E6 0F
-    jp     $0a79           ; 0009F7 C3 79 0A
+	jp	zStoreTrackVolume
+
+@notPSG:
     xor    $7f             ; 0009FA EE 7F
     and    $7f             ; 0009FC E6 7F
     ld     (ix+$06),a      ; 0009FE DD 77 06
-    jr     $0a1c           ; 000A01 18 19
+	jr	zSendTL
+
+cfChangeVolume2:
     inc    de              ; 000A03 13
     ld     a,(de)          ; 000A04 1A
+
+cfChangeVolume:
     bit    7,(ix+$01)      ; 000A05 DD CB 01 7E
     ret    nz              ; 000A09 C0
     add    a,(ix+$06)      ; 000A0A DD 86 06
-    jp     p,$0a19         ; 000A0D F2 19 0A
-    jp     pe,$0a17        ; 000A10 EA 17 0A
+	jp	p,@setVol
+	jp	pe,@underflow
     xor    a               ; 000A13 AF
-    jp     $0a19           ; 000A14 C3 19 0A
+	jp	@setVol
+
+@underflow:
     ld     a,$7f           ; 000A17 3E 7F
+
+@setVol:
     ld     (ix+$06),a      ; 000A19 DD 77 06
+
+zSendTL:
     push   de              ; 000A1C D5
     ld     de,$03f3        ; 000A1D 11 F3 03
     ld     l,(ix+$1c)      ; 000A20 DD 6E 1C
     ld     h,(ix+$1d)      ; 000A23 DD 66 1D
     ld     b,$04           ; 000A26 06 04
+
+@loop:
     ld     a,(hl)          ; 000A28 7E
     or     a               ; 000A29 B7
-    jp     p,$0a30         ; 000A2A F2 30 0A
+	jp	p,@skipTrackVol
     add    a,(ix+$06)      ; 000A2D DD 86 06
+
+@skipTrackVol:
     and    $7f             ; 000A30 E6 7F
     ld     c,a             ; 000A32 4F
     ld     a,(de)          ; 000A33 1A
 	call	zWriteFMIorII
     inc    de              ; 000A37 13
     inc    hl              ; 000A38 23
-    djnz   $0a28           ; 000A39 10 ED
+	djnz	@loop
     pop    de              ; 000A3B D1
     ret                    ; 000A3C C9
+
+cfPreventAttack:
     set    1,(ix+$00)      ; 000A3D DD CB 00 CE
     dec    de              ; 000A41 1B
-    ret                    ; 000A42 C9
+	ret
+
+cfNoteFill:
 	call	zComputeNoteDuration
     ld     (ix+$1e),a      ; 000A46 DD 77 1E
     ld     (ix+$1f),a      ; 000A49 DD 77 1F
-    ret                    ; 000A4C C9
+	ret
+
+cfConditionalJump:
     inc    de              ; 000A4D 13
     add    a,$28           ; 000A4E C6 28
     ld     c,a             ; 000A50 4F
@@ -1814,78 +1778,106 @@ cfSilenceStopTrack:
     add    hl,bc           ; 000A56 09
     ld     a,(hl)          ; 000A57 7E
     dec    a               ; 000A58 3D
-    jp     z,$0a5e         ; 000A59 CA 5E 0A
+	jp	z,@doJump
     inc    de              ; 000A5C 13
-    ret                    ; 000A5D C9
+	ret
+
+@doJump:
     xor    a               ; 000A5E AF
     ld     (hl),a          ; 000A5F 77
-    jp     $0bab           ; 000A60 C3 AB 0B
+	jp	cfJumpTo
+
+cfChangePSGVolume:
     bit    7,(ix+$01)      ; 000A63 DD CB 01 7E
     ret    z               ; 000A67 C8
     res    4,(ix+$00)      ; 000A68 DD CB 00 A6
     dec    (ix+$17)        ; 000A6C DD 35 17
     add    a,(ix+$06)      ; 000A6F DD 86 06
     cp     $0f             ; 000A72 FE 0F
-    jp     c,$0a79         ; 000A74 DA 79 0A
+	jp	c,zStoreTrackVolume
     ld     a,$0f           ; 000A77 3E 0F
+
+zStoreTrackVolume:
     ld     (ix+$06),a      ; 000A79 DD 77 06
-    ret                    ; 000A7C C9
+	ret
+
+cfSetKey:
     sub    $40             ; 000A7D D6 40
     ld     (ix+$05),a      ; 000A7F DD 77 05
-    ret                    ; 000A82 C9
-    call   $0a8a           ; 000A83 CD 8A 0A
+	ret
+
+cfSendFMI:
+	call	zGetFMParams
 	call	zWriteFMI
-    ret                    ; 000A89 C9
+	ret
+
+zGetFMParams:
     ex     de,hl           ; 000A8A EB
     ld     a,(hl)          ; 000A8B 7E
     inc    hl              ; 000A8C 23
     ld     c,(hl)          ; 000A8D 4E
     ex     de,hl           ; 000A8E EB
-    ret                    ; 000A8F C9
+	ret
+
+cfSetVoice:
     bit    7,(ix+$01)      ; 000A90 DD CB 01 7E
-    jr     nz,$0ac6        ; 000A94 20 30
+	jr	nz,zSetVoicePSG
 	call	zSetMaxRelRate
     ld     a,(de)          ; 000A99 1A
     ld     (ix+$08),a      ; 000A9A DD 77 08
     or     a               ; 000A9D B7
-    jp     p,$0abc         ; 000A9E F2 BC 0A
+	jp	p,zSetVoiceUpload
     inc    de              ; 000AA1 13
     ld     a,(de)          ; 000AA2 1A
     ld     (ix+$0f),a      ; 000AA3 DD 77 0F
+
+zSetVoiceUploadAlter:
     push   de              ; 000AA6 D5
     ld     a,(ix+$0f)      ; 000AA7 DD 7E 0F
     sub    $81             ; 000AAA D6 81
     ld     c,$04           ; 000AAC 0E 04
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
-    rst    20h             ; 000AB0 E7
+	rst	zReadPointer
     ld     a,(ix+$08)      ; 000AB1 DD 7E 08
     and    $7f             ; 000AB4 E6 7F
     ld     b,a             ; 000AB6 47
-	call	zGetFMInstrumentPointer
-    jr     $0ac1           ; 000ABA 18 05
+	call	zGetFMInstrumentOffset
+	jr	zSetVoiceDoUpload
+
+zSetVoiceUpload:
     push   de              ; 000ABC D5
     ld     b,a             ; 000ABD 47
-    call   $03c5           ; 000ABE CD C5 03
+	call	zGetFMInstrumentPointer
+
+zSetVoiceDoUpload:
 	call	zSendFMInstrument
     pop    de              ; 000AC4 D1
-    ret                    ; 000AC5 C9
+	ret
+
+zSetVoicePSG:
     or     a               ; 000AC6 B7
-    jp     p,$0ba7         ; 000AC7 F2 A7 0B
+	jp	p,cfStoreNewVoice
     inc    de              ; 000ACA 13
-    jp     $0ba7           ; 000ACB C3 A7 0B
-    ret                    ; 000ACE C9
+	jp	cfStoreNewVoice
+	ret
+
+cfModulation:
     ld     (ix+$20),e      ; 000ACF DD 73 20
     ld     (ix+$21),d      ; 000AD2 DD 72 21
     ld     (ix+$07),$80    ; 000AD5 DD 36 07 80
     inc    de              ; 000AD9 13
     inc    de              ; 000ADA 13
     inc    de              ; 000ADB 13
-    ret                    ; 000ADC C9
+	ret
+
+cfAlterModulation:
     inc    de              ; 000ADD 13
     bit    7,(ix+$01)      ; 000ADE DD CB 01 7E
-    jr     nz,$0ae5        ; 000AE2 20 01
+	jr	nz,cfSetModulation
     ld     a,(de)          ; 000AE4 1A
+
+cfSetModulation:
     inc    a               ; 000AE5 3C
     ld     (ix+$07),a      ; 000AE6 DD 77 07
 	ret
@@ -1900,7 +1892,7 @@ cfStopTrack:
 	call	zGetSFXChannelPointers
     ld     a,($1c19)       ; 000AFE 3A 19 1C
     or     a               ; 000B01 B7
-    jr     z,$0b6c         ; 000B02 28 68
+	jr	z,zStopCleanExit
     xor    a               ; 000B04 AF
     ld     ($1c18),a       ; 000B05 32 18 1C
     push   hl              ; 000B08 E5
@@ -1908,22 +1900,28 @@ cfStopTrack:
     pop    ix              ; 000B0C DD E1
     res    2,(ix+$00)      ; 000B0E DD CB 00 96
     bit    7,(ix+$01)      ; 000B12 DD CB 01 7E
-    jr     nz,$0b71        ; 000B16 20 59
+	jr	nz,zStopPSGTrack
     bit    7,(ix+$00)      ; 000B18 DD CB 00 7E
-    jr     z,$0b6c         ; 000B1C 28 4E
+	jr	z,zStopCleanExit
     ld     a,$02           ; 000B1E 3E 02
     cp     (ix+$01)        ; 000B20 DD BE 01
-    jr     nz,$0b32        ; 000B23 20 0D
+	jr	nz,@notFM3
     ld     a,$4f           ; 000B25 3E 4F
     bit    0,(ix+$00)      ; 000B27 DD CB 00 46
-    jr     nz,$0b2f        ; 000B2B 20 02
+	jr	nz,@doFM3Settings
     and    $0f             ; 000B2D E6 0F
-    call   $0c3a           ; 000B2F CD 3A 0C
+
+@doFM3Settings:
+	call	zWriteFM3Settings
+
+@notFM3:
     ld     a,(ix+$08)      ; 000B32 DD 7E 08
     or     a               ; 000B35 B7
-    jp     p,$0b3e         ; 000B36 F2 3E 0B
-    call   $0aa6           ; 000B39 CD A6 0A
-    jr     $0b69           ; 000B3C 18 2B
+	jp	p,@switchToMusic
+	call	zSetVoiceUploadAlter
+	jr	@sendSSGEG
+
+@switchToMusic:
     ld     b,a             ; 000B3E 47
     push   hl              ; 000B3F E5
 
@@ -1945,25 +1943,37 @@ cfStopTrack:
     ld     (hl),a          ; 000B53 77
     ld     (hl),a          ; 000B54 77
     pop    hl              ; 000B55 E1
-	call	zGetFMInstrumentPointer
+	call	zGetFMInstrumentOffset
 	call	zSendFMInstrument
+	; there SHOULD be a sound bankswitch here, but it's missing; this is
+	; what causes all the sound glitches to happen
     ld     a,(ix+$18)      ; 000B5C DD 7E 18
     or     a               ; 000B5F B7
-    jp     p,$0b6c         ; 000B60 F2 6C 0B
+	jp	p,zStopCleanExit
     ld     e,(ix+$19)      ; 000B63 DD 5E 19
     ld     d,(ix+$1a)      ; 000B66 DD 56 1A
-    call   $0ccd           ; 000B69 CD CD 0C
+
+@sendSSGEG:
+	call	zSendSSGEGData
+
+zStopCleanExit:
     pop    ix              ; 000B6C DD E1
     pop    hl              ; 000B6E E1
     pop    hl              ; 000B6F E1
-    ret                    ; 000B70 C9
+	ret
+
+zStopPSGTrack:
     bit    0,(ix+$00)      ; 000B71 DD CB 00 46
-    jr     z,$0b6c         ; 000B75 28 F5
+	jr	z,zStopCleanExit
     ld     a,(ix+$1a)      ; 000B77 DD 7E 1A
     or     a               ; 000B7A B7
-    jp     p,$0b81         ; 000B7B F2 81 0B
+	jp	p,@skipCommand
     ld     ($7f11),a       ; 000B7E 32 11 7F
-    jr     $0b6c           ; 000B81 18 E9
+
+@skipCommand:
+	jr	zStopCleanExit
+
+cfSetPSGNoise:
     bit    2,(ix+$01)      ; 000B83 DD CB 01 56
     ret    nz              ; 000B87 C0
     ld     a,$df           ; 000B88 3E DF
@@ -1972,21 +1982,31 @@ cfStopTrack:
     ld     (ix+$1a),a      ; 000B8E DD 77 1A
     set    0,(ix+$00)      ; 000B91 DD CB 00 C6
     or     a               ; 000B95 B7
-    jr     nz,$0b9e        ; 000B96 20 06
+	jr	nz,@skipNoiseSilence
     res    0,(ix+$00)      ; 000B98 DD CB 00 86
     ld     a,$ff           ; 000B9C 3E FF
+
+@skipNoiseSilence:
     ld     ($7f11),a       ; 000B9E 32 11 7F
-    ret                    ; 000BA1 C9
+	ret
+
+cfSetPSGVolEnv:
     bit    7,(ix+$01)      ; 000BA2 DD CB 01 7E
     ret    z               ; 000BA6 C8
+
+cfStoreNewVoice:
     ld     (ix+$08),a      ; 000BA7 DD 77 08
     ret                    ; 000BAA C9
+
+cfJumpTo:
     ex     de,hl           ; 000BAB EB
     ld     e,(hl)          ; 000BAC 5E
     inc    hl              ; 000BAD 23
     ld     d,(hl)          ; 000BAE 56
     dec    de              ; 000BAF 1B
-    ret                    ; 000BB0 C9
+	ret
+
+cfRepeatAtPos:
     inc    de              ; 000BB1 13
     add    a,$28           ; 000BB2 C6 28
     ld     c,a             ; 000BB4 4F
@@ -1996,14 +2016,18 @@ cfStopTrack:
     add    hl,bc           ; 000BBA 09
     ld     a,(hl)          ; 000BBB 7E
     or     a               ; 000BBC B7
-    jr     nz,$0bc1        ; 000BBD 20 02
+	jr	nz,@runCounter
     ld     a,(de)          ; 000BBF 1A
     ld     (hl),a          ; 000BC0 77
+
+@runCounter:
     inc    de              ; 000BC1 13
     dec    (hl)            ; 000BC2 35
-    jp     nz,$0bab        ; 000BC3 C2 AB 0B
+	jp	nz,cfJumpTo
     inc    de              ; 000BC6 13
-    ret                    ; 000BC7 C9
+	ret
+
+cfJumpToGosub:
     ld     c,a             ; 000BC8 4F
     inc    de              ; 000BC9 13
     ld     a,(de)          ; 000BCA 1A
@@ -2021,7 +2045,9 @@ cfStopTrack:
     ld     (hl),e          ; 000BDE 73
     pop    de              ; 000BDF D1
     dec    de              ; 000BE0 1B
-    ret                    ; 000BE1 C9
+	ret
+
+cfJumpReturn:
     push   ix              ; 000BE2 DD E5
     pop    hl              ; 000BE4 E1
     ld     c,(ix+$09)      ; 000BE5 DD 4E 09
@@ -2032,32 +2058,46 @@ cfStopTrack:
     ld     d,(hl)          ; 000BED 56
     inc    (ix+$09)        ; 000BEE DD 34 09
     inc    (ix+$09)        ; 000BF1 DD 34 09
-    ret                    ; 000BF4 C9
+	ret
+
+cfDisableModulation:
     res    7,(ix+$07)      ; 000BF5 DD CB 07 BE
     dec    de              ; 000BF9 1B
-    ret                    ; 000BFA C9
+	ret
+
+cfChangeTransposition:
     add    a,(ix+$05)      ; 000BFB DD 86 05
     ld     (ix+$05),a      ; 000BFE DD 77 05
-    ret                    ; 000C01 C9
-    ret                    ; 000C02 C9
+	ret
+
+cfSpecialSFX:
+	ret
+
+cfToggleAltFreqMode:
     cp     $01             ; 000C03 FE 01
-    jr     nz,$0c0c        ; 000C05 20 05
+	jr	nz,@stopAltFreqMode
     set    3,(ix+$00)      ; 000C07 DD CB 00 DE
-    ret                    ; 000C0B C9
+	ret
+
+@stopAltFreqMove:
     res    3,(ix+$00)      ; 000C0C DD CB 00 9E
-    ret                    ; 000C10 C9
+	ret
+
+cfFM3SpecialMode:
     ld     a,(ix+$01)      ; 000C11 DD 7E 01
     cp     $02             ; 000C14 FE 02
-    jr     nz,$0c44        ; 000C16 20 2C
+	jr	nz,zTrackSkip3bytes
     set    0,(ix+$00)      ; 000C18 DD CB 00 C6
     ex     de,hl           ; 000C1C EB
 	call	zGetSpecialFM3DataPointer
     ld     b,$04           ; 000C20 06 04
+
+@loop:
     push   bc              ; 000C22 C5
     ld     a,(hl)          ; 000C23 7E
     inc    hl              ; 000C24 23
     push   hl              ; 000C25 E5
-    ld     hl,$0c48        ; 000C26 21 48 0C
+	ld	hl,zFM3FreqShiftTable
     add    a,a             ; 000C29 87
     ld     c,a             ; 000C2A 4F
     ld     b,$00           ; 000C2B 06 00
@@ -2066,67 +2106,86 @@ cfStopTrack:
     ldi                    ; 000C30 ED A0
     pop    hl              ; 000C32 E1
     pop    bc              ; 000C33 C1
-    djnz   $0c22           ; 000C34 10 EC
+	djnz	@loop
     ex     de,hl           ; 000C36 EB
     dec    de              ; 000C37 1B
     ld     a,$4f           ; 000C38 3E 4F
+
+zWriteFM3Settings:
     ld     ($1c12),a       ; 000C3A 32 12 1C
     ld     c,a             ; 000C3D 4F
     ld     a,$27           ; 000C3E 3E 27
 	call	zWriteFMI
-    ret                    ; 000C43 C9
+	ret
+
+zTrackSkip3bytes:
     inc    de              ; 000C44 13
     inc    de              ; 000C45 13
     inc    de              ; 000C46 13
-    ret                    ; 000C47 C9
-    nop                    ; 000C48 00
-    nop                    ; 000C49 00
-    ld     ($8e01),a       ; 000C4A 32 01 8E
-    ld     bc,$01e4        ; 000C4D 01 E4 01
-    inc    (hl)            ; 000C50 34
-    ld     (bc),a          ; 000C51 02
-    ld     a,(hl)          ; 000C52 7E
-    ld     (bc),a          ; 000C53 02
-    jp     nz,$f002        ; 000C54 C2 02 F0
-    ld     (bc),a          ; 000C57 02
-    ld     hl,$09a8        ; 000C58 21 A8 09
+	ret
+
+zFM3FreqShiftTable:
+	dw	$0000
+	dw	$0132
+	dw	$018E
+	dw	$01E4
+	dw	$0234
+	dw	$027E
+	dw	$02C2
+	dw	$02F0
+
+cfMetaCF:
+	ld	hl,zExtraCoordFlagSwitchTable
 	rst	zPointerTableOffset
     inc    de              ; 000C5C 13
     ld     a,(de)          ; 000C5D 1A
     jp     (hl)            ; 000C5E E9
+
+cfSetTempo:
     ld     ($1c05),a       ; 000C5F 32 05 1C
-    ret                    ; 000C62 C9
+	ret
+
+cfPlaySoundByIndex:
     push   ix              ; 000C63 DD E5
 	call	zPlaySoundByIndex
     pop    ix              ; 000C68 DD E1
-    ret                    ; 000C6A C9
+	ret
+
+cfHaltSound:
     ld     ($1c11),a       ; 000C6B 32 11 1C
     or     a               ; 000C6E B7
-    jr     z,$0c8e         ; 000C6F 28 1D
+	jr	z,@resume
     push   ix              ; 000C71 DD E5
     push   de              ; 000C73 D5
     ld     ix,$1c40        ; 000C74 DD 21 40 1C
     ld     b,$09           ; 000C78 06 09
     ld     de,$0030        ; 000C7A 11 30 00
+
+@loop:
     res    7,(ix+$00)      ; 000C7D DD CB 00 BE
 	call	zKeyOff
     add    ix,de           ; 000C84 DD 19
-    djnz   $0c7d           ; 000C86 10 F5
+	djnz	@loop
     pop    de              ; 000C88 D1
     pop    ix              ; 000C89 DD E1
 	jp	zPSGSilenceAll
 
+@resume:
     push   ix              ; 000C8E DD E5
     push   de              ; 000C90 D5
     ld     ix,$1c40        ; 000C91 DD 21 40 1C
     ld     b,$09           ; 000C95 06 09
     ld     de,$0030        ; 000C97 11 30 00
+
+@loop2:
     set    7,(ix+$00)      ; 000C9A DD CB 00 FE
     add    ix,de           ; 000C9E DD 19
-    djnz   $0c9a           ; 000CA0 10 F8
+	djnz	@loop2
     pop    de              ; 000CA2 D1
     pop    ix              ; 000CA3 DD E1
-    ret                    ; 000CA5 C9
+	ret
+
+cfCopyData:
     ex     de,hl           ; 000CA6 EB
     ld     e,(hl)          ; 000CA7 5E
     inc    hl              ; 000CA8 23
@@ -2138,30 +2197,42 @@ cfStopTrack:
     ex     de,hl           ; 000CAF EB
     ldir                   ; 000CB0 ED B0
     dec    de              ; 000CB2 1B
-    ret                    ; 000CB3 C9
+	ret
+
+cfSetTempoDivider:
     ld     b,$09           ; 000CB4 06 09
     ld     hl,$1c42        ; 000CB6 21 42 1C
+
+@loop:
     push   bc              ; 000CB9 C5
     ld     bc,$0030        ; 000CBA 01 30 00
     ld     (hl),a          ; 000CBD 77
     add    hl,bc           ; 000CBE 09
     pop    bc              ; 000CBF C1
-    djnz   $0cb9           ; 000CC0 10 F7
-    ret                    ; 000CC2 C9
+	djnz	@loop
+	ret
+
+cfSetSSGEG:
     ld     (ix+$18),$80    ; 000CC3 DD 36 18 80
     ld     (ix+$19),e      ; 000CC7 DD 73 19
     ld     (ix+$1a),d      ; 000CCA DD 72 1A
-    ld     hl,$03f7        ; 000CCD 21 F7 03
-    ld     b,$04           ; 000CD0 06 04
+
+zSendSSGEGData:
+	ld	hl,zFMInstrumentSSGEGTable
+	ld	b,zFMInstrumentSSGEGTable_End-zFMInstrumentSSGEGTable
+
+@loop:
     ld     a,(de)          ; 000CD2 1A
     inc    de              ; 000CD3 13
     ld     c,a             ; 000CD4 4F
     ld     a,(hl)          ; 000CD5 7E
     inc    hl              ; 000CD6 23
 	call	zWriteFMIorII
-    djnz   $0cd2           ; 000CDA 10 F6
+	djnz	@loop
     dec    de              ; 000CDC 1B
-    ret                    ; 000CDD C9
+	ret
+
+cfFMVolEnv:
     ld     (ix+$18),a      ; 000CDE DD 77 18
     inc    de              ; 000CE1 13
     ld     a,(de)          ; 000CE2 1A
@@ -2170,17 +2241,21 @@ cfStopTrack:
 
 zUpdatePSGTrack:
 	call	zTrackRunTimer
-    jr     nz,$0cf9        ; 000CEA 20 0D
+	jr	nz,@noteGoing
 	call	zGetNextNote
     bit    4,(ix+$00)      ; 000CEF DD CB 00 66
     ret    nz              ; 000CF3 C0
 	call	zPrepareModulation
-    jr     $0d05           ; 000CF7 18 0C
+	jr	@skipFill
+
+@noteGoing:
     ld     a,(ix+$1e)      ; 000CF9 DD 7E 1E
     or     a               ; 000CFC B7
-    jr     z,$0d05         ; 000CFD 28 06
+	jr	z,@skipFill
     dec    (ix+$1e)        ; 000CFF DD 35 1E
-    jp     z,$0d8f         ; 000D02 CA 8F 0D
+	jp	z,zRestTrack
+
+@skipFill:
 	call	zUpdateFreq
 	call	zDoModulation
     bit    2,(ix+$00)      ; 000D0B DD CB 00 56
@@ -2201,30 +2276,40 @@ zUpdatePSGTrack:
     ld     a,(ix+$08)      ; 000D25 DD 7E 08
     or     a               ; 000D28 B7
     ld     c,$00           ; 000D29 0E 00
-    jr     z,$0d36         ; 000D2B 28 09
+	jr	z,@noVolEnv
     dec    a               ; 000D2D 3D
     ld     c,$0a           ; 000D2E 0E 0A
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
-    call   $0d5d           ; 000D32 CD 5D 0D
+	call	zDoVolEnv
     ld     c,a             ; 000D35 4F
+
+@noVolEnv:
     bit    4,(ix+$00)      ; 000D36 DD CB 00 66
     ret    nz              ; 000D3A C0
     ld     a,(ix+$06)      ; 000D3B DD 7E 06
     add    a,c             ; 000D3E 81
     bit    4,a             ; 000D3F CB 67
-    jr     z,$0d45         ; 000D41 28 02
+	jr	z,@noUnderflow
     ld     a,$0f           ; 000D43 3E 0F
+
+@noUnderflow:
     or     (ix+$01)        ; 000D45 DD B6 01
     add    a,$10           ; 000D48 C6 10
     bit    0,(ix+$00)      ; 000D4A DD CB 00 46
-    jr     nz,$0d54        ; 000D4E 20 04
+	jr	nz,@setNoise
     ld     ($7f11),a       ; 000D50 32 11 7F
-    ret                    ; 000D53 C9
+	ret
+
+@setNoise:
     add    a,$20           ; 000D54 C6 20
     ld     ($7f11),a       ; 000D56 32 11 7F
-    ret                    ; 000D59 C9
+	ret
+
+zDoVolEnvSetValue:
     ld     (ix+$17),a      ; 000D5A DD 77 17
+
+zDoVolEnv:
     push   hl              ; 000D5D E5
     ld     c,(ix+$17)      ; 000D5E DD 4E 17
     ld     b,$00           ; 000D61 06 00
@@ -2232,29 +2317,41 @@ zUpdatePSGTrack:
     ld     a,(hl)          ; 000D64 7E
     pop    hl              ; 000D65 E1
     bit    7,a             ; 000D66 CB 7F
-    jr     z,$0d8b         ; 000D68 28 21
+	jr	z,zDoVolEnvAdvance
     cp     $83             ; 000D6A FE 83
-    jr     z,$0d7a         ; 000D6C 28 0C
+	jr	z,zDoVolEnvFullRest
     cp     $81             ; 000D6E FE 81
-    jr     z,$0d85         ; 000D70 28 13
+	jr	z,zDoVolEnvRest
     cp     $80             ; 000D72 FE 80
-    jr     z,$0d82         ; 000D74 28 0C
+	jr	z,zDoVolEnvReset
     inc    bc              ; 000D76 03
     ld     a,(bc)          ; 000D77 0A
-    jr     $0d5a           ; 000D78 18 E0
+	jr	zDoVolEnvSetValue
+
+zDoVolEnvFullRest:
     set    4,(ix+$00)      ; 000D7A DD CB 00 E6
     pop    hl              ; 000D7E E1
-    jp     $0d8f           ; 000D7F C3 8F 0D
+	jp	zRestTrack
+
+zDoVolEnvReset:
     xor    a               ; 000D82 AF
-    jr     $0d5a           ; 000D83 18 D5
+	jr	zDoVolEnvSetValue
+
+zDoVolEnvRest:
     pop    hl              ; 000D85 E1
     set    4,(ix+$00)      ; 000D86 DD CB 00 E6
     ret                    ; 000D8A C9
+
+zDoVolEnvAdvance:
     inc    (ix+$17)        ; 000D8B DD 34 17
     ret                    ; 000D8E C9
+
+zRestTrack:
     set    4,(ix+$00)      ; 000D8F DD CB 00 E6
     bit    2,(ix+$00)      ; 000D93 DD CB 00 56
     ret    nz              ; 000D97 C0
+
+zSilencePSGChannel:
     ld     a,$1f           ; 000D98 3E 1F
     add    a,(ix+$01)      ; 000D9A DD 86 01
     or     a               ; 000D9D B7
@@ -2271,19 +2368,21 @@ zPlayDigitalAudio:
     ld     a,$2b           ; 000DAE 3E 2B
     ld     c,$00           ; 000DB0 0E 00
 	call	zWriteFMI
+
+@DACIdleLoop:
     ei                     ; 000DB5 FB
     ld     a,($1c07)       ; 000DB6 3A 07 1C
     or     a               ; 000DB9 B7
 	jp	nz,zPlaySEGAPCM
     ld     a,($1c06)       ; 000DBD 3A 06 1C
     or     a               ; 000DC0 B7
-    jr     z,$0db5         ; 000DC1 28 F2
+	jr	z,@DACIdleLoop
     ld     a,$2b           ; 000DC3 3E 2B
     ld     c,$80           ; 000DC5 0E 80
     di                     ; 000DC7 F3
 	call	zWriteFMI
     ei                     ; 000DCB FB
-    ld     iy,$0e39        ; 000DCC FD 21 39 0E
+	ld	iy,DecTable
     ld     hl,$1c06        ; 000DD0 21 06 1C
     ld     a,(hl)          ; 000DD3 7E
     dec    a               ; 000DD4 3D
@@ -2292,8 +2391,8 @@ zPlayDigitalAudio:
 	rst	zPointerTableOffset
     ld     c,$80           ; 000DDB 0E 80
     ld     a,(hl)          ; 000DDD 7E
-    ld     ($0dee),a       ; 000DDE 32 EE 0D
-    ld     ($0e0b),a       ; 000DE1 32 0B 0E
+	ld	(@sample1Rate+1),a
+	ld	(@sample2Rate+1),a
     inc    hl              ; 000DE4 23
     ld     e,(hl)          ; 000DE5 5E
     inc    hl              ; 000DE6 23
@@ -2303,9 +2402,12 @@ zPlayDigitalAudio:
     inc    hl              ; 000DEA 23
     ld     h,(hl)          ; 000DEB 66
     ld     l,a             ; 000DEC 6F
+
+@DACPlaybackLoop:
+@sample1Rate:
     ld     b,$0a           ; 000DED 06 0A
     ei                     ; 000DEF FB
-    djnz   $0df0           ; 000DF0 10 FE
+	djnz	*
     di                     ; 000DF2 F3
     ld     a,$2a           ; 000DF3 3E 2A
     ld     ($4000),a       ; 000DF5 32 00 40
@@ -2315,48 +2417,61 @@ zPlayDigitalAudio:
     rlca                   ; 000DFB 07
     rlca                   ; 000DFC 07
     and    $0f             ; 000DFD E6 0F
-    ld     ($0e05),a       ; 000DFF 32 05 0E
+	ld	(@sample1Index+2),a
     ld     a,c             ; 000E02 79
+
+@sample1Index:
     add    a,(iy+$00)      ; 000E03 FD 86 00
     ld     ($4001),a       ; 000E06 32 01 40
     ld     c,a             ; 000E09 4F
+
+@sample2Rate:
     ld     b,$0a           ; 000E0A 06 0A
     ei                     ; 000E0C FB
-    djnz   $0e0d           ; 000E0D 10 FE
+	djnz	*
     di                     ; 000E0F F3
     ld     a,$2a           ; 000E10 3E 2A
     ld     ($4000),a       ; 000E12 32 00 40
     ld     a,(hl)          ; 000E15 7E
     and    $0f             ; 000E16 E6 0F
-    ld     ($0e1e),a       ; 000E18 32 1E 0E
+	ld	(@sample2Index+2),a
     ld     a,c             ; 000E1B 79
+
+@sample2Index:
     add    a,(iy+$00)      ; 000E1C FD 86 00
     ld     ($4001),a       ; 000E1F 32 01 40
     ei                     ; 000E22 FB
     ld     c,a             ; 000E23 4F
     ld     a,($1c06)       ; 000E24 3A 06 1C
     or     a               ; 000E27 B7
-    jp     p,$0db5         ; 000E28 F2 B5 0D
+	jp	p,@DACIdleLoop
     inc    hl              ; 000E2B 23
     dec    de              ; 000E2C 1B
     ld     a,d             ; 000E2D 7A
     or     e               ; 000E2E B3
-    jp     nz,$0ded        ; 000E2F C2 ED 0D
+	jp	nz,@DACPlaybackLoop
     xor    a               ; 000E32 AF
     ld     ($1c06),a       ; 000E33 32 06 1C
 	jp	zPlayDigitalAudio
-    nop                    ; 000E39 00
-    ld     bc,$0402        ; 000E3A 01 02 04
-    ex     af,af          ; 000E3D 08
-    djnz   $0e60           ; 000E3E 10 20
-    ld     b,b             ; 000E40 40
-    add    a,b             ; 000E41 80
-    rst    38h             ; 000E42 FF
-    cp     $fc             ; 000E43 FE FC
-    ret    m               ; 000E45 F8
-    ret    p               ; 000E46 F0
-    ret    po              ; 000E47 E0
-    ret    nz              ; 000E48 C0
+
+DecTable:
+	db	$00
+	db	$01
+	db	$02
+	db	$04
+	db	$08
+	db	$10
+	db	$20
+	db	$40
+	db	$80
+	db	-$01
+	db	-$02
+	db	-$04
+	db	-$08
+	db	-$10
+	db	-$20
+	db	-$40
+	db	-$80
 
 zPlaySEGAPCM:
     di                     ; 000E49 F3
@@ -2388,7 +2503,7 @@ zPlaySEGAPCM:
     ld     a,(hl)          ; 000E6F 7E
     ld     ($4001),a       ; 000E70 32 01 40
     ld     b,$0d           ; 000E73 06 0D
-    djnz   $0e75           ; 000E75 10 FE
+	djnz	*
     inc    hl              ; 000E77 23
     dec    de              ; 000E78 1B
     ld     a,d             ; 000E79 7A
@@ -2398,6 +2513,8 @@ zPlaySEGAPCM:
     ld     ($1c07),a       ; 000E7F 32 07 1C
 	call	zStopAllSound
 	jp	zPlayDigitalAudio
+
+; end of code!
     rst    28h             ; 000E88 EF
     inc    d               ; 000E89 14
     adc    a,e             ; 000E8A 8B
@@ -2543,7 +2660,7 @@ zPlaySEGAPCM:
     adc    a,l             ; 000F41 8D
     and    d               ; 000F42 A2
     call   nz,$c6bb        ; 000F43 C4 BB C6
-	rst	zGetPointerTable
+    rst    08h             ; 000F46 CF
     out    ($d4),a         ; 000F47 D3 D4
     add    a,b             ; 000F49 80
     push   de              ; 000F4A D5
@@ -2718,7 +2835,7 @@ zPlaySEGAPCM:
     adc    a,l             ; 00102F 8D
     and    d               ; 001030 A2
     call   nz,$c6bb        ; 001031 C4 BB C6
-	rst	zGetPointerTable
+    rst    08h             ; 001034 CF
     out    ($d4),a         ; 001035 D3 D4
     add    a,b             ; 001037 80
     push   de              ; 001038 D5
@@ -2937,7 +3054,7 @@ zPlaySEGAPCM:
     ld     a,(hl)          ; 00114D 7E
     add    a,b             ; 00114E 80
     ld     (hl),h          ; 00114F 74
-	rst	zGetPointerTable
+    rst    08h             ; 001150 CF
     cp     a               ; 001151 BF
     halt                   ; 001152 76
     ld     a,b             ; 001153 78
