@@ -1,5 +1,5 @@
 	CPU z80
-	objend
+	obj 0
 
 zEntryPoint:
     di                     ; 000000 F3
@@ -1424,7 +1424,7 @@ zPSGFrequencies:
 	dw	$0280
 	dw	$025C
 	dw	$023A
-	dw	$02A1
+	dw	$021A
 	dw	$01FB
 	dw	$01DF
 	dw	$01C4
@@ -1461,6 +1461,7 @@ zPSGFrequencies:
 	dw	$004B
 	dw	$0047
 	dw	$0043
+	dw	$0040
 	dw	$003C
 	dw	$0039
 	dw	$0036
@@ -1591,9 +1592,9 @@ zUpdateDACTrack_GetDuration:
     ld     a,(ix+$0c)      ; 000945 DD 7E 0C
     ld     (ix+$0b),a      ; 000948 DD 77 0B
 	jp	zFinishTrackUpdate
-	ld	hl,zloc_954
 
 zHandleDACCoordFlag:
+	ld	hl,zloc_954
 	jp	zHandleCoordFlag
 
 zloc_954:
@@ -2079,7 +2080,7 @@ cfToggleAltFreqMode:
     set    3,(ix+$00)      ; 000C07 DD CB 00 DE
 	ret
 
-@stopAltFreqMove:
+@stopAltFreqMode:
     res    3,(ix+$00)      ; 000C0C DD CB 00 9E
 	ret
 
@@ -2471,7 +2472,6 @@ DecTable:
 	db	-$10
 	db	-$20
 	db	-$40
-	db	-$80
 
 zPlaySEGAPCM:
     di                     ; 000E49 F3
@@ -3195,122 +3195,39 @@ zPlaySEGAPCM:
     push   bc              ; 0011FD C5
     ld     a,b             ; 0011FE 78
     ld     l,d             ; 0011FF 6A
-    pop    de              ; 001200 D1
-    dec    d               ; 001201 15
-    ld     d,d             ; 001202 52
-    jr     $11a5           ; 001203 18 A0
-    ld     d,$02           ; 001205 16 02
-    rla                    ; 001207 17
-    ld     c,$12           ; 001208 0E 12
-    ld     c,e             ; 00120A 4B
-    inc    de              ; 00120B 13
-    ld     ($2200),a       ; 00120C 32 00 22
-    ld     (de),a          ; 00120F 12
-    ld     l,$12           ; 001210 2E 12
-    dec    sp              ; 001212 3B
-    ld     (de),a          ; 001213 12
-    ld     b,a             ; 001214 47
-    ld     (de),a          ; 001215 12
-    adc    a,c             ; 001216 89
-    ld     (de),a          ; 001217 12
-    cp     (hl)            ; 001218 BE
-    ld     (de),a          ; 001219 12
-    ei                     ; 00121A FB
-    ld     (de),a          ; 00121B 12
-    dec    d               ; 00121C 15
-    inc    de              ; 00121D 13
-    cpl                    ; 00121E 2F
-    inc    de              ; 00121F 13
-    scf                    ; 001220 37
-    inc    de              ; 001221 13
-    ld     b,b             ; 001222 40
-    ld     h,b             ; 001223 60
-    ld     (hl),b          ; 001224 70
-    ld     h,b             ; 001225 60
-    ld     d,b             ; 001226 50
-    jr     nc,$1239        ; 001227 30 10
-    ret    p               ; 001229 F0
-    ret    nc              ; 00122A D0
-    or     b               ; 00122B B0
-    sub    b               ; 00122C 90
-    add    a,e             ; 00122D 83
-    nop                    ; 00122E 00
-    ld     (bc),a          ; 00122F 02
-    inc    b               ; 001230 04
-    ld     b,$08           ; 001231 06 08
-    ld     a,(bc)          ; 001233 0A
-    inc    c               ; 001234 0C
-    ld     c,$10           ; 001235 0E 10
-    ld     (de),a          ; 001237 12
-    inc    d               ; 001238 14
-    jr     $11bc           ; 001239 18 81
-    nop                    ; 00123B 00
-    nop                    ; 00123C 00
-    ld     bc,$0103        ; 00123D 01 03 01
-    nop                    ; 001240 00
-    rst    38h             ; 001241 FF
-    db     $fd             ; 001242 FD
-    rst    38h             ; 001243 FF
-    nop                    ; 001244 00
-    add    a,d             ; 001245 82
-    ld     (bc),a          ; 001246 02
-    nop                    ; 001247 00
-    nop                    ; 001248 00
-    nop                    ; 001249 00
-    nop                    ; 00124A 00
-    nop                    ; 00124B 00
-    nop                    ; 00124C 00
-    nop                    ; 00124D 00
-    nop                    ; 00124E 00
-    nop                    ; 00124F 00
-    nop                    ; 001250 00
-    nop                    ; 001251 00
-    nop                    ; 001252 00
-    nop                    ; 001253 00
-    nop                    ; 001254 00
-    nop                    ; 001255 00
-    nop                    ; 001256 00
-    nop                    ; 001257 00
-    nop                    ; 001258 00
-    nop                    ; 001259 00
-    nop                    ; 00125A 00
-    nop                    ; 00125B 00
-    nop                    ; 00125C 00
-    nop                    ; 00125D 00
-    nop                    ; 00125E 00
-    nop                    ; 00125F 00
-    nop                    ; 001260 00
-    nop                    ; 001261 00
-    nop                    ; 001262 00
-    nop                    ; 001263 00
-    nop                    ; 001264 00
-    nop                    ; 001265 00
-    nop                    ; 001266 00
-    nop                    ; 001267 00
-    nop                    ; 001268 00
-    nop                    ; 001269 00
-    nop                    ; 00126A 00
-    nop                    ; 00126B 00
-    nop                    ; 00126C 00
-    nop                    ; 00126D 00
-    nop                    ; 00126E 00
-    ld     (bc),a          ; 00126F 02
-    inc    b               ; 001270 04
-    ld     b,$08           ; 001271 06 08
-    ld     a,(bc)          ; 001273 0A
-    inc    c               ; 001274 0C
-    ld     a,(bc)          ; 001275 0A
-    ex     af,af'          ; 001276 08
-    ld     b,$04           ; 001277 06 04
-    ld     (bc),a          ; 001279 02
-    nop                    ; 00127A 00
-    cp     $fc             ; 00127B FE FC
-    jp     m,$f6f8         ; 00127D FA F8 F6
-    call   p,$f8f6         ; 001280 F4 F6 F8
-    jp     m,$fefc         ; 001283 FA FC FE
-    nop                    ; 001286 00
-    add    a,d             ; 001287 82
-    add    hl,hl           ; 001288 29
+
+; zloc_1200:
+z80_SoundDriverPointers:
+	dw	z80_SoundPriority		; in the final, this is a duplicate of z80_MusicPointers
+	dw	Offset_0x0E1852			; in the final, this is used by the Universal Voice Bank
+	dw	z80_MusicPointers
+	dw	z80_SFXPointers
+	dw	z80_ModEnvPointers
+	dw	z80_VolEnvPointers
+	dw	$0032				; song limit, not actually used
+
+z80_ModEnvPointers:
+	dw	ModEnv_00
+	dw	ModEnv_01
+	dw	ModEnv_02
+	dw	ModEnv_03
+	dw	ModEnv_04
+	dw	ModEnv_05
+	dw	ModEnv_06
+	dw	ModEnv_07
+	dw	ModEnv_08
+	dw	ModEnv_09
+
+ModEnv_00:	db	$40, $60, $70, $60, $50, $30, $10,-$10,-$30,-$50,-$70, $83
+ModEnv_01:	db	$00, $02, $04, $06, $08, $0A, $0C, $0E, $10, $12, $14, $18, $81
+ModEnv_02:	db	$00, $00, $01, $03, $01, $00,-$01,-$03,-$01, $00, $82, $02
+ModEnv_03:	db	$00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+		db	$00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+		db	$00, $00, $00, $00, $00, $00, $00, $00, $02, $04, $06, $08, $0A, $0C, $0A, $08
+		db	$06, $04, $02, $00,-$02,-$04,-$06,-$08,-$0A,-$0C,-$0A,-$08,-$06,-$04,-$02, $00
+		db	$82, $29
+
+ModEnv_04:
     nop                    ; 001289 00
     nop                    ; 00128A 00
     nop                    ; 00128B 00
@@ -3345,7 +3262,7 @@ zPlaySEGAPCM:
     ld     a,(bc)          ; 0012A9 0A
     inc    c               ; 0012AA 0C
     ld     a,(bc)          ; 0012AB 0A
-    ex     af,af'          ; 0012AC 08
+    ex     af,af          ; 0012AC 08
     ld     b,$04           ; 0012AD 06 04
     ld     (bc),a          ; 0012AF 02
     nop                    ; 0012B0 00
@@ -3355,6 +3272,8 @@ zPlaySEGAPCM:
     jp     m,$fefc         ; 0012B9 FA FC FE
     add    a,d             ; 0012BC 82
     dec    de              ; 0012BD 1B
+
+ModEnv_05:
     nop                    ; 0012BE 00
     nop                    ; 0012BF 00
     nop                    ; 0012C0 00
@@ -3413,6 +3332,8 @@ zPlaySEGAPCM:
     nop                    ; 0012F8 00
     add    a,d             ; 0012F9 82
     inc    sp              ; 0012FA 33
+
+ModEnv_06:
     nop                    ; 0012FB 00
     nop                    ; 0012FC 00
     nop                    ; 0012FD 00
@@ -3436,7 +3357,10 @@ zPlaySEGAPCM:
     cp     $fc             ; 00130F FE FC
     cp     $00             ; 001311 FE 00
     add    a,d             ; 001313 82
-    ld     de,$fffe        ; 001314 11 FE FF
+	db	$11
+
+ModEnv_07:
+	dw	$FFFE
     nop                    ; 001317 00
     nop                    ; 001318 00
     nop                    ; 001319 00
@@ -3458,10 +3382,16 @@ zPlaySEGAPCM:
     rst    38h             ; 00132B FF
     rst    38h             ; 00132C FF
     add    a,d             ; 00132D 82
-    ld     de,$0203        ; 00132E 11 03 02
+	db	$11
+
+ModEnv_08:
+	dw	$0203
     ld     bc,$0000        ; 001331 01 00 00
     nop                    ; 001334 00
-    ld     bc,$0081        ; 001335 01 81 00
+	dw	$8101
+
+ModEnv_09:
+	db	$00
     nop                    ; 001338 00
     nop                    ; 001339 00
     nop                    ; 00133A 00
@@ -3473,526 +3403,106 @@ zPlaySEGAPCM:
     nop                    ; 001346 00
     add    a,h             ; 001347 84
     ld     bc,$0482        ; 001348 01 82 04
-    sbc    a,c             ; 00134B 99
-    inc    de              ; 00134C 13
-    sbc    a,e             ; 00134D 9B
-    inc    de              ; 00134E 13
-    and    d               ; 00134F A2
-    inc    de              ; 001350 13
-    cp     e               ; 001351 BB
-    inc    de              ; 001352 13
-    rst    00h             ; 001353 C7
-    inc    de              ; 001354 13
-    jp     nc,$e113        ; 001355 D2 13 E1
-    inc    de              ; 001358 13
-    jp     pe,$fb13        ; 001359 EA 13 FB
-    inc    de              ; 00135C 13
-    ld     b,$14           ; 00135D 06 14
-    dec    de              ; 00135F 1B
-    inc    d               ; 001360 14
-    dec    h               ; 001361 25
-    inc    d               ; 001362 14
-    ld     l,$14           ; 001363 2E 14
-    jr     nc,$137b        ; 001365 30 14
-    ld     ($3914),a       ; 001367 32 14 39
-    inc    d               ; 00136A 14
-    ld     e,b             ; 00136B 58
-    inc    d               ; 00136C 14
-    ld     e,a             ; 00136D 5F
-    inc    d               ; 00136E 14
-    ld     l,d             ; 00136F 6A
-    inc    d               ; 001370 14
-    ld     a,c             ; 001371 79
-    inc    d               ; 001372 14
-    ld     a,a             ; 001373 7F
-    inc    d               ; 001374 14
-    sub    b               ; 001375 90
-    inc    d               ; 001376 14
-    sbc    a,e             ; 001377 9B
-    inc    d               ; 001378 14
-    or     b               ; 001379 B0
-    inc    d               ; 00137A 14
-    ret                    ; 00137B C9
-    inc    d               ; 00137C 14
-    jp     nc,$d914        ; 00137D D2 14 D9
-    inc    d               ; 001380 14
-    jp     po,$f314        ; 001381 E2 14 F3
-    inc    d               ; 001384 14
-    jr     nz,$139c        ; 001385 20 15
-    inc    hl              ; 001387 23
-    dec    d               ; 001388 15
-    daa                    ; 001389 27
-    dec    d               ; 00138A 15
-    inc    (hl)            ; 00138B 34
-    dec    d               ; 00138C 15
-    ld     b,(hl)          ; 00138D 46
-    dec    d               ; 00138E 15
-    ld     c,l             ; 00138F 4D
-    dec    d               ; 001390 15
-    ld     d,(hl)          ; 001391 56
-    dec    d               ; 001392 15
-    ld     e,d             ; 001393 5A
-    dec    d               ; 001394 15
-    push   af              ; 001395 F5
-    nop                    ; 001396 00
-    ld     h,$00           ; 001397 26 00
-    ld     (bc),a          ; 001399 02
-    add    a,e             ; 00139A 83
-    nop                    ; 00139B 00
-    ld     (bc),a          ; 00139C 02
-    inc    b               ; 00139D 04
-    ld     b,$08           ; 00139E 06 08
-    djnz   $1325           ; 0013A0 10 83
-    ld     (bc),a          ; 0013A2 02
-    ld     bc,$0000        ; 0013A3 01 00 00
-    ld     bc,$0202        ; 0013A6 01 02 02
-    ld     (bc),a          ; 0013A9 02
-    ld     (bc),a          ; 0013AA 02
-    ld     (bc),a          ; 0013AB 02
-    ld     (bc),a          ; 0013AC 02
-    ld     (bc),a          ; 0013AD 02
-    ld     (bc),a          ; 0013AE 02
-    ld     (bc),a          ; 0013AF 02
-    ld     (bc),a          ; 0013B0 02
-    ld     (bc),a          ; 0013B1 02
-    ld     (bc),a          ; 0013B2 02
-    inc    bc              ; 0013B3 03
-    inc    bc              ; 0013B4 03
-    inc    bc              ; 0013B5 03
-    inc    b               ; 0013B6 04
-    inc    b               ; 0013B7 04
-    inc    b               ; 0013B8 04
-    dec    b               ; 0013B9 05
-    add    a,c             ; 0013BA 81
-    nop                    ; 0013BB 00
-    nop                    ; 0013BC 00
-    ld     (bc),a          ; 0013BD 02
-    inc    bc              ; 0013BE 03
-    inc    b               ; 0013BF 04
-    inc    b               ; 0013C0 04
-    dec    b               ; 0013C1 05
-    dec    b               ; 0013C2 05
-    dec    b               ; 0013C3 05
-    ld     b,$06           ; 0013C4 06 06
-    add    a,c             ; 0013C6 81
-    inc    bc              ; 0013C7 03
-    nop                    ; 0013C8 00
-    ld     bc,$0101        ; 0013C9 01 01 01
-    ld     (bc),a          ; 0013CC 02
-    inc    bc              ; 0013CD 03
-    inc    b               ; 0013CE 04
-    inc    b               ; 0013CF 04
-    dec    b               ; 0013D0 05
-    add    a,c             ; 0013D1 81
-    nop                    ; 0013D2 00
-    nop                    ; 0013D3 00
-    ld     bc,$0201        ; 0013D4 01 01 02
-    inc    bc              ; 0013D7 03
-    inc    b               ; 0013D8 04
-    dec    b               ; 0013D9 05
-    dec    b               ; 0013DA 05
-    ld     b,$08           ; 0013DB 06 08
-    rlca                   ; 0013DD 07
-    rlca                   ; 0013DE 07
-    ld     b,$81           ; 0013DF 06 81
-    ld     bc,$030c        ; 0013E1 01 0C 03
-    rrca                   ; 0013E4 0F
-    ld     (bc),a          ; 0013E5 02
-    rlca                   ; 0013E6 07
-    inc    bc              ; 0013E7 03
-    rrca                   ; 0013E8 0F
-    add    a,b             ; 0013E9 80
-    nop                    ; 0013EA 00
-    nop                    ; 0013EB 00
-    nop                    ; 0013EC 00
-    ld     (bc),a          ; 0013ED 02
-    inc    bc              ; 0013EE 03
-    inc    bc              ; 0013EF 03
-    inc    b               ; 0013F0 04
-    dec    b               ; 0013F1 05
-    ld     b,$07           ; 0013F2 06 07
-    ex     af,af'          ; 0013F4 08
-    add    hl,bc           ; 0013F5 09
-    ld     a,(bc)          ; 0013F6 0A
-    dec    bc              ; 0013F7 0B
-    ld     c,$0f           ; 0013F8 0E 0F
-    add    a,e             ; 0013FA 83
-    inc    bc              ; 0013FB 03
-    ld     (bc),a          ; 0013FC 02
-    ld     bc,$0001        ; 0013FD 01 01 00
-    nop                    ; 001400 00
-    ld     bc,$0302        ; 001401 01 02 03
-    inc    b               ; 001404 04
-    add    a,c             ; 001405 81
-    ld     bc,$0000        ; 001406 01 00 00
-    nop                    ; 001409 00
-    nop                    ; 00140A 00
-    ld     bc,$0101        ; 00140B 01 01 01
-    ld     (bc),a          ; 00140E 02
-    ld     (bc),a          ; 00140F 02
-    ld     (bc),a          ; 001410 02
-    inc    bc              ; 001411 03
-    inc    bc              ; 001412 03
-    inc    bc              ; 001413 03
-    inc    bc              ; 001414 03
-    inc    b               ; 001415 04
-    inc    b               ; 001416 04
-    inc    b               ; 001417 04
-    dec    b               ; 001418 05
-    dec    b               ; 001419 05
-    add    a,c             ; 00141A 81
-    djnz   $143d           ; 00141B 10 20
-    jr     nc,$145f        ; 00141D 30 40
-    jr     nc,$1441        ; 00141F 30 20
-    djnz   $1423           ; 001421 10 00
-    ret    p               ; 001423 F0
-    add    a,b             ; 001424 80
-    nop                    ; 001425 00
-    nop                    ; 001426 00
-    ld     bc,$0301        ; 001427 01 01 03
-    inc    bc              ; 00142A 03
-    inc    b               ; 00142B 04
-    dec    b               ; 00142C 05
-    add    a,e             ; 00142D 83
-    nop                    ; 00142E 00
-    add    a,c             ; 00142F 81
-    ld     (bc),a          ; 001430 02
-    add    a,e             ; 001431 83
-    nop                    ; 001432 00
-    ld     (bc),a          ; 001433 02
-    inc    b               ; 001434 04
-    ld     b,$08           ; 001435 06 08
-    djnz   $13bc           ; 001437 10 83
-    add    hl,bc           ; 001439 09
-    add    hl,bc           ; 00143A 09
-    add    hl,bc           ; 00143B 09
-    ex     af,af'          ; 00143C 08
-    ex     af,af'          ; 00143D 08
-    ex     af,af'          ; 00143E 08
-    rlca                   ; 00143F 07
-    rlca                   ; 001440 07
-    rlca                   ; 001441 07
-    ld     b,$06           ; 001442 06 06
-    ld     b,$05           ; 001444 06 05
-    dec    b               ; 001446 05
-    dec    b               ; 001447 05
-    inc    b               ; 001448 04
-    inc    b               ; 001449 04
-    inc    b               ; 00144A 04
-    inc    bc              ; 00144B 03
-    inc    bc              ; 00144C 03
-    inc    bc              ; 00144D 03
-    ld     (bc),a          ; 00144E 02
-    ld     (bc),a          ; 00144F 02
-    ld     (bc),a          ; 001450 02
-    ld     bc,$0101        ; 001451 01 01 01
-    nop                    ; 001454 00
-    nop                    ; 001455 00
-    nop                    ; 001456 00
-    add    a,c             ; 001457 81
-    ld     bc,$0101        ; 001458 01 01 01
-    nop                    ; 00145B 00
-    nop                    ; 00145C 00
-    nop                    ; 00145D 00
-    add    a,c             ; 00145E 81
-    inc    bc              ; 00145F 03
-    nop                    ; 001460 00
-    ld     bc,$0101        ; 001461 01 01 01
-    ld     (bc),a          ; 001464 02
-    inc    bc              ; 001465 03
-    inc    b               ; 001466 04
-    inc    b               ; 001467 04
-    dec    b               ; 001468 05
-    add    a,c             ; 001469 81
-    nop                    ; 00146A 00
-    nop                    ; 00146B 00
-    ld     bc,$0201        ; 00146C 01 01 02
-    inc    bc              ; 00146F 03
-    inc    b               ; 001470 04
-    dec    b               ; 001471 05
-    dec    b               ; 001472 05
-    ld     b,$08           ; 001473 06 08
-    rlca                   ; 001475 07
-    rlca                   ; 001476 07
-    ld     b,$81           ; 001477 06 81
-    ld     a,(bc)          ; 001479 0A
-    dec    b               ; 00147A 05
-    nop                    ; 00147B 00
-    inc    b               ; 00147C 04
-    ex     af,af'          ; 00147D 08
-    add    a,e             ; 00147E 83
-    nop                    ; 00147F 00
-    nop                    ; 001480 00
-    nop                    ; 001481 00
-    ld     (bc),a          ; 001482 02
-    inc    bc              ; 001483 03
-    inc    bc              ; 001484 03
-    inc    b               ; 001485 04
-    dec    b               ; 001486 05
-    ld     b,$07           ; 001487 06 07
-    ex     af,af'          ; 001489 08
-    add    hl,bc           ; 00148A 09
-    ld     a,(bc)          ; 00148B 0A
-    dec    bc              ; 00148C 0B
-    ld     c,$0f           ; 00148D 0E 0F
-    add    a,e             ; 00148F 83
-    inc    bc              ; 001490 03
-    ld     (bc),a          ; 001491 02
-    ld     bc,$0001        ; 001492 01 01 00
-    nop                    ; 001495 00
-    ld     bc,$0302        ; 001496 01 02 03
-    inc    b               ; 001499 04
-    add    a,c             ; 00149A 81
-    ld     bc,$0000        ; 00149B 01 00 00
-    nop                    ; 00149E 00
-    nop                    ; 00149F 00
-    ld     bc,$0101        ; 0014A0 01 01 01
-    ld     (bc),a          ; 0014A3 02
-    ld     (bc),a          ; 0014A4 02
-    ld     (bc),a          ; 0014A5 02
-    inc    bc              ; 0014A6 03
-    inc    bc              ; 0014A7 03
-    inc    bc              ; 0014A8 03
-    inc    bc              ; 0014A9 03
-    inc    b               ; 0014AA 04
-    inc    b               ; 0014AB 04
-    inc    b               ; 0014AC 04
-    dec    b               ; 0014AD 05
-    dec    b               ; 0014AE 05
-    add    a,c             ; 0014AF 81
-    djnz   $14d2           ; 0014B0 10 20
-    jr     nc,$14f4        ; 0014B2 30 40
-    jr     nc,$14d6        ; 0014B4 30 20
-    djnz   $14b8           ; 0014B6 10 00
-    djnz   $14da           ; 0014B8 10 20
-    jr     nc,$14fc        ; 0014BA 30 40
-    jr     nc,$14de        ; 0014BC 30 20
-    djnz   $14c0           ; 0014BE 10 00
-    djnz   $14e2           ; 0014C0 10 20
-    jr     nc,$1504        ; 0014C2 30 40
-    jr     nc,$14e6        ; 0014C4 30 20
-    djnz   $14c8           ; 0014C6 10 00
-    add    a,b             ; 0014C8 80
-    nop                    ; 0014C9 00
-    nop                    ; 0014CA 00
-    ld     bc,$0301        ; 0014CB 01 01 03
-    inc    bc              ; 0014CE 03
-    inc    b               ; 0014CF 04
-    dec    b               ; 0014D0 05
-    add    a,e             ; 0014D1 83
-    nop                    ; 0014D2 00
-    ld     (bc),a          ; 0014D3 02
-    inc    b               ; 0014D4 04
-    ld     b,$08           ; 0014D5 06 08
-    ld     d,$83           ; 0014D7 16 83
-    nop                    ; 0014D9 00
-    nop                    ; 0014DA 00
-    ld     bc,$0301        ; 0014DB 01 01 03
-    inc    bc              ; 0014DE 03
-    inc    b               ; 0014DF 04
-    dec    b               ; 0014E0 05
-    add    a,e             ; 0014E1 83
-    inc    b               ; 0014E2 04
-    inc    b               ; 0014E3 04
-    inc    b               ; 0014E4 04
-    inc    b               ; 0014E5 04
-    inc    bc              ; 0014E6 03
-    inc    bc              ; 0014E7 03
-    inc    bc              ; 0014E8 03
-    inc    bc              ; 0014E9 03
-    ld     (bc),a          ; 0014EA 02
-    ld     (bc),a          ; 0014EB 02
-    ld     (bc),a          ; 0014EC 02
-    ld     (bc),a          ; 0014ED 02
-    ld     bc,$0101        ; 0014EE 01 01 01
-    ld     bc,$0083        ; 0014F1 01 83 00
-    nop                    ; 0014F4 00
-    nop                    ; 0014F5 00
-    nop                    ; 0014F6 00
-    ld     bc,$0101        ; 0014F7 01 01 01
-    ld     bc,$0202        ; 0014FA 01 02 02
-    ld     (bc),a          ; 0014FD 02
-    ld     (bc),a          ; 0014FE 02
-    inc    bc              ; 0014FF 03
-    inc    bc              ; 001500 03
-    inc    bc              ; 001501 03
-    inc    bc              ; 001502 03
-    inc    b               ; 001503 04
-    inc    b               ; 001504 04
-    inc    b               ; 001505 04
-    inc    b               ; 001506 04
-    dec    b               ; 001507 05
-    dec    b               ; 001508 05
-    dec    b               ; 001509 05
-    dec    b               ; 00150A 05
-    ld     b,$06           ; 00150B 06 06
-    ld     b,$06           ; 00150D 06 06
-    rlca                   ; 00150F 07
-    rlca                   ; 001510 07
-    rlca                   ; 001511 07
-    rlca                   ; 001512 07
-    ex     af,af'          ; 001513 08
-    ex     af,af'          ; 001514 08
-    ex     af,af'          ; 001515 08
-    ex     af,af'          ; 001516 08
-    add    hl,bc           ; 001517 09
-    add    hl,bc           ; 001518 09
-    add    hl,bc           ; 001519 09
-    add    hl,bc           ; 00151A 09
-    ld     a,(bc)          ; 00151B 0A
-    ld     a,(bc)          ; 00151C 0A
-    ld     a,(bc)          ; 00151D 0A
-    ld     a,(bc)          ; 00151E 0A
-    add    a,c             ; 00151F 81
-    nop                    ; 001520 00
-    ld     a,(bc)          ; 001521 0A
-    add    a,e             ; 001522 83
-    nop                    ; 001523 00
-    ld     (bc),a          ; 001524 02
-    inc    b               ; 001525 04
-    add    a,c             ; 001526 81
-    jr     nc,$1549        ; 001527 30 20
-    djnz   $152b           ; 001529 10 00
-    nop                    ; 00152B 00
-    nop                    ; 00152C 00
-    nop                    ; 00152D 00
-    nop                    ; 00152E 00
-    ex     af,af'          ; 00152F 08
-    djnz   $1552           ; 001530 10 20
-    jr     nc,$14b5        ; 001532 30 81
-    nop                    ; 001534 00
-    inc    b               ; 001535 04
-    inc    b               ; 001536 04
-    inc    b               ; 001537 04
-    inc    b               ; 001538 04
-    inc    b               ; 001539 04
-    inc    b               ; 00153A 04
-    inc    b               ; 00153B 04
-    inc    b               ; 00153C 04
-    inc    b               ; 00153D 04
-    inc    b               ; 00153E 04
-    ld     b,$06           ; 00153F 06 06
-    ld     b,$08           ; 001541 06 08
-    ex     af,af'          ; 001543 08
-    ld     a,(bc)          ; 001544 0A
-    add    a,e             ; 001545 83
-    nop                    ; 001546 00
-    ld     (bc),a          ; 001547 02
-    inc    bc              ; 001548 03
-    inc    b               ; 001549 04
-    ld     b,$07           ; 00154A 06 07
-    add    a,c             ; 00154C 81
-    ld     (bc),a          ; 00154D 02
-    ld     bc,$0000        ; 00154E 01 00 00
-    nop                    ; 001551 00
-    ld     (bc),a          ; 001552 02
-    inc    b               ; 001553 04
-    rlca                   ; 001554 07
-    add    a,c             ; 001555 81
-    rrca                   ; 001556 0F
-    ld     bc,$8305        ; 001557 01 05 83
-    ex     af,af'          ; 00155A 08
-    ld     b,$02           ; 00155B 06 02
-    inc    bc              ; 00155D 03
-    inc    b               ; 00155E 04
-    dec    b               ; 00155F 05
-    ld     b,$07           ; 001560 06 07
-    ex     af,af'          ; 001562 08
-    add    hl,bc           ; 001563 09
-    ld     a,(bc)          ; 001564 0A
-    dec    bc              ; 001565 0B
-    inc    c               ; 001566 0C
-    dec    c               ; 001567 0D
-    ld     c,$0f           ; 001568 0E 0F
-    djnz   $14ef           ; 00156A 10 83
-    nop                    ; 00156C 00
-    nop                    ; 00156D 00
-    nop                    ; 00156E 00
-    nop                    ; 00156F 00
-    nop                    ; 001570 00
-    nop                    ; 001571 00
-    nop                    ; 001572 00
-    nop                    ; 001573 00
-    nop                    ; 001574 00
-    nop                    ; 001575 00
-    ld     bc,$0101        ; 001576 01 01 01
-    ld     bc,$0101        ; 001579 01 01 01
-    ld     bc,$0101        ; 00157C 01 01 01
-    ld     bc,$0202        ; 00157F 01 02 02
-    ld     (bc),a          ; 001582 02
-    ld     (bc),a          ; 001583 02
-    ld     (bc),a          ; 001584 02
-    ld     (bc),a          ; 001585 02
-    ld     (bc),a          ; 001586 02
-    ld     (bc),a          ; 001587 02
-    ld     (bc),a          ; 001588 02
-    ld     (bc),a          ; 001589 02
-    inc    bc              ; 00158A 03
-    inc    bc              ; 00158B 03
-    inc    bc              ; 00158C 03
-    inc    bc              ; 00158D 03
-    inc    bc              ; 00158E 03
-    inc    bc              ; 00158F 03
-    inc    bc              ; 001590 03
-    inc    bc              ; 001591 03
-    inc    bc              ; 001592 03
-    inc    bc              ; 001593 03
-    inc    b               ; 001594 04
-    inc    b               ; 001595 04
-    inc    b               ; 001596 04
-    inc    b               ; 001597 04
-    inc    b               ; 001598 04
-    inc    b               ; 001599 04
-    inc    b               ; 00159A 04
-    inc    b               ; 00159B 04
-    inc    b               ; 00159C 04
-    inc    b               ; 00159D 04
-    dec    b               ; 00159E 05
-    dec    b               ; 00159F 05
-    dec    b               ; 0015A0 05
-    dec    b               ; 0015A1 05
-    dec    b               ; 0015A2 05
-    dec    b               ; 0015A3 05
-    dec    b               ; 0015A4 05
-    dec    b               ; 0015A5 05
-    dec    b               ; 0015A6 05
-    dec    b               ; 0015A7 05
-    ld     b,$06           ; 0015A8 06 06
-    ld     b,$06           ; 0015AA 06 06
-    ld     b,$06           ; 0015AC 06 06
-    ld     b,$06           ; 0015AE 06 06
-    ld     b,$06           ; 0015B0 06 06
-    rlca                   ; 0015B2 07
-    rlca                   ; 0015B3 07
-    rlca                   ; 0015B4 07
-    rlca                   ; 0015B5 07
-    rlca                   ; 0015B6 07
-    rlca                   ; 0015B7 07
-    rlca                   ; 0015B8 07
-    rlca                   ; 0015B9 07
-    rlca                   ; 0015BA 07
-    rlca                   ; 0015BB 07
-    ex     af,af'          ; 0015BC 08
-    ex     af,af'          ; 0015BD 08
-    ex     af,af'          ; 0015BE 08
-    ex     af,af'          ; 0015BF 08
-    ex     af,af'          ; 0015C0 08
-    ex     af,af'          ; 0015C1 08
-    ex     af,af'          ; 0015C2 08
-    ex     af,af'          ; 0015C3 08
-    ex     af,af'          ; 0015C4 08
-    ex     af,af'          ; 0015C5 08
-    add    hl,bc           ; 0015C6 09
-    add    hl,bc           ; 0015C7 09
-    add    hl,bc           ; 0015C8 09
-    add    hl,bc           ; 0015C9 09
-    add    hl,bc           ; 0015CA 09
-    add    hl,bc           ; 0015CB 09
-    add    hl,bc           ; 0015CC 09
-    add    hl,bc           ; 0015CD 09
-    add    hl,bc           ; 0015CE 09
-    add    hl,bc           ; 0015CF 09
-    add    a,e             ; 0015D0 83
+
+z80_VolEnvPointers:
+	dw	VolEnv_00
+	dw	VolEnv_01
+	dw	VolEnv_02
+	dw	VolEnv_03
+	dw	VolEnv_04
+	dw	VolEnv_05
+	dw	VolEnv_06
+	dw	VolEnv_07
+	dw	VolEnv_08
+	dw	VolEnv_09
+	dw	VolEnv_0A
+	dw	VolEnv_0B
+	dw	VolEnv_0C
+	dw	VolEnv_0D
+	dw	VolEnv_0E
+	dw	VolEnv_0F
+	dw	VolEnv_10
+	dw	VolEnv_11
+	dw	VolEnv_12
+	dw	VolEnv_13
+	dw	VolEnv_14
+	dw	VolEnv_15
+	dw	VolEnv_16
+	dw	VolEnv_17
+	dw	VolEnv_18
+	dw	VolEnv_19
+	dw	VolEnv_1A
+	dw	VolEnv_1B
+	dw	VolEnv_1C
+	dw	VolEnv_1D
+	dw	VolEnv_1E
+	dw	VolEnv_1F
+	dw	VolEnv_20
+	dw	VolEnv_21
+	dw	VolEnv_22
+	dw	VolEnv_23
+	dw	VolEnv_24
+	dw	$00F5
+	dw	$0026
+
+VolEnv_00:	db	$02, $83
+VolEnv_01:	db	$00, $02, $04, $06, $08, $10, $83
+VolEnv_02:	db	$02, $01, $00, $00, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02
+		db	$02, $03, $03, $03, $04, $04, $04, $05, $81
+VolEnv_03:	db	$00, $00, $02, $03, $04, $04, $05, $05, $05, $06, $06, $81
+VolEnv_04:	db	$03, $00, $01, $01, $01, $02, $03, $04, $04, $05, $81
+VolEnv_05:	db	$00, $00, $01, $01, $02, $03, $04, $05, $05, $06, $08, $07, $07, $06, $81
+VolEnv_06:	db	$01, $0C, $03, $0F, $02, $07, $03, $0F, $80
+VolEnv_07:	db	$00, $00, $00, $02, $03, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0E, $0F
+		db	$83
+VolEnv_08:	db	$03, $02, $01, $01, $00, $00, $01, $02, $03, $04, $81
+VolEnv_09:	db	$01, $00, $00, $00, $00, $01, $01, $01, $02, $02, $02, $03, $03, $03, $03, $04
+		db	$04, $04, $05, $05, $81
+VolEnv_0A:	db	$10, $20, $30, $40, $30, $20, $10, $00,-$10, $80
+VolEnv_0B:	db	$00, $00, $01, $01, $03, $03, $04, $05, $83
+VolEnv_0C:	db	$00, $81
+VolEnv_0D:	db	$02, $83
+VolEnv_0E:	db	$00, $02, $04, $06, $08, $10, $83
+VolEnv_0F:	db	$09, $09, $09, $08, $08, $08, $07, $07, $07, $06, $06, $06, $05, $05, $05, $04
+		db	$04, $04, $03, $03, $03, $02, $02, $02, $01, $01, $01, $00, $00, $00, $81
+VolEnv_10:	db	$01, $01, $01, $00, $00, $00, $81
+VolEnv_11:	db	$03, $00, $01, $01, $01, $02, $03, $04, $04, $05, $81
+VolEnv_12:	db	$00, $00, $01, $01, $02, $03, $04, $05, $05, $06, $08, $07, $07, $06, $81
+VolEnv_13:	db	$0A, $05, $00, $04, $08, $83
+VolEnv_14:	db	$00, $00, $00, $02, $03, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0E, $0F
+		db	$83
+VolEnv_15:	db	$03, $02, $01, $01, $00, $00, $01, $02, $03, $04, $81
+VolEnv_16:	db	$01, $00, $00, $00, $00, $01, $01, $01, $02, $02, $02, $03, $03, $03, $03, $04
+		db	$04, $04, $05, $05, $81
+VolEnv_17:	db	$10, $20, $30, $40, $30, $20, $10, $00, $10, $20, $30, $40, $30, $20, $10, $00
+		db	$10, $20, $30, $40, $30, $20, $10, $00, $80
+VolEnv_18:	db	$00, $00, $01, $01, $03, $03, $04, $05, $83
+VolEnv_19:	db	$00, $02, $04, $06, $08, $16, $83
+VolEnv_1A:	db	$00, $00, $01, $01, $03, $03, $04, $05, $83
+VolEnv_1B:	db	$04, $04, $04, $04, $03, $03, $03, $03, $02, $02, $02, $02, $01, $01, $01, $01
+		db	$83
+VolEnv_1C:	db	$00, $00, $00, $00, $01, $01, $01, $01, $02, $02, $02, $02, $03, $03, $03, $03
+		db	$04, $04, $04, $04, $05, $05, $05, $05, $06, $06, $06, $06, $07, $07, $07, $07
+		db	$08, $08, $08, $08, $09, $09, $09, $09, $0A, $0A, $0A, $0A, $81
+VolEnv_1D:	db	$00, $0A, $83
+VolEnv_1E:	db	$00, $02, $04, $81
+VolEnv_1F:	db	$30, $20, $10, $00, $00, $00, $00, $00, $08, $10, $20, $30, $81
+VolEnv_20:	db	$00, $04, $04, $04, $04, $04, $04, $04, $04, $04, $04, $06, $06, $06, $08, $08
+		db	$0A, $83
+VolEnv_21:	db	$00, $02, $03, $04, $06, $07, $81
+VolEnv_22:	db	$02, $01, $00, $00, $00, $02, $04, $07, $81
+VolEnv_23:	db	$0F, $01, $05, $83
+VolEnv_24:	db	$08, $06, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
+		db	$10, $83
+VolEnv_25:	db	$00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01
+		db	$01, $01, $01, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $03, $03
+		db	$03, $03, $03, $03, $03, $03, $03, $03, $04, $04, $04, $04, $04, $04, $04, $04
+		db	$04, $04, $05, $05, $05, $05, $05, $05, $05, $05, $05, $05, $06, $06, $06, $06
+		db	$06, $06, $06, $06, $06, $06, $07, $07, $07, $07, $07, $07, $07, $07, $07, $07
+		db	$08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $09, $09, $09, $09, $09, $09
+		db	$09, $09, $09, $09, $83
+
+z80_SoundPriority:
     add    a,b             ; 0015D1 80
     add    a,b             ; 0015D2 80
     add    a,b             ; 0015D3 80

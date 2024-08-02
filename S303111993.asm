@@ -31236,10 +31236,10 @@ Asm_Code_4:                                                    ; Offset_0x0DFEF2
                 dc.b    '                Dc.b    VIEW_PLANET10,VIEW_PAL_No1,VIEW_NOT_FLIPPED,VIEW_SIZE_7'  
 ;-------------------------------------------------------------------------------
 ; Offset_0xE0000:
-Z80_Driver:	incbin	"data\sounds\z80_drv.bin"
-		;include	"Z80_Drv.asm"
+Z80_Driver:	include	"Z80_Drv.asm"
 
 ; Offset_0x0E16A0: MusicPointers:
+z80_MusicPointers:
 		rom_ptr_z80	Music_01_Ptr
 		rom_ptr_z80	Music_02_Ptr
 		rom_ptr_z80	Music_03_Ptr
@@ -31458,7 +31458,8 @@ Sfx_D6_Ptr equ (Offset_0x0EDE4B&$FFFF)|$8000
 Sfx_D7_Ptr equ (Offset_0x0EDE73&$FFFF)|$8000
 Sfx_D8_Ptr equ (Offset_0x0EDEB4&$FFFF)|$8000
 Sfx_D9_Ptr equ (Offset_0x0EDEDC&$FFFF)|$8000 
-; Offset_0x0E1702:                               
+; Offset_0x0E1702:
+z80_SFXPointers:
                 dc.w    (((Sfx_32_Ptr>>$08)|(Sfx_32_Ptr<<$08))&$FFFF)    ; $C000
                 dc.w    (((Sfx_33_Ptr>>$08)|(Sfx_33_Ptr<<$08))&$FFFF)    ; $C02E
                 dc.w    (((Sfx_34_Ptr>>$08)|(Sfx_34_Ptr<<$08))&$FFFF)    ; $C05C
