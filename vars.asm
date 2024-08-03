@@ -1,5 +1,4 @@
 ; Constantes
-StackPointer          equ $00000000 
 Compiler_Place_Holder equ $00000000    
 Check_Interrupt       equ $0020800C   
 
@@ -357,8 +356,6 @@ VDP_Data_Port                  equ $00C00000
 VDP_Control_Port               equ $00C00004
 
 ; RAM
-StackPointer                 equ $00000000  
-
 M68K_Dev_RAM_Start           equ $FFFE0000  
 
 M68K_RAM_Start               equ $FFFF0000  

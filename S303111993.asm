@@ -46,7 +46,7 @@
 		include	"vars.asm"
 
 StartOfRom:
-                dc.l    StackPointer            ; Initial stack pointer value
+                dc.l    $00000000            ; Initial stack pointer value
 Prog_Start_Vector:                 
                 dc.l    ROM_Prog_Start          ; Start of our program in ROM
                 dc.l    ($02<<$18)|Check_Interrupt ; BusError                ; Bus error
@@ -17750,16 +17750,16 @@ Load_Tiles_As_You_Move_Pointers:
                 dc.l    CNz_1_Events_Run_2                     ; Offset_0x032CA4
                 dc.l    CNz_2_Events_Run                       ; Offset_0x032BB6
                 dc.l    CNz_2_Events_Run_2                     ; Offset_0x032CA4
-;--------------                  
-                dc.l    FBz_1_Events_Init                      ; Offset_0x0341C2
-                dc.l    FBz_1_Events_Init_2                    ; Offset_0x0341CE
-                dc.l    FBz_2_Events_Init                      ; Offset_0x0341C2
-                dc.l    FBz_2_Events_Init_2                    ; Offset_0x0341CE
-;--------------                 
-                dc.l    FBz_1_Events_Run                       ; Offset_0x0341CA
-                dc.l    FBz_1_Events_Run_2                     ; Offset_0x0341DE
-                dc.l    FBz_2_Events_Run                       ; Offset_0x0341CA
-                dc.l    FBz_2_Events_Run_2                     ; Offset_0x0341DE
+;--------------
+		dc.l	LevelFGSetup_Null	; FBZ1
+		dc.l	LevelBGSetup_Null
+		dc.l	LevelFGSetup_Null	; FBZ2
+		dc.l	LevelBGSetup_Null
+;--------------
+		dc.l	LevelFGRun_Null
+		dc.l	LevelBGRun_Null		; FBZ1
+		dc.l	LevelFGRun_Null
+		dc.l	LevelBGRun_Null		; FBZ2
 ;--------------                 
                 dc.l    Iz_1_Events_Init                       ; Offset_0x032D36
                 dc.l    Iz_1_Events_Init_2                     ; Offset_0x032D86
@@ -23810,8 +23810,6 @@ EMz_Deform_Array:                                              ; Offset_0x0341AE
                 dc.w    $0010, $0010, $0010, $0010, $0008, $000C, $0024, $0038
                 dc.w    $0020, $7FFF 
 ;-------------------------------------------------------------------------------
-FBz_1_Events_Init:                                             ; Offset_0x0341C2
-FBz_2_Events_Init:                                             ; Offset_0x0341C2
 Sz_1_Events_Init:                                              ; Offset_0x0341C2
 Sz_2_Events_Init:                                              ; Offset_0x0341C2
 SSz_1_Events_Init:                                             ; Offset_0x0341C2
@@ -23828,11 +23826,12 @@ LRz_Boss_Events_Init:                                          ; Offset_0x0341C2
 HPz_Events_Init:                                               ; Offset_0x0341C2
 DEz_Final_Boss_Events_Init:                                    ; Offset_0x0341C2
 HPz_Portal_Events_Init:                                        ; Offset_0x0341C2
-                jsr     Reset_Tile_Offset_Position_Actual(PC)  ; Offset_0x02FEF2
-                jmp     Refresh_Plane_Full(PC)                 ; Offset_0x02FA7C 
-;------------------------------------------------------------------------------- 
-FBz_1_Events_Run:                                              ; Offset_0x0341CA 
-FBz_2_Events_Run:                                              ; Offset_0x0341CA
+
+LevelFGSetup_Null:
+		jsr	Reset_Tile_Offset_Position_Actual(pc)
+		jmp	Refresh_Plane_Full(pc)
+; ===========================================================================
+
 Sz_1_Events_Run:                                               ; Offset_0x0341CA
 Sz_2_Events_Run:                                               ; Offset_0x0341CA
 SSz_1_Events_Run;                                              ; Offset_0x0341CA
@@ -23849,10 +23848,11 @@ LRz_Boss_Events_Run:                                           ; Offset_0x0341CA
 HPz_Events_Run:                                                ; Offset_0x0341CA
 DEz_Final_Boss_Events_Run:                                     ; Offset_0x0341CA
 HPz_Portal_Events_Run:                                         ; Offset_0x0341CA
-                jmp     Load_Tiles_As_You_Move(PC)             ; Offset_0x02FB0E
-;------------------------------------------------------------------------------- 
-FBz_1_Events_Init_2:                                           ; Offset_0x0341CE
-FBz_2_Events_Init_2:                                           ; Offset_0x0341CE
+
+LevelFGRun_Null:
+		jmp	Load_Tiles_As_You_Move(pc)
+; ===========================================================================
+
 Sz_1_Events_Init_2:                                            ; Offset_0x0341CE  
 Sz_2_Events_Init_2:                                            ; Offset_0x0341CE
 SSz_1_Events_Init_2;                                           ; Offset_0x0341CE
@@ -23869,13 +23869,14 @@ LRz_Boss_Events_Init_2:                                        ; Offset_0x0341CE
 HPz_Events_Init_2:                                             ; Offset_0x0341CE
 DEz_Final_Boss_Events_Init_2:                                  ; Offset_0x0341CE
 HPz_Portal_Events_Init_2:                                      ; Offset_0x0341CE  
-                jsr     Default_Deform(PC)                     ; Offset_0x0341EA
-                jsr     Reset_Tile_Offset_Position_Actual_2(PC) ; Offset_0x02FF0E
-                jsr     Refresh_Plane_Full(PC)                 ; Offset_0x02FA7C
-                jmp     Plain_Deformation(PC)                  ; Offset_0x02FD42 
-;------------------------------------------------------------------------------- 
-FBz_1_Events_Run_2:                                            ; Offset_0x0341DE
-FBz_2_Events_Run_2:                                            ; Offset_0x0341DE
+
+LevelBGSetup_Null:
+		jsr	Default_Deform(pc)
+		jsr	Reset_Tile_Offset_Position_Actual_2(pc)
+		jsr	Refresh_Plane_Full(pc)
+		jmp	Plain_Deformation(pc)
+; ===========================================================================
+
 Sz_1_Events_Run_2:                                             ; Offset_0x0341DE
 Sz_2_Events_Run_2:                                             ; Offset_0x0341DE
 SSz_1_Events_Run_2;                                            ; Offset_0x0341DE
@@ -23891,11 +23892,14 @@ SM_BS_Events_Run_2:                                            ; Offset_0x0341DE
 LRz_Boss_Events_Run_2:                                         ; Offset_0x0341DE
 HPz_Events_Run_2:                                              ; Offset_0x0341DE
 DEz_Final_Boss_Events_Run_2:                                   ; Offset_0x0341DE
-HPz_Portal_Events_Run_2:                                       ; Offset_0x0341DE 
-                jsr     Default_Deform(PC)                     ; Offset_0x0341EA
-                jsr     Load_Tiles_As_You_Move_2(PC)           ; Offset_0x02FB32
-                jmp     Plain_Deformation(PC)                  ; Offset_0x02FD42
-;-------------------------------------------------------------------------------                  
+HPz_Portal_Events_Run_2:                                       ; Offset_0x0341DE
+
+LevelBGRun_Null:
+		jsr	Default_Deform(pc)
+		jsr	Load_Tiles_As_You_Move_2(pc)
+		jmp	Plain_Deformation(pc)
+; ===========================================================================
+
 Default_Deform:                                                ; Offset_0x0341EA
                 move.w  (Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
                 asr.w   #$03, D0
@@ -31631,7 +31635,7 @@ z80_SFXPointers:
 ;-------------------------------------------------------------------------------
 Offset_0x0E1852:
                 incbin  'data\unknown\dummy4.dat'
-;-------------------------------------------------------------------------------                 
+;-------------------------------------------------------------------------------
 Ring_Sfx_Data:                                           ; $32 ; Offset_0x0EC000
                 incbin  'data\sounds\0x32.sfx'                
 Ring_Left_Speaker_Sfx_Data:                                    ; Offset_0x0EC02E
