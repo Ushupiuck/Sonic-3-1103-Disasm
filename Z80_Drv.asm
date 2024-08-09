@@ -430,14 +430,14 @@ zTrackUpdLoop:
 	ret
 
 zUpdateFMorPSGTrack:
-    bit    7,(ix+VoiceControl)      ; 000119 DD CB 01 7E
-	jp	nz,zUpdatePSGTrack
+	bit	7,(ix+VoiceControl)		; is this a PSG channel?
+	jp	nz,zUpdatePSGTrack		; if yes, branch
 
-	call	zTrackRunTimer
-	jr	nz,@noteGoing
-	call	zGetNextNote
-    bit    4,(ix+PlaybackControl)      ; 000128 DD CB 00 66
-    ret    nz              ; 00012C C0
+	call	zTrackRunTimer			; run note timer
+	jr	nz,@noteGoing			; if the note has not expired yet, branch
+	call	zGetNextNote			; get note for next FM track
+	bit	4,(ix+PlaybackControl)		; is track resting?
+	ret	nz				; if yes, return
 	call	zPrepareModulation
 	call	zUpdateFreq
 	call	zDoModulation
