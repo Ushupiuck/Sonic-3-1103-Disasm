@@ -1293,9 +1293,9 @@ Offset_0x001128:
 		move.b	(a0)+, (a1)+
 		dbf	d0,Offset_0x001128
 		; load default variables
-		lea	(Sound_Driver_Init_Data).l,a0
-		lea	($A01C00).l,a1
-		move.w	#$F,d0
+		lea	(Z80_DefaultVariables).l,a0
+		lea	(Z80_RAM_Start+zDataStart).l,a1
+		move.w	#Z80_DefaultVariables_End-Z80_DefaultVariables-1,d0
 
 Offset_0x00113E:
 		move.b	(a0)+,(a1)+
@@ -1312,12 +1312,26 @@ Offset_0x00113E:
 ; End of function SoundDriverLoad
 
 ; ---------------------------------------------------------------------------
-; Default Z80 variables; only the fourth value is set to anything
+; Default Z80 variables; only the third/fourth value is set to anything
 ; meaningful (which is more than can be said for the final)
-; Offset_0x001166:
-Sound_Driver_Init_Data:
-		dc.b	$00, $00, $00, $12, $00, $00, $00, $00
-		dc.b	$00, $00, $00, $00, $00, $00, $00, $00
+; Offset_0x001166: Sound_Driver_Init_Data:
+Z80_DefaultVariables:
+		dc.b	0	; unused 1
+		dc.b	0	; unused 2
+		dc.w	$0012	; zPointerTable (byte-swapped from $1200, where z80_SoundDriverPointers is located)
+		dc.b	0	; zSongBank
+		dc.b	0	; zCurrentTempo
+		dc.b	0	; zDACIndex
+		dc.b	0	; zPlaySegaPCMFlag
+		dc.b	0	; zPalDblUpdCounter
+		dc.b	0	; zNextSound
+		dc.b	0	; unused 3
+		dc.b	0	; unused 4
+		dc.b	0	; unused 5
+		dc.b	0	; zFadeOutTimeout
+		dc.b	0	; zFadeDelay
+		dc.b	0	; zFadeDelayTimeout
+Z80_DefaultVariables_End:
 
 ;===============================================================================                  
 ; SoundDriverLoad
@@ -31065,7 +31079,8 @@ Music_2E_Ptr equ (Super_Sonic_Theme_Snd_Data&$FFFF)|$8000
 Music_2F_Ptr equ (Data_Select_Menu_Snd_Data&$FFFF)|$8000
 Music_30_Ptr equ (Final_Boss_Snd_Data&$FFFF)|$8000
 Music_31_Ptr equ (Panic_Snd_Data&$FFFF)|$8000
-                
+               
+
 ; Z80 Bank $16
                 align   $8000
 Angel_Island_1_Snd_Data:                                       ; Offset_0x0B0000

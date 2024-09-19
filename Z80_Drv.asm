@@ -1,3 +1,18 @@
+; ===========================================================================
+; Sonic the Hedgehog 3 - November 11, 1993 prototype Z80 sound driver
+; Stock Z80 Type 2 DAC driver with many features from Sonic 1/2 missing
+
+; Disassembled using Z80Dasm.exe
+; Documented by Alex Field
+; Additional help by Naoto and OrionNavettan
+
+; Note that the Z80 syntax used here is slightly non-standard as of result of how AXM68k
+; works: * is used to invoke the current program counter rather than $, offset(*) must be
+; used to invoke the program counter in macro parameters due to the use of ASM68K's section
+; and group functionality, and shadow registers are not indicated  with an apostrophe; e.g.,
+; ex af,af' is simply written as ex af,af.
+
+	pushs
 	CPU z80
 	obj 0
 ; ---------------------------------------------------------------------------
@@ -71,8 +86,7 @@ zDataStart:		equ $1C00
 
 		rsset zDataStart
 			rs.b	2	; unused
-zPointerTable:		rs.b	1
-			rs.b	1	; unused
+zPointerTable:		rs.w	1	; the 68000 SoundDriverLoad routine sets this to $1200 in Z80 memory
 zSongBank:		rs.b	1	; bits 15 to 22 of M68K bank address
 zCurrentTempo:		rs.b	1
 zDACIndex:		rs.b	1	; bit 7 = 1 if playing, 0 if not; remaining 7 bits are index into DAC tables (1-based)
@@ -192,6 +206,7 @@ zEntryPoint:
 
 zGetPointerTable:
 	ld	hl,(zPointerTable)		; read pointer to pointer table (yes, really)
+						; really, you should just make this reference z80_SoundDriverPointers directly
 	ld	b,0
 	add	hl,bc				; add offset into pointer table
 	ex	af,af				; backup AF
@@ -443,89 +458,111 @@ zUpdateFMorPSGTrack:
 	call	zDoModulation
 	call	zFMSendFreq
 	jp	zFMNoteOn
+; ---------------------------------------------------------------------------
 
 @noteGoing:
-    bit    4,(ix+PlaybackControl)      ; 00013C DD CB 00 66
-    ret    nz              ; 000140 C0
+	bit	4,(ix+PlaybackControl)		; is the track resting?
+	ret	nz				; if yes, return
 	call	zDoFMVolEnv
-    ld     a,(ix+NoteFillTimeout)      ; 000144 DD 7E 1E
-    or     a               ; 000147 B7
-	jr	z,@keepGoing
-    dec    (ix+NoteFillTimeout)        ; 00014A DD 35 1E
+	ld	a,(ix+NoteFillTimeout)
+	or	a				; is timeout either not running or expired?
+	jr	z,@keepGoing			; if yes, branch
+	dec	(ix+NoteFillTimeout)
 	jp	z,zKeyOffIfActive
 
 @keepGoing:
 	call	zUpdateFreq
-    bit    6,(ix+PlaybackControl)      ; 000153 DD CB 00 76
-    ret    nz              ; 000157 C0
+	bit	6,(ix+PlaybackControl)		; is 'sustain frequency' bit set?
+	ret	nz				; if yes, return
 	call	zDoModulation
+; End of function zUpdateFMorPSGTrack
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Uploads track's frequency to YM2612.
+;
+; input:   ix    Pointer to track RAM
+;          hl    Frequency to upload
+;          de    For FM3 in special mode, pointer to extra FM3 frequency data (never correctly set)
+; output:  a     Trashed
+;          bc    Trashed
+;          hl    Trashed
+;          de    Increased by 8
+; ---------------------------------------------------------------------------
 
 zFMSendFreq:
-    bit    2,(ix+PlaybackControl)      ; 00015B DD CB 00 56
-    ret    nz              ; 00015F C0
-    bit    0,(ix+PlaybackControl)      ; 000160 DD CB 00 46
-	jp	nz,@specialMode
+	bit	2,(ix+PlaybackControl)		; is SFX overriding this track?
+	ret	nz				; if yes, return
+	bit	0,(ix+PlaybackControl)		; is track in special mode (FM3 only)?
+	jp	nz,@specialMode			; if yes, branch
 
 @notFM3:
-    ld     a,$a4           ; 000167 3E A4
-    ld     c,h             ; 000169 4C
+	ld	a,$A4				; update frequency MSB
+	ld	c,h
 	call	zWriteFMIorII
-    ld     a,$a0           ; 00016D 3E A0
-    ld     c,l             ; 00016F 4D
+	ld	a,$A0				; update frequency LSB
+	ld	c,l
 	call	zWriteFMIorII
-    ret                    ; 000173 C9
+	ret
+; ---------------------------------------------------------------------------
 
 @specialMode:
-    ld     a,(ix+VoiceControl)      ; 000174 DD 7E 01
-    cp     $02             ; 000177 FE 02
-	jr	nz,@notFM3
+	ld	a,(ix+VoiceControl)
+	cp	2				; is this FM3?
+	jr	nz,@notFM3			; if not, branch
 	call	zGetSpecialFM3DataPointer
-    ld     b,$04           ; 00017E 06 04
+	ld	b,zSpecialFreqCommands_End-zSpecialFreqCommands
 	ld	hl,zSpecialFreqCommands
 
 @loop:
-    push   bc              ; 000183 C5
-    ld     a,(hl)          ; 000184 7E
-    inc    hl              ; 000185 23
-    push   hl              ; 000186 E5
-    ex     de,hl           ; 000187 EB
-    ld     c,(hl)          ; 000188 4E
-    inc    hl              ; 000189 23
-    ld     b,(hl)          ; 00018A 46
-    inc    hl              ; 00018B 23
-    ex     de,hl           ; 00018C EB
-    ld     l,(ix+FreqLow)      ; 00018D DD 6E 0D
-    ld     h,(ix+FreqHigh)      ; 000190 DD 66 0E
-    add    hl,bc           ; 000193 09
-    push   af              ; 000194 F5
-    ld     c,h             ; 000195 4C
+	push	bc
+	ld	a,(hl)
+	inc	hl
+	push	hl
+	ex	de,hl
+	ld	c,(hl)
+	inc	hl
+	ld	b,(hl)
+	inc	hl
+	ex	de,hl
+	ld	l,(ix+FreqLow)
+	ld	h,(ix+FreqHigh)
+	add	hl,bc
+	push	af
+	ld	c,h
 	call	zWriteFMI
-    pop    af              ; 000199 F1
-    sub    $04             ; 00019A D6 04
-    ld     c,l             ; 00019C 4D
+	pop	af
+	sub	4
+	ld	c,l
 	call	zWriteFMI
-    pop    hl              ; 0001A0 E1
-    pop    bc              ; 0001A1 C1
+	pop	hl
+	pop	bc
 	djnz	@loop
 	ret
-; ---------------------------------------------------------------------------
+; End of function zFMSendFreq
+
+; ===========================================================================
 ; zloc_1A5:
 zSpecialFreqCommands:
 	db	$AD
 	db	$AE
 	db	$AC
 	db	$A6
-; ---------------------------------------------------------------------------
+zSpecialFreqCommands_End:
+
+; ===========================================================================
 
 zGetSpecialFM3DataPointer:
-    ld     de,zSpecFM3Freqs        ; 0001A9 11 2A 1C
-    ld     a,(zUpdatingSFX)       ; 0001AC 3A 19 1C
-    or     a               ; 0001AF B7
-    ret    z               ; 0001B0 C8
-    ld     de,zSpecFM3FreqsSFX        ; 0001B1 11 1A 1C
-    ret    p               ; 0001B4 F0
-    ld     de,unk_1C22        ; 0001B5 11 22 1C
-    ret                    ; 0001B8 C9
+	ld	de,zSpecFM3Freqs
+	ld	a,(zUpdatingSFX)
+	or	a				; is this a SFX track?
+	ret	z				; if not, return
+	ld	de,zSpecFM3FreqsSFX
+	ret	p
+	ld	de,unk_1C22
+	ret
+; End of function zGetSpecialFM3DataPointer
+
 
 zGetNextNote:
     ld     e,(ix+DataPointerLow)      ; 0001B9 DD 5E 03
@@ -2683,6 +2720,13 @@ zPlaySEGAPCM:
     ld     (zPlaySegaPCMFlag),a       ; 000E7F 32 07 1C
 	call	zStopAllSound
 	jp	zPlayDigitalAudio
+EndOf_SoundDriver:
+
+	if *>Size_of_SoundDriver_Guess
+		inform 3,"Size_of_SoundDriver_Guess is too small by $%h bytes.",*-Size_of_SoundDriver_Guess
+	else
+		inform 0,"Z80 sound driver has $%h bytes free at the end.",*>Size_of_SoundDriver_Guess
+	endc
 
 ; end of code!
     rst    28h             ; 000E88 EF
@@ -3366,6 +3410,12 @@ zPlaySEGAPCM:
     ld     a,b             ; 0011FE 78
     ld     l,d             ; 0011FF 6A
 
+	if *>$1200
+		inform 3,"Too much data before Z80 sound driver pointers at $1200 in the memory!",*-$1200
+	elseif *<$1200
+		align $1200	; align data to ensure it remains functional
+	endc
+
 ; zloc_1200:
 z80_SoundDriverPointers:
 	dw	z80_SoundPriority		; in the final, this is a duplicate of z80_MusicPointers
@@ -3882,4 +3932,6 @@ z80_SoundPriority:
     ld     a,a             ; 00169F 7F
 
 	CPU 68000
+	pops
+	pushs
 	objend

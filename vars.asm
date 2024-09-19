@@ -1,6 +1,7 @@
 ; Constantes
 Compiler_Place_Holder equ $00000000    
 Check_Interrupt       equ $0020800C   
+Size_of_SoundDriver_guess		equ $E88
 
 gm_SEGALogo            equ $00
 gm_TitleScreen         equ $04
