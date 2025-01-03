@@ -48,7 +48,7 @@
 StartOfRom:
                 dc.l    $00000000            ; Initial stack pointer value
 Prog_Start_Vector:                 
-                dc.l    ROM_Prog_Start          ; Start of our program in ROM
+                dc.l    EntryPoint          ; Start of our program in ROM
                 dc.l    ($02<<$18)|Check_Interrupt ; BusError                ; Bus error
                 dc.l    ($03<<$18)|Check_Interrupt ; AddressError            ; Address error
                 dc.l    ($04<<$18)|Check_Interrupt ; IllegalInstr            ; Illegal instruction
@@ -118,7 +118,7 @@ Console:	dc.b	'SEGA GENESIS    (C)'
 Date:		dc.b	'SEGA 1993.OCT'
 Title_Local:	dc.b	'SONIC THE             HEDGEHOG 3                '
 Title_Int:	dc.b	'SONIC THE             HEDGEHOG 3                '
-ROMSerial:	dc.b	'GM 00001079-00' 
+ROMSerial:	dc.b	'GM 00001079-00'
 Checksum:	dc.w	$1019
 IOSupport:	dc.b	'J               '
 ROMStartLoc:	dc.l	StartOfRom
@@ -142,12 +142,19 @@ ErrorException:
                 nop                                                             
                 nop                                                             
                 bra.s   ErrorTrap                              ; Offset_0x000200
-;===============================================================================                
-ROM_Prog_Start:                                                ; Offset_0x000206
-                lea     (Stack_Area_End).w, A7                       ; $FFFFFE00
-                tst.l   (IO_Port_0_Control)                          ; $00A10008
-                bne.s   PortA_OK                               ; Offset_0x000218
-                tst.w   (IO_Expansion_Control)                       ; $00A1000C
+;===============================================================================
+; Offset_0x000206: ROM_Prog_Start:
+EntryPoint:
+		; You may have noticed above that the System Stack is not set in the header, but
+		; is rather handled in the boot code. This is actually a REALLY hackish work-
+		; -around for a bug where an object with invalid mappings could crash the game,
+		; and "fixes" the issue by making the first longword of the ROM $00000000, making
+		; it instead just not display anything.
+		lea	(System_Stack).w,sp
+		tst.l	(IO_Port_0_Control).l
+		bne.s	PortA_OK
+		tst.w	(IO_Expansion_Control).l
+
 PortA_OK:                                                      ; Offset_0x000218
                 bne.s   PortC_OK                               ; Offset_0x000296
                 lea     InitValues(PC), A5                     ; Offset_0x000298
@@ -252,9 +259,9 @@ ChecksumCheck:
 		cmp.w	(a1),d1
 		nop
 		nop
-		lea	(Stack_Area_End).w,a6
+		lea	(CrossResetRAM).w,a6
 		moveq	#0,d7
-		move.w	#$7F,d6
+		move.w	#(CrossResetRAM_End>>2-CrossResetRAM>>2),d6
 ; Offset_0x00035A:
 ClearSomeRAMLoop:
 		move.l	d7,(a6)+
@@ -268,7 +275,7 @@ AlreadyInit:
 		bsr.w	Check_VDP_Frequency
 		lea	(M68K_RAM_Start&$FFFFFF).l,a6
 		moveq	#0,d7
-		move.w	#(Stack_Area_End>>2-M68K_RAM_Start>>2)-1,d6
+		move.w	#(CrossResetRAM>>2-M68K_RAM_Start>>2)-1,d6
 ; Offset_0x000386:
 ClearRemainingRAMLoop:
 		move.l	d7,(a6)+
@@ -287,7 +294,7 @@ MainGameLoop:
 ; ===========================================================================
 ; Offset_0x0003AC:
 GameModeArray:
-		bra.w	SEGA_Screen
+		bra.w	SegaScreen
 		bra.w	TitleScreen
 		bra.w	Level
 		bra.w	Level
@@ -520,7 +527,7 @@ Offset_0x0006C6:
 VBlank_04:                                                     ; Offset_0x0006C8
                 bsr     VInt_Title_Screen                      ; Offset_0x00359A
                 bsr     Offset_0x000B80
-                bsr     Process_Nemesis_Queue                  ; Offset_0x0015AE
+                bsr     ProcessDPLC                  ; Offset_0x0015AE
                 tst.w   (Demo_Timer).w                               ; $FFFFF614
                 beq     Offset_0x0006E0
                 subq.w  #$01, (Demo_Timer).w                         ; $FFFFF614
@@ -630,7 +637,7 @@ Offset_0x000872:
 Offset_0x00087A:
                 jsr     (HUD_Update)                           ; Offset_0x007B34
                 move.w  #$0000, (VBlank_0_Run_Count).w               ; $FFFFF628
-                bsr     Process_Nemesis_Queue_2                ; Offset_0x0015CA
+                bsr     ProcessDPLC2                ; Offset_0x0015CA
                 tst.w   (Demo_Timer).w                               ; $FFFFF614
                 beq     Offset_0x000896
                 subq.w  #$01, (Demo_Timer).w                         ; $FFFFF614
@@ -679,7 +686,7 @@ Offset_0x0008FE:
                 move.l  (Vertical_Scroll_Value_P2).w, (Vertical_Scroll_Value_P2_2).w ; $FFFFF61E, $FFFFEE3A
 		jsr	(SoundDriverInput_Null).l
 		startZ80
-                bsr     Process_Nemesis_Queue                  ; Offset_0x0015AE
+                bsr     ProcessDPLC                  ; Offset_0x0015AE
                 jmp     (Set_Kos_Bookmark)                ; Offset_0x0019C6
 ;-------------------------------------------------------------------------------
 VBlank_0E:                                                     ; Offset_0x00096C
@@ -690,7 +697,7 @@ VBlank_0E:                                                     ; Offset_0x00096C
 VBlank_12:                                                     ; Offset_0x000978
                 bsr     Offset_0x000B80
                 move.w  (Horizontal_Int_Count_Cmd).w, (A5)           ; $FFFFF624
-                bra     Process_Nemesis_Queue                  ; Offset_0x0015AE 
+                bra     ProcessDPLC                  ; Offset_0x0015AE 
 ;-------------------------------------------------------------------------------
 VBlank_18:                                                     ; Offset_0x000984
 		stopZ80
@@ -797,7 +804,7 @@ VBlank_16:                                                     ; Offset_0x000AD2
                 bsr     Process_DMA                            ; Offset_0x00135E
 		bsr.w	SoundDriverInput_Null
 		startZ80
-                bsr     Process_Nemesis_Queue                  ; Offset_0x0015AE
+                bsr     ProcessDPLC                  ; Offset_0x0015AE
                 tst.w   (Demo_Timer).w                               ; $FFFFF614
                 beq     Offset_0x000B74
                 subq.w  #$01, (Demo_Timer).w                         ; $FFFFF614
@@ -806,7 +813,7 @@ Offset_0x000B74:
 ;-------------------------------------------------------------------------------
 VBlank_1A:                                                     ; Offset_0x000B76
                 bsr     Offset_0x000B80
-                bsr     Process_Nemesis_Queue                  ; Offset_0x0015AE
+                bsr     ProcessDPLC                  ; Offset_0x0015AE
                 rts
 ;-------------------------------------------------------------------------------                
 Offset_0x000B80:
@@ -1823,7 +1830,7 @@ Offset_0x00154E:
 ; End of function ClearPLC
 
 ; ---------------------------------------------------------------------------
-; Subroutine to use graphics listed in a pattern load cue
+; Subroutine to decompress graphics from the pattern load cue
 ; ---------------------------------------------------------------------------
 
 ; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
@@ -1860,74 +1867,81 @@ Offset_0x00157A:
 		move.l	d6,(Nemesis_Shift_Value).w
 
 Offset_0x0015AC:
-                rts
+		rts
 ; End of function RunPLC_RAM
 
-;===============================================================================
-; Rotina para descompactar os itens na lista de carga dos gr�ficos
-; <<<-
-;=============================================================================== 
+; ---------------------------------------------------------------------------
+; Subroutine to use graphics listed in a pattern load cue
+; ---------------------------------------------------------------------------
 
-Process_Nemesis_Queue:                                         ; Offset_0x0015AE
-                tst.w   (PLC_Data_Count).w                           ; $FFFFF6F8
-                beq     Offset_0x001646
-                move.w  #$0006, (Nemesis_Frame_Pattern_Left).w       ; $FFFFF6FA
-                moveq   #$00, D0
-                move.w  (Nemesis_Decomp_Destination).w, D0           ; $FFFFF684
-                addi.w  #$00C0, (Nemesis_Decomp_Destination).w       ; $FFFFF684
-                bra.s   Offset_0x0015E2
-;-------------------------------------------------------------------------------
-Process_Nemesis_Queue_2:                                       ; Offset_0x0015CA
-                tst.w   (PLC_Data_Count).w                           ; $FFFFF6F8
-                beq.s   Offset_0x001646
-                move.w  #$0003, (Nemesis_Frame_Pattern_Left).w       ; $FFFFF6FA
-                moveq   #$00, D0
-                move.w  (Nemesis_Decomp_Destination).w, D0           ; $FFFFF684
-                addi.w  #$0060, (Nemesis_Decomp_Destination).w       ; $FFFFF684
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x0015AE: Process_Nemesis_Queue:
+ProcessDPLC:
+		tst.w	(PLC_Data_Count).w
+		beq.W	Offset_0x001646
+		move.w	#6,(Nemesis_Frame_Pattern_Left).w
+		moveq	#0,d0
+		move.w	(Nemesis_Decomp_Destination).w,d0
+		addi.w	#$C0,(Nemesis_Decomp_Destination).w
+		bra.s	Offset_0x0015E2
+; ---------------------------------------------------------------------------
+; Offset_0x0015CA: Process_Nemesis_Queue_2:
+ProcessDPLC2:
+		tst.w	(PLC_Data_Count).w
+		beq.s	Offset_0x001646
+		move.w	#3,(Nemesis_Frame_Pattern_Left).w
+		moveq	#0,d0
+		move.w	(Nemesis_Decomp_Destination).w,d0
+		addi.w	#$60,(Nemesis_Decomp_Destination).w
+
 Offset_0x0015E2:
-                lea     (VDP_Control_Port), A4                       ; $00C00004
-                lsl.l   #$02, D0
-                lsr.w   #$02, D0
-                ori.w   #$4000, D0
-                swap.w  D0
-                move.l  D0, (A4)
-                subq.w  #$04, A4
-                move.l  (PLC_Data_Buffer).w, A0                      ; $FFFFF680
-                move.l  (Nemesis_Decomp_Vars).w, A3                  ; $FFFFF6E0
-                move.l  (Nemesis_Repeat_Count).w, D0                 ; $FFFFF6E4
-                move.l  (Nemesis_Palette_Index).w, D1                ; $FFFFF6E8
-                move.l  (Nemesis_Previous_Row).w, D2                 ; $FFFFF6EC
-                move.l  (Nemesis_Data_Word).w, D5                    ; $FFFFF6F0
-                move.l  (Nemesis_Shift_Value).w, D6                  ; $FFFFF6F4
-                lea     (NemesisDec_Data_Buffer).w, A1               ; $FFFFAA00
+		lea     (VDP_Control_Port), A4		       ; $00C00004
+		lsl.l   #$02, D0
+		lsr.w   #$02, D0
+		ori.w   #$4000, D0
+		swap.w  D0
+		move.l  D0, (A4)
+		subq.w  #$04, A4
+		move.l  (PLC_Data_Buffer).w, A0                      ; $FFFFF680
+		move.l  (Nemesis_Decomp_Vars).w, A3		  ; $FFFFF6E0
+		move.l  (Nemesis_Repeat_Count).w, D0		 ; $FFFFF6E4
+		move.l  (Nemesis_Palette_Index).w, D1		; $FFFFF6E8
+		move.l  (Nemesis_Previous_Row).w, D2		 ; $FFFFF6EC
+		move.l  (Nemesis_Data_Word).w, D5		    ; $FFFFF6F0
+		move.l  (Nemesis_Shift_Value).w, D6		  ; $FFFFF6F4
+		lea     (NemesisDec_Data_Buffer).w, A1               ; $FFFFAA00
+
 Offset_0x001616:
-                move.w  #$0008, A5
-                bsr     NemesisDec_3                           ; Offset_0x00141C
-                subq.w  #$01, (PLC_Data_Count).w                     ; $FFFFF6F8
-                beq.s   Offset_0x001648
-                subq.w  #$01, (Nemesis_Frame_Pattern_Left).w         ; $FFFFF6FA
-                bne.s   Offset_0x001616
-                move.l  A0, (PLC_Data_Buffer).w                      ; $FFFFF680
-                move.l  A3, (Nemesis_Decomp_Vars).w                  ; $FFFFF6E0
-                move.l  D0, (Nemesis_Repeat_Count).w                 ; $FFFFF6E4
-                move.l  D1, (Nemesis_Palette_Index).w                ; $FFFFF6E8
-                move.l  D2, (Nemesis_Previous_Row).w                 ; $FFFFF6EC
-                move.l  D5, (Nemesis_Data_Word).w                    ; $FFFFF6F0
-                move.l  D6, (Nemesis_Shift_Value).w                  ; $FFFFF6F4
+		move.w  #$0008, A5
+		bsr     NemesisDec_3		           ; Offset_0x00141C
+		subq.w  #$01, (PLC_Data_Count).w		     ; $FFFFF6F8
+		beq.s   Offset_0x001648
+		subq.w  #$01, (Nemesis_Frame_Pattern_Left).w         ; $FFFFF6FA
+		bne.s   Offset_0x001616
+		move.l  A0, (PLC_Data_Buffer).w		      ; $FFFFF680
+		move.l  A3, (Nemesis_Decomp_Vars).w		  ; $FFFFF6E0
+		move.l  D0, (Nemesis_Repeat_Count).w		 ; $FFFFF6E4
+		move.l  D1, (Nemesis_Palette_Index).w		; $FFFFF6E8
+		move.l  D2, (Nemesis_Previous_Row).w		 ; $FFFFF6EC
+		move.l  D5, (Nemesis_Data_Word).w		    ; $FFFFF6F0
+		move.l  D6, (Nemesis_Shift_Value).w		  ; $FFFFF6F4
+
 Offset_0x001646:
-                rts
+		rts
+
 Offset_0x001648:
-                lea     (PLC_Data_Buffer).w, A0                      ; $FFFFF680
-                moveq   #$15, D0
+		lea     (PLC_Data_Buffer).w, A0		      ; $FFFFF680
+		moveq   #$15, D0
 Offset_0x00164E:
-                move.l  $0006(A0), (A0)+
-                dbra    D0, Offset_0x00164E
-                rts   
+		move.l  $0006(A0), (A0)+
+		dbra    D0, Offset_0x00164E
+		rts   
 
 ; ---------------------------------------------------------------------------
-; Subroutine to execute a pattern load cue directly from the ROM
-; rather than loading them into the queue first; unused here and in S3
-; final, only ever used for Blue Spheres in S&K
+; Subroutine to execute a pattern load cue directly from the ROM rather than
+; loading them into the queue first; unused here and in S3 final, only ever
+; used for Blue Spheres in S&K, which also removed some of the code
 ; ---------------------------------------------------------------------------
 
 ; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
@@ -3799,53 +3813,51 @@ PalLoad4_Loop:
 		rts
 ; End of function PalLoad_Water_ForFade
 
-;===============================================================================
-; Logo da SEGA
-; ->>>
-;=============================================================================== 
-Sega_Screen:                                                   ; Offset_0x00300A
-                moveq   #Stop_Sound, D0                                   ; -$1F
-                bsr     Play_Music                             ; Offset_0x001176
-                bsr     ClearPLC                               ; Offset_0x001548
-                bsr     Pal_FadeFrom                           ; Offset_0x002DE8
-                lea     (Miles_Control_Vars).w, A1                   ; $FFFFF700
-                moveq   #$00, D0
-                move.w  #$003F, D1
-Offset_0x003022:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003022
-                lea     (Obj_Memory_Address).w, A1                   ; $FFFFB000
-                moveq   #$00, D0
-                move.w  #$07FF, D1
-Offset_0x003032:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003032
-                lea     (VDP_Control_Port), A6                       ; $00C00004
-                move.w  #$8004, (A6)
-                move.w  #$8230, (A6)
-                move.w  #$8405, (A6)
-                move.w  #$8700, (A6)
-                move.w  #$8B03, (A6)
-                move.w  #$8C81, (A6)
-                move.w  #$9003, (A6)
-                clr.b   (Underwater_Flag).w                          ; $FFFFF64E
-                clr.w   (Two_Player_Flag).w                          ; $FFFFFFD8
-                move    #$2700, SR
-                move.w  (VDP_Register_1_Command).w, D0               ; $FFFFF60E
-                andi.b  #$BF, D0
-                move.w  D0, (VDP_Control_Port)                       ; $00C00004
-                bsr     ClearScreen                            ; Offset_0x001002
-                lea     (VDP_Control_Port), A5                       ; $00C00004
-                move.w  #$8F01, (A5)
-                move.l  #$941F93FF, (A5)
-                move.w  #$9780, (A5)
-                move.l  #$40000083, (A5)
-                move.w  #$0000, (VDP_Data_Port)                      ; $00C00000
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; GAME MODE - Sega Screen
+; Almost identical to the Sonic 2 screen, but with programming changes
+; made to work with Sonic 3's workings, although it is in a rough state
+; ---------------------------------------------------------------------------
+; Offset_0x00300A:
+SegaScreen:
+		moveq	#Stop_Sound,d0
+		bsr.w	Play_Music
+		bsr.w	ClearPLC
+		bsr.w	Pal_FadeFrom
+
+		clearRAM	Misc_Variables,Misc_Variables_End
+		clearRAM	Obj_Memory_Address,Obj_Memory_Address_End
+
+		lea	(VDP_Control_Port).l,a6
+		move.w	#$8004,(a6)
+		move.w	#$8230,(a6)
+		move.w	#$8405,(a6)
+		move.w	#$8700,(a6)
+		move.w	#$8B03,(a6)
+		move.w	#$8C81,(a6)
+		move.w	#$9003,(a6)
+		clr.b	(Underwater_Flag).w
+		clr.w	(Two_Player_Flag).w
+		move	#$2700,sr
+		move.w	(VDP_Register_1_Command).w,d0
+		andi.b	#$BF,d0
+		move.w	d0,(VDP_Control_Port).l
+		bsr.w	ClearScreen
+
+		lea	(VDP_Control_Port),a5
+		move.w	#$8F01,(a5)
+		move.l	#$941F93FF,(a5)
+		move.w	#$9780,(a5)
+		move.l	#$40000083,(a5)
+		move.w	#0,(VDP_Data_Port).l
+
 Offset_0x00309A:
-                move.w  (A5), D1
-                btst    #$01, D1
-                bne.s   Offset_0x00309A
-                move.w  #$8F02, (A5)
+		move.w	(a5),d1
+		btst	#1,d1
+		bne.s	Offset_0x00309A
+		move.w	#$8F02,(a5)
+
                 move.l  #$40200000, (VDP_Control_Port)               ; $00C00004
                 lea     (Art_SEGA), A0                         ; Offset_0x10417A
                 bsr     NemesisDec                             ; Offset_0x001390
@@ -3864,7 +3876,7 @@ Offset_0x00309A:
                 tst.b   (Hardware_Id).w                              ; $FFFFFFF8
                 bmi.s   Offset_0x00310C
                 lea     (Obj_02_Mem_Address).w, A1                   ; $FFFFB094
-                move.l  #Obj_S2_0xB1_Sonic_Sega_Logo, (A1)     ; Offset_0x0346BC
+                move.l  #Obj_SegaTM, (A1)     ; Offset_0x0346BC
                 move.b  #$4E, Obj_Subtype(A1)                            ; $002C
 Offset_0x00310C:
                 moveq   #$00, D0
@@ -3874,7 +3886,7 @@ Offset_0x00310C:
                 move.w  #$0000, (VBlank_Subroutine).w                ; $FFFFF662
                 move.w  #$0000, (PalCycle_Done_Flag).w               ; $FFFFF660
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                move.l  #Obj_S2_0xB0_Sonic_Sega_Logo, (A1)     ; Offset_0x034488
+                move.l  #Obj_SegaSonic, (A1)     ; Offset_0x034488
                 move.b  #$4C, Obj_Subtype(A1)                            ; $002C
                 move.w  #$00F0, (Demo_Timer).w                       ; $FFFFF614
                 jsr     (Init_Sprite_Table)                    ; Offset_0x011042
@@ -3925,6 +3937,9 @@ Offset_0x0031C6:
 ;===============================================================================
 
 ; ===========================================================================
+; ---------------------------------------------------------------------------
+; GAME MODE - Title Screen
+; ---------------------------------------------------------------------------
 ; Offset_0x0031D4:
 TitleScreen:
 		moveq	#Volume_Down,d0
@@ -3932,7 +3947,7 @@ TitleScreen:
 		bsr.w	ClearPLC
 		bsr.w	Pal_FadeFrom
 		move	#$2700,sr
-		lea	(VDP_Control_Port),a6
+		lea	(VDP_Control_Port).l,a6
 		move.w	#$8004,(a6)
 		move.w	#$8230,(a6)
 		move.w	#$8407,(a6)
@@ -3943,53 +3958,23 @@ TitleScreen:
 		clr.b	(Underwater_Flag).w
 		move.w	#$8C81,(a6)
 		bsr.w	ClearScreen
-		lea	(Sprite_Table_Input).w,a1
-		moveq	#0,d0
-		move.w	#$FF,d1
-
-Offset_0x00321E:
-		move.l	d0,(a1)+
-		dbf	d1, Offset_0x00321E
-		lea	(Obj_Memory_Address).w,a1
-		moveq	#0,d0
-		move.w	#$7FF,d1
-
-Offset_0x00322E:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x00322E
-                lea     (Miles_Control_Vars).w, A1                   ; $FFFFF700
-                moveq   #$00, D0
-                move.w  #$003F, D1
-
-Offset_0x00323E:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x00323E
-                lea     (Camera_RAM).w, A1                           ; $FFFFEE00
-                moveq   #$00, D0
-                move.w  #$003F, D1
-
-Offset_0x00324E:
-		move.l	d0,(a1)+
-		dbf	d1, Offset_0x00324E
+		clearRAM	Sprite_Table_Input,Sprite_Table_Input_End
+		clearRAM	Obj_Memory_Address,Obj_Memory_Address_End
+		clearRAM	Misc_Variables,Misc_Variables_End
+		clearRAM	Camera_RAM,Camera_RAM+$100
 		jsr	(Init_Sprite_Table).l
-		lea	(Palette_Buffer).w,a1
-		moveq	#0,d0
-		move.w	#$3F,d1
-
-Offset_0x003264:
-		move.l	d0,(a1)+
-		dbf	d1, Offset_0x003264
+		clearRAM	Palette_Buffer,Palette_Buffer+$100
 
 		move.b	#0,(Saved_Level_Flag).w
 		move.b	#0,(Saved_Level_Flag_P2).w
-		move.w	#0,(Debug_Mode_Flag_Index).w
+		move.w	#0,(Debug_placement_mode).w
 		move.w	#0,(Auto_Control_Player_Flag).w
 		move.w	#0,(Palette_Cycle_Count_1).w
 		move.w	#0,(Two_Player_Flag).w
 		move.b	#0,(Title_Card_Flag).w
 		move.b	#0,(Debug_Mode_Active).w
 		move.w	#0,(Two_Player_Flag).w
-		move.w	#$167,(Demo_Timer).w
+		move.w	#(60*6)-1,(Demo_Timer).w
 		clr.w	(DMA_Buffer_List).w
 		move.l	#DMA_Buffer_List,(DMA_Buffer_List_End).w
 
@@ -3997,7 +3982,7 @@ Offset_0x003264:
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
 		move.l	d0,a0
-		lea	(M68K_RAM_Start),a1
+		lea	(M68K_RAM_Start).l,a1
 		bsr.w	KosinskiDec
 		move.w	a1,d3
 		lsr.w	#1,d3
@@ -4019,11 +4004,11 @@ Offset_0x0032EE:
 Offset_0x003300:
 		move.l	d0,(a1)+
 		dbf	d1,Offset_0x003300
-		lea	(M68K_RAM_Start+$4000),a1
+		lea	(M68K_RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$6400,d0
 		bsr.w	EnigmaDec
-		lea	(M68K_RAM_Start+$4000),a1
+		lea	(M68K_RAM_Start+$4000).l,a1
 		move.l	#$40000003,d0
 		moveq	#$27,d1
 		moveq	#$3F,d2
@@ -4035,27 +4020,29 @@ Offset_0x003300:
 		move.l	#$FFA00000,(Camera_Y).w
 		move.b	#4,(VBlank_Index).w
 		bsr.w	Wait_For_VSync
-		move.b	#$FF,(Title_Screen_Animate_Buffer).w
+		move.b	#-1,(Title_Screen_Animate_Buffer).w
 		move.b	#1,(Title_Screen_Animate_Delay).w
 		move.w	#1,(Title_Screen_Animate_Frame).w
 		moveq	#0,d0
 		bsr.w	TitleSonic_LoadFrame
 		move.b	#4,(VBlank_Index).w
 		bsr.w	Wait_For_VSync
-		moveq	#0,d0
+		moveq	#PLCID_LvlStd1,d0
 		bsr.w	LoadPLC2
 
 		move.w	#0,(Secret_Code_Input_Entries).w
 		move.w	#0,(Secret_Code_Input_Entries_2).w
 		move.w	#$101,(Level_Select_Flag).w		; enable level select without cheats
+		; presumably, a previous build also enabled Debug Mode here
 		nop
 		nop
 		nop
+
 		moveq	#Title_Screen_Snd,d0
 		bsr.w	Play_Music
 		move.w	(VDP_Register_1_Command).w,d0
 		ori.b	#$40,d0
-		move.w	d0,(VDP_Control_Port)
+		move.w	d0,(VDP_Control_Port).l
 ; Offset_0x0033A4:
 TitleScreen_Loop:
 		move.b	#4,(VBlank_Index).w
@@ -4063,15 +4050,17 @@ TitleScreen_Loop:
 		bsr.w	Iterate_TitleSonicFrame
 		jsr	(RunObjects).l
 		jsr	(Build_Sprites).l
+
 		bsr.w	RunPLC_RAM
-		bsr.w	Secret_Codes_Test
+		bsr.w	LevelSelectCheat
+
 		tst.w	(Demo_Timer).w
-		beq.w	Offset_0x0034D2
+		beq.w	TitleScreen_Demo
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0
 		andi.b	#$80,d0
 		beq.w	TitleScreen_Loop
-		move.b	#gm_PlayMode, (Game_Mode).w
+		move.b	#gm_PlayMode,(Game_Mode).w
 		move.b	#3,(Life_count).w
 		move.b	#3,(Life_Count_P2).w
 		moveq	#0,d0
@@ -4082,14 +4071,14 @@ TitleScreen_Loop:
 		move.l	d0,(Time_Count_Address_P2).w
 		move.l	d0,(Score_Count_Address_P2).w
 		move.b	d0,(Continue_count).w
-		move.l	#$1388,(Next_Extra_Life_Score).w
-		move.l	#$1388,(Next_Extra_Life_Score_P2).w
+		move.l	#5000,(Next_Extra_Life_Score).w
+		move.l	#5000,(Next_Extra_Life_Score_P2).w
 		moveq	#Volume_Down,d0
 		bsr.w	Play_Music
 		; leftover from Sonic 2's title menu
 		moveq	#0,d0
 		move.b	(Title_Screen_Menu_Cursor).w,d0
-		bne.s	Title_Screen_Check_2_Player_Vs
+		bne.s	TitleScreen_Check2P
 		moveq	#0,d0
 		move.w	d0,(Two_Player_Flag_2).w
 		move.w	d0,(Two_Player_Flag).w
@@ -4099,11 +4088,11 @@ TitleScreen_Loop:
 		move.w	#AIz_Act_1,(Apparent_ZoneAndAct).w
 		tst.b	(Level_Select_Flag).w
 		beq.s	TitleScreen_ClrSpecStg
-		move.b	#gm_Level_Select_Menu, (Game_Mode).w
+		move.b	#gm_Level_Select_Menu,(Game_Mode).w
 ; TitleScreen_SonicAndTails:
 		btst	#Btn_A,(Control_Ports_Buffer_Data).w
 		beq.s	TitleScreen_SonicAlone
-		move.w	#Sonic_And_Miles, (Player_Select_Flag).w
+		move.w	#Sonic_And_Miles,(Player_Select_Flag).w
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x003466:
@@ -4132,10 +4121,10 @@ TitleScreen_ClrSpecStg:
 		rts
 ; ===========================================================================
 ; Leftovers from Sonic 2
-; Offset_0x00349A:
-Title_Screen_Check_2_Player_Vs:
+; Offset_0x00349A: Title_Screen_Check_2_Player_Vs:
+TitleScreen_Check2P:
 		subq.b	#1,d0
-		bne.s	Title_Screen_Load_Options_Menu
+		bne.s	TitleScreen_LoadOptions
 		moveq	#1,d1
 		move.w	d1,(Two_Player_Flag_2).w
 		move.w	d1,(Two_Player_Flag).w
@@ -4147,41 +4136,44 @@ Title_Screen_Check_2_Player_Vs:
 		move.b	#0,(Level_Id_2P).w
 		rts
 ; ---------------------------------------------------------------------------
-; Offset_0x0034C4:
-Title_Screen_Load_Options_Menu:
-		move.b	#gm_S2_Options_Menu, (Game_Mode).w
+; Offset_0x0034C4: Title_Screen_Load_Options_Menu:
+TitleScreen_LoadOptions:
+		move.b	#gm_S2_Options_Menu,(Game_Mode).w
 		move.b	#0,(Options_Menu_Cursor).w
 		rts
 ; ===========================================================================
+; Offset_0x0034D2:
+TitleScreen_Demo:
+		moveq	#Volume_Down,d0
+		bsr.w	Play_Music
 
-Offset_0x0034D2:
-                moveq   #Volume_Down, D0                                  ; -$20
-                bsr     Play_Music                             ; Offset_0x001176
-                move.w  (Demo_Sequence_Idx).w, D0                    ; $FFFFFFF2
-                andi.w  #$0007, D0
-                add.w   D0, D0
-                move.w  Demo_Mode_Level_Array(PC, D0), D0      ; Offset_0x003544
-                move.w  D0, (Current_ZoneAndAct).w                             ; $FFFFFE10
-                move.w  D0, (Apparent_ZoneAndAct).w                           ; $FFFFEE54
-                addq.w  #$01, (Demo_Sequence_Idx).w                  ; $FFFFFFF2
-                cmpi.w  #$0004, (Demo_Sequence_Idx).w                ; $FFFFFFF2
-                bcs.s   Offset_0x003500
-                move.w  #$0000, (Demo_Sequence_Idx).w                ; $FFFFFFF2
-Offset_0x003500:
-                move.w  #$0001, (Auto_Control_Player_Flag).w         ; $FFFFFFF0
-                move.b  #gm_DemoMode, (Game_Mode).w             ; $08, $FFFFF600
-                move.b  #$03, (Life_count).w                         ; $FFFFFE12
-                move.b  #$03, (Life_Count_P2).w                      ; $FFFFFEC6
-                moveq   #$00, D0
-                move.w  D0, (Ring_count).w                   ; $FFFFFE20
-                move.l  D0, (Timer).w                   ; $FFFFFE22
-                move.l  D0, (Score_Count_Address).w                  ; $FFFFFE26
-                move.w  D0, (Ring_Count_Address_P2).w                ; $FFFFFED0
-                move.l  D0, (Time_Count_Address_P2).w                ; $FFFFFED2
-                move.l  D0, (Score_Count_Address_P2).w               ; $FFFFFED6
-                move.l  #$00001388, (Next_Extra_Life_Score).w        ; $FFFFFFC0
-                move.l  #$00001388, (Next_Extra_Life_Score_P2).w     ; $FFFFFFC4
-                rts 
+		move.w	(Demo_Sequence_Idx).w,d0
+		andi.w	#7,d0
+		add.w	d0,d0
+		move.w	Demo_Mode_Level_Array(pc,d0.w),d0
+		move.w	d0,(Current_ZoneAndAct).w
+		move.w	d0,(Apparent_ZoneAndAct).w
+
+		addq.w	#1,(Demo_Sequence_Idx).w
+		cmpi.w	#4,(Demo_Sequence_Idx).w		; have we reached the end of the demo index?
+		bcs.s	@notIndexEnd				; if not, branch
+		move.w	#0,(Demo_Sequence_Idx).w
+; Offset_0x003500:
+@notIndexEnd:
+		move.w  #1,(Auto_Control_Player_Flag).w
+		move.b  #gm_DemoMode,(Game_Mode).w
+		move.b  #3,(Life_count).w
+		move.b  #3,(Life_Count_P2).w
+		moveq   #0,d0
+		move.w  d0,(Ring_count).w
+		move.l  d0,(Timer).w
+		move.l  d0,(Score_Count_Address).w
+		move.w  d0,(Ring_Count_Address_P2).w
+		move.l  d0,(Time_Count_Address_P2).w
+		move.l  d0,(Score_Count_Address_P2).w
+		move.l  #5000,(Next_Extra_Life_Score).w
+		move.l  #5000,(Next_Extra_Life_Score_P2).w
+		rts
 ;-------------------------------------------------------------------------------
 Demo_Mode_Level_Array:                                         ; Offset_0x003544
                 dc.w    AIz_Act_1                                        ; $0000
@@ -4193,38 +4185,51 @@ S2_Demo_Mode_Level_Array:                                      ; Offset_0x00354C
                 dc.w    S2_EHz_Act_1  ; Emerald Hill S2 Left over        ; $0000
                 dc.w    S2_CPz_Act_1  ; Chemical Plant S2 Left over      ; $0D00
                 dc.w    S2_ARz_Act_1  ; Aquatic Ruin Left over           ; $0F00 
-                dc.w    S2_CNz_Act_1  ; Casino Night S2 Left over        ; $0C00     
-;-------------------------------------------------------------------------------
-Secret_Codes_Test:                                             ; Offset_0x003554
-                lea     (Secret_Code_Sequence), A0             ; Offset_0x003592
-                move.w  (Secret_Code_Input_Entries).w, D0            ; $FFFFFFD4
-                adda.w  D0, A0
-                move.b  (Control_Ports_Buffer_Data+$0001).w, D0      ; $FFFFF605
-                andi.b  #$0F, D0
-                beq.s   Offset_0x003590
-                cmp.b   (A0), D0
-                bne.s   Code_NoMatch                           ; Offset_0x00358A
-                addq.w  #$01, (Secret_Code_Input_Entries).w          ; $FFFFFFD4
-                tst.b   $0001(A0)
-                bne.s   Offset_0x003590
-                move.w  #$0101, (Level_Select_Flag).w                ; $FFFFFFD0
-                move.w  #$0101, (Debug_Mode_Flag).w                  ; $FFFFFFD2
-                moveq   #Ring_Sfx, D0                                      ; $32
-                bsr     Play_Music                             ; Offset_0x001176
-Code_NoMatch:                                                  ; Offset_0x00358A
-                move.w  #$0000, (Secret_Code_Input_Entries).w        ; $FFFFFFD4
+                dc.w    S2_CNz_Act_1  ; Casino Night S2 Left over        ; $0C00    
+ 
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to check if the player has entered the level select cheat
+; (completely recycled from the region switch cheat from Sonic 2)
+; ---------------------------------------------------------------------------
+; Offset_0x003554: Secret_Codes_Test:
+LevelSelectCheat:
+		lea	(LevelSelect_Inputs).l,a0
+		move.w	(Secret_Code_Input_Entries).w,d0
+		adda.w	d0,a0
+		move.b	(Control_Ports_Buffer_Data+1).w,d0
+		andi.b	#$F,d0
+		beq.s	Offset_0x003590
+		cmp.b	(a0),d0
+		bne.s	Code_NoMatch
+		addq.w	#1,(Secret_Code_Input_Entries).w
+		tst.b	1(a0)
+		bne.s	Offset_0x003590
+		move.w	#$101,(Level_Select_Flag).w
+		move.w	#$101,(Debug_Mode_Flag).w
+		moveq	#Ring_Sfx,d0
+		bsr.w	Play_Music
+; Offset_0x00358A:
+Code_NoMatch:
+		move.w	#0,(Secret_Code_Input_Entries).w
+
 Offset_0x003590:
-                rts   
-;-------------------------------------------------------------------------------                    
-Secret_Code_Sequence:                                          ; Offset_0x003592
-                dc.b    Btn_Up+$01                                         ; $01
-                dc.b    Btn_Up+$01                                         ; $01
-                dc.b    Btn_Down+$01                                       ; $02
-                dc.b    Btn_Down+$01                                       ; $02
-                dc.b    Btn_Up+$01                                         ; $01
-                dc.b    Btn_Up+$01                                         ; $01
-                dc.b    $00, $00          
-;-------------------------------------------------------------------------------
+		rts
+; End of function LevelSelectCheat
+
+; ===========================================================================
+; Offset_0x003592: Secret_Code_Sequence:
+LevelSelect_Inputs:
+		dc.b	Btn_Up+$01
+		dc.b	Btn_Up+$01
+		dc.b	Btn_Down+$01
+		dc.b	Btn_Down+$01
+		dc.b	Btn_Up+$01
+		dc.b	Btn_Up+$01
+		dc.b	$00
+		even
+; ===========================================================================
+
 VInt_Title_Screen:                                             ; Offset_0x00359A
                 tst.b   (Title_Screen_Animate_Delay).w               ; $FFFFFFBD
                 bne.s   Offset_0x0035E4
@@ -4590,22 +4595,16 @@ Level:
 
 Offset_0x0039B2:
 		clr.w	(Kosinski_Mod_Queue_Count).w
-		lea	(Kosinski_Saved_Registers).w,a1
-		moveq	#0,d0
-		move.w	#$1A,d1
-
-Offset_0x0039C0:
-		move.l	d0,(a1)+
-		dbf	d1,Offset_0x0039C0
+		clearRAM	Kosinski_Saved_Registers,Kosinski_Saved_Registers+$6C
 		bsr.w	ClearPLC
 		bsr.w	Pal_FadeFrom
 		tst.w	(Auto_Control_Player_Flag).w
-		bmi.s	Offset_0x003A32
+		bmi.s	Level_ClrRam
 		move	#$2700,sr
 		bsr.w	ClearScreen
 		move	#$2300,sr
 		moveq	#0,d0
-		move.w	d0,(Level_Frame_Count).w
+		move.w	d0,(Level_frame_counter).w
 		move.w	(Current_ZoneAndAct).w,d0
 		ror.b	#1,d0
 		lsr.w	#4,d0
@@ -4623,58 +4622,29 @@ Offset_0x003A0A:
 		bsr.w	Level_SetPlayerMode
 		moveq	#6,d0
 		tst.w	(Two_Player_Flag).w
-		bne.s	Offset_0x003A2E
-		moveq	#1,d0
+		bne.s	@loadPLC
+		moveq	#PLCID_LvlStd2,d0
 		bsr.w	LoadPLC
-		cmpi.w	#2,(Player_Selected_Flag).w
-		bne.s	Offset_0x003A32
-		addq.w	#1,d0
+
+		cmpi.w	#2,(Player_Selected_Flag).w		; are we playing as Tails?
+		bne.s	Level_ClrRam				; if not, branch
+		addq.w	#PLCID_LvlStd3-PLCID_LvlStd2,d0		; load TAILS life icon
 		; for some reason, Sonic 3 final is missing this and the Miles
 		; graphic, meaning it displays Tails even on a Japanese console
-		tst.b	(Hardware_Id).w
-		bpl.s	Offset_0x003A2E
-		addq.w	#2,d0
-
-Offset_0x003A2E:
+		tst.b	(Hardware_Id).w				; is this a Japanese Mega Drive?
+		bpl.s	@loadPLC				; if not, branch
+		addq.w	#2,d0					; load MILES life icon
+; Offset_0x003A2E:
+@loadPLC:
 		bsr.w	LoadPLC
-
-Offset_0x003A32:
-                lea     (Sprite_Table_Input).w, A1                   ; $FFFFAC00
-                moveq   #$00, D0
-                move.w  #$00FF, D1
-Offset_0x003A3C:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003A3C
-                lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                moveq   #$00, D0
-                move.w  #$07FF, D1
-Offset_0x003A4C:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003A4C
-                lea     (VBlank_0_Run_Count).w, A1                   ; $FFFFF628
-                moveq   #$00, D0
-                move.w  #$0015, D1
-Offset_0x003A5C:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003A5C
-                lea     (Miles_Control_Vars).w, A1                   ; $FFFFF700
-                moveq   #$00, D0
-                move.w  #$003F, D1
-Offset_0x003A6C:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003A6C
-                lea     (Oscillate_Data_Buffer+$02).w, A1            ; $FFFFFE60
-                moveq   #$00, D0
-                move.w  #$0013, D1
-Offset_0x003A7C:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003A7C
-                lea     (Boss_Data_Buffer).w, A1                     ; $FFFFFA80
-                moveq   #$00, D0
-                move.w  #$001F, D1
-Offset_0x003A8C:
-                move.l  D0, (A1)+
-                dbra    D1, Offset_0x003A8C
+; Offset_0x003A32:
+Level_ClrRam:
+		clearRAM	Sprite_Table_Input,Sprite_Table_Input_End
+		clearRAM	Obj_Memory_Address,Obj_Memory_Address_End
+		clearRAM	MiscLevelVariables,MiscLevelVariables_End
+		clearRAM	Misc_Variables,Misc_Variables_End
+		clearRAM	Oscillating_variables,Oscillating_variables_End
+		clearRAM	Boss_Data_Buffer,Object_Respawn_Table
 
 		jsr	(Init_Sprite_Table).l
 		lea	(VDP_Control_Port).l,a6
@@ -4806,8 +4776,8 @@ Level_ClrHUD:
 Level_FromCheckpoint:
 		move.b	d0,(Time_Over_flag).w
 		move.b	d0,(Time_Over_Flag_P2).w
-		move.w	d0,(Debug_Mode_Flag_Index).w
-		move.w	d0,(Restart_Level_Flag).w
+		move.w	d0,(Debug_placement_mode).w
+		move.w	d0,(Level_inactive_flag).w
 		move.b	d0,(S2_Teleport_Timer).w
 		move.b	d0,(S2_Teleport_Flag).w
 		move.w	d0,(Total_Ring_Count_Address).w
@@ -4895,12 +4865,12 @@ Level_MainLoop:
 		move.b	#8,(VBlank_Index).w
 		jsr	(Process_Kos_Queue).l
 		bsr.w	Wait_For_VSync
-		addq.w	#1,(Level_Frame_Count).w
+		addq.w	#1,(Level_frame_counter).w
 		bsr.w	Init_Demo_Control
 		jsr	(AnimatePalette).l
 		jsr	(Repeat_TileDrawing).l
 		jsr	(RunObjects).l
-		tst.w	(Restart_Level_Flag).w
+		tst.w	(Level_inactive_flag).w
 		bne.w	Level
 		jsr	(DeformBgLayer).l
 		jsr	(Run_TileDrawing).l
@@ -4933,7 +4903,7 @@ Offset_0x003E1E:
 ; ---------------------------------------------------------------------------
 
 Offset_0x003E5A:
-		tst.w	(Restart_Level_Flag).w
+		tst.w	(Level_inactive_flag).w
 		bne.s	Offset_0x003E78
 		tst.w	(Demo_Timer).w
 		beq.s	Offset_0x003E78
@@ -4989,7 +4959,7 @@ Level_Main_Loop:                                               ; Offset_0x003F1A
                 move.b  #$08, (VBlank_Index).w                       ; $FFFFF62A
                 jsr     (Process_Kos_Queue)          ; Offset_0x0019F0
                 bsr     Wait_For_VSync                         ; Offset_0x001AEE
-                addq.w  #$01, (Level_Frame_Count).w                  ; $FFFFFE04
+                addq.w  #$01, (Level_frame_counter).w                  ; $FFFFFE04
                 move.w  #$0004, -(A7)
                 bra.s   Offset_0x003F7C      
 ;-------------------------------------------------------------------------------
@@ -5018,7 +4988,7 @@ Offset_0x003F8C:
                 subq.w  #$01, (A7)
                 bne.s   Offset_0x003F38
                 addq.w  #$02, A7
-                tst.w   (Restart_Level_Flag).w                       ; $FFFFFE02
+                tst.w   (Level_inactive_flag).w                       ; $FFFFFE02
                 bne     Level                                  ; Offset_0x00399E
                 jsr     (Run_TileDrawing)              ; Offset_0x02F2EA
                 jsr     (AnimateStageTiles)                     ; Offset_0x01E85A
@@ -5032,7 +5002,7 @@ Offset_0x003F8C:
                 beq     Level_Main_Loop                        ; Offset_0x003F1A
                 rts
 Offset_0x003FD0:
-                tst.w   (Restart_Level_Flag).w                       ; $FFFFFE02
+                tst.w   (Level_inactive_flag).w                       ; $FFFFFE02
                 bne.s   Offset_0x003FEE
                 tst.w   (Demo_Timer).w                               ; $FFFFF614
                 beq.s   Offset_0x003FEE
@@ -5090,7 +5060,7 @@ Offset_0x00406E:
 ; End of function Level_SetPlayerMode
 
 ; ---------------------------------------------------------------------------
-; Subroutine to load the player selected
+; Subroutine to load the player selected in single player
 ; ---------------------------------------------------------------------------
 
 ; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
@@ -5104,7 +5074,7 @@ InitPlayers:
 		bne.s	InitPlayers_Alone
 		move.l	#Obj_Sonic,(Obj_Player_One).w
 		move.l	#Obj_Dust_Water_Splash,(Obj_P1_Dust_Water_Splash).w
-		move.l	#Obj_Miles, (Obj_Player_Two).w 
+		move.l	#Obj_Miles,(Obj_Player_Two).w 
 		move.w	(Obj_Player_One+Obj_X).w,(Obj_Player_Two+Obj_X).w
 		move.w	(Obj_Player_One+Obj_Y).w,(Obj_Player_Two+Obj_Y).w
 		subi.w	#$20,(Obj_Player_Two+Obj_X).w
@@ -5127,6 +5097,12 @@ InitPlayers_TailsAlone:
 		addi.w	#4,(Obj_Player_One+Obj_Y).w
 		rts
 ; End of function InitPlayers
+
+; ---------------------------------------------------------------------------
+; Subroutine to load the players selected in competition mode
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
 
 Offset_0x0040F2:
@@ -5188,7 +5164,7 @@ UpdateWaterSurface:
 		tst.b	(Water_Level_Flag).w
 		beq.s	Offset_0x0041AE
 		move.w	(Camera_X).w,d1
-		btst	#0,(Level_Frame_Count+1).w
+		btst	#0,(Level_frame_counter+1).w
 		beq.s	Offset_0x0041A4
 		addi.w	#$20,d1
 
@@ -5458,7 +5434,7 @@ Offset_0x0043BA:
                 rts  
 ;-------------------------------------------------------------------------------
 Hz_Wind_Tunnels:                                               ; Offset_0x0043C0
-                tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
+                tst.w   (Debug_placement_mode).w                    ; $FFFFFE08
                 bne     Offset_0x0044A6
                 cmpi.w  #Hz_Act_1, (Current_ZoneAndAct).w               ; $0100, $FFFFFE10
                 bne     Offset_0x0044A6
@@ -6070,7 +6046,7 @@ Dont_Set_End_Level_Flag:                                       ; Offset_0x004B86
 CheckLoadSignpostArt:
 		tst.w	(End_Level_Art_Load_Flag).w
 		beq.s	SignpostUpdateEnd
-		tst.w	(Debug_Mode_Flag_Index).w
+		tst.w	(Debug_placement_mode).w
 		bne.s	SignpostUpdateEnd
 		move.w	(Camera_X).w,d0
 		move.w	(Sonic_Level_Limits_Max_X).w,d1
@@ -6245,7 +6221,7 @@ Offset_0x00515C:
 		bsr.w	PalLoad_Water_ForFade
 		tst.b	(Saved_Level_Flag).w
 		beq.s	Offset_0x005174
-		move.b	(Saved_Underwater_Flag).w, (Underwater_Flag).w
+		move.b	(Saved_Underwater_Flag).w,(Underwater_Flag).w
 
 Offset_0x005174:
 		rts
@@ -7695,7 +7671,7 @@ Build_HUD_2P:                                                  ; Offset_0x00798C
                 rts
 Build_HUD:                                                     ; Offset_0x007994
                 moveq   #$00, D4
-                btst    #$03, (Level_Frame_Count+$01).w              ; $FFFFFE05
+                btst    #$03, (Level_frame_counter+$01).w              ; $FFFFFE05
                 bne.s   Offset_0x0079B0
                 tst.w   (Ring_count).w                       ; $FFFFFE20
                 bne.s   Offset_0x0079A6
@@ -10939,7 +10915,7 @@ Offset_0x00A486:
 ; ->>>
 ;===============================================================================
 Kill_Player:                                                   ; Offset_0x00A4A4
-                tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
+                tst.w   (Debug_placement_mode).w                    ; $FFFFFE08
                 bne.s   Kill_NoDeath                           ; Offset_0x00A4EA
                 clr.b   Obj_Player_Status(A0)                            ; $002F
                 clr.b   Obj_Player_Hit_Flag(A0)                          ; $0037
@@ -14077,7 +14053,7 @@ Offset_0x0126E8:
                 cmpi.w  #$0F50, (Camera_X).w                         ; $FFFFEE78
                 bcs.s   Offset_0x012722
                 move.w  #$0F50, (Sonic_Level_Limits_Min_X).w         ; $FFFFEE14
-                tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
+                tst.w   (Debug_placement_mode).w                    ; $FFFFFE08
                 bne.s   Offset_0x01271E
                 jsr     (AllocateObject)                     ; Offset_0x011DD8
                 bne.s   Offset_0x01271E
@@ -14518,7 +14494,7 @@ LRz_Rocks_Mappings:                                            ; Offset_0x012A90
 Obj_0x02_Layer_Switch:                                         ; Offset_0x012AE8
                 include 'data\objects\obj_0x02.asm'
 ; Offset_0x012F44: Obj_0x01_Monitors: Obj01_Monitors:
-		include	"data\objects\obj_0x01.asm"
+		include	"data/objects/01 - Monitor and Monitor Contents.asm"
                 
 ;------------------------------------------------------------------------------- 
 ; Rotina para tratar os espinhos e outros objetos como objeto s�lido
@@ -14869,7 +14845,7 @@ Offset_0x0138D4:
                 bmi     Offset_0x013978
                 cmpi.b  #$06, Obj_Routine(A1)                            ; $0005
                 bcc     Offset_0x01399E
-                tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
+                tst.w   (Debug_placement_mode).w                    ; $FFFFFE08
                 bne     Offset_0x01399E
                 move.w  D0, D5
                 cmp.w   D0, D1
@@ -15036,7 +15012,7 @@ Offset_0x013A66:
                 bmi.s   Offset_0x013A8E
                 cmpi.b  #$06, Obj_Routine(A1)                            ; $0005
                 bcc.s   Offset_0x013A8E
-                tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
+                tst.w   (Debug_placement_mode).w                    ; $FFFFFE08
                 bne.s   Offset_0x013A8E
                 moveq   #$00, D1
                 move.b  Obj_Height_2(A1), D1                             ; $001E
@@ -16941,9 +16917,9 @@ Obj_0x34_Star_Post:                                            ; Offset_0x023F76
 Obj_Time_Over_Game_Over:                                       ; Offset_0x02444C
                 include 'data\objects\tmgmover.asm'
 ; Offset_0x024546: Obj_Title_Cards: Obj_TitleCard:
-		include	"data\objects\ttlcards.asm"
+		include	"data/objects/Title Cards.asm"
 ; Offset_0x0247D0: Obj_LevelResults:
-		include	"data\objects\lvresult.asm"
+		include	"data/objects/Level Results.asm"
 ;-------------------------------------------------------------------------------                                   
 Offset_0x024BC4:
                 jmp     (DeleteObject)                         ; Offset_0x011138
@@ -19063,7 +19039,7 @@ Earthquake_Setup:                                              ; Offset_0x02FFA4
                 move.w  D0, (Earthquake_Offset).w                    ; $FFFFEECE
                 rts
 Offset_0x02FFCC:
-                move.w  (Level_Frame_Count).w, D0                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D0                    ; $FFFFFE04
                 andi.w  #$003F, D0
                 move.b  Earthquake_Data_2(PC, D0), D0          ; Offset_0x03001C
                 move.w  D0, (Earthquake_Offset).w                    ; $FFFFEECE
@@ -19768,7 +19744,7 @@ Offset_0x030B14:
                 move.w  (Water_Level_Move).w, D0                     ; $FFFFF646
                 subi.w  #$00DE, D1
                 neg.w   D1
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 add.w   D0, D2
                 add.w   D0, D2
                 andi.w  #$007E, D2
@@ -19784,7 +19760,7 @@ Offset_0x030B14:
                 move.w  (Water_Level_Move).w, D0                     ; $FFFFF646
                 sub.w   (Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
                 add.w   (Screen_Pos_Buffer_Y_2).w, D0                ; $FFFFEE90
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 asr.w   #$01, D2
                 add.w   D0, D2
                 add.w   D0, D2
@@ -19816,7 +19792,7 @@ AIz_Transition_Wavy_Flame:                                     ; Offset_0x030B98
                 move.w  (Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
                 swap.w  D0
                 move.w  (Screen_Pos_Buffer_Y_2).w, D1                ; $FFFFEE90
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 asr.w   #$02, D2
                 moveq   #$13, D3
 Offset_0x030BC6:
@@ -20180,7 +20156,7 @@ AIz_2_Apply_Deform:                                            ; Offset_0x03105E
                 lea     AIz_2_Deform_Delta(PC), A6             ; Offset_0x031620
                 move.w  (Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
                 move.w  #$00DF, D1
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 add.w   D0, D2
                 add.w   D0, D2
                 moveq   #$3E, D3
@@ -20199,7 +20175,7 @@ AIz_2_Apply_Deform:                                            ; Offset_0x03105E
                 move.w  (Water_Level_Move).w, D0                     ; $FFFFF646
                 subi.w  #$00DE, D1
                 neg.w   D1
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 add.w   D0, D2
                 add.w   D0, D2
 Offset_0x0310A8:
@@ -20216,7 +20192,7 @@ Offset_0x0310AE:
                 lea     Default_Background_Deform_Delta(PC), A6 ; Offset_0x031820
                 move.w  (Screen_Pos_Buffer_Y_2).w, D0                ; $FFFFEE90
                 move.w  #$00DF, D1
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 asr.w   #$01, D2
                 add.w   D0, D2
                 add.w   D0, D2
@@ -20238,7 +20214,7 @@ Offset_0x0310AE:
                 add.w   (Screen_Pos_Buffer_Y_2).w, D0                ; $FFFFEE90
                 subi.w  #$00DE, D1
                 neg.w   D1
-                move.w  (Level_Frame_Count).w, D2                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D2                    ; $FFFFFE04
                 asr.w   #$01, D2
                 add.w   D0, D2
                 add.w   D0, D2
@@ -22396,7 +22372,7 @@ Offset_0x0332B6:
 Iz_2_Out_Deform:                                               ; Offset_0x0332C8
                 clr.w   (Screen_Pos_Buffer_Y_2).w                    ; $FFFFEE90
                 move.w  (Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                move.w  (Level_Frame_Count).w, D1                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D1                    ; $FFFFFE04
                 asr.w   #$01, D1
                 add.w   D1, D0
                 swap.w  D0
@@ -22430,7 +22406,7 @@ Offset_0x0332EE:
                 add.l   D1, D0
                 swap.w  D0
                 move.w  D0, (A1)+
-                move.w  (Level_Frame_Count).w, D1                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D1                    ; $FFFFFE04
                 lsr.w   #$02, D1
                 andi.w  #$003E, D1
                 lea     Default_Background_Deform_Delta(PC), A5 ; Offset_0x031820
@@ -23253,7 +23229,7 @@ Offset_0x033BA2:
 Offset_0x033BB6:
                 lea     (Horizontal_Scroll_Table+$01DE).w, A1        ; $FFFFA9DE
                 lea     LBz_Water_Bg_Deform_Delta(PC), A5      ; Offset_0x03045C
-                move.w  (Level_Frame_Count).w, D1                    ; $FFFFFE04
+                move.w  (Level_frame_counter).w, D1                    ; $FFFFFE04
                 asr.w   #$01, D1
                 andi.w  #$007E, D1
                 adda.w  D1, A5
@@ -24100,10 +24076,11 @@ Trap_Routines_List:                                            ; Offset_0x034220
 ; Interrup��o Trap 15
 ; <<<-
 ;===============================================================================   
-Obj_S2_0xB0_Sonic_Sega_Logo:                                   ; Offset_0x034488
-                include 'data\s2_obj\obj_0xB0.asm'
-Obj_S2_0xB1_Sonic_Sega_Logo:                                   ; Offset_0x0346BC
-                include 'data\s2_obj\obj_0xB1.asm'
+; Offset_0x034488: Obj_S2_0xB0_Sonic_Sega_Logo: Obj_SegaSonic:
+		include	"data/S2_Obj/Sonic on the Sega Screen.asm"
+; Offset_0x0346BC: Obj_S2_0xB1_Sonic_Sega_Logo: Obj_SegaTM:
+		include	"data/S2_Obj/Object to Hide TM on the Sega Screen.asm"
+
 ;===============================================================================
 ; Rotina executada durante a VBlank
 ; ->>>
@@ -24354,7 +24331,7 @@ Obj_0xC7_Knuckles:                                             ; Offset_0x034BAA
 Obj_0xC9_Knuckles_Switch:                                      ; Offset_0x035484
                 include 'data\objects\obj_0xC9.asm'
 ; Offset_0x035AD2: Obj_0xCA_AIz_Super_Sonic_Intro: ObjCA_AIZPlaneIntro:
-		include	"data\objects\obj_0xCA.asm"
+		include	"data/objects/CA - AIZ Plane Intro (Unused).asm"
 
 ;===============================================================================   
 Robotnik_Head:                                                 ; Offset_0x03605E  
@@ -24873,11 +24850,11 @@ Obj_0x86_LBz_Beam_Rocket:                                      ; Offset_0x03F11A
 Obj_0x8C_LBz_Ball_Shooter:                                     ; Offset_0x03FE88
                 include 'data\objects\obj_0x8C.asm'
 ; Offset_0x040704: Obj_0x84_MVz_Hey_Ho: Obj84_HeyHo:
-		include	"data\objects\obj_0x84.asm"
+		include	"data/objects/84 - Hey Ho (MVZ Miniboss).asm"
 Obj_0x98_Sz_Guardian:                                          ; Offset_0x04107E
                 include 'data\objects\obj_0x98.asm'
 ; Offset_0x04178A: Obj_0xC5_Hidden_Monitors: ObjC5_HiddenMonitor:
-		include	"data\objects\obj_0xC5.asm"
+		include	"data/objects/C5 - Hidden Monitor.asm"
 Obj_End_Panel:                                                 ; Offset_0x041812
                 include 'data\objects\endpanel.asm'
 ;===============================================================================
@@ -27885,11 +27862,16 @@ TilesMainTable:                                                ; Offset_0x04A77E
                 dc.l    ($0B<<$18)|Angel_Island_1_Blocks_2     ; Offset_0x13BA30
                 dc.l    ($00<<$18)|Angel_Island_1_Chunks       ; Offset_0x143D96
                 dc.l    ($00<<$18)|Angel_Island_1_Chunks       ; Offset_0x143D96
-;-------------------------------------------------------------------------------               
-ArtLoadCues:                                                   ; Offset_0x04ABFE
-                dc.w    PLC_Default-ArtLoadCues                ; Offset_0x04ACF6 ; $00
-                dc.w    PLC_Default_Sonic-ArtLoadCues          ; Offset_0x04AD10 ; $01
-                dc.w    PLC_Default_Flickies-ArtLoadCues       ; Offset_0x04AD2A ; $02
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; A table of pattern load cues (PLCs) or pattern load requests (PLRs), which
+; themselves are a list of what graphics to load at a specific VRAM address
+; ---------------------------------------------------------------------------
+; Offset_0x04ABFE:
+ArtLoadCues:	offsetTable
+PLCptr_LvlStd1:		offsetTableEntry.w PLC_Default
+PLCptr_LvlStd2:		offsetTableEntry.w PLC_Default_Sonic
+PLCptr_LvlStd3:		offsetTableEntry.w PLC_Default_Flickies
                 dc.w    PLC_Game_Over_Time_Over-ArtLoadCues    ; Offset_0x04AD3E ; $03
                 dc.w    PLC_Act_1_Clear-ArtLoadCues            ; Offset_0x04AD46 ; $04
                 dc.w    PLC_Default_2P-ArtLoadCues             ; Offset_0x04AD4E ; $05
@@ -28010,60 +27992,57 @@ ArtLoadCues:                                                   ; Offset_0x04ABFE
                 dc.w    Offset_0x04B19E-ArtLoadCues
                 dc.w    Offset_0x04B19E-ArtLoadCues
                 dc.w    Offset_0x04B19E-ArtLoadCues
-                dc.w    Offset_0x04B19E-ArtLoadCues     
-;===============================================================================
-; Sprites padr�es carregados durante a tela t�tulo
-; ->>>
-;===============================================================================                
-PLC_Default:                                                   ; Offset_0x04ACF6
-                dc.w    (((PLC_00_End-PLC_00)/$06)-$01) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
-PLC_00:                
-                dc.l    Art_Head_Up_Display_Sonic              ; Offset_0x106DDC
-                dc.w    $FA80
-                dc.l    Art_Main_Head_Up_Display_Rings         ; Offset_0x109154
-                dc.w    $D780
-                dc.l    Art_Enemy_Points_Star_Post             ; Offset_0x109392
-                dc.w    $BC80
-                dc.l    Art_Monitors                           ; Offset_0x1071DA
-                dc.w    $9880
-PLC_00_End:
-;===============================================================================
-; Sprites padr�es carregados durante a tela t�tulo
-; <<<-
-;===============================================================================  
+                dc.w    Offset_0x04B19E-ArtLoadCues
 
-;===============================================================================
-; Sprites padr�es carregados para o Sonic nas fases
-; ->>>
-;===============================================================================
-PLC_Default_Sonic:                                             ; Offset_0x04AD10                                                       
-                dc.w    (((PLC_01_End-PLC_01)/$06)-$01) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
-PLC_01:                 
-                dc.l    Art_Monitors                           ; Offset_0x1071DA
-                dc.w    $9880
-                dc.l    Art_Main_Head_Up_Display_Rings         ; Offset_0x109154
-                dc.w    $D780
-                dc.l    Art_Enemy_Points_Star_Post             ; Offset_0x109392
-                dc.w    $BC80
-                dc.l    Art_Head_Up_Display_Sonic              ; Offset_0x106DDC
-                dc.w    $FA80
-PLC_01_End:  
-;===============================================================================
-; Sprites padr�es carregados para o Sonic nas fases
-; <<<-
-;=============================================================================== 
+; macro for a pattern load cue header
+; must be on the same line as a label that has a corresponding _End label later
+plcheader macro *
+\* EQU *
+	dc.w	(((\*_End-*)/6)-1)
+	endm
 
-;-------------------------------------------------------------------------------
-PLC_Default_Flickies:                                          ; Offset_0x04AD2A
-                dc.w    (((PLC_02_End-PLC_02)/$06)-$01) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
-PLC_02:
-                dc.l    Art_Explosion                          ; Offset_0x108528
-                dc.w    $B400
-                dc.l    Art_Squirrel                           ; Offset_0x10B3DC
-                dc.w    $B000
-                dc.l    Art_Blue_Bird                          ; Offset_0x10B00A
-                dc.w    $B240
-PLC_02_End:
+; macro for a pattern load cue
+plc macro toVRAMaddr,fromROMaddr
+	dc.l	fromROMaddr
+	dc.w	(toVRAMaddr&$7FF)<<5
+	endm
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; PATTERN LOAD CUES
+; Standard 1 - loaded for every level
+; ---------------------------------------------------------------------------
+
+PLC_Default:	plcheader
+		plc	$7D4,Art_Head_Up_Display_Sonic
+		plc	$6BC,Art_Main_Head_Up_Display_Rings
+		plc	$5E4,Art_Enemy_Points_Star_Post
+		plc	$4C4,Art_Monitors
+PLC_Default_End:
+
+; ---------------------------------------------------------------------------
+; PATTERN LOAD CUES
+; Standard 2 - loaded for every level (duplicate of Standard 1)
+; ---------------------------------------------------------------------------
+
+PLC_Default_Sonic:	plcheader
+		plc	$4C4,Art_Monitors
+		plc	$6BC,Art_Main_Head_Up_Display_Rings
+		plc	$5E4,Art_Enemy_Points_Star_Post
+		plc	$7D4,Art_Head_Up_Display_Sonic
+PLC_Default_Sonic_End:
+
+; ---------------------------------------------------------------------------
+; PATTERN LOAD CUES
+; Standard 3 - loaded for every level
+; ---------------------------------------------------------------------------
+
+PLC_Default_Flickies:	plcheader
+		plc	$5A0,Art_Explosion
+		plc	$580,Art_Squirrel
+		plc	$592,Art_Blue_Bird
+PLC_Default_Flickies_End:
+
 ;-------------------------------------------------------------------------------
 PLC_Game_Over_Time_Over:                                       ; Offset_0x04AD3E
                 dc.w    (((PLC_03_End-PLC_03)/$06)-$01) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
@@ -28661,7 +28640,7 @@ PLC_78_End:
 ;===============================================================================                 
 Debug_Mode:                                                    ; Offset_0x04B1B2
                 moveq   #$00, D0
-                move.b  (Debug_Mode_Flag_Index).w, D0                ; $FFFFFE08
+                move.b  (Debug_placement_mode).w, D0                ; $FFFFFE08
                 move.w  Offset_0x04B1C0(PC, D0), D1
                 jmp     Offset_0x04B1C0(PC, D1)
 ;-------------------------------------------------------------------------------
@@ -28670,7 +28649,7 @@ Offset_0x04B1C0:
                 dc.w    Offset_0x04B24C-Offset_0x04B1C0    
 ;-------------------------------------------------------------------------------   
 Offset_0x04B1C4:
-                addq.b  #$02, (Debug_Mode_Flag_Index).w              ; $FFFFFE08
+                addq.b  #$02, (Debug_placement_mode).w              ; $FFFFFE08
                 move.l  Obj_Map(A0), (Debug_Player_Obj_Map).w ; $000C, $FFFFFFCA
                 move.w  Obj_Art_VRAM(A0), (Debug_Player_Obj_Art_VRAM).w ; $000A, $FFFFFFCE
                 move.w  (Screen_Wrap_Y).w, D0                        ; $FFFFEEAA
@@ -28696,13 +28675,13 @@ Offset_0x04B20A:
                 lea     (Debug_Index), A2                      ; Offset_0x04B418
                 adda.w  $00(A2, D0), A2
                 move.w  (A2)+, D6
-                cmp.b   (Debug_Mode_Object_Index).w, D6              ; $FFFFFE06
+                cmp.b   (Debug_object).w, D6              ; $FFFFFE06
                 bhi.s   Offset_0x04B23C
-                move.b  #$00, (Debug_Mode_Object_Index).w            ; $FFFFFE06
+                move.b  #$00, (Debug_object).w            ; $FFFFFE06
 Offset_0x04B23C:
                 bsr     Offset_0x04B3F6
-                move.b  #$0C, (Debug_Mode_Camera_Delay).w            ; $FFFFFE0A
-                move.b  #$01, (Debug_Mode_Camera_Speed).w            ; $FFFFFE0B
+                move.b  #$0C, (Debug_Accel_Timer).w            ; $FFFFFE0A
+                move.b  #$01, (Debug_Speed).w            ; $FFFFFE0B
 ;-------------------------------------------------------------------------------                
 Offset_0x04B24C:                
                 moveq   #$00, D0
@@ -28724,21 +28703,21 @@ Offset_0x04B270:
                 move.b  (Control_Ports_Buffer_Data).w, D0            ; $FFFFF604
                 andi.w  #$000F, D0
                 bne.s   Offset_0x04B29A
-                move.b  #$0C, (Debug_Mode_Camera_Delay).w            ; $FFFFFE0A
-                move.b  #$0F, (Debug_Mode_Camera_Speed).w            ; $FFFFFE0B
+                move.b  #$0C, (Debug_Accel_Timer).w            ; $FFFFFE0A
+                move.b  #$0F, (Debug_Speed).w            ; $FFFFFE0B
                 bra     Offset_0x04B316
 Offset_0x04B29A:
-                subq.b  #$01, (Debug_Mode_Camera_Delay).w            ; $FFFFFE0A
+                subq.b  #$01, (Debug_Accel_Timer).w            ; $FFFFFE0A
                 bne.s   Offset_0x04B2B6
-                move.b  #$01, (Debug_Mode_Camera_Delay).w            ; $FFFFFE0A
-                addq.b  #$01, (Debug_Mode_Camera_Speed).w            ; $FFFFFE0B
+                move.b  #$01, (Debug_Accel_Timer).w            ; $FFFFFE0A
+                addq.b  #$01, (Debug_Speed).w            ; $FFFFFE0B
                 bne.s   Offset_0x04B2B2
-                move.b  #$FF, (Debug_Mode_Camera_Speed).w            ; $FFFFFE0B
+                move.b  #$FF, (Debug_Speed).w            ; $FFFFFE0B
 Offset_0x04B2B2:
                 move.b  (Control_Ports_Buffer_Data).w, D4            ; $FFFFF604
 Offset_0x04B2B6:
                 moveq   #$00, D1
-                move.b  (Debug_Mode_Camera_Speed).w, D1              ; $FFFFFE0B
+                move.b  (Debug_Speed).w, D1              ; $FFFFFE0B
                 addq.w  #$01, D1
                 swap.w  D1
                 asr.l   #$04, D1
@@ -28782,17 +28761,17 @@ Offset_0x04B316:
                 beq.s   Offset_0x04B34E
                 btst    #$05, (Control_Ports_Buffer_Data+$01).w      ; $FFFFF605
                 beq.s   Offset_0x04B332
-                subq.b  #$01, (Debug_Mode_Object_Index).w            ; $FFFFFE06
+                subq.b  #$01, (Debug_object).w            ; $FFFFFE06
                 bcc.s   Offset_0x04B34A
-                add.b   D6, (Debug_Mode_Object_Index).w              ; $FFFFFE06
+                add.b   D6, (Debug_object).w              ; $FFFFFE06
                 bra.s   Offset_0x04B34A
 Offset_0x04B332:
                 btst    #$06, (Control_Ports_Buffer_Data+$01).w      ; $FFFFF605
                 beq.s   Offset_0x04B34E
-                addq.b  #$01, (Debug_Mode_Object_Index).w            ; $FFFFFE06
-                cmp.b   (Debug_Mode_Object_Index).w, D6              ; $FFFFFE06
+                addq.b  #$01, (Debug_object).w            ; $FFFFFE06
+                cmp.b   (Debug_object).w, D6              ; $FFFFFE06
                 bhi.s   Offset_0x04B34A
-                move.b  #$00, (Debug_Mode_Object_Index).w            ; $FFFFFE06
+                move.b  #$00, (Debug_object).w            ; $FFFFFE06
 Offset_0x04B34A:
                 bra     Offset_0x04B3F6
 Offset_0x04B34E:
@@ -28806,7 +28785,7 @@ Offset_0x04B34E:
                 move.b  Obj_Flags(A0), Obj_Status(A1)             ; $0004, $002A
                 andi.b  #$7F, Obj_Status(A1)                             ; $002A
                 moveq   #$00, D0
-                move.b  (Debug_Mode_Object_Index).w, D0              ; $FFFFFE06
+                move.b  (Debug_object).w, D0              ; $FFFFFE06
                 add.w   D0, D0
                 move.w  D0, D1
                 lsl.w   #$02, D0
@@ -28819,7 +28798,7 @@ Offset_0x04B39A:
                 btst    #$04, (Control_Ports_Buffer_Data+$01).w      ; $FFFFF605
                 beq.s   Offset_0x04B3C6
                 moveq   #$00, D0
-                move.w  D0, (Debug_Mode_Flag_Index).w                ; $FFFFFE08
+                move.w  D0, (Debug_placement_mode).w                ; $FFFFFE08
                 lea     (Obj_Memory_Address).w, A1                   ; $FFFFB000
                 move.l  (Debug_Player_Obj_Map).w, Obj_Map(A1) ; $FFFFFFCA, $000C
                 move.w  (Debug_Player_Obj_Art_VRAM).w, Obj_Art_VRAM(A1) ; $FFFFFFCE, $000A
@@ -28842,7 +28821,7 @@ Offset_0x04B3C8:
                 rts
 Offset_0x04B3F6:
                 moveq   #$00, D0
-                move.b  (Debug_Mode_Object_Index).w, D0              ; $FFFFFE06
+                move.b  (Debug_object).w, D0              ; $FFFFFE06
                 add.w   D0, D0
                 move.w  D0, D1
                 lsl.w   #$02, D0
