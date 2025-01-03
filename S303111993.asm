@@ -1,3 +1,5 @@
+; STUFF HERE TO PREVENT FALSE POSITIVES, THANKS WINDOWS
+
 ; ---------------------------------------------------------------------------
 ; Sonic the Hedgehog 3 - November 3, 1993 GitHub disassembly
 ;
