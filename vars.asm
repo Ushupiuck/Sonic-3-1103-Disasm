@@ -3,11 +3,18 @@ Compiler_Place_Holder equ $00000000
 Check_Interrupt       equ $0020800C   
 Size_of_SoundDriver_guess		equ $E88
 
+; ---------------------------------------------------------------------------
+; Game Constants
+; ---------------------------------------------------------------------------
+; These are usually hardcoded, such as zone IDs or the selected character,
+; so switching them around is considerably more difficult
+
+; GAME MODE
 gm_SEGALogo            equ $00
 gm_TitleScreen         equ $04
 gm_DemoMode            equ $08
 gm_PlayMode            equ $0C
-gm_S2_SpecialStage     equ $10 
+gm_S2_SpecialStage     equ $10
 gm_Continue            equ $14
 gm_S2_Versus_Mode_Menu equ $1C
 gm_S2_Options_Menu     equ $24
@@ -15,12 +22,13 @@ gm_Level_Select_Menu   equ $28
 gm_S3_Special_Stage    equ $2C
 gm_SK_Special_Stage    equ $30
 
+; PLAYER MODE
 Sonic_And_Miles       equ $00
 Sonic_Alone           equ $01
 Miles_Alone           equ $02
 Knuckles_Alone        equ $03
 
-; Botões dos Controles
+; CONTROLLER BUTTONS
 Btn_Up                equ $00    
 Btn_Down              equ $01  
 Btn_Left              equ $02    
@@ -30,7 +38,15 @@ Btn_C                 equ $05
 Btn_A                 equ $06
 Btn_Start             equ $07
 
-; Varíaveis de objetos
+; PATTERN LOAD CUES
+PLCID__First		equ 0
+PLCID_LvlStd1		equ (PLCptr_LvlStd1-ArtLoadCues)/2+PLCID__First
+PLCID_LvlStd2		equ (PLCptr_LvlStd2-ArtLoadCues)/2+PLCID__First
+PLCID_LvlStd3		equ (PLCptr_LvlStd3-ArtLoadCues)/2+PLCID__First
+
+; ---------------------------------------------------------------------------
+; Sprite Status Table
+; ---------------------------------------------------------------------------
 Obj_Pointer           equ $00     ; Longword      ; 00          ; 00..03
 Obj_Flags             equ $04     ; Byte          ; 01          ; 04
 Obj_Routine           equ $05     ; Byte          ; 24          ; 05
@@ -372,9 +388,10 @@ Level_Layout_Buffer_End          equ Level_Layout_Buffer+$1000
 Blocks_Mem_Address               equ M68K_RAM_Start+$9000
 NemesisDec_Data_Buffer           equ M68K_RAM_Start+$AA00
 Horizontal_Scroll_Table          equ M68K_RAM_Start+$A800
-Sprite_Table_Input               equ M68K_RAM_Start+$AC00
+Sprite_Table_Input:		equ	M68K_RAM_Start+$AC00
+Sprite_Table_Input_End:		equ	M68K_RAM_Start+$B000
 
-Obj_Memory_Address               equ M68K_RAM_Start+$B000
+Obj_Memory_Address:		equ	M68K_RAM_Start+$B000
 Obj_Player_One                   equ Obj_Memory_Address
 Obj_Player_Two                   equ Obj_Memory_Address+$004A   
 Obj_02_Mem_Address               equ Obj_Memory_Address+(Obj_Size*$02)
@@ -395,8 +412,10 @@ Obj_P2_Shield                    equ Obj_Fixed_RAM+(Obj_Size*$07) ; $65
 Obj_P1_Invincibility             equ Obj_Fixed_RAM+(Obj_Size*$08) ; $66
 Obj_P2_Invincibility             equ Obj_Fixed_RAM+(Obj_Size*$0C) ; $6A
 Obj_Fixed_RAM_End                equ Obj_Fixed_RAM+(Obj_Size*$0F) ; $6D
-                   
-Conveyor_Belt_Data_Array         equ M68K_RAM_Start+$CFE0                 
+
+Conveyor_Belt_Data_Array         equ M68K_RAM_Start+$CFE0            
+Obj_Memory_Address_End:		equ	M68K_RAM_Start+$D000
+     
 Kosinski_Decomp_Buffer           equ M68K_RAM_Start+$D000
 Horizontal_Scroll_Buffer         equ M68K_RAM_Start+$E000 
                            
@@ -543,6 +562,9 @@ Horizontal_Int_Count_Cmd         equ M68K_RAM_Start+$F624
 Scanline_Counter                 equ M68K_RAM_Start+$F625
 Palette_Fade_Info                equ M68K_RAM_Start+$F626
 Palette_Fade_Count               equ M68K_RAM_Start+$F627
+
+MiscLevelVariables:		equ	M68K_RAM_Start+$F628
+
 VBlank_0_Run_Count               equ M68K_RAM_Start+$F628
 VBlank_Index                     equ M68K_RAM_Start+$F62A
 Sprites_Drawn                    equ M68K_RAM_Start+$F62C
@@ -570,6 +592,9 @@ Background_Collision_Flag        equ M68K_RAM_Start+$F664
 Level_Boundaries_Flag            equ M68K_RAM_Start+$F668
 Control_Ports_Logical_Data_2     equ M68K_RAM_Start+$F66A
 Super_Sonic_Frame_Count          equ M68K_RAM_Start+$F670
+
+MiscLevelVariables_End:		equ	M68K_RAM_Start+$F680
+
 PLC_Data_Buffer                  equ M68K_RAM_Start+$F680
 Nemesis_Decomp_Destination       equ M68K_RAM_Start+$F684
 Nemesis_Decomp_Vars              equ M68K_RAM_Start+$F6E0
@@ -581,6 +606,9 @@ Nemesis_Shift_Value              equ M68K_RAM_Start+$F6F4
 PLC_Data_Count                   equ M68K_RAM_Start+$F6F8
 Nemesis_Frame_Pattern_Left       equ M68K_RAM_Start+$F6FA
 PLC_Data_Buffer_End:             equ PLC_Data_Buffer+$80
+
+Misc_Variables:			equ	M68K_RAM_Start+$F700
+
 Miles_Control_Vars               equ M68K_RAM_Start+$F700    
 Miles_CPU_Ctrl_Auto_Timer        equ M68K_RAM_Start+$F702
 Miles_CPU_Respawn_Timer          equ M68K_RAM_Start+$F704
@@ -647,6 +675,9 @@ Miles_Tails_Previous_Frame       equ M68K_RAM_Start+$F7DF
 ; Refresh_Level_Layout             equ M68K_RAM_Start+$F7E0
 Level_Trigger_Array              equ M68K_RAM_Start+$F7E0
 Animate_Counters                 equ M68K_RAM_Start+$F7F0
+
+Misc_Variables_End:		equ	M68K_RAM_Start+$F800
+
 Sprite_Table_Buffer              equ M68K_RAM_Start+$F800
 Boss_Data_Buffer                 equ M68K_RAM_Start+$FA80
 ;Tmp_FA81                         equ M68K_RAM_Start+$FA81
@@ -674,26 +705,35 @@ S2_Palette_Buffer                equ M68K_RAM_Start+$FB00
 S2_Palette_Row_0_Offset          equ S2_Palette_Buffer
 S2_Palette_Row_1_Offset          equ S2_Palette_Buffer+$0020
 
-Stack_Area                       equ M68K_RAM_Start+$FD00  
-Stack_Area_End                   equ M68K_RAM_Start+$FE00 
-Restart_Level_Flag               equ M68K_RAM_Start+$FE02
-Level_Frame_Count                equ M68K_RAM_Start+$FE04
-Debug_Mode_Object_Index          equ M68K_RAM_Start+$FE06 
-Debug_Mode_Flag_Index            equ M68K_RAM_Start+$FE08 
-Debug_Mode_Camera_Delay          equ M68K_RAM_Start+$FE0A
-Debug_Mode_Camera_Speed          equ M68K_RAM_Start+$FE0B 
+Restart_Level_Flag               equ M68K_RAM_Start+$FE02		; *
+Level_Frame_Count                equ M68K_RAM_Start+$FE04		; *
+Debug_Mode_Flag_Index            equ M68K_RAM_Start+$FE08		; *
 
 ; Gonna eventually do the whole thing like this, but for now only a few variables
 		pusho						; save options
 		opt	ae+					; enable auto evens
 
-		rsset M68K_RAM_Start+$FE0C
+		rsset M68K_RAM_Start+$FE00
+System_Stack:			equ	__rs
+
+; RAM from now will not be cleared after a soft reset.
+CrossResetRAM:			equ	__rs
+				rs.b	2					; unused
+Level_inactive_flag:		rs.w	1					; 2 bytes
+Level_frame_counter:		rs.w	1					; 2 bytes
+
+; Some Debug Mode related flags and variables
+Debug_object:			rs.b	1					; current object in Edit Mode
+				rs.b	1					; unused
+Debug_placement_mode:		rs.w	1					; 2 bytes, although only the first is used; checks if the player should enter Edit Mode
+Debug_Accel_Timer:		rs.b	1					; time it takes to reach max speed
+Debug_Speed:			rs.b	1					; current speed of the camera
+
 Vint_runcount:			rs.l	1					; 4 bytes
 
-Current_ZoneAndAct:		rs.w	1					; 2 bytes; not to be confused with Apparent_ZoneAndAct,
-										; this actually holds the real zone the player is in
-Current_Zone:			equ	Current_ZoneAndAct
-Current_Act:			equ	Current_ZoneAndAct+1
+Current_ZoneAndAct:		rs.w	1					; 2 bytes; not to be confused with Apparent_ZoneAndAct, this holds the real zone the player is in
+Current_Zone:			equ	__rs-2
+Current_Act:			equ	__rs-1
 Life_count:			rs.b	1					; current lives; not the lives displayed on the screen
 				rs.b	3					; unused
 Current_SpecialStage:		rs.w	1					; 2 bytes, although only the first is used
@@ -710,9 +750,9 @@ Update_HUD_score:		rs.b	1
 
 Ring_count:			rs.w	1					; 2 bytes
 Timer:				rs.l	1					; 4 bytes
-Timer_minute:			equ	Timer+1
-Timer_second:			equ	Timer+2
-Timer_frame:			equ	Timer+3
+Timer_minute:			equ	__rs-3
+Timer_second:			equ	__rs-2
+Timer_frame:			equ	__rs-1
 		popo						; restore options
 
 Score_Count_Address              equ M68K_RAM_Start+$FE26
@@ -733,13 +773,18 @@ Saved_Ring_Status_Flag_P2        equ M68K_RAM_Start+$FE55
 Saved_Sonic_Level_Limits_Max_Y   equ M68K_RAM_Start+$FE56
 Saved_Dynamic_Resize_Routine     equ M68K_RAM_Start+$FE58
 Dropdash_flag:			equ M68K_RAM_Start+$FE5A			; checks if Sonic is currently 'dropdashing'
+
 Oscillate_Data_Buffer            equ M68K_RAM_Start+$FE5E
+Oscillating_variables:		equ	M68K_RAM_Start+$FE60
+
 Object_Frame_Timer               equ M68K_RAM_Start+$FEA2
 Object_Frame_Buffer              equ M68K_RAM_Start+$FEA3
 Object_Frame_Anim_Counter        equ M68K_RAM_Start+$FEA6
 Object_Frame_Anim_Frame          equ M68K_RAM_Start+$FEA7
 Object_Frame_Anim_Accum          equ M68K_RAM_Start+$FEA8
 Object_Frame_Angle               equ M68K_RAM_Start+$FEAA
+Oscillating_variables_End:	equ	M68K_RAM_Start+$FEB0
+
 LRz_Rocks_Routine                equ M68K_RAM_Start+$FEB0
 LRz_Rocks_Pos_Next               equ M68K_RAM_Start+$FEB2
 LRz_Rocks_Pos_Previous           equ M68K_RAM_Start+$FEB6  
@@ -832,7 +877,8 @@ End_Demo_Sequence_Idx            equ M68K_RAM_Start+$FFF4
 Vertical_Frequency               equ M68K_RAM_Start+$FFF6
 Hardware_Id                      equ M68K_RAM_Start+$FFF8 
 Debug_Mode_Active                equ M68K_RAM_Start+$FFFA
-Init_Flag                        equ M68K_RAM_Start+$FFFC 
+Init_Flag                        equ M68K_RAM_Start+$FFFC
+CrossResetRAM_End:		equ	Init_Flag
 
 ; CRAM
 Color_RAM_Address              equ $C0000000
