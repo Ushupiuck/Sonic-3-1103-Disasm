@@ -159,7 +159,7 @@ Sonic_ChkInvin:
 		cmpi.b	#$C,Obj_Subtype(a0)
 		bcs.s	Sonic_RmvInvin
 		move.w	(Level_Music_Buffer).w,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 ; Offset_0x00AC1C:
 Sonic_RmvInvin:
 		bclr	#1,Obj_Player_Status(a0)
@@ -188,7 +188,7 @@ Sonic_ChkShoes:
 Sonic_RmvSpeed:
 		bclr	#2,Obj_Player_Status(a0)
 		move.w	#Music_Normal_Speed,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 ; ---------------------------------------------------------------------------
 ; Offset_0x00AC7C:
 Sonic_ExitChk:
@@ -309,7 +309,7 @@ Offset_0x00AD90:
 		beq.s	Offset_0x00AD3A
 		move.w	#$100,Obj_Ani_Number(a6)		; splash animation
 		move.w	#Water_Splash_Sfx,d0			; splash sound
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 ; ---------------------------------------------------------------------------
 ; Offset_0x00ADAE: Sonic_NotInWater:
 Sonic_OutWater:
@@ -350,7 +350,7 @@ Offset_0x00ADFC:
 
 Offset_0x00AE28:
 		move.w	#Water_Splash_Sfx,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 ; End of subroutine Sonic_Water
 
 ; ===========================================================================
@@ -849,7 +849,7 @@ Offset_0x00B2E8:
 		move.b  #$0D, Obj_Ani_Number(A0)		         ; $0020
 		bclr    #$00, Obj_Status(A0)		             ; $002A
 		move.w  #Skidding_Sfx, D0				; $0036
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		cmpi.b  #$0C, Obj_Subtype(A0)		            ; $002C
 		bcs.s   Offset_0x00B32A
 		move.b  #$06, Obj_Routine(A6)		            ; $0005
@@ -890,7 +890,7 @@ Offset_0x00B368:
 		move.b  #$0D, Obj_Ani_Number(A0)		         ; $0020
 		bset    #$00, Obj_Status(A0)		             ; $002A
 		move.w  #Skidding_Sfx, D0				; $0036
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		cmpi.b  #$0C, Obj_Subtype(A0)		            ; $002C
 		bcs.s   Offset_0x00B3AA
 		move.b  #$06, Obj_Routine(A6)		            ; $0005
@@ -1172,7 +1172,7 @@ Sonic_DoRoll:
 		move.b	#2,Obj_Ani_Number(a0)			; use "rolling" animation
 		addq.w	#5,Obj_Y(a0)
 		move.w	#Rolling_Sfx,d0
-		jsr	(Play_Music).l				; play rolling sound
+		jsr	(PlaySound).l				; play rolling sound
 		tst.w	Obj_Inertia(a0)
 		bne.s	Offset_0x00B61A
 		move.w	#$200,Obj_Inertia(a0)
@@ -1234,7 +1234,7 @@ Offset_0x00B674:
 		move.b	#1,Obj_Player_Jump(a0)
 		clr.b	Obj_Player_St_Convex(a0)
 		move.w	#Jump_Sfx,d0
-		jsr	(Play_Music).l				; play jumping sound
+		jsr	(PlaySound).l				; play jumping sound
 		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
 		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
 		btst	#2,Obj_Status(a0)
@@ -1329,9 +1329,9 @@ Sonic_CheckGoSuper:
 		move.b	#$0,Obj_P_Invcbility_Time(a0)
 		bset	#1,Obj_Player_Status(a0)
 		move.w	#Super_Form_Change_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		move.w	#Super_Sonic_Snd,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 
 Offset_0x00B7B6:
 		rts
@@ -1453,7 +1453,7 @@ Sonic_HyperDash:
 		bsr.w	Reset_Player_Position_Array
 		move.w	#1,(Dropdash_flag).w
 		move.w	#Rolling_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x00B912:
@@ -1478,7 +1478,7 @@ Sonic_HyperDash:
 		bsr.w	Reset_Player_Position_Array
 		move.w	#1,(Dropdash_flag).w
 		move.w	#Rolling_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 
 Offset_0x00B952:
 		rts
@@ -1630,7 +1630,7 @@ Sonic_CheckSpindash:
 		beq.w	Offset_0x00BB28
 		move.b	#9,Obj_Ani_Number(a0)
 		move.w	#Rolling_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		addq.l	#4,sp
 		move.b	#1,Obj_Player_Spdsh_Flag(a0)
 		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
@@ -1682,7 +1682,7 @@ Offset_0x00BB9C:
 		bset    #$02, Obj_Status(A0)		             ; $002A
 		move.b  #$00, Obj_Ani_Number(A6)		         ; $0020
 		moveq   #Rolling_Sfx, D0				   ; $3C
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		bra.s   Offset_0x00BC1E		 
 ;-------------------------------------------------------------------------------
 Sonic_Spindash_Speed:				          ; Offset_0x00BBB2
@@ -1707,7 +1707,7 @@ Offset_0x00BBEE:
 		beq     Offset_0x00BC1E
 		move.w  #$0900, Obj_Ani_Number(A0)		       ; $0020
 		move.w  #Rolling_Sfx, D0				 ; $003C
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		addi.w  #$0200, Obj_Player_Spdsh_Cnt(A0)		 ; $003E
 		cmpi.w  #$0800, Obj_Player_Spdsh_Cnt(A0)		 ; $003E
 		bcs.s   Offset_0x00BC1E
@@ -2088,7 +2088,7 @@ Sonic_Dropdash:
 		bsr.w	Reset_Player_Position_Array
 		move.b	#9,Obj_Ani_Number(a0)
 		move.w	#Rolling_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		move.b	#1,Obj_Player_Spdsh_Flag(a0)
 		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
 		rts
@@ -2207,7 +2207,7 @@ Offset_0x00C1C0:
 		clr.b   (HUD_Timer_Refresh_Flag_P2).w		; $FFFFFECA
 		move.b  #$08, Obj_Routine(A0)		            ; $0005
 		move.w  #Game_Over_Time_Over_Snd, D0		     ; $0027
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		moveq   #$03, D0
 		jmp     (LoadPLC)		              ; Offset_0x0014D0
 Offset_0x00C1E0:

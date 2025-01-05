@@ -158,7 +158,7 @@ Offset_0x00D318:
                 cmpi.b  #$0C, Obj_Subtype(A0)                            ; $002C
                 bcs.s   Offset_0x00D34E
                 move.w  (Level_Music_Buffer).w, D0                   ; $FFFFFF90
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x00D34E:
                 bclr    #$01, Obj_Player_Status(A0)                      ; $002F
 Offset_0x00D354:
@@ -178,7 +178,7 @@ Offset_0x00D354:
                 move.w  #$0080, Deceleration(A4)                         ; $0004
                 bclr    #$02, Obj_Player_Status(A0)                      ; $002F
                 move.w  #Music_Normal_Speed, D0                          ; $00FC
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (PlaySound)                           ; Offset_0x001176
 Offset_0x00D398:
                 rts
 Offset_0x00D39A:
@@ -748,7 +748,7 @@ Miles_InLevelWithWater:                                        ; Offset_0x00DA90
                 beq.s   Offset_0x00DA8E
                 move.w  #$0100, Obj_Ani_Number(A6)                       ; $0020
                 move.w  #Water_Splash_Sfx, D0                            ; $0039
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (PlaySound)                           ; Offset_0x001176
 ;-------------------------------------------------------------------------------                
 Miles_NotInWater:                                              ; Offset_0x00DAEC
                 bclr    #$06, Obj_Status(A0)                             ; $002A
@@ -778,7 +778,7 @@ Offset_0x00DB24:
                 move.w  #$F000, Obj_Speed_Y(A0)                          ; $001A
 Offset_0x00DB50:
                 move.w  #Water_Splash_Sfx, D0                            ; $0039
-                jmp     (Play_Music)                           ; Offset_0x001176  
+                jmp     (PlaySound)                           ; Offset_0x001176  
 ;-------------------------------------------------------------------------------
 Miles_MdNormal:                                                ; Offset_0x00DB5A
                 bsr     Miles_Spindash                         ; Offset_0x00E39C
@@ -1123,7 +1123,7 @@ Offset_0x00DF02:
                 move.b  #$0D, Obj_Ani_Number(A0)                         ; $0020
                 bclr    #$00, Obj_Status(A0)                             ; $002A
                 move.w  #$0036, D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 cmpi.b  #$0C, Obj_Subtype(A0)                            ; $002C
                 bcs.s   Offset_0x00DF44
                 move.b  #$06, Obj_Routine(A6)                            ; $0005
@@ -1164,7 +1164,7 @@ Offset_0x00DF82:
                 move.b  #$0D, Obj_Ani_Number(A0)                         ; $0020
                 bset    #$00, Obj_Status(A0)                             ; $002A
                 move.w  #$0036, D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 cmpi.b  #$0C, Obj_Subtype(A0)                            ; $002C
                 bcs.s   Offset_0x00DFC4
                 move.b  #$06, Obj_Routine(A6)                            ; $0005
@@ -1398,7 +1398,7 @@ Offset_0x00E204:
                 move.b  #$02, Obj_Ani_Number(A0)                         ; $0020
                 addq.w  #$01, Obj_Y(A0)                                  ; $0014
                 move.w  #$003C, D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 tst.w   Obj_Inertia(A0)                                  ; $001C
                 bne.s   Offset_0x00E236
                 move.w  #$0200, Obj_Inertia(A0)                          ; $001C
@@ -1438,7 +1438,7 @@ Offset_0x00E272:
                 move.b  #$01, Obj_Player_Jump(A0)                        ; $0040
                 clr.b   Obj_Player_St_Convex(A0)                         ; $003C
                 move.w  #$0070, D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.b  Obj_Height_3(A0), Obj_Height_2(A0)        ; $001E, $0044
                 move.b  Obj_Width_3(A0), Obj_Width_2(A0)          ; $001F, $0045
                 btst    #$02, Obj_Status(A0)                             ; $002A
@@ -1533,7 +1533,7 @@ Miles_Spindash:                                                ; Offset_0x00E39C
                 beq     Offset_0x00E3EA
                 move.b  #$09, Obj_Ani_Number(A0)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 addq.l  #$04, A7
                 move.b  #$01, Obj_Player_Spdsh_Flag(A0)                  ; $003D
                 move.w  #$0000, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
@@ -1577,7 +1577,7 @@ Offset_0x00E452:
                 bset    #$02, Obj_Status(A0)                             ; $002A
                 move.b  #$00, Obj_Ani_Number(A6)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x00E4C4   
 ;-------------------------------------------------------------------------------
 Miles_Spindash_Speed:                                          ; Offset_0x00E46A
@@ -1598,7 +1598,7 @@ Offset_0x00E494:
                 beq     Offset_0x00E4C4
                 move.w  #$0900, Obj_Ani_Number(A0)                       ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 addi.w  #$0200, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 cmpi.w  #$0800, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 bcs.s   Offset_0x00E4C4

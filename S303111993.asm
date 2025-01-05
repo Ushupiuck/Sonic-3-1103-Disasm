@@ -1342,39 +1342,50 @@ Z80_DefaultVariables:
 		dc.b	0	; zFadeDelayTimeout
 Z80_DefaultVariables_End:
 
-;===============================================================================                  
-; SoundDriverLoad
-; <<<-                           
-;===============================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to put a sound ID into the sound queue
+; Only the first sound queue works at this point, the rest are broken
+; ---------------------------------------------------------------------------
 
-Play_Music:                                                    ; Offset_0x001176
-                cmpi.b  #$DA, D0
-                bcs.s   Offset_0x00118E
-                cmpi.b  #$FF, D0
-                beq.s   Offset_0x00118E
-                cmpi.b  #$E0, D0
-                bcs.s   Exit_Play_Music                        ; Offset_0x0011DE
-                cmpi.b  #$E4, D0
-                bcc.s   Exit_Play_Music                        ; Offset_0x0011DE
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x001176:
+Play_Music:			; LEGACY LABEL! TO REMOVE
+PlaySound:
+		cmpi.b	#$DA,d0
+		bcs.s	Offset_0x00118E
+		cmpi.b	#$FF,d0
+		beq.s	Offset_0x00118E
+		cmpi.b	#$E0,d0
+		bcs.s	PlaySound_Exit
+		cmpi.b	#$E4,d0
+		bcc.s	PlaySound_Exit
+
 Offset_0x00118E:
 		stopZ80
-                tst.b   ($00A01C0A)
-                bne.s   Offset_0x0011B8
-                move.b  D0, ($00A01C0A)
+		tst.b	(Z80_RAM_Start+zMusicNumber).l
+		bne.s	PlaySound2
+		move.b	d0,(Z80_RAM_Start+zMusicNumber).l
 		startZ80
-                rts
-Offset_0x0011B8:
-                tst.b   ($00A01C0B)
-                bne.s   Offset_0x0011D0
-                move.b  D0, ($00A01C0B)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x0011B8:
+PlaySound2:
+		tst.b	(Z80_RAM_Start+zSFXNumber0).l
+		bne.s	PlaySound3
+		move.b	d0,(Z80_RAM_Start+zSFXNumber0).l
 		startZ80
-                rts
-Offset_0x0011D0:
-                move.b  D0, ($00A01C0C)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x0011D0:
+PlaySound3:
+		move.b	d0,(Z80_RAM_Start+zSFXNumber1).l
 		startZ80
-Exit_Play_Music:                                               ; Offset_0x0011DE
-                rts                 
-            
+; Offset_0x0011DE: Exit_Play_Music:
+PlaySound_Exit:
+		rts
+; End of function PlaySonund
+
 ;===============================================================================
 ; Rotina para tratar o Pause
 ; ->>>
@@ -3824,7 +3835,7 @@ PalLoad4_Loop:
 ; Offset_0x00300A:
 SegaScreen:
 		moveq	#Stop_Sound,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 		bsr.w	ClearPLC
 		bsr.w	Pal_FadeFrom
 
@@ -3903,7 +3914,7 @@ Offset_0x003154:
                 tst.b   (PalCycle_Done_Flag).w                       ; $FFFFF660
                 beq.s   Offset_0x003154
                 moveq   #Sega_PCM, D0                                     ; -$01
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 move.b  #$02, (VBlank_Index).w                       ; $FFFFF62A
                 bsr     Wait_For_VSync                         ; Offset_0x001AEE
                 move.w  #$00B4, (Demo_Timer).w                       ; $FFFFF614
@@ -3945,7 +3956,7 @@ Offset_0x0031C6:
 ; Offset_0x0031D4:
 TitleScreen:
 		moveq	#Volume_Down,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 		bsr.w	ClearPLC
 		bsr.w	Pal_FadeFrom
 		move	#$2700,sr
@@ -4041,7 +4052,7 @@ Offset_0x003300:
 		nop
 
 		moveq	#Title_Screen_Snd,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 		move.w	(VDP_Register_1_Command).w,d0
 		ori.b	#$40,d0
 		move.w	d0,(VDP_Control_Port).l
@@ -4076,7 +4087,7 @@ TitleScreen_Loop:
 		move.l	#5000,(Next_Extra_Life_Score).w
 		move.l	#5000,(Next_Extra_Life_Score_P2).w
 		moveq	#Volume_Down,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 		; leftover from Sonic 2's title menu
 		moveq	#0,d0
 		move.b	(Title_Screen_Menu_Cursor).w,d0
@@ -4147,7 +4158,7 @@ TitleScreen_LoadOptions:
 ; Offset_0x0034D2:
 TitleScreen_Demo:
 		moveq	#Volume_Down,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 
 		move.w	(Demo_Sequence_Idx).w,d0
 		andi.w	#7,d0
@@ -4210,7 +4221,7 @@ LevelSelectCheat:
 		move.w	#$101,(Level_Select_Flag).w
 		move.w	#$101,(Debug_Mode_Flag).w
 		moveq	#Ring_Sfx,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 ; Offset_0x00358A:
 Code_NoMatch:
 		move.w	#0,(Secret_Code_Input_Entries).w
@@ -4593,7 +4604,7 @@ Level:
 		tst.w	(Auto_Control_Player_Flag).w
 		bmi.s	Offset_0x0039B2
 		move.b	#Stop_Sound,d0
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 
 Offset_0x0039B2:
 		clr.w	(Kosinski_Mod_Queue_Count).w
@@ -4706,7 +4717,7 @@ Level_GetBgm:
 		lea	(PlayList).l,a1
 		move.b	(a1,d0.w),d0
 		move.w	d0,(Level_Music_Buffer).w
-		bsr.w	Play_Music
+		bsr.w	PlaySound
 		move.b	#0,(Title_Card_Flag).w
 		cmpi.b	#DDz_Id,(Current_Zone).w	; is this Doomsday Zone?
 		bhi.s	Level_CreateHUD			; if not (but is Zone 0D or above), branch
@@ -6450,7 +6461,7 @@ Offset_0x0054D8:
                 bsr     Offset_0x005600
                 bmi.s   Offset_0x0054EA
                 move.w  #$00ED, D0
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 bra     Offset_0x00549C
 Offset_0x0054EA:
                 move.b  #gm_SEGALogo, (Game_Mode).w             ; $00, $FFFFF600
@@ -6604,40 +6615,42 @@ Offset_0x0056C0:
                 move.w  D0, (A2)+
                 dbra    D1, Offset_0x0056C0
                 rts    
-;-------------------------------------------------------------------------------
-Options_Menu:                                                  ; Offset_0x0056CA
-                lea     (M68K_RAM_Start), A1                         ; $FFFF0000
-                lea     (Options_Frame_Mappings), A0           ; Offset_0x006462
-                move.w  #$0070, D0
-                bsr     EnigmaDec                              ; Offset_0x00168A
-                lea     (M68K_RAM_Start+$0160), A1                   ; $FFFF0160
-                lea     (Options_Frame_Mappings), A0           ; Offset_0x006462
-                move.w  #$2070, D0
-                bsr     EnigmaDec                              ; Offset_0x00168A
-                clr.b   (Options_Menu_Cursor).w                      ; $FFFFFF8C
-                bsr     Offset_0x005880
-                addq.b  #$01, (Options_Menu_Cursor).w                ; $FFFFFF8C
-                bsr     Offset_0x0058F2
-                addq.b  #$01, (Options_Menu_Cursor).w                ; $FFFFFF8C
-                bsr     Offset_0x0058F2
-                clr.b   (Options_Menu_Cursor).w                      ; $FFFFFF8C
-                clr.b   (Title_Card_Flag).w                          ; $FFFFF711
-                clr.w   (Animate_Counters).w                         ; $FFFFF7F0
-                lea     (Menu_Animate), A2                     ; Offset_0x006614
-                jsr     (Dynamic_Normal)                       ; Offset_0x01F2DE
-                moveq   #$04, D0
-                bsr     PalLoad_ForFade                               ; Offset_0x002F9E
-                clr.w   (Two_Player_Flag).w                          ; $FFFFFFD8
-                clr.l   (Camera_X).w                                 ; $FFFFEE78
-                clr.l   (Camera_Y).w                                 ; $FFFFEE7C
-                clr.w   (Secret_Code_Input_Entries).w                ; $FFFFFFD4
-                clr.w   (Secret_Code_Input_Entries_2).w              ; $FFFFFFD6
-                move.b  #$16, (VBlank_Index).w                       ; $FFFFF62A
-                bsr     Wait_For_VSync                         ; Offset_0x001AEE
-                move.w  (VDP_Register_1_Command).w, D0               ; $FFFFF60E
-                ori.b   #$40, D0
-                move.w  D0, (VDP_Control_Port)                       ; $00C00004
-                bsr     Pal_FadeTo                             ; Offset_0x002D20
+; ===========================================================================
+; Offset_0x0056CA:
+Options_Menu:
+		lea	(M68K_RAM_Start).l,a1
+		lea	(Options_Frame_Mappings).l,a0
+		move.w	#$70,d0
+		bsr.w	EnigmaDec
+		lea	(M68K_RAM_Start+$160).l,a1
+		lea	(Options_Frame_Mappings).l,a0
+		move.w	#$2070,d0
+		bsr.w	EnigmaDec
+		clr.b	(Options_Menu_Cursor).w
+		bsr.w	Offset_0x005880
+		addq.b	#1,(Options_Menu_Cursor).w
+		bsr.w	Offset_0x0058F2
+		addq.b	#1,(Options_Menu_Cursor).w
+		bsr.w	Offset_0x0058F2
+		clr.b	(Options_Menu_Cursor).w
+		clr.b	(Title_Card_Flag).w
+		clr.w	(Animate_Counters).w
+		lea	(Menu_Animate).l,a2
+		jsr	(Dynamic_Normal).l
+		moveq	#4,d0
+		bsr.w	PalLoad_ForFade
+		clr.w	(Two_Player_Flag).w
+		clr.l	(Camera_X).w
+		clr.l	(Camera_Y).w
+		clr.w	(Secret_Code_Input_Entries).w
+		clr.w	(Secret_Code_Input_Entries_2).w
+		move.b	#$16,(VBlank_Index).w
+		bsr.w	Wait_For_VSync
+		move.w	(VDP_Register_1_Command).w,d0
+		ori.b	#$40,d0
+		move.w	d0,(VDP_Control_Port).l
+		bsr.w	Pal_FadeTo
+
 Offset_0x005758:
                 move.b  #$16, (VBlank_Index).w                       ; $FFFFF62A
                 bsr     Wait_For_VSync                         ; Offset_0x001AEE
@@ -6725,7 +6738,7 @@ Offset_0x005844:
                 andi.w  #$0030, D0
                 beq.s   Offset_0x005872
                 move.w  (Sound_Test_Sound).w, D0                     ; $FFFFFF84
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 lea     (S2_Code_Level_Select), A0             ; Offset_0x006044
                 lea     (S2_Code_14_Continues), A2             ; Offset_0x006049
                 lea     (Level_Select_Flag).w, A1                    ; $FFFFFFD0
@@ -7065,7 +7078,7 @@ Offset_0x005C50:
                 move.l  #$00001388, (Next_Extra_Life_Score).w        ; $FFFFFFC0
                 move.l  #$00001388, (Next_Extra_Life_Score_P2).w     ; $FFFFFFC4
                 move.b  #Special_Stage_Entry_Sfx, D0                       ; $D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 moveq   #$00, D0
                 move.w  D0, (Two_Player_Flag_2).w                    ; $FFFFFF8A
                 move.w  D0, (Two_Player_Flag).w                      ; $FFFFFFD8
@@ -7131,7 +7144,7 @@ Offset_0x005D3C:
                 btst    #$05, D1
                 beq.s   Offset_0x005D66
                 move.w  (Sound_Test_Sound).w, D0                     ; $FFFFFF84
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 lea     (Code_Debug_Mode), A0                  ; Offset_0x00604E
                 lea     (Code_All_Emeralds), A2                ; Offset_0x006053
                 lea     (Debug_Mode_Flag).w, A1                      ; $FFFFFFD2
@@ -7141,7 +7154,7 @@ Offset_0x005D66:
                 btst    #$04, D1
                 beq.s   Offset_0x005D76
                 move.w  #Error_Sfx, D0                                   ; $00D3
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x005D76:
                 rts
 Offset_0x005D78:
@@ -7320,7 +7333,7 @@ Menu_Check_Secret_Codes:                                       ; Offset_0x005FD8
                 bne.s   Offset_0x006002
                 move.w  #$0101, (A1)
                 moveq   #Ring_Sfx, D0                                      ; $32
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x005FFC:
                 move.w  #$0000, (Secret_Code_Input_Entries).w        ; $FFFFFFD4
 Offset_0x006002:
@@ -7336,12 +7349,12 @@ Offset_0x006002:
                 bne.s   Offset_0x00602E
                 move.b  #$0F, (Continue_count).w                     ; $FFFFFE18
                 moveq   #Continue_Snd, D0                                  ; $28
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x00603C
 Offset_0x00602E:
                 move.w  #$0007, (SS_Completed_Flag).w                ; $FFFFFFB0
                 moveq   #Got_Emerald_Snd, D0                               ; $2B
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x00603C:
                 move.w  #$0000, (Secret_Code_Input_Entries_2).w      ; $FFFFFFD6
 Offset_0x006042:
@@ -7475,7 +7488,7 @@ Menu_Animate:                                                  ; Offset_0x006614
 ;=============================================================================== 
 Special_Stage_Test_1:                                          ; Offset_0x00662A
                 moveq   #Stop_Sound, D0                                   ; -$1F
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 bsr     ClearPLC                               ; Offset_0x001548
                 bsr     Pal_FadeFrom                           ; Offset_0x002DE8
                 move    #$2700, SR
@@ -7532,7 +7545,7 @@ Offset_0x0066BA:
                 move.w  #$00A0, (Obj_Player_One+Obj_X).w             ; $FFFFB010
                 move.w  #$0070, (Obj_Player_One+Obj_Y).w             ; $FFFFB014
                 move.b  #Special_Stage_Snd, D0                             ; $1C
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 move.w  (VDP_Register_1_Command).w, D0               ; $FFFFF60E
                 ori.b   #$40, D0
                 move.w  D0, (VDP_Control_Port)                       ; $00C00004
@@ -7589,7 +7602,7 @@ Obj_Spheres:                                                   ; Offset_0x006874
 ;-------------------------------------------------------------------------------
 Special_Stage_Test_2:                                          ; Offset_0x0070DC
                 moveq   #Stop_Sound, D0                                   ; -$1F
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 bsr     ClearPLC                               ; Offset_0x001548
                 bsr     Pal_FadeFrom                           ; Offset_0x002DE8
                 move    #$2700, SR
@@ -7638,7 +7651,7 @@ Offset_0x00716C:
                 move.w  #$00A0, (Obj_Player_One+Obj_X).w             ; $FFFFB010
                 move.w  #$0070, (Obj_Player_One+Obj_Y).w             ; $FFFFB014
                 moveq   #Special_Stage_Snd, D0                             ; $1C
-                bsr     Play_Music                             ; Offset_0x001176
+                bsr     PlaySound                             ; Offset_0x001176
                 move.w  (VDP_Register_1_Command).w, D0               ; $FFFFF60E
                 ori.b   #$40, D0
                 move.w  D0, (VDP_Control_Port)                       ; $00C00004
@@ -7769,7 +7782,7 @@ Add_Points_Max_Score_P1:                                       ; Offset_0x007AC8
                 addq.b  #$01, (Life_count).w                         ; $FFFFFE12
                 addq.b  #$01, (Update_HUD_lives).w              ; $FFFFFE1C
                 move.w  #S2_Extra_Life_Snd, D0                           ; $0098
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (PlaySound)                           ; Offset_0x001176
 Offset_0x007AEA:
                 rts 
 ;-------------------------------------------------------------------------------
@@ -7793,7 +7806,7 @@ Add_Points_Max_Score_P2:                                       ; Offset_0x007B10
                 addq.b  #$01, (Life_Count_P2).w                      ; $FFFFFEC6
                 addq.b  #$01, (HUD_Life_Refresh_Flag_P2).w           ; $FFFFFEC8
                 move.w  #S2_Extra_Life_Snd, D0                           ; $0098
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (PlaySound)                           ; Offset_0x001176
 Offset_0x007B32:
                 rts
 ;===============================================================================
@@ -7990,7 +8003,7 @@ Offset_0x007D3A:
                 cmpi.b  #$0C, -1(A1)
                 bne.s   Offset_0x007D66
                 move.w  #S2_Panic_Snd, D0                                ; $009F
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x007D66:
                 subq.b  #$01, -(A1)
                 bcc.s   Offset_0x007D70
@@ -9090,7 +9103,7 @@ Offset_0x008E9C:
                 bclr    #$05, Obj_Status(A0)                             ; $002A
                 clr.b   Obj_Player_St_Convex(A0)                         ; $003C
                 move.w  #S2_Baaaang_Bumper_Sfx, D0                       ; $00D9
-                jmp     (Play_Music)                           ; Offset_0x001176                                      
+                jmp     (PlaySound)                           ; Offset_0x001176                                      
 ;===============================================================================
 ; Rotina para responder ao toque nos tri�ngulos na Casino Night
 ; <<<-   Sonic 2 left over
@@ -10909,7 +10922,7 @@ Offset_0x00A486:
                 move.b  #$1A, Obj_Ani_Number(A0)                         ; $0020
                 move.b  #$78, Obj_P_Invunerblt_Time(A0)                  ; $0034
                 moveq   #Hurt_Sfx, D0                                      ; $35
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 moveq   #-$01, D0
                 rts                                                    
 ;===============================================================================
@@ -10930,7 +10943,7 @@ Kill_Player:                                                   ; Offset_0x00A4A4
                 move.b  #$18, Obj_Ani_Number(A0)                         ; $0020
                 bset    #$07, Obj_Art_VRAM(A0)                           ; $000A
                 moveq   #Hurt_Sfx, D0                                      ; $35
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Kill_NoDeath:                                                  ; Offset_0x00A4EA
                 moveq   #-$01, D0    
                 rts
@@ -11024,7 +11037,7 @@ Offset_0x00F8C8:
                 beq.s   Offset_0x00F8D2
                 move.w  #Icecap_2_Snd, D0                                ; $000C
 Offset_0x00F8D2:
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x00F8D8:
                 move.b  #$1E, Obj_Subtype(A1)                            ; $002C
                 rts 
@@ -11536,7 +11549,7 @@ Offset_0x010A68:
                 addq.b  #$01, (Update_HUD_lives).w              ; $FFFFFE1C
                 move.w  #Ring_Lost_Sfx, D0                               ; $0034
 Offset_0x010A74:
-                jmp     (Play_Music)                           ; Offset_0x001176  
+                jmp     (PlaySound)                           ; Offset_0x001176  
                 rts     ; N�o usado
 ;-------------------------------------------------------------------------------
 Add_Rings_Player_Two:                                          ; Offset_0x010A7C
@@ -11565,7 +11578,7 @@ Offset_0x010AC4:
                 addq.b  #$01, (HUD_Life_Refresh_Flag_P2).w           ; $FFFFFEC8
                 move.w  #Ring_Lost_Sfx, D0                               ; $0034
 Offset_0x010AD0:
-                jmp     (Play_Music)                           ; Offset_0x001176                
+                jmp     (PlaySound)                           ; Offset_0x001176                
 ;===============================================================================  
 ; Rotina para adicionar an�is ao contador, verificando o limmite e bonificando
 ; <<<-        com vida extra ao adiquirir 100 e 200 an�is
@@ -24042,8 +24055,8 @@ Trap_Routines_List:                                            ; Offset_0x034220
                 dc.l    Object_Hit                             ; Offset_0x013D7C
                 dc.l    CalcSine                               ; Offset_0x001B20
                 dc.l    Obj_Explosions                         ; Offset_0x041BCA
-                dc.l    Play_Music                             ; Offset_0x001176
-                dc.l    Play_Music                             ; Offset_0x001176
+                dc.l    PlaySound                             ; Offset_0x001176
+                dc.l    PlaySound                             ; Offset_0x001176
                 dc.l    Solid_Object                           ; Offset_0x013556
                 dc.l    Platform_Object                        ; Offset_0x013AF6
                 dc.l    Add_To_Collision_Response_List         ; Offset_0x00A540
@@ -27094,7 +27107,7 @@ Level_Load_Music:                                              ; Offset_0x0432CA
                 add.b   D0, D0
                 add.b   (A1), D0
                 move.b  Level_PlayList(PC, D0), D0             ; Offset_0x0432E0
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (PlaySound)                           ; Offset_0x001176
 ;------------------------------------------------------------------------------- 
 Level_PlayList:                                                ; Offset_0x0432E0
                 dc.b    Angel_Island_1_Snd                                 ; $01
@@ -27127,7 +27140,7 @@ Obj_Load_End_Level_Art:                                        ; Offset_0x043302
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x043344, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 lea     PLC_End_Level_Art(PC), A1              ; Offset_0x043332
                 jmp     (LoadPLC_Direct)                           ; Offset_0x001502                      ; Offset_0x001502
 ;-------------------------------------------------------------------------------
@@ -27209,7 +27222,7 @@ Update_Sonic_Level_Limits_X_Y_Play_Music:                      ; Offset_0x0433DE
                 subq.w  #$01, Obj_Timer(A0)                              ; $002E
                 bpl.s   Offset_0x0433FC
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bset    #$00, Obj_Control_Var_08(A0)                     ; $0038
 Offset_0x0433FC:
                 btst    #$01, Obj_Control_Var_08(A0)                     ; $0038

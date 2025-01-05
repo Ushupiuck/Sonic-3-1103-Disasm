@@ -39,7 +39,7 @@ Offset_0x034BFA:
                 move.w  #$1400, Obj_X(A0)                                ; $0010
                 move.w  #$0430, Obj_Y(A0)                                ; $0014
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0077, Obj_Height_3(A0)                         ; $0044
                 rts
 Offset_0x034C26:
@@ -73,7 +73,7 @@ Offset_0x034C5C:
                 move.w  #$017D, Obj_Y(A0)                                ; $0014
                 bset    #$00, Obj_Flags(A0)                              ; $0004
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0077, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x034C9E, Obj_Child(A0)                  ; $0034
                 lea     Knuckles_Palette(PC), A1               ; Offset_0x0355EE
@@ -85,7 +85,7 @@ Offset_0x034C98:
 Offset_0x034C9E:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 moveq   #Knuckles_Theme_Snd, D0                            ; $1F
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 rts        
 ;-------------------------------------------------------------------------------
 Offset_0x034CAE:
@@ -175,7 +175,7 @@ Offset_0x034DB6:
                 jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
                 move.w  #$0078, Obj_Height_3(A0)                         ; $0044
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  (Sonic_Level_Limits_Min_Y).w, (Target_Camera_Min_Y).w ; $FFFFEE18, $FFFFFA96
                 move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
                 move.w  #$3940, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
@@ -262,7 +262,7 @@ Offset_0x034EDC:
                 jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
                 move.l  #Offset_0x0355CB, Obj_Child_Data(A0)             ; $0030
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.b  #$1F, Obj_Angle(A0)                              ; $0026
                 move.w  (Sonic_Level_Limits_Min_Y).w, (Target_Camera_Min_Y).w ; $FFFFEE18, $FFFFFA96
@@ -406,7 +406,7 @@ Offset_0x0350E6:
 Offset_0x0350F0:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0077, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03510E, Obj_Child(A0)                  ; $0034
                 rts       
@@ -414,7 +414,7 @@ Offset_0x0350F0:
 Offset_0x03510E:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 moveq   #Knuckles_Theme_Snd, D0                            ; $1F
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.l  #Offset_0x0355CF, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x035134, Obj_Child(A0)                  ; $0034
                 rts  

@@ -131,8 +131,8 @@ TitleCard_LoadAnimals:
 		move.w	(Apparent_ZoneAndAct).w,d0
 		jsr	Level_Load_Enemies_Art(pc)		; load animals based on zone
 		moveq	#2,d0
-		jsr	(LoadPLC)
-		jmp	(DeleteObject)
+		jsr	(LoadPLC).l
+		jmp	(DeleteObject).l
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

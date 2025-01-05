@@ -95,7 +95,11 @@ zPalDblUpdCounter:	rs.b	1	; used to update the sound driver twice every five fra
 
 zTempVariablesStart:	rs.b	1
 zNextSound:		equ	zTempVariablesStart
-			rs.b	3	; unused (first byte not sure?)
+; the following three variables are used for 68000 input, although only the first is functional
+zMusicNumber:		rs.b	1
+zSFXNumber0:		rs.b	1
+zSFXNumber1:		rs.b	1
+
 zFadeOutTimeout:	rs.b	1
 zFadeDelay:		rs.b	1
 zFadeDelayTimeout:	rs.b	1
@@ -1002,26 +1006,31 @@ zSendFMInstrData:
 	call	zWriteFMIorII
     ret                    ; 000423 C9
 
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Play sound depending on the indexed entry
+; ---------------------------------------------------------------------------
+
 zCycleSoundQueue:
-    ld     a,(zNextSound)       ; 000424 3A 09 1C
+	ld	a,(zNextSound)			; get the first (and only) item in the queue
 
 zPlaySoundByIndex:
-    cp     $ff             ; 000427 FE FF
+	cp	$FF
 	jp	z,zPlaySegaSound
-    cp     $32             ; 00042C FE 32
+	cp	$32
 	jp	c,zPlayMusic
-    cp     $da             ; 000431 FE DA
+	cp	$DA
 	jp	c,zPlaySound
-    cp     $e0             ; 000436 FE E0
+	cp	$E0
 	jp	c,zStopAllSound
-    cp     $f0             ; 00043B FE F0
+	cp	$F0
 	jp	nc,zStopAllSound
-    sub    $e0             ; 000440 D6 E0
+	sub	$E0
 	ld	hl,zFadeEffects
 	rst	zPointerTableOffset
-    xor    a               ; 000446 AF
-    ld     (zSoundIndex),a       ; 000447 32 18 1C
-    jp     (hl)            ; 00044A E9
+	xor	a
+	ld	(zSoundIndex),a			; set current sound index to 0
+	jp	(hl)				; handle fade effect
 ; ---------------------------------------------------------------------------
 
 zFadeEffects:

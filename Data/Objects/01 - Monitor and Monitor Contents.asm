@@ -287,7 +287,7 @@ MonitorContents_SonicLife:
 		addq.b	#1,(Life_count).w
 		addq.b	#1,(Update_HUD_lives).w
 		moveq	#Extra_Life_Snd,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 ; ===========================================================================
 ; Offset_0x01321E: Monitor_Rings:
 MonitorContents_Rings:
@@ -330,7 +330,7 @@ MonitorContents_Rings:
 ; Offset_0x01327E:
 @playSound:
 		moveq	#Ring_Sfx,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 ; ---------------------------------------------------------------------------
 ; Hilariously, this function is still used in the final, complete with the
 ; (now incorrect) jump to the Eggman monitor if the player is P2 Tails
@@ -361,7 +361,7 @@ MonitorContents_SpeedShoes:
 ; Offset_0x0132D4:
 @playMusic:
 		moveq	#Invincibility_Snd,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 ; ===========================================================================
 ; Offset_0x0132DC: Monitor_Fire_Shield:
 MonitorContents_FireShield:
@@ -369,7 +369,7 @@ MonitorContents_FireShield:
 		bset	#Classic_Type,Obj_Player_Status(a1)
 		bset	#Fire_Type,Obj_Player_Status(a1)
 		moveq	#Got_Fire_Shield_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
 		bne.s	@notSonic
 		move.l	#Obj_Fire_Shield,(Obj_P1_Shield).w
@@ -387,7 +387,7 @@ MonitorContents_LightningShield:
 		bset	#Classic_Type,Obj_Player_Status(a1)
 		bset	#Lightning_Type,Obj_Player_Status(a1)
 		moveq	#Got_Lightning_Shield_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
 		bne.s	@notSonic
 		move.l	#Obj_Lightning_Shield,(Obj_P1_Shield).w
@@ -405,7 +405,7 @@ MonitorContents_BubbleShield:
 		bset	#Classic_Type,Obj_Player_Status(a1)
 		bset	#Water_Type,Obj_Player_Status(a1)
 		moveq	#Got_Water_Shield_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
 		bne.s	@notSonic
 		move.l	#Obj_Water_Shield,(Obj_P1_Shield).w
@@ -429,7 +429,7 @@ MonitorContents_Invincibility:
 		cmpi.b	#$C,Obj_Subtype(a1)
 		bls.s	Offset_0x0133AE
 		moveq	#Invincibility_Snd,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 
 Offset_0x0133AE:
 		tst.b	Obj_Player_One_Or_Two_2(a0)
@@ -461,9 +461,9 @@ MonitorContents_SuperSonic:
 		move.b	#0,(Obj_Player_One+Obj_P_Invcbility_Time).w
 		bset	#Invincibility_Type,Obj_Player_Status(a1)
 		moveq	#Hyper_Form_Change_Sfx,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 		moveq	#Invincibility_Snd,d0
-		jmp	(Play_Music).l
+		jmp	(PlaySound).l
 		rts
 ; ===========================================================================
 ; Offset_0x01342E: Monitor_Delete_Object:
