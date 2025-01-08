@@ -142,7 +142,7 @@ Offset_0x04679E:
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
                 bne.s   Offset_0x0467D8
-                move.l  #Obj_0x07_Springs, (A1)                ; Offset_0x01921A
+                move.l  #Obj07_Springs, (A1)                ; Offset_0x01921A
                 move.w  #$5D6A, Obj_X(A1)                                ; $0010
                 move.w  #$027A, Obj_Y(A1)                                ; $0014
                 move.b  #$00, Obj_Subtype(A1)                            ; $002C

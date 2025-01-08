@@ -11517,8 +11517,9 @@ Offset_0x0109A0:
                 dc.w    $0001
                 dc.w    $0052
 ;-------------------------------------------------------------------------------               
-Obj_0x00_Rings:                                                ; Offset_0x0109A4
-                include 'data\objects\obj_0x00.asm'
+; Offset_0x0109A4: Obj_0x00_Rings: Obj00_Rings:
+		include	"data/objects/00 - Rings.asm"
+
 ;===============================================================================   
 ; Rotina para adicionar an�is ao contador, verificando o limmite e bonificando
 ; ->>>        com vida extra ao adiquirir 100 e 200 an�is
@@ -14506,8 +14507,8 @@ LRz_Rocks_Mappings:                                            ; Offset_0x012A90
                 dc.w    $0000, $0004, $CC0C, $FFF8
                 dc.w    $FFF8, $0005, $E410, $FFF8    
 ;-------------------------------------------------------------------------------
-Obj_0x02_Layer_Switch:                                         ; Offset_0x012AE8
-                include 'data\objects\obj_0x02.asm'
+; Offset_0x012F44: Obj_0x02_Layer_Switch: Obj02_Pathswappers:
+		include	"data/objects/02 - Pathswappers.asm"
 ; Offset_0x012F44: Obj_0x01_Monitors: Obj01_Monitors:
 		include	"data/objects/01 - Monitor and Monitor Contents.asm"
                 
@@ -15429,8 +15430,8 @@ Obj_AIz_Intro_Surfboard:                                       ; Offset_0x0185D6
                 include 'data\objects\aizsurfb.asm'
 Obj_Knuckles:                                                  ; Offset_0x018EA0
                 include 'data\objects\knuckles.asm'
-Obj_0x07_Springs:                                              ; Offset_0x01921A
-                include 'data\objects\obj_0x07.asm'  
+; Offset_0x01921A: Obj_0x07_Springs: Obj07_Springs:
+		include	"data/objects/07 - Springs.asm"
 Obj_0x3D_Retracting_Spring:                                    ; Offset_0x019EA2
                 include 'data\objects\obj_0x3D.asm'  
 ; Obj_0x5F_Retracting_Spring:                                  ; Offset_0x019FF6
@@ -28845,177 +28846,130 @@ Offset_0x04B3F6:
                 move.w  $08(A2, D0), Obj_Art_VRAM(A0)                    ; $000A
                 move.b  $00(A2, D0), Obj_Map_Id(A0)                      ; $0022
                 rts   
-;-------------------------------------------------------------------------------                
-Debug_Index:                                                   ; Offset_0x04B418   
-                dc.w    Debug_AIz_1-Debug_Index                ; Offset_0x04B478
-                dc.w    Debug_AIz_2-Debug_Index                ; Offset_0x04B5B0
-                dc.w    Debug_Hz-Debug_Index                   ; Offset_0x04B724
-                dc.w    Debug_Hz-Debug_Index                   ; Offset_0x04B724
-                dc.w    Debug_MGz-Debug_Index                  ; Offset_0x04B942
-                dc.w    Debug_MGz-Debug_Index                  ; Offset_0x04B942
-                dc.w    Debug_CNz-Debug_Index                  ; Offset_0x04BAA2
-                dc.w    Debug_CNz-Debug_Index                  ; Offset_0x04BAA2
-                dc.w    Debug_FBz-Debug_Index                  ; Offset_0x04BC0C
-                dc.w    Debug_FBz-Debug_Index                  ; Offset_0x04BC0C
-                dc.w    Debug_Iz_1-Debug_Index                 ; Offset_0x04BC86
-                dc.w    Debug_Iz_2-Debug_Index                 ; Offset_0x04BDDC
-                dc.w    Debug_LBz_1-Debug_Index                ; Offset_0x04BF32
-                dc.w    Debug_LBz_2-Debug_Index                ; Offset_0x04C09C
-                dc.w    Debug_MVz-Debug_Index                  ; Offset_0x04C22E
-                dc.w    Debug_MVz-Debug_Index                  ; Offset_0x04C22E
-                dc.w    Debug_Sz-Debug_Index                   ; Offset_0x04C302
-                dc.w    Debug_Sz-Debug_Index                   ; Offset_0x04C302
-                dc.w    Debug_LRz-Debug_Index                  ; Offset_0x04C354
-                dc.w    Debug_LRz-Debug_Index                  ; Offset_0x04C354
-                dc.w    Debug_SSz-Debug_Index                  ; Offset_0x04C3C4
-                dc.w    Debug_SSz-Debug_Index                  ; Offset_0x04C3C4
-                dc.w    Debug_DEz-Debug_Index                  ; Offset_0x04C416
-                dc.w    Debug_DEz-Debug_Index                  ; Offset_0x04C416
-                dc.w    Debug_TDz-Debug_Index                  ; Offset_0x04C468
-                dc.w    Debug_TDz-Debug_Index                  ; Offset_0x04C468
-                dc.w    Debug_HPz-Debug_Index                  ; Offset_0x04C4BA
-                dc.w    Debug_HPz-Debug_Index                  ; Offset_0x04C4BA
-                dc.w    Debug_ALz-Debug_Index                  ; Offset_0x04C50C
-                dc.w    Debug_ALz-Debug_Index                  ; Offset_0x04C50C
-                dc.w    Debug_BPz-Debug_Index                  ; Offset_0x04C5C2
-                dc.w    Debug_BPz-Debug_Index                  ; Offset_0x04C5C2
-                dc.w    Debug_DPz-Debug_Index                  ; Offset_0x04C696
-                dc.w    Debug_DPz-Debug_Index                  ; Offset_0x04C696
-                dc.w    Debug_CGz-Debug_Index                  ; Offset_0x04C76A
-                dc.w    Debug_CGz-Debug_Index                  ; Offset_0x04C76A
-                dc.w    Debug_EMz-Debug_Index                  ; Offset_0x04C834
-                dc.w    Debug_EMz-Debug_Index                  ; Offset_0x04C834
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-                dc.w    Debug_Default-Debug_Index              ; Offset_0x04C912
-;-------------------------------------------------------------------------------
-Debug_AIz_1:                                                   ; Offset_0x04B478
-                dc.w    ((DOL_00_End-DOL_00)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
-DOL_00: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Rings_Mappings                         ; Offset_0x010DE2
-                dc.w    $A6BC
-                dc.l    Obj01_Monitors                      ; Offset_0x012F44
-                dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
-                dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
-                dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
-                dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
-                dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
-                dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
-                dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
-                dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
-                dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
-                dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
-                dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
-                dc.w    $04A4
-                dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
-                dc.l    Spikes_Mappings                        ; Offset_0x01A88C
-                dc.w    $049C
-                dc.l    Obj_0x05_Rock                          ; Offset_0x0150FC
-                dc.l    ($04<<$18)|Rock_Mappings               ; Offset_0x0156EE
-                dc.w    $2333
-                dc.l    ($01<<$18)|Obj_0x05_Rock               ; Offset_0x0150FC
-                dc.l    ($13<<$18)|Rock_Mappings               ; Offset_0x0156EE
-                dc.w    $2333
-                dc.l    ($02<<$18)|Obj_0x05_Rock               ; Offset_0x0150FC
-                dc.l    ($23<<$18)|Rock_Mappings               ; Offset_0x0156EE
-                dc.w    $2333
-                dc.l    Obj_0x04_Collapsing_Platform           ; Offset_0x01582E
-                dc.l    Collapsing_Platform_Mappings           ; Offset_0x016014
-                dc.w    $4001
-                dc.l    ($21<<$18)|Obj_0x06_Ride_Vine          ; Offset_0x017A8E
-                dc.l    ($08<<$18)|Ride_Vine_Mappings          ; Offset_0x018482
-                dc.w    $0422
-                dc.l    ($21<<$18)|Obj_0x0C_Swing_Ride_Vine    ; Offset_0x0180FE
-                dc.l    ($0F<<$18)|Ride_Vine_Mappings          ; Offset_0x018482
-                dc.w    $0422
-                dc.l    Obj_0x2D_AIz_Falling_Log               ; Offset_0x0227AC
-                dc.l    ($07<<$18)|AIz_Falling_Log_Mappings    ; Offset_0x02298E
-                dc.w    $43CF
-                dc.l    Obj_0x82_AIz_Rhinobot                  ; Offset_0x043C2A
-                dc.l    Rhinobot_Mappings                      ; Offset_0x10E548
-                dc.w    $2500
-                dc.l    Obj_0x81_AIz_Bloominator               ; Offset_0x043B3E
-                dc.l    Bloominator_Mappings                   ; Offset_0x10E660
-                dc.w    $252A
-                dc.l    Obj_0x83_AIz_Monkey_Dude               ; Offset_0x043F1C
-                dc.l    ($10<<$18)|Monkey_Dude_Mappings        ; Offset_0x10E716
-                dc.w    $2548
-                dc.l    ($01<<$18)|Obj_AIz_Intro_Surfboard     ; Offset_0x0185D6
-                dc.l    ($01<<$18)|Intro_Surfboard_Mappings    ; Offset_0x0188FC
-                dc.w    $0680
-                dc.l    Obj_Art_Scaling                        ; Offset_0x01AA34
-                dc.l    Scaling_Mappings                       ; Offset_0x01B1B8
-                dc.w    $6500
-                dc.l    Obj_0x0B_Sphere_Test                   ; Offset_0x01B338
-                dc.l    Sphere_Test_Mappings                   ; Offset_0x01BB9A
-                dc.w    $24E0
-                dc.l    Obj_0x34_Star_Post                     ; Offset_0x023F76
-                dc.l    ($01<<$18)|Star_Post_Mappings          ; Offset_0x024282
-                dc.w    $05EC
-                dc.l    ($13<<$18)|Obj_0x54_Oxygen_Bubbles     ; Offset_0x025500
-                dc.l    ($81<<$18)|Sonic_Underwater_Mappings   ; Offset_0x025872
-                dc.w    $845C
-                dc.l    Obj_0x2A_Breakable_Floor               ; Offset_0x0211D6
-                dc.l    Breakable_Floor_Mappings               ; Offset_0x0216FC
-                dc.w    $4001
-                dc.l    Obj_0x35_AIz_Plants                    ; Offset_0x023284
-                dc.l    Plants_Mappings                        ; Offset_0x023442
-                dc.w    $C333
-                dc.l    ($01<<$18)|Obj_0x35_AIz_Plants         ; Offset_0x023284
-                dc.l    ($11<<$18)|Plants_Mappings             ; Offset_0x023442
-                dc.w    $C333
-                dc.l    Obj_0x35_AIz_Plants                    ; Offset_0x023284
-                dc.l    ($20<<$18)|Plants_Mappings             ; Offset_0x023442
-                dc.w    $C333
-                dc.l    ($01<<$18)|Obj_0x35_AIz_Plants         ; Offset_0x023284
-                dc.l    ($31<<$18)|Plants_Mappings             ; Offset_0x023442
-                dc.w    $C333
-                dc.l    Obj_0x35_AIz_Plants                    ; Offset_0x023284
-                dc.l    ($40<<$18)|Plants_Mappings             ; Offset_0x023442
-                dc.w    $C333
-                dc.l    ($01<<$18)|Obj_0x35_AIz_Plants         ; Offset_0x023284
-                dc.l    ($51<<$18)|Plants_Mappings             ; Offset_0x023442
-                dc.w    $C333
-                dc.l    Obj_0x35_AIz_Plants                    ; Offset_0x023284
-                dc.l    ($60<<$18)|Plants_Mappings             ; Offset_0x023442
-                dc.w    $C333
-DOL_00_End:
+; ===========================================================================
+; Offset_0x04B418:
+Debug_Index:	offsetTable
+		offsetTableEntry.w DebugList_AIZ1
+		offsetTableEntry.w Debug_AIz_2
+		offsetTableEntry.w Debug_Hz
+		offsetTableEntry.w Debug_Hz
+		offsetTableEntry.w Debug_MGz
+		offsetTableEntry.w Debug_MGz
+		offsetTableEntry.w Debug_CNz
+		offsetTableEntry.w Debug_CNz
+		offsetTableEntry.w Debug_FBz
+		offsetTableEntry.w Debug_FBz
+		offsetTableEntry.w Debug_Iz_1
+		offsetTableEntry.w Debug_Iz_2
+		offsetTableEntry.w Debug_LBz_1
+		offsetTableEntry.w Debug_LBz_2
+		offsetTableEntry.w Debug_MVz
+		offsetTableEntry.w Debug_MVz
+		offsetTableEntry.w Debug_Sz
+		offsetTableEntry.w Debug_Sz
+		offsetTableEntry.w Debug_LRz
+		offsetTableEntry.w Debug_LRz
+		offsetTableEntry.w Debug_SSz
+		offsetTableEntry.w Debug_SSz
+		offsetTableEntry.w Debug_DEz
+		offsetTableEntry.w Debug_DEz
+		offsetTableEntry.w Debug_TDz
+		offsetTableEntry.w Debug_TDz
+		offsetTableEntry.w Debug_HPz
+		offsetTableEntry.w Debug_HPz
+		offsetTableEntry.w Debug_ALz
+		offsetTableEntry.w Debug_ALz
+		offsetTableEntry.w Debug_BPz
+		offsetTableEntry.w Debug_BPz
+		offsetTableEntry.w Debug_DPz
+		offsetTableEntry.w Debug_DPz
+		offsetTableEntry.w Debug_CGz
+		offsetTableEntry.w Debug_CGz
+		offsetTableEntry.w Debug_EMz
+		offsetTableEntry.w Debug_EMz
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+		offsetTableEntry.w Debug_Default
+
+; macro for a debug object list header
+; must be on the same line as a label that has a corresponding _End label later
+dbglistheader macro *
+\* EQU *
+	dc.w	(\*_End-*)/$A
+    endm
+
+; macro to define debug list object data
+dbglistobj macro obj, mapaddr, subtype, frame, vram
+	dc.l	(frame<<$18)|obj
+	dc.l	(subtype<<$18)|mapaddr
+	dc.w	vram
+    endm
+
+; Offset_0x04B478: Debug_AIz_1:
+DebugList_AIZ1:	dbglistheader
+		dbglistobj Obj00_Rings,				Rings_Mappings,			0, 0, $A6BC
+		dbglistobj Obj01_Monitors,			Monitors_Mappings,		8, 0, $4C4
+		dbglistobj Obj02_Pathswappers,			Layer_Switch_Mappings,		9, 1, $26BC
+		dbglistobj Obj02_Pathswappers,			Layer_Switch_Mappings,		$D, 5, $26BC
+		dbglistobj Obj07_Springs,			Springs_Mappings,		$81, 0, $4A4
+		dbglistobj Obj07_Springs,			Springs_Mappings,		$90, 3, $4B4
+		dbglistobj Obj07_Springs,			Springs_Mappings,		$A0, 6, $4A4
+		dbglistobj Obj_0x08_Spikes,			Spikes_Mappings,		0, 0, $49C
+		dbglistobj Obj_0x05_Rock,			Rock_Mappings,			4, 0, $2333
+		dbglistobj Obj_0x05_Rock,			Rock_Mappings,			$13, 1, $2333
+		dbglistobj Obj_0x05_Rock,			Rock_Mappings,			$23, 2, $2333
+		dbglistobj Obj_0x04_Collapsing_Platform,	Collapsing_Platform_Mappings,	0, 0, $4001
+		dbglistobj Obj_0x06_Ride_Vine,			Ride_Vine_Mappings,		8, $21, $422
+		dbglistobj Obj_0x0C_Swing_Ride_Vine,		Ride_Vine_Mappings,		$F, $21, $422
+		dbglistobj Obj_0x2D_AIz_Falling_Log,		AIz_Falling_Log_Mappings,	7, 0, $43CF
+		dbglistobj Obj_0x82_AIz_Rhinobot,		Rhinobot_Mappings,		0, 0, $2500
+		dbglistobj Obj_0x81_AIz_Bloominator,		Bloominator_Mappings,		0, 0, $252A
+		dbglistobj Obj_0x83_AIz_Monkey_Dude,		Monkey_Dude_Mappings,		$10, 0, $2548
+		dbglistobj Obj_AIz_Intro_Surfboard,		Intro_Surfboard_Mappings,	1, 1, $680
+		dbglistobj Obj_Art_Scaling,			Scaling_Mappings,		0, 0, $6500
+		dbglistobj Obj_0x0B_Sphere_Test,		Sphere_Test_Mappings,		0, 0, $24E0
+		dbglistobj Obj_0x34_Star_Post,			Star_Post_Mappings,		1, 0, $5EC
+		dbglistobj Obj_0x54_Oxygen_Bubbles,		Sonic_Underwater_Mappings,	$81, $13, $845C
+		dbglistobj Obj_0x2A_Breakable_Floor,		Breakable_Floor_Mappings,	0, 0, $4001
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		0, 0, $C333
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		$11, 1, $C333
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		$20, 0, $C333
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		$31, 1, $C333
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		$40, 0, $C333
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		$51, 1, $C333
+		dbglistobj Obj_0x35_AIz_Plants,			Plants_Mappings,		$60, 0, $C333
+DebugList_AIZ1_End:
+
 ;-------------------------------------------------------------------------------
 Debug_AIz_2:                                                   ; Offset_0x04B5B0
                 dc.w    ((DOL_01_End-DOL_01)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_01: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29113,25 +29067,25 @@ DOL_01_End:
 Debug_Hz:                                                      ; Offset_0x04B724
                 dc.w    ((DOL_02_End-DOL_02)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_02: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($09<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29280,31 +29234,31 @@ DOL_02_End:
 Debug_MGz:                                                     ; Offset_0x04B942
                 dc.w    ((DOL_03_End-DOL_03)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_03: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($80<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($07<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($07<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($30<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $0478
-                dc.l    ($0A<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($0A<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($40<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $0478
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29390,25 +29344,25 @@ DOL_03_End:
 Debug_CNz:                                                     ; Offset_0x04BAA2
                 dc.w    ((DOL_04_End-DOL_04)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_04: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29503,25 +29457,25 @@ DOL_04_End:
 Debug_FBz:                                                     ; Offset_0x04BC0C
                 dc.w    ((DOL_05_End-DOL_05)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_05: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29544,25 +29498,25 @@ DOL_05_End:
 Debug_Iz_1:                                                    ; Offset_0x04BC86
                 dc.w    ((DOL_06_End-DOL_06)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_06: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($05<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29651,25 +29605,25 @@ DOL_06_End:
 Debug_Iz_2:                                                    ; Offset_0x04BDDC
                 dc.w    ((DOL_07_End-DOL_07)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_07: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($05<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29758,25 +29712,25 @@ DOL_07_End:
 Debug_LBz_1:                                                   ; Offset_0x04BF32
                 dc.w    ((DOL_08_End-DOL_08)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_08: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29871,25 +29825,25 @@ DOL_08_End:
 Debug_LBz_2:                                                   ; Offset_0x04C09C
                 dc.w    ((DOL_09_End-DOL_09)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_09: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -29996,31 +29950,31 @@ DOL_09_End:
 Debug_MVz:                                                     ; Offset_0x04C22E
                 dc.w    ((DOL_0A_End-DOL_0A)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_0A: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($07<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($07<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($30<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $043A
-                dc.l    ($0A<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($0A<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($40<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $043A
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30064,25 +30018,25 @@ DOL_0A_End:
 Debug_Sz:                                                      ; Offset_0x04C302
                 dc.w    ((DOL_0B_End-DOL_0B)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_0B: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30093,25 +30047,25 @@ DOL_0B_End:
 Debug_LRz:                                                     ; Offset_0x04C354
                 dc.w    ((DOL_0C_End-DOL_0C)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_0C: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30133,25 +30087,25 @@ DOL_0C_End:
 Debug_SSz:                                                     ; Offset_0x04C3C4
                 dc.w    ((DOL_0D_End-DOL_0D)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_0D: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30162,25 +30116,25 @@ DOL_0D_End:
 Debug_DEz:                                                     ; Offset_0x04C416
                 dc.w    ((DOL_0E_End-DOL_0E)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_0E: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30191,25 +30145,25 @@ DOL_0E_End:
 Debug_TDz:                                                     ; Offset_0x04C468
                 dc.w    ((DOL_0F_End-DOL_0F)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_0F: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30220,25 +30174,25 @@ DOL_0F_End:
 Debug_HPz:                                                     ; Offset_0x04C4BA
                 dc.w    ((DOL_10_End-DOL_10)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_10: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30249,25 +30203,25 @@ DOL_10_End:
 Debug_ALz:                                                     ; Offset_0x04C50C
                 dc.w    ((DOL_11_End-DOL_11)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_11: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $E3D2
                 dc.l    Obj_0x64_Bubble_Container              ; Offset_0x02C8A8
                 dc.l    Bubble_Container_Mappings              ; Offset_0x02CFEA
                 dc.w    $03C6
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $03AD
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30308,25 +30262,25 @@ DOL_11_End:
 Debug_BPz:                                                     ; Offset_0x04C5C2
                 dc.w    ((DOL_12_End-DOL_12)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_12: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $E3D2
                 dc.l    Obj_0x64_Bubble_Container              ; Offset_0x02C8A8
                 dc.l    Bubble_Container_Mappings              ; Offset_0x02CFEA
                 dc.w    $03C6
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $03AD
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30376,25 +30330,25 @@ DOL_12_End:
 Debug_DPz:                                                     ; Offset_0x04C696
                 dc.w    ((DOL_13_End-DOL_13)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_13: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $E3D2
                 dc.l    Obj_0x64_Bubble_Container              ; Offset_0x02C8A8
                 dc.l    Bubble_Container_Mappings              ; Offset_0x02CFEA
                 dc.w    $03C6
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $03AD
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30444,25 +30398,25 @@ DOL_13_End:
 Debug_CGz:                                                     ; Offset_0x04C76A
                 dc.w    ((DOL_14_End-DOL_14)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_14: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $E3D2
                 dc.l    Obj_0x64_Bubble_Container              ; Offset_0x02C8A8
                 dc.l    Bubble_Container_Mappings              ; Offset_0x02CFEA
                 dc.w    $03C6
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $03AD
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30509,25 +30463,25 @@ DOL_14_End:
 Debug_EMz:                                                     ; Offset_0x04C834
                 dc.w    ((DOL_15_End-DOL_15)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_15: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $E3D2
                 dc.l    Obj_0x64_Bubble_Container              ; Offset_0x02C8A8
                 dc.l    Bubble_Container_Mappings              ; Offset_0x02CFEA
                 dc.w    $03C6
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $63D2
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $03AD
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings_2P         ; Offset_0x019DC2
                 dc.w    $0391
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30580,25 +30534,25 @@ DOL_15_End:
 Debug_Default:                                                 ; Offset_0x04C912
                 dc.w    ((DOL_16_End-DOL_16)/$0A) ; Auto Detec��o do n�mero de itens na lista por Esrael Neto
 DOL_16: ; DOL - Debug Object List
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Rings_Mappings                         ; Offset_0x010DE2
                 dc.w    $A6BC
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
                 dc.l    ($08<<$18)|Monitors_Mappings           ; Offset_0x0134A2
                 dc.w    $04C4
-                dc.l    ($01<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($01<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($09<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    ($05<<$18)|Obj_0x02_Layer_Switch       ; Offset_0x012AE8
+                dc.l    ($05<<$18)|Obj02_Pathswappers       ; Offset_0x012AE8
                 dc.l    ($0D<<$18)|Layer_Switch_Mappings       ; Offset_0x012E98
                 dc.w    $26BC
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    ($81<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
-                dc.l    ($03<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($03<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($90<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04B4
-                dc.l    ($06<<$18)|Obj_0x07_Springs            ; Offset_0x01921A
+                dc.l    ($06<<$18)|Obj07_Springs            ; Offset_0x01921A
                 dc.l    ($A0<<$18)|Springs_Mappings            ; Offset_0x019C1A
                 dc.w    $04A4
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
@@ -30615,14 +30569,14 @@ DOL_16_End:
 ; ->>>
 ;=============================================================================== 
 Object_List:                                                   ; Offset_0x04C964
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Obj01_Monitors                      ; Offset_0x012F44
-                dc.l    Obj_0x02_Layer_Switch                  ; Offset_0x012AE8
+                dc.l    Obj02_Pathswappers                  ; Offset_0x012AE8
                 dc.l    Obj_0x03_AIz_Hollow_Tree               ; Offset_0x014E88
                 dc.l    Obj_0x04_Collapsing_Platform           ; Offset_0x01582E
                 dc.l    Obj_0x05_Rock                          ; Offset_0x0150FC
                 dc.l    Obj_0x06_Ride_Vine                     ; Offset_0x017A8E
-                dc.l    Obj_0x07_Springs                       ; Offset_0x01921A
+                dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
                 dc.l    Obj_0x09_AIz_Tree                      ; Offset_0x013F24
                 dc.l    Obj_0x0A_AIz_Zipline_Peg               ; Offset_0x013F66
@@ -30652,7 +30606,7 @@ Object_List:                                                   ; Offset_0x04C964
                 dc.l    Obj_0x22_LBz_Buzzer                    ; Offset_0x02005A
                 dc.l    Obj_0x23                               ; Offset_0x02010E
                 dc.l    Obj_0x24_Automatic_Tunnel              ; Offset_0x0201C6
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Obj_0x26_Auto_Spin                     ; Offset_0x013FA8
                 dc.l    Obj_0x27_Lava_Attributes               ; Offset_0x0141F2
                 dc.l    Obj_0x28_Invisible_Block               ; Offset_0x0142D4 ; $28
@@ -30726,23 +30680,23 @@ Object_List:                                                   ; Offset_0x04C964
                 dc.l    Obj_0x6C_Bridge                        ; Offset_0x02E504
                 dc.l    Obj_0x6D_Hz_Water_Splash               ; Offset_0x02E22E
                 dc.l    Obj_0x6E_Hz_Waterfall                  ; Offset_0x02E0A8
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
-                dc.l    Obj_0x00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
+                dc.l    Obj00_Rings                         ; Offset_0x0109A4
                 dc.l    Obj_0x80_AIz_Fire_Breath               ; Offset_0x0365AA
                 dc.l    Obj_0x81_AIz_Bloominator               ; Offset_0x043B3E
                 dc.l    Obj_0x82_AIz_Rhinobot                  ; Offset_0x043C2A
