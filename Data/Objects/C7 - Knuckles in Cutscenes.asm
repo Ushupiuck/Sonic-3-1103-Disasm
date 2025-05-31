@@ -1,6 +1,6 @@
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-; Object C7 - Knuckles in Cutscenes (except Angel Island 2)
+; Object C7 - Knuckles in Cutscenes
 ; ---------------------------------------------------------------------------
 ; Offset_0x034BAA: Obj_0xC7_Knuckles:
 ObjC7_CutsceneKnuckles:
@@ -13,7 +13,7 @@ ObjC7_CutsceneKnuckles:
 ; ===========================================================================
 ; Offset_0x034BBC:
 CutKnux_Index:	dc.l	CutKnux_AIZ1
-		dc.l	CutKnux_HCZ2
+		dc.l	CutKnux_AIZ2
 		dc.l	Knuckles_In_Carnival_Night_2_Lamp
 		dc.l	Knuckles_In_Carnival_Night_2_Boss
 		dc.l	Knuckles_In_Launch_Base_1
@@ -63,18 +63,18 @@ CutKnux_AIZ1_Null:
 ; Knuckles in Hydrocity Act 2
 ; ---------------------------------------------------------------------------
 ; Offset_0x034C32: Knuckles_In_Hydrocity_2:
-CutKnux_HCZ2:
+CutKnux_AIZ2:
 		moveq	#0,d0
 		move.b	Obj_Routine(a0),d0
-		move.w	CutKnux_HCZ2_Index(pc,d0.w),d1
-		jsr	CutKnux_HCZ2_Index(pc,d1.w)
+		move.w	CutKnux_AIZ2_Index(pc,d0.w),d1
+		jsr	CutKnux_AIZ2_Index(pc,d1.w)
 		lea	Knuckles_PLC_Data(pc),a2
 		jsr	(Load_Dynamic_PLC_A2).l
 		jmp	(Check_Delete_Touch_Slotted).l
 ; ===========================================================================
 ; Offset_0x034C50:
-CutKnux_HCZ2_Index:	offsetTable
-		offsetTableEntry.w CutKnux_HCZ2_Init
+CutKnux_AIZ2_Index:	offsetTable
+		offsetTableEntry.w CutKnux_AIZ2_Init
 		offsetTableEntry.w CutKnux_Wait
 		offsetTableEntry.w Offset_0x034CAE
 		offsetTableEntry.w Offset_0x034CFA
@@ -82,7 +82,7 @@ CutKnux_HCZ2_Index:	offsetTable
 		offsetTableEntry.w Offset_0x034D70
 ; ===========================================================================
 ; Offset_0x034C5C:
-CutKnux_HCZ2_Init:
+CutKnux_AIZ2_Init:
 		lea	Knuckles_Setup_Data(pc),a1
 		jsr	(Object_Settings_Slotted).l
 		move.w	#$4B8E,Obj_X(a0)
@@ -91,7 +91,7 @@ CutKnux_HCZ2_Init:
 		moveq	#Volume_Down,d0
 		jsr	(PlaySound).l
 		move.w	#$77,Obj_Timer(a0)
-		move.l	#CutKnux_HCZ2_PlayMusic,Obj_Child(a0)
+		move.l	#CutKnux_AIZ2_PlayMusic,Obj_Child(a0)
 		lea	Knuckles_Palette(pc),a1
 		jmp	(Pal_Load_Line_1).l
 ; ===========================================================================
@@ -100,7 +100,7 @@ CutKnux_Wait:
 		jmp	(Run_Object_Wait_Timer_A0).l
 ; ---------------------------------------------------------------------------
 ; Offset_0x034C9E:
-CutKnux_HCZ2_PlayMusic:
+CutKnux_AIZ2_PlayMusic:
 		move.b	#4,Obj_Routine(a0)
 		moveq	#Knuckles_Theme_Snd,d0
 		jsr	(PlaySound).l
