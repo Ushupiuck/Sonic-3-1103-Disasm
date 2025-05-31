@@ -4,7 +4,7 @@
 ; Sonic the Hedgehog 3 - November 3, 1993 GitHub disassembly
 ;
 ; Based on Esrael L.G. Neto's disassembly
-; Current editors: NyperYuhgard, MarkeyJester, and Alex Field
+; Current editors: Alex Field
 ; ROM released by hiddenpalace.org on November 16, 2019, by drx
 ; ---------------------------------------------------------------------------
 ; Quick Guildlines for Labels (to keep consistency)
@@ -1078,10 +1078,10 @@ SoundDriverInput_Null:
 ; which handled its sound queues on the 68000-side; it seems like the devs
 ; retained this system when switching over to the new driver before a Z80-led
 ; sound input system could be implemented. Sonic CD uses a similar system.
-		move.b	(Sound_Buffer_Id).w,($A01C0A).l
-		move.b	(Sound_Buffer_Id+1).w,($A01C0B).l
-		move.b	(Sound_Buffer_Id+2).w,($A01C0C).l
-		move.b	(Sound_Buffer_Id+4).w,($A01C10).l
+		move.b	(Sound_Buffer_Id).w,(Z80_RAM_Start+zMusicNumber).l
+		move.b	(Sound_Buffer_Id+1).w,(Z80_RAM_Start+zSFXNumber0).l
+		move.b	(Sound_Buffer_Id+2).w,(Z80_RAM_Start+zSFXNumber1).l
+		move.b	(Sound_Buffer_Id+4).w,(Z80_RAM_Start+zPauseFlag).l
 		moveq	#0,d0
 		move.l	d0,(Sound_Buffer_Id).w
 		rts
@@ -1205,11 +1205,15 @@ VDPRegSetup_Array:                                             ; Offset_0x000FDC
 ; <<<-                           
 ;===============================================================================  
 
-;===============================================================================                  
-; ClearScreen
-; ->>>                           
-;===============================================================================  
-ClearScreen:                                                   ; Offset_0x001002
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to clear the screen
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x001002:
+ClearScreen:
 		stopZ80
                 lea     (VDP_Control_Port), A5                       ; $00C00004
                 move.w  #$8F01, (A5)
@@ -1276,10 +1280,7 @@ ClearScreen_ClearBuffer2:                                      ; Offset_0x0010F6
                 dbra    D1, ClearScreen_ClearBuffer2           ; Offset_0x0010F6
 		startZ80
                 rts
-;===============================================================================                  
-; ClearScreen
-; <<<-                           
-;===============================================================================
+; End of function ClearScreen
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -1858,7 +1859,7 @@ RunPLC_RAM:
 		lea	(NemesisDec_Output).l,a3
 		nop
 		lea	(NemesisDec_Data_Buffer).w,a1
-		move.w	(A0)+, D2
+		move.w	(a0)+,d2
 		bpl.s	Offset_0x00157A
 		adda.w	#NemesisDec_Output_XOR-NemesisDec_Output,a3
 
@@ -4771,8 +4772,8 @@ Offset_0x003BAE:
 		bne.s	Level_ClrHUD
 
 Offset_0x003C36:
-		move.l	#Obj_Wave_Splash, (Obj_04_Mem_Address).w
-		move.l	#Obj_0x6D_Hz_Water_Splash, (Obj_05_Mem_Address).w
+		move.l	#Obj_Wave_Splash,(Obj_04_Mem_Address).w
+		move.l	#Obj_0x6D_Hz_Water_Splash,(Obj_05_Mem_Address).w
 		move.b	#1,(Obj_05_Mem_Address+Obj_Subtype).w
 ; Offset_0x003C4C:
 Level_ClrHUD:
@@ -24342,8 +24343,8 @@ Offset_0x034B84:
                 move.b  D4, $0003(A5)
                 rts
 ;-------------------------------------------------------------------------------
-Obj_0xC7_Knuckles:                                             ; Offset_0x034BAA    
-                include 'data\objects\obj_0xC7.asm'
+; Offset_0x034BAA: Obj_0xC7_Knuckles: ObjC7_CutsceneKnuckles:
+		include	"data/objects/C7 - Knuckles in Cutscenes.asm"
 Obj_0xC9_Knuckles_Switch:                                      ; Offset_0x035484
                 include 'data\objects\obj_0xC9.asm'
 ; Offset_0x035AD2: Obj_0xCA_AIz_Super_Sonic_Intro: ObjCA_AIZPlaneIntro:
@@ -30766,12 +30767,12 @@ Object_List:                                                   ; Offset_0x04C964
                 dc.l    Obj_0xC2_Iz_Snow_Pile                  ; Offset_0x047B4E
                 dc.l    Obj_0xC3_Iz_Trampoline                 ; Offset_0x047D46
                 dc.l    Obj_0xC4_MGz_Tunnelbot                 ; Offset_0x045262
-                dc.l	ObjC5_HiddenMonitor
-                dc.l    Obj_0xC6_Egg_Prison                    ; Offset_0x043490
-                dc.l    Obj_0xC7_Knuckles                      ; Offset_0x034BAA
-                dc.l    Obj_0xC8_Iz_Trampoline_Support         ; Offset_0x046A00 ; $C8
-                dc.l    Obj_0xC9_Knuckles_Switch               ; Offset_0x035484
-                dc.l	ObjCA_AIZPlaneIntro
+		dc.l	ObjC5_HiddenMonitor
+                dc.l	Obj_0xC6_Egg_Prison                    ; Offset_0x043490
+		dc.l	ObjC7_CutsceneKnuckles
+                dc.l	Obj_0xC8_Iz_Trampoline_Support         ; Offset_0x046A00 ; $C8
+                dc.l	Obj_0xC9_Knuckles_Switch               ; Offset_0x035484
+		dc.l	ObjCA_AIZPlaneIntro
                 
                 
 ;-------------------------------------------------------------------------------
@@ -30805,12 +30806,12 @@ Offset_0x04CC90:
                 dc.l    (Obj_0xC2_Iz_Snow_Pile+$7E)            ; Offset_0x047BCC
                 dc.l    (Obj_0xC3_Iz_Trampoline+$7E)           ; Offset_0x047DC4
                 dc.l    (Obj_0xC4_MGz_Tunnelbot+$7E)           ; Offset_0x0452E0
-                dc.l	ObjC5_HiddenMonitor+$7E
-                dc.l    (Obj_0xC6_Egg_Prison+$7E)              ; Offset_0x04350E
-                dc.l    (Obj_0xC7_Knuckles+$7E)                ; Offset_0x034C28
-                dc.l    (Obj_0xC8_Iz_Trampoline_Support+$7E)   ; Offset_0x046A7E
-                dc.l    (Obj_0xC9_Knuckles_Switch+$7E)         ; Offset_0x035502
-                dc.l	ObjCA_AIZPlaneIntro+$7E
+		dc.l	ObjC5_HiddenMonitor+$7E
+		dc.l	(Obj_0xC6_Egg_Prison+$7E)              ; Offset_0x04350E
+		dc.l	ObjC7_CutsceneKnuckles+$7E
+		dc.l	(Obj_0xC8_Iz_Trampoline_Support+$7E)   ; Offset_0x046A7E
+		dc.l	(Obj_0xC9_Knuckles_Switch+$7E)         ; Offset_0x035502
+		dc.l	ObjCA_AIZPlaneIntro+$7E
 ;-------------------------------------------------------------------------------                
 Offset_0x04CD0E:
                 dc.w    ((Obj_0xC8_Iz_Trampoline_Support+$88)&$FFFF) ; Offset_0x046A88

@@ -393,7 +393,7 @@ AIZPlaneIntro_ObjArray3:
 ; Offset_0x035F42:
 AIZPlaneIntro_ObjArray4:
 		dc.w	0
-		dc.l	Obj_0xC7_Knuckles
+		dc.l	ObjC7_CutsceneKnuckles
 
 ; ===========================================================================
 

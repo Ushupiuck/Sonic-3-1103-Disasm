@@ -1,6 +1,7 @@
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object 02 - Pathswappers
+;
 ; Swaps what 'path' of collision the player is on; invisible unless
 ; using debug mode, which represents it as a line of rings
 ; ---------------------------------------------------------------------------
@@ -48,20 +49,22 @@ Pathswappers_Size:
 ; ===========================================================================
 ; Offset_0x012B76:
 Pathswapper_CheckX:
-		andi.w  #$0003, D0
-		move.b  D0, Obj_Map_Id(A0)		               ; $0022
-		add.w   D0, D0
-		move.w  Pathswappers_Size(PC, D0), Obj_Control_Var_02(A0) ; Offset_0x012B6E, $0032
-		move.w  Obj_X(A0), D1				    ; $0010
-		lea     (Obj_Player_One).w, A1		       ; $FFFFB000
-		cmp.w   Obj_X(A1), D1				    ; $0010
-		bcc.s   Offset_0x012B9A
-		move.b  #$01, Obj_Control_Var_04(A0)		     ; $0034
+		andi.w	#3,d0
+		move.b	d0,Obj_Map_Id(a0)
+		add.w	d0,d0
+		move.w	Pathswappers_Size(pc,d0.w),Obj_Control_Var_02(a0)
+		move.w	Obj_X(a0),d1
+		lea	(Obj_Player_One).w,a1
+		cmp.w	Obj_X(a1),d1
+		bcc.s	Offset_0x012B9A
+		move.b	#1,Obj_Control_Var_04(a0)
+
 Offset_0x012B9A:
-		lea     (Obj_Player_Two).w, A1		       ; $FFFFB04A
-		cmp.w   Obj_X(A1), D1				    ; $0010
-		bcc.s   Offset_0x012BAA
-		move.b  #$01, Obj_Control_Var_05(A0)		     ; $0035
+		lea	(Obj_Player_Two).w,a1
+		cmp.w	Obj_X(a1),d1
+		bcc.s	Offset_0x012BAA
+		move.b	#1,Obj_Control_Var_05(a0)
+
 Offset_0x012BAA:
 		move.l  #Offset_0x012BC4, (A0)
 		tst.w   (Two_Player_Flag).w		          ; $FFFFFFD8

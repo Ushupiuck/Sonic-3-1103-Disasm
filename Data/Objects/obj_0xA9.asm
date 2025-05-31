@@ -898,7 +898,7 @@ AIz_MGz_Boss_Load_Egg_Prison:                                  ; Offset_0x037D18
 ;------------------------------------------------------------------------------- 
 Offset_0x037D1E:  
                 dc.w    $0000
-                dc.l    Obj_0xC7_Knuckles                      ; Offset_0x034BAA
+                dc.l    ObjC7_CutsceneKnuckles                      ; Offset_0x034BAA
 ;-------------------------------------------------------------------------------   
 Offset_0x037D24:
                 dc.b    $2B, $00, $2B, $00, $2B, $00, $00, $00
