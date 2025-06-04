@@ -2,6 +2,12 @@
 ; ---------------------------------------------------------------------------
 ; Object - Title Card
 ; ---------------------------------------------------------------------------
+
+titlecard_objcnt	= Obj_Control_Var_00		; counts which object of the title card is loaded
+titlecard_timer		= Obj_Control_Var_02		; timer until the title card disappears
+titlecard_unk1		= Obj_Control_Var_04		; seems to be used to actually tell the title card to move offscreen?
+titlecard_xdest		= Obj_Control_Var_16		; where each title card ends up on the X axis
+
 ; Offset_0x024546: Obj_Title_Cards:
 Obj_TitleCard:
 		moveq	#0,d0
@@ -37,8 +43,8 @@ Offset_0x02457E:
 		move.w	#$A9A0,d2
 		jsr	(Queue_Kos_Module).l
 		move.w	#90,Obj_Timer(a0)			; set wait timer to 90 frames
-		move.w	#4,Obj_Control_Var_00(a0)
-		clr.w	Obj_Control_Var_02(a0)
+		move.w	#4,titlecard_objcnt(a0)
+		clr.w	titlecard_timer(a0)
 		addq.b	#2,Obj_Routine(a0)
 		rts
 ; ===========================================================================
@@ -53,7 +59,7 @@ TitleCard_Main:
 ; Offset_0x0245CC:
 TitleCard_MakeObject:
 		move.l	(a2)+,(a1)
-		move.w	(a2)+,Obj_Control_Var_16(a1)
+		move.w	(a2)+,titlecard_xdest(a1)
 		move.w	(a2)+,Obj_X(a1)
 		move.w	(a2)+,Obj_Y(a1)
 		move.b	(a2)+,Obj_Map_Id(a1)
@@ -81,9 +87,9 @@ Offset_0x02461E:
 ; ===========================================================================
 ; Offset_0x024620:
 TitleCard_Wait:
-		tst.w	Obj_Control_Var_04(a0)
+		tst.w	titlecard_unk1(a0)
 		beq.s	Offset_0x02462C
-		clr.w	Obj_Control_Var_04(a0)
+		clr.w	titlecard_unk1(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -101,9 +107,9 @@ TitleCard_Wait2:
 ; ---------------------------------------------------------------------------
 
 Offset_0x024642:
-		tst.w	Obj_Control_Var_00(a0)
+		tst.w	titlecard_objcnt(a0)
 		beq.s	TitleCard_SetupLevel
-		addq.w	#1,Obj_Control_Var_02(a0)
+		addq.w	#1,titlecard_timer(a0)
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x02464E:
@@ -141,11 +147,11 @@ TitleCard_LoadAnimals:
 ; Offset_0x0246A4: Title_Card_Red_Bar:
 Obj_TtlCardRedBar:
 		move.w	Obj_Respaw_Ref(a0),a1
-		move.w	Obj_Control_Var_02(a1),d0
+		move.w	titlecard_timer(a1),d0
 		beq.s	Offset_0x0246CC
 		tst.b	Obj_Flags(a0)
 		bmi.s	Offset_0x0246BE
-		subq.w	#1,Obj_Control_Var_00(a1)
+		subq.w	#1,titlecard_objcnt(a1)
 		jmp	(DeleteObject).l
 
 Offset_0x0246BE:
@@ -156,11 +162,11 @@ Offset_0x0246BE:
 
 Offset_0x0246CC:
 		move.w	Obj_Y(a0),d0
-		cmp.w	Obj_Control_Var_16(a0),d0
+		cmp.w	titlecard_xdest(a0),d0
 		beq.s	Offset_0x0246E2
 		addi.w	#$10,d0
 		move.w	d0,Obj_Y(a0)
-		st	Obj_Control_Var_04(a1)
+		st	titlecard_unk1(a1)
 
 Offset_0x0246E2:
 		move.b	#$70,Obj_Height(a0)
@@ -181,11 +187,11 @@ Obj_TtlCardName:
 ; Offset_0x0246FC: Title_Card_Zone:
 Obj_TtlCardZone:
 		move.w	Obj_Respaw_Ref(a0),a1
-		move.w	Obj_Control_Var_02(a1),d0
+		move.w	titlecard_timer(a1),d0
 		beq.s	Offset_0x024724
 		tst.b	Obj_Flags(a0)
 		bmi.s	Offset_0x024716
-		subq.w	#1,Obj_Control_Var_00(a1)
+		subq.w	#1,titlecard_objcnt(a1)
 		jmp	(DeleteObject).l
 ; ---------------------------------------------------------------------------
 
@@ -197,11 +203,11 @@ Offset_0x024716:
 
 Offset_0x024724:
 		move.w	Obj_X(A0),d0
-		cmp.w	Obj_Control_Var_16(a0),d0
+		cmp.w	titlecard_xdest(a0),d0
 		beq.s	Offset_0x02473A
 		subi.w	#$10,d0
 		move.w	d0,Obj_X(a0)
-		st	Obj_Control_Var_04(a1)
+		st	titlecard_unk1(a1)
 
 Offset_0x02473A:
 		jmp	(DisplaySprite).l
@@ -220,7 +226,7 @@ Obj_TtlCardAct:
 
 Offset_0x024756:
 		move.w	Obj_Respaw_Ref(a0),a1
-		subq.w	#1,Obj_Control_Var_00(a1)
+		subq.w	#1,titlecard_objcnt(a1)
 		jmp	(DeleteObject).l									
 ; ===========================================================================
 ; Offset_0x024764: Title_Card_Letters_Ptr:
@@ -232,12 +238,16 @@ TitleCard_LevelGfx:
 		dc.l	TC_Flying_Battery
 		dc.l	TC_Icecap
 		dc.l	TC_Launch_Base
-		dc.l	TC_Launch_Base
-		dc.l	TC_Launch_Base
-		dc.l	TC_Launch_Base
-		dc.l	TC_Launch_Base
-		dc.l	TC_Launch_Base
-		dc.l	TC_Launch_Base
+		; in the final game, these instead point to Angel Island; still, their presense
+		; here indicates that the remaining levels did have title cards at some point
+		dc.l	TC_Launch_Base		; Mushroom Valley
+		dc.l	TC_Launch_Base		; Sandopolis
+		dc.l	TC_Launch_Base		; Lava Reef
+		dc.l	TC_Launch_Base		; Sky Sanctuary
+		dc.l	TC_Launch_Base		; Death Egg
+		dc.l	TC_Launch_Base		; The Doomsday
+		; no entries for Zone 0D and beyond, which the game doesn't load the title card
+		; object in anyways, which also means that the unused 2P title cards aren't here
 ; ===========================================================================
 
 ttlResObjData macro obj,xdest,xpos,ypos,frame,width,place

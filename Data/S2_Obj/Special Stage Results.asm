@@ -1,8 +1,10 @@
-;===============================================================================
-; Objeto 0x6F - Resultados do Special Stage
-; ->>>
-;===============================================================================    
-; Offset_0x024BCC:
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Special Stage Results (leftover from Sonic 2)
+; ---------------------------------------------------------------------------
+; Offset_0x024BCA: Obj_S2_0x6F_Special_Stage_Results:
+S2Obj6F_SSResults:
+		rts
                 moveq   #$00, D0
                 moveq   #$00, D6
                 move.b  Obj_Routine(A0), D0                              ; $0005
@@ -74,7 +76,7 @@ Offset_0x024C6C:
                 move.b  #$1C, Obj_Routine(A0)                            ; $0005
                 move.w  #$00B4, Obj_Ani_Time(A0)                         ; $0024
 Offset_0x024C82:
-                bra     S2_Rev_2_Obj_0x34_Offset_0x013DB8      ; Offset_0x024BCA
+                bra     S2Obj6F_SSResults
 ;-------------------------------------------------------------------------------                  
 Offset_0x024C86:
                 cmpi.b  #$07, (Emeralds_Count).w                     ; $FFFFFFB1
@@ -94,7 +96,7 @@ Offset_0x024C9C:
                 addq.w  #$01, D0
 Offset_0x024CB0:
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
-                bra     S2_Rev_2_Obj_0x34_Offset_0x013DB8      ; Offset_0x024BCA
+                bra     S2Obj6F_SSResults
 ;-------------------------------------------------------------------------------                  
 Offset_0x024CB8:
                 addq.w  #$01, D6
@@ -169,7 +171,7 @@ Offset_0x024D52:
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
 ;-------------------------------------------------------------------------------                  
 Offset_0x024D56:
-                bra     S2_Rev_2_Obj_0x34_Offset_0x013DB8      ; Offset_0x024BCA
+                bra     S2Obj6F_SSResults
 ;-------------------------------------------------------------------------------                  
 Offset_0x024D5A:
                 tst.b   (SS_Completed_Flag).w                        ; $FFFFFFB0
@@ -316,7 +318,7 @@ Offset_0x024F26:
 Offset_0x024F28:
                 move.w  Obj_X(A0), D0                                    ; $0010
                 cmp.w   Obj_Control_Var_00(A0), D0                       ; $0030
-                bne     S2_Rev_2_Obj_0x34_Offset_0x013DB8      ; Offset_0x024BCA
+                bne     S2Obj6F_SSResults
                 move.w  #$00B4, Obj_Ani_Time(A0)                         ; $0024
                 move.b  #$20, Obj_Routine(A0)                            ; $0005
                 jmp     (DisplaySprite)                        ; Offset_0x011148     

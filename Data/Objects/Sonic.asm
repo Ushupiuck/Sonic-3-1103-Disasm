@@ -115,7 +115,7 @@ Offset_0x00AB7C:
 Offset_0x00ABA8:
 		btst	#1,Obj_Player_Control(a0)
 		bne.s	Offset_0x00ABB8
-		bsr.w	Sonic_Animate_2
+		bsr.w	Sonic_Animate1P
 		bsr.w	Load_Sonic_Dynamic_PLC
 
 Offset_0x00ABB8:
@@ -145,12 +145,12 @@ Offset_0x00ABE0:
 		jsr	(DisplaySprite).l
 ; Offset_0x00ABE6:
 Sonic_ChkInvin:
-		btst	#1,Obj_Player_Status(a0)
-		beq.s	Sonic_ChkShoes
-		tst.b	Obj_P_Invcbility_Time(a0)
-		beq.s	Sonic_ChkShoes
+		btst	#1,Obj_Player_Status(a0)		; does Sonic have invincibility?
+		beq.s	Sonic_ChkShoes				; if not, branch
+		tst.b	Obj_P_Invcbility_Time(a0)		; has the invincibility run out?
+		beq.s	Sonic_ChkShoes				; if yes, branch
 		move.b	(Level_Frame_Count+1).w,d0
-		andi.b	#7,d0
+		andi.b	#7,d0					; countdown invincibility timer every eighth frame (used to save a byte of Sonic's SST)
 		bne.s	Sonic_ChkShoes
 		subq.b	#1,Obj_P_Invcbility_Time(a0)
 		bne.s	Sonic_ChkShoes
@@ -162,20 +162,21 @@ Sonic_ChkInvin:
 		jsr	(PlaySound).l
 ; Offset_0x00AC1C:
 Sonic_RmvInvin:
-		bclr	#1,Obj_Player_Status(a0)
+		bclr	#1,Obj_Player_Status(a0)		; remove invincibility
 ; Offset_0x00AC22:
 Sonic_ChkShoes:
-		btst	#2,Obj_Player_Status(a0)
-		beq.s	Sonic_ExitChk
-		tst.b	Obj_P_Spd_Shoes_Time(a0)
-		beq.s	Sonic_ExitChk
+		btst	#2,Obj_Player_Status(a0)		; does Sonic have speed shoes?
+		beq.s	Sonic_ExitChk				; if not, branch
+		tst.b	Obj_P_Spd_Shoes_Time(a0)		; has the speed shoes run out?
+		beq.s	Sonic_ExitChk				; if yes, branch
 		move.b	(Level_Frame_Count+1).w,d0
-		andi.b	#7,d0
+		andi.b	#7,d0					; again, countdown speed shoes timer every eighth frame
 		bne.s	Sonic_ExitChk
 		subq.b	#1,Obj_P_Spd_Shoes_Time(a0)
 		bne.s	Sonic_ExitChk
-		tst.w	(Two_Player_Flag).w
-		bne.s	Sonic_ChkShoesCompetition
+		tst.w	(Two_Player_Flag).w			; is this two competition mode?
+		bne.s	Sonic_ChkShoesCompetition		; if yes, branch
+		; reset Sonic's speed values
 		move.w	#$600,(a4)
 		move.w	#$C,Acceleration(a4)
 		move.w	#$80,Deceleration(a4)
@@ -186,7 +187,7 @@ Sonic_ChkShoes:
 		move.w	#$100,Deceleration(a4)
 ; Offset_0x00AC6C:
 Sonic_RmvSpeed:
-		bclr	#2,Obj_Player_Status(a0)
+		bclr	#2,Obj_Player_Status(a0)		; remove speed shoes
 		move.w	#Music_Normal_Speed,d0
 		jmp	(PlaySound).l
 ; ---------------------------------------------------------------------------
@@ -1337,10 +1338,7 @@ Offset_0x00B7B6:
 		rts
 ; End of function Sonic_CheckGoSuper
 
-; ---------------------------------------------------------------------------
-; Offset_0x00B7B8:
-Sonic_ThrowRings:
-		bra.w	Offset_0x00B8B6
+; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; An unused ability that lets Sonic shoot rings while jumping; the rings were
 ; likely meant to be a placeholder until proper graphics were added, which they
@@ -1348,21 +1346,28 @@ Sonic_ThrowRings:
 ;
 ; Judging from Sonic Origins' concept art of the many shield types, this might've
 ; been the "attack" ability the Flame Shield (NOT "Fire"!) was intended to have.
-		btst	#2,Obj_Status(a0)
-		beq.w	Offset_0x00B8B6
+;
+; However, given that Mecha Sonic throws rings in Knuckles' final boss, maybe it
+; really was an actual ring throw ability... yeah, it's complicated.
+; Offset_0x00B7B8:
+Sonic_ThrowRings:
+		bra.w	Offset_0x00B8B6				; immediately skip over all the code
+; ---------------------------------------------------------------------------
+		btst	#2,Obj_Status(a0)			; is Sonic rolling?
+		beq.w	Offset_0x00B8B6				; if not, branch
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$20,d0
-		beq.s	@notRolling
+		andi.b	#$20,d0					; has C been pressed?
+		beq.s	@notRolling				; if not, branch
 		move.w	Obj_Speed_X(a0),d2
 		bsr.w	AllocateObject
 		bne.w	@skip
-		bsr.w	Obj_ThrownRing
+		bsr.w	Obj_ThrownRing				; load a ring firing right
 		move.w	#$800,Obj_Speed_X(a1)
 		move.w	#0,Obj_Speed_Y(a1)
 		add.w	d2,Obj_Speed_X(a1)
 		bsr.w	AllocateObject
 		bne.w	@skip
-		bsr.w	Obj_ThrownRing
+		bsr.w	Obj_ThrownRing				; load a ring firing left
 		move.w	#-$800,Obj_Speed_X(a1)
 		move.w	#0,Obj_Speed_Y(a1)
 		add.w	d2,Obj_Speed_X(a1)
@@ -1371,6 +1376,7 @@ Sonic_ThrowRings:
 		btst	#2,Obj_Status(a0)			; is Sonic rolling?
 		beq.s	@notRolling				; if not, branch
 		bclr	#2,Obj_Status(a0)			; clear Sonic's roll status
+		; and reset Sonic's size and animation
 		move.b	Obj_Height_2(a0),d0
 		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
 		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
@@ -1381,12 +1387,12 @@ Sonic_ThrowRings:
 ; Offset_0x00B83A:
 @notRolling:
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$10,d0
-		beq.s	Offset_0x00B8B6
+		andi.b	#$10,d0					; has B been pressed?
+		beq.s	Offset_0x00B8B6				; if not, branch
 		move.w	Obj_Speed_X(a0),d2
 		bsr.w	AllocateObject
 		bne.w	Offset_0x00B870
-		bsr.w	Obj_ThrownRing
+		bsr.w	Obj_ThrownRing				; load only one ring facing Sonic's direction
 		move.w	#$800,Obj_Speed_X(a1)
 		btst	#0,Obj_Status(a0)
 		beq.s	Offset_0x00B866
@@ -1397,9 +1403,10 @@ Offset_0x00B866:
 		add.w	d2,Obj_Speed_X(a1)
 
 Offset_0x00B870:
-		btst	#2,Obj_Status(a0)
-		beq.s	Offset_0x00B89E
-		bclr	#2,Obj_Status(a0)
+		btst	#2,Obj_Status(a0)			; is Sonic rolling?
+		beq.s	@notRolling2				; if not, branch
+		bclr	#2,Obj_Status(a0)			; clear Sonic's roll status
+		; and reset Sonic's size and animation
 		move.b	Obj_Height_2(a0),d0
 		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
 		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
@@ -1407,8 +1414,9 @@ Offset_0x00B870:
 		sub.b	Obj_Height_3(a0),d0
 		ext.w	d0
 		add.w	d0,Obj_Y(a0)
-
-Offset_0x00B89E:
+; Offset_0x00B89E:
+@notRolling2:
+		; strangely, only the single ring fire clears Sonic's vertical momentum
 		move.w	#0,Obj_Speed_Y(a0)
 		move.w	#$200,d0
 		btst	#0,Obj_Status(a0)
@@ -2119,7 +2127,7 @@ Offset_0x00C082:
 		bsr     Sonic_HurtStop		         ; Offset_0x00C098
 		bsr     Sonic_LevelBoundaries		  ; Offset_0x00B560
 		bsr     Sonic_RecordPos		 ; Offset_0x00ACA2
-		bsr     Sonic_Animate_Check_2P		 ; Offset_0x00C2CC
+		bsr     Sonic_Animate_Check2P		 ; Offset_0x00C2CC
 		jmp     (DisplaySprite)		        ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Sonic_HurtStop:						; Offset_0x00C098
@@ -2160,7 +2168,7 @@ Offset_0x00C10E:
 		bsr     Player_GameOver		        ; Offset_0x00C126
 		jsr     (ObjectFall)		           ; Offset_0x0110FE
 		bsr     Sonic_RecordPos		 ; Offset_0x00ACA2
-		bsr     Sonic_Animate_Check_2P		 ; Offset_0x00C2CC
+		bsr     Sonic_Animate_Check2P		 ; Offset_0x00C2CC
 		jmp     (DisplaySprite)		        ; Offset_0x011148
 ;-------------------------------------------------------------------------------		
 Player_GameOver:				               ; Offset_0x00C126
@@ -2260,40 +2268,55 @@ Sonic_ResetLevel:				              ; Offset_0x00C29C
 		bne.s   Offset_0x00C2AE
 		move.w  #$0001, (Restart_Level_Flag).w               ; $FFFFFE02
 Offset_0x00C2AE:
-		rts   
-;-------------------------------------------------------------------------------
-Sonic_Animate:						 ; Offset_0x00C2B0
-		tst.w   (Camera_RAM).w		               ; $FFFFEE00
-		bne.s   Offset_0x00C2C2
-		tst.w   (Vertical_Scrolling).w		       ; $FFFFEE02
-		bne.s   Offset_0x00C2C2
-		move.b  #$02, Obj_Routine(A0)		            ; $0005
+		rts
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to animate Sonic's sprites
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00C2B0:
+Sonic_Animate:
+		tst.w	(Camera_RAM).w
+		bne.s	Offset_0x00C2C2
+		tst.w	(Vertical_Scrolling).w
+		bne.s	Offset_0x00C2C2
+		move.b	#2,Obj_Routine(a0)
+
 Offset_0x00C2C2:
-		bsr     Sonic_Animate_Check_2P		 ; Offset_0x00C2CC
-		jmp     (DisplaySprite)		        ; Offset_0x011148
-Sonic_Animate_Check_2P:				        ; Offset_0x00C2CC
-		tst.w   (Two_Player_Flag).w		          ; $FFFFFFD8
-		bne.s   Offset_0x00C2D8
-		bsr.s   Sonic_Animate_2		        ; Offset_0x00C2E0
-		bra     Load_Sonic_Dynamic_PLC		 ; Offset_0x00C7EA
-Offset_0x00C2D8:
-		bsr     Sonic_Or_Knuckles_Animate_Sprite_2P    ; Offset_0x00C83E
-		bra     Load_Sonic_2P_Dynamic_PLC              ; Offset_0x00CBA2
+		bsr.w	Sonic_Animate_Check2P
+		jmp	(DisplaySprite).l
 ;-------------------------------------------------------------------------------
-Sonic_Animate_2:				               ; Offset_0x00C2E0
-		lea     (Sonic_Animate_Data), A1               ; Offset_0x00C5A4
-		tst.b   (Super_Sonic_flag).w		         ; $FFFFFE19
-		beq.s   Sonic_Animate_Sprite		   ; Offset_0x00C2F2
-		lea     (Super_Sonic_Animate_Data), A1         ; Offset_0x00C768
-Sonic_Animate_Sprite:				          ; Offset_0x00C2F2
-		moveq   #$00, D0
-		move.b  Obj_Ani_Number(A0), D0		           ; $0020
-		cmp.b   Obj_Ani_Flag(A0), D0		             ; $0021
-		beq.s   Offset_0x00C314
-		move.b  D0, Obj_Ani_Flag(A0)		             ; $0021
-		move.b  #$00, Obj_Ani_Frame(A0)		          ; $0023
-		move.b  #$00, Obj_Ani_Time(A0)		           ; $0024
-		bclr    #$05, Obj_Status(A0)		             ; $002A
+; Offset_0x00C2CC:
+Sonic_Animate_Check2P:
+		tst.w	(Two_Player_Flag).w
+		bne.s	Offset_0x00C2D8
+		bsr.s	Sonic_Animate1P
+		bra.w	Load_Sonic_Dynamic_PLC
+
+Offset_0x00C2D8:
+		bsr.w	Sonic_Or_Knuckles_Animate_Sprite_2P
+		bra.w	Load_Sonic_2P_Dynamic_PLC
+;-------------------------------------------------------------------------------
+; Offset_0x00C2E0: Sonic_Animate_2:
+Sonic_Animate1P:
+		lea	(Sonic_Animate_Data).l,a1
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Sonic_Animate_Sprite
+		lea	(Super_Sonic_Animate_Data).l,a1
+; Offset_0x00C2F2:
+Sonic_Animate_Sprite:
+		moveq	#0,d0
+		move.b	Obj_Ani_Number(a0),d0
+		cmp.b	Obj_Ani_Flag(a0),d0
+		beq.s	Offset_0x00C314
+		move.b	d0,Obj_Ani_Flag(a0)
+		move.b	#0,Obj_Ani_Frame(a0)
+		move.b	#0,Obj_Ani_Time(a0)
+		bclr	#5,Obj_Status(a0)
+
 Offset_0x00C314:
 		add.w   D0, D0
 		adda.w  $00(A1, D0), A1

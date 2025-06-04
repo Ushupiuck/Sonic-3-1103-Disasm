@@ -114,7 +114,7 @@ Offset_0x01877E:
                 move.w  #$0400, (Control_Ports_Logical_Data).w       ; $FFFFF602
                 move.w  #$000E, Obj_Player_Control(A3)                   ; $002E
 Offset_0x0187AA:
-                jsr     (Sonic_Animate_2)                      ; Offset_0x00C2E0
+                jsr     (Sonic_Animate1P)                      ; Offset_0x00C2E0
                 move.l  A3, -(A7)
                 jsr     (Load_Sonic_Dynamic_PLC)               ; Offset_0x00C7EA
                 move.l  (A7)+, A0
