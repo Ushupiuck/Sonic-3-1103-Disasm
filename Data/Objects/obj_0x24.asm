@@ -405,7 +405,7 @@ Obj_Tunnel_Exhaust_Smoke:                                      ; Offset_0x0206B0
                 bne.s   Offset_0x0206E2
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
                 bne     Offset_0x0206E2
-                move.l  #Obj_Fire_Shield_Dissipate, (A1)       ; Offset_0x013E28
+                move.l  #Obj_FireShield_Dissipate, (A1)       ; Offset_0x013E28
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
                 move.w  Obj_Speed_X(A0), Obj_Speed_X(A1)          ; $0018, $0018

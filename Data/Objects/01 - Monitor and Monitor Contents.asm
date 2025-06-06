@@ -372,12 +372,12 @@ MonitorContents_FireShield:
 		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
 		bne.s	@notSonic
-		move.l	#Obj_Fire_Shield,(Obj_P1_Shield).w
+		move.l	#Obj_FireShield,(Obj_P1_Shield).w
 		move.w	a1,(Obj_P1_Shield+Obj_Player_Last).w
 		rts
 ; Offset_0x013306:
 @notSonic:
-		move.l	#Obj_Fire_Shield,(Obj_P2_Shield).w
+		move.l	#Obj_FireShield,(Obj_P2_Shield).w
 		move.w	a1,(Obj_P2_Shield+Obj_Player_Last).w
 		rts
 ; ===========================================================================
@@ -390,12 +390,12 @@ MonitorContents_LightningShield:
 		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
 		bne.s	@notSonic
-		move.l	#Obj_Lightning_Shield,(Obj_P1_Shield).w
+		move.l	#Obj_LightningShield,(Obj_P1_Shield).w
 		move.w	a1,(Obj_P1_Shield+Obj_Player_Last).w
 		rts
 ; Offset_0x01333E:
 @notSonic:
-		move.l	#Obj_Lightning_Shield,(Obj_P2_Shield).w
+		move.l	#Obj_LightningShield,(Obj_P2_Shield).w
 		move.w	a1,(Obj_P2_Shield+Obj_Player_Last).w
 		rts
 ; ===========================================================================
@@ -408,12 +408,12 @@ MonitorContents_BubbleShield:
 		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
 		bne.s	@notSonic
-		move.l	#Obj_Water_Shield,(Obj_P1_Shield).w
+		move.l	#Obj_BubbleShield,(Obj_P1_Shield).w
 		move.w	a1,(Obj_P1_Shield+Obj_Player_Last).w
 		rts
 ; Offset_0x013376:
 @notSonic:
-		move.l	#Obj_Water_Shield,(Obj_P2_Shield).w
+		move.l	#Obj_BubbleShield,(Obj_P2_Shield).w
 		move.w	a1,(Obj_P2_Shield+Obj_Player_Last).w
 		rts
 ; ===========================================================================
