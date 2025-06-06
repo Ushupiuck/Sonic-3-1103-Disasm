@@ -42811,33 +42811,24 @@ Angel_Island_2_Chunks_2:                                       ; Offset_0x14EA6E
 Hydrocity_1_Blocks:                                            ; Offset_0x152B8E
 Hydrocity_2_Blocks:                                            ; Offset_0x152B8E
                 incbin  'data\hz\blocks.kos'
-                dc.w     $0000   
 Hydrocity_1_Tiles:                                             ; Offset_0x152F7E
 Hydrocity_2_Tiles:                                             ; Offset_0x152F7E
                 incbin  'data\hz\tiles.kmd'
-                dc.w     $0000, $0000, $0000, $0000
 Hydrocity_1_Chunks:                                            ; Offset_0x153B70
 Hydrocity_2_Chunks:                                            ; Offset_0x153B70
                 incbin  'data\hz\chunks.kos'
-                dc.w     $0000, $0000
 Hydrocity_1_Blocks_2:                                          ; Offset_0x153E60  
-                incbin  'data\hz\bl2_act1.kos'   
-                dc.w     $0000, $0000, $0000
+                incbin  'data\hz\bl2_act1.kos'
 Hydrocity_1_Tiles_2:                                           ; Offset_0x1546F0
                 incbin  'data\hz\tl2_act1.kmd'  
-                dc.w     $0000, $0000, $0000, $0000, $0000                           
 Hydrocity_1_Chunks_2:                                          ; Offset_0x156742
                 incbin  'data\hz\ck2_act1.kos'
-                dc.w     $0000
 Hydrocity_2_Blocks_2:                                          ; Offset_0x158562
                 incbin  'data\hz\bl2_act2.kos'
-                dc.w     $0000, $0000, $0000, $0000
 Hydrocity_2_Tiles_2:                                           ; Offset_0x158DF2
                 incbin  'data\hz\tl2_act2.kmd'
-                dc.w     $0000, $0000, $0000
 Hydrocity_2_Chunks_2:                                          ; Offset_0x15AC74  
                 incbin  'data\hz\ck2_act2.kos'
-                dc.w     $0000                                
 Marble_Garden_1_Blocks:                                        ; Offset_0x15C744 
 Marble_Garden_2_Blocks:                                        ; Offset_0x15C744
                 incbin  'data\mgz\blocks.kos'
