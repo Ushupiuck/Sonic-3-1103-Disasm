@@ -121,7 +121,7 @@ Offset_0x010C3A:
                 addq.b  #$02, Obj_Routine(A0)                            ; $0005
                 move.b  #$00, Obj_Col_Flags(A0)                          ; $0028
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
-                bsr     Add_Rings_Check_Ring_Status            ; Offset_0x010A20
+                bsr     CollectRing            ; Offset_0x010A20
 ;-------------------------------------------------------------------------------                
 Offset_0x010C4E:
                 lea     (Rings_Animate_Data), A1               ; Offset_0x010DDA

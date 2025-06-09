@@ -194,9 +194,9 @@ Offset_0x02CB2C:
                 bsr     Offset_0x02CF7C
                 cmpa.w  #Obj_Player_One, A2                              ; $B000
                 bne.s   Offset_0x02CB50
-                jmp     (Add_Rings)                            ; Offset_0x010A26
+                jmp     (CollectRing_Sonic)                            ; Offset_0x010A26
 Offset_0x02CB50:
-                jmp     (Add_Rings_Player_Two)                 ; Offset_0x010A7C 
+                jmp     (CollectRing_Tails)                 ; Offset_0x010A7C 
 ;-------------------------------------------------------------------------------
 Offset_0x02CB56:
                 move.b  #$07, Obj_Ani_Number(A0)                         ; $0020

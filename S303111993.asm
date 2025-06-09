@@ -8609,9 +8609,9 @@ Offset_0x008950:
                 subq.w  #$01, (Remainning_Rings_Count).w             ; $FFFFFF04
                 cmpa.w  #Obj_Player_One, A0                              ; $B000
                 beq.s   Offset_0x008960
-                jmp     (Add_Rings_Player_Two)                 ; Offset_0x010A7C
+                jmp     (CollectRing_Tails)                 ; Offset_0x010A7C
 Offset_0x008960:
-                jmp     (Add_Rings)                            ; Offset_0x010A26
+                jmp     (CollectRing_Sonic)                            ; Offset_0x010A26
 ;===============================================================================
 ; Rotinas para responder ao toque dos an�is pelo jogador
 ; <<<-
@@ -11748,68 +11748,133 @@ Offset_0x0109A0:
 		dc.w    $0001
 		dc.w    $0052
 
-		include	"data/objects/00 - Rings.asm"		; Collectable Rings
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 00 - Rings
+;
+; This just handles ones spawned in debug mode, the actual rings in levels
+; are handled using a separate manager
+; ---------------------------------------------------------------------------
+; Offset_0x0109A4: Obj_0x00_Rings:
+Obj00_Rings:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	Rings_Index(pc,d0.w),d1
+		jmp	Rings_Index(pc,d1.w) 
+; ===========================================================================
+; Offset_0x0109B2:
+Rings_Index:	offsetTable
+		offsetTableEntry.w Rings_Init
+		offsetTableEntry.w Rings_Main
+		offsetTableEntry.w Rings_Collect
+		offsetTableEntry.w Rings_Display
+		offsetTableEntry.w Rings_Delete
+; ===========================================================================
+; Offset_0x0109BC:
+Rings_Init:
+		addq.b	#2,Obj_Routine(a0)
+		move.l	#Rings_Mappings,Obj_Map(a0)
+		move.w	#$A6BC,Obj_Art_VRAM(a0)
+		move.b	#4,Obj_Flags(a0)
+		move.w	#$100,Obj_Priority(a0)
+		move.b	#$47,Obj_Col_Flags(a0)
+		move.b	#8,Obj_Width(a0)
+		tst.w	(Two_Player_Flag).w
+		beq.s	Rings_Main
+		move.w	#$63D2,Obj_Art_VRAM(a0)
+; Offset_0x0109F2:
+Rings_Main:
+		move.b	(Object_Frame_Buffer).w,Obj_Map_Id(a0)
+		bra.w	MarkObjGone_5
+; ===========================================================================
+; Offset_0x0109FC:
+Rings_Collect:
+		addq.b	#2,Obj_Routine(a0)
+		move.b	#0,Obj_Col_Flags(a0)
+		move.w	#$80,Obj_Priority(a0)
+		bsr.s	CollectRing
+; Offset_0x010A0E:
+Rings_Display:
+		lea	(Rings_Animate_Data).l,a1
+		bsr.w	AnimateSprite
+		bra.w	DisplaySprite
+; ===========================================================================
+; Offset_0x010A1C:
+Rings_Delete:
+		bra.w	DeleteObject
 
-;===============================================================================   
-; Rotina para adicionar an�is ao contador, verificando o limmite e bonificando
-; ->>>        com vida extra ao adiquirir 100 e 200 an�is
-;===============================================================================   
-Add_Rings_Check_Ring_Status:                                   ; Offset_0x010A20
-                tst.b   Obj_Player_One_Or_Two(A0)                        ; $003F
-                bne.s   Add_Rings_Player_Two
-Add_Rings:                                                     ; Offset_0x010A26
-                cmpi.w  #$03E7, (Total_Ring_Count_Address).w         ; $FFFFFEF0
-                bcc.s   Offset_0x010A32
-                addq.w  #$01, (Total_Ring_Count_Address).w           ; $FFFFFEF0
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to collect a ring
+; ---------------------------------------------------------------------------
+; Offset_0x010A20: Add_Rings_Check_Ring_Status:
+CollectRing:
+		tst.b	Obj_Player_One_Or_Two(a0)
+		bne.s	CollectRing_Tails
+; Offset_0x010A26: Add_Rings:
+CollectRing_Sonic:
+		cmpi.w	#999,(Total_Ring_Count_Address).w
+		bcc.s	Offset_0x010A32
+		addq.w	#1,(Total_Ring_Count_Address).w
+
 Offset_0x010A32:
-                move.w  #Ring_Sfx, D0                                    ; $0032
-                cmpi.w  #$03E7, (Ring_count).w               ; $FFFFFE20
-                bcc.s   Offset_0x010A74
-                addq.w  #$01, (Ring_count).w                 ; $FFFFFE20
-                ori.b   #$01, (Update_HUD_rings).w             ; $FFFFFE1D
-                cmpi.w  #$0064, (Ring_count).w               ; $FFFFFE20
-                bcs.s   Offset_0x010A74
-                bset    #$01, (Extra_life_flags).w                   ; $FFFFFE1B
-                beq.s   Offset_0x010A68
-                cmpi.w  #$00C8, (Ring_count).w               ; $FFFFFE20
-                bcs.s   Offset_0x010A74
-                bset    #$02, (Extra_life_flags).w                   ; $FFFFFE1B
-                bne.s   Offset_0x010A74
+		move.w	#Ring_Sfx,d0
+		cmpi.w	#999,(Ring_count).w
+		bcc.s	Offset_0x010A74
+		addq.w	#1,(Ring_count).w
+		ori.b	#1,(Update_HUD_rings).w
+		cmpi.w	#100,(Ring_count).w
+		bcs.s	Offset_0x010A74
+		bset	#1,(Extra_life_flags).w
+		beq.s	Offset_0x010A68
+		cmpi.w	#200,(Ring_count).w
+		bcs.s	Offset_0x010A74
+		bset	#2,(Extra_life_flags).w
+		bne.s	Offset_0x010A74
+
 Offset_0x010A68:
-                addq.b  #$01, (Life_count).w                         ; $FFFFFE12
-                addq.b  #$01, (Update_HUD_lives).w              ; $FFFFFE1C
-                move.w  #Ring_Lost_Sfx, D0                               ; $0034
+		addq.b	#1,(Life_count).w
+		addq.b	#1,(Update_HUD_lives).w
+		move.w	#Ring_Lost_Sfx,d0
+
 Offset_0x010A74:
-                jmp     (PlaySound)                           ; Offset_0x001176  
-                rts     ; N�o usado
-;-------------------------------------------------------------------------------
-Add_Rings_Player_Two:                                          ; Offset_0x010A7C
-                cmpi.w  #$03E7, (Total_Ring_Count_Address_P2).w      ; $FFFFFEF2
-                bcc.s   Offset_0x010A88
-                addq.w  #$01, (Total_Ring_Count_Address_P2).w        ; $FFFFFEF2
+		jmp	(PlaySound).l
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x010A7C: Add_Rings_Player_Two:
+CollectRing_Tails:
+		cmpi.w	#999,(Total_Ring_Count_Address_P2).w
+		bcc.s	Offset_0x010A88
+		addq.w	#1,(Total_Ring_Count_Address_P2).w
+
 Offset_0x010A88:
-                cmpi.w  #$03E7, (Ring_Count_Address_P2).w            ; $FFFFFED0
-                bcc.s   Offset_0x010A94
-                addq.w  #$01, (Ring_Count_Address_P2).w              ; $FFFFFED0
+		cmpi.w	#999,(Ring_Count_Address_P2).w
+		bcc.s	Offset_0x010A94
+		addq.w	#1,(Ring_Count_Address_P2).w
+
 Offset_0x010A94:
-                tst.w   (Two_Player_Flag).w                          ; $FFFFFFD8
-                beq.s   Offset_0x010A32
-                ori.b   #$01, (HUD_Rings_Refresh_Flag_P2).w          ; $FFFFFEC9
-                move.w  #Ring_Sfx, D0                                    ; $0032
-                cmpi.w  #$0064, (Ring_Count_Address_P2).w            ; $FFFFFED0
-                bcs.s   Offset_0x010AD0
-                bset    #$01, (Ring_Status_Flag_P2).w                ; $FFFFFEC7
-                beq.s   Offset_0x010AC4
-                cmpi.w  #$00C8, (Ring_Count_Address_P2).w            ; $FFFFFED0
-                bcs.s   Offset_0x010AD0
-                bset    #$02, (Ring_Status_Flag_P2).w                ; $FFFFFEC7
-                bne.s   Offset_0x010AD0
+		tst.w	(Two_Player_Flag).w
+		beq.s	Offset_0x010A32
+		ori.b	#1,(HUD_Rings_Refresh_Flag_P2).w
+		move.w	#Ring_Sfx, D0
+		cmpi.w	#100,(Ring_Count_Address_P2).w
+		bcs.s	Offset_0x010AD0
+		bset	#1,(Ring_Status_Flag_P2).w
+		beq.s	Offset_0x010AC4
+		cmpi.w	#200,(Ring_Count_Address_P2).w
+		bcs.s	Offset_0x010AD0
+		bset	#2,(Ring_Status_Flag_P2).w
+		bne.s	Offset_0x010AD0
+
 Offset_0x010AC4:
-                addq.b  #$01, (Life_Count_P2).w                      ; $FFFFFEC6
-                addq.b  #$01, (HUD_Life_Refresh_Flag_P2).w           ; $FFFFFEC8
-                move.w  #Ring_Lost_Sfx, D0                               ; $0034
+		addq.b	#1,(Life_Count_P2).w
+		addq.b	#1,(HUD_Life_Refresh_Flag_P2).w
+		move.w	#Ring_Lost_Sfx,d0
+
 Offset_0x010AD0:
-                jmp     (PlaySound)                           ; Offset_0x001176                
+		jmp	(PlaySound).l
+; End of function CollectRing
+
 ;===============================================================================  
 ; Rotina para adicionar an�is ao contador, verificando o limmite e bonificando
 ; <<<-        com vida extra ao adiquirir 100 e 200 an�is

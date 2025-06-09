@@ -36,7 +36,7 @@ Offset_0x010FD6:
                 bne     DisplaySprite                          ; Offset_0x011148
                 move.l  Obj_Timer(A0), A1                                ; $002E
                 subq.w  #$01, (A1)
-                bsr     Add_Rings_Check_Ring_Status            ; Offset_0x010A20
+                bsr     CollectRing            ; Offset_0x010A20
                 addi.b  #$02, Obj_Routine(A0)                            ; $0005
 ;-------------------------------------------------------------------------------                
 Offset_0x01102A:
