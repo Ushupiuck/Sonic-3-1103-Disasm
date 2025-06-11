@@ -14214,22 +14214,22 @@ DynResize_Index:                                               ; Offset_0x012510
                 dc.w    DynResize_ALz_2-DynResize_Index        ; Offset_0x012986
                 dc.w    DynResize_BPz_1-DynResize_Index        ; Offset_0x012986
                 dc.w    DynResize_BPz_2-DynResize_Index        ; Offset_0x012986	; $3E
-                dc.w    DynResize_DPz_1-DynResize_Index        ; Offset_0x012986
-                dc.w    DynResize_DPz_2-DynResize_Index        ; Offset_0x012986
-                dc.w    DynResize_CGz_1-DynResize_Index        ; Offset_0x012986
-                dc.w    DynResize_CGz_2-DynResize_Index        ; Offset_0x012986
-                dc.w    DynResize_EMz_1-DynResize_Index        ; Offset_0x012986
-                dc.w    DynResize_EMz_2-DynResize_Index        ; Offset_0x012986
-                dc.w    DynResize_BS_GM_1-DynResize_Index      ; Offset_0x012986
-                dc.w    DynResize_BS_GM_2-DynResize_Index      ; Offset_0x012986
-                dc.w    DynResize_BS_GS_1-DynResize_Index      ; Offset_0x012986
-                dc.w    DynResize_BS_GS_2-DynResize_Index      ; Offset_0x012986
-                dc.w    DynResize_BS_SM_1-DynResize_Index      ; Offset_0x012986
-                dc.w    DynResize_BS_SM_2-DynResize_Index      ; Offset_0x012986
-                dc.w    DynResize_LRz_Boss-DynResize_Index     ; Offset_0x012986
-                dc.w    DynResize_HPz-DynResize_Index          ; Offset_0x012986
-                dc.w    DynResize_DEz_Boss-DynResize_Index     ; Offset_0x012986
-                dc.w    DynResize_HPz_Portal-DynResize_Index   ; Offset_0x012986 
+                dc.w    DynResize_DPz_1-DynResize_Index        ; Offset_0x012986	; triggers AIZ1
+                dc.w    DynResize_DPz_2-DynResize_Index        ; Offset_0x012986	; triggers AIZ2
+                dc.w    DynResize_CGz_1-DynResize_Index        ; Offset_0x012986	; triggers HCZ1
+                dc.w    DynResize_CGz_2-DynResize_Index        ; Offset_0x012986	; triggers HCZ2
+                dc.w    DynResize_EMz_1-DynResize_Index        ; Offset_0x012986	; triggers MGZ1
+                dc.w    DynResize_EMz_2-DynResize_Index        ; Offset_0x012986	; triggers MGZ2
+                dc.w    DynResize_BS_GM_1-DynResize_Index      ; Offset_0x012986	; triggers CNZ1
+                dc.w    DynResize_BS_GM_2-DynResize_Index      ; Offset_0x012986	; triggers CNZ2
+                dc.w    DynResize_BS_GS_1-DynResize_Index      ; Offset_0x012986	; triggers FBZ1
+                dc.w    DynResize_BS_GS_2-DynResize_Index      ; Offset_0x012986	; triggers FBZ2
+                dc.w    DynResize_BS_SM_1-DynResize_Index      ; Offset_0x012986	; triggers ICZ1
+                dc.w    DynResize_BS_SM_2-DynResize_Index      ; Offset_0x012986	; triggers ICZ2
+                dc.w    DynResize_LRz_Boss-DynResize_Index     ; Offset_0x012986	; triggers LBZ1
+                dc.w    DynResize_HPz-DynResize_Index          ; Offset_0x012986	; triggers LBZ2
+                dc.w    DynResize_DEz_Boss-DynResize_Index     ; Offset_0x012986	; triggers MVZ1
+                dc.w    DynResize_HPz_Portal-DynResize_Index   ; Offset_0x012986 	; triggers MVZ2
 ;===============================================================================    
 DynResize_AIz_1:                                               ; Offset_0x012570
                 moveq   #$00, D0
@@ -43464,33 +43464,24 @@ Hydrocity_2_Chunks_2:                                          ; Offset_0x15AC74
 Marble_Garden_1_Blocks:                                        ; Offset_0x15C744 
 Marble_Garden_2_Blocks:                                        ; Offset_0x15C744
                 incbin  'data\mgz\blocks.kos'
-                dc.w     $0000, $0000
 Marble_Garden_1_Tiles:                                         ; Offset_0x15D0A4
 Marble_Garden_2_Tiles:                                         ; Offset_0x15D0A4
                 incbin  'data\mgz\tiles.kmd'
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Marble_Garden_1_Chunks:                                        ; Offset_0x15F926
 Marble_Garden_2_Chunks:                                        ; Offset_0x15F926
                 incbin  'data\mgz\chunks.kos'
-                dc.w     $0000 
 Marble_Garden_1_Blocks_2:                                      ; Offset_0x161C56
                 incbin  'data\mgz\bl2_act1.kos'
-                dc.w     $0000, $0000
 Marble_Garden_1_Tiles_2:                                       ; Offset_0x161F56
                 incbin  'data\mgz\tl2_act1.kmd'
-                dc.w     $0000, $0000, $0000, $0000
 Marble_Garden_1_Chunks_2:                                      ; Offset_0x162628
                 incbin  'data\mgz\ck2_act1.kos'
-                dc.w     $0000 
 Marble_Garden_2_Blocks_2:                                      ; Offset_0x162E58
                 incbin  'data\mgz\bl2_act2.kos'
-                dc.w     $0000, $0000, $0000, $0000
 Marble_Garden_2_Tiles_2:                                       ; Offset_0x1632A8                                                                                                                
                 incbin  'data\mgz\tl2_act2.kmd'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $0000
 Marble_Garden_2_Chunks_2:                                      ; Offset_0x16403A  
                 incbin  'data\mgz\ck2_act2.kos'
-                dc.w     $0000
 Marble_Garden_2_Dynamic_Chunks:                                ; Offset_0x1649DA
                 incbin  'data\mgz\dynchunk.dat'                    
 Carnival_Night_1_Blocks:                                       ; Offset_0x165A5A
@@ -43498,19 +43489,16 @@ Carnival_Night_1_Blocks_2:                                     ; Offset_0x165A5A
 Carnival_Night_2_Blocks:                                       ; Offset_0x165A5A
 Carnival_Night_2_Blocks_2:                                     ; Offset_0x165A5A 
                 incbin  'data\cnz\blocks.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $0000
 Carnival_Night_1_Tiles:                                        ; Offset_0x166A9A
 Carnival_Night_1_Tiles_2:                                      ; Offset_0x166A9A
 Carnival_Night_2_Tiles:                                        ; Offset_0x166A9A
 Carnival_Night_2_Tiles_2:                                      ; Offset_0x166A9A
                 incbin  'data\cnz\tiles.kmd'
-                dc.w     $0000, $0000, $0000
 Carnival_Night_1_Chunks:                                       ; Offset_0x169CBC
 Carnival_Night_1_Chunks_2:                                     ; Offset_0x169CBC
 Carnival_Night_2_Chunks:                                       ; Offset_0x169CBC
 Carnival_Night_2_Chunks_2:                                     ; Offset_0x169CBC  
                 incbin  'data\cnz\chunks.kos'
-                dc.w     $0000, $0000, $0000
 Flying_Battery_1_Blocks:                                       ; Offset_0x16CDCC                   
 Flying_Battery_1_Blocks_2:                                     ; Offset_0x16CDCC 
                 incbin  'data\fbz\bl_act1.kos'
@@ -43629,7 +43617,6 @@ Lava_Reef_2_Chunks_2:                                          ; Offset_0x193C2E
    
 Azure_Lake_Blocks:                                             ; Offset_0x193C2E
                 incbin  'data\alz\blocks.kos'
-                dc.w    $0000, $0000, $0000, $0000, $0000
 Azure_Lake_Tiles:                                              ; Offset_0x1946EE
                 incbin  'data\alz\tiles.kmd'
 Azure_Lake_Chunks:                                             ; Offset_0x1974A0
@@ -43718,13 +43705,10 @@ Left_Over_Lava_Reef_Chunks_2:                                  ; Offset_0x1B2ED6
                 incbin  'data\lrz\chunks_2.kos'  
 Left_Over_Azure_Lake_Blocks:                                   ; Offset_0x1B5DB6
                 incbin  'data\alz\blocks_1.kos'  
-                dc.w    $0000, $0000, $0000     
 Left_Over_Azure_Lake_Tiles:                                    ; Offset_0x1B66D6
-                incbin  'data\alz\tiles_1.kmd'    
-                dc.w    $0000, $0000, $0000, $0000
+                incbin  'data\alz\tiles_1.kmd'   
 Left_Over_Azure_Lake_Chunks:                                   ; Offset_0x1B8EE8                
                 incbin  'data\alz\chunks_1.kos'
-                dc.w    $0000, $0000, $0000 
 ; Offset_0x1B9568:                 
                 incbin  'data\unknown\blocks.kos'
                 dc.w    $0000, $0000, $0000, $0000, $0000, $0000, $0000  
