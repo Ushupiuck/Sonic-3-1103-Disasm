@@ -43709,7 +43709,8 @@ BS_Slot_Machine_Chunks:                                        ; Offset_0x1AA46E
                 dc.w    $0000, $0000, $0000, $0000, $0000, $0000  
 ; Offset_0x1ABDDC:          
                 incbin  'data\unknown\unkdata5.bin' 
-                dc.w    $0000, $0000, $0000, $0000, $0000, $0000, $0000
+Left_Over_Lava_Reef_Blocks:
+		incbin	'data\lrz\Blocks.kos'
 Left_Over_Lava_Reef_Tiles:                                     ; Offset_0x1AEF34
                 incbin  'data\lrz\tiles_1.kmd'    
                 dc.w    $0000, $0000, $0000 
