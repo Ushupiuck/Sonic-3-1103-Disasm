@@ -43502,93 +43502,71 @@ Carnival_Night_2_Chunks_2:                                     ; Offset_0x169CBC
 Flying_Battery_1_Blocks:                                       ; Offset_0x16CDCC                   
 Flying_Battery_1_Blocks_2:                                     ; Offset_0x16CDCC 
                 incbin  'data\fbz\bl_act1.kos'
-                dc.w     $0000, $0000, $0000, $0000
 Flying_Battery_1_Tiles:                                        ; Offset_0x16DB1C
 Flying_Battery_1_Tiles_2:                                      ; Offset_0x16DB1C
                 incbin  'data\fbz\tl_act1.kmd'
-                dc.w     $0000, $0000, $0000, $0000
 Flying_Battery_1_Chunks:                                       ; Offset_0x1705EE
 Flying_Battery_1_Chunks_2:                                     ; Offset_0x1705EE
                 incbin  'data\fbz\ck_act1.kos'
-                dc.w     $0000, $0000, $0000, $0000
 Flying_Battery_2_Blocks:                                       ; Offset_0x17315E
 Flying_Battery_2_Blocks_2:                                     ; Offset_0x17315E
                 incbin  'data\fbz\bl_act2.kos'
 Flying_Battery_2_Tiles:                                        ; Offset_0x173E9E
 Flying_Battery_2_Tiles_2:                                      ; Offset_0x173E9E
                 incbin  'data\fbz\tl_act2.kmd'
-                dc.w     $0000, $0000
 Flying_Battery_2_Chunks:                                       ; Offset_0x176ED0
 Flying_Battery_2_Chunks_2:                                     ; Offset_0x176ED0  
                 incbin  'data\fbz\ck_act2.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $0000
 Icecap_1_Blocks:                                               ; Offset_0x179A00
 Icecap_2_Blocks:                                               ; Offset_0x179A00
                 incbin  'data\iz\blocks.kos' 
-                dc.w     $0000               
 Icecap_1_Tiles:                                                ; Offset_0x179CF0
 Icecap_2_Tiles:                                                ; Offset_0x179CF0
                 incbin  'data\iz\tiles.kmd'
-                dc.w     $0000, $0000
 Icecap_1_Chunks:                                               ; Offset_0x17B102
 Icecap_2_Chunks:                                               ; Offset_0x17B102
                 incbin  'data\iz\chunks.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Icecap_1_Blocks_2:                                             ; Offset_0x17B412
                 incbin  'data\iz\bl2_act1.kos'  
 Icecap_1_Tiles_2:                                              ; Offset_0x17BF62
                 incbin  'data\iz\tl2_act1.kmd'  
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000   
 Icecap_1_Chunks_2:                                             ; Offset_0x17DEF4
                 incbin  'data\iz\ck2_act1.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Icecap_2_Blocks_2:                                             ; Offset_0x17FB24                
                 incbin  'data\iz\bl2_act2.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $0000 
 Icecap_2_Tiles_2:                                              ; Offset_0x180734
                 incbin  'data\iz\tl2_act2.kmd' 
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Icecap_2_Chunks_2:                                             ; Offset_0x182746 
                 incbin  'data\iz\ck2_act2.kos'
-                dc.w     $0000
 Launch_Base_1_Blocks:                                          ; Offset_0x184196
 Launch_Base_2_Blocks:                                          ; Offset_0x184196
                 incbin  'data\lbz\blocks.kos'
 Launch_Base_1_Blocks_2:                                        ; Offset_0x184646   
                 incbin  'data\lbz\bl2_act1.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Launch_Base_1_Tiles:                                           ; Offset_0x185206
 Launch_Base_2_Tiles:                                           ; Offset_0x185206
                 incbin  'data\lbz\tiles.kmd'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000
 Launch_Base_1_Tiles_2:                                         ; Offset_0x186688                                       
                 incbin  'data\lbz\tl2_act1.kmd'
-                dc.w     $0000, $0000
 Launch_Base_Unreferenced_Chunks: ; N�o usado ; Left over ???   ; Offset_0x1885CA
                 incbin  'data\lbz\cnkunref.kos'
                 dc.w     $0000, $0000
 Launch_Base_1_Chunks:                                          ; Offset_0x18872A
 Launch_Base_1_Chunks_2:                                        ; Offset_0x18872A  
                 incbin  'data\lbz\ck_act1.kos'
-                dc.w     $0000, $0000, $0000, $0000
 Launch_Base_2_Blocks_2:                                        ; Offset_0x18B6DA         
                 incbin  'data\lbz\bl2_act2.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Launch_Base_2_Blocks_3:                                        ; Offset_0x18C21A
                 incbin  'data\lbz\bl3_act2.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $00000
 Launch_Base_2_Tiles_2:                                         ; Offset_0x18D03A
                 incbin  'data\lbz\tl2_act2.kmd'
-                dc.w     $0000, $0000, $0000    
 Launch_Base_2_Tiles_3:                                         ; Offset_0x18EB6C
                 incbin  'data\lbz\tl3_act2.kmd'
 Launch_Base_2_Chunks:                                          ; Offset_0x190A3E
 Launch_Base_2_Chunks_2:                                        ; Offset_0x190A3E
                 incbin  'data\lbz\ck_act2.kos'    
-                dc.w     $0000, $0000, $0000, $0000, $0000
 Launch_Base_2_Chunks_3:                                        ; Offset_0x192F2E  
                 incbin  'data\lbz\ck3_act2.kos'   
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $00000
 Mushroom_Valley_1_Blocks:                                      ; Offset_0x193C2E
 Mushroom_Valley_1_Blocks_2:                                    ; Offset_0x193C2E 
 Mushroom_Valley_2_Blocks:                                      ; Offset_0x193C2E
