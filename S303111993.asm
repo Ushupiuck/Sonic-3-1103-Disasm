@@ -353,7 +353,7 @@ ChecksumError2_Loop:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to check what frequency the VDP is running at, used to
-; detect PAL consoles so as to enable its regional V-int routines
+; detect PAL consoles so as to enable its regional H-int routines
 ; ---------------------------------------------------------------------------
 
 ; Offset_0x00041E: Check_VDP_Frequency:
@@ -11143,12 +11143,276 @@ Offset_0x00F969:
                 dc.b    $0E, $FC
 Offset_0x00F96B:
                 dc.b    $0E, $01, $02, $03, $04, $FC, $00                
-;-------------------------------------------------------------------------------  
-; Sonic 2 left over              
-Obj_Classic_Shield:                                            ; Offset_0x00F972
-                include 'data\s2_obj\obj_0x38.asm'
-Obj_Invincibility:                                             ; Offset_0x00F9FA   
-                include 'data\objects\invcblt.asm'
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Classic Shield (leftover from Sonic 2)
+; ---------------------------------------------------------------------------
+; Offset_0x00F972: Obj_Classic_Shield:
+Obj_ClassicShield:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	ClassicShield_Index(pc,d0.w),d1
+		jmp	ClassicShield_Index(pc,d1.w)
+; ===========================================================================
+; Offset_0x00F980:
+ClassicShield_Index:	offsetTable
+		offsetTableEntry.w ClassicShield_Init
+		offsetTableEntry.w ClassicShield_Main
+; ===========================================================================
+; Offset_0x00F984:
+ClassicShield_Init:
+		addq.b	#2,Obj_Routine(a0)
+		move.l	#Classic_Shield_Mappings,Obj_Map(a0)
+		move.b	#4,Obj_Flags(a0)
+		move.w	#$80,Obj_Priority(a0)
+		move.b	#$18,Obj_Width(a0)
+		move.w	#$79C,Obj_Art_VRAM(a0)
+; Offset_0x00F9A8:
+ClassicShield_Main:
+		move.w	Obj_Player_Last(a0),a2
+		btst	#1,Obj_Player_Status(a2)
+		bne.s	Offset_0x00F9F2
+		btst	#0,Obj_Player_Status(a2)
+		beq.s	ClassicShield_Delete
+		move.w	Obj_X(a2),Obj_X(a0)
+		move.w	Obj_Y(a2),Obj_Y(a0)
+		move.b	Obj_Status(a2),Obj_Status(a0)
+		andi.w	#$7FFF,Obj_Art_VRAM(a0)
+		tst.w	Obj_Art_VRAM(a2)
+		bpl.s	ClassicShield_Display
+		ori.w	#$8000,Obj_Art_VRAM(a0)
+; Offset_0x00F9E0:
+ClassicShield_Display:
+		lea	(Classic_Shield_Animate_Data).l,a1
+		jsr	(AnimateSprite).l
+		jmp	(DisplaySprite).l
+
+Offset_0x00F9F2:
+		rts
+; ===========================================================================
+; Offset_0x00F9F4:
+ClassicShield_Delete:
+		jmp	(DeleteObject).l
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Invincibility Stars (that don't display properly :P)
+; ---------------------------------------------------------------------------
+; Offset_0x00F9FA:
+Obj_Invincibility:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	Invincibility_Index(pc,d0.w),d1
+		jmp	Invincibility_Index(pc,d1.w)
+; ===========================================================================
+; Offset_0x00FA08:
+Invincibility_Index:	offsetTable
+		offsetTableEntry.w Invincibility_Init
+		offsetTableEntry.w Invincibility_BigStars
+		offsetTableEntry.w Invincibility_TrailingStars
+; ===========================================================================
+
+Offset_0x00FA0E:
+		dc.l	Offset_0x00FC11
+		dc.b	0, $B
+		dc.l	Offset_0x00FC26
+		dc.b	$16, $D
+		dc.l	Offset_0x00FC3F
+		dc.b	$2C, $D
+; ===========================================================================
+; Offset_0x00FA20:
+Invincibility_Init:
+		; This code is missing, meaning that the invincibility will only display if something else
+		; (such as the Game/Time Over text) is loaded into its VRAM. Uncomment this to fix this.
+		;move.l	#Art_Invincibility,d1
+		;move.w	#$F380,d2
+		;move.w	#$200,d3
+		;jsr	(DMA_68KtoVRAM).l
+		moveq	#0,d2
+		lea	Offset_0x00FA0E-6(pc),a2
+		lea	(a0),a1
+		moveq	#4-1,d1
+
+Offset_0x00FA2A:
+		move.l	(a0),(a1)
+		move.b	#4,Obj_Routine(a1)
+		move.l	#Invincibility_Mappings,Obj_Map(a1)
+		move.w	#$79C,Obj_Art_VRAM(a1)
+		move.w	#$80,Obj_Priority(a1)
+		move.b	#4,Obj_Flags(a1)
+		bset	#6,Obj_Flags(a1)
+		move.b	#$10,Obj_Width(a1)
+		move.w	#2,Obj_Sub_Y(a1)
+		move.w	Obj_Player_Last(a0),Obj_Player_Last(a1)
+		move.b	D2, Obj_Control_Var_06(a1)
+		addq.w	#1,d2
+		move.l	(a2)+,Obj_Control_Var_00(a1)
+		move.w	(a2)+,Obj_Control_Var_04(a1)
+		lea	Obj_Size(a1),a1
+		dbf	d1,Offset_0x00FA2A
+
+		move.b	#2,Obj_Routine(a0)
+		move.b	#4,Obj_Control_Var_04(a0)
+; Offset_0x00FA86:
+Invincibility_BigStars:
+		; These two lines were added since Sonic 2, which fixes an oversight where transforming
+		; Super while invincible would keep the invincibility stars.
+		tst.b	(Super_Sonic_flag).w
+		bne.w	DeleteObject
+		move.w	Obj_Player_Last(a0),a1
+		btst	#Invincibility_Type,Obj_Player_Status(a1)
+		beq.w	DeleteObject
+		move.w	Obj_X(a1),d0
+		move.w	D0, Obj_X(a0)
+		move.w	Obj_Y(a1),d1
+		move.w	d1,Obj_Y(a0)
+		lea	Obj_Speed_X(a0),a2
+		lea	Offset_0x00FC04(pc),a3
+		moveq	#0,d5
+
+Offset_0x00FAB6:
+		move.w	Obj_Control_Var_08(a0),d2
+		move.b	(a3,d2.w),d5
+		bpl.s	Offset_0x00FAC6
+		clr.w	Obj_Control_Var_08(a0)
+		bra.s	Offset_0x00FAB6
+
+Offset_0x00FAC6:
+		addq.w	#1,Obj_Control_Var_08(a0)
+		lea	Invincibility_StarPositions(pc),a6
+		move.b	Obj_Control_Var_04(a0),d6
+		jsr	Offset_0x00FBAE(pc)
+		move.w	d2,(a2)+
+		move.w	d3,(a2)+
+		move.w	d5,(a2)+
+		addi.w	#$20,d6
+		jsr	Offset_0x00FBAE(pc)
+		move.w	d2,(a2)+
+		move.w	d3,(a2)+
+		move.w	d5,(a2)+
+		moveq	#$12,d0
+		btst	#0,Obj_Status(a1)
+		beq.s	Offset_0x00FAF6
+		neg.w	d0
+
+Offset_0x00FAF6:
+		add.b	d0,Obj_Control_Var_04(a0)
+		bra.w	DisplaySprite
+; ===========================================================================
+; Offset_0x00FAFE:
+Invincibility_TrailingStars:
+		; Same thing as above, but for the smaller, trailing stars behind the player.
+		tst.b	(Super_Sonic_flag).w
+		bne.w	DeleteObject
+		move.w	Obj_Player_Last(a0),a1
+		btst	 #Invincibility_Type, Obj_Player_Status(a1)
+		beq.w	DeleteObject
+		cmpi.w	#Miles_Alone, (Player_Selected_Flag).w
+		beq.s	Offset_0x00FB2A
+		lea	(Position_Table_Index).w,a5
+		lea	(Position_Table_Data).w,a6
+		tst.b	Obj_Player_One_Or_Two_2(a0)
+		beq.s	Offset_0x00FB32
+
+Offset_0x00FB2A:
+		lea	(Position_Table_Index_2P).w,a5
+		lea	(Position_Table_Data_P2).w,a6
+
+Offset_0x00FB32:
+		move.b	Obj_Control_Var_06(a0),d1
+		lsl.b	#2,d1
+		move.w	d1,d2
+		add.w	d1,d1
+		add.w	d2,d1
+		move.w	(a5),d0
+		sub.b	d1,d0
+		lea	(a6,d0.w),a2
+		move.w	(a2)+,d0
+		move.w	(a2)+,d1
+		move.w	d0,Obj_X(a0)
+		move.w	d1,Obj_Y(a0)
+		lea	Obj_Speed_X(a0),a2
+		move.l	Obj_Control_Var_00(a0),a3
+
+Offset_0x00FB5A:
+		move.w	Obj_Control_Var_08(a0),d2
+		move.b	(a3,d2.w),d5
+		bpl.s	Offset_0x00FB6A
+		clr.w	Obj_Control_Var_08(A0)
+		bra.s	Offset_0x00FB5A
+
+Offset_0x00FB6A:
+		swap.w	d5
+		add.b	Obj_P_Invcbility_Time(a0),d2
+		move.b	(a3,d2.w),d5
+		addq.w	#1,Obj_Control_Var_08(a0)
+		lea	Invincibility_StarPositions(pc),a6
+		move.b	Obj_Control_Var_04(a0),d6
+		jsr	Offset_0x00FBAE(pc)
+		move.w	d2,(a2)+
+		move.w	d3,(a2)+
+		move.w	d5,(a2)+
+		addi.w	#$20,d6
+		swap.w	d5
+		jsr	Offset_0x00FBAE(pc)
+		move.w	d2,(a2)+
+		move.w	d3,(a2)+
+		move.w	d5,(a2)+
+		moveq	#2,d0
+		btst	#0,Obj_Status(a1)
+		beq.s	Offset_0x00FBA6
+		neg.w	d0
+
+Offset_0x00FBA6:
+		add.b	d0,Obj_Control_Var_04(a0)
+		bra.w	DisplaySprite
+; ===========================================================================
+
+Offset_0x00FBAE:
+		andi.w	#$3E,d6
+		move.b	(a6,d6.w),d2
+		move.b	1(a6,d6.w),d3
+		ext.w	d2
+		ext.w	d3
+		add.w	d0,d2
+		add.w	d1,d3
+		rts
+; ===========================================================================
+; This table seems to store the positions for each star
+; Offset_0x00FBC4:
+Invincibility_StarPositions:
+		dc.b	$0F, $00, $0F, $03, $0E, $06, $0D, $08
+		dc.b	$0B, $0B, $08, $0D, $06, $0E, $03, $0F
+		dc.b	$00, $10, $FC, $0F, $F9, $0E, $F7, $0D
+		dc.b	$F4, $0B, $F2, $08, $F1, $06, $F0, $03
+		dc.b	$F0, $00, $F0, $FC, $F1, $F9, $F2, $F7
+		dc.b	$F4, $F4, $F7, $F2, $F9, $F1, $FC, $F0
+		dc.b	$FF, $F0, $03, $F0, $06, $F1, $08, $F2
+		dc.b	$0B, $F4, $0D, $F7, $0E, $F9, $0F, $FC
+
+; And these tables are the animation scripts
+Offset_0x00FC04:
+		dc.b	$08, $05, $07, $06, $06, $07, $05, $08
+		dc.b	$06, $07, $07, $06, $FF
+
+Offset_0x00FC11:
+		dc.b	$08, $07, $06, $05, $04, $03, $04, $05
+		dc.b	$06, $07, $FF, $03, $04, $05, $06, $07
+		dc.b	$08, $07, $06, $05, $04
+
+Offset_0x00FC26:
+		dc.b	$08, $07, $06, $05, $04, $03, $02, $03
+		dc.b	$04, $05, $06, $07, $FF, $02, $03, $04
+		dc.b	$05, $06, $07, $08, $07, $06, $05, $04
+		dc.b	$03
+
+Offset_0x00FC3F:
+		dc.b	$07, $06, $05, $04, $03, $02, $01, $02
+		dc.b	$03, $04, $05, $06, $FF, $01, $02, $03
+		dc.b	$04, $05, $06, $07, $06, $05, $04, $03
+		dc.b	$02
+
 ;-------------------------------------------------------------------------------
 Classic_Shield_Animate_Data:                                   ; Offset_0x00FC58
                 dc.w    Offset_0x00FC5A-Classic_Shield_Animate_Data
@@ -11441,17 +11705,17 @@ Offset_0x01060A:	dc.b	  3,  0,  1,  2,  3,  4,  5,  6
 
 ; Offset_0x010618: Lightning_Shield_Animate_Data:
 LightningShield_AnimateData:
-		dc.w    Offset_0x01061A-LightningShield_AnimateData
+		dc.w	Offset_0x01061A-LightningShield_AnimateData
 Offset_0x01061A:
-		dc.b    $03, $00, $01, $02, $03, $04, $05, $06
-		dc.b    $07, $FF
+		dc.b	$03, $00, $01, $02, $03, $04, $05, $06
+		dc.b	$07, $FF
 
 ; Offset_0x010624: Water_Shield_Animate_Data:
 BubbleShield_AnimateData:
-		dc.w    Offset_0x010626-BubbleShield_AnimateData
+		dc.w	Offset_0x010626-BubbleShield_AnimateData
 Offset_0x010626:
-		dc.b    $03, $00, $01, $02, $03, $04, $05, $06
-		dc.b    $07, $08, $09, $0A, $0B, $FF
+		dc.b	$03, $00, $01, $02, $03, $04, $05, $06
+		dc.b	$07, $08, $09, $0A, $0B, $FF
 
 ;-------------------------------------------------------------------------------		  
 Fire_Shield_Mappings:				          ; Offset_0x010634
@@ -17803,13 +18067,697 @@ Obj_0x34_Star_Post:                                            ; Offset_0x023F76
                 include 'data\objects\obj_0x34.asm'
 Obj_Time_Over_Game_Over:                                       ; Offset_0x02444C
                 include 'data\objects\tmgmover.asm'
-; Offset_0x024546: Obj_Title_Cards: Obj_TitleCard:
-		include	"data/objects/Title Cards.asm"
-; Offset_0x0247D0: Obj_LevelResults:
-		include	"data/objects/Level Results.asm"
-;-------------------------------------------------------------------------------                                   
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Title Card
+; ---------------------------------------------------------------------------
+
+titlecard_objcnt	= Obj_Control_Var_00		; counts which object of the title card is loaded
+titlecard_timer		= Obj_Control_Var_02		; timer until the title card disappears
+titlecard_unk1		= Obj_Control_Var_04		; seems to be used to actually tell the title card to move offscreen?
+titlecard_xdest		= Obj_Control_Var_16		; where each title card ends up on the X axis
+
+; Offset_0x024546: Obj_Title_Cards:
+Obj_TitleCard:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	TitleCard_Index(pc,d0.w),d1
+		jmp	TitleCard_Index(pc,d1.w)				 
+; ===========================================================================
+; Offset_0x024554:
+TitleCard_Index:	offsetTable
+		offsetTableEntry.w TitleCard_Init
+		offsetTableEntry.w TitleCard_Main
+		offsetTableEntry.w TitleCard_Wait
+		offsetTableEntry.w TitleCard_Wait2
+; ===========================================================================
+; Offset_0x02455C:
+TitleCard_Init:
+		lea	(Title_Card_ZONE_ACT).l,a1
+		move.w	#$A000,d2
+		jsr	(Queue_Kos_Module).l
+		lea	(Title_Card_Number_1).l,a1
+		tst.b	(Apparent_Act).w			; is this "Act 2"?
+		beq.s	Offset_0x02457E				; if not, branch
+		lea	(Title_Card_Number_2).l,a1
+
+Offset_0x02457E:
+		move.w	#$A7A0,d2
+		jsr	(Queue_Kos_Module).l
+		lea	TitleCard_LevelGfx(pc),a1
+		moveq	#0,d0
+		move.b	(Apparent_Zone).w,d0			; load title card based on zone
+		lsl.w	#2,d0
+		move.l	(a1,d0.w),a1
+		move.w	#$A9A0,d2
+		jsr	(Queue_Kos_Module).l
+		move.w	#90,Obj_Timer(a0)			; set wait timer to 90 frames
+		move.w	#4,titlecard_objcnt(a0)
+		clr.w	titlecard_timer(a0)
+		addq.b	#2,Obj_Routine(a0)
+		rts
+; ===========================================================================
+; Offset_0x0245B8:
+TitleCard_Main:
+		tst.b	(Kosinski_Modules_Left).w		; has the KosinskiM art finished decompressing?
+		bne.s	Offset_0x02461E				; if not, branch
+		jsr	(AllocateObjectAfterCurrent).l
+		bne.s	Offset_0x02461E
+		lea	TitleCard_ObjArray(pc),a2
+		moveq	#(TitleCard_ObjArray_End-TitleCard_ObjArray)/14-1,d1	; create objects
+; Offset_0x0245CC:
+TitleCard_MakeObject:
+		move.l	(a2)+,(a1)
+		move.w	(a2)+,titlecard_xdest(a1)
+		move.w	(a2)+,Obj_X(a1)
+		move.w	(a2)+,Obj_Y(a1)
+		move.b	(a2)+,Obj_Map_Id(a1)
+		move.b	(a2)+,Obj_Width(a1)
+		move.w	(a2)+,d2
+		move.b	d2,Obj_Col_Flags(a1)
+		move.b	#$40,Obj_Flags(a1)
+		move.l	#Title_Cards_Mappings,Obj_Map(a1)
+		move.w	a0,Obj_Respaw_Ref(a1)
+		jsr	(AllocateObject_Immediate).l
+		dbne	d1,TitleCard_MakeObject
+		tst.w	Obj_Control_Var_0E(a0)
+		beq.s	Offset_0x02461A
+		move.b	(Apparent_Zone).w,d0
+		beq.s	Offset_0x02461A
+		cmpi.b	#Iz_Id,d0				; are we in IceCap Zone?
+		beq.s	Offset_0x02461A				; if not, branch
+		st	(Level_Events_Buffer_5).w
+
+Offset_0x02461A:
+		addq.b	#2,Obj_Routine(a0)
+
+Offset_0x02461E:
+		rts
+; ===========================================================================
+; Offset_0x024620:
+TitleCard_Wait:
+		tst.w	titlecard_unk1(a0)
+		beq.s	Offset_0x02462C
+		clr.w	titlecard_unk1(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x02462C:
+		st	Obj_Respaw_Ref(a0)
+		addq.b	#2,Obj_Routine(a0)
+		rts
+; ===========================================================================
+; Offset_0x024636:
+TitleCard_Wait2:
+		tst.w	Obj_Timer(a0)
+		beq.s	Offset_0x024642
+		subq.w	#1,Obj_Timer(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x024642:
+		tst.w	titlecard_objcnt(a0)
+		beq.s	TitleCard_SetupLevel
+		addq.w	#1,titlecard_timer(a0)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x02464E:
+TitleCard_SetupLevel:
+		tst.w	Obj_Control_Var_0E(a0)
+		beq.s	TitleCard_LoadMainGraphics
+		clr.l	(Timer).w
+		clr.w	(Ring_count).w
+		clr.w	(Total_Ring_Count_Address).w
+		clr.b	(Extra_life_flags).w
+		clr.l	(Time_Count_Address_P2).w
+		clr.w	(Ring_Count_Address_P2).w
+		clr.w	(Total_Ring_Count_Address_P2).w
+		clr.b	(Ring_Status_Flag_P2).w
+		st	(Update_HUD_timer).w
+		st	(Update_HUD_rings).w
+		st	(End_Level_Flag).w
+		bra.s	TitleCard_LoadAnimals
+; Offset_0x024682:
+TitleCard_LoadMainGraphics:
+		lea	(PLC_Spikes_Springs).l,a1
+		jsr	(LoadPLC_Direct).l
+; Offset_0x02468E:
+TitleCard_LoadAnimals:
+		move.w	(Apparent_ZoneAndAct).w,d0
+		jsr	Level_Load_Enemies_Art(pc)		; load animals based on zone
+		moveq	#2,d0
+		jsr	(LoadPLC).l
+		jmp	(DeleteObject).l
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Title Card Red Bar
+; ---------------------------------------------------------------------------
+; Offset_0x0246A4: Title_Card_Red_Bar:
+Obj_TtlCardRedBar:
+		move.w	Obj_Respaw_Ref(a0),a1
+		move.w	titlecard_timer(a1),d0
+		beq.s	Offset_0x0246CC
+		tst.b	Obj_Flags(a0)
+		bmi.s	Offset_0x0246BE
+		subq.w	#1,titlecard_objcnt(a1)
+		jmp	(DeleteObject).l
+
+Offset_0x0246BE:
+		cmp.b	Obj_Col_Flags(a0),d0
+		bcs.s	Offset_0x0246E2
+		subi.w	#$20,Obj_Y(a0)
+		bra.s	Offset_0x0246E2
+
+Offset_0x0246CC:
+		move.w	Obj_Y(a0),d0
+		cmp.w	titlecard_xdest(a0),d0
+		beq.s	Offset_0x0246E2
+		addi.w	#$10,d0
+		move.w	d0,Obj_Y(a0)
+		st	titlecard_unk1(a1)
+
+Offset_0x0246E2:
+		move.b	#$70,Obj_Height(a0)
+		jmp	(DisplaySprite).l
+
+; ---------------------------------------------------------------------------
+; Object - Title Card Level Name
+; ---------------------------------------------------------------------------
+; Offset_0x0246EE: Title_Card_Level_Name:
+Obj_TtlCardName:
+		move.b	(Apparent_Zone).w,d0
+		add.b	d0,Obj_Map_Id(a0)
+		move.l	#Obj_TtlCardZone,(a0)
+
+; ---------------------------------------------------------------------------
+; Object - Title Card Zone
+; ---------------------------------------------------------------------------
+; Offset_0x0246FC: Title_Card_Zone:
+Obj_TtlCardZone:
+		move.w	Obj_Respaw_Ref(a0),a1
+		move.w	titlecard_timer(a1),d0
+		beq.s	Offset_0x024724
+		tst.b	Obj_Flags(a0)
+		bmi.s	Offset_0x024716
+		subq.w	#1,titlecard_objcnt(a1)
+		jmp	(DeleteObject).l
+; ---------------------------------------------------------------------------
+
+Offset_0x024716:
+		cmp.b	Obj_Col_Flags(a0),d0
+		bcs.s	Offset_0x02473A
+		addi.w	#$20,Obj_X(a0)
+		bra.s	Offset_0x02473A
+
+Offset_0x024724:
+		move.w	Obj_X(A0),d0
+		cmp.w	titlecard_xdest(a0),d0
+		beq.s	Offset_0x02473A
+		subi.w	#$10,d0
+		move.w	d0,Obj_X(a0)
+		st	titlecard_unk1(a1)
+
+Offset_0x02473A:
+		jmp	(DisplaySprite).l
+
+; ---------------------------------------------------------------------------
+; Object - Title Card Act
+; ---------------------------------------------------------------------------
+; Offset_0x024740: Title_Card_Act_Number:
+Obj_TtlCardAct:
+		move.l	#Obj_TtlCardZone,(a0)
+		move.b	(Apparent_Zone).w,d0
+		cmpi.b	#$A,d0
+		beq.s	Offset_0x024756
+		cmpi.b	#$C,d0
+		bne.s	Obj_TtlCardZone
+
+Offset_0x024756:
+		move.w	Obj_Respaw_Ref(a0),a1
+		subq.w	#1,titlecard_objcnt(a1)
+		jmp	(DeleteObject).l									
+; ===========================================================================
+; Offset_0x024764: Title_Card_Letters_Ptr:
+TitleCard_LevelGfx:
+		dc.l	TC_Angel_Island
+		dc.l	TC_Hidrocity
+		dc.l	TC_Marble_Garden
+		dc.l	TC_Carnival_Night
+		dc.l	TC_Flying_Battery
+		dc.l	TC_Icecap
+		dc.l	TC_Launch_Base
+		; in the final game, these instead point to Angel Island; still, their presense
+		; here indicates that the remaining levels did have title cards at some point
+		dc.l	TC_Launch_Base		; Mushroom Valley
+		dc.l	TC_Launch_Base		; Sandopolis
+		dc.l	TC_Launch_Base		; Lava Reef
+		dc.l	TC_Launch_Base		; Sky Sanctuary
+		dc.l	TC_Launch_Base		; Death Egg
+		dc.l	TC_Launch_Base		; The Doomsday
+		; no entries for Zone 0D and beyond, which the game doesn't load the title card
+		; object in anyways, which also means that the unused 2P title cards aren't here
+; ===========================================================================
+
+ttlResObjData macro obj,xdest,xpos,ypos,frame,width,place
+	dc.l	obj
+	dc.w	xdest
+	dc.w	xpos
+	dc.w	ypos
+	dc.b	frame
+	dc.b	width
+	dc.w	place
+	endm
+
+; Offset_0x024798: Title_Cards_Conf_Ptr:
+TitleCard_ObjArray:
+		ttlresObjData Obj_TtlCardName,		$120, $260, $E0,  4,$80,3	; Zone Name
+		ttlresObjData Obj_TtlCardZone,		$17C, $2FC,$100,  3,$24,5	; "ZONE"
+		ttlresObjData Obj_TtlCardAct,		$184, $344,$120,  2,$1C,7	; "ACT X"
+		ttlresObjData Obj_TtlCardRedBar,	 $C0,  $E0, $10,  1,  0,1	; Red Bar
+TitleCard_ObjArray_End:
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Level Results
+; ---------------------------------------------------------------------------
+; Offset_0x0247D0:
+Obj_LevelResults:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	LevelResults_Index(pc,d0.w),d1
+		jmp	LevelResults_Index(pc,d1.w)  
+; ===========================================================================
+; Offset_0x0247DE:
+LevelResults_Index:	offsetTable
+		offsetTableEntry.w LevelResults_Init
+		offsetTableEntry.w LevelResults_Main
+		offsetTableEntry.w LevelResults_Wait
+		offsetTableEntry.w LevelResults_Wait2
+; ===========================================================================
+; Offset_0x0247E6:
+LevelResults_Init:
+		lea	(Title_Card_Results).l,a1
+		move.w	#$A400,d2
+		jsr	(Queue_Kos_Module).l
+		lea	(Title_Card_Number_1).l,a1
+		move.w	#$B000,d2
+		tst.b	(Apparent_Act).w			; are we in "Act 2"?
+		beq.s	Offset_0x024810				; if not, branch
+		lea	(Title_Card_Number_2).l,a1
+		move.w	#$B400,d2
+
+Offset_0x024810:
+		jsr	(Queue_Kos_Module).l
+		lea	(Level_Results_Sonic).l,a1
+		cmpi.w	#Sonic_Alone,(Player_Selected_Flag).w	; is this a Sonic or Sonic and Tails game?
+		bls.s	Offset_0x024844				; if yes, branch
+		lea	(Level_Results_Knuckles).l,a1
+		cmpi.w	#Knuckles_Alone,(Player_Selected_Flag).w	; is this a Knuckles game?
+		beq.s	Offset_0x024844				; if yes, branch
+		lea	(Level_Results_Miles).l,a1
+		tst.b	(Hardware_Id).w				; is this a Japanese console?
+		beq.s	Offset_0x024844				; if yes, branch
+		lea	(Level_Results_Tails).l,a1
+
+Offset_0x024844:
+		move.w	#$AC20,d2
+		jsr	(Queue_Kos_Module).l
+		moveq	#0,d0
+		move.b	(Timer_minute).w,d0
+		mulu.w	#$3C,d0
+		moveq	#0,d1
+		move.b	(Timer_second).w,d1
+		add.w	d1,d0
+		cmpi.w	#600-1,d0				; are we 1 second away from a Time Over?
+		bne.s	LevelResults_TimeBonus			; if not, branch
+		move.w	#10000,(Level_Results_Time_Bonus).w	; give 100000 points
+		bra.s	LevelResults_RingBonus
+; ---------------------------------------------------------------------------
+; Offset_0x02486E:
+LevelResults_TimeBonus:
+		divu.w	#30,d0
+		moveq	#(TimeBonuses_End-TimeBonuses)/2-1,d1
+		cmp.w	d1,d0
+		bcs.s	Offset_0x02487A
+		move.w	d1,d0
+
+Offset_0x02487A:
+		add.w	d0,d0
+		lea	TimeBonuses(pc),a1
+		move.w	(a1,d0.w),(Level_Results_Time_Bonus).w
+; Offset_0x024886:
+LevelResults_RingBonus:
+		move.w	(Ring_count).w,d0
+		mulu.w	#10,d0
+		move.w	d0,(Level_Results_Ring_Bonus).w
+		clr.w	(Level_Results_Total_Bonus).w
+		move.w	#$96,Obj_Timer(a0)
+		move.w	#$C,Obj_Control_Var_00(a0)
+		move.b	#$1E,(Obj_Player_One+Obj_Subtype).w
+		move.b	#$1E,(Obj_Player_Two+Obj_Subtype).w
+		addq.b	#2,Obj_Routine(a0)
+		rts     
+; ===========================================================================
+; Offset_0x0248B4:
+LevelResults_Main:
+		subq.w	#1,Obj_Timer(a0)
+		tst.b	(Kosinski_Modules_Left).w		; has the KosinskiM art finished decompressing?
+		bne.s	Offset_0x02490C				; if not, branch
+		jsr	(AllocateObjectAfterCurrent).l
+		bne.s	Offset_0x02490C
+		lea	LevelResults_ObjArray(pc),a2
+		moveq	#(LevelResults_ObjArray_End-LevelResults_ObjArray)/14-1,d1	; create objects
+; Offset_0x0248CC:
+LevelResults_MakeObject:
+		move.l	(a2)+,(a1)
+		move.w	(a2)+,Obj_Control_Var_16(a1)
+		move.w	(a2)+,Obj_X(a1)
+		spl	Obj_Routine(a1)
+		move.w	(a2)+,Obj_Y(a1)
+		move.b	(a2)+,Obj_Map_Id(a1)
+		move.b	(a2)+,Obj_Width(a1)
+		move.w	(a2)+,d2
+		move.b	d2,Obj_Col_Flags(a1)
+		move.b	#$40,Obj_Flags(a1)
+		move.l	#Level_Results_Mappings,Obj_Map(a1)
+		move.w	a0,Obj_Respaw_Ref(a1)
+		jsr	(AllocateObject_Immediate).l
+		dbne	d1,LevelResults_MakeObject
+		addq.b	#2,Obj_Routine(a0)
+
+Offset_0x02490C:
+		rts             
+; ===========================================================================
+; Offset_0x02490E:
+LevelResults_Wait:
+		tst.w	Obj_Timer(a0)
+		beq.s	LevelResults_AddTimeBonus
+		subq.w	#1,Obj_Timer(a0)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x02491A:
+LevelResults_AddTimeBonus:
+		moveq	#0,d0
+		tst.w	(Level_Results_Time_Bonus).w		; are we calcuating the time bonus?
+		beq.s	LevelResults_AddRingBonus		; if not, branch
+		addi.w	#10,d0
+		subi.w	#10,(Level_Results_Time_Bonus).w
+; Offset_0x02492C:
+LevelResults_AddRingBonus:
+		tst.w	(Level_Results_Ring_Bonus).w		; are we calculating the ring bonus?
+		beq.s	LevelResults_AddTotalBonus		; if not, branch
+		addi.w	#10,d0
+		subi.w	#10,(Level_Results_Ring_Bonus).w
+; Offset_0x02493C:
+LevelResults_AddTotalBonus:
+		add.w	d0,(Level_Results_Total_Bonus).w
+		tst.w	d0
+		beq.s	LevelResults_SetTimer
+		jsr	(Add_Points_P1).l
+		move.w	(Level_Frame_Count).w,d0
+		andi.w	#3,d0
+		rts
+; ===========================================================================
+; Offset_0x024954:
+LevelResults_SetTimer:
+		move.w	#$3C,Obj_Timer(a0)
+		addq.b	#2,Obj_Routine(a0)
+; Offset_0x02495E:
+LevelResults_Wait2:
+		tst.w	Obj_Timer(a0)
+		beq.s	Offset_0x02496A
+		subq.w	#1,Obj_Timer(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x02496A:
+		tst.w	Obj_Control_Var_00(a0)
+		beq.s	LevelResults_EndLevel
+		addq.w	#1,Obj_Control_Var_02(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+; Offset_0x024976:
+LevelResults_EndLevel:
+		tst.b	(Apparent_Act).w			; are we in "Act 2"?
+		beq.s	LevelResults_LoadAct2			; if not, branch
+		clr.b	(Player_Control_Lock_Flag).w
+		st	(End_Level_Flag).w
+		jmp	(DeleteObject).l
+; Offset_0x02498A:
+LevelResults_LoadAct2:
+		move.b	#1,(Apparent_Act).w
+		clr.b	(Player_Control_Lock_Flag).w
+		move.l	#Obj_TitleCard,(a0)
+		clr.b	Obj_Routine(A0)
+		st	Obj_Control_Var_0E(a0)
+		rts
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Character Name on the Level Results
+; ---------------------------------------------------------------------------
+; Offset_0x0249A4: Obj_Lvl_Res_Sonic_Miles_Knuckles_Tails:
+Obj_LevResultsCharName:
+		cmpi.w	#Miles_Alone,(Player_Selected_Flag).w	; is this a Tails game?
+		beq.s	LevResultsCharName_Tails		; if yes, branch
+		cmpi.w	#Knuckles_Alone,(Player_Selected_Flag).w	; is this a Knuckles game?
+		bne.s	Offset_0x0249E4				; if not, branch
+; LevResultsCharName_Knux:
+		addq.b	#3,Obj_Map_Id(a0)			; use Knuckles frame
+		moveq	#$30,d0
+		sub.w	d0,Obj_X(a0)
+		sub.w	d0,Obj_Control_Var_16(a0)
+		add.b	d0,Obj_Width(a0)
+		bra.s	Offset_0x0249E4
+; ---------------------------------------------------------------------------
+; Offset_0x0249C8:
+LevResultsCharName_Tails:
+		addq.b	#1,Obj_Map_Id(a0)			; use Miles frame
+		tst.b	(Hardware_Id).w				; is this a Japanese console?
+		bpl.s	Offset_0x0249E4				; if yes, branch
+		addq.b	#1,Obj_Map_Id(a0)			; use Tails frame
+		moveq	#8,d0
+		add.w	d0,Obj_X(a0)
+		add.w	d0,Obj_Control_Var_16(a0)
+		sub.b	d0,Obj_Width(a0)
+
+Offset_0x0249E4:
+		move.l	#Obj_LevResultsGeneral,(a0)
+
+; ---------------------------------------------------------------------------
+; Object - General Level Results Object
+; ---------------------------------------------------------------------------
+; Offset_0x0249EA:
+Obj_LevResultsGeneral:
+		jsr	LevelResults_MoveElement(pc)
+		jmp	(DisplaySprite).l
+
+; ---------------------------------------------------------------------------
+; Object - Act on the Level Results
+; ---------------------------------------------------------------------------
+; Offset_0x0249F4: Obj_LvL_Res_ACT_X:
+Obj_LevResultsAct:
+		tst.b	(Apparent_Act).w			; are we in "Act 2"?
+		beq.s	Offset_0x0249E4				; if not, branch
+		addq.b	#1,Obj_Map_Id(a0)
+		bra.s	Offset_0x0249E4
+
+; ---------------------------------------------------------------------------
+; Object - Time Results on the Level Results
+; ---------------------------------------------------------------------------
+; Offset_0x024A00: Obj_LvL_Res_Time_Bonus:
+Obj_LevelResultsTimeBonus:
+		jsr	LevelResults_MoveElement(pc)
+		move.w	(Level_Results_Time_Bonus).w,d0
+		bra.s	LevelResults_Display
+
+; ---------------------------------------------------------------------------
+; Object - Ring Results on the Level Results
+; ---------------------------------------------------------------------------
+; Offset_0x024A0A: Obj_LvL_Res_Ring_Bonus:
+Obj_LevelResultsRingBonus:
+		jsr	LevelResults_MoveElement(pc)
+		move.w	(Level_Results_Ring_Bonus).w,d0
+		bra.s	LevelResults_Display
+
+; ---------------------------------------------------------------------------
+; Object - Total Results on the Level Results
+; ---------------------------------------------------------------------------
+; Offset_0x024A14: Obj_LvL_Res_Total_Bonus:
+Obj_LevelResultsTotal:
+		jsr	LevelResults_MoveElement(pc)
+		move.w	(Level_Results_Total_Bonus).w,d0
+
+; Offset_0x024A1C: LR_Display_Value_D0:
+LevelResults_Display:
+		bsr.s	LevelResults_DisplayScore
+		jmp	(DisplaySprite).l
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to convert the level results score to a viewable format
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x024A24: LR_Cvt_Hex_To_BCD:
+LevelResults_DisplayScore:
+		move.w	#7,Obj_Sub_Y(a0)
+		jsr	LevelResults_GetDecimalScore(pc)
+		rol.l	#4,d1
+		lea	Obj_Speed_X(a0),a1
+		move.w	Obj_X(a0),d2
+		subi.w	#$38,d2					; move to left of the last zero
+		move.w	Obj_Y(A0),d3
+		moveq	#0,d4
+		moveq	#6,d5
+
+Offset_0x024A44:
+		move.w	d2,(a1)+
+		move.w	d3,(a1)+
+		addq.w	#1,a1
+		rol.l	#4,d1					; adjust bits
+		move.w	d1,d0
+		andi.w	#$F,d0
+		beq.s	Offset_0x024A56
+		moveq	#1,d4
+
+Offset_0x024A56:
+		add.w	d4,d0
+		move.b	d0,(a1)+
+		addq.w	#8,d2
+		dbf	d5,Offset_0x024A44
+		rts
+; End of function LevelResults_DisplayScore
+
+; ---------------------------------------------------------------------------
+; Subroutine to move the level results onto screen
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x024A62: LR_Move_Element:
+LevelResults_MoveElement:
+		move.w	Obj_Respaw_Ref(a0),a1
+		move.w	Obj_Control_Var_02(a1),d0		; is the object moving onto the screen?
+		beq.s	LevelResults_MoveOntoScreen		; if yes, branch
+		tst.b	Obj_Flags(a0)				; is the object off-screen?
+		bmi.s	LevelResults_MoveOffScreen		; if not, branch
+		subq.w	#1,Obj_Control_Var_00(a1)
+		addq.w	#4,sp
+		jmp	(DeleteObject).l
+; ---------------------------------------------------------------------------
+; Offset_0x024A7E:
+LevelResults_MoveOffScreen:
+		cmp.b	Obj_Col_Flags(a0),d0
+		bcs.s	Offset_0x024AAC
+		move.w	#-$20,d0
+		tst.b	Obj_Routine(a0)
+		beq.s	Offset_0x024A90
+		neg.w	d0
+
+Offset_0x024A90:
+		add.w	Obj_X(a0),d0
+		bra.s	LevelResults_ApplySpeed
+; ---------------------------------------------------------------------------
+; Offset_0x024A96:
+LevelResults_MoveOntoScreen:
+		moveq	#$10,d1
+		move.w	Obj_X(a0),d0
+		cmp.w	Obj_Control_Var_16(a0),d0
+		beq.s	LevelResults_ApplySpeed
+		blt.s	Offset_0x024AA6
+		neg.w	d1
+
+Offset_0x024AA6:
+		add.w	d1,d0
+; Offset_0x024AA8:
+LevelResults_ApplySpeed:
+		move.w	d0,Obj_X(a0)
+
+Offset_0x024AAC:
+		rts
+; End of function LevelResults_MoveElement
+
+; ---------------------------------------------------------------------------
+; Subroutine to convert the score to decimal
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x24AAE: LR_Get_BCD_Total_Bonus:
+LevelResults_GetDecimalScore:
+		clr.l	(Level_Result_BCD_Total_Bonus).w
+		lea	TimeBonuses(pc),a1
+		moveq	#$F,d2
+
+Offset_0x024AB8:
+		ror.w	#1,d0
+		bcs.s	Offset_0x024AC0
+		subq.w	#3,a1
+		bra.s	Offset_0x024ACE
+; ---------------------------------------------------------------------------
+
+Offset_0x024AC0:
+		lea	(Level_Result_BCD_Total_Bonus+4).w,a2
+		addi.w	#0,d0
+		abcd	-(a1),-(a2)
+		abcd	-(a1),-(a2)
+		abcd	-(a1),-(a2)
+
+Offset_0x024ACE:
+		dbf	d2,Offset_0x024AB8
+		move.l	(Level_Result_BCD_Total_Bonus).w,d1
+		rts
+; End of function LevelResults_GetDecimalScore
+
+; ===========================================================================
+; Apparently, according to Jorge, this is used by LevelResults_GetDecimalScore
+; as it reads backwards into these values when reading TimeBonuses
+; Offset_0x024AD8:
+		dc.b    $03, $27, $68, $01, $63, $84, $00, $81
+		dc.b    $92, $00, $40, $96, $00, $20, $48, $00
+		dc.b    $10, $24, $00, $05, $12, $00, $02, $56
+		dc.b    $00, $01, $28, $00, $00, $64, $00, $00
+		dc.b    $32, $00, $00, $16, $00, $00, $08, $00
+		dc.b    $00, $04, $00, $00, $02, $00, $00, $01  
+; ===========================================================================
+; Offset_0x024B08: LR_Decimal_Values:
+TimeBonuses:	dc.w	5000
+		dc.w	5000
+		dc.w	5000
+		dc.w	5000
+		dc.w	5000
+		dc.w	1000
+		dc.w	500
+		dc.w	400
+		dc.w	300
+		dc.w	100
+TimeBonuses_End:
+; ===========================================================================
+; Offset_0x024B1C: Level_Results_Conf:
+LevelResults_ObjArray:
+		ttlresObjData Obj_LevResultsCharName,	 $E0,-$220, $B8,$13,$48,1	; Character Name
+		ttlresObjData Obj_LevResultsGeneral,	$130,-$1D0, $B8,$12,$30,1	; "GOT"
+		ttlresObjData Obj_LevResultsGeneral,	 $E8, $468, $CC,$11,$70,3	; "THROUGH"
+		ttlresObjData Obj_LevResultsAct,	$160, $4E0, $BC, $F,$38,3	; "ACT X"
+		ttlresObjData Obj_LevResultsGeneral,	 $C0, $4C0, $F0, $E,$20,5	; "TIME"
+		ttlresObjData Obj_LevResultsGeneral,	 $E8, $4E8, $F0, $C,$30,5	; "BONUS"
+		ttlresObjData Obj_LevelResultsTimeBonus,$178, $578, $F0,  1,$40,5	; Time Bonus Number
+		ttlresObjData Obj_LevResultsGeneral,	 $C0, $500,$100, $D,$20,7	; "RING"
+		ttlresObjData Obj_LevResultsGeneral,	 $E8, $528,$100, $C,$30,7	; "BONUS"
+		ttlresObjData Obj_LevelResultsRingBonus,$178, $5B8,$100,  1,$40,7	; Ring Bonus Number
+		ttlresObjData Obj_LevResultsGeneral,	 $D4, $554,$11C, $B,$30,9	; "TOTAL"
+		ttlresObjData Obj_LevelResultsTotal,	$178, $5F8,$11C,  1,$40,9	; Total Score Number
+LevelResults_ObjArray_End:
+
+; ===========================================================================
+
 Offset_0x024BC4:
-                jmp     (DeleteObject)                         ; Offset_0x011138
+		jmp	(DeleteObject).l
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -31900,7 +32848,6 @@ Music_2F_Ptr equ (Data_Select_Menu_Snd_Data&$FFFF)|$8000
 Music_30_Ptr equ (Final_Boss_Snd_Data&$FFFF)|$8000
 Music_31_Ptr equ (Panic_Snd_Data&$FFFF)|$8000
                
-
 ; Z80 Bank $16
                 align   $8000
 Angel_Island_1_Snd_Data:                                       ; Offset_0x0B0000
