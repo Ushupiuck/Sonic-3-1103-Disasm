@@ -64,7 +64,7 @@ Offset_0x02A6A0:
                 move.l  #Offset_0x02A7F0, (A1)
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
                 bne.s   Offset_0x02A6EC
-                move.l  #Object_Hit, (A1)                      ; Offset_0x013D7C
+                move.l  #Obj_Explosion, (A1)                      ; Offset_0x013D7C
                 move.w  #$8000, Obj_Art_VRAM(A1)                         ; $000A
                 move.b  #$02, Obj_Routine(A1)                            ; $0005
                 move.b  #$01, Obj_Control_Var_04(A0)                     ; $0034

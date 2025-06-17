@@ -735,7 +735,7 @@ Miles_InLevelWithWater:                                        ; Offset_0x00DA90
                 bne.s   Offset_0x00DA8E
                 addq.b  #$01, (Water_Entered_Counter).w              ; $FFFFF64D
                 move.l  A0, A1
-                bsr     Resume_Music                           ; Offset_0x00F89E
+                bsr     ResumeMusic                           ; Offset_0x00F89E
                 move.l  #Obj_Player_Underwater, (Obj_P2_Underwater_Control).w ; Offset_0x00F38C, $FFFFCB76
                 move.b  #$81, (Obj_P2_Underwater_Control+Obj_Subtype).w ; $FFFFCBA2
                 move.l  A0, (Obj_P2_Underwater_Control+$0040).w      ; $FFFFCBB6
@@ -755,7 +755,7 @@ Miles_NotInWater:                                              ; Offset_0x00DAEC
                 beq.s   Offset_0x00DA8E
                 addq.b  #$01, (Water_Entered_Counter).w              ; $FFFFF64D
                 move.l  A0, A1
-                bsr     Resume_Music                           ; Offset_0x00F89E
+                bsr     ResumeMusic                           ; Offset_0x00F89E
                 move.w  #$0600, (A4)
                 move.w  #$000C, Acceleration(A4)                         ; $0002
                 move.w  #$0080, Deceleration(A4)                         ; $0004
@@ -772,7 +772,7 @@ Offset_0x00DB24:
                 beq     Offset_0x00DA8E
                 move.w  #$0100, Obj_Ani_Number(A6)                       ; $0020
                 move.l  A0, A1
-                bsr     Resume_Music                           ; Offset_0x00F89E
+                bsr     ResumeMusic                           ; Offset_0x00F89E
                 cmpi.w  #$F000, Obj_Speed_Y(A0)                          ; $001A
                 bgt.s   Offset_0x00DB50
                 move.w  #$F000, Obj_Speed_Y(A0)                          ; $001A

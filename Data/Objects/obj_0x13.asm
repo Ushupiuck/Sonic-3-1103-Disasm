@@ -36,7 +36,7 @@ Offset_0x01C8FE:
                 neg.w   Obj_Speed_X(A1)                                  ; $0018
                 neg.w   Obj_Speed_Y(A1)                                  ; $001A
                 bchg    D3, (A3)
-                move.l  #Object_Hit, (A0)                      ; Offset_0x013D7C
+                move.l  #Obj_Explosion, (A0)                      ; Offset_0x013D7C
                 move.b  #$02, Obj_Routine(A0)                            ; $0005
                 clr.b   Obj_Col_Flags(A0)                                ; $0028
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029

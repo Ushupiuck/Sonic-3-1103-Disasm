@@ -146,7 +146,7 @@ Offset_0x00A742:
                 btst    #$01, Obj_Player_Control(A0)                     ; $002E
                 bne.s   Offset_0x00A770
                 bsr     Sonic_Or_Knuckles_Animate_Sprite_2P    ; Offset_0x00C83E
-                bsr     Load_Sonic_2P_Dynamic_PLC              ; Offset_0x00CBA2
+                bsr     LoadSonicDynamicPLC_2P              ; Offset_0x00CBA2
 Offset_0x00A770:
                 move.b  Obj_Player_Control(A0), D0                       ; $002E
                 andi.b  #$A0, D0

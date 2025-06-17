@@ -8,7 +8,7 @@ ObjCA_AIZPlaneIntro:
 		move.b	Obj_Routine(a0),d0
 		move.w	AIZPlaneIntro_Index(pc,d0.w),d1
 		jsr	AIZPlaneIntro_Index(pc,d1.w)
-		jsr	(Load_Sonic_Dynamic_PLC).l
+		jsr	(LoadSonicDynamicPLC).l
 		bsr.w	AIZPlaneIntro_Scroll
 		jmp	(DisplaySprite).l
 ; ===========================================================================

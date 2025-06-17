@@ -116,7 +116,7 @@ Offset_0x01877E:
 Offset_0x0187AA:
                 jsr     (Sonic_Animate1P)                      ; Offset_0x00C2E0
                 move.l  A3, -(A7)
-                jsr     (Load_Sonic_Dynamic_PLC)               ; Offset_0x00C7EA
+                jsr     (LoadSonicDynamicPLC)               ; Offset_0x00C7EA
                 move.l  (A7)+, A0
                 addi.w  #$0008, Obj_X(A0)                                ; $0010
                 move.b  #$00, Obj_Map_Id(A0)                             ; $0022

@@ -8655,69 +8655,77 @@ Offset_0x0089AA:
 ; Rotina para carregar os an�is das fases
 ; <<<-
 ;===============================================================================      
-      
-;===============================================================================
-; Rotina para carregar o posicionamento dos an�is na fase
-; ->>>
-;===============================================================================
-Build_Rings:                                                   ; Offset_0x0089B6
-                move.l  (Ring_Start_Offset_Ptr).w, A0                ; $FFFFEE44
-                move.l  (Ring_End_Offset_Ptr).w, D2                  ; $FFFFEE48
-                sub.l   A0, D2
-                beq.s   Offset_0x008A1C
-                move.w  (Ring_Offset_Ptr).w, A4                      ; $FFFFEE4C
-                lea     Level_Rings_Mappings(PC), A1           ; Offset_0x008A1E
-                move.w  $0004(A3), D4
-                move.w  #$00F0, D5
-                move.w  (Screen_Wrap_Y).w, D3                        ; $FFFFEEAA
+
+; ---------------------------------------------------------------------------
+; Subroutine to draw on-screen rings
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x0089B6: Build_Rings:
+BuildRings:
+		move.l	(Ring_Start_Offset_Ptr).w,a0
+		move.l	(Ring_End_Offset_Ptr).w,d2
+		sub.l	a0,d2				; are there any rings on screen?
+		beq.s	Offset_0x008A1C			; if not, branch
+		move.w	(Ring_Offset_Ptr).w,a4
+		lea	Level_Rings_Mappings(PC),a1
+		move.w	4(a3),d4
+		move.w	#$F0,d5
+		move.w	(Screen_Wrap_Y).w,d3
+
 Offset_0x0089D6:
-                tst.w   (A4)+
-                bmi.s   Offset_0x008A16
-                move.w  $0002(A0), D1
-                sub.w   D4, D1
-                addq.w  #$08, D1
-                and.w   D3, D1
-                cmp.w   D5, D1
-                bcc.s   Offset_0x008A16
-                addi.w  #$0078, D1
-                move.w  (A0), D0
-                sub.w   (A3), D0
-                addi.w  #$0080, D0
-                move.b  -1(A4), D6
-                bne.s   Offset_0x0089FE
-                move.b  (Object_Frame_Buffer).w, D6                  ; $FFFFFEA3
+		tst.w	(a4)+				; has this ring been consumed?
+		bmi.s	Offset_0x008A16			; if it has, branch
+		move.w	2(a0),d1			; get ring X pos
+		sub.w	d4,d1
+		addq.w	#8,d1
+		and.w	d3,d1
+		cmp.w	d5,d1
+		bcc.s	Offset_0x008A16
+		addi.w	#$78,d1
+		move.w	(a0),d0
+		sub.w	(a3),d0
+		addi.w	#$80,d0
+		move.b	-1(a4),d6
+		bne.s	Offset_0x0089FE
+		move.b	(Object_Frame_Buffer).w,d6
+
 Offset_0x0089FE:
-                lsl.w   #$03, D6
-                lea     $00(A1, D6), A2
-                add.w   (A2)+, D1
-                move.w  D1, (A6)+
-                move.w  (A2)+, D6
-                move.b  D6, (A6)
-                addq.w  #$02, A6
-                move.w  (A2)+, (A6)+
-                add.w   (A2)+, D0
-                move.w  D0, (A6)+
-                subq.w  #$01, D7
+		lsl.w	#3,d6
+		lea	(a1,d6.w),a2			; get frame data address
+		add.w	(a2)+,d1
+		move.w	d1,(a6)+
+		move.w	(a2)+,d6
+		move.b	d6,(a6)
+		addq.w	#2,a6
+		move.w	(a2)+,(a6)+
+		add.w	(a2)+,d0
+		move.w	d0,(a6)+
+		subq.w	#1,d7
+
 Offset_0x008A16:
-                addq.w  #$04, A0
-                subq.w  #$04, D2
-                bne.s   Offset_0x0089D6
+		addq.w	#4,a0
+		subq.w	#4,d2
+		bne.s	Offset_0x0089D6
+
 Offset_0x008A1C:
-                rts
-;-------------------------------------------------------------------------------
-Level_Rings_Mappings:                                          ; Offset_0x008A1E
-                dc.w    $FFF8, $0005, $A6BC, $FFF8
-                dc.w    $FFF8, $0005, $A6C0, $FFF8
-                dc.w    $FFF8, $0001, $A6C4, $FFFC
-                dc.w    $FFF8, $0005, $AEC0, $FFF8
-                dc.w    $FFF8, $0005, $A6C6, $FFF8
-                dc.w    $FFF8, $0005, $BEC6, $FFF8
-                dc.w    $FFF8, $0005, $AEC6, $FFF8
-                dc.w    $FFF8, $0005, $B6C6, $FFF8          
-;===============================================================================
-; Rotina para carregar o posicionamento dos an�is na fase
-; <<<-
-;===============================================================================
+		rts
+; End of function BuildRings
+
+; ---------------------------------------------------------------------------
+; Non-standard sprite mappings format, hardcoding the size of each mapping
+; and sign-extending the Y-pos and sprite size.
+; Offset-0x008A1E:
+Level_Rings_Mappings:
+                dc.w	-8, 5, $A6BC, -8
+                dc.w	-8, 5, $A6C0, -8
+                dc.w	-8, 1, $A6C4, -4
+                dc.w	-8, 5, $AEC0, -8
+                dc.w	-8, 5, $A6C6, -8
+                dc.w	-8, 5, $BEC6, -8
+                dc.w	-8, 5, $AEC6, -8
+                dc.w	-8, 5, $B6C6, -8 
 
 ;===============================================================================
 ; Rotina para carregar o posiconamento dos tri�ngulos na Casino Night
@@ -10889,7 +10897,7 @@ Offset_0x00A384:
 Offset_0x00A39E:
                 move.w  A0, A3
                 bsr     Add_Points                             ; Offset_0x007AEC
-                move.l  #Object_Hit, (A1)                      ; Offset_0x013D7C
+                move.l  #Obj_Explosion, (A1)                      ; Offset_0x013D7C
                 move.b  #$00, Obj_Routine(A1)                            ; $0005
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bmi.s   Offset_0x00A3C6
@@ -11048,8 +11056,3250 @@ Offset_0x00A550:
 ;-------------------------------------------------------------------------------
 Obj_Sonic_Knuckles_2P:                                         ; Offset_0x00A552
                 include 'data\objects\chars_2p.asm'
-Obj_Sonic:                                                     ; Offset_0x00AA36
-                include 'data\objects\sonic.asm'
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Sonic
+; ---------------------------------------------------------------------------
+; Offset_0x00AA36:
+Obj_Sonic:
+		lea	(Sonic_Max_Speed).w,a4
+		lea	(Distance_From_Top).w,a5
+		lea	(Obj_P1_Dust_Water_Splash).w,a6
+		tst.w	(Debug_Mode_Flag_Index).w		; is debug mode being used?
+		beq.s	Sonic_Normal				; if not, branch
+		jmp	(Debug_Mode).l
+; ---------------------------------------------------------------------------
+; Offset_0x00AA4E:
+Sonic_Normal:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	Sonic_Index(pc,d0.w),d1
+		jmp	Sonic_Index(pc,d1.w)
+; ===========================================================================
+; Offset_0x00AA5C:
+Sonic_Index:	offsetTable
+		offsetTableEntry.w Sonic_Init
+		offsetTableEntry.w Sonic_Control
+		offsetTableEntry.w Sonic_Hurt
+		offsetTableEntry.w Sonic_Death
+		offsetTableEntry.w Sonic_ResetLevel
+		offsetTableEntry.w Sonic_Animate
+; ===========================================================================
+; Offset_0x00AA68: Sonic_Main:
+Sonic_Init:
+		addq.b	#2,Obj_Routine(a0)
+		move.b	#$13,Obj_Height_2(a0)
+		move.b	#9,Obj_Width_2(a0)
+		move.b	#$13,Obj_Height_3(a0)
+		move.b	#9,Obj_Width_3(a0)
+		move.l	#Sonic_Mappings,Obj_Map(a0)
+		move.w	#$100,Obj_Priority(a0)
+		move.b	#$18,Obj_Width(a0)
+		move.b	#$18,Obj_Height(a0)
+		move.b	#4,Obj_Flags(a0)
+		move.b	#0,Obj_Player_Selected(a0)
+		move.w	#$600,(a4)
+		move.w	#$C,Acceleration(a4)
+		move.w	#$80,Deceleration(a4)
+		tst.b	(Saved_Level_Flag).w
+		bne.s	Sonic_Init_Continued
+		move.w	#$680,Obj_Art_VRAM(a0)
+		move.b	#$C,Obj_Player_Top_Solid(a0)
+		move.b	#$D,Obj_Player_LRB_Solid(a0)
+		move.w	Obj_X(a0),(Saved_Obj_X_P1).w
+		move.w	Obj_Y(a0),(Saved_Obj_Y_P1).w
+		move.w	Obj_Art_VRAM(a0),(Saved_Obj_Art_VRAM_P1).w
+		move.w	Obj_Player_Top_Solid(a0),(Saved_Top_Solid_P1).w
+; Offset_0x00AAEA:
+Sonic_Init_Continued:
+		move.b	#0,Obj_P_Flips_Remaining(a0)
+		move.b	#4,Obj_Player_Flip_Speed(a0)
+		move.b	#0,(Super_Sonic_flag).w
+		move.b	#$1E,Obj_Subtype(a0)
+		subi.w	#$20,Obj_X(a0)
+		addi.w	#4,Obj_Y(a0)
+		bsr.w	Reset_Player_Position_Array
+		addi.w	#$20,Obj_X(a0)
+		subi.w	#4,Obj_Y(a0)
+		move.w	#0,(Dropdash_flag).w
+
+; ---------------------------------------------------------------------------
+; Normal state for Sonic
+; ---------------------------------------------------------------------------
+; Offset_0x00AB24:
+Sonic_Control:
+		tst.w	(Debug_Mode_Active).w			; is debug cheat enabled?
+		beq.s	Offset_0x00AB3E				; if not, branch
+		btst	#4,(Control_Ports_Buffer_Data+1).w	; is button B pressed?
+		beq.s	Offset_0x00AB3E				; if not, branch
+		move.w	#1,(Debug_Mode_Flag_Index).w		; change Sonic into a ring/item
+		clr.b	(Control_Locked_Flag_P1).w		; unlock controls
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x00AB3E:
+		tst.b	(Control_Locked_Flag_P1).w		; are controls locked?
+		bne.s	Offset_0x00AB4A				; if yes, branch
+		move.w	(Control_Ports_Buffer_Data).w,(Control_Ports_Logical_Data).w	; copy new held buttons to enable joypad control
+
+Offset_0x00AB4A:
+		btst	#0,Obj_Player_Control(a0)
+		bne.s	Offset_0x00AB6C
+		movem.l	a4-a6,-(sp)
+		moveq	#0,d0
+		move.b	Obj_Status(a0),d0
+		andi.w	#6,d0
+		move.w	Sonic_Modes(pc,d0.w),d1
+		jsr	Sonic_Modes(pc,d1.w)
+		movem.l	(sp)+,a4-a6
+
+Offset_0x00AB6C:
+		cmpi.w	#-$100,(Sonic_Level_Limits_Min_Y).w	; is vertical wrapping enabled?
+		bne.s	Offset_0x00AB7C				; if not, branch
+		move.w	(Screen_Wrap_Y).w,d0
+		and.w	d0,Obj_Y(a0)				; perform wrapping of Sonic's y-position
+
+Offset_0x00AB7C:
+		bsr.s	Sonic_Display
+		bsr.w	Sonic_Super
+		bsr.w	Sonic_RecordPos
+		bsr.w	Sonic_Water
+		move.b	(Primary_Angle).w,Obj_Player_Next_Tilt(a0)
+		move.b	(Secondary_Angle).w,Obj_Player_Tilt(a0)
+		tst.b	(Sonic_Wind_Flag).w
+		beq.s	Offset_0x00ABA8
+		tst.b	Obj_Ani_Number(a0)
+		bne.s	Offset_0x00ABA8
+		move.b	Obj_Ani_Flag(a0),Obj_Ani_Number(a0)
+
+Offset_0x00ABA8:
+		btst	#1,Obj_Player_Control(a0)
+		bne.s	Offset_0x00ABB8
+		bsr.w	Sonic_Animate1P
+		bsr.w	LoadSonicDynamicPLC
+
+Offset_0x00ABB8:
+		move.b	Obj_Player_Control(a0),d0
+		andi.b	#$A0,d0
+		bne.s	Offset_0x00ABC8
+		jsr	(Touch_Response).l
+
+Offset_0x00ABC8:
+		rts
+; ===========================================================================
+; Offset_0x00ABCA:
+Sonic_Modes:	dc.w	Sonic_MdNormal_Checks-Sonic_Modes
+		dc.w	Sonic_MdAir-Sonic_Modes
+		dc.w	Sonic_MdRoll-Sonic_Modes
+		dc.w	Sonic_MdJump-Sonic_Modes
+; ===========================================================================		
+; Offset_0x00ABD2:
+Sonic_Display:
+		move.b	Obj_P_Invunerblt_Time(a0),d0
+		beq.s	Offset_0x00ABE0
+		subq.b	#1,Obj_P_Invunerblt_Time(a0)
+		lsr.b	#3,d0
+		bcc.s	Sonic_ChkInvin
+
+Offset_0x00ABE0:
+		jsr	(DisplaySprite).l
+; Offset_0x00ABE6:
+Sonic_ChkInvin:
+		btst	#1,Obj_Player_Status(a0)		; does Sonic have invincibility?
+		beq.s	Sonic_ChkShoes				; if not, branch
+		tst.b	Obj_P_Invcbility_Time(a0)		; has the invincibility run out?
+		beq.s	Sonic_ChkShoes				; if yes, branch
+		move.b	(Level_Frame_Count+1).w,d0
+		andi.b	#7,d0					; countdown invincibility timer every eighth frame (used to save a byte of Sonic's SST)
+		bne.s	Sonic_ChkShoes
+		subq.b	#1,Obj_P_Invcbility_Time(a0)
+		bne.s	Sonic_ChkShoes
+		tst.b	(Boss_Flag).w
+		bne.s	Sonic_RmvInvin
+		cmpi.b	#$C,Obj_Subtype(a0)
+		bcs.s	Sonic_RmvInvin
+		move.w	(Level_Music_Buffer).w,d0
+		jsr	(PlaySound).l
+; Offset_0x00AC1C:
+Sonic_RmvInvin:
+		bclr	#1,Obj_Player_Status(a0)		; remove invincibility
+; Offset_0x00AC22:
+Sonic_ChkShoes:
+		btst	#2,Obj_Player_Status(a0)		; does Sonic have speed shoes?
+		beq.s	Sonic_ExitChk				; if not, branch
+		tst.b	Obj_P_Spd_Shoes_Time(a0)		; has the speed shoes run out?
+		beq.s	Sonic_ExitChk				; if yes, branch
+		move.b	(Level_Frame_Count+1).w,d0
+		andi.b	#7,d0					; again, countdown speed shoes timer every eighth frame
+		bne.s	Sonic_ExitChk
+		subq.b	#1,Obj_P_Spd_Shoes_Time(a0)
+		bne.s	Sonic_ExitChk
+		tst.w	(Two_Player_Flag).w			; is this two competition mode?
+		bne.s	Sonic_ChkShoesCompetition		; if yes, branch
+		; reset Sonic's speed values
+		move.w	#$600,(a4)
+		move.w	#$C,Acceleration(a4)
+		move.w	#$80,Deceleration(a4)
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Sonic_RmvSpeed
+		move.w	#$A00,(a4)
+		move.w	#$30,Acceleration(a4)
+		move.w	#$100,Deceleration(a4)
+; Offset_0x00AC6C:
+Sonic_RmvSpeed:
+		bclr	#2,Obj_Player_Status(a0)		; remove speed shoes
+		move.w	#Music_Normal_Speed,d0
+		jmp	(PlaySound).l
+; ---------------------------------------------------------------------------
+; Offset_0x00AC7C:
+Sonic_ExitChk:
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00AC7E:
+Sonic_ChkShoesCompetition:
+		lea	(Player_Start_Speed_Array).l,a1
+		moveq	#0,d0
+		move.b	Obj_Player_Selected(a0),d0
+		lsl.w	#3,d0
+		lea	(a1,d0.w),a1
+		move.w	(a1)+,(a4)
+		move.w	(a1)+,Acceleration(a4)
+		move.w	(a1)+,Deceleration(a4)
+		bclr	#2,Obj_Player_Status(a0)
+		rts
+; End of subroutine Sonic_Display
+
+; ---------------------------------------------------------------------------
+; Subroutine to record Sonic's previous positions for invincibility stars
+; and input/status flags for Tails' AI to follow
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00ACA2: CopySonicMovesForMiles:
+Sonic_RecordPos:
+		cmpa.w	#Obj_Player_One,a0
+		bne.s	Offset_0x00ACD2
+		move.w	(Position_Table_Index).w,d0
+		lea	(Position_Table_Data).w,a1
+		lea	(a1,d0.w),a1
+		move.w	Obj_X(a0),(a1)+
+		move.w	Obj_Y(a0),(a1)+
+		addq.b	#4,(Position_Table_Index+1).w
+		lea	(Status_Table_Data).w,a1
+		lea	(a1,d0.w),a1
+		move.w	(Control_Ports_Logical_Data).w,(a1)+
+		move.w	Obj_Status(a0),(a1)+
+		rts
+; End of subroutine Sonic_RecordPos
+
+Offset_0x00ACD2:
+		move.w  (Position_Table_Index_2P).w, D0              ; $FFFFEE2A
+		lea     (Position_Table_Data_P2).w, A1               ; $FFFFE600
+		lea     $00(A1, D0), A1
+		move.w  Obj_X(A0), (A1)+				 ; $0010
+		move.w  Obj_Y(A0), (A1)+				 ; $0014
+		addq.b  #$04, (Position_Table_Index_2P+$01).w        ; $FFFFEE2B
+		rts 
+;-------------------------------------------------------------------------------
+Reset_Player_Position_Array:				   ; Offset_0x00ACEC
+		cmpa.w  #Obj_Player_One, A0		              ; $B000
+		bne.s   Reset_Player_Position_Array_P2         ; Offset_0x00AD18
+		lea     (Position_Table_Data).w, A1		  ; $FFFFE500
+		lea     (Status_Table_Data).w, A2		    ; $FFFFE400
+		move.w  #$003F, D0
+Offset_0x00ACFE:
+		move.w  Obj_X(A0), (A1)+				 ; $0010
+		move.w  Obj_Y(A0), (A1)+				 ; $0014
+		move.l  #$00000000, (A2)+
+		dbra    D0, Offset_0x00ACFE
+		move.w  #$0000, (Position_Table_Index).w             ; $FFFFEE26
+		rts
+Reset_Player_Position_Array_P2:				; Offset_0x00AD18
+		lea     (Position_Table_Data_P2).w, A1               ; $FFFFE600
+		move.w  #$003F, D0
+Offset_0x00AD20:
+		move.w  Obj_X(A0), (A1)+				 ; $0010
+		move.w  Obj_Y(A0), (A1)+				 ; $0014
+		dbra    D0, Offset_0x00AD20
+		move.w  #$0000, (Position_Table_Index_2P).w          ; $FFFFEE2A
+		rts
+
+; ---------------------------------------------------------------------------
+; Subroutine for Sonic when he's underwater
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00AD34:
+Sonic_Water:
+		tst.b	(Water_Level_Flag).w
+		bne.s	Sonic_InWater
+
+Offset_0x00AD3A:
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00AD3C: Sonic_InLevelWithWater:
+Sonic_InWater:
+		move.w	(Water_Level_Move).w,d0
+		cmp.w	Obj_Y(a0),d0				; is Sonic above the water?
+		bge.s	Sonic_OutWater				; if yes, branch
+
+		bset	#6,Obj_Status(a0)			; set underwater flag
+		bne.s	Offset_0x00AD3A				; if already underwater, branch
+
+		addq.b	#1,(Water_Entered_Counter).w
+		move.l	a0,a1
+		bsr.w	ResumeMusic
+		move.l	#Obj_Player_Underwater,(Obj_P1_Underwater_Control).w	; load Sonic's breathing bubbles
+		move.b	#$81,(Obj_P1_Underwater_Control+Obj_Subtype).w
+		move.l	a0,(Obj_P1_Underwater_Control+$0040).w
+		move.w	#$300,(a4)
+		move.w	#6,Acceleration(a4)
+		move.w	#$40,Deceleration(a4)
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Offset_0x00AD90
+		move.w	#$500,(a4)
+		move.w	#$18,Acceleration(a4)
+		move.w	#$80,Deceleration(a4)
+
+Offset_0x00AD90:
+		asr.w	Obj_Speed_X(a0)
+		asr.w	Obj_Speed_Y(a0)				; memory operands can only be shifted one bit at a time
+		asr.w	Obj_Speed_Y(a0)
+		beq.s	Offset_0x00AD3A
+		move.w	#$100,Obj_Ani_Number(a6)		; splash animation
+		move.w	#Water_Splash_Sfx,d0			; splash sound
+		jmp	(PlaySound).l
+; ---------------------------------------------------------------------------
+; Offset_0x00ADAE: Sonic_NotInWater:
+Sonic_OutWater:
+		bclr	#6,Obj_Status(a0)			; unset underwater flag
+		beq.s	Offset_0x00AD3A				; if already above water, branch
+		addq.b	#1,(Water_Entered_Counter).w
+
+		move.l	a0,a1
+		bsr.w	ResumeMusic
+		move.w	#$600,(a4)
+		move.w	#$C,Acceleration(a4)
+		move.w	#$80,Deceleration(a4)
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Offset_0x00ADE6				; if Super, set different values
+		move.w	#$A00,(a4)
+		move.w	#$30,Acceleration(a4)
+		move.w	#$100,Deceleration(a4)
+
+Offset_0x00ADE6:
+		cmpi.b	#4,Obj_Routine(a0)			; is Sonic falling back from getting hurt?
+		beq.s	Offset_0x00ADFC				; if yes, branch
+		move.w	Obj_Speed_Y(a0),d0
+		cmpi.w	#-$400,d0
+		blt.s	Offset_0x00ADFC
+		asl.w	Obj_Speed_Y(a0)
+
+Offset_0x00ADFC:
+		cmpi.b	#$1C,Obj_Ani_Number(a0)			; is Sonic in his 'blank' animation?
+		beq.w	Offset_0x00AD3A				; if yes, branch
+		tst.w	Obj_Speed_Y(a0)
+		beq.w	Offset_0x00AD3A
+		move.w	#$100,Obj_Ani_Number(a6)		; splash animation
+		move.l	a0,a1
+		bsr.w	ResumeMusic
+		cmpi.w	#-$1000,Obj_Speed_Y(a0)
+		bgt.s	Offset_0x00AE28
+		move.w	#-$1000,Obj_Speed_Y(a0)			; limit upward y velocity exiting the water
+
+Offset_0x00AE28:
+		move.w	#Water_Splash_Sfx,d0
+		jmp	(PlaySound).l
+; End of subroutine Sonic_Water
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Start of subroutine Sonic_MdNormal
+; Called if Sonic is neither airborne nor rolling this frame
+; ---------------------------------------------------------------------------
+; Offset_0x00AE32:
+Sonic_MdNormal_Checks:
+		; If Sonic has been waiting for a while, and is tapping his foot
+		; impatiently, then make him blink once the player starts moving
+		; again. Likewise, if he's been waiting for so long that he's laying
+		; down, then make him play an animation of standing up.
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$70,d0
+		bne.s	Sonic_MdNormal
+		cmpi.b	#$A,Obj_Ani_Number(a0)
+		beq.s	Offset_0x00AEB6
+		cmpi.b	#$B,Obj_Ani_Number(a0)
+		beq.s	Offset_0x00AEB6
+		cmpi.b	#5,Obj_Ani_Number(a0)
+		bne.s	Sonic_MdNormal
+		cmpi.b	#$1E,Obj_Ani_Frame(a0)
+		bcs.s	Sonic_MdNormal
+		bsr.w	Sonic_SlopeResist
+		move.b	(Control_Ports_Logical_Data).w,d0
+		andi.b	#$7F,d0
+		beq.s	Offset_0x00AE9E
+		move.b	#$A,Obj_Ani_Number(a0)
+		cmpi.b	#$AC,Obj_Ani_Frame(a0)
+		bcs.s	Offset_0x00AE9E
+		move.b	#$B,Obj_Ani_Number(a0)
+		bra.s	Offset_0x00AE9E
+; ---------------------------------------------------------------------------
+; Offset_0x00AE80:
+Sonic_MdNormal:
+		bsr.w	Sonic_CheckSpindash
+		bsr.w	Sonic_Jump
+		bsr.w	Sonic_SlopeResist
+		bsr.w	Sonic_Move
+		bsr.w	Sonic_Roll
+		bsr.w	Sonic_LevelBoundaries
+		jsr	(SpeedToPos).l
+
+Offset_0x00AE9E:
+		bsr.w	Player_AnglePos
+		bsr.w	Sonic_SlopeRepel
+		tst.b	(Background_Collision_Flag).w
+		beq.s	Offset_0x00AEB6
+		bsr.w	Offset_0x009C92
+		tst.w	d1
+		bmi.w	Kill_Player
+
+Offset_0x00AEB6:
+		rts
+; End of subroutine Sonic_MdNormal_Checks
+
+; ---------------------------------------------------------------------------
+; Start of subroutine Sonic_MdAir
+; Called if Sonic is airborne, but not in a ball (thus, probably not jumping)
+; ---------------------------------------------------------------------------
+; Offset_0x00AEB8: Sonic_MdJump:
+Sonic_MdAir:
+		bsr.w	Sonic_JumpHeight
+		bsr.w	Sonic_ChgJumpDir
+		bsr.w	Sonic_LevelBoundaries
+		jsr	(ObjectFall).l
+		btst	#6,Obj_Status(a0)			; is Sonic underwater?
+		beq.s	Offset_0x00AED8				; if not, branch
+		subi.w	#$28,Obj_Speed_Y(a0)			; reduce gravity by $28 ($38-$28=$10)
+
+Offset_0x00AED8:
+		bsr.w	Sonic_JumpAngle
+		bsr.w	Sonic_Floor
+		rts
+; End of subroutine Sonic_MdAir
+
+; ---------------------------------------------------------------------------
+; Start of subroutine Sonic_MdRoll
+; Called if Sonic is in a ball, but not airborne (thus, probably rolling)
+; ---------------------------------------------------------------------------
+; Offset_0x00AEE2:
+Sonic_MdRoll:
+		tst.b	Obj_Player_Spdsh_Flag(A0)
+		bne.s	Offset_0x00AEEC
+		bsr.w	Sonic_Jump
+
+Offset_0x00AEEC:
+		bsr.w	Sonic_RollRepel
+		bsr.w	Sonic_RollSpeed
+		bsr.w	Sonic_LevelBoundaries
+		jsr	(SpeedToPos).l
+		bsr.w	Player_AnglePos
+		bsr.w	Sonic_SlopeRepel
+		tst.b	(Background_Collision_Flag).w
+		beq.s	Offset_0x00AF16
+		bsr.w	Offset_0x009C92
+		tst.w	d1
+		bmi.w	Kill_Player
+
+Offset_0x00AF16:
+		rts
+; End of subroutine Sonic_MdRoll
+
+; ---------------------------------------------------------------------------
+; Start of subroutine Sonic_MdJump
+; Called if Sonic is in a ball and airborne (he could be jumping but not necessarily)
+; ---------------------------------------------------------------------------
+; Offset_0x00AF18: Sonic_MdJump2:
+Sonic_MdJump:
+		bsr.w	Sonic_JumpHeight
+		bsr.w	Sonic_ChgJumpDir
+		bsr.w	Sonic_LevelBoundaries
+		jsr	(ObjectFall).l
+		btst	#6,Obj_Status(a0)			; is Sonic underwater?
+		beq.s	Offset_0x00AF38				; if not, branch
+		subi.w	#$28,Obj_Speed_Y(a0)			; reduce gravity by $28 ($38-$28=$10)
+
+Offset_0x00AF38:
+		bsr.w	Sonic_JumpAngle
+		bsr.w	Sonic_Floor
+		rts
+; End of subroutine Sonic_MdJump
+
+; ---------------------------------------------------------------------------
+; Subroutine to make Sonic walk/run
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00AF42:
+Sonic_Move:
+		move.w	(a4),d6
+		move.w	Acceleration(a4),d5
+		move.w	Deceleration(a4),d4
+		tst.b	Obj_Player_Status(a0)
+		bmi.w	Sonic_Traction
+		tst.w	Obj_P_Horiz_Ctrl_Lock(a0)
+		bne.w	Sonic_ResetScr
+		btst	#2,(Control_Ports_Logical_Data).w	; is left being pressed?
+		beq.s	Sonic_NotLeft				; if not, branch
+		bsr.w	Offset_0x00B2A6
+; Offset_0x00AF68:
+Sonic_NotLeft:
+		btst	#3,(Control_Ports_Logical_Data).w	; is right being pressed?
+		beq.s	Sonic_NotRight				; if not, branch
+		bsr.w	Offset_0x00B32C
+; Offset_0x00AF74:
+Sonic_NotRight:
+		move.b	Obj_Angle(a0),d0
+		addi.b	#$20,d0
+		andi.b	#$C0,d0					; is Sonic on a slope?
+		bne.w	Sonic_ResetScr				; if yes, branch
+		tst.w	Obj_Inertia(a0)				; is Sonic moving?
+		bne.w	Sonic_ResetScr				; if yes, branch
+		bclr	#5,Obj_Status(a0)
+		move.b	#5,Obj_Ani_Number(a0)			; use "standing" animation
+		btst	#3,Obj_Status(a0)
+		beq.w	Sonic_Balance
+		move.w	Obj_Player_Last(a0),a1
+		tst.b	Obj_Status(a1)
+		bmi.w	Sonic_Lookup
+		moveq	#0,d1
+		move.b	Obj_Width(a1),d1
+		move.w	d1,d2
+		add.w	d2,d2
+		subq.w	#2,d2
+		add.w	Obj_X(a0),d1
+		sub.w	Obj_X(a1),d1
+		tst.b	(Super_Sonic_flag).w
+		bne.w	SuperSonic_Balance
+		cmpi.w	#2,d1
+		blt.s	Sonic_BalanceOnObjLeft
+		cmp.w	d2,d1
+		bge.s	Sonic_BalanceOnObjRight
+		bra.w	Sonic_Lookup
+; ---------------------------------------------------------------------------
+; Offset_0x00AFD8:
+SuperSonic_Balance:
+		cmpi.w	#2,d1
+		blt.w	SuperSonic_BalanceOnObjLeft
+		cmp.w	d2,d1
+		bge.w	SuperSonic_BalanceOnObjRight
+		bra.w	Sonic_Lookup
+; ---------------------------------------------------------------------------
+; Balancing checks for when you're on the right edge of an object
+; Offset_0x00AFEA:
+Sonic_BalanceOnObjRight:
+		btst	#0,Obj_Status(a0)			; is Sonic facing right?
+		bne.s	@facingRight				; if yes, branch
+		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
+		addq.w	#6,d2
+		cmp.w	d2,d1					; is Sonic REALLY close to the edge?
+		blt.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
+		bra.w	Sonic_ResetScr
+; Offset_0x00B00A:
+@facingRight:
+		; this code is still in final, but redundant since both animation sets are the same
+		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
+		addq.w	#6,d2
+		cmp.w	d2,d1					; is Sonic REALLY close to the edge?
+		blt.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$1E,Obj_Ani_Number(a0)			; use "balancing" animation 4
+		bclr	#0,Obj_Status(a0)
+		bra.w	Sonic_ResetScr
+; ---------------------------------------------------------------------------
+; Balancing checks for when you're on the left edge of an object
+; Offset_0x00B028:
+Sonic_BalanceOnObjLeft:
+		btst	#0,Obj_Status(a0)			; is Sonic facing left?
+		beq.s	@facingLeft				; if yes, branch
+		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
+		cmpi.w	#-4,d1					; is Sonic REALLY close to the edge?
+		bge.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
+		bra.w	Sonic_ResetScr
+; Offset_0x00B048:
+@facingLeft:
+		; same as above
+		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
+		cmpi.w	#-4,d1					; is Sonic REALLY close to the edge?
+		bge.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$1E,Obj_Ani_Number(a0)			; use "balancing" animation 4
+		bset	#0,Obj_Status(a0)
+		bra.w	Sonic_ResetScr
+; ---------------------------------------------------------------------------
+; Balancing checks for when you're on the edge of part of the level
+; Offset_0x00B066:
+Sonic_Balance:
+		jsr	(Player_HitFloor).l
+		cmpi.w	#$C,d1
+		blt.w	Sonic_Lookup
+		tst.b	(Super_Sonic_flag).w			; is Sonic super?
+		bne.w	SuperSonic_Balance2			; if yes, branch
+		cmpi.b	#3,Obj_Player_Next_Tilt(a0)
+		bne.s	Sonic_BalanceLeft
+		btst	#0,Obj_Status(a0)			; is Sonic facing right?
+		bne.s	@facingRight				; if yes, branch
+		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
+		move.w	Obj_X(a0),d3
+		subq.w	#6,d3
+		jsr	(Player_HitFloor_D3).l
+		cmpi.w	#$C,d1					; is Sonic REALLY close to the edge?
+		blt.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
+		bra.w	Sonic_ResetScr
+; Offset_0x00B0B0:
+@facingRight:
+		; same as above as above
+		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
+		move.w	Obj_X(a0),d3
+		subq.w	#6,d3
+		jsr	(Player_HitFloor_D3).l
+		cmpi.w	#$C,d1					; is Sonic REALLY close to the edge?
+		blt.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$1E,Obj_Ani_Number(a0)			; use "balancing" animation 4
+		bclr	#0,Obj_Status(a0)
+		bra.w	Sonic_ResetScr
+; ---------------------------------------------------------------------------
+; Offset_0x00B0DA:
+Sonic_BalanceLeft:
+		cmpi.b	#3,Obj_Player_Tilt(a0)
+		bne.s	Sonic_Lookup
+		btst	#0,Obj_Status(a0)			; is Sonic facing left?
+		beq.s	@facingLeft				; if yes, branch
+		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
+		move.w	Obj_X(a0),d3
+		addq.w	#6,d3
+		jsr	(Player_HitFloor_D3).l
+		cmpi.w	#$C,d1					; is Sonic REALLY close to the edge?
+		blt.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
+		bra.w	Sonic_ResetScr
+; Offset_0x00B10E:
+@facingLeft:
+		; you get the point, right?
+		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
+		move.w	Obj_X(a0),d3
+		addq.w	#6,d3
+		jsr	(Player_HitFloor_D3).l
+		cmpi.w	#$C,d1					; is Sonic REALLY close to the edge?
+		blt.w	Sonic_ResetScr				; if yes, branch
+		move.b	#$1E,Obj_Ani_Number(a0)			; use "balancing" animation 4
+		bset	#0,Obj_Status(a0)
+		bra.w	Sonic_ResetScr
+; ---------------------------------------------------------------------------
+; Offset_0x00B138:
+SuperSonic_Balance2:
+		cmpi.b	#3,Obj_Player_Next_Tilt(a0)
+		bne.s	SuperSonic_Balance3
+; Offset_0x00B140:
+SuperSonic_BalanceOnObjRight:
+		bclr	#0,Obj_Status(a0)
+		bra.s	SuperSonic_SetBalanceAnim
+; ---------------------------------------------------------------------------
+; Offset_0x00B148:
+SuperSonic_Balance3:
+		cmpi.b	#3,Obj_Player_Tilt(a0)
+		bne.s	Sonic_Lookup
+; Offset_0x00B150:
+SuperSonic_BalanceOnObjLeft:
+		bset	#0,Obj_Status(A0)
+; Offset_0x00B156:
+SuperSonic_SetBalanceAnim:
+		move.b	#6,Obj_Ani_Number(a0)
+		bra.s	Sonic_ResetScr
+; ===========================================================================
+; Offset_0x00B15E:
+Sonic_Lookup:
+		btst	#0,(Control_Ports_Logical_Data).w	; is up being pressed?
+		beq.s	Offset_0x00B188				; if not, branch
+		move.b	#7,Obj_Ani_Number(a0)			; use "looking up" animation
+		addq.b	#1,Obj_Look_Up_Down_Time(a0)
+		cmpi.b	#$78,Obj_Look_Up_Down_Time(a0)
+		bcs.s	Sonic_ResetScr_Part2
+		move.b	#$78,Obj_Look_Up_Down_Time(a0)
+		cmpi.w	#$C8,(a5)
+		beq.s	Sonic_UpdateSpeedOnGround
+		addq.w	#2,(a5)
+		bra.s	Sonic_UpdateSpeedOnGround
+; ---------------------------------------------------------------------------
+
+Offset_0x00B188:
+		btst	#1,(Control_Ports_Logical_Data).w	; is down being pressed?
+		beq.s	Sonic_ResetScr				; if not, branch
+		move.b	#8,Obj_Ani_Number(a0)			; use "ducking" animation
+		addq.b	#1,Obj_Look_Up_Down_Time(a0)
+		cmpi.b	#$78,Obj_Look_Up_Down_Time(a0)
+		bcs.s	Sonic_ResetScr_Part2
+		move.b	#$78,Obj_Look_Up_Down_Time(a0)
+		cmpi.w	#8,(a5)
+		beq.s	Sonic_UpdateSpeedOnGround
+		subq.w	#2,(a5)
+		bra.s	Sonic_UpdateSpeedOnGround
+; ===========================================================================
+; moves the screen back to its normal position after looking up or down
+; Offset_0x00B1B2:
+Sonic_ResetScr:
+		move.b	#0,Obj_Look_Up_Down_Time(a0)
+; Offset_0x00B1B8:
+Sonic_ResetScr_Part2:
+		cmpi.w	#$60,(a5)				; is screen in its default position?
+		beq.s	Sonic_UpdateSpeedOnGround		; if yes, branch
+		bcc.s	Offset_0x00B1C2				; depending on the sign of the difference,
+		addq.w	#4,(a5)					; either add 2
+
+Offset_0x00B1C2:
+		subq.w	#2,(a5)					; or subtract 2
+
+; ---------------------------------------------------------------------------
+; Updates Sonic's speed on the ground
+; ---------------------------------------------------------------------------
+; Offset_0x00B1C4:
+Sonic_UpdateSpeedOnGround:
+		tst.b	(Super_Sonic_flag).w
+		beq.w	Offset_0x00B1D0
+		move.w	#$C,d5
+
+Offset_0x00B1D0:
+		move.b	(Control_Ports_Logical_Data).w,d0
+		andi.b	#$C,d0					; is left/right pressed?
+		bne.s	Sonic_Traction				; if yes, branch
+		move.w	Obj_Inertia(a0),d0
+		beq.s	Sonic_Traction
+		bmi.s	Sonic_SettleLeft
+
+; Slow down when facing right and not pressing a direction
+; Sonic_SettleRight:
+		sub.w	d5,d0
+		bcc.s	Offset_0x00B1EA
+		move.w	#0,d0
+
+Offset_0x00B1EA:
+		move.w	d0,Obj_Inertia(a0)
+		bra.s	Sonic_Traction
+; ---------------------------------------------------------------------------
+; Slow down when facing left and not pressing a direction
+; Offset_0x00B1F0:
+Sonic_SettleLeft:
+		add.w	d5,d0
+		bcc.s	Offset_0x00B1F8
+		move.w	#0,d0
+
+Offset_0x00B1F8:
+		move.w	d0,Obj_Inertia(a0)
+
+; Increase or decrease speed on the ground
+; Offset_0x00B1FC:
+Sonic_Traction:
+		move.b	Obj_Angle(a0),d0
+		jsr	(CalcSine).l
+		muls.w	Obj_Inertia(a0),d1
+		asr.l	#8,d1
+		move.w	d1,Obj_Speed_X(a0)
+		muls.w	Obj_Inertia(a0),d0
+		asr.l	#8,d0
+		move.w	d0,Obj_Speed_Y(a0)
+
+; Stops Sonic from running through walls that meet the ground
+; Offset_0x00B21A:
+Sonic_CheckWallsOnGround:
+		btst	#6,Obj_Player_Control(a0)
+		bne.w	Offset_0x00B2A4
+		move.b	Obj_Angle(a0),d0
+		addi.b	#$40,d0
+		bmi.s	Offset_0x00B2A4
+		move.b	#$40,d1					; rotate 90 degrees clockwise
+		tst.w	Obj_Inertia(a0)				; is Sonic moving?
+		beq.s	Offset_0x00B2A4				; if not, branch
+		bmi.s	Offset_0x00B23C				; if Sonic is moving backwards, branch
+		neg.w	d1					; otherwise, rotate counter clockwise
+
+Offset_0x00B23C:
+		move.b	Obj_Angle(a0),d0
+		add.b	d1,d0
+		move.w	d0,-(sp)
+		bsr.w	Player_WalkSpeed
+		move.w	(sp)+,d0
+		tst.w	d1
+		bpl.s	Offset_0x00B2A4
+		asl.w	#8,d1
+		addi.b	#$20,d0
+		andi.b	#$C0,d0
+		beq.s	Offset_0x00B2A0
+		cmpi.b	#$40,d0
+		beq.s	Offset_0x00B286
+		cmpi.b	#$80,d0
+		beq.s	Offset_0x00B280
+		add.w	d1,Obj_Speed_X(a0)
+		move.w	#0,Obj_Inertia(a0)
+		btst	#0,Obj_Status(a0)
+		bne.s	Offset_0x00B27E
+		bset	#5,Obj_Status(a0)
+
+Offset_0x00B27E:
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x00B280:
+		sub.w	d1,Obj_Speed_Y(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x00B286:
+		sub.w	d1,Obj_Speed_X(a0)
+		move.w	#0,Obj_Inertia(a0)
+		btst	#0,Obj_Status(a0)
+		beq.s	Offset_0x00B27E
+		bset	#5,Obj_Status(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x00B2A0:
+		add.w	d1,Obj_Speed_Y(a0)
+
+Offset_0x00B2A4:
+		rts
+; End of subroutine Sonic_Move
+
+Offset_0x00B2A6:
+		move.w  Obj_Inertia(A0), D0		              ; $001C
+		beq.s   Offset_0x00B2AE
+		bpl.s   Offset_0x00B2E0
+Offset_0x00B2AE:
+		bset    #$00, Obj_Status(A0)		             ; $002A
+		bne.s   Offset_0x00B2C2
+		bclr    #$05, Obj_Status(A0)		             ; $002A
+		move.b  #$01, Obj_Ani_Flag(A0)		           ; $0021
+Offset_0x00B2C2:
+		sub.w   D5, D0
+		move.w  D6, D1
+		neg.w   D1
+		cmp.w   D1, D0
+		bgt.s   Offset_0x00B2D4
+		add.w   D5, D0
+		cmp.w   D1, D0
+		ble.s   Offset_0x00B2D4
+		move.w  D1, D0
+Offset_0x00B2D4:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.b  #$00, Obj_Ani_Number(A0)		         ; $0020
+		rts
+Offset_0x00B2E0:
+		sub.w   D4, D0
+		bcc.s   Offset_0x00B2E8
+		move.w  #$FF80, D0
+Offset_0x00B2E8:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.b  Obj_Angle(A0), D0				; $0026
+		addi.b  #$20, D0
+		andi.b  #$C0, D0
+		bne.s   Offset_0x00B32A
+		cmpi.w  #$0400, D0
+		blt.s   Offset_0x00B32A
+		move.b  #$0D, Obj_Ani_Number(A0)		         ; $0020
+		bclr    #$00, Obj_Status(A0)		             ; $002A
+		move.w  #Skidding_Sfx, D0				; $0036
+		jsr     (PlaySound)		           ; Offset_0x001176
+		cmpi.b  #$0C, Obj_Subtype(A0)		            ; $002C
+		bcs.s   Offset_0x00B32A
+		move.b  #$06, Obj_Routine(A6)		            ; $0005
+		move.b  #$15, Obj_Map_Id(A6)		             ; $0022
+Offset_0x00B32A:
+		rts
+Offset_0x00B32C:
+		move.w  Obj_Inertia(A0), D0		              ; $001C
+		bmi.s   Offset_0x00B360
+		bclr    #$00, Obj_Status(A0)		             ; $002A
+		beq.s   Offset_0x00B346
+		bclr    #$05, Obj_Status(A0)		             ; $002A
+		move.b  #$01, Obj_Ani_Flag(A0)		           ; $0021
+Offset_0x00B346:
+		add.w   D5, D0
+		cmp.w   D6, D0
+		blt.s   Offset_0x00B354
+		sub.w   D5, D0
+		cmp.w   D6, D0
+		bge.s   Offset_0x00B354
+		move.w  D6, D0
+Offset_0x00B354:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.b  #$00, Obj_Ani_Number(A0)		         ; $0020
+		rts
+Offset_0x00B360:
+		add.w   D4, D0
+		bcc.s   Offset_0x00B368
+		move.w  #$0080, D0
+Offset_0x00B368:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.b  Obj_Angle(A0), D0				; $0026
+		addi.b  #$20, D0
+		andi.b  #$C0, D0
+		bne.s   Offset_0x00B3AA
+		cmpi.w  #$FC00, D0
+		bgt.s   Offset_0x00B3AA
+		move.b  #$0D, Obj_Ani_Number(A0)		         ; $0020
+		bset    #$00, Obj_Status(A0)		             ; $002A
+		move.w  #Skidding_Sfx, D0				; $0036
+		jsr     (PlaySound)		           ; Offset_0x001176
+		cmpi.b  #$0C, Obj_Subtype(A0)		            ; $002C
+		bcs.s   Offset_0x00B3AA
+		move.b  #$06, Obj_Routine(A6)		            ; $0005
+		move.b  #$15, Obj_Map_Id(A6)		             ; $0022
+Offset_0x00B3AA:
+		rts
+;-------------------------------------------------------------------------------		
+Sonic_RollSpeed:				               ; Offset_0x00B3AC
+		move.w  (A4), D6
+		asl.w   #$01, D6
+		move.w  Acceleration(A4), D5		             ; $0002
+		asr.w   #$01, D5
+		move.w  #$0020, D4
+		tst.b   Obj_Player_Status(A0)		            ; $002F
+		bmi     Offset_0x00B448
+		tst.w   Obj_P_Horiz_Ctrl_Lock(A0)		        ; $0032
+		bne.s   Offset_0x00B3E0
+		btst    #$02, (Control_Ports_Logical_Data).w         ; $FFFFF602
+		beq.s   Offset_0x00B3D4
+		bsr     Offset_0x00B48A
+Offset_0x00B3D4:
+		btst    #$03, (Control_Ports_Logical_Data).w         ; $FFFFF602
+		beq.s   Offset_0x00B3E0
+		bsr     Offset_0x00B4AE
+Offset_0x00B3E0:
+		move.w  Obj_Inertia(A0), D0		              ; $001C
+		beq.s   Offset_0x00B402
+		bmi.s   Offset_0x00B3F6
+		sub.w   D5, D0
+		bcc.s   Offset_0x00B3F0
+		move.w  #$0000, D0
+Offset_0x00B3F0:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		bra.s   Offset_0x00B402
+Offset_0x00B3F6:
+		add.w   D5, D0
+		bcc.s   Offset_0x00B3FE
+		move.w  #$0000, D0
+Offset_0x00B3FE:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+Offset_0x00B402:
+		tst.w   Obj_Inertia(A0)				  ; $001C
+		bne.s   Offset_0x00B448
+		tst.b   Obj_Player_Spdsh_Flag(A0)		        ; $003D
+		bne.s   Offset_0x00B436
+		bclr    #$02, Obj_Status(A0)		             ; $002A
+		move.b  Obj_Height_2(A0), D0		             ; $001E
+		move.b  Obj_Height_3(A0), Obj_Height_2(A0)        ; $001E, $0044
+		move.b  Obj_Width_3(A0), Obj_Width_2(A0)          ; $001F, $0045
+		move.b  #$05, Obj_Ani_Number(A0)		         ; $0020
+		sub.b   Obj_Height_3(A0), D0		             ; $0044
+		ext.w   D0
+		add.w   D0, Obj_Y(A0)				    ; $0014
+		bra.s   Offset_0x00B448
+Offset_0x00B436:
+		move.w  #$0400, Obj_Inertia(A0)		          ; $001C
+		btst    #$00, Obj_Status(A0)		             ; $002A
+		beq.s   Offset_0x00B448
+		neg.w   Obj_Inertia(A0)				  ; $001C
+Offset_0x00B448:
+		cmpi.w  #$0060, (A5)
+		beq.s   Offset_0x00B454
+		bcc.s   Offset_0x00B452
+		addq.w  #$04, (A5)
+Offset_0x00B452:
+		subq.w  #$02, (A5)
+Offset_0x00B454:
+		move.b  Obj_Angle(A0), D0				; $0026
+		jsr     (CalcSine)		             ; Offset_0x001B20
+		muls.w  Obj_Inertia(A0), D0		              ; $001C
+		asr.l   #$08, D0
+		move.w  D0, Obj_Speed_Y(A0)		              ; $001A
+		muls.w  Obj_Inertia(A0), D1		              ; $001C
+		asr.l   #$08, D1
+		cmpi.w  #$1000, D1
+		ble.s   Offset_0x00B478
+		move.w  #$1000, D1
+Offset_0x00B478:
+		cmpi.w  #$F000, D1
+		bge.s   Offset_0x00B482
+		move.w  #$F000, D1
+Offset_0x00B482:
+		move.w  D1, Obj_Speed_X(A0)		              ; $0018
+		bra     Sonic_CheckWallsOnGround
+Offset_0x00B48A:
+		move.w  Obj_Inertia(A0), D0		              ; $001C
+		beq.s   Offset_0x00B492
+		bpl.s   Offset_0x00B4A0
+Offset_0x00B492:
+		bset    #$00, Obj_Status(A0)		             ; $002A
+		move.b  #$02, Obj_Ani_Number(A0)		         ; $0020
+		rts
+Offset_0x00B4A0:
+		sub.w   D4, D0
+		bcc.s   Offset_0x00B4A8
+		move.w  #$FF80, D0
+Offset_0x00B4A8:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		rts
+Offset_0x00B4AE:
+		move.w  Obj_Inertia(A0), D0		              ; $001C
+		bmi.s   Offset_0x00B4C2
+		bclr    #$00, Obj_Status(A0)		             ; $002A
+		move.b  #$02, Obj_Ani_Number(A0)		         ; $0020
+		rts
+Offset_0x00B4C2:
+		add.w   D4, D0
+		bcc.s   Offset_0x00B4CA
+		move.w  #$0080, D0
+Offset_0x00B4CA:
+		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		rts
+
+; ---------------------------------------------------------------------------
+; Subroutine for moving Sonic left or right when he's in the air
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00B4D0:
+Sonic_ChgJumpDir:
+		move.w	(a4),d6
+		move.w	Acceleration(a4),d5
+		asl.w	#1,d5
+		btst	#4,Obj_Status(a0)			; did Sonic jump from rolling?
+		bne.s	Sonic_Jump_ResetScr			; if yes, branch to skip bidair control
+		move.w	Obj_Speed_X(a0),d0
+		btst	#2,(Control_Ports_Logical_Data).w	; is left being held?
+		beq.s	@jumpRight				; if not, branch
+
+		bset	#0,Obj_Status(a0)
+		sub.w	d5,d0					; add acceleration to the left
+		move.w	d6,d1
+		neg.w	d1
+		cmp.w	d1,d0					; compare new speed with top speed
+		bgt.s	@jumpRight				; if new speed is less than the maximum, branch
+		add.w	d5,d0					; remove this frame's acceleration change
+		cmp.w	d1,d0					; compare speed with top speed
+		ble.s	@jumpRight				; if speed was already greater than the maximum, branch
+		move.w	d1,d0					; limit speed in air going left, even if Sonic was already going faster (speed limit/cap)
+; Offset_0x00B504:
+@jumpRight:
+		btst	#3,(Control_Ports_Logical_Data).w	; is right being held?
+		beq.s	Sonic_JumpMove				; if not, branch
+		bclr	#0,Obj_Status(a0)
+		add.w	d5,d0					; add acceleration to the right
+		cmp.w	d6,d0					; compare new speed with top speed
+		blt.s	Sonic_JumpMove				; if new speed is less than the maximum, branch
+		sub.w	d5,d0					; remove this frame's acceleration change
+		cmp.w	d6,d0					; compare speed with top speed
+		bge.s	Sonic_JumpMove				; if speed was already greater than the maximum, branch
+		move.w	d6,d0					; limit speed in air going right, even if Sonic was already going faster (speed limit/cap)
+; Offset_0x00B520:
+Sonic_JumpMove:
+		move.w	d0,Obj_Speed_X(a0)
+; Offset_0x00B524:
+Sonic_Jump_ResetScr:
+		cmpi.w	#$60,(a5)				; is screen in its default position?
+		beq.s	Sonic_JumpPeakDecelerate		; if yes, branch
+		bcc.s	Offset_0x00B52E				; depending on the sign of the difference,
+		addq.w	#4,(a5)					; either add 2
+
+Offset_0x00B52E:
+		subq.w  #2,(a5)					; or subtract 2
+; Offset_0x00B530:
+Sonic_JumpPeakDecelerate:
+		cmpi.w	#-$400,Obj_Speed_Y(a0)			; is Sonic moving faster than -$400 upwards?
+		bcs.s	Offset_0x00B55E				; if yes, branch
+		move.w	Obj_Speed_X(a0),d0
+		move.w	d0,d1
+		asr.w	#5,d1					; d1 = x_velocity / 32
+		beq.s	Offset_0x00B55E				; return if d1 is 0
+		bmi.s	Sonic_JumpPeakDecelerateLeft		; branch if moving left
+
+; Sonic_JumpPeakDecelerateRight:
+		sub.w	d1,d0					; reduce x velocity by d1
+		bcc.s	Offset_0x00B54C
+		move.w	#0,d0
+
+Offset_0x00B54C:
+		move.w	d0,Obj_Speed_X(a0)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B552:
+Sonic_JumpPeakDecelerateLeft:
+		sub.w	d1,d0					; reduce x velocity by d1
+		bcs.s	Offset_0x00B55A
+		move.w	#0,d0
+
+Offset_0x00B55A:
+		move.w	d0,Obj_Speed_X(a0)
+
+Offset_0x00B55E:
+		rts
+; End of subroutine Sonic_ChgJumpDir
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to prevent Sonic from leaving the boundaries of a level
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00B562:
+Sonic_LevelBoundaries:
+		move.l	Obj_X(a0),d1
+		move.w	Obj_Speed_X(a0),d0
+		ext.l	d0
+		asl.l	#8,d0
+		add.l	d0,d1
+		swap.w	d1
+		move.w	(Sonic_Level_Limits_Min_X).w,d0
+		addi.w	#$10,d0
+		cmp.w	d1,d0					; has Sonic touched the left boundary?
+		bhi.s	Sonic_Boundary_Sides			; if yes, branch
+		move.w	(Sonic_Level_Limits_Max_X).w,d0
+		addi.w	#$128,d0				; screen width - Sonic's width_pixels
+		cmp.w	d1,d0					; has Sonic touched the right boundary?
+		bls.s	Sonic_Boundary_Sides			; if yes, branch
+; Offset_0x00B588:
+Sonic_Boundary_CheckBottom:
+		move.w	(Sonic_Level_Limits_Max_Y).w,d0
+		addi.w	#$E0,d0
+		cmp.w	Obj_Y(a0),d0				; has Sonic touched the bottom boundary?
+		blt.s	Sonic_Boundary_Bottom			; if yes, branch
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B598:
+Sonic_Boundary_Bottom:
+		jmp	(Kill_Player).l
+; ===========================================================================
+; Offset_0x00B59E:
+Sonic_Boundary_Sides:
+		move.w	d0,Obj_X(a0)
+		move.w	#0,Obj_Sub_X(a0)
+		move.w	#0,Obj_Speed_X(a0)
+		move.w	#0,Obj_Inertia(a0)
+		bra.s	Sonic_Boundary_CheckBottom
+; End of function Sonic_LevelBoundaries
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine allowing Sonic to start rolling when he's moving
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00B5B6:
+Sonic_Roll:
+		tst.b	Obj_Player_Status(a0)
+		bmi.s	Sonic_NoRoll
+		move.w	Obj_Inertia(a0),d0
+		bpl.s	Offset_0x00B5C4
+		neg.w	d0
+
+Offset_0x00B5C4:
+		cmpi.w	#$80,d0					; is Sonic moving at $80 speed or faster?
+		bcs.s	Sonic_NoRoll				; if not, branch
+		move.b	(Control_Ports_Logical_Data).w,d0 
+		andi.b	#$C,d0					; is left/right being pressed?
+		bne.s	Sonic_NoRoll				; if yes, branch
+		btst	#1,(Control_Ports_Logical_Data).w	; is down being pressed?
+		bne.s	Sonic_ChkRoll				; if yes, branch
+; Offset_0x00B5DC:
+Sonic_NoRoll:
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B5DE:
+Sonic_ChkRoll:
+		btst	#2,Obj_Status(a0)			; is Sonic already rolling?
+		beq.s	Sonic_DoRoll				; if not, branch
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B5E8:
+Sonic_DoRoll:
+		bset	#2,Obj_Status(a0)
+		move.b	#$E,Obj_Height_2(a0)
+		move.b	#7,Obj_Width_2(a0)
+		move.b	#2,Obj_Ani_Number(a0)			; use "rolling" animation
+		addq.w	#5,Obj_Y(a0)
+		move.w	#Rolling_Sfx,d0
+		jsr	(PlaySound).l				; play rolling sound
+		tst.w	Obj_Inertia(a0)
+		bne.s	Offset_0x00B61A
+		move.w	#$200,Obj_Inertia(a0)
+
+Offset_0x00B61A:
+		rts 
+; End of function Sonic_Roll
+
+; ---------------------------------------------------------------------------
+; Subroutine allowing Sonic to jump
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00B61C:
+Sonic_Jump:
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$70,d0					; is A/B/C pressed?
+		beq.w	Offset_0x00B6F0				; if not, branch
+		move.b	(Control_Ports_Logical_Data).w,d0
+		andi.b	#$D,d0
+		cmpi.b	#1,d0
+		bne.s	Offset_0x00B63C
+		move.w	#-1,(Dropdash_flag).w
+
+Offset_0x00B63C:
+		moveq	#0,d0
+		move.b	Obj_Angle(a0),d0
+		addi.b	#$80,d0
+		movem.l	a4-a6,-(sp)
+		bsr.w	CalcRoomOverHead
+		movem.l	(sp)+,a4-a6
+		cmpi.w	#6,d1					; does Sonic have room to jump?
+		blt.w	Offset_0x00B6F0				; if not, branch
+		move.w	#$680,d2
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Offset_0x00B668
+		move.w	#$800,d2				; set higher jump speed if super
+
+Offset_0x00B668:
+		btst	#6,Obj_Status(a0)
+		beq.s	Offset_0x00B674
+		move.w	#$380,d2				; set lower jump speed if under
+
+Offset_0x00B674:
+		moveq	#0,d0
+		move.b	Obj_Angle(a0),d0
+		subi.b	#$40,d0
+		jsr	(CalcSine).l
+		muls.w	d2,d1
+		asr.l	#8,d1
+		add.w	d1,Obj_Speed_X(a0)			; make Sonic jump (in X... this adds nothing on level ground)
+		muls.w	d2,d0
+		asr.l	#8,d0
+		add.w	d0,Obj_Speed_Y(a0)			; make Sonic jump (in Y)
+		bset	#1,Obj_Status(a0)
+		bclr	#5,Obj_Status(a0)
+		addq.l	#4,sp
+		move.b	#1,Obj_Player_Jump(a0)
+		clr.b	Obj_Player_St_Convex(a0)
+		move.w	#Jump_Sfx,d0
+		jsr	(PlaySound).l				; play jumping sound
+		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
+		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
+		btst	#2,Obj_Status(a0)
+		bne.s	Sonic_RollJump
+		move.b	#$E,Obj_Height_2(a0)
+		move.b	#7,Obj_Width_2(a0)
+		move.b	#2,Obj_Ani_Number(a0)			; use "jumping" animation
+		bset	#2,Obj_Status(a0)
+		move.b	Obj_Height_2(a0),d0
+		sub.b	Obj_Height_3(a0),d0
+		ext.w	d0
+		sub.w	d0,Obj_Y(a0)
+
+Offset_0x00B6F0:
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B6F2:
+Sonic_RollJump:
+		bset	#4,Obj_Status(a0)			; set the rolling+jumping flag
+		rts
+; End of function Sonic_Jump
+
+; ---------------------------------------------------------------------------
+; Subroutine letting Sonic control the height of the jump
+; when the jump button is released
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00B6FA:
+Sonic_JumpHeight:
+		tst.b	Obj_Player_Jump(A0)			; is Sonic jumping?
+		beq.s	Sonic_UpVelCap				; if not, branch
+
+		move.w	#-$400,d1
+		btst	#6,Obj_Status(a0)			; is Sonic underwater?
+		beq.s	Offset_0x00B710				; if not, branch
+		move.w	#-$200,d1
+
+Offset_0x00B710:
+		cmp.w	Obj_Speed_Y(a0),d1			; if Sonic is not going up faster than d1, branch
+		ble.w	Sonic_ThrowRings			; this is altered from Sonic 2 to prevent the Super Sonic transformation,
+								; change the branch to B726 to re-enable him
+		move.b	(Control_Ports_Logical_Data).w,d0
+		andi.b	#$70,d0					; is A/B/C pressed?
+		bne.s	Offset_0x00B726				; if yes, branch
+		move.w	d1,Obj_Speed_Y(a0)			; immediately reduce Sonic's upward speed to d1
+
+Offset_0x00B726:
+		tst.b	Obj_Speed_Y(a0)				; is Sonic exactly at the height of his jump?
+		beq.s	Sonic_CheckGoSuper			; if yes, test for turning into Super Sonic
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B72E:
+Sonic_UpVelCap:
+		tst.b	Obj_Player_Spdsh_Flag(a0)		; is Sonic charging a spindash or in a rolling-only area?
+		bne.s	Offset_0x00B742				; if yes, branch
+		cmpi.w	#-$FC0,Obj_Speed_Y(a0)			; is Sonic moving up really fast?
+		bge.s	Offset_0x00B742				; if not, branch
+		move.w	#-$FC0,Obj_Speed_Y(a0)			; cap upward speed
+
+Offset_0x00B742:
+		rts
+; End of subroutine Sonic_JumpHeight
+
+; ---------------------------------------------------------------------------
+; Subroutine that transforms Sonic into Super Sonic if he has enough rings and emeralds
+; Effectively unused due to a change in code above
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00B744:
+Sonic_CheckGoSuper:
+		tst.b	(Super_Sonic_flag).w
+		bne.s	Offset_0x00B7B6
+		cmpi.b	#7,(Emeralds_Count).w
+		bne.s	Offset_0x00B7B6
+		cmpi.w	#50,(Ring_count).w
+		bcs.s	Offset_0x00B7B6
+		tst.b	(Update_HUD_timer).w
+		beq.s	Offset_0x00B7B6
+		move.b	#1,(Super_Sonic_Palette_Status).w
+		move.b	#$F,(Super_Sonic_Palette_Timer).w
+		move.b	#1,(Super_Sonic_flag).w
+		move.b	#$81,Obj_Player_Control(a0)
+		move.b	#$1F,Obj_Ani_Number(a0)
+		move.l	#Obj_Super_Sonic_Stars,(Obj_Super_Sonic_Stars_RAM).w
+		move.w	#$A00,(a4)
+		move.w	#$30,Acceleration(a4)
+		move.w	#$100,Deceleration(a4)
+		move.b	#$0,Obj_P_Invcbility_Time(a0)
+		bset	#1,Obj_Player_Status(a0)
+		move.w	#Super_Form_Change_Sfx,d0
+		jsr	(PlaySound).l
+		move.w	#Super_Sonic_Snd,d0
+		jmp	(PlaySound).l
+
+Offset_0x00B7B6:
+		rts
+; End of function Sonic_CheckGoSuper
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; An unused ability that lets Sonic shoot rings while jumping; the rings were
+; likely meant to be a placeholder until proper graphics were added, which they
+; never were as this was completely scrapped in the final.
+;
+; Judging from Sonic Origins' concept art of the many shield types, this might've
+; been the "attack" ability the Flame Shield (NOT "Fire"!) was intended to have.
+;
+; However, given that Mecha Sonic throws rings in Knuckles' final boss, maybe it
+; really was an actual ring throw ability... yeah, it's complicated.
+; Offset_0x00B7B8:
+Sonic_ThrowRings:
+		bra.w	Offset_0x00B8B6				; immediately skip over all the code
+; ---------------------------------------------------------------------------
+		btst	#2,Obj_Status(a0)			; is Sonic rolling?
+		beq.w	Offset_0x00B8B6				; if not, branch
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$20,d0					; has C been pressed?
+		beq.s	@notRolling				; if not, branch
+		move.w	Obj_Speed_X(a0),d2
+		bsr.w	AllocateObject
+		bne.w	@skip
+		bsr.w	Obj_ThrownRing				; load a ring firing right
+		move.w	#$800,Obj_Speed_X(a1)
+		move.w	#0,Obj_Speed_Y(a1)
+		add.w	d2,Obj_Speed_X(a1)
+		bsr.w	AllocateObject
+		bne.w	@skip
+		bsr.w	Obj_ThrownRing				; load a ring firing left
+		move.w	#-$800,Obj_Speed_X(a1)
+		move.w	#0,Obj_Speed_Y(a1)
+		add.w	d2,Obj_Speed_X(a1)
+; Offset_0x00B80C:
+@skip:
+		btst	#2,Obj_Status(a0)			; is Sonic rolling?
+		beq.s	@notRolling				; if not, branch
+		bclr	#2,Obj_Status(a0)			; clear Sonic's roll status
+		; and reset Sonic's size and animation
+		move.b	Obj_Height_2(a0),d0
+		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
+		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
+		move.b	#0,Obj_Ani_Number(a0)
+		sub.b	Obj_Height_3(a0),d0
+		ext.w	d0
+		add.w	d0,Obj_Y(a0)
+; Offset_0x00B83A:
+@notRolling:
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$10,d0					; has B been pressed?
+		beq.s	Offset_0x00B8B6				; if not, branch
+		move.w	Obj_Speed_X(a0),d2
+		bsr.w	AllocateObject
+		bne.w	Offset_0x00B870
+		bsr.w	Obj_ThrownRing				; load only one ring facing Sonic's direction
+		move.w	#$800,Obj_Speed_X(a1)
+		btst	#0,Obj_Status(a0)
+		beq.s	Offset_0x00B866
+		neg.w	Obj_Speed_X(a1)
+
+Offset_0x00B866:
+		move.w	#0,Obj_Speed_Y(a1)
+		add.w	d2,Obj_Speed_X(a1)
+
+Offset_0x00B870:
+		btst	#2,Obj_Status(a0)			; is Sonic rolling?
+		beq.s	@notRolling2				; if not, branch
+		bclr	#2,Obj_Status(a0)			; clear Sonic's roll status
+		; and reset Sonic's size and animation
+		move.b	Obj_Height_2(a0),d0
+		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
+		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
+		move.b	#0,Obj_Ani_Number(a0)
+		sub.b	Obj_Height_3(a0),d0
+		ext.w	d0
+		add.w	d0,Obj_Y(a0)
+; Offset_0x00B89E:
+@notRolling2:
+		; strangely, only the single ring fire clears Sonic's vertical momentum
+		move.w	#0,Obj_Speed_Y(a0)
+		move.w	#$200,d0
+		btst	#0,Obj_Status(a0)
+		bne.s	Offset_0x00B8B2
+		neg.w	d0
+
+Offset_0x00B8B2:
+		add.w	d0,Obj_Speed_X(A0)
+
+Offset_0x00B8B6:
+		rts
+; End of subroutine Sonic_ThrowRings
+
+; ---------------------------------------------------------------------------
+; An early version of what ultimately became Sonic's Hyper Dash ability in
+; Sonic 3 & Knuckles; judging from Origins' concept art again, this was the
+; original double jump ability of the Lightning Shield.
+; Offset_0x00B8B8:
+Sonic_HyperDash:
+		tst.w	(Dropdash_flag).w
+		bne.w	Offset_0x00B952
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$40,d0
+		beq.w	Offset_0x00B952
+		move.b	(Control_Ports_Logical_Data).w,d0
+		andi.w	#$F,d0
+		beq.s	@noInput
+		lsl.w	#2,d0
+		lea	Sonic_HyperDash_Velocities(pc,d0.w),a1
+		move.w	(a1)+,d0
+		move.w	d0,Obj_Speed_X(a0)
+		move.w	d0,Obj_Inertia(a0)
+		move.w	(a1)+,d0
+		move.w	d0,Obj_Speed_Y(a0)
+		lea	(Camera_X_Scroll_Delay).w,a1
+		cmpa.w	#Obj_Player_One,a0
+		beq.s	@notPlayerTwo
+		lea	(Camera_X_Scroll_Delay_2P).w,a1
+; Offset_0x00B8FA:
+@notPlayerTwo:
+		move.w	d0,(a1)
+		bsr.w	Reset_Player_Position_Array
+		move.w	#1,(Dropdash_flag).w
+		move.w	#Rolling_Sfx,d0
+		jsr	(PlaySound).l
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B912:
+@noInput:
+		; if there's no directional input, we just dash forward
+		move.w	#$800,d0
+		btst	#0,Obj_Status(a0)
+		beq.s	@applySpeeds
+		neg.w	d0
+; Offset_0x00B920:
+@applySpeeds:
+		move.w	d0,Obj_Speed_X(a0)
+		move.w	d0,Obj_Inertia(a0)
+		move.w	#0,Obj_Speed_Y(a0)
+		lea	(Camera_X_Scroll_Delay).w,a1
+		cmpa.w	#Obj_Player_One,a0
+		beq.s	@notPlayerTwoAgain
+		lea	(Camera_X_Scroll_Delay_2P).w,a1
+; Offset_0x00B93C:
+@notPlayerTwoAgain:
+		move.w	d0,(a1)
+		bsr.w	Reset_Player_Position_Array
+		move.w	#1,(Dropdash_flag).w
+		move.w	#Rolling_Sfx,d0
+		jsr	(PlaySound).l
+
+Offset_0x00B952:
+		rts
+; ===========================================================================
+; Offset_0x00B954:
+Sonic_HyperDash_Velocities:
+		dc.w	$0000, $0000, $0000, $F800, $0000, $0800, $0000, $0000
+		dc.w	$F800, $0000, $F800, $F800, $F800, $0800, $0000, $0000
+		dc.w 	$0800, $0000, $0800, $F800, $0800, $0800, $0000, $0000
+		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Thrown Ring
+; ---------------------------------------------------------------------------
+; Offset_0x00B994:
+Obj_ThrownRing:
+		move.l	#ThrownRing_LoadIndex,(a1)
+		move.w	Obj_X(a0),Obj_X(a1)
+		move.w	Obj_Y(a0),Obj_Y(a1)
+		move.l	#Rings_Mappings,Obj_Map(a1)
+		move.w	#$26BC,Obj_Art_VRAM(a1)
+		move.b	#$84,Obj_Flags(a1)
+		move.w	#$180,Obj_Priority(a1)
+		move.b	#8,Obj_Width(a1)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00B9C8:
+ThrownRing_LoadIndex:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	ThrownRing_Index(pc,d0.w),d1
+		jmp	ThrownRing_Index(pc,d1.w)
+; ===========================================================================
+; Offset_0x00B9D6:
+ThrownRing_Index:	offsetTable
+		offsetTableEntry.w ThrownRing_Init
+		offsetTableEntry.w ThrownRing_Main
+; ===========================================================================
+; Offset_0x00B9DA:
+ThrownRing_Init:
+		addq.b	#2,Obj_Routine(a0)
+		move.b	#2,Obj_Ani_Number(a0)
+		move.b	#8,Obj_Height_2(a0)
+		move.b	#8,Obj_Width_2(a0)
+		bset	#1,Obj_Player_Status(a0)
+; ---------------------------------------------------------------------------
+; Offset_0x00B9F6:
+ThrownRing_Main:
+		move.l	a0,a2
+		jsr	(Touch_Response).l
+		cmpi.b	#2,Obj_Routine(a0)
+		beq.s	Offset_0x00BA10
+		nop
+		nop
+		nop
+		nop
+		nop
+
+Offset_0x00BA10:
+		cmpi.b	#2,Obj_Ani_Number(a0)
+		beq.s	Offset_0x00BA22
+		nop
+		nop
+		nop
+		nop
+		nop
+
+Offset_0x00BA22:
+		move.b	(Vint_runcount+3).w,d0
+		andi.w	#3,d0
+		bne.s	Offset_0x00BA36
+		addq.b	#1,Obj_Map_Id(a0)
+		andi.b	#3,Obj_Map_Id(a0)
+
+Offset_0x00BA36:
+		bsr.w	SpeedToPos
+		tst.b   Obj_Flags(a0)
+		bpl.w	DeleteObject
+		bra.w	DisplaySprite
+
+; ===========================================================================
+; Continue with Sonic's code...
+; ---------------------------------------------------------------------------
+; Subroutine doing the extra logic for Super Sonic
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00BA46:
+Sonic_Super:
+		tst.b	(Super_Sonic_flag).w
+		beq.w	Offset_0x00BAD8
+		tst.b	(Update_HUD_timer).w
+		beq.s	Sonic_RevertToNormal
+		subq.w	#1,($FFFFF670).w
+		bpl.w	Offset_0x00BAD8		; this is should be a 'bhi' as it actually counts 61 frames instead of 60
+		move.w	#60,($FFFFF670).w
+		tst.w	(Ring_count).w
+		beq.s	Sonic_RevertToNormal
+		ori.b	#1,(Update_HUD_rings).w
+		cmpi.w	#1,(Ring_count).w
+		beq.s	@resetHUD
+		cmpi.w	#10,(Ring_count).w
+		beq.s	@resetHUD
+		cmpi.w	#100,(Ring_count).w
+		bne.s	@updateHUD
+; Offset_0x00BA86:
+@resetHUD:
+		ori.b	#$80,(Update_HUD_rings).w
+; Offset_0x00BA8C:
+@updateHUD:
+		subq.w	#1,(Ring_count).w
+		bne.s	Offset_0x00BAD8
+; Offset_0x00BA92:
+Sonic_RevertToNormal:
+		move.b	#2,(Super_Sonic_Palette_Status).w
+		move.w	#$28,(Super_Sonic_Palette_Frame).w
+		move.b	#0,(Super_Sonic_flag).w
+		move.b	#1,Obj_Ani_Flag(a0)
+		move.b	#1,Obj_P_Invcbility_Time(a0)
+		move.w	#$600,(a4)
+		move.w	#$C,Acceleration(a4)
+		move.w	#$80,Deceleration(a4)
+		btst	#6,Obj_Status(a0)
+		beq.s	Offset_0x00BAD8
+		move.w	#$300,(a4)
+		move.w	#6,Acceleration(a4)
+		move.w	#$40,Deceleration(a4)
+
+Offset_0x00BAD8:
+		rts
+; End of subroutine Sonic_Super
+
+; ---------------------------------------------------------------------------
+; Subroutine to check for starting to charge a spindash
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00BADA: Sonic_Spindash:
+Sonic_CheckSpindash:
+		tst.b	Obj_Player_Spdsh_Flag(a0)
+		bne.s	Sonic_UpdateSpindash
+		cmpi.b	#8,Obj_Ani_Number(a0)
+		bne.s	Offset_0x00BB28
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$70,d0
+		beq.w	Offset_0x00BB28
+		move.b	#9,Obj_Ani_Number(a0)
+		move.w	#Rolling_Sfx,d0
+		jsr	(PlaySound).l
+		addq.l	#4,sp
+		move.b	#1,Obj_Player_Spdsh_Flag(a0)
+		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
+		cmpi.b	#$C,Obj_Subtype(a0)			; if he's drowning, branch to not make dust
+		bcs.s	Offset_0x00BB20
+		move.b	#2,Obj_Ani_Number(a6)
+
+Offset_0x00BB20:
+		bsr.w	Sonic_LevelBoundaries
+		bsr.w	Player_AnglePos
+
+Offset_0x00BB28:
+		rts
+; End of subroutine Sonic_CheckSpindash
+
+; ---------------------------------------------------------------------------
+; Subrouting to update an already-charging spindash
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00BB2A:
+Sonic_UpdateSpindash:
+		move.b	(Control_Ports_Logical_Data).w,d0
+		btst	#1,d0
+		bne.w	Sonic_ChargingSpindash
+		move.b	#$E,Obj_Height_2(a0)
+		move.b	#7,Obj_Width_2(a0)
+		move.b	#2,Obj_Ani_Number(a0)
+		addq.w	#5,Obj_Y(a0)
+		move.b	#0,Obj_Player_Spdsh_Flag(a0)
+		moveq	#0,d0
+		move.b	Obj_Player_Spdsh_Cnt(a0),d0
+		add.w	d0,d0
+		move.w	Sonic_Spindash_Speed(pc,d0.w),Obj_Inertia(a0)
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Offset_0x00BB6C
+		move.w	Super_Sonic_Spindash_Speed(pc,d0.w),Obj_Inertia(a0)
+
+Offset_0x00BB6C:
+		move.w	Obj_Inertia(a0),d0
+		subi.w	#$800,d0
+		add.w	d0,d0
+		andi.w	#$1F00,d0			; this is basically useless as the unused bits are never written to anyway
+		neg.w	d0
+		addi.w	#$2000,d0
+		lea	(Camera_X_Scroll_Delay).w,a1
+		cmpa.w	#Obj_Player_One,a0
+		beq.s	Offset_0x00BB8E
+		lea	(Camera_X_Scroll_Delay_2P).w,a1
+
+Offset_0x00BB8E:
+		move.w	d0,(a1)
+		btst	#0,Obj_Status(a0)
+		beq.s	Offset_0x00BB9C
+		neg.w	Obj_Inertia(a0)
+
+Offset_0x00BB9C:
+		bset	#2,Obj_Status(a0)
+		move.b	#0,Obj_Ani_Number(a6)
+		moveq	#Rolling_Sfx,d0
+		jsr	(PlaySound).l
+		bra.s	Offset_0x00BC1E		 
+; ===========================================================================
+; Offset_0x00BBB2:
+Sonic_Spindash_Speed:
+		dc.w	$800, $880, $900, $980, $A00, $A80, $B00, $B80
+		dc.w	$C00
+
+; Offset_0x00BBC4:
+Super_Sonic_Spindash_Speed:
+		dc.w	$B00, $B80, $C00, $C80, $D00, $D80, $E00, $E80
+		dc.w	$F00
+; ===========================================================================
+; Offset_0x00BBD6:
+Sonic_ChargingSpindash:
+		tst.w	Obj_Player_Spdsh_Cnt(a0)
+		beq.s	Offset_0x00BBEE
+		move.w	Obj_Player_Spdsh_Cnt(a0),d0
+		lsr.w	#5,d0
+		sub.w	d0,Obj_Player_Spdsh_Cnt(a0)
+		bcc.s	Offset_0x00BBEE
+		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
+
+Offset_0x00BBEE:
+		move.b	(Control_Ports_Logical_Data+1).w,d0
+		andi.b	#$70,d0
+		beq.w	Offset_0x00BC1E
+		move.w	#$900,Obj_Ani_Number(a0)
+		move.w	#Rolling_Sfx,d0
+		jsr	(PlaySound).l
+		addi.w	#$200,Obj_Player_Spdsh_Cnt(a0)
+		cmpi.w	#$800,Obj_Player_Spdsh_Cnt(a0)
+		bcs.s	Offset_0x00BC1E
+		move.w	#$800,Obj_Player_Spdsh_Cnt(a0)
+
+Offset_0x00BC1E:
+		addq.l	#4,sp
+		cmpi.w	#$60,(a5)
+		beq.s	Offset_0x00BC2C
+		bcc.s	Offset_0x00BC2A
+		addq.w	#4,(a5)
+
+Offset_0x00BC2A:
+		subq.w	#2,(a5)
+
+Offset_0x00BC2C:
+		bsr.w	Sonic_LevelBoundaries
+		bsr.w	Player_AnglePos
+		rts
+; End of function Sonic_UpdateSpindash
+
+
+;-------------------------------------------------------------------------------		
+Sonic_SlopeResist:				             ; Offset_0x00BC36
+		move.b  Obj_Angle(A0), D0				; $0026
+		addi.b  #$60, D0
+		cmpi.b  #$C0, D0
+		bcc.s   Offset_0x00BC6A
+		move.b  Obj_Angle(A0), D0				; $0026
+		jsr     (CalcSine)		             ; Offset_0x001B20
+		muls.w  #$0020, D0
+		asr.l   #$08, D0
+		tst.w   Obj_Inertia(A0)				  ; $001C
+		beq.s   Offset_0x00BC6C
+		bmi.s   Offset_0x00BC66
+		tst.w   D0
+		beq.s   Offset_0x00BC64
+		add.w   D0, Obj_Inertia(A0)		              ; $001C
+Offset_0x00BC64:
+		rts
+Offset_0x00BC66:
+		add.w   D0, Obj_Inertia(A0)		              ; $001C
+Offset_0x00BC6A:
+		rts
+Offset_0x00BC6C:
+		move.w  D0, D1
+		bpl.s   Offset_0x00BC72
+		neg.w   D1
+Offset_0x00BC72:
+		cmpi.w  #$000D, D1
+		bcs.s   Offset_0x00BC6A
+		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		rts 
+;-------------------------------------------------------------------------------		
+Sonic_RollRepel:				               ; Offset_0x00BC7E
+		move.b  Obj_Angle(A0), D0				; $0026
+		addi.b  #$60, D0
+		cmpi.b  #$C0, D0
+		bcc.s   Offset_0x00BCB8
+		move.b  Obj_Angle(A0), D0				; $0026
+		jsr     (CalcSine)		             ; Offset_0x001B20
+		muls.w  #$0050, D0
+		asr.l   #$08, D0
+		tst.w   Obj_Inertia(A0)				  ; $001C
+		bmi.s   Offset_0x00BCAE
+		tst.w   D0
+		bpl.s   Offset_0x00BCA8
+		asr.l   #$02, D0
+Offset_0x00BCA8:
+		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		rts
+Offset_0x00BCAE:
+		tst.w   D0
+		bmi.s   Offset_0x00BCB4
+		asr.l   #$02, D0
+Offset_0x00BCB4:
+		add.w   D0, Obj_Inertia(A0)		              ; $001C
+Offset_0x00BCB8:
+		rts 
+;-------------------------------------------------------------------------------		
+Sonic_SlopeRepel:				              ; Offset_0x00BCBA
+		nop
+		tst.b   Obj_Player_St_Convex(A0)		         ; $003C
+		bne.s   Offset_0x00BCFE
+		tst.w   Obj_P_Horiz_Ctrl_Lock(A0)		        ; $0032
+		bne.s   Offset_0x00BD16
+		move.b  Obj_Angle(A0), D0				; $0026
+		addi.b  #$18, D0
+		cmpi.b  #$30, D0
+		bcs.s   Offset_0x00BCFE
+		move.w  Obj_Inertia(A0), D0		              ; $001C
+		bpl.s   Offset_0x00BCDE
+		neg.w   D0
+Offset_0x00BCDE:
+		cmpi.w  #$0280, D0
+		bcc.s   Offset_0x00BCFE
+		move.w  #$001E, Obj_P_Horiz_Ctrl_Lock(A0)		; $0032
+		move.b  Obj_Angle(A0), D0				; $0026
+		addi.b  #$30, D0
+		cmpi.b  #$60, D0
+		bcs.s   Offset_0x00BD00
+		bset    #$01, Obj_Status(A0)		             ; $002A
+Offset_0x00BCFE:
+		rts
+Offset_0x00BD00:
+		cmpi.b  #$30, D0
+		bcs.s   Offset_0x00BD0E
+		addi.w  #$0080, Obj_Inertia(A0)		          ; $001C
+		rts
+Offset_0x00BD0E:
+		subi.w  #$0080, Obj_Inertia(A0)		          ; $001C
+		rts
+Offset_0x00BD16:
+		subq.w  #$01, Obj_P_Horiz_Ctrl_Lock(A0)		  ; $0032
+		rts 
+;-------------------------------------------------------------------------------		 
+Sonic_JumpAngle:				               ; Offset_0x00BD1C
+		move.b  Obj_Angle(A0), D0				; $0026
+		beq.s   Offset_0x00BD36
+		bpl.s   Offset_0x00BD2C
+		addq.b  #$02, D0
+		bcc.s   Offset_0x00BD2A
+		moveq   #$00, D0
+Offset_0x00BD2A:
+		bra.s   Offset_0x00BD32
+Offset_0x00BD2C:
+		subq.b  #$02, D0
+		bcc.s   Offset_0x00BD32
+		moveq   #$00, D0
+Offset_0x00BD32:
+		move.b  D0, Obj_Angle(A0)				; $0026
+Offset_0x00BD36:
+		move.b  Obj_Flip_Angle(A0), D0		           ; $0027
+		beq.s   Offset_0x00BD7A
+		tst.w   Obj_Inertia(A0)				  ; $001C
+		bmi.s   Offset_0x00BD5A
+Offset_0x00BD42:
+		move.b  Obj_Player_Flip_Speed(A0), D1		    ; $0031
+		add.b   D1, D0
+		bcc.s   Offset_0x00BD58
+		subq.b  #$01, Obj_P_Flips_Remaining(A0)		  ; $0030
+		bcc.s   Offset_0x00BD58
+		move.b  #$00, Obj_P_Flips_Remaining(A0)		  ; $0030
+		moveq   #$00, D0
+Offset_0x00BD58:
+		bra.s   Offset_0x00BD76
+Offset_0x00BD5A:
+		tst.b   Obj_Player_Flip_Flag(A0)		         ; $002D
+		bne.s   Offset_0x00BD42
+		move.b  Obj_Player_Flip_Speed(A0), D1		    ; $0031
+		sub.b   D1, D0
+		bcc.s   Offset_0x00BD76
+		subq.b  #$01, Obj_P_Flips_Remaining(A0)		  ; $0030
+		bcc.s   Offset_0x00BD76
+		move.b  #$00, Obj_P_Flips_Remaining(A0)		  ; $0030
+		moveq   #$00, D0
+Offset_0x00BD76:
+		move.b  D0, Obj_Flip_Angle(A0)		           ; $0027
+Offset_0x00BD7A:
+		rts 
+;-------------------------------------------------------------------------------		
+Sonic_Floor:						   ; Offset_0x00BD7C
+		move.l  (Primary_Collision_Ptr).w, (Current_Collision_Ptr).w ; $FFFFF7B4, $FFFFF796
+		cmpi.b  #$0C, Obj_Player_Top_Solid(A0)		   ; $0046
+		beq.s   Offset_0x00BD90
+		move.l  (Secondary_Collision_Ptr).w, (Current_Collision_Ptr).w ; $FFFFF7B8, $FFFFF796
+Offset_0x00BD90:
+		move.b  Obj_Player_LRB_Solid(A0), D5		     ; $0047
+		move.w  Obj_Speed_X(A0), D1		              ; $0018
+		move.w  Obj_Speed_Y(A0), D2		              ; $001A
+		jsr     (CalcAngle)		            ; Offset_0x001DB8
+		subi.b  #$20, D0
+		andi.b  #$C0, D0
+		cmpi.b  #$40, D0
+		beq     Offset_0x00BE5A
+		cmpi.b  #$80, D0
+		beq     Offset_0x00BEB4
+		cmpi.b  #$C0, D0
+		beq     Offset_0x00BF10
+		bsr     Player_HitWall		         ; Offset_0x00A0BC
+		tst.w   D1
+		bpl.s   Offset_0x00BDD4
+		sub.w   D1, Obj_X(A0)				    ; $0010
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+Offset_0x00BDD4:
+		bsr     Offset_0x009EC6
+		tst.w   D1
+		bpl.s   Offset_0x00BDE6
+		add.w   D1, Obj_X(A0)				    ; $0010
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+Offset_0x00BDE6:
+		bsr     Player_Check_Floor		     ; Offset_0x009BD4
+		tst.w   D1
+		bpl.s   Offset_0x00BE58
+		move.b  Obj_Speed_Y(A0), D2		              ; $001A
+		addq.b  #$08, D2
+		neg.b   D2
+		cmp.b   D2, D1
+		bge.s   Offset_0x00BDFE
+		cmp.b   D2, D0
+		blt.s   Offset_0x00BE58
+Offset_0x00BDFE:
+		add.w   D1, Obj_Y(A0)				    ; $0014
+		move.b  D3, Obj_Angle(A0)				; $0026
+		bsr     Offset_0x00BF6A
+		move.b  D3, D0
+		addi.b  #$20, D0
+		andi.b  #$40, D0
+		bne.s   Offset_0x00BE36
+		move.b  D3, D0
+		addi.b  #$10, D0
+		andi.b  #$20, D0
+		beq.s   Offset_0x00BE28
+		asr.w   Obj_Speed_Y(A0)				  ; $001A
+		bra.s   Offset_0x00BE4A
+Offset_0x00BE28:
+		move.w  #$0000, Obj_Speed_Y(A0)		          ; $001A
+		move.w  Obj_Speed_X(A0), Obj_Inertia(A0)          ; $0018, $001C
+		rts
+Offset_0x00BE36:
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+		cmpi.w  #$0FC0, Obj_Speed_Y(A0)		          ; $001A
+		ble.s   Offset_0x00BE4A
+		move.w  #$0FC0, Obj_Speed_Y(A0)		          ; $001A
+Offset_0x00BE4A:
+		move.w  Obj_Speed_Y(A0), Obj_Inertia(A0)          ; $001A, $001C
+		tst.b   D3
+		bpl.s   Offset_0x00BE58
+		neg.w   Obj_Inertia(A0)				  ; $001C
+Offset_0x00BE58:
+		rts
+Offset_0x00BE5A:
+		bsr     Player_HitWall		         ; Offset_0x00A0BC
+		tst.w   D1
+		bpl.s   Offset_0x00BE72
+		sub.w   D1, Obj_X(A0)				    ; $0010
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+		move.w  Obj_Speed_Y(A0), Obj_Inertia(A0)          ; $001A, $001C
+Offset_0x00BE72:
+		bsr     Player_DontRunOnWalls		  ; Offset_0x009F1C
+		tst.w   D1
+		bpl.s   Offset_0x00BE8C
+		sub.w   D1, Obj_Y(A0)				    ; $0014
+		tst.w   Obj_Speed_Y(A0)				  ; $001A
+		bpl.s   Offset_0x00BE8A
+		move.w  #$0000, Obj_Speed_Y(A0)		          ; $001A
+Offset_0x00BE8A:
+		rts
+Offset_0x00BE8C:
+		tst.w   Obj_Speed_Y(A0)				  ; $001A
+		bmi.s   Offset_0x00BEB2
+		bsr     Player_Check_Floor		     ; Offset_0x009BD4
+		tst.w   D1
+		bpl.s   Offset_0x00BEB2
+		add.w   D1, Obj_Y(A0)				    ; $0014
+		move.b  D3, Obj_Angle(A0)				; $0026
+		bsr     Offset_0x00BF6A
+		move.w  #$0000, Obj_Speed_Y(A0)		          ; $001A
+		move.w  Obj_Speed_X(A0), Obj_Inertia(A0)          ; $0018, $001C
+Offset_0x00BEB2:
+		rts
+Offset_0x00BEB4:
+		bsr     Player_HitWall		         ; Offset_0x00A0BC
+		tst.w   D1
+		bpl.s   Offset_0x00BEC6
+		sub.w   D1, Obj_X(A0)				    ; $0010
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+Offset_0x00BEC6:
+		bsr     Offset_0x009EC6
+		tst.w   D1
+		bpl.s   Offset_0x00BED8
+		add.w   D1, Obj_X(A0)				    ; $0010
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+Offset_0x00BED8:
+		bsr     Player_DontRunOnWalls		  ; Offset_0x009F1C
+		tst.w   D1
+		bpl.s   Offset_0x00BF0E
+		sub.w   D1, Obj_Y(A0)				    ; $0014
+		move.b  D3, D0
+		addi.b  #$20, D0
+		andi.b  #$40, D0
+		bne.s   Offset_0x00BEF8
+		move.w  #$0000, Obj_Speed_Y(A0)		          ; $001A
+		rts
+Offset_0x00BEF8:
+		move.b  D3, Obj_Angle(A0)				; $0026
+		bsr     Offset_0x00BF6A
+		move.w  Obj_Speed_Y(A0), Obj_Inertia(A0)          ; $001A, $001C
+		tst.b   D3
+		bpl.s   Offset_0x00BF0E
+		neg.w   Obj_Inertia(A0)				  ; $001C
+Offset_0x00BF0E:
+		rts
+Offset_0x00BF10:
+		bsr     Offset_0x009EC6
+		tst.w   D1
+		bpl.s   Offset_0x00BF28
+		add.w   D1, Obj_X(A0)				    ; $0010
+		move.w  #$0000, Obj_Speed_X(A0)		          ; $0018
+		move.w  Obj_Speed_Y(A0), Obj_Inertia(A0)          ; $001A, $001C
+Offset_0x00BF28:
+		bsr     Player_DontRunOnWalls		  ; Offset_0x009F1C
+		tst.w   D1
+		bpl.s   Offset_0x00BF42
+		sub.w   D1, Obj_Y(A0)				    ; $0014
+		tst.w   Obj_Speed_Y(A0)				  ; $001A
+		bpl.s   Offset_0x00BF40
+		move.w  #$0000, Obj_Speed_Y(A0)		          ; $001A
+Offset_0x00BF40:
+		rts
+Offset_0x00BF42:
+		tst.w   Obj_Speed_Y(A0)				  ; $001A
+		bmi.s   Offset_0x00BF68
+		bsr     Player_Check_Floor		     ; Offset_0x009BD4
+		tst.w   D1
+		bpl.s   Offset_0x00BF68
+		add.w   D1, Obj_Y(A0)				    ; $0014
+		move.b  D3, Obj_Angle(A0)				; $0026
+		bsr     Offset_0x00BF6A
+		move.w  #$0000, Obj_Speed_Y(A0)		          ; $001A
+		move.w  Obj_Speed_X(A0), Obj_Inertia(A0)          ; $0018, $001C
+Offset_0x00BF68:
+		rts
+Offset_0x00BF6A:
+		tst.b   Obj_Player_Spdsh_Flag(A0)		        ; $003D
+		bne.s   Sonic_ResetOnFloor_Part2
+		move.b  #$00, Obj_Ani_Number(A0)		         ; $0020
+
+; ---------------------------------------------------------------------------
+; Subroutine to reset Sonic's mode when he lands on the floor
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00BF76:
+Sonic_ResetOnFloor:
+		cmpi.l	#Obj_Miles,(a0)
+		beq.w	Miles_ResetOnFloor
+
+		move.b	Obj_Height_2(a0),d0
+		move.b	Obj_Height_3(a0),Obj_Height_2(a0)
+		move.b	Obj_Width_3(a0),Obj_Width_2(a0)
+		btst	#2,Obj_Status(a0)
+		beq.s	Sonic_ResetOnFloor_Part2
+		bclr	#2,Obj_Status(a0)
+		move.b	#0,Obj_Ani_Number(a0)
+		sub.b	Obj_Height_3(a0),d0
+		ext.w	d0
+		add.w	d0,Obj_Y(a0)
+; Offset_0x00BFAE:
+Sonic_ResetOnFloor_Part2:
+		bclr	#1,Obj_Status(a0)
+		bclr	#5,Obj_Status(a0)
+		bclr	#4,Obj_Status(a0)
+		move.b	#0,Obj_Player_Jump(a0)
+		move.w	#0,(Enemy_Hit_Chain_Count).w
+		move.b	#0,Obj_Flip_Angle(a0)
+		move.b	#0,Obj_Player_Flip_Flag(a0)
+		move.b	#0,Obj_P_Flips_Remaining(a0)
+		move.b	#0,Obj_Look_Up_Down_Time(a0)
+		cmpi.b	#$14,Obj_Ani_Number(a0)
+		bne.s	Sonic_ResetOnFloor_Part3
+		move.b	#0,Obj_Ani_Number(a0)
+; Offset_0x00BFF2:
+Sonic_ResetOnFloor_Part3:
+		tst.w	(Dropdash_flag).w
+		beq.s	Offset_0x00C00E
+		bmi.s	Sonic_Dropdash
+		asr.w	Obj_Inertia(a0)
+		asr.w	Obj_Speed_X(a0)
+		move.w	#0,Obj_Speed_Y(a0)
+		move.w	#0,(Dropdash_flag).w
+Offset_0x00C00E:
+		rts
+; End of function Sonic_ResetOnFloor
+
+; ---------------------------------------------------------------------------
+; Subroutine for Sonic to do a dropdash-like ability (removed in final)
+; ---------------------------------------------------------------------------
+; Offset_0x00C010:
+Sonic_Dropdash:
+		move.w	#0,Obj_Speed_Y(a0)
+		move.w	#0,(Dropdash_flag).w
+		bsr.w	Reset_Player_Position_Array
+		move.b	#9,Obj_Ani_Number(a0)
+		move.w	#Rolling_Sfx,d0
+		jsr	(PlaySound).l
+		move.b	#1,Obj_Player_Spdsh_Flag(a0)
+		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
+		rts
+; End of subroutine Sonic_DropDash
+
+; ===========================================================================
+; Offset_0x00C03E:
+Sonic_Hurt:
+		tst.w	(Debug_Mode_Active).w
+		beq.s	Sonic_Hurt_Normal
+		btst	#4,(Control_Ports_Buffer_Data+1).w
+		beq.s	Sonic_Hurt_Normal
+		move.w	#1,(Debug_Mode_Flag_Index).w
+		clr.b	(Control_Locked_Flag_P1).w
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00C058:
+Sonic_Hurt_Normal:
+		jsr	(SpeedToPos).l
+		addi.w	#$30,Obj_Speed_Y(a0)
+		btst	#6,Obj_Status(a0)
+		beq.s	Offset_0x00C072
+		subi.w	#$20,Obj_Speed_Y(a0)
+
+Offset_0x00C072:
+		cmpi.w	#-$100,(Sonic_Level_Limits_Min_Y).w
+		bne.s	Offset_0x00C082
+		move.w	(Screen_Wrap_Y).w,d0
+		and.w	d0,Obj_Y(a0)
+
+Offset_0x00C082:
+		bsr.w	Sonic_HurtStop
+		bsr.w	Sonic_LevelBoundaries
+		bsr.w	Sonic_RecordPos
+		bsr.w	Sonic_Animate_Check2P
+		jmp	(DisplaySprite).l
+; ---------------------------------------------------------------------------
+; Offset_0x00C098:
+Sonic_HurtStop:
+		move.w	(Sonic_Level_Limits_Max_Y).w,d0
+		addi.w	#$E0,d0
+		cmp.w	Obj_Y(a0),d0
+		blt.w	KillSonic
+		movem.l	a4-a6,-(sp)
+		bsr.w	Sonic_Floor
+		movem.l	(sp)+,a4-a6
+		btst	#1,Obj_Status(a0)
+		bne.s	Offset_0x00C0EC
+		moveq	#0,d0
+		move.w	d0,Obj_Speed_Y(a0)
+		move.w	d0,Obj_Speed_X(a0)
+		move.w	d0,Obj_Inertia(a0)
+		move.b	d0,Obj_Player_Control(a0)
+		move.b	#0,Obj_Ani_Number(a0)
+		move.w	#$100,Obj_Priority(a0)
+		move.b	#2,Obj_Routine(a0)
+		move.b	#$78,Obj_P_Invunerblt_Time(a0)
+		move.b	#0,Obj_Player_Spdsh_Flag(a0)
+
+Offset_0x00C0EC:
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x00C0EE:
+KillSonic:
+		jmp	(Kill_Player).l
+; ===========================================================================
+; Offset_0x00CF4:
+Sonic_Death:
+		tst.w	(Debug_Mode_Active).w
+		beq.s	Offset_0x00C10E
+		btst	#4,(Control_Ports_Buffer_Data+$0001).w
+		beq.s	Offset_0x00C10E
+		move.w	#1,(Debug_Mode_Flag_Index).w
+		clr.b	(Control_Locked_Flag_P1).w
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x00C10E:
+		bsr.w	Player_GameOver
+		jsr	(ObjectFall).l
+		bsr.w	Sonic_RecordPos
+		bsr.w	Sonic_Animate_Check2P
+		jmp	(DisplaySprite).l
+; ===========================================================================
+; Offset_0x00C126:
+Player_GameOver:
+		cmpa.w	#Obj_Player_One,a0
+		bne.s	Offset_0x00C138
+		move.w	(Camera_Y).w,d0
+		move.b	#1,(Sonic_Scroll_Lock_Flag).w
+		bra.s	Offset_0x00C142
+; ---------------------------------------------------------------------------
+
+Offset_0x00C138:
+		move.w	(Camera_Y_P2).w,d0
+		move.b	#1,(Miles_Scroll_Lock_Flag).w
+
+Offset_0x00C142:
+		move.b	#0,Obj_Player_Spdsh_Flag(a0)
+		addi.w	#$100,d0
+		tst.w	(Two_Player_Flag).w
+		beq.s	Offset_0x00C156
+		subi.w	#$70,d0
+
+Offset_0x00C156:
+		cmp.w	Obj_Y(a0),d0
+		bge.w	Offset_0x00C20E
+		tst.w	(Two_Player_Flag).w
+		bne.w	Player_Respawning
+		cmpi.b	#1,Obj_Player_Selected(a0)
+		bne.s	Sonic_GameOver
+		cmpi.w	#2,(Player_Selected_Flag).w
+		beq.s	Sonic_GameOver
+		move.b	#2,Obj_Routine(a0)
+		bra.w	Miles_CPU_Despawn
+; ---------------------------------------------------------------------------
+; Offset_0x00C180:
+Sonic_GameOver:
+		move.b	#8,Obj_Routine(a0)
+		move.w	#$3C,Obj_Player_Spdsh_Cnt(a0)
+		addq.b	#1,(Update_HUD_lives).w
+		subq.b	#1,(Life_count).w
+		bne.s	Sonic_TimeOver
+		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
+		move.l	#Obj_Time_Over_Game_Over,(Obj_02_Mem_Address).w
+		move.l	#Obj_Time_Over_Game_Over,(Obj_Dynamic_RAM).w
+		move.b	#0,(Obj_02_Mem_Address+Obj_Map_Id).w
+		move.b	#1,(Obj_Dynamic_RAM+Obj_Map_Id).w
+		move.w	a0,(Obj_02_Mem_Address+Obj_Parent_Ref).w
+		clr.b	(Time_Over_flag).w
+; Offset_0x00C1C0:
+Sonic_Finished:
+		clr.b	(Update_HUD_timer).w
+		clr.b	(HUD_Timer_Refresh_Flag_P2).w
+		move.b	#8,Obj_Routine(a0)
+		move.w	#Game_Over_Time_Over_Snd,d0
+		jsr	(PlaySound).l
+		moveq	#3,d0
+		jmp	(LoadPLC).l
+; ===========================================================================
+; Offset_0x00C1E0:
+Sonic_TimeOver:
+		tst.b	(Time_Over_flag).w
+		beq.s	Offset_0x00C20E
+		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
+		move.l	#Obj_Time_Over_Game_Over,(Obj_02_Mem_Address).w
+		move.l	#Obj_Time_Over_Game_Over,(Obj_Dynamic_RAM).w
+		move.b	#2,(Obj_02_Mem_Address+Obj_Map_Id).w
+		move.b	#3,(Obj_Dynamic_RAM+Obj_Map_Id).w
+		move.w	a0,(Obj_02_Mem_Address+Obj_Parent_Ref).w
+		bra.s	Sonic_Finished
+
+Offset_0x00C20E:
+		rts
+; ===========================================================================
+; Offset_0x00C210:
+Player_Respawning:
+		move.b	#2,Obj_Routine(a0)
+		cmpa.w	#Obj_Player_One,a0
+		bne.s	Tails_Respawning
+
+; Sonic_Respawning:
+		move.b	#0,(Sonic_Scroll_Lock_Flag).w
+		move.w	(Saved_Obj_X_P1).w,Obj_X(a0)
+		move.w	(Saved_Obj_Y_P1).w,Obj_Y(a0)
+		move.w	(Saved_Obj_Art_VRAM_P1).w,Obj_Art_VRAM(a0)
+		move.w	(Saved_Top_Solid_P1).w,Obj_Player_Top_Solid(a0)
+		clr.w	(Ring_count).w
+		clr.b	(Extra_life_flags).w
+		bra.s	Offset_0x00C26A
+; ---------------------------------------------------------------------------
+; Offset_0x00C244:
+Tails_Respawning:
+		move.b	#0,(Miles_Scroll_Lock_Flag).w
+		move.w	(Saved_Obj_X_P2).w,Obj_X(a0)
+		move.w	(Saved_Obj_Y_P2).w,Obj_Y(a0)
+		move.w	(Saved_Obj_Art_VRAM_P2).w,Obj_Art_VRAM(a0)
+		move.w	(Saved_Top_Solid_P2).w,Obj_Player_Top_Solid(a0)
+		clr.w	(Ring_Count_Address_P2).w
+		clr.b	(Ring_Status_Flag_P2).w
+
+Offset_0x00C26A:
+		move.b	#0,Obj_Player_Control(a0)
+		move.b	#5,Obj_Ani_Number(a0)
+		move.w	#0,Obj_Speed_X(a0)
+		move.w	#0,Obj_Speed_Y(a0)
+		move.w	#0,Obj_Inertia(a0)
+		move.b	#2,Obj_Status(a0)
+		move.w	#0,Obj_P_Horiz_Ctrl_Lock(a0)
+		move.w	#0,Obj_Player_Spdsh_Cnt(a0)
+		rts
+
+; ===========================================================================
+; Offset_0x00C29C:
+Sonic_ResetLevel:
+		tst.w	Obj_Player_Spdsh_Cnt(a0)
+		beq.s	Offset_0x00C2AE
+		subq.w	#1,Obj_Player_Spdsh_Cnt(a0)
+		bne.s	Offset_0x00C2AE
+		move.w	#1,(Restart_Level_Flag).w
+
+Offset_0x00C2AE:
+		rts
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to animate Sonic's sprites
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00C2B0:
+Sonic_Animate:
+		tst.w	(Camera_RAM).w
+		bne.s	Offset_0x00C2C2
+		tst.w	(Vertical_Scrolling).w
+		bne.s	Offset_0x00C2C2
+		move.b	#2,Obj_Routine(a0)
+
+Offset_0x00C2C2:
+		bsr.w	Sonic_Animate_Check2P
+		jmp	(DisplaySprite).l
+;-------------------------------------------------------------------------------
+; Offset_0x00C2CC:
+Sonic_Animate_Check2P:
+		tst.w	(Two_Player_Flag).w
+		bne.s	Offset_0x00C2D8
+		bsr.s	Sonic_Animate1P
+		bra.w	LoadSonicDynamicPLC
+
+Offset_0x00C2D8:
+		bsr.w	Sonic_Or_Knuckles_Animate_Sprite_2P
+		bra.w	LoadSonicDynamicPLC_2P
+;-------------------------------------------------------------------------------
+; Offset_0x00C2E0: Sonic_Animate_2:
+Sonic_Animate1P:
+		lea	(Sonic_Animate_Data).l,a1
+		tst.b	(Super_Sonic_flag).w
+		beq.s	Sonic_Animate_Sprite
+		lea	(Super_Sonic_Animate_Data).l,a1
+; Offset_0x00C2F2:
+Sonic_Animate_Sprite:
+		moveq	#0,d0
+		move.b	Obj_Ani_Number(a0),d0
+		cmp.b	Obj_Ani_Flag(a0),d0	; has the animation changed?
+		beq.s	SAnim_Do		; if not, branch
+		move.b	d0,Obj_Ani_Flag(a0)	; set previous animation
+		move.b	#0,Obj_Ani_Frame(a0)	; reset animation frame
+		move.b	#0,Obj_Ani_Time(a0)	; reset frame duration
+		bclr	#5,Obj_Status(a0)
+; Offset_0x00C314:
+SAnim_Do:
+		add.w	d0,d0
+		adda.w	(a1,d0.w),a1		; calculate address of appropriate animation script
+		move.b	(a1),d0
+		bmi.s	SAnim_WalkRun		; if animation is walk/run/roll/jump, branch
+		move.b	Obj_Status(a0),d1
+		andi.b	#1,d1
+		andi.b	#$FC,Obj_Flags(a0)
+		or.b	d1,Obj_Flags(a0)
+		subq.b	#1,Obj_Ani_Time(a0)	; subtract 1 from frame duration
+		bpl.s	Offset_0x00C352		; if time remains, branch
+		move.b	d0,Obj_Ani_Time(a0)	; load frame duration
+
+Offset_0x00C33A:
+		moveq	#0,d1
+		move.b	Obj_Ani_Frame(a0),d1	; load current frame
+		move.b	1(a1,d1.w),d0		; read sprite number from script
+		cmpi.b	#$FC,d0
+		bcc.s	Offset_0x00C354		; if animation is complete, branch
+
+Offset_0x00C34A:
+		move.b	d0,Obj_Map_Id(a0)	; load sprite number
+		addq.b	#1,Obj_Ani_Frame(a0)	; go to next frame
+
+Offset_0x00C352:
+		rts
+
+Offset_0x00C354:
+		addq.b  #$01, D0
+		bne.s   Offset_0x00C364
+		move.b  #$00, Obj_Ani_Frame(A0)		          ; $0023
+		move.b  $0001(A1), D0
+		bra.s   Offset_0x00C34A
+Offset_0x00C364:
+		addq.b  #$01, D0
+		bne.s   Offset_0x00C378
+		move.b  $02(A1, D1), D0
+		sub.b   D0, Obj_Ani_Frame(A0)		            ; $0023
+		sub.b   D0, D1
+		move.b  $01(A1, D1), D0
+		bra.s   Offset_0x00C34A
+Offset_0x00C378:
+		addq.b  #$01, D0
+		bne.s   Offset_0x00C382
+		move.b  $02(A1, D1), Obj_Ani_Number(A0)		  ; $0020
+Offset_0x00C382:
+		rts
+; ===========================================================================
+; Offset_0x00C384:
+SAnim_WalkRun:
+		addq.b  #$01, D0
+		bne     Offset_0x00C516
+		moveq   #$00, D0
+		move.b  Obj_Flip_Angle(A0), D0
+		bne     Offset_0x00C4B0
+		moveq   #$00, D1
+		move.b  Obj_Angle(A0), D0
+		bmi.s   Offset_0x00C3A0
+		beq.s   Offset_0x00C3A0
+		subq.b  #$01, D0
+
+Offset_0x00C3A0:
+		move.b  Obj_Status(A0), D2
+		andi.b  #$01, D2
+		bne.s   Offset_0x00C3AC
+		not.b   D0
+
+Offset_0x00C3AC:
+		addi.b  #$10, D0
+		bpl.s   Offset_0x00C3B4
+		moveq   #$03, D1
+
+Offset_0x00C3B4:
+		andi.b  #$FC, Obj_Flags(A0)
+		eor.b   D1, D2
+		or.b    D2, Obj_Flags(A0)
+		btst    #$05, Obj_Status(A0)
+		bne     Offset_0x00C55E
+		lsr.b   #$04, D0
+		andi.b  #$06, D0
+		move.w  Obj_Inertia(A0), D2
+		bpl.s   Offset_0x00C3D8
+		neg.w   D2
+
+Offset_0x00C3D8:
+		tst.b   Obj_Player_Status(A0)
+		bpl     Offset_0x00C3E2
+		add.w   D2, D2
+
+Offset_0x00C3E2:
+		tst.b   (Super_Sonic_flag).w
+		bne.s   Offset_0x00C43E
+		lea     (Offset_0x00C5F6), A1
+		cmpi.w  #$0600, D2
+		bcc.s   Offset_0x00C3FC
+		lea     (Offset_0x00C5EC), A1
+		add.b   D0, D0
+
+Offset_0x00C3FC:
+		add.b   D0, D0
+		move.b  D0, D3
+		moveq   #$00, D1
+		move.b  Obj_Ani_Frame(A0), D1
+		move.b  $01(A1, D1), D0
+		cmpi.b  #$FF, D0
+		bne.s   Offset_0x00C41A
+		move.b  #$00, Obj_Ani_Frame(A0)
+		move.b  $0001(A1), D0
+
+Offset_0x00C41A:
+		move.b  D0, Obj_Map_Id(A0)
+		add.b   D3, Obj_Map_Id(A0)
+		subq.b  #$01, Obj_Ani_Time(A0)
+		bpl.s   Offset_0x00C43C
+		neg.w   D2
+		addi.w  #$0800, D2
+		bpl.s   Offset_0x00C432
+		moveq   #$00, D2
+
+Offset_0x00C432:
+		lsr.w   #$08, D2
+		move.b  D2, Obj_Ani_Time(A0)
+		addq.b  #$01, Obj_Ani_Frame(A0)
+
+Offset_0x00C43C:
+		rts
+; ===========================================================================
+
+Offset_0x00C43E:
+		lea     (Offset_0x00C7B2), A1
+		cmpi.w  #$0800, D2
+		bcc.s   Offset_0x00C456
+		lea     (Offset_0x00C7A8), A1
+		add.b   D0, D0
+		add.b   D0, D0
+		bra.s   Offset_0x00C458
+Offset_0x00C456:
+		lsr.b   #$01, D0
+Offset_0x00C458:
+		move.b  D0, D3
+		moveq   #$00, D1
+		move.b  Obj_Ani_Frame(A0), D1		            ; $0023
+		move.b  $01(A1, D1), D0
+		cmpi.b  #$FF, D0
+		bne.s   Offset_0x00C474
+		move.b  #$00, Obj_Ani_Frame(A0)		          ; $0023
+		move.b  $0001(A1), D0
+Offset_0x00C474:
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		add.b   D3, Obj_Map_Id(A0)		               ; $0022
+		move.b  (Level_Frame_Count+$01).w, D1		; $FFFFFE05
+		andi.b  #$03, D1
+		bne.s   Offset_0x00C494
+		cmpi.b  #$B5, Obj_Map_Id(A0)		             ; $0022
+		bcc.s   Offset_0x00C494
+		addi.b  #$20, Obj_Map_Id(A0)		             ; $0022
+Offset_0x00C494:
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl.s   Offset_0x00C4AE
+		neg.w   D2
+		addi.w  #$0800, D2
+		bpl.s   Offset_0x00C4A4
+		moveq   #$00, D2
+Offset_0x00C4A4:
+		lsr.w   #$08, D2
+		move.b  D2, Obj_Ani_Time(A0)		             ; $0024
+		addq.b  #$01, Obj_Ani_Frame(A0)		          ; $0023
+Offset_0x00C4AE:
+		rts
+Offset_0x00C4B0:
+		move.b  Obj_Flip_Angle(A0), D0		           ; $0027
+		moveq   #$00, D1
+		move.b  Obj_Status(A0), D2		               ; $002A
+		andi.b  #$01, D2
+		bne.s   Offset_0x00C4DE
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		addi.b  #$0B, D0
+		divu.w  #$0016, D0
+		addi.b  #$5F, D0
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		move.b  #$00, Obj_Ani_Time(A0)		           ; $0024
+		rts
+Offset_0x00C4DE:
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		tst.b   Obj_Player_Flip_Flag(A0)		         ; $002D
+		beq.s   Offset_0x00C4F6
+		ori.b   #$01, Obj_Flags(A0)		              ; $0004
+		addi.b  #$0B, D0
+		bra.s   Offset_0x00C502
+Offset_0x00C4F6:
+		ori.b   #$03, Obj_Flags(A0)		              ; $0004
+		neg.b   D0
+		addi.b  #$8F, D0
+Offset_0x00C502:
+		divu.w  #$0016, D0
+		addi.b  #$5F, D0
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		move.b  #$00, Obj_Ani_Time(A0)		           ; $0024
+		rts
+Offset_0x00C516:
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl     Offset_0x00C352
+		move.w  Obj_Inertia(A0), D2		              ; $001C
+		bpl.s   Offset_0x00C526
+		neg.w   D2
+Offset_0x00C526:
+		lea     (Offset_0x00C60A), A1
+		cmpi.w  #$0600, D2
+		bcc.s   Offset_0x00C538
+		lea     (Offset_0x00C600), A1
+Offset_0x00C538:
+		neg.w   D2
+		addi.w  #$0400, D2
+		bpl.s   Offset_0x00C542
+		moveq   #$00, D2
+Offset_0x00C542:
+		lsr.w   #$08, D2
+		move.b  D2, Obj_Ani_Time(A0)		             ; $0024
+		move.b  Obj_Status(A0), D1		               ; $002A
+		andi.b  #$01, D1
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		or.b    D1, Obj_Flags(A0)				; $0004
+		bra     Offset_0x00C33A
+Offset_0x00C55E:
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl     Offset_0x00C352
+		move.w  Obj_Inertia(A0), D2		              ; $001C
+		bmi.s   Offset_0x00C56E
+		neg.w   D2
+Offset_0x00C56E:
+		addi.w  #$0800, D2
+		bpl.s   Offset_0x00C576
+		moveq   #$00, D2
+Offset_0x00C576:
+		lsr.w   #$06, D2
+		move.b  D2, Obj_Ani_Time(A0)		             ; $0024
+		lea     (Offset_0x00C614), A1
+		tst.b   (Super_Sonic_flag).w		         ; $FFFFFE19
+		beq.s   Offset_0x00C58E
+		lea     (Offset_0x00C7BC), A1
+Offset_0x00C58E:
+		move.b  Obj_Status(A0), D1		               ; $002A
+		andi.b  #$01, D1
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		or.b    D1, Obj_Flags(A0)				; $0004
+		bra     Offset_0x00C33A      
+;-------------------------------------------------------------------------------
+Sonic_Animate_Data:				            ; Offset_0x00C5A4
+		dc.w    Offset_0x00C5EC-Sonic_Animate_Data
+		dc.w    Offset_0x00C5F6-Sonic_Animate_Data
+		dc.w    Offset_0x00C600-Sonic_Animate_Data
+		dc.w    Offset_0x00C60A-Sonic_Animate_Data
+		dc.w    Offset_0x00C614-Sonic_Animate_Data
+		dc.w    Offset_0x00C61E-Sonic_Animate_Data
+		dc.w    Offset_0x00C6D4-Sonic_Animate_Data
+		dc.w    Offset_0x00C6DA-Sonic_Animate_Data
+		dc.w    Offset_0x00C6DF-Sonic_Animate_Data
+		dc.w    Offset_0x00C6E4-Sonic_Animate_Data
+		dc.w    Offset_0x00C6F0-Sonic_Animate_Data
+		dc.w    Offset_0x00C6F4-Sonic_Animate_Data
+		dc.w    Offset_0x00C6F8-Sonic_Animate_Data
+		dc.w    Offset_0x00C6FE-Sonic_Animate_Data
+		dc.w    Offset_0x00C705-Sonic_Animate_Data
+		dc.w    Offset_0x00C709-Sonic_Animate_Data
+		dc.w    Offset_0x00C710-Sonic_Animate_Data
+		dc.w    Offset_0x00C714-Sonic_Animate_Data
+		dc.w    Offset_0x00C718-Sonic_Animate_Data
+		dc.w    Offset_0x00C71E-Sonic_Animate_Data
+		dc.w    Offset_0x00C723-Sonic_Animate_Data
+		dc.w    Offset_0x00C727-Sonic_Animate_Data
+		dc.w    Offset_0x00C72E-Sonic_Animate_Data
+		dc.w    Offset_0x00C731-Sonic_Animate_Data
+		dc.w    Offset_0x00C734-Sonic_Animate_Data
+		dc.w    Offset_0x00C737-Sonic_Animate_Data
+		dc.w    Offset_0x00C737-Sonic_Animate_Data
+		dc.w    Offset_0x00C73A-Sonic_Animate_Data
+		dc.w    Offset_0x00C73E-Sonic_Animate_Data
+		dc.w    Offset_0x00C741-Sonic_Animate_Data
+		dc.w    Offset_0x00C745-Sonic_Animate_Data
+		dc.w    Offset_0x00C7D9-Sonic_Animate_Data
+		dc.w    Offset_0x00C74D-Sonic_Animate_Data
+		dc.w    Offset_0x00C751-Sonic_Animate_Data
+		dc.w    Offset_0x00C755-Sonic_Animate_Data
+		dc.w    Offset_0x00C75F-Sonic_Animate_Data
+Offset_0x00C5EC:
+		dc.b    $FF, $0F, $10, $11, $12, $13, $14, $0D
+		dc.b    $0E, $FF
+Offset_0x00C5F6:
+		dc.b    $FF, $2D, $2E, $2F, $30, $FF, $FF, $FF
+		dc.b    $FF, $FF
+Offset_0x00C600:
+		dc.b    $FE, $3D, $41, $3E, $41, $3F, $41, $40
+		dc.b    $41, $FF
+Offset_0x00C60A:
+		dc.b    $FE, $3D, $41, $3E, $41, $3F, $41, $40
+		dc.b    $41, $FF
+Offset_0x00C614:
+		dc.b    $FD, $48, $49, $4A, $4B, $FF, $FF, $FF
+		dc.b    $FF, $FF
+Offset_0x00C61E:
+		dc.b    $05, $01, $01, $01, $01, $01, $01, $01
+		dc.b    $01, $01, $01, $01, $01, $01, $01, $01
+		dc.b    $01, $01, $01, $01, $01, $01, $01, $01
+		dc.b    $01, $01, $01, $01, $01, $01, $01, $02
+		dc.b    $03, $03, $03, $03, $03, $04, $04, $04
+		dc.b    $05, $05, $05, $04, $04, $04, $05, $05
+		dc.b    $05, $04, $04, $04, $05, $05, $05, $04
+		dc.b    $04, $04, $05, $05, $05, $06, $06, $06
+		dc.b    $06, $06, $06, $06, $06, $06, $06, $04
+		dc.b    $04, $04, $05, $05, $05, $04, $04, $04
+		dc.b    $05, $05, $05, $04, $04, $04, $05, $05
+		dc.b    $05, $04, $04, $04, $05, $05, $05, $06
+		dc.b    $06, $06, $06, $06, $06, $06, $06, $06
+		dc.b    $06, $04, $04, $04, $05, $05, $05, $04
+		dc.b    $04, $04, $05, $05, $05, $04, $04, $04
+		dc.b    $05, $05, $05, $04, $04, $04, $05, $05
+		dc.b    $05, $06, $06, $06, $06, $06, $06, $06
+		dc.b    $06, $06, $06, $04, $04, $04, $05, $05
+		dc.b    $05, $04, $04, $04, $05, $05, $05, $04
+		dc.b    $04, $04, $05, $05, $05, $04, $04, $04
+		dc.b    $05, $05, $05, $06, $06, $06, $06, $06
+		dc.b    $06, $06, $06, $06, $06, $07, $08, $08
+		dc.b    $08, $09, $09, $09, $FE, $06
+Offset_0x00C6D4:
+		dc.b    $09, $CC, $CD, $CE, $CD, $FF
+Offset_0x00C6DA:
+		dc.b    $05, $0B, $0C, $FE, $01
+Offset_0x00C6DF:
+		dc.b    $05, $4C, $4D, $FE, $01
+Offset_0x00C6E4:
+		dc.b    $00, $42, $43, $42, $44, $42, $45, $42
+		dc.b    $46, $42, $47, $FF
+Offset_0x00C6F0:
+		dc.b    $01, $02, $FD, $00
+Offset_0x00C6F4:
+		dc.b    $03, $0A, $FD, $00
+Offset_0x00C6F8:
+		dc.b    $03, $C8, $C9, $CA, $CB, $FF
+Offset_0x00C6FE:
+		dc.b    $05, $D2, $D3, $D4, $D5, $FD, $00
+Offset_0x00C705:
+		dc.b    $07, $54, $59, $FF
+Offset_0x00C709:
+		dc.b    $07, $54, $55, $56, $57, $58, $FF
+Offset_0x00C710:
+		dc.b    $2F, $5B, $FD, $00
+Offset_0x00C714:
+		dc.b    $01, $50, $51, $FF
+Offset_0x00C718:
+		dc.b    $0F, $43, $43, $43, $FE, $01
+Offset_0x00C71E:
+		dc.b    $0F, $43, $44, $FE, $01
+Offset_0x00C723:
+		dc.b    $13, $6B, $6C, $FF
+Offset_0x00C727:
+		dc.b    $0B, $5A, $5A, $11, $12, $FD, $00
+Offset_0x00C72E:
+		dc.b    $20, $5E, $FF
+Offset_0x00C731:
+		dc.b    $20, $5D, $FF
+Offset_0x00C734:
+		dc.b    $20, $5C, $FF
+Offset_0x00C737:
+		dc.b    $40, $4E, $FF
+Offset_0x00C73A:
+		dc.b    $09, $4E, $4F, $FF
+Offset_0x00C73E:
+		dc.b    $77, $00, $FF
+Offset_0x00C741:
+		dc.b    $13, $D0, $D1, $FF
+Offset_0x00C745:
+		dc.b    $03, $CF, $C8, $C9, $CA, $CB, $FE, $04
+Offset_0x00C74D:
+		dc.b    $09, $08, $09, $FF
+Offset_0x00C751:
+		dc.b    $03, $07, $FD, $00
+Offset_0x00C755:
+		dc.b    $0B, $ED, $EE, $EF, $F0, $F1, $F0, $EF
+		dc.b    $EE, $FF
+Offset_0x00C75F:
+		dc.b    $0B, $ED, $EE, $EF, $F0, $F1, $FD, $00
+		dc.b    $00
+;-------------------------------------------------------------------------------
+Super_Sonic_Animate_Data:				      ; Offset_0x00C768
+		dc.w    Offset_0x00C7A8-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C7B2-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C600-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C60A-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C7BC-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C7C6-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C7CC-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C6DA-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C7D6-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C6E4-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C6F0-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C6F4-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C6F8-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C6FE-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C705-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C709-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C710-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C714-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C718-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C71E-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C723-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C727-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C72E-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C731-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C734-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C737-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C737-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C73A-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C73E-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C741-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C745-Super_Sonic_Animate_Data
+		dc.w    Offset_0x00C7D9-Super_Sonic_Animate_Data
+Offset_0x00C7A8:
+		dc.b    $FF, $77, $78, $79, $7A, $7B, $7C, $75
+		dc.b    $76, $FF
+Offset_0x00C7B2:
+		dc.b    $FF, $B5, $B9, $FF, $FF, $FF, $FF, $FF
+		dc.b    $FF, $FF
+Offset_0x00C7BC:
+		dc.b    $FD, $BD, $BE, $BF, $C0, $FF, $FF, $FF
+		dc.b    $FF, $FF
+Offset_0x00C7C6:
+		dc.b    $07, $72, $73, $74, $73, $FF
+Offset_0x00C7CC:
+		dc.b    $09, $C2, $C3, $C4, $C3, $C5, $C6, $C7
+		dc.b    $C6, $FF
+Offset_0x00C7D6:
+		dc.b    $05, $C1, $FF
+Offset_0x00C7D9:
+		dc.b    $02, $6D, $6D, $6E, $6E, $6F, $70, $71
+		dc.b    $70, $71, $70, $71, $70, $71, $FD, $00
+		dc.b    $00   
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Sonic pattern loading subroutine
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00C7EA: Load_Sonic_Dynamic_PLC:
+LoadSonicDynamicPLC:
+		moveq	#0,d0
+		move.b	Obj_Map_Id(a0),d0
+
+Load_Sonic_Dynamic_PLC_D0:
+		cmp.b	(Sonic_Previous_Frame).w,d0
+		beq.s	Offset_0x00C83C
+		move.b	d0,(Sonic_Previous_Frame).w
+		lea	(Sonic_Dyn_Script).l,a2
+		add.w	d0,d0
+		adda.w	(a2,d0.w),a2
+		move.w	(a2)+,d5
+		subq.w	#1,d5
+		bmi.s	Offset_0x00C83C
+		move.w	#($680&$7FF)<<5,d4
+; Offset_0x00C818: Loop_Load_Sonic_Art:
+@loadSonicArt:
+		moveq	#0,d1
+		move.w	(a2)+,d1
+		move.w	d1,d3
+		lsr.w	#8,d3
+		andi.w	#$F0,d3
+		addi.w	#$10,d3
+		andi.w	#$FFF,d1
+		lsl.l	#5,d1
+		addi.l	#Art_Sonic,d1
+		move.w	d4,d2
+		add.w	d3,d4
+		add.w	d3,d4
+		jsr	(DMA_68KtoVRAM).l
+		dbf	d5,@loadSonicArt
+
+Offset_0x00C83C:
+		rts
+; End of function LoadSonicDynamicPLC
+
+;-------------------------------------------------------------------------------  
+Sonic_Or_Knuckles_Animate_Sprite_2P:		           ; Offset_0x00C83E
+		lea     (Sonic_2P_AnimateData), A1             ; Offset_0x00CA8C
+		tst.b   Obj_Player_Selected(A0)		          ; $0038
+		beq.s   Sonic_Or_Knuckles_Animate_Sprite_2P_A1 ; Offset_0x00C850
+		lea     (Knuckles_2P_AnimateData), A1          ; Offset_0x00CAD4
+Sonic_Or_Knuckles_Animate_Sprite_2P_A1:		        ; Offset_0x00C850
+		moveq   #$00, D0
+		move.b  Obj_Ani_Number(A0), D0		           ; $0020
+		cmp.b   Obj_Ani_Flag(A0), D0		             ; $0021
+		beq.s   Offset_0x00C872
+		move.b  D0, Obj_Ani_Flag(A0)		             ; $0021
+		move.b  #$00, Obj_Ani_Frame(A0)		          ; $0023
+		move.b  #$00, Obj_Ani_Time(A0)		           ; $0024
+		bclr    #$05, Obj_Status(A0)		             ; $002A
+Offset_0x00C872:
+		add.w   D0, D0
+		adda.w  $00(A1, D0), A1
+		move.b  (A1), D0
+		bmi.s   Offset_0x00C8E2
+		move.b  Obj_Status(A0), D1		               ; $002A
+		andi.b  #$01, D1
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		or.b    D1, Obj_Flags(A0)				; $0004
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl.s   Offset_0x00C8B0
+		move.b  D0, Obj_Ani_Time(A0)		             ; $0024
+Offset_0x00C898:
+		moveq   #$00, D1
+		move.b  Obj_Ani_Frame(A0), D1		            ; $0023
+		move.b  $01(A1, D1), D0
+		cmpi.b  #$FC, D0
+		bcc.s   Offset_0x00C8B2
+Offset_0x00C8A8:
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		addq.b  #$01, Obj_Ani_Frame(A0)		          ; $0023
+Offset_0x00C8B0:
+		rts
+Offset_0x00C8B2:
+		addq.b  #$01, D0
+		bne.s   Offset_0x00C8C2
+		move.b  #$00, Obj_Ani_Frame(A0)		          ; $0023
+		move.b  $0001(A1), D0
+		bra.s   Offset_0x00C8A8
+Offset_0x00C8C2:
+		addq.b  #$01, D0
+		bne.s   Offset_0x00C8D6
+		move.b  $02(A1, D1), D0
+		sub.b   D0, Obj_Ani_Frame(A0)		            ; $0023
+		sub.b   D0, D1
+		move.b  $01(A1, D1), D0
+		bra.s   Offset_0x00C8A8
+Offset_0x00C8D6:
+		addq.b  #$01, D0
+		bne.s   Offset_0x00C8E0
+		move.b  $02(A1, D1), Obj_Ani_Number(A0)		  ; $0020
+Offset_0x00C8E0:
+		rts
+Offset_0x00C8E2:
+		addq.b  #$01, D0
+		bne     Offset_0x00C9FC
+		moveq   #$00, D0
+		move.b  Obj_Flip_Angle(A0), D0		           ; $0027
+		bne     Offset_0x00C996
+		moveq   #$00, D1
+		move.b  Obj_Angle(A0), D0				; $0026
+		bmi.s   Offset_0x00C8FE
+		beq.s   Offset_0x00C8FE
+		subq.b  #$01, D0
+Offset_0x00C8FE:
+		move.b  Obj_Status(A0), D2		               ; $002A
+		andi.b  #$01, D2
+		bne.s   Offset_0x00C90A
+		not.b   D0
+Offset_0x00C90A:
+		addi.b  #$10, D0
+		bpl.s   Offset_0x00C912
+		moveq   #$03, D1
+Offset_0x00C912:
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		eor.b   D1, D2
+		or.b    D2, Obj_Flags(A0)				; $0004
+		btst    #$05, Obj_Status(A0)		             ; $002A
+		bne     Offset_0x00CA44
+		lsr.b   #$05, D0
+		andi.b  #$03, D0
+		move.w  Obj_Inertia(A0), D2		              ; $001C
+		bpl.s   Offset_0x00C936
+		neg.w   D2
+Offset_0x00C936:
+		tst.b   Obj_Player_Status(A0)		            ; $002F
+		bpl     Offset_0x00C940
+		add.w   D2, D2
+Offset_0x00C940:
+		move.b  D0, D3
+		lea     (Offset_0x00CB22), A1
+		cmpi.w  #$0600, D2
+		bcc.s   Offset_0x00C956
+		lea     (Offset_0x00CB1C), A1
+		add.b   D0, D0
+Offset_0x00C956:
+		add.b   D0, D3
+		moveq   #$00, D1
+		move.b  Obj_Ani_Frame(A0), D1		            ; $0023
+		move.b  $01(A1, D1), D0
+		cmpi.b  #$FF, D0
+		bne.s   Offset_0x00C972
+		move.b  #$00, Obj_Ani_Frame(A0)		          ; $0023
+		move.b  $0001(A1), D0
+Offset_0x00C972:
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		add.b   D3, Obj_Map_Id(A0)		               ; $0022
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl.s   Offset_0x00C994
+		neg.w   D2
+		addi.w  #$0800, D2
+		bpl.s   Offset_0x00C98A
+		moveq   #$00, D2
+Offset_0x00C98A:
+		lsr.w   #$08, D2
+		move.b  D2, Obj_Ani_Time(A0)		             ; $0024
+		addq.b  #$01, Obj_Ani_Frame(A0)		          ; $0023
+Offset_0x00C994:
+		rts
+Offset_0x00C996:
+		move.b  Obj_Flip_Angle(A0), D0		           ; $0027
+		moveq   #$00, D1
+		move.b  Obj_Status(A0), D2		               ; $002A
+		andi.b  #$01, D2
+		bne.s   Offset_0x00C9C4
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		addi.b  #$16, D0
+		divu.w  #$002C, D0
+		addi.b  #$15, D0
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		move.b  #$00, Obj_Ani_Time(A0)		           ; $0024
+		rts
+Offset_0x00C9C4:
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		tst.b   Obj_Player_Flip_Flag(A0)		         ; $002D
+		beq.s   Offset_0x00C9DC
+		ori.b   #$01, Obj_Flags(A0)		              ; $0004
+		addi.b  #$16, D0
+		bra.s   Offset_0x00C9E8
+Offset_0x00C9DC:
+		ori.b   #$03, Obj_Flags(A0)		              ; $0004
+		neg.b   D0
+		addi.b  #$9A, D0
+Offset_0x00C9E8:
+		divu.w  #$002C, D0
+		addi.b  #$15, D0
+		move.b  D0, Obj_Map_Id(A0)		               ; $0022
+		move.b  #$00, Obj_Ani_Time(A0)		           ; $0024
+		rts
+Offset_0x00C9FC:
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl     Offset_0x00C8B0
+		move.w  Obj_Inertia(A0), D2		              ; $001C
+		bpl.s   Offset_0x00CA0C
+		neg.w   D2
+Offset_0x00CA0C:
+		lea     (Offset_0x00CB2E), A1
+		cmpi.w  #$0600, D2
+		bcc.s   Offset_0x00CA1E
+		lea     (Offset_0x00CB28), A1
+Offset_0x00CA1E:
+		neg.w   D2
+		addi.w  #$0400, D2
+		bpl.s   Offset_0x00CA28
+		moveq   #$00, D2
+Offset_0x00CA28:
+		lsr.w   #$08, D2
+		move.b  D2, Obj_Ani_Time(A0)		             ; $0024
+		move.b  Obj_Status(A0), D1		               ; $002A
+		andi.b  #$01, D1
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		or.b    D1, Obj_Flags(A0)				; $0004
+		bra     Offset_0x00C898
+Offset_0x00CA44:
+		subq.b  #$01, Obj_Ani_Time(A0)		           ; $0024
+		bpl     Offset_0x00C8B0
+		move.w  Obj_Inertia(A0), D2		              ; $001C
+		bmi.s   Offset_0x00CA54
+		neg.w   D2
+Offset_0x00CA54:
+		addi.w  #$0800, D2
+		bpl.s   Offset_0x00CA5C
+		moveq   #$00, D2
+Offset_0x00CA5C:
+		lsr.w   #$06, D2
+		lea     (Offset_0x00CB34), A1
+		tst.b   Obj_Player_Selected(A0)		          ; $0038
+		beq.s   Offset_0x00CA72
+		lea     (Offset_0x00CB3A), A1
+		lsr.w   #$02, D2
+Offset_0x00CA72:
+		move.b  D2, Obj_Ani_Time(A0)		             ; $0024
+		move.b  Obj_Status(A0), D1		               ; $002A
+		andi.b  #$01, D1
+		andi.b  #$FC, Obj_Flags(A0)		              ; $0004
+		or.b    D1, Obj_Flags(A0)				; $0004
+		bra     Offset_0x00C898   
+;-------------------------------------------------------------------------------
+Sonic_2P_AnimateData:				          ; Offset_0x00CA8C
+		dc.w    Offset_0x00CB1C-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB22-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB28-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB2E-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB34-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB5B-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB5E-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB62-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB69-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB6C-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB6F-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB73-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB76-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB79-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB7C-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB7F-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB82-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB85-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB88-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB8B-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB8B-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB8E-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB91-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w    Offset_0x00C7D9-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB94-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB97-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB9B-Sonic_2P_AnimateData
+		dc.w    Offset_0x00CB9E-Sonic_2P_AnimateData
+;-------------------------------------------------------------------------------
+Knuckles_2P_AnimateData:				       ; Offset_0x00CAD4
+		dc.w    Offset_0x00CB1C-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB22-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB28-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB2E-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB3A-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB5B-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB5E-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB62-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB69-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB6C-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB6F-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB73-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB76-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB79-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB7C-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB7F-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB82-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB85-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB88-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB8B-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB8B-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB8E-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB91-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00C7D9-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB94-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB97-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB9B-Knuckles_2P_AnimateData
+		dc.w    Offset_0x00CB9E-Knuckles_2P_AnimateData
+;-------------------------------------------------------------------------------
+Offset_0x00CB1C:
+		dc.b    $FF, $01, $02, $03, $02, $FF
+Offset_0x00CB22:
+		dc.b    $FF, $0D, $0E, $FF, $FF, $FF
+Offset_0x00CB28:
+		dc.b    $FE, $29, $28, $2A, $28, $FF
+Offset_0x00CB2E:
+		dc.b    $FE, $29, $28, $2A, $28, $FF
+Offset_0x00CB34:
+		dc.b    $FD, $25, $26, $FF, $FF, $FF
+Offset_0x00CB3A:		
+		dc.b    $FD, $25, $26, $27, $26, $FF
+Offset_0x00CB40:
+		dc.b    $07, $1B, $1B, $1B, $1B, $1B, $1B, $1B
+		dc.b    $1B, $1C, $1C, $1C, $1C, $1C, $1C, $1D
+		dc.b    $1E, $1D, $1E, $1D, $1E, $1D, $1E, $1D
+		dc.b    $1E, $FE, $10
+Offset_0x00CB5B:
+		dc.b    $05, $2B, $FF
+Offset_0x00CB5E:
+		dc.b    $00, $23, $24, $FF
+Offset_0x00CB62:
+		dc.b    $05, $22, $22, $22, $22, $FD, $00
+Offset_0x00CB69:
+		dc.b    $07, $15, $FF
+Offset_0x00CB6C:
+		dc.b    $07, $15, $FF
+Offset_0x00CB6F:
+		dc.b    $2F, $15, $FD, $00
+Offset_0x00CB73:
+		dc.b    $01, $15, $FF
+Offset_0x00CB76:
+		dc.b    $0F, $15, $FF
+Offset_0x00CB79:
+		dc.b    $0F, $1F, $FF
+Offset_0x00CB7C:
+		dc.b    $13, $15, $FF
+Offset_0x00CB7F:
+		dc.b    $0B, $15, $FF
+Offset_0x00CB82:
+		dc.b    $20, $20, $FF
+Offset_0x00CB85:
+		dc.b    $20, $20, $FF
+Offset_0x00CB88:
+		dc.b    $20, $20, $FF
+Offset_0x00CB8B:
+		dc.b    $40, $21, $FF
+Offset_0x00CB8E:
+		dc.b    $09, $21, $FF
+Offset_0x00CB91:
+		dc.b    $77, $00, $FF
+Offset_0x00CB94:
+		dc.b    $09, $1B, $FF
+Offset_0x00CB97:
+		dc.b    $03, $1B, $FD, $00
+Offset_0x00CB9B:
+		dc.b    $0B, $1B, $FF
+Offset_0x00CB9E:
+		dc.b    $0B, $1B, $FF, $00   
+
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Sonic/Knuckles 2P pattern loading subroutine
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00CBA2: Load_Sonic_2P_Dynamic_PLC:
+LoadSonicDynamicPLC_2P:
+		moveq	#0,d0
+		move.b	Obj_Map_Id(a0),d0
+		lea	(Sonic_Dyn_Script_2P).l,a2
+		move.l	#Art_Sonic_2P,d6
+		tst.b	Obj_Player_Selected(a0)
+		beq.s	Offset_0x00CBC6
+		lea	(Knuckles_Dyn_Script_2P).l,a2
+		move.l	#Art_Knuckles_2P,d6
+
+Offset_0x00CBC6:
+		add.w	d0,d0
+		adda.w	(a2,d0.w),a2
+		move.w	(a2)+,d5
+		subq.w	#1,d5
+		bmi.s	Offset_0x00CC08
+		move.w	#($680&$7FF)<<5,d4
+		cmpa.w	#Obj_Player_One,a0
+		beq.s	Offset_0x00CBE0
+		move.w	#($6A0&$7FF)<<5,d4
+
+Offset_0x00CBE0:
+		moveq	#0,d1
+		move.w	(a2)+,d1
+		move.w	d1,d3
+		lsr.w	#8,d3
+		andi.w	#$F0,d3
+		addi.w	#$10,d3
+		andi.w	#$FFF,d1
+		lsl.l	#5,d1
+		add.l	d6,d1
+		move.w	d4,d2
+		add.w	d3,d4
+		add.w	d3,d4
+		jsr	(DMA_68KtoVRAM).l
+		dbf	d5,Offset_0x00CBE0
+
+Offset_0x00CC08:
+		rts
+; End of function LoadSonicDynamicPLC_2P
+
+
 Obj_Miles_2P:                                                  ; Offset_0x00CC0A
                 include 'data\objects\miles_2p.asm'
 Obj_Miles:                                                     ; Offset_0x00D11E
@@ -11060,37 +14310,47 @@ Obj_Miles_Tails_2P:                                            ; Offset_0x00F2AE
                 include 'data\objects\milest2p.asm'               
 Obj_Player_Underwater:                                         ; Offset_0x00F38C
                 include 'data\objects\underwtr.asm'                  
-;===============================================================================
-; Rotina para restaurar a m�sica da fase ap�s o Sonic obter oxig�nio
-; ->>>
-;===============================================================================
-Resume_Music:                                                  ; Offset_0x00F89E
-                cmpi.b  #$0C, Obj_Subtype(A1)                            ; $002C
-                bhi.s   Offset_0x00F8D8
-                cmpa.w  #Obj_Player_One, A1                              ; $B000
-                bne.s   Offset_0x00F8D8
-                move.w  (Level_Music_Buffer).w, D0                   ; $FFFFFF90
-                btst    #$01, Obj_Player_Status(A1)                      ; $002F
-                beq.s   Offset_0x00F8BC
-                move.w  #Mushroom_Valley_2_Snd, D0                       ; $0010
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to play music after a countdown (when Sonic leaves the water)
+; Too bad the sound queue gets clogged meaning it'll never work properly
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x00F89E: Resume_Music:
+ResumeMusic:
+		cmpi.b	#$C,Obj_Subtype(a1)
+		bhi.s	Offset_0x00F8D8
+		cmpa.w	#Obj_Player_One,a1
+		bne.s	Offset_0x00F8D8
+		move.w	(Level_Music_Buffer).w,d0
+		btst	#1,Obj_Player_Status(a1)
+		beq.s	Offset_0x00F8BC
+		; Literally all of checks these use the wrong sound ID, presumably leftover
+		; from an earlier build as they don't even match up with Sonic 2.
+		move.w	#Mushroom_Valley_2_Snd,d0
+
 Offset_0x00F8BC:
-                tst.b   (Super_Sonic_flag).w                         ; $FFFFFE19
-                beq     Offset_0x00F8C8
-                move.w  #Mushroom_Valley_2_Snd, D0                       ; $0010
+		tst.b	(Super_Sonic_flag).w
+		beq.w	Offset_0x00F8C8
+		move.w	#Mushroom_Valley_2_Snd,d0
+
 Offset_0x00F8C8:
-                tst.b   (Boss_Flag).w                                ; $FFFFF7AA
-                beq.s   Offset_0x00F8D2
-                move.w  #Icecap_2_Snd, D0                                ; $000C
+		tst.b	(Boss_Flag).w
+		beq.s	Offset_0x00F8D2
+		move.w	#Icecap_2_Snd,d0
+
 Offset_0x00F8D2:
-                jsr     (PlaySound)                           ; Offset_0x001176
+		jsr     (PlaySound).l
+
 Offset_0x00F8D8:
-                move.b  #$1E, Obj_Subtype(A1)                            ; $002C
-                rts 
-;===============================================================================
-; Rotina para restaurar a m�sica da fase ap�s o Sonic obter oxig�nio
-; <<<-
-;===============================================================================
-             
+		move.b	#$1E,Obj_Subtype(a1)
+		rts
+; End of function ResumeMusic
+
+
 Bubbles_Animate_Data:                                          ; Offset_0x00F8E0
                 dc.w    Offset_0x00F8FE-Bubbles_Animate_Data
                 dc.w    Offset_0x00F907-Bubbles_Animate_Data
@@ -12155,42 +15415,7 @@ Rings_Animate_Data:                                            ; Offset_0x010DDA
 Offset_0x010DDC:
                 dc.b    $05, $04, $05, $06, $07, $FC
 ;-------------------------------------------------------------------------------
-Rings_Mappings:                                                ; Offset_0x010DE2
-                dc.w    Offset_0x010DF4-Rings_Mappings
-                dc.w    Offset_0x010DFC-Rings_Mappings
-                dc.w    Offset_0x010E04-Rings_Mappings
-                dc.w    Offset_0x010E0C-Rings_Mappings
-                dc.w    Offset_0x010E14-Rings_Mappings
-                dc.w    Offset_0x010E1C-Rings_Mappings
-                dc.w    Offset_0x010E24-Rings_Mappings
-                dc.w    Offset_0x010E2C-Rings_Mappings
-                dc.w    Offset_0x010E34-Rings_Mappings
-Offset_0x010DF4:
-                dc.w    $0001
-                dc.w    $F805, $0000, $FFF8
-Offset_0x010DFC:
-                dc.w    $0001
-                dc.w    $F805, $0004, $FFF8
-Offset_0x010E04:
-                dc.w    $0001
-                dc.w    $F801, $0008, $FFFC
-Offset_0x010E0C:
-                dc.w    $0001
-                dc.w    $F805, $0804, $FFF8
-Offset_0x010E14:
-                dc.w    $0001
-                dc.w    $F805, $000A, $FFF8
-Offset_0x010E1C:
-                dc.w    $0001
-                dc.w    $F805, $180A, $FFF8
-Offset_0x010E24:
-                dc.w    $0001
-                dc.w    $F805, $080A, $FFF8
-Offset_0x010E2C:
-                dc.w    $0001
-                dc.w    $F805, $100A, $FFF8
-Offset_0x010E34:
-                dc.w    $0000
+Rings_Mappings:	include	"data/mappings/00 - Rings.asm"
 ;-------------------------------------------------------------------------------  
 Big_Ring_Mappings: ; Sonic 1 Left over                         ; Offset_0x010E36
                 dc.w    Offset_0x010E3E-Big_Ring_Mappings
@@ -12604,7 +15829,7 @@ Build_Sprites:                                                 ; Offset_0x011296
                 tst.b   (Title_Card_Flag).w                          ; $FFFFF711
                 beq.s   Offset_0x0112C0
                 jsr     (Build_HUD)                            ; Offset_0x007994
-                jsr     (Build_Rings)                          ; Offset_0x0089B6
+                jsr     (BuildRings)                          ; Offset_0x0089B6
 Offset_0x0112C0:
                 tst.w   (A5)
                 beq     Offset_0x01135C
@@ -13916,7 +17141,7 @@ LevelSize_SpawnPlayer:
 		ror.b	#1,d0
 		lsr.w	#5,d0
 		lea	(Player_Start_Position_Array).l,a1
-		lea	(A1,d0.w),a1
+		lea	(a1,d0.w),a1
 		moveq	#0,d1
 		move.w	(a1)+,d1
 		move.w	d1,(Obj_Player_One+Obj_X).w
@@ -14850,36 +18075,45 @@ Offset_0x012928:
 DynResize_Iz_2:                                                ; Offset_0x01292A
 DynResize_LBz_1:                                               ; Offset_0x01292A  
                 rts
-;===============================================================================
-DynResize_LBz_2:                                               ; Offset_0x01292C
-                moveq   #$00, D0
-                move.b  (Dynamic_Resize_Routine).w, D0               ; $FFFFEE33
-                move.w  Offset_0x01293A(PC, D0), D0
-                jmp     Offset_0x01293A(PC, D0)  
-;-------------------------------------------------------------------------------
-Offset_0x01293A:
-                dc.w    Offset_0x01293E-Offset_0x01293A
-                dc.w    Offset_0x012984-Offset_0x01293A     
-;-------------------------------------------------------------------------------
+; ===========================================================================
+; Offset_0x01292C:
+DynResize_LBz_2:
+		moveq	#0,d0
+		move.b	(Dynamic_Resize_Routine).w,d0
+		move.w	DynResize_LBZ2_Index(pc,d0.w),d0
+		jmp	DynResize_LBZ2_Index(pc,d0.w)  
+; ===========================================================================
+; Offset_0x01293A:
+DynResize_LBZ2_Index:	offsetTable
+		offsetTableEntry.w Offset_0x01293E
+		offsetTableEntry.w Offset_0x012984
+; ===========================================================================
+
 Offset_0x01293E:
-                cmpi.w  #$3BC0, (Camera_X).w                         ; $FFFFEE78
-                bcs.s   Offset_0x012982
-                cmpi.w  #$0500, (Camera_Y).w                         ; $FFFFEE7C
-                addq.b  #$02, (Dynamic_Resize_Routine).w             ; $FFFFEE33
-                lea     (Launch_Base_2_Blocks_3), A1           ; Offset_0x18C21A
-                lea     (Blocks_Mem_Address).w, A2                   ; $FFFF9000
-                jsr     (Queue_Kos)          ; Offset_0x0019AE
-                lea     (Launch_Base_2_Chunks_3), A1           ; Offset_0x192F2E
-                lea     (M68K_RAM_Start), A2                         ; $FFFF0000
-                jsr     (Queue_Kos)          ; Offset_0x0019AE
-                lea     (Launch_Base_2_Tiles_3), A1            ; Offset_0x18EB6C
-                move.w  #$0000, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+		cmpi.w	#$3BC0,(Camera_X).w
+		bcs.s	Offset_0x012982
+		cmpi.w	#$500,(Camera_Y).w
+		; ??? missing branch here, meaning that the Y camera check is pointless
+		;bcs.s	Offset_0x012982
+		addq.b	#2,(Dynamic_Resize_Routine).w
+		lea	(Launch_Base_2_Blocks_3).l,a1
+		lea	(Blocks_Mem_Address).w,a2
+		jsr	(Queue_Kos).l
+		lea	(Launch_Base_2_Chunks_3).l,a1
+		lea	(M68K_RAM_Start).l,a2
+		jsr	(Queue_Kos).l
+		lea	(Launch_Base_2_Tiles_3).l,a1
+		move.w	#0,d2
+		jsr	(Queue_Kos_Module).l
+
 Offset_0x012982:
-                rts      
-;-------------------------------------------------------------------------------
+		rts
+
+; ---------------------------------------------------------------------------
+
 Offset_0x012984:
-                rts
+		rts
+
 ;===============================================================================
 DynResize_MVz_1:                                               ; Offset_0x012986
 DynResize_MVz_2:                                               ; Offset_0x012986
@@ -15234,7 +18468,7 @@ Monitors_SpawnIcon:
 Monitors_SpawnSmoke:
 		bsr.w	AllocateObject
 		bne.s	Offset_0x013112
-		move.l	#Object_Hit,(a1)			; load Obj_Explosion
+		move.l	#Obj_Explosion,(a1)			; load Obj_Explosion
 		addq.b	#2,Obj_Routine(a1)
 		move.w	Obj_X(a0),Obj_X(a1)
 		move.w	Obj_Y(a0),Obj_Y(a1)
@@ -15577,66 +18811,7 @@ MonAni_Broken:		dc.b	  2,  0,  1, $B,$FE,  1
 ; Sprite mappings for Monitors and Monitor Contents
 ; ---------------------------------------------------------------------------
 ; Offset_0x0134A2:
-Monitors_Mappings:
-		dc.w Offset_0x0134BA-Monitors_Mappings
-		dc.w Offset_0x0134C2-Monitors_Mappings
-		dc.w Offset_0x0134D0-Monitors_Mappings
-		dc.w Offset_0x0134DE-Monitors_Mappings
-		dc.w Offset_0x0134EC-Monitors_Mappings
-		dc.w Offset_0x0134FA-Monitors_Mappings
-		dc.w Offset_0x013508-Monitors_Mappings
-		dc.w Offset_0x013516-Monitors_Mappings
-		dc.w Offset_0x013524-Monitors_Mappings
-		dc.w Offset_0x013532-Monitors_Mappings
-		dc.w Offset_0x013540-Monitors_Mappings
-		dc.w Offset_0x01354E-Monitors_Mappings
-
-Offset_0x0134BA:
-		dc.w    $0001
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x0134C2:
-		dc.w    $0002
-		dc.w    $F305, $0018, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x0134D0:
-		dc.w    $0002
-		dc.w    $F305, $0310, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x0134DE:
-		dc.w    $0002
-		dc.w    $F305, $001C, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x0134EC:
-		dc.w    $0002
-		dc.w    $F305, $2020, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x0134FA:
-		dc.w    $0002
-		dc.w    $F305, $0024, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x013508:
-		dc.w    $0002
-		dc.w    $F305, $0030, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x013516:
-		dc.w    $0002
-		dc.w    $F305, $002C, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x013524:
-		dc.w    $0002
-		dc.w    $F305, $0034, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x013532:
-		dc.w    $0002
-		dc.w    $F305, $0028, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x013540:
-		dc.w    $0002
-		dc.w    $F305, $0038, $FFF8
-		dc.w    $F00F, $0000, $FFF0
-Offset_0x01354E:
-		dc.w    $0001
-		dc.w    $FF0D, $0010, $FFF0
+Monitors_Mappings:	include	"data/mappings/01 - Monitors.asm"
                 
 ;------------------------------------------------------------------------------- 
 ; Rotina para tratar os espinhos e outros objetos como objeto s�lido
@@ -16444,9 +19619,62 @@ Offset_0x013D62:
 Offset_0x013D78:
                 moveq   #$00, D4
                 rts
-;-------------------------------------------------------------------------------             
-Object_Hit:                                                    ; Offset_0x013D7C 
-                include 'data\objects\obj_hit.asm'   
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Explosion from a monitor or enemy
+; ---------------------------------------------------------------------------
+; Offset_0x013D7C: Object_Hit:
+Obj_Explosion:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	Explosion_Index(pc,d0.w),d1
+		jmp	Explosion_Index(pc,d1.w)   
+; ===========================================================================
+; Offset_0x013D8A:
+Explosion_Index:	offsetTable
+		offsetTableEntry.w Explosion_Init
+		offsetTableEntry.w Explosion_Main
+		offsetTableEntry.w Explosion_Display
+; ===========================================================================
+; Offset_0x013D90:
+Explosion_Init:
+		addq.b	#2,Obj_Routine(a0)
+		jsr	(AllocateObject).l
+		bne.s	Explosion_Main
+		move.l	#Obj_Flickies,(a1)
+		move.w	Obj_X(a0),Obj_X(a1)
+		move.w	Obj_Y(a0),Obj_Y(a1)
+		move.w	Obj_Control_Var_0E(a0),Obj_Control_Var_0E(a1)
+; Offset_0x013DB4:
+Explosion_Main:
+		addq.b	#$02,Obj_Routine(a0)
+		move.l	#Object_Hit_Mappings, Obj_Map(a0)
+		move.w	Obj_Art_VRAM(a0),d0
+		andi.w	#$8000,d0
+		ori.w	#$5A0,d0
+		move.w	d0,Obj_Art_VRAM(a0)
+		move.b	#4,Obj_Flags(a0)
+		move.w	#$80,Obj_Priority(a0)
+		move.b	#0,Obj_Col_Flags(a0)
+		move.b	#$C,Obj_Width(a0)
+		move.b	#$C,Obj_Height(a0)
+		move.b	#3,Obj_Ani_Time(a0)
+		move.b	#0,Obj_Map_Id(a0)
+		moveq	#Object_Hit_Sfx,d0
+		jsr	(Play_Music).l
+		move.l	#Explosion_Display,(a0)
+; Offset_0x013E08:
+Explosion_Display:
+		subq.b	#1,Obj_Ani_Time(a0)
+		bpl.s	Offset_0x013E22
+		move.b	#7,Obj_Ani_Time(a0)
+		addq.b	#1,Obj_Map_Id(a0)
+		cmpi.b	#5,Obj_Map_Id(a0)
+		beq.w	DeleteObject
+
+Offset_0x013E22:
+		jmp	(DisplaySprite).l
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -25873,7 +29101,7 @@ Trap_Routines_List:                                            ; Offset_0x034220
                 dc.l    Object_HitWall_Left                    ; Offset_0x00A138
                 dc.l    DeleteObject                           ; Offset_0x011138
                 dc.l    MarkObjGone                            ; Offset_0x011AF2
-                dc.l    Object_Hit                             ; Offset_0x013D7C
+                dc.l    Obj_Explosion                             ; Offset_0x013D7C
                 dc.l    CalcSine                               ; Offset_0x001B20
                 dc.l    Obj_Explosions                         ; Offset_0x041BCA
                 dc.l    PlaySound                             ; Offset_0x001176
@@ -28668,7 +31896,7 @@ Offset_0x043034:
 Offset_0x04304E:
                 move.w  A1, A3
                 jsr     (Add_Points)                           ; Offset_0x007AEC
-                move.l  #Object_Hit, (A0)                      ; Offset_0x013D7C
+                move.l  #Obj_Explosion, (A0)                      ; Offset_0x013D7C
                 move.b  #$00, Obj_Routine(A0)                            ; $0005
                 tst.w   Obj_Speed_Y(A1)                                  ; $001A
                 bmi.s   Offset_0x04307C
@@ -30496,7 +33724,7 @@ Offset_0x04B1C4:
                 bclr    #$06, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x04B20A
                 move.l  A0, A1
-                jsr     (Resume_Music)                         ; Offset_0x00F89E
+                jsr     (ResumeMusic)                         ; Offset_0x00F89E
                 move.w  #$0600, (Sonic_Max_Speed).w                  ; $FFFFF760
                 move.w  #$000C, (Sonic_Acceleration).w               ; $FFFFF762
                 move.w  #$0080, (Sonic_Deceleration).w               ; $FFFFF764
@@ -34021,2487 +37249,12 @@ SEGA_PCM_Data:                                                 ; Offset_0x0F8000
 ; Mapeamento dos Sprites do Sonic      
 ; ->>>
 ;===============================================================================                
-Sonic_Mappings:                                                ; Offset_0x100000
-                dc.w    Offset_0x1001E4-Sonic_Mappings
-                dc.w    Offset_0x1001E6-Sonic_Mappings
-                dc.w    Offset_0x100200-Sonic_Mappings
-                dc.w    Offset_0x10020E-Sonic_Mappings
-                dc.w    Offset_0x100228-Sonic_Mappings
-                dc.w    Offset_0x100242-Sonic_Mappings
-                dc.w    Offset_0x100262-Sonic_Mappings
-                dc.w    Offset_0x100276-Sonic_Mappings
-                dc.w    Offset_0x100284-Sonic_Mappings
-                dc.w    Offset_0x100292-Sonic_Mappings
-                dc.w    Offset_0x1002A0-Sonic_Mappings
-                dc.w    Offset_0x1002AE-Sonic_Mappings
-                dc.w    Offset_0x1002C8-Sonic_Mappings
-                dc.w    Offset_0x1002E2-Sonic_Mappings
-                dc.w    Offset_0x1002F6-Sonic_Mappings
-                dc.w    Offset_0x100310-Sonic_Mappings
-                dc.w    Offset_0x100324-Sonic_Mappings
-                dc.w    Offset_0x100332-Sonic_Mappings
-                dc.w    Offset_0x100346-Sonic_Mappings
-                dc.w    Offset_0x100360-Sonic_Mappings
-                dc.w    Offset_0x100374-Sonic_Mappings
-                dc.w    Offset_0x100382-Sonic_Mappings
-                dc.w    Offset_0x10039C-Sonic_Mappings
-                dc.w    Offset_0x1003BC-Sonic_Mappings
-                dc.w    Offset_0x1003D6-Sonic_Mappings
-                dc.w    Offset_0x1003F0-Sonic_Mappings
-                dc.w    Offset_0x100410-Sonic_Mappings
-                dc.w    Offset_0x100430-Sonic_Mappings
-                dc.w    Offset_0x10044A-Sonic_Mappings
-                dc.w    Offset_0x10046A-Sonic_Mappings
-                dc.w    Offset_0x10047E-Sonic_Mappings
-                dc.w    Offset_0x100492-Sonic_Mappings
-                dc.w    Offset_0x1004A6-Sonic_Mappings
-                dc.w    Offset_0x1004B4-Sonic_Mappings
-                dc.w    Offset_0x1004C8-Sonic_Mappings
-                dc.w    Offset_0x1004DC-Sonic_Mappings
-                dc.w    Offset_0x1004F0-Sonic_Mappings
-                dc.w    Offset_0x1004FE-Sonic_Mappings
-                dc.w    Offset_0x100518-Sonic_Mappings
-                dc.w    Offset_0x100538-Sonic_Mappings
-                dc.w    Offset_0x100552-Sonic_Mappings
-                dc.w    Offset_0x10056C-Sonic_Mappings
-                dc.w    Offset_0x100586-Sonic_Mappings
-                dc.w    Offset_0x1005A6-Sonic_Mappings
-                dc.w    Offset_0x1005C0-Sonic_Mappings
-                dc.w    Offset_0x1005DA-Sonic_Mappings
-                dc.w    Offset_0x1005E8-Sonic_Mappings
-                dc.w    Offset_0x1005F6-Sonic_Mappings
-                dc.w    Offset_0x100604-Sonic_Mappings
-                dc.w    Offset_0x100612-Sonic_Mappings
-                dc.w    Offset_0x10062C-Sonic_Mappings
-                dc.w    Offset_0x100640-Sonic_Mappings
-                dc.w    Offset_0x10065A-Sonic_Mappings
-                dc.w    Offset_0x10066E-Sonic_Mappings
-                dc.w    Offset_0x10067C-Sonic_Mappings
-                dc.w    Offset_0x10068A-Sonic_Mappings
-                dc.w    Offset_0x100698-Sonic_Mappings
-                dc.w    Offset_0x1006A6-Sonic_Mappings
-                dc.w    Offset_0x1006BA-Sonic_Mappings
-                dc.w    Offset_0x1006C8-Sonic_Mappings
-                dc.w    Offset_0x1006DC-Sonic_Mappings
-                dc.w    Offset_0x1006EA-Sonic_Mappings
-                dc.w    Offset_0x1006F2-Sonic_Mappings
-                dc.w    Offset_0x1006FA-Sonic_Mappings
-                dc.w    Offset_0x100702-Sonic_Mappings
-                dc.w    Offset_0x10070A-Sonic_Mappings
-                dc.w    Offset_0x100712-Sonic_Mappings
-                dc.w    Offset_0x10071A-Sonic_Mappings
-                dc.w    Offset_0x100722-Sonic_Mappings
-                dc.w    Offset_0x10072A-Sonic_Mappings
-                dc.w    Offset_0x100732-Sonic_Mappings
-                dc.w    Offset_0x10073A-Sonic_Mappings
-                dc.w    Offset_0x100742-Sonic_Mappings
-                dc.w    Offset_0x100756-Sonic_Mappings
-                dc.w    Offset_0x10076A-Sonic_Mappings
-                dc.w    Offset_0x10077E-Sonic_Mappings
-                dc.w    Offset_0x100792-Sonic_Mappings
-                dc.w    Offset_0x10079A-Sonic_Mappings
-                dc.w    Offset_0x1007A2-Sonic_Mappings
-                dc.w    Offset_0x1007B0-Sonic_Mappings
-                dc.w    Offset_0x1007BE-Sonic_Mappings
-                dc.w    Offset_0x1007D2-Sonic_Mappings
-                dc.w    Offset_0x1007E6-Sonic_Mappings
-                dc.w    Offset_0x1007F4-Sonic_Mappings
-                dc.w    Offset_0x100802-Sonic_Mappings
-                dc.w    Offset_0x100816-Sonic_Mappings
-                dc.w    Offset_0x100830-Sonic_Mappings
-                dc.w    Offset_0x100844-Sonic_Mappings
-                dc.w    Offset_0x100858-Sonic_Mappings
-                dc.w    Offset_0x10086C-Sonic_Mappings
-                dc.w    Offset_0x100880-Sonic_Mappings
-                dc.w    Offset_0x100894-Sonic_Mappings
-                dc.w    Offset_0x1008A2-Sonic_Mappings
-                dc.w    Offset_0x1008BC-Sonic_Mappings
-                dc.w    Offset_0x1008D6-Sonic_Mappings
-                dc.w    Offset_0x1008EA-Sonic_Mappings
-                dc.w    Offset_0x1008FE-Sonic_Mappings
-                dc.w    Offset_0x100912-Sonic_Mappings
-                dc.w    Offset_0x100920-Sonic_Mappings
-                dc.w    Offset_0x100928-Sonic_Mappings
-                dc.w    Offset_0x100936-Sonic_Mappings
-                dc.w    Offset_0x10094A-Sonic_Mappings
-                dc.w    Offset_0x10095E-Sonic_Mappings
-                dc.w    Offset_0x100972-Sonic_Mappings
-                dc.w    Offset_0x100980-Sonic_Mappings
-                dc.w    Offset_0x10098E-Sonic_Mappings
-                dc.w    Offset_0x1009A2-Sonic_Mappings
-                dc.w    Offset_0x1009B0-Sonic_Mappings
-                dc.w    Offset_0x1009C4-Sonic_Mappings
-                dc.w    Offset_0x1009D8-Sonic_Mappings
-                dc.w    Offset_0x1009E0-Sonic_Mappings
-                dc.w    Offset_0x1009F4-Sonic_Mappings
-                dc.w    Offset_0x100A08-Sonic_Mappings
-                dc.w    Offset_0x100A28-Sonic_Mappings
-                dc.w    Offset_0x100A48-Sonic_Mappings
-                dc.w    Offset_0x100A56-Sonic_Mappings
-                dc.w    Offset_0x100A64-Sonic_Mappings
-                dc.w    Offset_0x100A72-Sonic_Mappings
-                dc.w    Offset_0x100A86-Sonic_Mappings
-                dc.w    Offset_0x100AA0-Sonic_Mappings
-                dc.w    Offset_0x100AB4-Sonic_Mappings
-                dc.w    Offset_0x100AC2-Sonic_Mappings
-                dc.w    Offset_0x100AD6-Sonic_Mappings
-                dc.w    Offset_0x100AF0-Sonic_Mappings
-                dc.w    Offset_0x100B04-Sonic_Mappings
-                dc.w    Offset_0x100B12-Sonic_Mappings
-                dc.w    Offset_0x100B2C-Sonic_Mappings
-                dc.w    Offset_0x100B4C-Sonic_Mappings
-                dc.w    Offset_0x100B6C-Sonic_Mappings
-                dc.w    Offset_0x100B8C-Sonic_Mappings
-                dc.w    Offset_0x100BB2-Sonic_Mappings
-                dc.w    Offset_0x100BD8-Sonic_Mappings
-                dc.w    Offset_0x100BF8-Sonic_Mappings
-                dc.w    Offset_0x100C18-Sonic_Mappings
-                dc.w    Offset_0x100C2C-Sonic_Mappings
-                dc.w    Offset_0x100C40-Sonic_Mappings
-                dc.w    Offset_0x100C54-Sonic_Mappings
-                dc.w    Offset_0x100C62-Sonic_Mappings
-                dc.w    Offset_0x100C76-Sonic_Mappings
-                dc.w    Offset_0x100C8A-Sonic_Mappings
-                dc.w    Offset_0x100C9E-Sonic_Mappings
-                dc.w    Offset_0x100CAC-Sonic_Mappings
-                dc.w    Offset_0x100CC6-Sonic_Mappings
-                dc.w    Offset_0x100CE6-Sonic_Mappings
-                dc.w    Offset_0x100D00-Sonic_Mappings
-                dc.w    Offset_0x100D1A-Sonic_Mappings
-                dc.w    Offset_0x100D34-Sonic_Mappings
-                dc.w    Offset_0x100D54-Sonic_Mappings
-                dc.w    Offset_0x100D6E-Sonic_Mappings
-                dc.w    Offset_0x100D88-Sonic_Mappings
-                dc.w    Offset_0x100D9C-Sonic_Mappings
-                dc.w    Offset_0x100DB6-Sonic_Mappings
-                dc.w    Offset_0x100DCA-Sonic_Mappings
-                dc.w    Offset_0x100DD8-Sonic_Mappings
-                dc.w    Offset_0x100DEC-Sonic_Mappings
-                dc.w    Offset_0x100E06-Sonic_Mappings
-                dc.w    Offset_0x100E1A-Sonic_Mappings
-                dc.w    Offset_0x100E28-Sonic_Mappings
-                dc.w    Offset_0x100E48-Sonic_Mappings
-                dc.w    Offset_0x100E6E-Sonic_Mappings
-                dc.w    Offset_0x100E8E-Sonic_Mappings
-                dc.w    Offset_0x100EAE-Sonic_Mappings
-                dc.w    Offset_0x100ED4-Sonic_Mappings
-                dc.w    Offset_0x100EFA-Sonic_Mappings
-                dc.w    Offset_0x100F1A-Sonic_Mappings
-                dc.w    Offset_0x100F40-Sonic_Mappings
-                dc.w    Offset_0x100F54-Sonic_Mappings
-                dc.w    Offset_0x100F68-Sonic_Mappings
-                dc.w    Offset_0x100F7C-Sonic_Mappings
-                dc.w    Offset_0x100F8A-Sonic_Mappings
-                dc.w    Offset_0x100F9E-Sonic_Mappings
-                dc.w    Offset_0x100FB2-Sonic_Mappings
-                dc.w    Offset_0x100FC6-Sonic_Mappings
-                dc.w    Offset_0x100FD4-Sonic_Mappings
-                dc.w    Offset_0x100FEE-Sonic_Mappings
-                dc.w    Offset_0x10100E-Sonic_Mappings
-                dc.w    Offset_0x10102E-Sonic_Mappings
-                dc.w    Offset_0x101048-Sonic_Mappings
-                dc.w    Offset_0x101062-Sonic_Mappings
-                dc.w    Offset_0x101082-Sonic_Mappings
-                dc.w    Offset_0x1010A2-Sonic_Mappings
-                dc.w    Offset_0x1010C2-Sonic_Mappings
-                dc.w    Offset_0x1010DC-Sonic_Mappings
-                dc.w    Offset_0x1010F6-Sonic_Mappings
-                dc.w    Offset_0x101110-Sonic_Mappings
-                dc.w    Offset_0x101130-Sonic_Mappings
-                dc.w    Offset_0x10114A-Sonic_Mappings
-                dc.w    Offset_0x101164-Sonic_Mappings
-                dc.w    Offset_0x10117E-Sonic_Mappings
-                dc.w    Offset_0x10119E-Sonic_Mappings
-                dc.w    Offset_0x1011B8-Sonic_Mappings
-                dc.w    Offset_0x1011D2-Sonic_Mappings
-                dc.w    Offset_0x1011EC-Sonic_Mappings
-                dc.w    Offset_0x101206-Sonic_Mappings
-                dc.w    Offset_0x101214-Sonic_Mappings
-                dc.w    Offset_0x101228-Sonic_Mappings
-                dc.w    Offset_0x10123C-Sonic_Mappings
-                dc.w    Offset_0x101250-Sonic_Mappings
-                dc.w    Offset_0x101264-Sonic_Mappings
-                dc.w    Offset_0x101278-Sonic_Mappings
-                dc.w    Offset_0x10128C-Sonic_Mappings
-                dc.w    Offset_0x1012A0-Sonic_Mappings
-                dc.w    Offset_0x1012B4-Sonic_Mappings
-                dc.w    Offset_0x1012C8-Sonic_Mappings
-                dc.w    Offset_0x1012E8-Sonic_Mappings
-                dc.w    Offset_0x101302-Sonic_Mappings
-                dc.w    Offset_0x10131C-Sonic_Mappings
-                dc.w    Offset_0x101336-Sonic_Mappings
-                dc.w    Offset_0x10134A-Sonic_Mappings
-                dc.w    Offset_0x10135E-Sonic_Mappings
-                dc.w    Offset_0x101372-Sonic_Mappings
-                dc.w    Offset_0x10138C-Sonic_Mappings
-                dc.w    Offset_0x1013A6-Sonic_Mappings
-                dc.w    Offset_0x1013C0-Sonic_Mappings
-                dc.w    Offset_0x1013CE-Sonic_Mappings
-                dc.w    Offset_0x1013DC-Sonic_Mappings
-                dc.w    Offset_0x1013F6-Sonic_Mappings
-                dc.w    Offset_0x10140A-Sonic_Mappings
-                dc.w    Offset_0x10141E-Sonic_Mappings
-                dc.w    Offset_0x10142C-Sonic_Mappings
-                dc.w    Offset_0x101440-Sonic_Mappings
-                dc.w    Offset_0x101454-Sonic_Mappings
-                dc.w    Offset_0x101468-Sonic_Mappings
-                dc.w    Offset_0x101476-Sonic_Mappings
-                dc.w    Offset_0x101490-Sonic_Mappings
-                dc.w    Offset_0x1014A4-Sonic_Mappings
-                dc.w    Offset_0x1014B8-Sonic_Mappings
-                dc.w    Offset_0x1014C6-Sonic_Mappings
-                dc.w    Offset_0x1014DA-Sonic_Mappings
-                dc.w    Offset_0x1014E2-Sonic_Mappings
-                dc.w    Offset_0x1014F6-Sonic_Mappings
-                dc.w    Offset_0x101516-Sonic_Mappings
-                dc.w    Offset_0x10152A-Sonic_Mappings
-                dc.w    Offset_0x10154A-Sonic_Mappings
-                dc.w    Offset_0x10155E-Sonic_Mappings
-                dc.w    Offset_0x10157E-Sonic_Mappings
-                dc.w    Offset_0x101592-Sonic_Mappings
-                dc.w    Offset_0x1015B2-Sonic_Mappings
-                dc.w    Offset_0x1015D2-Sonic_Mappings
-                dc.w    Offset_0x1015F2-Sonic_Mappings
-                dc.w    Offset_0x101600-Sonic_Mappings
-                dc.w    Offset_0x10160E-Sonic_Mappings
-Offset_0x1001E4:
-                dc.w    $0000
-Offset_0x1001E6:
-                dc.w    $0004
-                dc.w    $E405, $0000, $FFF8
-                dc.w    $EC03, $0004, $FFF0
-                dc.w    $F409, $0008, $FFF8
-                dc.w    $0409, $000E, $FFF8
-Offset_0x100200:
-                dc.w    $0002
-                dc.w    $EC0B, $0000, $FFF0
-                dc.w    $0C09, $000C, $FFF8
-Offset_0x10020E:
-                dc.w    $0004
-                dc.w    $EC03, $0000, $FFF0
-                dc.w    $EC05, $0004, $FFF8
-                dc.w    $FC05, $0008, $FFF8
-                dc.w    $0C09, $000C, $FFF8
-Offset_0x100228:
-                dc.w    $0004
-                dc.w    $EC03, $0000, $FFF0
-                dc.w    $EC05, $0004, $FFF8
-                dc.w    $FC05, $0008, $FFF8
-                dc.w    $0C09, $000C, $FFF8
-Offset_0x100242:
-                dc.w    $0005
-                dc.w    $EC03, $0000, $FFF0
-                dc.w    $EC05, $0004, $FFF8
-                dc.w    $FC05, $0008, $FFF8
-                dc.w    $0C01, $000C, $FFF8
-                dc.w    $0C05, $000E, $0000
-Offset_0x100262:
-                dc.w    $0003
-                dc.w    $EC03, $0000, $FFF0
-                dc.w    $EC07, $0004, $FFF8
-                dc.w    $0C09, $000C, $FFF8
-Offset_0x100276:
-                dc.w    $0002
-                dc.w    $F40B, $0000, $FFF0
-                dc.w    $0401, $000C, $0008
-Offset_0x100284:
-                dc.w    $0002
-                dc.w    $F40B, $0000, $FFE8
-                dc.w    $0405, $000C, $0000
-Offset_0x100292:
-                dc.w    $0002
-                dc.w    $F40B, $0000, $FFE8
-                dc.w    $0405, $000C, $0000
-Offset_0x1002A0:
-                dc.w    $0002
-                dc.w    $E40B, $0000, $FFF0
-                dc.w    $040D, $000C, $FFF0
-Offset_0x1002AE:
-                dc.w    $0004
-                dc.w    $E405, $0000, $FFF8
-                dc.w    $EC03, $0004, $FFF0
-                dc.w    $F409, $0008, $FFF8
-                dc.w    $0409, $000E, $FFF8
-Offset_0x1002C8:
-                dc.w    $0004
-                dc.w    $EC03, $0000, $FFF0
-                dc.w    $E405, $0004, $FFF8
-                dc.w    $F405, $0008, $FFF8
-                dc.w    $0409, $000C, $FFF8
-Offset_0x1002E2:
-                dc.w    $0003
-                dc.w    $EB0D, $0000, $FFEE
-                dc.w    $0301, $0008, $FFEC
-                dc.w    $FB0F, $000A, $FFF4
-Offset_0x1002F6:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFEE
-                dc.w    $0401, $0008, $FFEC
-                dc.w    $FC0B, $000A, $FFF4
-                dc.w    $0401, $0016, $000C
-Offset_0x100310:
-                dc.w    $0003
-                dc.w    $ED0D, $0000, $FFED
-                dc.w    $FD09, $0008, $FFF4
-                dc.w    $0D05, $000E, $FFF7
-Offset_0x100324:
-                dc.w    $0002
-                dc.w    $EC09, $0000, $FFF4
-                dc.w    $FC0F, $0006, $FFEE
-Offset_0x100332:
-                dc.w    $0003
-                dc.w    $EB09, $0000, $FFF4
-                dc.w    $FB0F, $0006, $FFEE
-                dc.w    $FB01, $0016, $000E
-Offset_0x100346:
-                dc.w    $0004
-                dc.w    $EC09, $0000, $FFF4
-                dc.w    $0401, $0006, $FFEC
-                dc.w    $FC0B, $0008, $FFF4
-                dc.w    $0401, $0014, $000C
-Offset_0x100360:
-                dc.w    $0003
-                dc.w    $ED0D, $0000, $FFED
-                dc.w    $FD09, $0008, $FFF4
-                dc.w    $0D05, $000E, $FFF7
-Offset_0x100374:
-                dc.w    $0002
-                dc.w    $EC0D, $0000, $FFEE
-                dc.w    $FC0B, $0008, $FFF3
-Offset_0x100382:
-                dc.w    $0004
-                dc.w    $EB09, $0000, $FFEA
-                dc.w    $FB09, $0006, $FFEA
-                dc.w    $F305, $000C, $0002
-                dc.w    $0B01, $0010, $FFFA
-Offset_0x10039C:
-                dc.w    $0005
-                dc.w    $EC09, $0000, $FFEB
-                dc.w    $EC01, $0006, $0003
-                dc.w    $FC0D, $0008, $FFEB
-                dc.w    $FC05, $0010, $000B
-                dc.w    $0C01, $0014, $FFFB
-Offset_0x1003BC:
-                dc.w    $0004
-                dc.w    $ED07, $0000, $FFEC
-                dc.w    $ED03, $0008, $FFFC
-                dc.w    $F501, $000C, $0004
-                dc.w    $0505, $000E, $0004
-Offset_0x1003D6:
-                dc.w    $0004
-                dc.w    $EC09, $0000, $FFEB
-                dc.w    $EC01, $0006, $0003
-                dc.w    $FC05, $0008, $FFEB
-                dc.w    $FC0B, $000C, $FFFB
-Offset_0x1003F0:
-                dc.w    $0005
-                dc.w    $EB09, $0000, $FFEA
-                dc.w    $EB01, $0006, $0002
-                dc.w    $FB0D, $0008, $FFEA
-                dc.w    $F301, $0010, $000A
-                dc.w    $0B05, $0012, $FFF2
-Offset_0x100410:
-                dc.w    $0005
-                dc.w    $EC09, $0000, $FFEB
-                dc.w    $EC01, $0006, $0003
-                dc.w    $FC0D, $0008, $FFEB
-                dc.w    $FA05, $0010, $000B
-                dc.w    $0C01, $0014, $FFFB
-Offset_0x100430:
-                dc.w    $0004
-                dc.w    $ED07, $0000, $FFEC
-                dc.w    $ED03, $0008, $FFFC
-                dc.w    $F501, $000C, $0004
-                dc.w    $0505, $000E, $0004
-Offset_0x10044A:
-                dc.w    $0005
-                dc.w    $EC09, $0000, $FFEB
-                dc.w    $FC09, $0006, $FFEB
-                dc.w    $F401, $000C, $0003
-                dc.w    $0C01, $000E, $FFFB
-                dc.w    $0405, $0010, $0003
-Offset_0x10046A:
-                dc.w    $0003
-                dc.w    $F207, $0000, $FFEB
-                dc.w    $EC0B, $0008, $FFFB
-                dc.w    $0C05, $0014, $0003
-Offset_0x10047E:
-                dc.w    $0003
-                dc.w    $F207, $0000, $FFEC
-                dc.w    $EC0B, $0008, $FFFC
-                dc.w    $0C05, $0014, $0004
-Offset_0x100492:
-                dc.w    $0003
-                dc.w    $F307, $0000, $FFED
-                dc.w    $F403, $0008, $FFFD
-                dc.w    $F905, $000C, $0005
-Offset_0x1004A6:
-                dc.w    $0002
-                dc.w    $F407, $0000, $FFEC
-                dc.w    $F20B, $0008, $FFFC
-Offset_0x1004B4:
-                dc.w    $0003
-                dc.w    $F407, $0000, $FFEB
-                dc.w    $E305, $0008, $FFFB
-                dc.w    $F30B, $000C, $FFFB
-Offset_0x1004C8:
-                dc.w    $0003
-                dc.w    $F407, $0000, $FFEC
-                dc.w    $EC0B, $0008, $FFFC
-                dc.w    $0C05, $0014, $0004
-Offset_0x1004DC:
-                dc.w    $0003
-                dc.w    $F307, $0000, $FFED
-                dc.w    $F403, $0008, $FFFD
-                dc.w    $F905, $000C, $0005
-Offset_0x1004F0:
-                dc.w    $0002
-                dc.w    $F207, $0000, $FFEC
-                dc.w    $F40B, $0008, $FFFC
-Offset_0x1004FE:
-                dc.w    $0004
-                dc.w    $EE05, $0000, $FFF3
-                dc.w    $FE07, $0004, $FFEB
-                dc.w    $FE0D, $000C, $FFFB
-                dc.w    $0E01, $0014, $FFFB
-Offset_0x100518:
-                dc.w    $0005
-                dc.w    $DD05, $0000, $FFFC
-                dc.w    $ED09, $0004, $FFF4
-                dc.w    $FD07, $000A, $FFEC
-                dc.w    $FD0D, $0012, $FFFC
-                dc.w    $0D01, $001A, $FFFC
-Offset_0x100538:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFF5
-                dc.w    $FC07, $0008, $FFED
-                dc.w    $FC05, $0010, $FFFD
-                dc.w    $0C01, $0014, $FFFD
-Offset_0x100552:
-                dc.w    $0004
-                dc.w    $ED0D, $0000, $FFF4
-                dc.w    $FD07, $0008, $FFEC
-                dc.w    $FD09, $0010, $FFFC
-                dc.w    $0D01, $0016, $FFFC
-Offset_0x10056C:
-                dc.w    $0004
-                dc.w    $EE09, $0000, $FFF3
-                dc.w    $FE07, $0006, $FFEB
-                dc.w    $FE0D, $000E, $FFFB
-                dc.w    $0E01, $0016, $FFFB
-Offset_0x100586:
-                dc.w    $0005
-                dc.w    $DD05, $0000, $FFFA
-                dc.w    $ED09, $0004, $FFF4
-                dc.w    $FD07, $000A, $FFEC
-                dc.w    $FD0D, $0012, $FFFC
-                dc.w    $0D01, $001A, $FFFC
-Offset_0x1005A6:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFF5
-                dc.w    $FC07, $0008, $FFED
-                dc.w    $FC05, $0010, $FFFD
-                dc.w    $0C01, $0014, $FFFD
-Offset_0x1005C0:
-                dc.w    $0004
-                dc.w    $ED0D, $0000, $FFF4
-                dc.w    $FD07, $0008, $FFEC
-                dc.w    $FD09, $0010, $FFFC
-                dc.w    $0D01, $0016, $FFFC
-Offset_0x1005DA:
-                dc.w    $0002
-                dc.w    $EE09, $0000, $FFF8
-                dc.w    $FE0F, $0006, $FFF0
-Offset_0x1005E8:
-                dc.w    $0002
-                dc.w    $EE09, $0000, $FFF8
-                dc.w    $FE0F, $0006, $FFF0
-Offset_0x1005F6:
-                dc.w    $0002
-                dc.w    $EE09, $0000, $FFF8
-                dc.w    $FE0F, $0006, $FFF0
-Offset_0x100604:
-                dc.w    $0002
-                dc.w    $EE09, $0000, $FFF8
-                dc.w    $FE0F, $0006, $FFF0
-Offset_0x100612:
-                dc.w    $0004
-                dc.w    $EC09, $0000, $FFED
-                dc.w    $EC01, $0006, $0005
-                dc.w    $FC0D, $0008, $FFF4
-                dc.w    $0C09, $0010, $FFFA
-Offset_0x10062C:
-                dc.w    $0003
-                dc.w    $EC0D, $0000, $FFED
-                dc.w    $FC0D, $0008, $FFF5
-                dc.w    $0C09, $0010, $FFF8
-Offset_0x100640:
-                dc.w    $0004
-                dc.w    $EC09, $0000, $FFED
-                dc.w    $EC01, $0006, $0005
-                dc.w    $FC0D, $0008, $FFF4
-                dc.w    $0C09, $0010, $FFFD
-Offset_0x10065A:
-                dc.w    $0003
-                dc.w    $EC0D, $0000, $FFED
-                dc.w    $FC0D, $0008, $FFF5
-                dc.w    $0C09, $0010, $FFF8
-Offset_0x10066E:
-                dc.w    $0002
-                dc.w    $F007, $0000, $FFEE
-                dc.w    $F00B, $0008, $FFFE
-Offset_0x10067C:
-                dc.w    $0002
-                dc.w    $F007, $0000, $FFEE
-                dc.w    $F00B, $0008, $FFFE
-Offset_0x10068A:
-                dc.w    $0002
-                dc.w    $F007, $0000, $FFEE
-                dc.w    $F00B, $0008, $FFFE
-Offset_0x100698:
-                dc.w    $0002
-                dc.w    $F007, $0000, $FFEE
-                dc.w    $F00B, $0008, $FFFE
-Offset_0x1006A6:
-                dc.w    $0003
-                dc.w    $E901, $0000, $FFF4
-                dc.w    $F907, $0002, $FFEC
-                dc.w    $EC0B, $000A, $FFFC
-Offset_0x1006BA:
-                dc.w    $0002
-                dc.w    $F307, $0000, $FFEC
-                dc.w    $EB0B, $0008, $FFFC
-Offset_0x1006C8:
-                dc.w    $0003
-                dc.w    $E901, $0000, $FFF4
-                dc.w    $F907, $0002, $FFEC
-                dc.w    $EC0B, $000A, $FFFC
-Offset_0x1006DC:
-                dc.w    $0002
-                dc.w    $F307, $0000, $FFEC
-                dc.w    $EB0B, $0008, $FFFC
-Offset_0x1006EA:
-                dc.w    $0001
-                dc.w    $F00F, $0000, $FFF0
-Offset_0x1006F2:
-                dc.w    $0001
-                dc.w    $F00F, $0000, $FFF0
-Offset_0x1006FA:
-                dc.w    $0001
-                dc.w    $F00F, $0000, $FFF0
-Offset_0x100702:
-                dc.w    $0001
-                dc.w    $F00F, $0000, $FFF0
-Offset_0x10070A:
-                dc.w    $0001
-                dc.w    $F00F, $0000, $FFF0
-Offset_0x100712:
-                dc.w    $0001
-                dc.w    $F80F, $0000, $FFF4
-Offset_0x10071A:
-                dc.w    $0001
-                dc.w    $F80F, $0000, $FFF4
-Offset_0x100722:
-                dc.w    $0001
-                dc.w    $F80F, $0000, $FFF4
-Offset_0x10072A:
-                dc.w    $0001
-                dc.w    $F80F, $0000, $FFF4
-Offset_0x100732:
-                dc.w    $0001
-                dc.w    $F80F, $0000, $FFF4
-Offset_0x10073A:
-                dc.w    $0001
-                dc.w    $F80F, $0000, $FFF4
-Offset_0x100742:
-                dc.w    $0003
-                dc.w    $E509, $0000, $FFF3
-                dc.w    $F509, $0006, $FFF3
-                dc.w    $050D, $000C, $FFEB
-Offset_0x100756:
-                dc.w    $0003
-                dc.w    $E409, $0000, $FFF3
-                dc.w    $F409, $0006, $FFF3
-                dc.w    $0409, $000C, $FFF3
-Offset_0x10076A:
-                dc.w    $0003
-                dc.w    $E509, $0000, $FFF3
-                dc.w    $F509, $0006, $FFF3
-                dc.w    $050D, $000C, $FFEB
-Offset_0x10077E:
-                dc.w    $0003
-                dc.w    $E509, $0000, $FFF3
-                dc.w    $F509, $0006, $FFF3
-                dc.w    $0509, $000C, $FFF3
-Offset_0x100792:
-                dc.w    $0001
-                dc.w    $F40B, $0000, $FFF6
-Offset_0x10079A:
-                dc.w    $0001
-                dc.w    $F40F, $0000, $FFF2
-Offset_0x1007A2:
-                dc.w    $0002
-                dc.w    $F801, $0000, $FFEC
-                dc.w    $F00F, $0002, $FFF4
-Offset_0x1007B0:
-                dc.w    $0002
-                dc.w    $F003, $0000, $FFEC
-                dc.w    $F00F, $0004, $FFF4
-Offset_0x1007BE:
-                dc.w    $0003
-                dc.w    $E80F, $0000, $FFE8
-                dc.w    $E801, $0010, $0008
-                dc.w    $F805, $0012, $0008
-Offset_0x1007D2:
-                dc.w    $0003
-                dc.w    $E80F, $0000, $FFE8
-                dc.w    $E801, $0010, $0008
-                dc.w    $F805, $0012, $0008
-Offset_0x1007E6:
-                dc.w    $0002
-                dc.w    $E80B, $0000, $FFF4
-                dc.w    $0809, $000C, $FFF4
-Offset_0x1007F4:
-                dc.w    $0002
-                dc.w    $E80B, $0000, $FFF4
-                dc.w    $0809, $000C, $FFF4
-Offset_0x100802:
-                dc.w    $0003
-                dc.w    $FC05, $0000, $FFEC
-                dc.w    $F40B, $0004, $FFFC
-                dc.w    $F401, $0010, $0014
-Offset_0x100816:
-                dc.w    $0004
-                dc.w    $F401, $0000, $FFE8
-                dc.w    $F407, $0002, $FFF0
-                dc.w    $F407, $0802, $0000
-                dc.w    $F401, $0800, $0010
-Offset_0x100830:
-                dc.w    $0003
-                dc.w    $FC05, $0800, $0004
-                dc.w    $F40B, $0804, $FFEC
-                dc.w    $F401, $0810, $FFE4
-Offset_0x100844:
-                dc.w    $0003
-                dc.w    $F401, $0000, $FFE4
-                dc.w    $F40B, $0002, $FFEC
-                dc.w    $FC01, $000E, $0004
-Offset_0x100858:
-                dc.w    $0003
-                dc.w    $F401, $0800, $0014
-                dc.w    $F40B, $0802, $FFFC
-                dc.w    $FC01, $080E, $FFF4
-Offset_0x10086C:
-                dc.w    $0003
-                dc.w    $FC05, $0000, $FFEC
-                dc.w    $F40B, $0004, $FFFC
-                dc.w    $F401, $0010, $0014
-Offset_0x100880:
-                dc.w    $0003
-                dc.w    $E409, $0000, $FFF4
-                dc.w    $F40F, $0006, $FFEC
-                dc.w    $0401, $0016, $000C
-Offset_0x100894:
-                dc.w    $0002
-                dc.w    $E80B, $0000, $FFF4
-                dc.w    $0805, $000C, $FFFC
-Offset_0x1008A2:
-                dc.w    $0004
-                dc.w    $EA01, $0000, $FFE8
-                dc.w    $EA0B, $0002, $FFF0
-                dc.w    $EA01, $000E, $0008
-                dc.w    $0A0D, $0010, $FFF0
-Offset_0x1008BC:
-                dc.w    $0004
-                dc.w    $EA01, $0000, $FFE8
-                dc.w    $EA0B, $0002, $FFF0
-                dc.w    $EA01, $000E, $0008
-                dc.w    $0A0D, $0010, $FFF0
-Offset_0x1008D6:
-                dc.w    $0003
-                dc.w    $EA0D, $0000, $FFE8
-                dc.w    $EA01, $0008, $0008
-                dc.w    $FA0B, $000A, $FFF0
-Offset_0x1008EA:
-                dc.w    $0003
-                dc.w    $E409, $0000, $FFF0
-                dc.w    $F40B, $0006, $FFF0
-                dc.w    $F401, $0012, $0008
-Offset_0x1008FE:
-                dc.w    $0003
-                dc.w    $E50B, $0000, $FFF0
-                dc.w    $F401, $000C, $0008
-                dc.w    $0505, $000E, $FFF8
-Offset_0x100912:
-                dc.w    $0002
-                dc.w    $EC0B, $0000, $FFF1
-                dc.w    $FC01, $000C, $0009
-Offset_0x100920:
-                dc.w    $0001
-                dc.w    $EE0F, $0000, $FFF0
-Offset_0x100928:
-                dc.w    $0002
-                dc.w    $F20B, $0000, $FFF0
-                dc.w    $FA01, $000C, $0008
-Offset_0x100936:
-                dc.w    $0003
-                dc.w    $E401, $0000, $0000
-                dc.w    $F40B, $0002, $FFF0
-                dc.w    $F401, $000E, $0008
-Offset_0x10094A:
-                dc.w    $0003
-                dc.w    $E509, $0000, $FFF0
-                dc.w    $F50B, $0006, $FFF0
-                dc.w    $ED03, $0012, $0008
-Offset_0x10095E:
-                dc.w    $0003
-                dc.w    $E405, $0000, $FFF8
-                dc.w    $F40B, $0004, $FFF0
-                dc.w    $F401, $0010, $0008
-Offset_0x100972:
-                dc.w    $0002
-                dc.w    $ED0B, $0000, $FFF0
-                dc.w    $F501, $000C, $0008
-Offset_0x100980:
-                dc.w    $0002
-                dc.w    $F401, $0000, $FFF0
-                dc.w    $F10B, $0002, $FFF8
-Offset_0x10098E:
-                dc.w    $0003
-                dc.w    $E405, $0000, $FFF1
-                dc.w    $F40B, $0004, $FFF0
-                dc.w    $F401, $0010, $0008
-Offset_0x1009A2:
-                dc.w    $0002
-                dc.w    $E105, $0000, $FFF0
-                dc.w    $F10F, $0004, $FFF0
-Offset_0x1009B0:
-                dc.w    $0003
-                dc.w    $E807, $0000, $FFF0
-                dc.w    $E003, $0008, $0000
-                dc.w    $0009, $000C, $0000
-Offset_0x1009C4:
-                dc.w    $0003
-                dc.w    $E807, $0000, $FFF0
-                dc.w    $E003, $0008, $0000
-                dc.w    $0009, $000C, $0000
-Offset_0x1009D8:
-                dc.w    $0001
-                dc.w    $F00B, $0000, $FFF5
-Offset_0x1009E0:
-                dc.w    $0003
-                dc.w    $E60B, $0000, $FFF0
-                dc.w    $EE01, $000C, $0008
-                dc.w    $0609, $000E, $FFF0
-Offset_0x1009F4:
-                dc.w    $0003
-                dc.w    $E40A, $0000, $FFF0
-                dc.w    $FC00, $0009, $0008
-                dc.w    $FC0A, $000A, $FFF0
-Offset_0x100A08:
-                dc.w    $0005
-                dc.w    $E408, $0000, $FFF0
-                dc.w    $EC01, $0003, $FFF0
-                dc.w    $EC05, $0005, $FFF8
-                dc.w    $FC0A, $0009, $FFF0
-                dc.w    $FD00, $0012, $0008
-Offset_0x100A28:
-                dc.w    $0005
-                dc.w    $E408, $0000, $FFF0
-                dc.w    $EC01, $0003, $FFF0
-                dc.w    $EC05, $0005, $FFF8
-                dc.w    $FC0A, $0009, $FFF0
-                dc.w    $FD00, $0012, $0008
-Offset_0x100A48:
-                dc.w    $0002
-                dc.w    $E70A, $0000, $FFF1
-                dc.w    $FF0A, $0009, $FFF3
-Offset_0x100A56:
-                dc.w    $0002
-                dc.w    $E70A, $0000, $FFF1
-                dc.w    $FF0A, $0009, $FFF3
-Offset_0x100A64:
-                dc.w    $0002
-                dc.w    $E70A, $0000, $FFF1
-                dc.w    $FF0A, $0009, $FFF3
-Offset_0x100A72:
-                dc.w    $0003
-                dc.w    $E30E, $0000, $FFEE
-                dc.w    $0301, $000C, $FFEC
-                dc.w    $FB0F, $000E, $FFF4
-Offset_0x100A86:
-                dc.w    $0004
-                dc.w    $E40E, $0000, $FFEE
-                dc.w    $0401, $000C, $FFEC
-                dc.w    $FC0B, $000E, $FFF4
-                dc.w    $0401, $001A, $000C
-Offset_0x100AA0:
-                dc.w    $0003
-                dc.w    $E50E, $0000, $FFED
-                dc.w    $FD09, $000C, $FFF4
-                dc.w    $0D05, $0012, $FFF7
-Offset_0x100AB4:
-                dc.w    $0002
-                dc.w    $E40A, $0000, $FFF4
-                dc.w    $FC0F, $0009, $FFEE
-Offset_0x100AC2:
-                dc.w    $0003
-                dc.w    $E30A, $0000, $FFF4
-                dc.w    $FB0F, $0009, $FFEE
-                dc.w    $FB01, $0019, $000E
-Offset_0x100AD6:
-                dc.w    $0004
-                dc.w    $E40A, $0000, $FFF4
-                dc.w    $0401, $0009, $FFEC
-                dc.w    $FC0B, $000B, $FFF4
-                dc.w    $0401, $0017, $000C
-Offset_0x100AF0:
-                dc.w    $0003
-                dc.w    $E50E, $0000, $FFED
-                dc.w    $FD09, $000C, $FFF4
-                dc.w    $0D05, $0012, $FFF7
-Offset_0x100B04:
-                dc.w    $0002
-                dc.w    $E40E, $0000, $FFEE
-                dc.w    $FC0B, $000C, $FFF3
-Offset_0x100B12:
-                dc.w    $0004
-                dc.w    $EB0D, $0000, $FFE2
-                dc.w    $F305, $0008, $0002
-                dc.w    $FB09, $000C, $FFEA
-                dc.w    $0B01, $0012, $FFFA
-Offset_0x100B2C:
-                dc.w    $0005
-                dc.w    $EC0D, $0000, $FFE3
-                dc.w    $EC01, $0008, $0003
-                dc.w    $FC0D, $000A, $FFEB
-                dc.w    $FC05, $0012, $000B
-                dc.w    $0C01, $0016, $FFFB
-Offset_0x100B4C:
-                dc.w    $0005
-                dc.w    $ED0A, $0000, $FFE4
-                dc.w    $ED03, $0009, $FFFC
-                dc.w    $0500, $000D, $FFF4
-                dc.w    $F501, $000E, $0004
-                dc.w    $0505, $0010, $0004
-Offset_0x100B6C:
-                dc.w    $0005
-                dc.w    $E400, $0000, $FFF1
-                dc.w    $EC0D, $0001, $FFE3
-                dc.w    $EC01, $0009, $0003
-                dc.w    $FC05, $000B, $FFEB
-                dc.w    $FC0B, $000F, $FFFB
-Offset_0x100B8C:
-                dc.w    $0006
-                dc.w    $E300, $0000, $FFF0
-                dc.w    $EB0D, $0001, $FFE2
-                dc.w    $EB01, $0009, $0002
-                dc.w    $F301, $000B, $000A
-                dc.w    $FB0D, $000D, $FFEA
-                dc.w    $0B05, $0015, $FFF2
-Offset_0x100BB2:
-                dc.w    $0006
-                dc.w    $E400, $0000, $FFF1
-                dc.w    $EC0D, $0001, $FFE3
-                dc.w    $EC01, $0009, $0003
-                dc.w    $FC0D, $000B, $FFEB
-                dc.w    $FA05, $0013, $000B
-                dc.w    $0C01, $0017, $FFFB
-Offset_0x100BD8:
-                dc.w    $0005
-                dc.w    $ED0A, $0000, $FFE4
-                dc.w    $ED03, $0009, $FFFC
-                dc.w    $0500, $000D, $FFF4
-                dc.w    $F501, $000E, $0004
-                dc.w    $0505, $0010, $0004
-Offset_0x100BF8:
-                dc.w    $0005
-                dc.w    $EC0D, $0000, $FFE3
-                dc.w    $F401, $0008, $0003
-                dc.w    $FC09, $000A, $FFEB
-                dc.w    $0C00, $0010, $FFFB
-                dc.w    $0405, $0011, $0003
-Offset_0x100C18:
-                dc.w    $0003
-                dc.w    $F20B, $0000, $FFE3
-                dc.w    $EC0B, $000C, $FFFB
-                dc.w    $0C05, $0018, $0003
-Offset_0x100C2C:
-                dc.w    $0003
-                dc.w    $F20B, $0000, $FFE4
-                dc.w    $EC0B, $000C, $FFFC
-                dc.w    $0C05, $0018, $0004
-Offset_0x100C40:
-                dc.w    $0003
-                dc.w    $F30B, $0000, $FFE5
-                dc.w    $F403, $000C, $FFFD
-                dc.w    $F905, $0010, $0005
-Offset_0x100C54:
-                dc.w    $0002
-                dc.w    $F40A, $0000, $FFE4
-                dc.w    $F20B, $0009, $FFFC
-Offset_0x100C62:
-                dc.w    $0003
-                dc.w    $F40A, $0000, $FFE3
-                dc.w    $E305, $0009, $FFFB
-                dc.w    $F30B, $000D, $FFFB
-Offset_0x100C76:
-                dc.w    $0003
-                dc.w    $F40A, $0000, $FFE4
-                dc.w    $EC0B, $0009, $FFFC
-                dc.w    $0C05, $0015, $0004
-Offset_0x100C8A:
-                dc.w    $0003
-                dc.w    $F30B, $0000, $FFE5
-                dc.w    $F403, $000C, $FFFD
-                dc.w    $F905, $0010, $0005
-Offset_0x100C9E:
-                dc.w    $0002
-                dc.w    $F40B, $0000, $FFE4
-                dc.w    $F20B, $000C, $FFFC
-Offset_0x100CAC:
-                dc.w    $0004
-                dc.w    $EE05, $0000, $FFF3
-                dc.w    $FE07, $0004, $FFEB
-                dc.w    $FE0D, $000C, $FFFB
-                dc.w    $0E00, $0014, $FFFB
-Offset_0x100CC6:
-                dc.w    $0005
-                dc.w    $DD05, $0000, $FFFC
-                dc.w    $ED09, $0004, $FFF4
-                dc.w    $FD07, $000A, $FFEC
-                dc.w    $FD0D, $0012, $FFFC
-                dc.w    $0D00, $001A, $FFFC
-Offset_0x100CE6:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFF5
-                dc.w    $FC07, $0008, $FFED
-                dc.w    $FC05, $0010, $FFFD
-                dc.w    $0C01, $0014, $FFFD
-Offset_0x100D00:
-                dc.w    $0004
-                dc.w    $ED0D, $0000, $FFF4
-                dc.w    $FD0B, $0008, $FFE4
-                dc.w    $FD09, $0014, $FFFC
-                dc.w    $0D00, $001A, $FFFC
-Offset_0x100D1A:
-                dc.w    $0004
-                dc.w    $EE09, $0000, $FFF3
-                dc.w    $FE0B, $0006, $FFE3
-                dc.w    $FE0D, $0012, $FFFB
-                dc.w    $0E00, $001A, $FFFB
-Offset_0x100D34:
-                dc.w    $0005
-                dc.w    $DD05, $0000, $FFFA
-                dc.w    $ED09, $0004, $FFF4
-                dc.w    $FD0B, $000A, $FFE4
-                dc.w    $FD0D, $0016, $FFFC
-                dc.w    $0D00, $001E, $FFFC
-Offset_0x100D54:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFF5
-                dc.w    $FC07, $0008, $FFED
-                dc.w    $FC05, $0010, $FFFD
-                dc.w    $0C01, $0014, $FFFD
-Offset_0x100D6E:
-                dc.w    $0004
-                dc.w    $ED0D, $0000, $FFF4
-                dc.w    $FD07, $0008, $FFEC
-                dc.w    $FD09, $0010, $FFFC
-                dc.w    $0D00, $0016, $FFFC
-Offset_0x100D88:
-                dc.w    $0003
-                dc.w    $E30E, $0000, $FFEE
-                dc.w    $0301, $000C, $FFEC
-                dc.w    $FB0F, $000E, $FFF4
-Offset_0x100D9C:
-                dc.w    $0004
-                dc.w    $E40E, $0000, $FFEE
-                dc.w    $0401, $000C, $FFEC
-                dc.w    $FC0B, $000E, $FFF4
-                dc.w    $0401, $001A, $000C
-Offset_0x100DB6:
-                dc.w    $0003
-                dc.w    $E50E, $0000, $FFED
-                dc.w    $FD09, $000C, $FFF4
-                dc.w    $0D05, $0012, $FFF7
-Offset_0x100DCA:
-                dc.w    $0002
-                dc.w    $E40A, $0000, $FFF4
-                dc.w    $FC0F, $0009, $FFEE
-Offset_0x100DD8:
-                dc.w    $0003
-                dc.w    $E30A, $0000, $FFF4
-                dc.w    $FB0F, $0009, $FFEE
-                dc.w    $FB01, $0019, $000E
-Offset_0x100DEC:
-                dc.w    $0004
-                dc.w    $E40A, $0000, $FFF4
-                dc.w    $0401, $0009, $FFEC
-                dc.w    $FC0B, $000B, $FFF4
-                dc.w    $0401, $0017, $000C
-Offset_0x100E06:
-                dc.w    $0003
-                dc.w    $E50E, $0000, $FFED
-                dc.w    $FD09, $000C, $FFF4
-                dc.w    $0D05, $0012, $FFF7
-Offset_0x100E1A:
-                dc.w    $0002
-                dc.w    $E40E, $0000, $FFEE
-                dc.w    $FC0B, $000C, $FFF3
-Offset_0x100E28:
-                dc.w    $0005
-                dc.w    $E304, $0000, $FFEA
-                dc.w    $EB0D, $0002, $FFE2
-                dc.w    $FB09, $000A, $FFEA
-                dc.w    $F305, $0010, $0002
-                dc.w    $0B01, $0014, $FFFA
-Offset_0x100E48:
-                dc.w    $0006
-                dc.w    $E404, $0000, $FFEB
-                dc.w    $EC0D, $0002, $FFE3
-                dc.w    $EC01, $000A, $0003
-                dc.w    $FC0D, $000C, $FFEB
-                dc.w    $FC05, $0014, $000B
-                dc.w    $0C01, $0018, $FFFB
-Offset_0x100E6E:
-                dc.w    $0005
-                dc.w    $EB09, $0000, $FFE4
-                dc.w    $FB05, $0006, $FFEC
-                dc.w    $ED03, $000A, $FFFC
-                dc.w    $F501, $000E, $0004
-                dc.w    $0505, $0010, $0004
-Offset_0x100E8E:
-                dc.w    $0005
-                dc.w    $E404, $0000, $FFEB
-                dc.w    $EC0D, $0002, $FFE3
-                dc.w    $EC01, $000A, $0003
-                dc.w    $FC05, $000C, $FFEB
-                dc.w    $FC0B, $0010, $FFFB
-Offset_0x100EAE:
-                dc.w    $0006
-                dc.w    $E304, $0000, $FFEA
-                dc.w    $EB0D, $0002, $FFE2
-                dc.w    $EB01, $000A, $0002
-                dc.w    $F301, $000C, $000A
-                dc.w    $FB0D, $000E, $FFEA
-                dc.w    $0B05, $0016, $FFF2
-Offset_0x100ED4:
-                dc.w    $0006
-                dc.w    $E404, $0000, $FFEB
-                dc.w    $EC0D, $0002, $FFE3
-                dc.w    $EC01, $000A, $0003
-                dc.w    $FC0D, $000C, $FFEB
-                dc.w    $FA05, $0014, $000B
-                dc.w    $0C01, $0018, $FFFB
-Offset_0x100EFA:
-                dc.w    $0005
-                dc.w    $EB09, $0000, $FFE4
-                dc.w    $FB05, $0006, $FFEC
-                dc.w    $ED03, $000A, $FFFC
-                dc.w    $F501, $000E, $0004
-                dc.w    $0505, $0010, $0004
-Offset_0x100F1A:
-                dc.w    $0006
-                dc.w    $E404, $0000, $FFEB
-                dc.w    $EC0D, $0002, $FFE3
-                dc.w    $FC09, $000A, $FFEB
-                dc.w    $F401, $0010, $0003
-                dc.w    $0405, $0012, $0003
-                dc.w    $0C01, $0016, $FFFB
-Offset_0x100F40:
-                dc.w    $0003
-                dc.w    $F20B, $0000, $FFE3
-                dc.w    $EC0B, $000C, $FFFB
-                dc.w    $0C05, $0018, $0003
-Offset_0x100F54:
-                dc.w    $0003
-                dc.w    $F20B, $0000, $FFE4
-                dc.w    $EC0B, $000C, $FFFC
-                dc.w    $0C05, $0018, $0004
-Offset_0x100F68:
-                dc.w    $0003
-                dc.w    $F30B, $0000, $FFE5
-                dc.w    $F403, $000C, $FFFD
-                dc.w    $F905, $0010, $0005
-Offset_0x100F7C:
-                dc.w    $0002
-                dc.w    $F40A, $0000, $FFE4
-                dc.w    $F20B, $0009, $FFFC
-Offset_0x100F8A:
-                dc.w    $0003
-                dc.w    $F40A, $0000, $FFE3
-                dc.w    $E305, $0009, $FFFB
-                dc.w    $F30B, $000D, $FFFB
-Offset_0x100F9E:
-                dc.w    $0003
-                dc.w    $F40A, $0000, $FFE4
-                dc.w    $EC0B, $0009, $FFFC
-                dc.w    $0C05, $0015, $0004
-Offset_0x100FB2:
-                dc.w    $0003
-                dc.w    $F30B, $0000, $FFE5
-                dc.w    $F403, $000C, $FFFD
-                dc.w    $F905, $0010, $0005
-Offset_0x100FC6:
-                dc.w    $0002
-                dc.w    $F20B, $0000, $FFE4
-                dc.w    $F40B, $000C, $FFFC
-Offset_0x100FD4:
-                dc.w    $0004
-                dc.w    $EE05, $0000, $FFF3
-                dc.w    $FE0B, $0004, $FFE3
-                dc.w    $FE0D, $0010, $FFFB
-                dc.w    $0E00, $0018, $FFFB
-Offset_0x100FEE:
-                dc.w    $0005
-                dc.w    $DD05, $0000, $FFFC
-                dc.w    $ED09, $0004, $FFF4
-                dc.w    $FD0B, $000A, $FFE4
-                dc.w    $FD0D, $0016, $FFFC
-                dc.w    $0D00, $001E, $FFFC
-Offset_0x10100E:
-                dc.w    $0005
-                dc.w    $EC0D, $0000, $FFF5
-                dc.w    $0401, $0008, $FFE5
-                dc.w    $FC07, $000A, $FFED
-                dc.w    $FC05, $0012, $FFFD
-                dc.w    $0C00, $0016, $FFFD
-Offset_0x10102E:
-                dc.w    $0004
-                dc.w    $ED0D, $0000, $FFF4
-                dc.w    $FD0B, $0008, $FFE4
-                dc.w    $FD09, $0014, $FFFC
-                dc.w    $0D00, $001A, $FFFC
-Offset_0x101048:
-                dc.w    $0004
-                dc.w    $EE09, $0000, $FFF3
-                dc.w    $FE0B, $0006, $FFE3
-                dc.w    $FE0D, $0012, $FFFB
-                dc.w    $0E00, $001A, $FFFB
-Offset_0x101062:
-                dc.w    $0005
-                dc.w    $DD05, $0000, $FFFA
-                dc.w    $ED09, $0004, $FFF4
-                dc.w    $FD0B, $000A, $FFE4
-                dc.w    $FD0D, $0016, $FFFC
-                dc.w    $0D00, $001E, $FFFC
-Offset_0x101082:
-                dc.w    $0005
-                dc.w    $EC0D, $0000, $FFF5
-                dc.w    $0401, $0008, $FFE5
-                dc.w    $FC07, $000A, $FFED
-                dc.w    $FC05, $0012, $FFFD
-                dc.w    $0C00, $0016, $FFFD
-Offset_0x1010A2:
-                dc.w    $0005
-                dc.w    $ED0D, $0000, $FFF4
-                dc.w    $0501, $0008, $FFE4
-                dc.w    $FD07, $000A, $FFEC
-                dc.w    $FD09, $0012, $FFFC
-                dc.w    $0D00, $0018, $FFFC
-Offset_0x1010C2:
-                dc.w    $0004
-                dc.w    $F008, $0000, $FFFC
-                dc.w    $F800, $0003, $FFFC
-                dc.w    $F805, $0004, $0004
-                dc.w    $0009, $0008, $FFEC
-Offset_0x1010DC:
-                dc.w    $0004
-                dc.w    $E604, $0000, $FFFA
-                dc.w    $EE0B, $0002, $FFF2
-                dc.w    $EE02, $000E, $000A
-                dc.w    $0E04, $0011, $FFFA
-Offset_0x1010F6:
-                dc.w    $0004
-                dc.w    $EC02, $0000, $FFF0
-                dc.w    $EC05, $0003, $FFF8
-                dc.w    $FC08, $0007, $FFF8
-                dc.w    $0405, $000A, $0000
-Offset_0x101110:
-                dc.w    $0005
-                dc.w    $EE08, $0000, $FFEE
-                dc.w    $F60D, $0003, $FFE6
-                dc.w    $F605, $000B, $0006
-                dc.w    $0604, $000F, $FFEE
-                dc.w    $0600, $0011, $0006
-Offset_0x101130:
-                dc.w    $0004
-                dc.w    $E809, $0000, $FFFC
-                dc.w    $F800, $0006, $FFFC
-                dc.w    $F805, $0007, $0004
-                dc.w    $0009, $000B, $FFEC
-Offset_0x10114A:
-                dc.w    $0004
-                dc.w    $E604, $0000, $FFFA
-                dc.w    $EE0B, $0002, $FFF2
-                dc.w    $EE02, $000E, $000A
-                dc.w    $0E00, $0011, $FFFA
-Offset_0x101164:
-                dc.w    $0004
-                dc.w    $EC06, $0000, $FFE8
-                dc.w    $EC05, $0006, $FFF8
-                dc.w    $FC00, $000A, $FFF8
-                dc.w    $FC06, $000B, $0000
-Offset_0x10117E:
-                dc.w    $0005
-                dc.w    $EE08, $0000, $FFEE
-                dc.w    $F60D, $0003, $FFE6
-                dc.w    $F605, $000B, $0006
-                dc.w    $0604, $000F, $FFEE
-                dc.w    $0600, $0011, $0006
-Offset_0x10119E:
-                dc.w    $0004
-                dc.w    $E509, $0000, $FFEE
-                dc.w    $F505, $0006, $FFEB
-                dc.w    $F505, $000A, $FFFB
-                dc.w    $050D, $000E, $FFEB
-Offset_0x1011B8:
-                dc.w    $0004
-                dc.w    $E409, $0000, $FFEE
-                dc.w    $F405, $0006, $FFEB
-                dc.w    $F405, $000A, $FFFB
-                dc.w    $040D, $000E, $FFEB
-Offset_0x1011D2:
-                dc.w    $0004
-                dc.w    $E509, $0000, $FFEE
-                dc.w    $F505, $0006, $FFEB
-                dc.w    $F505, $000A, $FFFB
-                dc.w    $050D, $000E, $FFEB
-Offset_0x1011EC:
-                dc.w    $0004
-                dc.w    $E409, $0000, $FFEE
-                dc.w    $F405, $0006, $FFEB
-                dc.w    $F405, $000A, $FFFB
-                dc.w    $040D, $000E, $FFEB
-Offset_0x101206:
-                dc.w    $0002
-                dc.w    $FC02, $0000, $FFF0
-                dc.w    $F40B, $0003, $FFF8
-Offset_0x101214:
-                dc.w    $0003
-                dc.w    $E40A, $0000, $FFEC
-                dc.w    $FC08, $0009, $FFEC
-                dc.w    $0405, $000C, $FFF1
-Offset_0x101228:
-                dc.w    $0003
-                dc.w    $E40A, $0000, $FFEC
-                dc.w    $FC08, $0009, $FFEC
-                dc.w    $0405, $000C, $FFF1
-Offset_0x10123C:
-                dc.w    $0003
-                dc.w    $E40A, $0000, $FFEC
-                dc.w    $FC08, $0009, $FFEC
-                dc.w    $0405, $000C, $FFF1
-Offset_0x101250:
-                dc.w    $0003
-                dc.w    $E50A, $0000, $FFED
-                dc.w    $FD08, $0009, $FFED
-                dc.w    $0505, $000C, $FFF1
-Offset_0x101264:
-                dc.w    $0003
-                dc.w    $E50A, $0000, $FFED
-                dc.w    $FD08, $0009, $FFED
-                dc.w    $0505, $000C, $FFF1
-Offset_0x101278:
-                dc.w    $0003
-                dc.w    $E50A, $0000, $FFED
-                dc.w    $FD08, $0009, $FFED
-                dc.w    $0505, $000C, $FFF1
-Offset_0x10128C:
-                dc.w    $0003
-                dc.w    $EC0B, $0000, $FFF0
-                dc.w    $EC03, $000C, $0008
-                dc.w    $0C05, $0010, $FFF1
-Offset_0x1012A0:
-                dc.w    $0003
-                dc.w    $EC0B, $0000, $FFF0
-                dc.w    $EC03, $000C, $0008
-                dc.w    $0C05, $0010, $FFF1
-Offset_0x1012B4:
-                dc.w    $0003
-                dc.w    $EC0B, $0000, $FFF0
-                dc.w    $EC03, $000C, $0008
-                dc.w    $0C05, $0010, $FFF1
-Offset_0x1012C8:
-                dc.w    $0005
-                dc.w    $EC0B, $0000, $FFF0
-                dc.w    $EC01, $000C, $0008
-                dc.w    $EC01, $000E, $0010
-                dc.w    $FC01, $0010, $0008
-                dc.w    $0C05, $0012, $FFF1
-Offset_0x1012E8:
-                dc.w    $0004
-                dc.w    $EC07, $0000, $FFEB
-                dc.w    $EC09, $0008, $FFFB
-                dc.w    $FC05, $000E, $FFFB
-                dc.w    $0C09, $0012, $FFEE
-Offset_0x101302:
-                dc.w    $0004
-                dc.w    $EC07, $0000, $FFEC
-                dc.w    $EC09, $0008, $FFFC
-                dc.w    $FC05, $000E, $FFFC
-                dc.w    $0C09, $0012, $FFEF
-Offset_0x10131C:
-                dc.w    $0004
-                dc.w    $EC07, $0000, $FFEC
-                dc.w    $EC09, $0008, $FFFC
-                dc.w    $FC09, $000E, $FFFC
-                dc.w    $0C09, $0014, $FFF0
-Offset_0x101336:
-                dc.w    $0003
-                dc.w    $F403, $0000, $FFE8
-                dc.w    $EC0B, $0004, $FFF0
-                dc.w    $0C05, $0010, $FFF0
-Offset_0x10134A:
-                dc.w    $0003
-                dc.w    $F403, $0800, $000C
-                dc.w    $EC0B, $0804, $FFF4
-                dc.w    $0C05, $0810, $FFFC
-Offset_0x10135E:
-                dc.w    $0003
-                dc.w    $F403, $0800, $000C
-                dc.w    $EC0B, $0804, $FFF4
-                dc.w    $0C05, $0810, $FFFC
-Offset_0x101372:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFED
-                dc.w    $FC0D, $0008, $FFEF
-                dc.w    $FC01, $0010, $000F
-                dc.w    $0C05, $0012, $0001
-Offset_0x10138C:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFEE
-                dc.w    $FC0D, $0008, $FFEF
-                dc.w    $FC01, $0010, $000F
-                dc.w    $0C05, $0012, $0001
-Offset_0x1013A6:
-                dc.w    $0004
-                dc.w    $EC0D, $0000, $FFEF
-                dc.w    $FC0D, $0008, $FFEF
-                dc.w    $FC01, $0010, $000F
-                dc.w    $0C05, $0012, $0001
-Offset_0x1013C0:
-                dc.w    $0002
-                dc.w    $EC09, $0000, $FFF4
-                dc.w    $FC0B, $0006, $FFF7
-Offset_0x1013CE:
-                dc.w    $0002
-                dc.w    $E80B, $0000, $FFF3
-                dc.w    $0808, $000C, $FFFB
-Offset_0x1013DC:
-                dc.w    $0004
-                dc.w    $E804, $0000, $FFF0
-                dc.w    $F00C, $0002, $FFF0
-                dc.w    $F809, $0006, $FFF0
-                dc.w    $0804, $000C, $FFF8
-Offset_0x1013F6:
-                dc.w    $0003
-                dc.w    $E800, $0000, $FFF8
-                dc.w    $F00D, $0001, $FFE8
-                dc.w    $0008, $0009, $FFF0
-Offset_0x10140A:
-                dc.w    $0003
-                dc.w    $EF00, $0000, $FFFB
-                dc.w    $F70D, $0001, $FFEB
-                dc.w    $0708, $0009, $FFEB
-Offset_0x10141E:
-                dc.w    $0002
-                dc.w    $F10B, $0000, $FFF6
-                dc.w    $F906, $000C, $FFE6
-Offset_0x10142C:
-                dc.w    $0003
-                dc.w    $EF00, $0000, $FFFA
-                dc.w    $F70A, $0001, $FFEA
-                dc.w    $F705, $000A, $0002
-Offset_0x101440:
-                dc.w    $0003
-                dc.w    $F004, $0000, $FFF8
-                dc.w    $F80A, $0002, $FFF0
-                dc.w    $0800, $000B, $0008
-Offset_0x101454:
-                dc.w    $0003
-                dc.w    $F009, $0000, $FFF8
-                dc.w    $000C, $0006, $FFF0
-                dc.w    $0804, $000A, $0000
-Offset_0x101468:
-                dc.w    $0002
-                dc.w    $EF00, $0000, $FFFC
-                dc.w    $F70E, $0001, $FFEC
-Offset_0x101476:
-                dc.w    $0004
-                dc.w    $EE04, $0000, $FFF4
-                dc.w    $F600, $0002, $FFEC
-                dc.w    $F60E, $0003, $FFF4
-                dc.w    $0600, $000F, $FFEC
-Offset_0x101490:
-                dc.w    $0003
-                dc.w    $F004, $0000, $0001
-                dc.w    $F80A, $0002, $FFF1
-                dc.w    $F806, $000B, $0009
-Offset_0x1014A4:
-                dc.w    $0003
-                dc.w    $F004, $0000, $FFFB
-                dc.w    $F80D, $0002, $FFF3
-                dc.w    $0808, $000A, $FFFB
-Offset_0x1014B8:
-                dc.w    $0002
-                dc.w    $F000, $0000, $FFF5
-                dc.w    $F80A, $0001, $FFF5
-Offset_0x1014C6:
-                dc.w    $0003
-                dc.w    $F008, $0000, $FFF2
-                dc.w    $F80D, $0003, $FFF2
-                dc.w    $0808, $000B, $FFF2
-Offset_0x1014DA:
-                dc.w    $0001
-                dc.w    $F50E, $0000, $FFEE
-Offset_0x1014E2:
-                dc.w    $0003
-                dc.w    $E60C, $0000, $FFF0
-                dc.w    $EE0A, $0004, $FFF0
-                dc.w    $0609, $000D, $FFF8
-Offset_0x1014F6:
-                dc.w    $0005
-                dc.w    $E604, $0000, $FFE8
-                dc.w    $EE0A, $0002, $FFE8
-                dc.w    $F600, $000B, $0000
-                dc.w    $FE09, $000C, $0000
-                dc.w    $0604, $0012, $FFF0
-Offset_0x101516:
-                dc.w    $0003
-                dc.w    $F100, $0000, $FFE6
-                dc.w    $F90E, $0001, $FFE6
-                dc.w    $F106, $000D, $0006
-Offset_0x10152A:
-                dc.w    $0005
-                dc.w    $E905, $0000, $FFFE
-                dc.w    $F90A, $0004, $FFF6
-                dc.w    $0100, $000D, $FFEE
-                dc.w    $0905, $000E, $FFE6
-                dc.w    $1104, $0012, $FFF6
-Offset_0x10154A:
-                dc.w    $0003
-                dc.w    $EB09, $1800, $FFF1
-                dc.w    $FB0A, $1806, $FFF9
-                dc.w    $130C, $180F, $FFF1
-Offset_0x10155E:
-                dc.w    $0005
-                dc.w    $F305, $1800, $FFE9
-                dc.w    $F30A, $0004, $FFF9
-                dc.w    $FB01, $180D, $0011
-                dc.w    $0B00, $180F, $0001
-                dc.w    $0B05, $0010, $0009
-Offset_0x10157E:
-                dc.w    $0003
-                dc.w    $F806, $1800, $FFEB
-                dc.w    $F00A, $1806, $FFFB
-                dc.w    $F003, $180F, $0013
-Offset_0x101592:
-                dc.w    $0005
-                dc.w    $E80D, $0000, $FFFB
-                dc.w    $F000, $1808, $FFF3
-                dc.w    $F80C, $0009, $FFF3
-                dc.w    $0008, $000D, $FFF3
-                dc.w    $0805, $1810, $FFF3
-Offset_0x1015B2:
-                dc.w    $0005
-                dc.w    $E80A, $0000, $FFF0
-                dc.w    $F001, $0009, $FFE8
-                dc.w    $0009, $000B, $FFE0
-                dc.w    $0000, $0011, $FFF8
-                dc.w    $1000, $0012, $FFE8
-Offset_0x1015D2:
-                dc.w    $0005
-                dc.w    $E80A, $0000, $FFF0
-                dc.w    $F001, $0009, $FFE8
-                dc.w    $0005, $000B, $FFF0
-                dc.w    $0800, $000F, $FFE8
-                dc.w    $1004, $0010, $FFE8
-Offset_0x1015F2:
-                dc.w    $0002
-                dc.w    $E80B, $0000, $FFF0
-                dc.w    $080A, $000C, $FFF0
-Offset_0x101600:
-                dc.w    $0002
-                dc.w    $E80A, $0000, $FFF8
-                dc.w    $0007, $0009, $0000
-Offset_0x10160E:
-                dc.w    $0003
-                dc.w    $E80D, $0000, $FFF8
-                dc.w    $F809, $0008, $0000
-                dc.w    $0809, $000E, $0008
-;===============================================================================
-; Mapeamento dos Sprites do Sonic      
-; <<<-
-;===============================================================================
-                  
-;===============================================================================
-; Script para carga dos Sprites do Sonic      
-; ->>>
-;===============================================================================
-Sonic_Dyn_Script:                                              ; Offset_0x101622
-                dc.w    Offset_0x101806-Sonic_Dyn_Script
-                dc.w    Offset_0x101808-Sonic_Dyn_Script
-                dc.w    Offset_0x101812-Sonic_Dyn_Script
-                dc.w    Offset_0x101818-Sonic_Dyn_Script
-                dc.w    Offset_0x101822-Sonic_Dyn_Script
-                dc.w    Offset_0x10182C-Sonic_Dyn_Script
-                dc.w    Offset_0x101838-Sonic_Dyn_Script
-                dc.w    Offset_0x101840-Sonic_Dyn_Script
-                dc.w    Offset_0x101846-Sonic_Dyn_Script
-                dc.w    Offset_0x10184C-Sonic_Dyn_Script
-                dc.w    Offset_0x101852-Sonic_Dyn_Script
-                dc.w    Offset_0x101858-Sonic_Dyn_Script
-                dc.w    Offset_0x101862-Sonic_Dyn_Script
-                dc.w    Offset_0x10186C-Sonic_Dyn_Script
-                dc.w    Offset_0x101874-Sonic_Dyn_Script
-                dc.w    Offset_0x10187E-Sonic_Dyn_Script
-                dc.w    Offset_0x101886-Sonic_Dyn_Script
-                dc.w    Offset_0x10188C-Sonic_Dyn_Script
-                dc.w    Offset_0x101894-Sonic_Dyn_Script
-                dc.w    Offset_0x10189E-Sonic_Dyn_Script
-                dc.w    Offset_0x1018A6-Sonic_Dyn_Script
-                dc.w    Offset_0x1018AC-Sonic_Dyn_Script
-                dc.w    Offset_0x1018B6-Sonic_Dyn_Script
-                dc.w    Offset_0x1018C2-Sonic_Dyn_Script
-                dc.w    Offset_0x1018CC-Sonic_Dyn_Script
-                dc.w    Offset_0x1018D6-Sonic_Dyn_Script
-                dc.w    Offset_0x1018E2-Sonic_Dyn_Script
-                dc.w    Offset_0x1018EE-Sonic_Dyn_Script
-                dc.w    Offset_0x1018F8-Sonic_Dyn_Script
-                dc.w    Offset_0x101904-Sonic_Dyn_Script
-                dc.w    Offset_0x10190C-Sonic_Dyn_Script
-                dc.w    Offset_0x101914-Sonic_Dyn_Script
-                dc.w    Offset_0x10191C-Sonic_Dyn_Script
-                dc.w    Offset_0x101922-Sonic_Dyn_Script
-                dc.w    Offset_0x10192A-Sonic_Dyn_Script
-                dc.w    Offset_0x101932-Sonic_Dyn_Script
-                dc.w    Offset_0x10193A-Sonic_Dyn_Script
-                dc.w    Offset_0x101940-Sonic_Dyn_Script
-                dc.w    Offset_0x10194A-Sonic_Dyn_Script
-                dc.w    Offset_0x101956-Sonic_Dyn_Script
-                dc.w    Offset_0x101960-Sonic_Dyn_Script
-                dc.w    Offset_0x10196A-Sonic_Dyn_Script
-                dc.w    Offset_0x101974-Sonic_Dyn_Script
-                dc.w    Offset_0x101980-Sonic_Dyn_Script
-                dc.w    Offset_0x10198A-Sonic_Dyn_Script
-                dc.w    Offset_0x101994-Sonic_Dyn_Script
-                dc.w    Offset_0x10199A-Sonic_Dyn_Script
-                dc.w    Offset_0x1019A0-Sonic_Dyn_Script
-                dc.w    Offset_0x1019A6-Sonic_Dyn_Script
-                dc.w    Offset_0x1019AC-Sonic_Dyn_Script
-                dc.w    Offset_0x1019B6-Sonic_Dyn_Script
-                dc.w    Offset_0x1019BE-Sonic_Dyn_Script
-                dc.w    Offset_0x1019C8-Sonic_Dyn_Script
-                dc.w    Offset_0x1019D0-Sonic_Dyn_Script
-                dc.w    Offset_0x1019D6-Sonic_Dyn_Script
-                dc.w    Offset_0x1019DC-Sonic_Dyn_Script
-                dc.w    Offset_0x1019E2-Sonic_Dyn_Script
-                dc.w    Offset_0x1019E8-Sonic_Dyn_Script
-                dc.w    Offset_0x1019F0-Sonic_Dyn_Script
-                dc.w    Offset_0x1019F6-Sonic_Dyn_Script
-                dc.w    Offset_0x1019FE-Sonic_Dyn_Script
-                dc.w    Offset_0x101A04-Sonic_Dyn_Script
-                dc.w    Offset_0x101A08-Sonic_Dyn_Script
-                dc.w    Offset_0x101A0C-Sonic_Dyn_Script
-                dc.w    Offset_0x101A10-Sonic_Dyn_Script
-                dc.w    Offset_0x101A14-Sonic_Dyn_Script
-                dc.w    Offset_0x101A18-Sonic_Dyn_Script
-                dc.w    Offset_0x101A1C-Sonic_Dyn_Script
-                dc.w    Offset_0x101A20-Sonic_Dyn_Script
-                dc.w    Offset_0x101A24-Sonic_Dyn_Script
-                dc.w    Offset_0x101A28-Sonic_Dyn_Script
-                dc.w    Offset_0x101A2C-Sonic_Dyn_Script
-                dc.w    Offset_0x101A30-Sonic_Dyn_Script
-                dc.w    Offset_0x101A38-Sonic_Dyn_Script
-                dc.w    Offset_0x101A40-Sonic_Dyn_Script
-                dc.w    Offset_0x101A48-Sonic_Dyn_Script
-                dc.w    Offset_0x101A50-Sonic_Dyn_Script
-                dc.w    Offset_0x101A54-Sonic_Dyn_Script
-                dc.w    Offset_0x101A58-Sonic_Dyn_Script
-                dc.w    Offset_0x101A5E-Sonic_Dyn_Script
-                dc.w    Offset_0x101A64-Sonic_Dyn_Script
-                dc.w    Offset_0x101A6C-Sonic_Dyn_Script
-                dc.w    Offset_0x101A74-Sonic_Dyn_Script
-                dc.w    Offset_0x101A7A-Sonic_Dyn_Script
-                dc.w    Offset_0x101A80-Sonic_Dyn_Script
-                dc.w    Offset_0x101A88-Sonic_Dyn_Script
-                dc.w    Offset_0x101A80-Sonic_Dyn_Script
-                dc.w    Offset_0x101A8E-Sonic_Dyn_Script
-                dc.w    Offset_0x101A8E-Sonic_Dyn_Script
-                dc.w    Offset_0x101A96-Sonic_Dyn_Script
-                dc.w    Offset_0x101A9E-Sonic_Dyn_Script
-                dc.w    Offset_0x101AA6-Sonic_Dyn_Script
-                dc.w    Offset_0x101AAC-Sonic_Dyn_Script
-                dc.w    Offset_0x101AB6-Sonic_Dyn_Script
-                dc.w    Offset_0x101AC0-Sonic_Dyn_Script
-                dc.w    Offset_0x101AC8-Sonic_Dyn_Script
-                dc.w    Offset_0x101AD0-Sonic_Dyn_Script
-                dc.w    Offset_0x101AD8-Sonic_Dyn_Script
-                dc.w    Offset_0x101ADE-Sonic_Dyn_Script
-                dc.w    Offset_0x101AE2-Sonic_Dyn_Script
-                dc.w    Offset_0x101AE8-Sonic_Dyn_Script
-                dc.w    Offset_0x101AF0-Sonic_Dyn_Script
-                dc.w    Offset_0x101AF8-Sonic_Dyn_Script
-                dc.w    Offset_0x101B00-Sonic_Dyn_Script
-                dc.w    Offset_0x101B06-Sonic_Dyn_Script
-                dc.w    Offset_0x101B0C-Sonic_Dyn_Script
-                dc.w    Offset_0x101B14-Sonic_Dyn_Script
-                dc.w    Offset_0x101B1A-Sonic_Dyn_Script
-                dc.w    Offset_0x101B22-Sonic_Dyn_Script
-                dc.w    Offset_0x101B2A-Sonic_Dyn_Script
-                dc.w    Offset_0x101B2E-Sonic_Dyn_Script
-                dc.w    Offset_0x101B36-Sonic_Dyn_Script
-                dc.w    Offset_0x101B3E-Sonic_Dyn_Script
-                dc.w    Offset_0x101B4A-Sonic_Dyn_Script
-                dc.w    Offset_0x101B56-Sonic_Dyn_Script
-                dc.w    Offset_0x101B5C-Sonic_Dyn_Script
-                dc.w    Offset_0x101B62-Sonic_Dyn_Script
-                dc.w    Offset_0x101B68-Sonic_Dyn_Script
-                dc.w    Offset_0x101B70-Sonic_Dyn_Script
-                dc.w    Offset_0x101B7A-Sonic_Dyn_Script
-                dc.w    Offset_0x101B82-Sonic_Dyn_Script
-                dc.w    Offset_0x101B88-Sonic_Dyn_Script
-                dc.w    Offset_0x101B90-Sonic_Dyn_Script
-                dc.w    Offset_0x101B9A-Sonic_Dyn_Script
-                dc.w    Offset_0x101BA2-Sonic_Dyn_Script
-                dc.w    Offset_0x101BA8-Sonic_Dyn_Script
-                dc.w    Offset_0x101BB2-Sonic_Dyn_Script
-                dc.w    Offset_0x101BBE-Sonic_Dyn_Script
-                dc.w    Offset_0x101BCA-Sonic_Dyn_Script
-                dc.w    Offset_0x101BD6-Sonic_Dyn_Script
-                dc.w    Offset_0x101BE4-Sonic_Dyn_Script
-                dc.w    Offset_0x101BF2-Sonic_Dyn_Script
-                dc.w    Offset_0x101BFE-Sonic_Dyn_Script
-                dc.w    Offset_0x101C0A-Sonic_Dyn_Script
-                dc.w    Offset_0x101C12-Sonic_Dyn_Script
-                dc.w    Offset_0x101C1A-Sonic_Dyn_Script
-                dc.w    Offset_0x101C22-Sonic_Dyn_Script
-                dc.w    Offset_0x101C28-Sonic_Dyn_Script
-                dc.w    Offset_0x101C30-Sonic_Dyn_Script
-                dc.w    Offset_0x101C38-Sonic_Dyn_Script
-                dc.w    Offset_0x101C40-Sonic_Dyn_Script
-                dc.w    Offset_0x101C46-Sonic_Dyn_Script
-                dc.w    Offset_0x101C50-Sonic_Dyn_Script
-                dc.w    Offset_0x101C5C-Sonic_Dyn_Script
-                dc.w    Offset_0x101C66-Sonic_Dyn_Script
-                dc.w    Offset_0x101C70-Sonic_Dyn_Script
-                dc.w    Offset_0x101C7A-Sonic_Dyn_Script
-                dc.w    Offset_0x101C86-Sonic_Dyn_Script
-                dc.w    Offset_0x101C90-Sonic_Dyn_Script
-                dc.w    Offset_0x101C9A-Sonic_Dyn_Script
-                dc.w    Offset_0x101CA2-Sonic_Dyn_Script
-                dc.w    Offset_0x101CAC-Sonic_Dyn_Script
-                dc.w    Offset_0x101CB4-Sonic_Dyn_Script
-                dc.w    Offset_0x101CBA-Sonic_Dyn_Script
-                dc.w    Offset_0x101CC2-Sonic_Dyn_Script
-                dc.w    Offset_0x101CCC-Sonic_Dyn_Script
-                dc.w    Offset_0x101CD4-Sonic_Dyn_Script
-                dc.w    Offset_0x101CDA-Sonic_Dyn_Script
-                dc.w    Offset_0x101CE6-Sonic_Dyn_Script
-                dc.w    Offset_0x101CF4-Sonic_Dyn_Script
-                dc.w    Offset_0x101D00-Sonic_Dyn_Script
-                dc.w    Offset_0x101D0C-Sonic_Dyn_Script
-                dc.w    Offset_0x101D1A-Sonic_Dyn_Script
-                dc.w    Offset_0x101D28-Sonic_Dyn_Script
-                dc.w    Offset_0x101D34-Sonic_Dyn_Script
-                dc.w    Offset_0x101D42-Sonic_Dyn_Script
-                dc.w    Offset_0x101D4A-Sonic_Dyn_Script
-                dc.w    Offset_0x101D52-Sonic_Dyn_Script
-                dc.w    Offset_0x101D5A-Sonic_Dyn_Script
-                dc.w    Offset_0x101D60-Sonic_Dyn_Script
-                dc.w    Offset_0x101D68-Sonic_Dyn_Script
-                dc.w    Offset_0x101D70-Sonic_Dyn_Script
-                dc.w    Offset_0x101D78-Sonic_Dyn_Script
-                dc.w    Offset_0x101D7E-Sonic_Dyn_Script
-                dc.w    Offset_0x101D88-Sonic_Dyn_Script
-                dc.w    Offset_0x101D94-Sonic_Dyn_Script
-                dc.w    Offset_0x101DA0-Sonic_Dyn_Script
-                dc.w    Offset_0x101DAA-Sonic_Dyn_Script
-                dc.w    Offset_0x101DB4-Sonic_Dyn_Script
-                dc.w    Offset_0x101DC0-Sonic_Dyn_Script
-                dc.w    Offset_0x101DCC-Sonic_Dyn_Script
-                dc.w    Offset_0x101DD8-Sonic_Dyn_Script
-                dc.w    Offset_0x101DE2-Sonic_Dyn_Script
-                dc.w    Offset_0x101DEC-Sonic_Dyn_Script
-                dc.w    Offset_0x101DF6-Sonic_Dyn_Script
-                dc.w    Offset_0x101E02-Sonic_Dyn_Script
-                dc.w    Offset_0x101E0C-Sonic_Dyn_Script
-                dc.w    Offset_0x101E16-Sonic_Dyn_Script
-                dc.w    Offset_0x101E20-Sonic_Dyn_Script
-                dc.w    Offset_0x101E2C-Sonic_Dyn_Script
-                dc.w    Offset_0x101E36-Sonic_Dyn_Script
-                dc.w    Offset_0x101E40-Sonic_Dyn_Script
-                dc.w    Offset_0x101E4A-Sonic_Dyn_Script
-                dc.w    Offset_0x101E54-Sonic_Dyn_Script
-                dc.w    Offset_0x101E5A-Sonic_Dyn_Script
-                dc.w    Offset_0x101E62-Sonic_Dyn_Script
-                dc.w    Offset_0x101E6A-Sonic_Dyn_Script
-                dc.w    Offset_0x101E72-Sonic_Dyn_Script
-                dc.w    Offset_0x101E7A-Sonic_Dyn_Script
-                dc.w    Offset_0x101E82-Sonic_Dyn_Script
-                dc.w    Offset_0x101E8A-Sonic_Dyn_Script
-                dc.w    Offset_0x101E92-Sonic_Dyn_Script
-                dc.w    Offset_0x101E9A-Sonic_Dyn_Script
-                dc.w    Offset_0x101EA2-Sonic_Dyn_Script
-                dc.w    Offset_0x101EAE-Sonic_Dyn_Script
-                dc.w    Offset_0x101EB8-Sonic_Dyn_Script
-                dc.w    Offset_0x101EC2-Sonic_Dyn_Script
-                dc.w    Offset_0x101ECC-Sonic_Dyn_Script
-                dc.w    Offset_0x101ED4-Sonic_Dyn_Script
-                dc.w    Offset_0x101EDC-Sonic_Dyn_Script
-                dc.w    Offset_0x101EE4-Sonic_Dyn_Script
-                dc.w    Offset_0x101EEE-Sonic_Dyn_Script
-                dc.w    Offset_0x101EF8-Sonic_Dyn_Script
-                dc.w    Offset_0x101F02-Sonic_Dyn_Script
-                dc.w    Offset_0x101F08-Sonic_Dyn_Script
-                dc.w    Offset_0x101F0E-Sonic_Dyn_Script
-                dc.w    Offset_0x101F18-Sonic_Dyn_Script
-                dc.w    Offset_0x101F20-Sonic_Dyn_Script
-                dc.w    Offset_0x101F28-Sonic_Dyn_Script
-                dc.w    Offset_0x101F2E-Sonic_Dyn_Script
-                dc.w    Offset_0x101F36-Sonic_Dyn_Script
-                dc.w    Offset_0x101F3E-Sonic_Dyn_Script
-                dc.w    Offset_0x101F46-Sonic_Dyn_Script
-                dc.w    Offset_0x101F4C-Sonic_Dyn_Script
-                dc.w    Offset_0x101F56-Sonic_Dyn_Script
-                dc.w    Offset_0x101F5E-Sonic_Dyn_Script
-                dc.w    Offset_0x101F66-Sonic_Dyn_Script
-                dc.w    Offset_0x101F6C-Sonic_Dyn_Script
-                dc.w    Offset_0x101F74-Sonic_Dyn_Script
-                dc.w    Offset_0x101F78-Sonic_Dyn_Script
-                dc.w    Offset_0x101F80-Sonic_Dyn_Script
-                dc.w    Offset_0x101F8C-Sonic_Dyn_Script
-                dc.w    Offset_0x101F94-Sonic_Dyn_Script
-                dc.w    Offset_0x101FA0-Sonic_Dyn_Script
-                dc.w    Offset_0x101FA8-Sonic_Dyn_Script
-                dc.w    Offset_0x101FB4-Sonic_Dyn_Script
-                dc.w    Offset_0x101FBC-Sonic_Dyn_Script
-                dc.w    Offset_0x101FC8-Sonic_Dyn_Script
-                dc.w    Offset_0x101FD4-Sonic_Dyn_Script
-                dc.w    Offset_0x101FE0-Sonic_Dyn_Script
-                dc.w    Offset_0x101FE6-Sonic_Dyn_Script
-                dc.w    Offset_0x101FEC-Sonic_Dyn_Script
-Offset_0x101806:
-                dc.w    $0000
-Offset_0x101808:
-                dc.w    $0004
-                dc.w    $3000, $3004, $5008, $500E
-Offset_0x101812:
-                dc.w    $0002
-                dc.w    $B014, $5020
-Offset_0x101818:
-                dc.w    $0004
-                dc.w    $3026, $302A, $302E, $5032
-Offset_0x101822:
-                dc.w    $0004
-                dc.w    $3026, $3038, $302E, $5032
-Offset_0x10182C:
-                dc.w    $0005
-                dc.w    $3026, $3038, $302E, $1032, $303C
-Offset_0x101838:
-                dc.w    $0003
-                dc.w    $3026, $7040, $5032
-Offset_0x101840:
-                dc.w    $0002
-                dc.w    $B048, $1054
-Offset_0x101846:
-                dc.w    $0002
-                dc.w    $B056, $3062
-Offset_0x10184C:
-                dc.w    $0002
-                dc.w    $B056, $3066
-Offset_0x101852:
-                dc.w    $0002
-                dc.w    $B06A, $7076
-Offset_0x101858:
-                dc.w    $0004
-                dc.w    $307E, $3082, $5086, $500E
-Offset_0x101862:
-                dc.w    $0004
-                dc.w    $308C, $3090, $3094, $500E
-Offset_0x10186C:
-                dc.w    $0003
-                dc.w    $7098, $10A0, $F0A2
-Offset_0x101874:
-                dc.w    $0004
-                dc.w    $7098, $10B2, $B0B4, $10C0
-Offset_0x10187E:
-                dc.w    $0003
-                dc.w    $70C2, $50CA, $30D0
-Offset_0x101886:
-                dc.w    $0002
-                dc.w    $50D4, $F0DA
-Offset_0x10188C:
-                dc.w    $0003
-                dc.w    $50D4, $F0EA, $10FA
-Offset_0x101894:
-                dc.w    $0004
-                dc.w    $50D4, $10FC, $B0FE, $110A
-Offset_0x10189E:
-                dc.w    $0003
-                dc.w    $70C2, $510C, $3112
-Offset_0x1018A6:
-                dc.w    $0002
-                dc.w    $7098, $B116
-Offset_0x1018AC:
-                dc.w    $0004
-                dc.w    $5122, $5128, $312E, $1132
-Offset_0x1018B6:
-                dc.w    $0005
-                dc.w    $5122, $1134, $7136, $313E, $1142
-Offset_0x1018C2:
-                dc.w    $0004
-                dc.w    $7144, $314C, $1150, $3152
-Offset_0x1018CC:
-                dc.w    $0004
-                dc.w    $5156, $115C, $315E, $B162
-Offset_0x1018D6:
-                dc.w    $0005
-                dc.w    $5156, $116E, $7170, $1178, $317A
-Offset_0x1018E2:
-                dc.w    $0005
-                dc.w    $5156, $117E, $7180, $3188, $118C
-Offset_0x1018EE:
-                dc.w    $0004
-                dc.w    $7144, $318E, $1192, $3194
-Offset_0x1018F8:
-                dc.w    $0005
-                dc.w    $5122, $5198, $119E, $11A0, $31A2
-Offset_0x101904:
-                dc.w    $0003
-                dc.w    $71A6, $B1AE, $31BA
-Offset_0x10190C:
-                dc.w    $0003
-                dc.w    $71A6, $B1BE, $31CA
-Offset_0x101914:
-                dc.w    $0003
-                dc.w    $71CE, $31D6, $31DA
-Offset_0x10191C:
-                dc.w    $0002
-                dc.w    $71DE, $B1E6
-Offset_0x101922:
-                dc.w    $0003
-                dc.w    $71DE, $31F2, $B1F6
-Offset_0x10192A:
-                dc.w    $0003
-                dc.w    $71DE, $B202, $320E
-Offset_0x101932:
-                dc.w    $0003
-                dc.w    $71CE, $3212, $3216
-Offset_0x10193A:
-                dc.w    $0002
-                dc.w    $71A6, $B21A
-Offset_0x101940:
-                dc.w    $0004
-                dc.w    $3226, $722A, $7232, $123A
-Offset_0x10194A:
-                dc.w    $0005
-                dc.w    $323C, $5240, $722A, $7246, $123A
-Offset_0x101956:
-                dc.w    $0004
-                dc.w    $724E, $7256, $325E, $1262
-Offset_0x101960:
-                dc.w    $0004
-                dc.w    $7264, $726C, $5274, $127A
-Offset_0x10196A:
-                dc.w    $0004
-                dc.w    $527C, $726C, $7282, $127A
-Offset_0x101974:
-                dc.w    $0005
-                dc.w    $328A, $528E, $726C, $7294, $127A
-Offset_0x101980:
-                dc.w    $0004
-                dc.w    $729C, $7256, $32A4, $1262
-Offset_0x10198A:
-                dc.w    $0004
-                dc.w    $72A8, $722A, $52B0, $123A
-Offset_0x101994:
-                dc.w    $0002
-                dc.w    $52B6, $F2BC
-Offset_0x10199A:
-                dc.w    $0002
-                dc.w    $52CC, $F2D2
-Offset_0x1019A0:
-                dc.w    $0002
-                dc.w    $52B6, $F2E2
-Offset_0x1019A6:
-                dc.w    $0002
-                dc.w    $52CC, $F2F2
-Offset_0x1019AC:
-                dc.w    $0004
-                dc.w    $5302, $1308, $730A, $5312
-Offset_0x1019B6:
-                dc.w    $0003
-                dc.w    $7318, $7320, $5328
-Offset_0x1019BE:
-                dc.w    $0004
-                dc.w    $5302, $132E, $7330, $5338
-Offset_0x1019C8:
-                dc.w    $0003
-                dc.w    $7318, $733E, $5346
-Offset_0x1019D0:
-                dc.w    $0002
-                dc.w    $734C, $B354
-Offset_0x1019D6:
-                dc.w    $0002
-                dc.w    $7360, $B368
-Offset_0x1019DC:
-                dc.w    $0002
-                dc.w    $734C, $B374
-Offset_0x1019E2:
-                dc.w    $0002
-                dc.w    $7360, $B380
-Offset_0x1019E8:
-                dc.w    $0003
-                dc.w    $138C, $738E, $B396
-Offset_0x1019F0:
-                dc.w    $0002
-                dc.w    $73A2, $B3AA
-Offset_0x1019F6:
-                dc.w    $0003
-                dc.w    $13B6, $738E, $B3C0
-Offset_0x1019FE:
-                dc.w    $0002
-                dc.w    $73A2, $B3CC
-Offset_0x101A04:
-                dc.w    $0001
-                dc.w    $F400
-Offset_0x101A08:
-                dc.w    $0001
-                dc.w    $F410
-Offset_0x101A0C:
-                dc.w    $0001
-                dc.w    $F420
-Offset_0x101A10:
-                dc.w    $0001
-                dc.w    $F430
-Offset_0x101A14:
-                dc.w    $0001
-                dc.w    $F440
-Offset_0x101A18:
-                dc.w    $0001
-                dc.w    $F450
-Offset_0x101A1C:
-                dc.w    $0001
-                dc.w    $F460
-Offset_0x101A20:
-                dc.w    $0001
-                dc.w    $F470
-Offset_0x101A24:
-                dc.w    $0001
-                dc.w    $F480
-Offset_0x101A28:
-                dc.w    $0001
-                dc.w    $F490
-Offset_0x101A2C:
-                dc.w    $0001
-                dc.w    $F4A0
-Offset_0x101A30:
-                dc.w    $0003
-                dc.w    $53D8, $53DE, $73E4
-Offset_0x101A38:
-                dc.w    $0003
-                dc.w    $53D8, $53EC, $53F2
-Offset_0x101A40:
-                dc.w    $0003
-                dc.w    $53D8, $53DE, $73B8
-Offset_0x101A48:
-                dc.w    $0003
-                dc.w    $53D8, $53EC, $54B0
-Offset_0x101A50:
-                dc.w    $0001
-                dc.w    $B4B6
-Offset_0x101A54:
-                dc.w    $0001
-                dc.w    $F4C2
-Offset_0x101A58:
-                dc.w    $0002
-                dc.w    $14D2, $F4D4
-Offset_0x101A5E:
-                dc.w    $0002
-                dc.w    $34E4, $F4E8
-Offset_0x101A64:
-                dc.w    $0003
-                dc.w    $F4F8, $1508, $350A
-Offset_0x101A6C:
-                dc.w    $0003
-                dc.w    $F50E, $151E, $3520
-Offset_0x101A74:
-                dc.w    $0002
-                dc.w    $B524, $5530
-Offset_0x101A7A:
-                dc.w    $0002
-                dc.w    $B536, $5542
-Offset_0x101A80:
-                dc.w    $0003
-                dc.w    $3548, $B54C, $1558
-Offset_0x101A88:
-                dc.w    $0002
-                dc.w    $155A, $755C
-Offset_0x101A8E:
-                dc.w    $0003
-                dc.w    $1564, $B566, $1572
-Offset_0x101A96:
-                dc.w    $0003
-                dc.w    $3574, $B578, $1584
-Offset_0x101A9E:
-                dc.w    $0003
-                dc.w    $5586, $F58C, $159C
-Offset_0x101AA6:
-                dc.w    $0002
-                dc.w    $B59E, $35AA
-Offset_0x101AAC:
-                dc.w    $0004
-                dc.w    $15AE, $B5B0, $15BC, $75BE
-Offset_0x101AB6:
-                dc.w    $0004
-                dc.w    $15AE, $B5C6, $15BC, $75BE
-Offset_0x101AC0:
-                dc.w    $0003
-                dc.w    $75D2, $15DA, $B5DC
-Offset_0x101AC8:
-                dc.w    $0003
-                dc.w    $55E8, $B5EE, $15FA
-Offset_0x101AD0:
-                dc.w    $0003
-                dc.w    $B5FC, $1608, $360A
-Offset_0x101AD8:
-                dc.w    $0002
-                dc.w    $B60E, $161A
-Offset_0x101ADE:
-                dc.w    $0001
-                dc.w    $F61C
-Offset_0x101AE2:
-                dc.w    $0002
-                dc.w    $B62C, $1638
-Offset_0x101AE8:
-                dc.w    $0003
-                dc.w    $163A, $B63C, $1648
-Offset_0x101AF0:
-                dc.w    $0003
-                dc.w    $564A, $B650, $365C
-Offset_0x101AF8:
-                dc.w    $0003
-                dc.w    $3660, $B664, $1670
-Offset_0x101B00:
-                dc.w    $0002
-                dc.w    $B672, $167E
-Offset_0x101B06:
-                dc.w    $0002
-                dc.w    $1680, $B682
-Offset_0x101B0C:
-                dc.w    $0003
-                dc.w    $368E, $B692, $169E
-Offset_0x101B14:
-                dc.w    $0002
-                dc.w    $36A0, $F6A4
-Offset_0x101B1A:
-                dc.w    $0003
-                dc.w    $76B4, $36BC, $56C0
-Offset_0x101B22:
-                dc.w    $0003
-                dc.w    $76C6, $36BC, $56CE
-Offset_0x101B2A:
-                dc.w    $0001
-                dc.w    $B7D6
-Offset_0x101B2E:
-                dc.w    $0003
-                dc.w    $B7E2, $17EE, $57F0
-Offset_0x101B36:
-                dc.w    $0003
-                dc.w    $87F6, $0A18, $8800
-Offset_0x101B3E:
-                dc.w    $0005
-                dc.w    $2809, $180C, $380E, $8812, $081B
-Offset_0x101B4A:
-                dc.w    $0005
-                dc.w    $281C, $181F, $380E, $8812, $081B
-Offset_0x101B56:
-                dc.w    $0002
-                dc.w    $8821, $882A
-Offset_0x101B5C:
-                dc.w    $0002
-                dc.w    $8833, $882A
-Offset_0x101B62:
-                dc.w    $0002
-                dc.w    $883C, $882A
-Offset_0x101B68:
-                dc.w    $0003
-                dc.w    $B6D4, $10A0, $F0A2
-Offset_0x101B70:
-                dc.w    $0004
-                dc.w    $B6D4, $10B2, $B0B4, $10C0
-Offset_0x101B7A:
-                dc.w    $0003
-                dc.w    $B6E0, $50CA, $30D0
-Offset_0x101B82:
-                dc.w    $0002
-                dc.w    $86EC, $F0DA
-Offset_0x101B88:
-                dc.w    $0003
-                dc.w    $86EC, $F0EA, $10FA
-Offset_0x101B90:
-                dc.w    $0004
-                dc.w    $86EC, $10FC, $B0FE, $110A
-Offset_0x101B9A:
-                dc.w    $0003
-                dc.w    $B6E0, $510C, $3112
-Offset_0x101BA2:
-                dc.w    $0002
-                dc.w    $B6D4, $B116
-Offset_0x101BA8:
-                dc.w    $0004
-                dc.w    $76F5, $312E, $5128, $1132
-Offset_0x101BB2:
-                dc.w    $0005
-                dc.w    $76F5, $1134, $7136, $313E, $1142
-Offset_0x101BBE:
-                dc.w    $0005
-                dc.w    $86FD, $314C, $0706, $1150, $3152
-Offset_0x101BCA:
-                dc.w    $0005
-                dc.w    $0707, $7708, $115C, $315E, $B162
-Offset_0x101BD6:
-                dc.w    $0006
-                dc.w    $0707, $7708, $116E, $1178, $7170, $317A
-Offset_0x101BE4:
-                dc.w    $0006
-                dc.w    $0707, $7708, $117E, $7180, $3188, $118C
-Offset_0x101BF2:
-                dc.w    $0005
-                dc.w    $86FD, $318E, $0706, $1192, $3194
-Offset_0x101BFE:
-                dc.w    $0005
-                dc.w    $76F5, $119E, $5198, $01A0, $31A2
-Offset_0x101C0A:
-                dc.w    $0003
-                dc.w    $B710, $B1AE, $31BA
-Offset_0x101C12:
-                dc.w    $0003
-                dc.w    $B710, $B1BE, $31CA
-Offset_0x101C1A:
-                dc.w    $0003
-                dc.w    $B71C, $31D6, $31DA
-Offset_0x101C22:
-                dc.w    $0002
-                dc.w    $8728, $B1E6
-Offset_0x101C28:
-                dc.w    $0003
-                dc.w    $8728, $31F2, $B1F6
-Offset_0x101C30:
-                dc.w    $0003
-                dc.w    $8728, $B202, $320E
-Offset_0x101C38:
-                dc.w    $0003
-                dc.w    $B71C, $3212, $3216
-Offset_0x101C40:
-                dc.w    $0002
-                dc.w    $B710, $B21A
-Offset_0x101C46:
-                dc.w    $0004
-                dc.w    $3226, $7731, $7232, $0739
-Offset_0x101C50:
-                dc.w    $0005
-                dc.w    $323C, $5240, $7731, $7246, $0739
-Offset_0x101C5C:
-                dc.w    $0004
-                dc.w    $724E, $773A, $325E, $1742
-Offset_0x101C66:
-                dc.w    $0004
-                dc.w    $7264, $B744, $5274, $0750
-Offset_0x101C70:
-                dc.w    $0004
-                dc.w    $527C, $B744, $7282, $0750
-Offset_0x101C7A:
-                dc.w    $0005
-                dc.w    $328A, $528E, $B744, $7294, $0750
-Offset_0x101C86:
-                dc.w    $0004
-                dc.w    $729C, $773A, $32A4, $1742
-Offset_0x101C90:
-                dc.w    $0004
-                dc.w    $72A8, $7731, $52B0, $0739
-Offset_0x101C9A:
-                dc.w    $0003
-                dc.w    $B751, $10A0, $F0A2
-Offset_0x101CA2:
-                dc.w    $0004
-                dc.w    $B751, $10B2, $B0B4, $10C0
-Offset_0x101CAC:
-                dc.w    $0003
-                dc.w    $B75D, $50CA, $30D0
-Offset_0x101CB4:
-                dc.w    $0002
-                dc.w    $8769, $F0DA
-Offset_0x101CBA:
-                dc.w    $0003
-                dc.w    $8769, $F0EA, $10FA
-Offset_0x101CC2:
-                dc.w    $0004
-                dc.w    $8769, $10FC, $B0FE, $110A
-Offset_0x101CCC:
-                dc.w    $0003
-                dc.w    $B75D, $510C, $3112
-Offset_0x101CD4:
-                dc.w    $0002
-                dc.w    $B751, $B116
-Offset_0x101CDA:
-                dc.w    $0005
-                dc.w    $1772, $7774, $5128, $312E, $1132
-Offset_0x101CE6:
-                dc.w    $0006
-                dc.w    $1772, $7774, $1134, $7136, $313E, $1142
-Offset_0x101CF4:
-                dc.w    $0005
-                dc.w    $577C, $3782, $314C, $1150, $3152
-Offset_0x101D00:
-                dc.w    $0005
-                dc.w    $1786, $7788, $115C, $315E, $B162
-Offset_0x101D0C:
-                dc.w    $0006
-                dc.w    $1786, $7788, $116E, $1178, $7170, $317A
-Offset_0x101D1A:
-                dc.w    $0006
-                dc.w    $1786, $7788, $117E, $7180, $3188, $118C
-Offset_0x101D28:
-                dc.w    $0005
-                dc.w    $577C, $3782, $318E, $1192, $3194
-Offset_0x101D34:
-                dc.w    $0006
-                dc.w    $1772, $7774, $5198, $119E, $31A2, $11A0
-Offset_0x101D42:
-                dc.w    $0003
-                dc.w    $B790, $B1AE, $31BA
-Offset_0x101D4A:
-                dc.w    $0003
-                dc.w    $B790, $B1BE, $31CA
-Offset_0x101D52:
-                dc.w    $0003
-                dc.w    $B79C, $31D6, $31DA
-Offset_0x101D5A:
-                dc.w    $0002
-                dc.w    $87A8, $B1E6
-Offset_0x101D60:
-                dc.w    $0003
-                dc.w    $87A8, $31F2, $B1F6
-Offset_0x101D68:
-                dc.w    $0003
-                dc.w    $87A8, $B202, $320E
-Offset_0x101D70:
-                dc.w    $0003
-                dc.w    $B79C, $3212, $3216
-Offset_0x101D78:
-                dc.w    $0002
-                dc.w    $B790, $B21A
-Offset_0x101D7E:
-                dc.w    $0004
-                dc.w    $3226, $B7B1, $7232, $07BD
-Offset_0x101D88:
-                dc.w    $0005
-                dc.w    $323C, $5240, $B7B1, $7246, $07BD
-Offset_0x101D94:
-                dc.w    $0005
-                dc.w    $724E, $17BE, $77C0, $325E, $07C8
-Offset_0x101DA0:
-                dc.w    $0004
-                dc.w    $7264, $B7C9, $5274, $07D5
-Offset_0x101DAA:
-                dc.w    $0004
-                dc.w    $527C, $B7C9, $7282, $07D5
-Offset_0x101DB4:
-                dc.w    $0005
-                dc.w    $328A, $528E, $B7C9, $7294, $07D5
-Offset_0x101DC0:
-                dc.w    $0005
-                dc.w    $729C, $17BE, $77C0, $32A4, $07C8
-Offset_0x101DCC:
-                dc.w    $0005
-                dc.w    $72A8, $17B2, $77B5, $52B0, $07BD
-Offset_0x101DD8:
-                dc.w    $0004
-                dc.w    $2845, $0848, $3849, $584D
-Offset_0x101DE2:
-                dc.w    $0004
-                dc.w    $1853, $B855, $2861, $1864
-Offset_0x101DEC:
-                dc.w    $0004
-                dc.w    $2866, $3869, $286D, $3870
-Offset_0x101DF6:
-                dc.w    $0005
-                dc.w    $2874, $7877, $387F, $1883, $0885
-Offset_0x101E02:
-                dc.w    $0004
-                dc.w    $5886, $088C, $3849, $588D
-Offset_0x101E0C:
-                dc.w    $0004
-                dc.w    $1893, $B895, $2861, $08A1
-Offset_0x101E16:
-                dc.w    $0004
-                dc.w    $58A2, $3869, $08A8, $58A9
-Offset_0x101E20:
-                dc.w    $0005
-                dc.w    $2874, $78AF, $38B7, $18BB, $0885
-Offset_0x101E2C:
-                dc.w    $0004
-                dc.w    $58BD, $38C3, $38C7, $78CB
-Offset_0x101E36:
-                dc.w    $0004
-                dc.w    $58D3, $38D9, $38C7, $78DD
-Offset_0x101E40:
-                dc.w    $0004
-                dc.w    $58BD, $38C3, $38C7, $78E5
-Offset_0x101E4A:
-                dc.w    $0004
-                dc.w    $58D3, $38D9, $38C7, $78ED
-Offset_0x101E54:
-                dc.w    $0002
-                dc.w    $28F5, $B8F8
-Offset_0x101E5A:
-                dc.w    $0003
-                dc.w    $8904, $290D, $3910
-Offset_0x101E62:
-                dc.w    $0003
-                dc.w    $8833, $290D, $3910
-Offset_0x101E6A:
-                dc.w    $0003
-                dc.w    $883C, $290D, $3910
-Offset_0x101E72:
-                dc.w    $0003
-                dc.w    $8904, $290D, $3914
-Offset_0x101E7A:
-                dc.w    $0003
-                dc.w    $8833, $290D, $3914
-Offset_0x101E82:
-                dc.w    $0003
-                dc.w    $883C, $290D, $3914
-Offset_0x101E8A:
-                dc.w    $0003
-                dc.w    $B918, $3924, $3928
-Offset_0x101E92:
-                dc.w    $0003
-                dc.w    $B92C, $3938, $3928
-Offset_0x101E9A:
-                dc.w    $0003
-                dc.w    $B93C, $3948, $3928
-Offset_0x101EA2:
-                dc.w    $0005
-                dc.w    $B94C, $1924, $1958, $193A, $3928
-Offset_0x101EAE:
-                dc.w    $0004
-                dc.w    $795A, $5962, $3968, $596C
-Offset_0x101EB8:
-                dc.w    $0004
-                dc.w    $7972, $5962, $397A, $597E
-Offset_0x101EC2:
-                dc.w    $0004
-                dc.w    $7984, $5962, $598C, $5992
-Offset_0x101ECC:
-                dc.w    $0003
-                dc.w    $3998, $B99C, $39A8
-Offset_0x101ED4:
-                dc.w    $0003
-                dc.w    $39AC, $B9B0, $39BC
-Offset_0x101EDC:
-                dc.w    $0003
-                dc.w    $39C0, $B9C4, $39BC
-Offset_0x101EE4:
-                dc.w    $0004
-                dc.w    $79D0, $79D8, $19E0, $39E2
-Offset_0x101EEE:
-                dc.w    $0004
-                dc.w    $79E6, $79EE, $19E0, $39E2
-Offset_0x101EF8:
-                dc.w    $0004
-                dc.w    $79F6, $79FE, $19E0, $39E2
-Offset_0x101F02:
-                dc.w    $0002
-                dc.w    $5A06, $BA0C
-Offset_0x101F08:
-                dc.w    $0002
-                dc.w    $BA20, $2A2C
-Offset_0x101F0E:
-                dc.w    $0004
-                dc.w    $1A2F, $3A31, $5A35, $1A3B
-Offset_0x101F18:
-                dc.w    $0003
-                dc.w    $0A3D, $7A3E, $2A46
-Offset_0x101F20:
-                dc.w    $0003
-                dc.w    $0A49, $7A4A, $2A52
-Offset_0x101F28:
-                dc.w    $0002
-                dc.w    $BA55, $5A61
-Offset_0x101F2E:
-                dc.w    $0003
-                dc.w    $0A67, $8A68, $3A71
-Offset_0x101F36:
-                dc.w    $0003
-                dc.w    $1A75, $8A77, $0A80
-Offset_0x101F3E:
-                dc.w    $0003
-                dc.w    $5A81, $3A87, $1A8B
-Offset_0x101F46:
-                dc.w    $0002
-                dc.w    $0A8D, $BA8E
-Offset_0x101F4C:
-                dc.w    $0004
-                dc.w    $1A9A, $0A9C, $BA9D, $0AA9
-Offset_0x101F56:
-                dc.w    $0003
-                dc.w    $1AAA, $8AAC, $5AB5
-Offset_0x101F5E:
-                dc.w    $0003
-                dc.w    $1ABB, $7ABD, $2AC5
-Offset_0x101F66:
-                dc.w    $0002
-                dc.w    $0AC8, $8AC9
-Offset_0x101F6C:
-                dc.w    $0003
-                dc.w    $2AD2, $7AD5, $2ADD
-Offset_0x101F74:
-                dc.w    $0001
-                dc.w    $BAE0
-Offset_0x101F78:
-                dc.w    $0003
-                dc.w    $3AEC, $8AF0, $5AF9
-Offset_0x101F80:
-                dc.w    $0005
-                dc.w    $1AFF, $8B01, $0B0A, $5B0B, $1B11
-Offset_0x101F8C:
-                dc.w    $0003
-                dc.w    $0B13, $BB14, $5B20
-Offset_0x101F94:
-                dc.w    $0005
-                dc.w    $3B26, $8B2A, $0B33, $3B34, $1B38
-Offset_0x101FA0:
-                dc.w    $0003
-                dc.w    $5AF9, $8AF0, $3AEC
-Offset_0x101FA8:
-                dc.w    $0005
-                dc.w    $3B0D, $8B3A, $1B02, $0B07, $3B43
-Offset_0x101FB4:
-                dc.w    $0003
-                dc.w    $5B20, $8B17, $3B13
-Offset_0x101FBC:
-                dc.w    $0005
-                dc.w    $7B47, $0B32, $3B4F, $2B53, $3B26
-Offset_0x101FC8:
-                dc.w    $0005
-                dc.w    $8B56, $1B5F, $5B61, $0B67, $0B68
-Offset_0x101FD4:
-                dc.w    $0005
-                dc.w    $8B69, $1B72, $3B74, $0B78, $1B79
-Offset_0x101FE0:
-                dc.w    $0002
-                dc.w    $BB7B, $8B87
-Offset_0x101FE6:
-                dc.w    $0002
-                dc.w    $8B90, $7B99
-Offset_0x101FEC:
-                dc.w    $0003
-                dc.w    $7BA1, $5BA9, $5BAF
+; Offset_100000:
+Sonic_Mappings:		include	"data/mappings/Sonic.asm"
+
+; Offset_0x101622:
+Sonic_Dyn_Script:	include	"data/mappings/Sonic DPLC.asm"
+
 ;===============================================================================
 ; Script para carga dos Sprites do Sonic      
 ; <<<-

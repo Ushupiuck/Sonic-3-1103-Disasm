@@ -241,7 +241,7 @@ Offset_0x00F720:
                 move.w  #$0001, Obj_Player_Next_Tilt(A0)                 ; $003A
                 move.w  #$0078, Obj_P_Flips_Remaining(A0)                ; $0030
                 move.l  A2, A1
-                bsr     Resume_Music                           ; Offset_0x00F89E
+                bsr     ResumeMusic                           ; Offset_0x00F89E
                 move.l  A0, -(A7)
                 move.l  A2, A0
                 bsr     Sonic_ResetOnFloor                     ; Offset_0x00BF76

@@ -160,7 +160,7 @@ Offset_0x041D62:
 ;-------------------------------------------------------------------------------  
 Offset_0x041D6A:  
                 dc.w    $0000
-                dc.l    Object_Hit                             ; Offset_0x013D7C
+                dc.l    Obj_Explosion                             ; Offset_0x013D7C
                 dc.b    $00, $00
 ;-------------------------------------------------------------------------------
 ; Objeto de controle de derrota do chefe
