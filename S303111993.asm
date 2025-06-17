@@ -19759,9 +19759,30 @@ Offset_0x013F14:
 Offset_0x013F1C:
                 dc.w    $0001
                 dc.w    $F00F, $2034, $FFF0  
-;------------------------------------------------------------------------------- 
-Obj_0x09_AIz_Tree:                                             ; Offset_0x013F24
-                include 'data\objects\obj_0x09.asm'
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 09 - Tree in Angel Island
+; ---------------------------------------------------------------------------
+; Offset_0x013F24: Obj_0x09_AIz_Tree:
+Obj09_AIZTree:
+		move.l	#AIZTree_Mappings,Obj_Map(a0)
+		move.w	#$180,Obj_Priority(a0)
+		move.b	#8,Obj_Width(a0)
+		move.b	#4,Obj_Flags(a0)
+		move.w	#$4001,Obj_Art_VRAM(a0)
+		move.l	#AIZTree_ChkDel,(a0)
+; Offset_0x013F4A:
+AIZTree_ChkDel:
+		jmp	(MarkObjGone).l
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Sprite Mappings - Tree in Angel Island
+; ---------------------------------------------------------------------------
+; Offset_0x013F50: AIz_Tree_Mappings:
+AIZTree_Mappings:	include	"data/mappings/09 - AIZ Tree.asm"
+
 Obj_0x0A_AIz_Zipline_Peg:                                      ; Offset_0x013F66
                 include 'data\objects\obj_0x0A.asm'
 Obj_0x26_Auto_Spin:                                            ; Offset_0x013FA8
@@ -21199,9 +21220,9 @@ Obj30_AnimatedDecoration:
 		move.w	(a1)+,Obj_Priority(a0)
 		move.b	(a1)+,Obj_Width(a0)
 		move.b	(a1)+,Obj_Height(a0)
-		move.l	#Offset_0x0231FA,(a0)
-
-Offset_0x0231FA:		
+		move.l	#AniDecoration_Display,(a0)
+; Offset_0x0231FA:
+AniDecoration_Display:
 		lea	(Decoration2_AnimateData).l,a1
 		jsr	(AnimateSprite).l
 		jmp	(MarkObjGone).l
@@ -29452,8 +29473,485 @@ Offset_0x034B84:
 		include	"data/objects/C7 - Knuckles in Cutscenes.asm"
 Obj_0xC9_Knuckles_Switch:                                      ; Offset_0x035484
                 include 'data\objects\obj_0xC9.asm'
-; Offset_0x035AD2: Obj_0xCA_AIz_Super_Sonic_Intro: ObjCA_AIZPlaneIntro:
-		include	"data/objects/CA - AIZ Plane Intro (Unused).asm"
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object CA - Final AIZ Intro with Super Sonic (unused)
+; ---------------------------------------------------------------------------
+; Offset_0x035AD2: Obj_0xCA_AIz_Super_Sonic_Intro:
+ObjCA_AIZPlaneIntro:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	AIZPlaneIntro_Index(pc,d0.w),d1
+		jsr	AIZPlaneIntro_Index(pc,d1.w)
+		jsr	(LoadSonicDynamicPLC).l
+		bsr.w	AIZPlaneIntro_Scroll
+		jmp	(DisplaySprite).l
+; ===========================================================================
+; Offset_0x035AF0:
+AIZPlaneIntro_Index:	offsetTable
+		offsetTableEntry.w AIZPlaneIntro_Init
+		offsetTableEntry.w AIZPlaneIntro_Wait
+		offsetTableEntry.w AIZPlaneIntro_SwoopDown
+		offsetTableEntry.w AIZPlaneIntro_Wait
+		offsetTableEntry.w AIZPlaneIntro_SonicFallBehind
+		offsetTableEntry.w AIZPlaneIntro_SonicFallBehind2
+		offsetTableEntry.w AIZPlaneIntro_Wait3
+		offsetTableEntry.w AIZPlaneIntro_SonicMove
+		offsetTableEntry.w Offset_0x035C8E
+		offsetTableEntry.w AIZPlaneIntro_SonicMove2
+		offsetTableEntry.w Offset_0x035CEC
+		offsetTableEntry.w AIZPlaneIntro_ReachedShores
+		offsetTableEntry.w AIZPlaneIntro_InJungle
+		offsetTableEntry.w AIZPlaneIntro_UpperCutSonic
+; ===========================================================================
+; Offset_0x035B0C:
+AIZPlaneIntro_Init:
+		addq.b	#2,Obj_Routine(a0)
+		move.l	#Sonic_Mappings,Obj_Map(a0)
+		move.w	#$680,Obj_Art_VRAM(a0)
+		move.w	#$280,Obj_Priority(a0)
+		move.b	#1,Obj_Map_Id(a0)
+		move.b	#$40,Obj_Width(a0)
+		move.b	#$20,Obj_Width(a0)
+		move.w	#$60,Obj_X(a0)
+		move.w	#$30,Obj_Y(a0)
+		move.w	#$40,Obj_Timer(a0)
+		move.l	#AIZPlaneIntro_Tornado,Obj_Child(a0)
+		move.w	#8,Obj_Control_Var_10(a0)
+		move.w	#$E918,(Level_Events_Buffer_1).w
+		move.b	#-1,(Sonic_Previous_Frame).w
+		lea	(Obj_Player_One).w,a1
+		move.b	#0,Obj_Map_Id(a1)
+		move.b	#$53,Obj_Timer(a1)
+
+Offset_0x035B72:		
+		rts   
+; ===========================================================================
+; Offset_0x035B74:
+AIZPlaneIntro_Wait:
+		jmp	(Run_Object_Wait_Timer_A0).l
+; ===========================================================================
+; Offset_0x035B7A:
+AIZPlaneIntro_Tornado:
+		move.b	#4,Obj_Routine(a0)
+		move.w	#$300,Obj_Speed_X(a0)
+		move.w	#$600,Obj_Speed_Y(a0)
+		lea	AIZPlaneIntro_ObjArray(pc),a2
+		jmp	(Load_Child_Object_A2).l
+; ===========================================================================
+; Offset_0x035B96:
+AIZPlaneIntro_SwoopDown:
+		subi.w	#$18,Obj_Speed_Y(a0)			; slow descent
+		beq.s	AIZPlaneIntro_Stationary		; if we have 0 Y-speed, branch
+		jmp	(SpeedToPos).l
+; ---------------------------------------------------------------------------
+; Offset_0x035BA4:
+AIZPlaneIntro_Stationary:
+		move.b	#6,Obj_Routine(a0)
+		move.w	#$5F,Obj_Timer(a0)
+		move.l	#AIZPlaneIntro_SonicJumping,Obj_Child(a0)
+		rts
+; ===========================================================================
+; Offset_0x035BBA:
+AIZPlaneIntro_SonicJumping:
+		move.b	#8,Obj_Routine(a0)
+		move.w	#$400,Obj_Speed_X(a0)
+		move.w	#-$400,Obj_Speed_Y(a0)
+		move.l	#Offset_0x035F48,Obj_Child_Data(a0)
+		bset	#3,Obj_Control_Var_08(a0)
+		rts    
+; ===========================================================================
+; Offset_0x035BDC:
+AIZPlaneIntro_SonicFallBehind:
+		subi.w	#$40,Obj_Speed_X(a0)			; decrease Sonic's speed to make him fall behind the Tornado
+		jsr	(ObjectFall).l
+		cmpi.w	#$130,Obj_Y(a0)				; are we at the ocean surface?
+		bcc.s	AIZPlaneIntro_SonicFloating		; if yes, branch
+		jmp	(Animate_Raw).l
+; ---------------------------------------------------------------------------
+; Offset_0x035BF6:
+AIZPlaneIntro_SonicFloating:
+		move.b	#$A,Obj_Routine(a0)
+		move.w	#$130,Obj_Y(a0)
+		rts
+; ===========================================================================
+; Offset_0x035C04:
+AIZPlaneIntro_SonicFallBehind2:
+		move.w	Obj_X(a0),d0
+		subq.w	#4,d0
+		cmpi.w	#$40,d0					; are we slightly off-screen?
+		bcs.s	AIZPlaneIntro_SonicTransform		; if yes, branch
+		move.w	d0,Obj_X(a0)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x035C16:
+AIZPlaneIntro_SonicTransform:
+		move.b	#$C,Obj_Routine(a0)
+		move.w	#$40,Obj_X(a0)
+		move.w	#5,Obj_Timer(a0)
+		move.l	#AIZPlaneIntro_SuperSonic,Obj_Child(a0)
+		move.w	#$3F,Obj_Control_Var_0A(a0)
+		bra.w	IntroSSWaves_SetSSAnim	
+; ===========================================================================
+; Offset_0x035C3A:
+AIZPlaneIntro_SuperSonic:
+		move.w	#5,Obj_Timer(a0)
+		cmpi.w	#$80,Obj_X(a0)
+		bcs.w	Offset_0x035B72
+		lea	AIZPlaneIntro_ObjArray3(pc),a2
+		jmp	(Load_Child_Object_A2).l
+; ===========================================================================
+; Offset_0x035C54:
+AIZPlaneIntro_Wait3:
+		subq.w	#1,Obj_Control_Var_0A(a0)
+		bpl.w	Offset_0x035B72
+		move.b	#$E,Obj_Routine(a0)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x035C64:
+AIZPlaneIntro_SonicMove:
+		bsr.w	PalCycle_SuperSonicIntro
+		jsr	(Run_Object_Wait_Timer_A0).l
+		move.w	Obj_X(a0),d0
+		addq.w	#4,d0
+		move.w	d0,Obj_X(a0)
+		cmpi.w	#$200,d0				; are we at X-pos $200?
+		bcc.s	Offset_0x035C80				; if yes, branch
+		rts
+
+Offset_0x035C80:
+		move.b	#$10,Obj_Routine(a0)
+		move.w	#$1F,Obj_Control_Var_0A(a0)
+		rts
+; ===========================================================================
+
+Offset_0x035C8E:
+		bsr.w	PalCycle_SuperSonicIntro
+		jsr	(Run_Object_Wait_Timer_A0).l
+		subq.w	#1,Obj_Control_Var_0A(a0)
+		bpl.w	Offset_0x035B72
+		move.b	#$12,Obj_Routine(a0)
+		bset	#2,Obj_Control_Var_08(a0)
+		move.w	#$C,Obj_Control_Var_10(a0)
+		rts    
+; ---------------------------------------------------------------------------
+; Offset_0x035CB4:
+AIZPlaneIntro_SonicMove2:
+		bsr.w	PalCycle_SuperSonicIntro
+		jsr	(Run_Object_Wait_Timer_A0).l
+		move.w	Obj_X(a0),d0
+		subi.w	#4,d0
+		move.w 	d0,Obj_X(a0)
+		cmpi.w	#$120,d0
+		bls.s	Offset_0x035CD2
+		rts
+
+Offset_0x035CD2:
+		move.b	#$14,Obj_Routine(a0)
+		bset	#2,Obj_Control_Var_08(a0)
+		move.w	#$3F,Obj_Control_Var_0A(a0)
+		move.w	#$10,Obj_Control_Var_10(a0)
+		rts     
+; ===========================================================================
+
+Offset_0x035CEC:
+		bsr.w	PalCycle_SuperSonicIntro
+		jsr	(Run_Object_Wait_Timer_A0).l
+		subq.w	#1,Obj_Control_Var_0A(a0)
+		bpl.w	Offset_0x035B72
+		move.b	#$16,Obj_Routine(a0)
+		rts
+; ---------------------------------------------------------------------------
+; Offset_0x035D06:
+AIZPlaneIntro_ReachedShores:
+		bsr.w	PalCycle_SuperSonicIntro
+		cmpi.w	#$918,(Obj_Player_One+Obj_X).w		; have we reached the shores?
+		bcc.s	Offset_0x035D18				; if yes, branch
+		jmp	(Run_Object_Wait_Timer_A0).l
+
+Offset_0x035D18:
+		move.b	#$18,Obj_Routine(a0)
+		lea	AIZPlaneIntro_ObjArray4(pc),a2
+		jmp	(Load_Child_Object_Simple_A2).l
+; ===========================================================================
+; Offset_0x035D28:
+AIZPlaneIntro_InJungle:
+		bsr.w	PalCycle_SuperSonicIntro
+		cmpi.w	#$1240,(Obj_Player_One+Obj_X).w		; are we about to exit the jungle?
+		bcc.s	Offset_0x035D36				; if yes, branch
+		rts
+
+Offset_0x035D36:
+		move.b	#$1A,Obj_Routine(a0)
+		subi.w	#$20,Obj_Y(a0)
+		rts
+;-------------------------------------------------------------------------------
+; Offset_0x035D44:
+AIZPlaneIntro_UpperCutSonic:
+		bsr.w	PalCycle_SuperSonicIntro
+		cmpi.w	#$13D0,(Obj_Player_One+Obj_X).w		; is Knuckles about to uppercut Sonic?
+		bcc.s	AIZPlaneIntro_DisableSuper		; if yes, branch
+		rts
+; Offset_0x035D52:
+AIZPlaneIntro_DisableSuper:
+		lea	(Obj_Player_One).w,a1
+		clr.b	Obj_Timer(a1)
+		st	(Control_Locked_Flag_P1).w
+		move.b	#2,(Super_Sonic_Palette_Status).w
+		move.w	#$28,(Super_Sonic_Palette_Frame).w
+		jmp	(Go_Delete_Object_A0).l
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Tornado in the Intro
+; ---------------------------------------------------------------------------
+; Offset_0x035D70:
+Obj_IntroTornado:
+		move.l	#Offset_0x035DB0,(a0)
+		move.l	#Tornado_Mappings,Obj_Map(a0)
+		move.w	#$529,Obj_Art_VRAM(a0)
+		move.w	#$280,Obj_Priority(a0)
+		move.b	#$40,Obj_Width(a0)
+		move.b	#$20,Obj_Width(a0)
+		lea	(Art_Tornado).l,a1
+		move.w	#$A520,d2
+		jsr	(Queue_Kos_Module).l
+		lea	AIZPlaneIntro_ObjArray2(pc),a2
+		jmp	(Load_Child_Object_A2).l
+; ---------------------------------------------------------------------------
+
+Offset_0x035DB0:
+		move.w	Obj_Child_Ref(a0),a1
+		btst	#2,Obj_Control_Var_08(a1)
+		beq.s	Offset_0x035DC2
+		move.l	#Offset_0x035DD6,(a0)
+
+Offset_0x035DC2:
+		btst	#3,Obj_Control_Var_08(a1)
+		bne.s	Offset_0x035DD0
+		jsr	(Refresh_Child_Position).l
+
+Offset_0x035DD0:
+		jmp     (DisplaySprite).l
+; ---------------------------------------------------------------------------
+
+Offset_0x035DD6:
+		subq.w	#4,Obj_X(a0)
+		cmpi.w	#$20,Obj_X(a0)
+		bcs.s	Offset_0x035DE8
+		jmp	(DisplaySprite).l
+
+Offset_0x035DE8:
+		jmp	(Go_Delete_Object_A0).l
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Tornado Propeller in the Intro
+; ---------------------------------------------------------------------------
+; Offset_0x035DEE:
+Obj_IntroTornadoProp:
+		move.l	#Tornado_Mappings,Obj_Map(a0)
+		move.w	#$529,Obj_Art_VRAM(a0)
+		move.w	#$280,Obj_Priority(a0)
+		move.b	#4,Obj_Width(a0)
+		move.b	#$C,Obj_Width(a0)
+		move.l	#IntroTornadoProp_Animate,(a0)
+; Offset_0x035E14:
+IntroTornadoProp_Animate:
+		lea	(Offset_0x035F52).l,a1
+		jsr	(Animate_Raw_A1).l
+		jsr	(Refresh_Child_Position).l
+		jmp	(Child_Display_Or_Delete).l
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Tornado Booster in the Intro
+; ---------------------------------------------------------------------------
+; Offset_0x035E2C:
+Obj_IntroTornadoBooster:
+		move.l	#Tornado_Mappings,Obj_Map(a0)
+		move.w	#$529,Obj_Art_VRAM(a0)
+		move.w	#$280,Obj_Priority(a0)
+		move.b	#4,Obj_Width(a0)
+		move.b	#$C,Obj_Width(a0)
+		move.l	#IntroTornadoBooster_Animate,(a0)
+; Offset_0x035E52:
+IntroTornadoBooster_Animate:
+		lea	(Offset_0x035F5A).l,a1
+		jsr	(Animate_Raw_A1).l
+		jsr	(Refresh_Child_Position).l
+		jmp	(Child_Display_Or_Delete).l
+
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object - Super Sonic Waves in the Intro
+; ---------------------------------------------------------------------------
+; Offset_0x035E6A:
+Obj_IntroSuperSonicWaves:
+		move.l	#IntroSSWaves_Animate,(a0)
+		move.l	#Surfboard_Waves_Mappings,Obj_Map(a0)
+		move.w	#$3D1,Obj_Art_VRAM(a0)
+		move.w	#$100,Obj_Priority(a0)
+		move.b	#$10,Obj_Width(a0)
+		bset	#0,Obj_Flags(a0)
+		move.w	Obj_Child_Ref(a0),a1
+		move.l	#Offset_0x035F5E,Obj_Child_Data(a0)
+		move.l	#Go_Delete_Object_A0,Obj_Child(a0)
+; Offset_0x035EA4:
+IntroSSWaves_Animate:
+		move.w	Obj_Child_Ref(a0),a1
+		move.w	Obj_Control_Var_10(a1),d0
+		sub.w	d0,Obj_X(a0)
+		jsr	(Animate_Raw_Multi_Delay)
+		jmp	(DisplaySprite).l
+; ===========================================================================
+; Offset_0x035EBC:
+IntroSSWaves_SetSSAnim:
+		move.b	#$B5,Obj_Map_Id(a0)
+		move.b	#0,(Super_Sonic_Palette_Timer).w
+		move.w	#$30,(Super_Sonic_Palette_Frame).w
+		move.w	#$7FFF,(Super_Sonic_Frame_Count).w
+		rts
+; ===========================================================================
+; Offset_0x035ED6:
+PalCycle_SuperSonicIntro:
+		subq.b	#1,(Super_Sonic_Palette_Timer).w
+		bpl.s	Offset_0x035F0A
+		move.b	#7,(Super_Sonic_Palette_Timer).w
+		lea	(Pal_SuperSonic_Cyc).l,a1
+		move.w	(Super_Sonic_Palette_Frame).w,d0
+		addq.w	#8,(Super_Sonic_Palette_Frame).w
+		cmpi.w	#$78,(Super_Sonic_Palette_Frame).w
+		bcs.s	Offset_0x035EFE
+		move.w	#$30,(Super_Sonic_Palette_Frame).w
+
+Offset_0x035EFE:
+		lea	(Palette_Row_0_Offset+4).w,a2
+		move.l	(a1,d0.w),(a2)+
+		move.w	4(a1,d0.w),(a2)
+
+Offset_0x035F0A:
+		rts
+; ===========================================================================
+; Offset_0x035F0C:
+AIZPlaneIntro_Scroll:
+		move.w	Obj_Control_Var_10(a0),d1
+		move.w	(Level_Events_Buffer_1).w,d0
+		bpl.s	Offset_0x035F1E
+		add.w	d1,d0
+		move.w	d0,(Level_Events_Buffer_1).w
+		rts
+
+Offset_0x035F1E:
+		add.w	d1,(Obj_Player_One+Obj_X).w
+		rts
+; End of function AIZPlaneIntro_Scroll
+
+; ===========================================================================
+; Offset_0x035F24:
+AIZPlaneIntro_ObjArray:
+		dc.w	1-1
+		dc.l	Obj_IntroTornado
+		dc.b	-$22,$2C
+; Offset_0x035F2C:
+AIZPlaneIntro_ObjArray2:
+		dc.w	2-1
+		dc.l	Obj_IntroTornadoProp
+		dc.b	$38,  4
+		dc.l	Obj_IntroTornadoBooster
+		dc.b	$18,$18
+; Offset_0x035F3A:
+AIZPlaneIntro_ObjArray3:
+		dc.w	1-1
+		dc.l	Obj_IntroSuperSonicWaves
+		dc.b	$F8,$18
+; Offset_0x035F42:
+AIZPlaneIntro_ObjArray4:
+		dc.w	0
+		dc.l	ObjC7_CutsceneKnuckles
+
+; ===========================================================================
+
+Offset_0x035F48:
+		dc.b	$03, $3D, $41, $3E, $41, $3F, $41, $40
+		dc.b	$41, $FC
+Offset_0x035F52:
+		dc.b	$00, $01, $02, $03, $04, $03, $02, $FC
+Offset_0x035F5A:
+		dc.b	$00, $05, $06, $FC
+Offset_0x035F5E:
+		dc.b	$00, $01, $01, $02, $02, $03, $03, $03
+		dc.b	$04, $02, $05, $02, $F4, $00  
+; ===========================================================================
+; Offset_0x035F6C:
+Tornado_Mappings:
+		dc.w    Offset_0x035F82-Tornado_Mappings
+		dc.w    Offset_0x035FBA-Tornado_Mappings
+		dc.w    Offset_0x035FC2-Tornado_Mappings
+		dc.w    Offset_0x035FCA-Tornado_Mappings
+		dc.w    Offset_0x035FD2-Tornado_Mappings
+		dc.w    Offset_0x035FDA-Tornado_Mappings
+		dc.w    Offset_0x035FEE-Tornado_Mappings
+		dc.w    Offset_0x036002-Tornado_Mappings
+		dc.w    Offset_0x036022-Tornado_Mappings
+		dc.w    Offset_0x03603C-Tornado_Mappings
+		dc.w    Offset_0x036050-Tornado_Mappings
+Offset_0x035F82:
+		dc.w    $0009
+		dc.w    $E009, $0000, $FFC4
+		dc.w    $F00E, $0006, $FFC4
+		dc.w    $F007, $0012, $FFE4
+		dc.w    $E80F, $001A, $FFF4
+		dc.w    $080C, $002A, $FFF4
+		dc.w    $E80C, $002E, $0014
+		dc.w    $F00B, $0032, $0014
+		dc.w    $1005, $003E, $001C
+		dc.w    $F802, $0042, $002C
+Offset_0x035FBA:
+		dc.w    $0001
+		dc.w    $F402, $0045, $FFFC
+Offset_0x035FC2:
+		dc.w    $0001
+		dc.w    $F402, $0048, $FFFC
+Offset_0x035FCA:
+		dc.w    $0001
+		dc.w    $F402, $004B, $FFFC
+Offset_0x035FD2:
+		dc.w    $0001
+		dc.w    $F402, $004E, $FFFC
+Offset_0x035FDA:
+		dc.w    $0003
+		dc.w    $F80D, $0051, $FFE4
+		dc.w    $F809, $0059, $0004
+		dc.w    $F80D, $005F, $FFC4
+Offset_0x035FEE:
+		dc.w    $0003
+		dc.w    $F80D, $0051, $FFE4
+		dc.w    $F809, $0059, $0004
+		dc.w    $F805, $0067, $FFD4
+Offset_0x036002:
+		dc.w    $0005
+		dc.w    $F80D, $006B, $FFC4
+		dc.w    $F80D, $086B, $001C
+		dc.w    $F809, $0073, $FFE4
+		dc.w    $F809, $006F, $0004
+		dc.w    $F801, $006F, $FFFC
+Offset_0x036022:
+		dc.w    $0004
+		dc.w    $F80D, $0079, $FFD0
+		dc.w    $F80D, $0879, $0010
+		dc.w    $F805, $007D, $FFF0
+		dc.w    $F805, $007D, $0000
+Offset_0x03603C:
+		dc.w    $0003
+		dc.w    $FC0C, $0081, $FFDC
+		dc.w    $FC0C, $0881, $0004
+		dc.w    $FC00, $0082, $FFFC
+Offset_0x036050:
+		dc.w    $0002
+		dc.w    $FC08, $0085, $FFE8
+		dc.w    $FC08, $0885, $0000
 
 ;===============================================================================   
 Robotnik_Head:                                                 ; Offset_0x03605E  
@@ -29971,12 +30469,578 @@ Obj_0x86_LBz_Beam_Rocket:                                      ; Offset_0x03F11A
                 include 'data\objects\obj_0x86.asm'
 Obj_0x8C_LBz_Ball_Shooter:                                     ; Offset_0x03FE88
                 include 'data\objects\obj_0x8C.asm'
-; Offset_0x040704: Obj_0x84_MVz_Hey_Ho: Obj84_HeyHo:
-		include	"data/objects/84 - Hey Ho (MVZ Miniboss).asm"
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 84 - Hey Ho (Mushroom Valley Miniboss)
+; ---------------------------------------------------------------------------
+; Offset_0x040704: Obj_0x84_MVz_Hey_Ho:
+Obj84_HeyHo:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	HeyHo_Index(pc,d0.w),d1
+		jsr	HeyHo_Index(pc,d1.w)
+		jmp	(DisplaySprite).l
+; ===========================================================================
+; Offset_0x040718:
+HeyHo_Index:	offsetTable
+		offsetTableEntry.w HeyHo_Init
+		offsetTableEntry.w HeyHo_Main
+; ===========================================================================
+; Offset_0x04071C:
+HeyHo_Init:
+		lea	HeyHo_ObjData(pc),a1
+		jsr	Object_Settings(pc)
+		move.l	#Offset_0x040840,Obj_Child_Data(a0)
+		lea	HeyHo_ObjArray(pc),a2
+		jmp	Load_Child_Object_A2(pc)
+
+Offset_0x040734:
+		rts
+; ===========================================================================
+; Offset_0x040736:
+HeyHo_Main:
+		jmp	Animate_Raw_Multi_Delay(pc)
+; ===========================================================================
+
+Offset_0x04073A:
+		lea	HeyHo_ObjData2(pc),a1
+		jsr	Object_Settings_2(pc)
+		move.l	#Offset_0x04074A,(a0)
+		rts
+; ===========================================================================
+
+Offset_0x04074A:
+		btst	#0,(Vint_runcount+3).w
+		bne.w	Offset_0x040734
+		bsr.w	Offset_0x040760
+		jsr	Refresh_Child_Position_Adjusted(pc)
+		jmp	Child_Display_Touch_Or_Delete(pc)
+; ---------------------------------------------------------------------------
+
+Offset_0x040760:
+		move.w	Obj_Child_Ref(a0),a1
+		moveq	#0,d0
+		move.b	Obj_Map_Id(a1),d0
+		move.b	HeyHo_MapFrames(pc,d0.w),Obj_Map_Id(a0)
+		add.w	d0,d0
+		move.w	d0,d1
+		lea	HeyHo_Priority(pc,d0.w),a2
+		move.w	(a2)+,Obj_Priority(a0)
+		add.w	d1,d1
+		add.b	Obj_Subtype(a0),d1
+		lea	HeyHo_Position(pc,d1.w),a2
+		move.w	(a2)+,Obj_Control_Var_12(a0)
+		rts
+
+; ===========================================================================
+; Offset_0x04078C:
+HeyHo_MapFrames:
+		dc.b	$14, $14, $14, $14, $14, $15, $14, $14
+		dc.b	$14, $14, $14, $14, $14, $14, $14, $14
+		dc.b	$14, $14, $14, $14
+; ---------------------------------------------------------------------------
+; Offset_0x0407A0:
+HeyHo_Position:
+		dc.b	$0B, $1C, $01, $1C, $0B, $1C, $01, $1C
+		dc.b	$0B, $1C, $01, $1C, $0B, $1C, $01, $1C
+		dc.b	$F8, $1C, $FF, $1C, $E8, $12, $EF, $12
+		dc.b	$F8, $1C, $FF, $1C, $EF, $1C, $F6, $1C
+		dc.b	$F8, $1C, $FF, $1C, $EF, $1C, $F6, $1C
+		dc.b	$F8, $1C, $0B, $1C, $F8, $1B, $0B, $1B
+		dc.b	$F8, $1C, $0B, $1C, $F8, $1C, $0B, $1C
+		dc.b	$F8, $1C, $FF, $1C, $F0, $1C, $F7, $1C
+		dc.b	$EF, $1C, $F6, $1C, $F8, $1C, $0B, $1C
+		dc.b	$0C, $1C, $06, $1C, $0B, $1C, $01, $1C
+; ---------------------------------------------------------------------------
+; Offset_0x0407F0:
+HeyHo_Priority:
+		dc.w	$300,$300,$300,$300,$300,$300,$300,$300
+		dc.w	$300,$300,$200,$200,$200,$200,$300,$300
+		dc.w	$300,$200,$300,$300
+
+; ===========================================================================
+; Offset_0x040818: Hey_Ho_Setup_Data:
+HeyHo_ObjData:
+		dc.l	Hey_Ho_Mappings
+		dc.w	$A380, $280
+		dc.b	$20,$20,  0,  0
+; Offset_0x040824: Hey_Ho_Setup_Data_2:
+HeyHo_ObjData2:	dc.w	$8380, $300
+		dc.b	$20,$20,$14,  0
+
+; Offset_0x04082C:
+HeyHo_ObjArray:
+		dc.w	$0001
+		dc.l	Offset_0x04073A
+		dc.b	$00, $00
+		dc.l	Offset_0x04073A
+		dc.b	$00, $00
+
+; ---------------------------------------------------------------------------
+; Offset_0x04083A:
+		dc.b	$07, $00, $01, $02, $03, $FC
+; ---------------------------------------------------------------------------
+
+Offset_0x040840:
+		dc.b	$04, $27, $04, $01, $06, $01, $08, $01
+		dc.b	$0B, $01, $0C, $27, $0A, $01, $08, $01
+		dc.b	$06, $01, $04, $27, $06, $01, $08, $01
+		dc.b	$0C, $27, $0A, $02, $0E, $03, $0F, $07
+		dc.b	$10, $07, $0F, $07, $10, $07, $0F, $07
+		dc.b	$10, $31, $09, $01, $07, $01, $FC, $00
+; ---------------------------------------------------------------------------
+; Offset_0x040870:
+Hey_Ho_Mappings:
+		dc.w	Offset_0x04089C-Hey_Ho_Mappings
+		dc.w	Offset_0x040934-Hey_Ho_Mappings
+		dc.w	Offset_0x0409CC-Hey_Ho_Mappings
+		dc.w	Offset_0x040A64-Hey_Ho_Mappings
+		dc.w	Offset_0x040AFC-Hey_Ho_Mappings
+		dc.w	Offset_0x040B64-Hey_Ho_Mappings
+		dc.w	Offset_0x040BCC-Hey_Ho_Mappings
+		dc.w	Offset_0x040C2E-Hey_Ho_Mappings
+		dc.w	Offset_0x040C90-Hey_Ho_Mappings
+		dc.w	Offset_0x040CE0-Hey_Ho_Mappings
+		dc.w	Offset_0x040D30-Hey_Ho_Mappings
+		dc.w	Offset_0x040D80-Hey_Ho_Mappings
+		dc.w	Offset_0x040DD0-Hey_Ho_Mappings
+		dc.w	Offset_0x040E14-Hey_Ho_Mappings
+		dc.w	Offset_0x040E64-Hey_Ho_Mappings
+		dc.w	Offset_0x040EA8-Hey_Ho_Mappings
+		dc.w	Offset_0x040EEC-Hey_Ho_Mappings
+		dc.w	Offset_0x040F30-Hey_Ho_Mappings
+		dc.w	Offset_0x040F6E-Hey_Ho_Mappings
+		dc.w	Offset_0x040FE2-Hey_Ho_Mappings
+		dc.w	Offset_0x041068-Hey_Ho_Mappings
+		dc.w	Offset_0x041070-Hey_Ho_Mappings
+Offset_0x04089C:
+		dc.w	$0019
+		dc.w	$1804, $006F, $0002
+		dc.w	$2009, $0071, $FFFA
+		dc.w	$F80A, $004C, $0002
+		dc.w	$0804, $0055, $000A
+		dc.w	$1009, $0057, $0002
+		dc.w	$0805, $0063, $000A
+		dc.w	$F001, $00D4, $FFFB
+		dc.w	$F005, $00CE, $FFF2
+		dc.w	$F005, $00CA, $FFF2
+		dc.w	$E804, $00D8, $FFF2
+		dc.w	$E80F, $0011, $FFF4
+		dc.w	$F002, $0021, $FFEC
+		dc.w	$0801, $0024, $FFEC
+		dc.w	$080D, $0026, $FFF4
+		dc.w	$1804, $0067, $FFE2
+		dc.w	$2009, $0069, $FFDA
+		dc.w	$F80A, $004C, $FFE2
+		dc.w	$0804, $0055, $FFEA
+		dc.w	$1009, $0057, $FFE2
+		dc.w	$0805, $0063, $FFEA
+		dc.w	$100B, $008D, $FFCA
+		dc.w	$3009, $0099, $FFCA
+		dc.w	$2600, $0077, $FFF2
+		dc.w	$2600, $0077, $0012
+		dc.w	$0005, $00DA, $0003
+Offset_0x040934:
+		dc.w	$0019
+		dc.w	$1904, $006F, $0002
+		dc.w	$2109, $0071, $FFFA
+		dc.w	$F80A, $004C, $0002
+		dc.w	$0904, $0055, $000A
+		dc.w	$1109, $0057, $0002
+		dc.w	$0905, $0063, $000A
+		dc.w	$F001, $00D4, $FFFB
+		dc.w	$F005, $00CE, $FFF2
+		dc.w	$F005, $00CA, $FFF2
+		dc.w	$E804, $00D8, $FFF2
+		dc.w	$E80F, $0011, $FFF4
+		dc.w	$F002, $0021, $FFEC
+		dc.w	$0801, $0024, $FFEC
+		dc.w	$080D, $0026, $FFF4
+		dc.w	$1904, $0067, $FFE2
+		dc.w	$2109, $0069, $FFDA
+		dc.w	$F80A, $004C, $FFE2
+		dc.w	$0904, $0055, $FFEA
+		dc.w	$1109, $0057, $FFE2
+		dc.w	$0905, $0063, $FFEA
+		dc.w	$110B, $008D, $FFCA
+		dc.w	$3109, $0099, $FFCA
+		dc.w	$2700, $0077, $FFF2
+		dc.w	$2700, $0077, $0012
+		dc.w	$0005, $00DA, $0003
+Offset_0x0409CC:
+		dc.w	$0019
+		dc.w	$1A04, $006F, $0002
+		dc.w	$2209, $0071, $FFFA
+		dc.w	$F80A, $004C, $0002
+		dc.w	$0A04, $0055, $000A
+		dc.w	$1209, $0057, $0002
+		dc.w	$0905, $0063, $000A
+		dc.w	$F001, $00D4, $FFFB
+		dc.w	$F005, $00CE, $FFF2
+		dc.w	$F005, $00CA, $FFF2
+		dc.w	$E804, $00D8, $FFF2
+		dc.w	$E80F, $0011, $FFF4
+		dc.w	$F002, $0021, $FFEC
+		dc.w	$0801, $0024, $FFEC
+		dc.w	$080D, $0026, $FFF4
+		dc.w	$1A04, $0067, $FFE2
+		dc.w	$2209, $0069, $FFDA
+		dc.w	$F80A, $004C, $FFE2
+		dc.w	$0A04, $0055, $FFEA
+		dc.w	$1209, $0057, $FFE2
+		dc.w	$0905, $0063, $FFEA
+		dc.w	$120B, $008D, $FFCA
+		dc.w	$3209, $0099, $FFCA
+		dc.w	$2800, $0077, $FFF2
+		dc.w	$2800, $0077, $0012
+		dc.w	$0005, $00DA, $0003
+Offset_0x040A64:
+		dc.w	$0019
+		dc.w	$1B04, $006F, $0002
+		dc.w	$2309, $0071, $FFFA
+		dc.w	$F80A, $004C, $0002
+		dc.w	$0B04, $0055, $000A
+		dc.w	$1309, $0057, $0002
+		dc.w	$0905, $0063, $000A
+		dc.w	$F001, $00D4, $FFFB
+		dc.w	$F005, $00CE, $FFF2
+		dc.w	$F005, $00CA, $FFF2
+		dc.w	$E804, $00D8, $FFF2
+		dc.w	$E80F, $0011, $FFF4
+		dc.w	$F002, $0021, $FFEC
+		dc.w	$0801, $0024, $FFEC
+		dc.w	$080D, $0026, $FFF4
+		dc.w	$1B04, $0067, $FFE2
+		dc.w	$2309, $0069, $FFDA
+		dc.w	$F80A, $004C, $FFE2
+		dc.w	$0B04, $0055, $FFEA
+		dc.w	$1309, $0057, $FFE2
+		dc.w	$0905, $0063, $FFEA
+		dc.w	$130B, $008D, $FFCA
+		dc.w	$3309, $0099, $FFCA
+		dc.w	$2900, $0077, $FFF2
+		dc.w	$2900, $0077, $0012
+		dc.w	$0005, $00DA, $0003
+Offset_0x040AFC:
+		dc.w	$0011
+		dc.w	$F008, $0082, $0000
+		dc.w	$F80D, $0085, $0000
+		dc.w	$F005, $0078, $FFF0
+		dc.w	$0009, $007C, $FFE8
+		dc.w	$E00E, $00E3, $FFB8
+		dc.w	$F808, $00EF, $FFC0
+		dc.w	$F000, $00E2, $FFD8
+		dc.w	$F100, $00E2, $FFE0
+		dc.w	$F200, $00E2, $FFE8
+		dc.w	$E805, $00BC, $0003
+		dc.w	$FC00, $00C8, $000B
+		dc.w	$E80E, $002E, $FFE8
+		dc.w	$F005, $003A, $0008
+		dc.w	$0001, $003E, $FFF0
+		dc.w	$000E, $0040, $FFF8
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $FFF7
+Offset_0x040B64:
+		dc.w	$0011
+		dc.w	$F008, $0082, $0000
+		dc.w	$F80D, $0085, $0000
+		dc.w	$F005, $0078, $FFF0
+		dc.w	$0009, $007C, $FFE8
+		dc.w	$E00E, $00E3, $FFB8
+		dc.w	$F808, $00EF, $FFC0
+		dc.w	$F000, $00E2, $FFD8
+		dc.w	$F100, $00E2, $FFE0
+		dc.w	$F200, $00E2, $FFE8
+		dc.w	$E805, $00BC, $0003
+		dc.w	$F800, $00C8, $0011
+		dc.w	$E80E, $002E, $FFE8
+		dc.w	$F005, $003A, $0008
+		dc.w	$0001, $003E, $FFF0
+		dc.w	$000E, $0040, $FFF8
+		dc.w	$0005, $00DE, $FFED
+		dc.w	$0005, $00DE, $FFF4
+Offset_0x040BCC:
+		dc.w	$0010
+		dc.w	$F308, $0082, $0008
+		dc.w	$FB0D, $0085, $0008
+		dc.w	$F305, $0078, $FFF8
+		dc.w	$0309, $007C, $FFF0
+		dc.w	$E805, $00BC, $0003
+		dc.w	$F800, $00C8, $0011
+		dc.w	$E50E, $00E3, $FFC8
+		dc.w	$FD08, $00EF, $FFD0
+		dc.w	$F500, $00E2, $FFE8
+		dc.w	$F600, $00E2, $FFF0
+		dc.w	$E80E, $002E, $FFE8
+		dc.w	$F005, $003A, $0008
+		dc.w	$0001, $003E, $FFF0
+		dc.w	$000E, $0040, $FFF8
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $FFF7
+Offset_0x040C2E:
+		dc.w	$0010
+		dc.w	$F308, $0082, $FFFF
+		dc.w	$FB0D, $0085, $FFFF
+		dc.w	$F305, $0078, $FFEF
+		dc.w	$0309, $007C, $FFE7
+		dc.w	$E805, $00C4, $FFFA
+		dc.w	$F800, $00C8, $0008
+		dc.w	$E50E, $00E3, $FFBF
+		dc.w	$FD08, $00EF, $FFC7
+		dc.w	$F500, $00E2, $FFDF
+		dc.w	$F600, $00E2, $FFE7
+		dc.w	$E80E, $002E, $FFDF
+		dc.w	$F005, $003A, $FFFF
+		dc.w	$0001, $003E, $FFE7
+		dc.w	$000E, $0040, $FFEF
+		dc.w	$0005, $00DA, $FFE7
+		dc.w	$0005, $00DA, $FFEE
+Offset_0x040C90:
+		dc.w	$000D
+		dc.w	$E80E, $00E3, $FFE8
+		dc.w	$0008, $00EF, $FFF0
+		dc.w	$F800, $00E2, $0008
+		dc.w	$F805, $0078, $0010
+		dc.w	$0809, $007C, $0008
+		dc.w	$E805, $00BC, $0003
+		dc.w	$F800, $00C8, $0011
+		dc.w	$E80E, $002E, $FFE8
+		dc.w	$F005, $003A, $0008
+		dc.w	$0001, $003E, $FFF0
+		dc.w	$000E, $0040, $FFF8
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $FFF7
+Offset_0x040CE0:
+		dc.w	$000D
+		dc.w	$E80E, $00E3, $FFDF
+		dc.w	$0008, $00EF, $FFE7
+		dc.w	$F800, $00E2, $FFFF
+		dc.w	$F805, $0078, $0007
+		dc.w	$0809, $007C, $FFFF
+		dc.w	$E805, $00C4, $FFFA
+		dc.w	$F800, $00C8, $0008
+		dc.w	$E80E, $002E, $FFDF
+		dc.w	$F005, $003A, $FFFF
+		dc.w	$0001, $003E, $FFE7
+		dc.w	$000E, $0040, $FFEF
+		dc.w	$0005, $00DA, $FFE7
+		dc.w	$0005, $00DA, $FFEE
+Offset_0x040D30:
+		dc.w	$000D
+		dc.w	$F80A, $004C, $0008
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $0003
+		dc.w	$E80B, $0000, $FFE8
+		dc.w	$0808, $000C, $FFE8
+		dc.w	$1004, $000F, $FFF0
+		dc.w	$E80B, $0800, $0000
+		dc.w	$0808, $080C, $0000
+		dc.w	$1004, $080F, $0000
+		dc.w	$F80A, $004C, $FFE4
+		dc.w	$FE0A, $00AD, $0000
+		dc.w	$0609, $00B6, $0018
+		dc.w	$EB00, $00C9, $FFFC
+Offset_0x040D80:
+		dc.w	$000D
+		dc.w	$F70A, $004C, $0008
+		dc.w	$FF05, $00DA, $FFF0
+		dc.w	$FF05, $00DA, $0003
+		dc.w	$E70B, $0000, $FFE8
+		dc.w	$0708, $000C, $FFE8
+		dc.w	$0F04, $000F, $FFF0
+		dc.w	$E70B, $0800, $0000
+		dc.w	$0708, $080C, $0000
+		dc.w	$0F04, $080F, $0000
+		dc.w	$F70A, $004C, $FFE4
+		dc.w	$FD0A, $00AD, $0000
+		dc.w	$0509, $00B6, $0018
+		dc.w	$EA00, $00C9, $FFFC
+Offset_0x040DD0:
+		dc.w	$000B
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $0003
+		dc.w	$E80B, $0000, $FFE8
+		dc.w	$0808, $000C, $FFE8
+		dc.w	$1004, $000F, $FFF0
+		dc.w	$E80B, $0800, $0000
+		dc.w	$0808, $080C, $0000
+		dc.w	$1004, $080F, $0000
+		dc.w	$F80A, $004C, $FFE0
+		dc.w	$F80A, $084C, $0008
+		dc.w	$EB00, $00C9, $FFFC
+Offset_0x040E14:
+		dc.w	$000D
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $0003
+		dc.w	$E80B, $0000, $FFE8
+		dc.w	$0808, $000C, $FFE8
+		dc.w	$1004, $000F, $FFF0
+		dc.w	$E80B, $0800, $0000
+		dc.w	$0808, $080C, $0000
+		dc.w	$1004, $080F, $0000
+		dc.w	$F80A, $004C, $FFE0
+		dc.w	$F80A, $084C, $0008
+		dc.w	$FE0A, $00AD, $0000
+		dc.w	$0609, $00B6, $0018
+		dc.w	$EB00, $00C9, $FFFC
+Offset_0x040E64:
+		dc.w	$000B
+		dc.w	$F80A, $004C, $0008
+		dc.w	$E805, $00BC, $0003
+		dc.w	$F800, $00C8, $0011
+		dc.w	$E80E, $002E, $FFE8
+		dc.w	$F005, $003A, $0008
+		dc.w	$0001, $003E, $FFF0
+		dc.w	$000E, $0040, $FFF8
+		dc.w	$FE0A, $00AD, $000D
+		dc.w	$0609, $00B6, $001F
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $FFF7
+Offset_0x040EA8:
+		dc.w	$000B
+		dc.w	$F80A, $004C, $FFF8
+		dc.w	$0005, $0063, $FFFF
+		dc.w	$E805, $00C0, $FFFB
+		dc.w	$E80E, $002E, $FFE0
+		dc.w	$F005, $003A, $0000
+		dc.w	$0001, $003E, $FFE8
+		dc.w	$000E, $0040, $FFF0
+		dc.w	$FE0A, $00AD, $0006
+		dc.w	$0609, $00B6, $001E
+		dc.w	$0005, $00DA, $FFE8
+		dc.w	$0005, $00DA, $FFEF
+Offset_0x040EEC:
+		dc.w	$000B
+		dc.w	$F80A, $004C, $FFF6
+		dc.w	$0005, $0063, $FFFD
+		dc.w	$FE0A, $00AD, $0005
+		dc.w	$0609, $00B6, $001D
+		dc.w	$E805, $00C4, $FFFA
+		dc.w	$E80E, $002E, $FFDF
+		dc.w	$F005, $003A, $FFFF
+		dc.w	$0001, $003E, $FFE7
+		dc.w	$000E, $0040, $FFEF
+		dc.w	$0005, $00DA, $FFE7
+		dc.w	$0005, $00DA, $FFEE
+Offset_0x040F30:
+		dc.w	$000A
+		dc.w	$F80A, $004C, $FFE4
+		dc.w	$0005, $00DA, $FFF0
+		dc.w	$0005, $00DA, $0003
+		dc.w	$E80B, $0000, $FFE8
+		dc.w	$0808, $000C, $FFE8
+		dc.w	$1004, $000F, $FFF0
+		dc.w	$E80B, $0800, $0000
+		dc.w	$0808, $080C, $0000
+		dc.w	$1004, $080F, $0000
+		dc.w	$F80A, $084C, $0004
+Offset_0x040F6E:
+		dc.w	$0013
+		dc.w	$1804, $006F, $FFF9
+		dc.w	$2009, $0071, $FFF1
+		dc.w	$0804, $0055, $0001
+		dc.w	$1009, $0057, $FFF9
+		dc.w	$F80A, $004C, $FFF9
+		dc.w	$0805, $0063, $0000
+		dc.w	$E80E, $082E, $FFF8
+		dc.w	$F005, $083A, $FFE8
+		dc.w	$0001, $083E, $0008
+		dc.w	$000E, $0840, $FFE8
+		dc.w	$1804, $0067, $FFE1
+		dc.w	$2009, $0069, $FFD9
+		dc.w	$0804, $0055, $FFE9
+		dc.w	$1009, $0057, $FFE1
+		dc.w	$F80A, $004C, $FFE1
+		dc.w	$100B, $008D, $FFD3
+		dc.w	$3009, $0099, $FFD3
+		dc.w	$0005, $00DA, $0004
+		dc.w	$0005, $00DA, $FFFE
+Offset_0x040FE2:
+		dc.w	$0016
+		dc.w	$1804, $006F, $0002
+		dc.w	$2009, $0071, $FFFA
+		dc.w	$F80A, $004C, $0002
+		dc.w	$0804, $0055, $000A
+		dc.w	$1009, $0057, $0002
+		dc.w	$0805, $0063, $000A
+		dc.w	$F001, $00D4, $FFFB
+		dc.w	$E80F, $0011, $FFF4
+		dc.w	$F002, $0021, $FFEC
+		dc.w	$0801, $0024, $FFEC
+		dc.w	$080D, $0026, $FFF4
+		dc.w	$1804, $0067, $FFE2
+		dc.w	$2009, $0069, $FFDA
+		dc.w	$F80A, $004C, $FFE2
+		dc.w	$0804, $0055, $FFEA
+		dc.w	$1009, $0057, $FFE2
+		dc.w	$0805, $0063, $FFEA
+		dc.w	$100B, $008D, $FFCA
+		dc.w	$3009, $0099, $FFCA
+		dc.w	$2600, $0077, $FFF2
+		dc.w	$2600, $0077, $0012
+		dc.w	$0005, $00DA, $0003
+Offset_0x041068:
+		dc.w	$0001
+		dc.w	$F406, $009F, $FFF8
+Offset_0x041070:
+		dc.w	$0002
+		dc.w	$F404, $00A5, $FFFC
+		dc.w	$FC09, $00A7, $FFF4
+
 Obj_0x98_Sz_Guardian:                                          ; Offset_0x04107E
                 include 'data\objects\obj_0x98.asm'
-; Offset_0x04178A: Obj_0xC5_Hidden_Monitors: ObjC5_HiddenMonitor:
-		include	"data/objects/C5 - Hidden Monitor.asm"
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object C5 - Hidden Moniters
+; ---------------------------------------------------------------------------
+; Offset_0x04178A: Obj_0xC5_Hidden_Monitors:
+ObjC5_HiddenMonitor:
+		lea	HiddenMonitor_ObjData(pc),a1
+		jsr	Object_Settings(pc)
+		move.l	#HiddenMonitor_Main,(a0)
+		move.b	#$F,Obj_Height_2(a0)
+		move.b	#$F,Obj_Width_2(a0)
+		move.b	#$46,Obj_Col_Flags(a0)
+		move.b	Obj_Subtype(a0),Obj_Ani_Number(a0)
+		rts
+; ===========================================================================
+; Offset_0x0417B2:
+HiddenMonitor_Main:
+		move.w	(Obj_End_Panel_Mem_Address).w,a1
+		cmpi.l	#Obj_End_Panel,(a1)
+		bne.s	Offset_0x0417FC
+		btst	#0,Obj_Control_Var_08(a1)
+		beq.s	Offset_0x0417FC
+		move.w	Obj_X(a0),d0
+		move.w	Obj_X(a1),d1
+		lea	Offset_0x041802(pc),a2
+		add.w	(a2)+,d0
+		cmp.w	d0,d1
+		bcs.s	Offset_0x0417FC
+		add.w	(a2)+,d0
+		cmp.w	d0,d1
+		bcc.s	Offset_0x0417FC
+		bclr	#0,Obj_Control_Var_08(a1)
+		move.l	#Obj01_Monitors,(a0)
+		move.b	#2,Obj_Routine(a0)
+		move.b	#4,Obj_Control_Var_0C(a0)
+		move.w	#-$400,Obj_Speed_Y(a0)
+
+Offset_0x0417FC:
+		jmp     (MarkObjGone).l
+; ===========================================================================
+
+Offset_0x041802:	dc.w	-$E,$1C
+
+; Offset_0x041806: Hidden_Monitors_Setup_Data:
+HiddenMonitor_ObjData:
+		dc.l	Monitors_Mappings
+		dc.w	$4C4
+		dc.w	$180
+		dc.b	$E,$10,  0,  0
+
 Obj_End_Panel:                                                 ; Offset_0x041812
                 include 'data\objects\endpanel.asm'
 ;===============================================================================
@@ -32631,15 +33695,318 @@ Obj_0x96_MVz_Butterdroid:                                      ; Offset_0x049DCA
                 include 'data\objects\obj_0x96.asm'
 Obj_0x97_MVz_Cluckoid:                                         ; Offset_0x049E50 
                 include 'data\objects\obj_0x97.asm'
-Obj_0x90_LRz_Fireworm:                                         ; Offset_0x049FB6
-                include 'data\objects\obj_0x90.asm'
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 90 - Fireworm (from LRZ)
+; ---------------------------------------------------------------------------
+; Offset_0x049FB6: Obj_0x90_LRz_Fireworm:
+Obj90_Fireworm:
+		jsr	(Object_Check_Range).l
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	Fireworm_Index(pc,d0.w),d1
+		jsr	Fireworm_Index(pc,d1.w)
+		jmp	(Delete_Sprite_Check_X).l
+; ===========================================================================
+; Offset_0x049FD0:
+Fireworm_Index:	offsetTable
+		offsetTableEntry.w Fireworm_Init
+		offsetTableEntry.w Fireworm_Main
+		offsetTableEntry.w Fireworm_Action-2
+; ===========================================================================
+; Offset_0x049FD6:
+Fireworm_Init:
+		lea	Fireworm_Setup_Data(pc),a1
+		jmp	(Object_Settings).l
+; ===========================================================================
+; Offset_0x049FE0:
+Fireworm_Main:
+		jsr	(Find_Player).l
+		cmpi.w	#$80,d2
+		bcs.s	Offset_0x049FEE
+		rts
+; ---------------------------------------------------------------------------
+
+Offset_0x049FEE:
+		move.b	#4,Obj_Routine(a0)
+		lea	Offset_0x04A256(pc),a2
+		jsr	(Load_Child_Object_A2).l
+		bne.s	Offset_0x04A006
+		move.b	Obj_Subtype(a0),Obj_Subtype(a1)
+
+Offset_0x04A006:
+		rts
+; ---------------------------------------------------------------------------
+		rts
+; ===========================================================================
+; Offset_0x04A008:
+Fireworm_Action:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	Fireworm_Index2(pc,d0.w),d1
+		jsr	Fireworm_Index2(pc,d1.w)
+		lea	Fireworm_PLC_Data(pc),a2
+		jsr	(Load_Dynamic_PLC_A2).l
+		jmp	(Display_Sprite_Check_X).l
+; ===========================================================================
+; Offset_0x04A028:
+Fireworm_Index2:	offsetTable
+		offsetTableEntry.w Fireworm_Init2
+		offsetTableEntry.w Fireworm_TrackSonic
+		offsetTableEntry.w Fireworm_Move
+		offsetTableEntry.w Fireworm_BobUpAndDown
+		offsetTableEntry.w Fireworm_TurnAround
+; ===========================================================================
+; Offset_0x04A032:
+Fireworm_Init2:
+		lea	Fireworm_Setup_Data_2(pc),a1
+		jsr	(Object_Settings_Slotted)
+; Offset_0x04A03C:
+Fireworm_TrackSonic:
+		jmp	(Run_Object_Wait_Timer_A0).l	; this was seemingly added to crash the game if it loads...
+		move.b	#4,Obj_Routine(a0)
+		move.w	#3,Obj_Timer(a0)
+		move.l	#Fireworm_LoadChild,Obj_Child(a0)
+		move.w	#-$100,d4
+		jmp	(Set_Velocity_X_Track_Player_One).l
+; ===========================================================================
+; Offset_0x04A060:
+Fireworm_Move:
+		jsr	(SpeedToPos).l
+		jmp	(Run_Object_Wait_Timer_A0).l
+; ===========================================================================
+; Offset_0x04A06C:
+Fireworm_LoadChild:
+		move.b	#1,Obj_Map_Id(a0)
+		lea	Offset_0x04A25E(pc),a2
+		jsr	(Load_Child_Object_A2).l
+
+Offset_0x04A07C:		
+		move.b	#6,Obj_Routine(a0)
+		move.w	#-$100,Obj_Control_Var_12(a0)
+		move.l	#Offset_0x04A280, Obj_Child_Data(A0)
+
+Offset_0x04A090:
+		move.b	#8,Obj_Control_Var_09(a0)
+
+Offset_0x04A096:
+		; also referenced by Caterkiller Jr.
+		move.w	#$80,d0
+		move.w	d0,Obj_Control_Var_0E(a0)
+		move.w	d0,Obj_Speed_Y(a0)
+		move.w	#8,Obj_Control_Var_10(a0)
+		bclr	#0,Obj_Control_Var_08(a0)
+		rts	
+; ===========================================================================
+; Offset_0x04A0B0:
+Fireworm_BobUpAndDown:
+		jsr	(Swing_Up_And_Down_Count).l
+		bne.s	Offset_0x04A0C4
+		jsr	(SpeedToPos).l
+		jmp	(Animate_Raw_Multi_Delay).l
+; ---------------------------------------------------------------------------
+
+Offset_0x04A0C4:
+		move.b	#8,Obj_Routine(a0)
+		move.w	Obj_Speed_X(a0),Obj_Height_3(a0)
+		move.w	Obj_Control_Var_12(a0),Obj_Speed_Y(a0)
+		neg.w	Obj_Control_Var_12(a0)
+		clr.w	Obj_Timer(a0)
+		clr.b	Obj_Ani_Frame(a0)
+		clr.b	Obj_Ani_Time(a0)
+		rts	
+; ===========================================================================
+; Offset_0x04A0E8:
+Fireworm_TurnAround:
+		lea	Offset_0x04A28D(pc),a1
+		jsr	(Animate_Raw_Multi_Delay_Flip_X_A1).l
+		addq.w	#1,Obj_Timer(a0)
+		tst.w	Obj_Height_3(a0)
+		bmi.s	Fireworm_TurnRight
+
+; Fireworm_TurnLeft:
+		move.w	Obj_Speed_X(a0),d0
+		subi.w	#$10,d0
+		cmpi.w	#-$100,d0
+		ble.s	Offset_0x04A12C
+		move.w	d0,Obj_Speed_X(a0)
+		jmp	(SpeedToPos).l
+; ---------------------------------------------------------------------------
+; Offset_0x04A114:
+Fireworm_TurnRight:
+		move.w	Obj_Speed_X(a0),d0
+		addi.w	#$10,d0
+		cmpi.w	#$100,d0
+		bge.s	Offset_0x04A12C
+		move.w	d0,Obj_Speed_X(a0)
+		jmp	(SpeedToPos).l
+; ---------------------------------------------------------------------------
+
+Offset_0x04A12C:
+		move.b	#6,Obj_Routine(a0)
+		clr.b	Obj_Ani_Frame(a0)
+		clr.b	Obj_Ani_Time(a0)
+		bra.w	Offset_0x04A090			
+; ===========================================================================
+; Now do the same for the main body
+; Offset_0x04A13E:
+Fireworm_Body:
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	FirewormBody_Index(pc,d0.w),d1
+		jsr	FirewormBody_Index(pc,d1.w)
+		moveq	#0,d0
+		jmp	(Child_Display_Touch_Or_Flicker_Move).l
+; ===========================================================================
+; Offset_0x04A154:
+FirewormBody_Index:	offsetTable
+		offsetTableEntry.w FirewormBody_Init
+		offsetTableEntry.w FirewormBody_Wait
+		offsetTableEntry.w FirewormBody_Wait
+		offsetTableEntry.w Fireworm_BobUpAndDown
+		offsetTableEntry.w Fireworm_TurnAround
+; ===========================================================================
+; Offset_0x04A15E:
+FirewormBody_Init:
+		lea	Fireworm_Setup_Data_3(pc),a1
+		jsr	(Object_Settings).l
+		moveq	#0,d0
+		move.b	Obj_Subtype(a0),d0
+		move.w	FirewormBody_Timers(pc,d0.w),Obj_Timer(a0)
+		move.l	#Offset_0x04A19C,Obj_Child(a0)
+		move.w	Obj_Child_Ref(a0),a1
+		move.w	Obj_Speed_X(a1),Obj_Speed_X(a0)
+		move.b	Obj_Flags(a1),Obj_Flags(a0)
+		rts		
+; ---------------------------------------------------------------------------
+; This effectively sets their position through how long it takes for them
+; to spawn from the tunnel the Fireworm comes from.
+; Offset_0x04A18E:
+FirewormBody_Timers:
+		dc.w	$B, $16, $21, $2C	
+; ===========================================================================
+; Offset_0x04A196:
+FirewormBody_Wait:
+		jmp	(Run_Object_Wait_Timer_A0).l
+; ---------------------------------------------------------------------------
+
+Offset_0x04A19C:
+		lea	Offset_0x04A278(PC), A2
+		jsr	(Load_Child_Object_A2)
+		bra.w	Offset_0x04A07C
+; ===========================================================================
+; Offset_0x04A1AA:
+Fireworm_Flame:
+		jsr	(Refresh_Child_Position_Adjusted).l
+		moveq	#0,d0
+		move.b	Obj_Routine(a0),d0
+		move.w	FirewormFlame_Index(pc,d0.w),d1
+		jsr	FirewormFlame_Index(pc,d1.w)
+		jmp	(Child_Display_Touch_Or_Delete).l
+; ===========================================================================
+; Offset_0x04A1C4:
+FirewormFlame_Index:	offsetTable
+		offsetTableEntry.w FirewormFlame_Init
+		offsetTableEntry.w FirewormFlame_Animate
+		offsetTableEntry.w FirewormFlame_Wait
+; ===========================================================================
+; Offset_0x04A1CA:
+FirewormFlame_Init:
+		lea	Fireworm_Setup_Data_4(pc),a1
+		jsr	(Object_Settings_3).l
+		move.l	#Offset_0x04A296,Obj_Child_Data(a0)
+		move.l	#Offset_0x04A1EC,Obj_Child(a0)
+		rts 
+; ===========================================================================
+; Offset_0x04A1E6:
+FirewormFlame_Animate:
+		jmp	(Animate_Raw).l
+; ---------------------------------------------------------------------------
+
+Offset_0x04A1EC:
+		move.b	#4,Obj_Routine(a0)
+		move.b	#7,Obj_Map_Id(a0)
+		jsr	(PseudoRandomNumber).l
+		andi.w	#$3F,d0
+		move.w	d0,Obj_Timer(a0)
+		move.l	#Offset_0x04A216,Obj_Child(a0)
+		rts 
+; ===========================================================================
+; Offset_0x04A210:
+FirewormFlame_Wait:
+		jmp	(Run_Object_Wait_Timer_A0).l
+; ---------------------------------------------------------------------------
+
+Offset_0x04A216:
+		move.b	#2,Obj_Routine(a0)
+		move.l	#Offset_0x04A1EC,Obj_Child(a0)
+		rts
+
+; ===========================================================================
+; Offset_0x04A226:
+Fireworm_Setup_Data:
+		dc.l	Fireworm_Segments_Mappings
+		dc.w	$E518, $0280
+		dc.b	$C, $C, 0, 0
+
+;-------------------------------------------------------------------------------	
+Fireworm_Setup_Data_2:						; Offset_0x04A232
+		dc.w	$0003, $A580, $0009, $0000
+		dc.l	Fireworm_Mappings			; Offset_0x10E2DC
+		dc.w	$0180
+		dc.b	$0C, $0C, $00, $0B
+;------------------------------------------------------------------------------- 
+Fireworm_Setup_Data_3:						; Offset_0x04A244
+		dc.l	Fireworm_Segments_Mappings			; Offset_0x10E274
+		dc.w	$A518, $0200
+		dc.b	$08, $08, $01, $87 
+;------------------------------------------------------------------------------- 
+Fireworm_Setup_Data_4:						; Offset_0x04A250
+		dc.w	$0180
+		dc.b	$08, $08, $03, $98	
+;------------------------------------------------------------------------------- 
+Offset_0x04A256:
+		dc.w	$0000
+		dc.l	Fireworm_Action
+		dc.b	$00, $00		
+;-------------------------------------------------------------------------------
+Offset_0x04A25E:
+		dc.w	$0003
+		dc.l	Fireworm_Body
+		dc.b	$00, $00
+		dc.l	Fireworm_Body
+		dc.b	$00, $00
+		dc.l	Fireworm_Body 
+		dc.b	$00, $00
+		dc.l	Fireworm_Body
+		dc.b	$00, $00			
+;-------------------------------------------------------------------------------
+Offset_0x04A278:
+		dc.w	$0000
+		dc.l	Fireworm_Flame
+		dc.b	$00, $F2
+;-------------------------------------------------------------------------------
+Fireworm_PLC_Data:							; Offset_0x04A280 
+			; dc.l	Art_Fireworm
+			; dc.l	Fireworm_Dyn_Script			; Offset_0x10E2C4
+;-------------------------------------------------------------------------------		
+Offset_0x04A280:
+		dc.b	$01, $03, $01, $06, $02, $08, $03, $01
+		dc.b	$F8, $0A, $03, $7F, $FC	
+;-------------------------------------------------------------------------------
+Offset_0x04A28D:
+		dc.b	$03, $07, $02, $07, $42, $07, $03, $7F
+		dc.b	$FC	
+;-------------------------------------------------------------------------------
+Offset_0x04A296:
+		dc.b	$03, $04, $04, $05, $06, $F4
+
 Obj_0x91_LRz_Iwamodock:                                        ; Offset_0x04A29C    
                 include 'data\objects\obj_0x91.asm'
 Obj_0x92_LRz_Toxomister:                                       ; Offset_0x04A400  
                 include 'data\objects\obj_0x92.asm'
-;------------------------------------------------------------------------------- 
-;-------------------------------------------------------------------------------
-              
+
 ;===============================================================================
 ; Carga dos gr�ficos das fases
 ; Cada fase usa seis grupos de LongWord sendo que o primeiro byte dos dois
@@ -35183,7 +36550,7 @@ DOL_0C_End:
                 dc.l    Obj_0x92_LRz_Toxomister                ; Offset_0x04A400
                 dc.l    Toxomister_Mappings                    ; Offset_0x10DDAA
                 dc.w    $0568
-                dc.l    Obj_0x90_LRz_Fireworm                  ; Offset_0x049FB6
+                dc.l    Obj90_Fireworm                  ; Offset_0x049FB6
                 dc.l    Fireworm_Mappings                      ; Offset_0x10E2DC
                 dc.w    $0580
                 dc.l    Obj_0x91_LRz_Iwamodock                 ; Offset_0x04A29C
@@ -35684,7 +37051,7 @@ Object_List:                                                   ; Offset_0x04C964
                 dc.l    Obj_0x06_Ride_Vine                     ; Offset_0x017A8E
                 dc.l    Obj07_Springs                       ; Offset_0x01921A
                 dc.l    Obj_0x08_Spikes                        ; Offset_0x01A442
-                dc.l    Obj_0x09_AIz_Tree                      ; Offset_0x013F24
+                dc.l    Obj09_AIZTree                      ; Offset_0x013F24
                 dc.l    Obj_0x0A_AIz_Zipline_Peg               ; Offset_0x013F66
                 dc.l    Obj_0x0B_Sphere_Test                   ; Offset_0x01B338
                 dc.l    Obj_0x0C_Swing_Ride_Vine               ; Offset_0x0180FE
@@ -35819,7 +37186,7 @@ Object_List:                                                   ; Offset_0x04C964
                 dc.l    Obj_0x8D_CNz_Graviton_Mobile           ; Offset_0x03B9A0
                 dc.l    Obj_0x8E_CNz_Bowling_Spin              ; Offset_0x03B01A
                 dc.l    Obj_0x8F_FBz_Gapsule                   ; Offset_0x03C27C 
-                dc.l    Obj_0x90_LRz_Fireworm                  ; Offset_0x049FB6 ; $90
+                dc.l    Obj90_Fireworm                  ; Offset_0x049FB6 ; $90
                 dc.l    Obj_0x91_LRz_Iwamodock                 ; Offset_0x04A29C
                 dc.l    Obj_0x92_LRz_Toxomister                ; Offset_0x04A400
                 dc.l    Obj_0x93_MVz_Madmole                   ; Offset_0x0495CC
@@ -45164,13 +46531,10 @@ TC_The_Doomsday:                                               ; Offset_0x13B6DE
                 dc.w    $0000, $0000, $0000, $0000, $0000, $0000, $0000  
 Angel_Island_1_Blocks:                                         ; Offset_0x13B830
                 incbin  'data\aiz\bl_act1.kos'
-                dc.w     $0000
 Angel_Island_1_Blocks_2:                                       ; Offset_0x13BA30  
                 incbin  'data\aiz\bl2_act1.kos'
-                dc.w     $0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_1_Blocks_3:                                       ; Offset_0x13C680
-                incbin  'data\aiz\bl3_act1.kos' 
-                dc.w     $0000, $0000, $0000
+                incbin  'data\aiz\bl3_act1.kos'
 Angel_Island_1_Tiles:                                          ; Offset_0x13D750
                 incbin  'data\aiz\tl_act1.kmd'
 Angel_Island_1_Tiles_2:                                        ; Offset_0x13E552
@@ -45537,119 +46901,118 @@ Collision_Array_1:                                             ; Offset_0x1C9240
                 incbin  'data\all\c_array1.dat'
 Collision_Array_2:                                             ; Offset_0x1CB240
                 incbin  'data\all\c_array2.dat' 
-;-------------------------------------------------------------------------------                  
-Collision_Index:                                               ; Offset_0x1CD240                
-                dc.l    Angel_Island_1_Collision               ; Offset_0x1CD300
-                dc.l    Angel_Island_2_Collision               ; Offset_0x1CDF00
-                dc.l    Hydrocity_1_Collision                  ; Offset_0x1CEB00
-                dc.l    Hydrocity_2_Collision                  ; Offset_0x1CF700
-                dc.l    Marble_Garden_1_Collision              ; Offset_0x1D0300
-                dc.l    Marble_Garden_2_Collision              ; Offset_0x1D0F00
-                dc.l    Carnival_Night_1_Collision             ; Offset_0x1D1B00
-                dc.l    Carnival_Night_2_Collision             ; Offset_0x1D1B00
-                dc.l    Flying_Battery_1_Collision             ; Offset_0x1D2700
-                dc.l    Flying_Battery_2_Collision             ; Offset_0x1D3300
-                dc.l    Icecap_1_Collision                     ; Offset_0x1D3F00
-                dc.l    Icecap_2_Collision                     ; Offset_0x1D4B00
-                dc.l    Launch_Base_1_Collision                ; Offset_0x1D5700
-                dc.l    Launch_Base_2_Collision                ; Offset_0x1D6300
-                dc.l    Mushroom_Valley_1_Collision            ; Offset_0x1D6F00
-                dc.l    Mushroom_Valley_2_Collision            ; Offset_0x1D6F00
-                dc.l    Sandopolis_1_Collision                 ; Offset_0x1D6F00
-                dc.l    Sandopolis_2_Collision                 ; Offset_0x1D6F00
-                dc.l    Lava_Reef_1_Collision                  ; Offset_0x1D6F00
-                dc.l    Lava_Reef_2_Collision                  ; Offset_0x1D6F00
-                dc.l    Sky_Sanctuary_1_Collision              ; Offset_0x1D6F00
-                dc.l    Sky_Sanctuary_2_Collision              ; Offset_0x1D6F00
-                dc.l    Death_Egg_1_Collision                  ; Offset_0x1D6F00
-                dc.l    Death_Egg_2_Collision                  ; Offset_0x1D6F00
-                dc.l    The_Doomsday_1_Collision               ; Offset_0x1D6F00
-                dc.l    The_Doomsday_2_Collision               ; Offset_0x1D6F00
-                dc.l    Ending_Collision                       ; Offset_0x1D6F00
-                dc.l    Ending_Collision                       ; Offset_0x1D6F00
-                dc.l    Azure_Lake_Collision                   ; Offset_0x1D6F00
-                dc.l    Azure_Lake_Collision                   ; Offset_0x1D6F00
-                dc.l    Balloon_Park_Collision                 ; Offset_0x1D7B00
-                dc.l    Balloon_Park_Collision                 ; Offset_0x1D7B00
-                dc.l    Desert_Palace_Collision                ; Offset_0x1D8700
-                dc.l    Desert_Palace_Collision                ; Offset_0x1D8700
-                dc.l    Chrome_Gadget_Collision                ; Offset_0x1D9300
-                dc.l    Chrome_Gadget_Collision                ; Offset_0x1D9300
-                dc.l    Endless_Mine_Collision                 ; Offset_0x1D9F00
-                dc.l    Endless_Mine_Collision                 ; Offset_0x1D9F00
-                dc.l    BS_Gumball_Machine_Collision           ; Offset_0x1DAB00
-                dc.l    BS_Gumball_Machine_Collision           ; Offset_0x1DAB00
-                dc.l    BS_Glowing_Spheres_Collision           ; Offset_0x1DB700
-                dc.l    BS_Glowing_Spheres_Collision           ; Offset_0x1DB700
-                dc.l    BS_Slot_Machine_Collision              ; Offset_0x1DC300
-                dc.l    BS_Slot_Machine_Collision              ; Offset_0x1DC300
-                dc.l    Lava_Reef_Boss_Collision               ; Offset_0x1DC300
-                dc.l    Hidden_Palace_Collision                ; Offset_0x1DC300
-                dc.l    Death_Egg_Final_Boss_Collision         ; Offset_0x1DC300
-                dc.l    Hidden_Palace_Portal_Collision         ; Offset_0x1DC300
+;-------------------------------------------------------------------------------
+; Offset_0x1CD240:
+Collision_Index:
+		dc.l	Angel_Island_1_Collision
+		dc.l	Angel_Island_2_Collision
+		dc.l	Hydrocity_1_Collision
+		dc.l	Hydrocity_2_Collision
+		dc.l	Marble_Garden_1_Collision
+		dc.l	Marble_Garden_2_Collision
+		dc.l	Carnival_Night_Collision
+		dc.l	Carnival_Night_Collision
+		dc.l	Flying_Battery_1_Collision
+		dc.l	Flying_Battery_2_Collision
+		dc.l	Icecap_1_Collision
+		dc.l	Icecap_2_Collision
+		dc.l	Launch_Base_1_Collision
+		dc.l	Launch_Base_2_Collision
+		dc.l	Mushroom_Valley_1_Collision
+		dc.l	Mushroom_Valley_2_Collision
+		dc.l	Sandopolis_1_Collision
+		dc.l	Sandopolis_2_Collision
+		dc.l	Lava_Reef_1_Collision
+		dc.l	Lava_Reef_2_Collision
+		dc.l	Sky_Sanctuary_1_Collision
+		dc.l	Sky_Sanctuary_2_Collision
+		dc.l	Death_Egg_1_Collision
+		dc.l	Death_Egg_2_Collision
+		dc.l	The_Doomsday_1_Collision
+		dc.l	The_Doomsday_2_Collision
+		dc.l	Ending_Collision
+		dc.l	Ending_Collision
+		dc.l	Azure_Lake_Collision
+		dc.l	Azure_Lake_Collision
+		dc.l	Balloon_Park_Collision
+		dc.l	Balloon_Park_Collision
+		dc.l	Desert_Palace_Collision
+		dc.l	Desert_Palace_Collision
+		dc.l	Chrome_Gadget_Collision
+		dc.l	Chrome_Gadget_Collision
+		dc.l	Endless_Mine_Collision
+		dc.l	Endless_Mine_Collision
+		dc.l	BS_Gumball_Machine_Collision
+		dc.l	BS_Gumball_Machine_Collision
+		dc.l	BS_Glowing_Spheres_Collision
+		dc.l	BS_Glowing_Spheres_Collision
+		dc.l	BS_Slot_Machine_Collision
+		dc.l	BS_Slot_Machine_Collision
+		dc.l	Lava_Reef_Boss_Collision
+		dc.l	Hidden_Palace_Collision
+		dc.l	Death_Egg_Final_Boss_Collision
+		dc.l	Hidden_Palace_Portal_Collision
 
+; Offset_0x1CD300:
+Angel_Island_1_Collision:	incbin	"Levels/Angel Island/Collision - Act 1.bin"
+; Offset_0x1CDF00:
+Angel_Island_2_Collision:	incbin	"Levels/Angel Island/Collision - Act 2.bin"
+; Offset_0x1CEB00:
+Hydrocity_1_Collision:		incbin	"Levels/Hydrocity/Collision - Act 1.bin"
+; Offset_0x1CF700:
+Hydrocity_2_Collision:		incbin	"Levels/Hydrocity/Collision - Act 2.bin"
+; Offset_0x1D0300:
+Marble_Garden_1_Collision:	incbin	"Levels/Marble Garden/Collision - Act 1.bin"
+; Offset_0x1D0F00:
+Marble_Garden_2_Collision:	incbin	"Levels/Marble Garden/Collision - Act 2.bin"
+; Offset_0x1D1B00:
+Carnival_Night_Collision:	incbin	"Levels/Carnival Night/Collision.bin"
+; Offset_0x1D2700:
+Flying_Battery_1_Collision:	incbin	"Levels/Flying Battery/Collision - Act 1.bin"
+; Offset_0x1D3300:
+Flying_Battery_2_Collision:	incbin	"Levels/Flying Battery/Collision - Act 2.bin"
+; Offset_0x1D3F00:
+Icecap_1_Collision:		incbin	"Levels/IceCap/Collision - Act 1.bin"
+; Offset_0x1D4B00:
+Icecap_2_Collision:		incbin	"Levels/IceCap/Collision - Act 2.bin"
+; Offset_0x1D5700:
+Launch_Base_1_Collision:	incbin	"Levels/Launch Base/Collision - Act 1.bin"
+; Offset_0x1D6300:
+Launch_Base_2_Collision:	incbin	"Levels/Launch Base/Collision - Act 2.bin"
+; Offset_0x1D6F00:
+Mushroom_Valley_1_Collision:
+Mushroom_Valley_2_Collision:
+Sandopolis_1_Collision:
+Sandopolis_2_Collision:
+Lava_Reef_1_Collision:
+Lava_Reef_2_Collision:
+Sky_Sanctuary_1_Collision:
+Sky_Sanctuary_2_Collision:
+Death_Egg_1_Collision:
+Death_Egg_2_Collision:
+The_Doomsday_1_Collision:
+The_Doomsday_2_Collision:
+Ending_Collision:
+Azure_Lake_Collision:		incbin	"Levels/Azure Lake/Collision.bin"
+; Offset_0x1D7B00:
+Balloon_Park_Collision:		incbin	"Levels/Balloon Park/Collision.bin"
+; Offset_0x1D8700:
+Desert_Palace_Collision:	incbin	"Levels/Desert Palace/Collision.bin"
+; Offset_0x1D9300:
+Chrome_Gadget_Collision:	incbin	"Levels/Chrome Gadget/Collision.bin"
+; Offset_0x1D9F00:
+Endless_Mine_Collision:		incbin	"Levels/Endless Mine/Collision.bin"
+; Offset_0x1DAB00:
+BS_Gumball_Machine_Collision:	incbin	"Levels/Bonus Stages/Collision - Gumball Machine.bin"
+; Offset_0x1DB700:
+BS_Glowing_Spheres_Collision:	incbin	"Levels/Bonus Stages/Collision - Glowing Spheres.bin"
+; Offset_0x1DC300:
+Lava_Reef_Boss_Collision:
+Hidden_Palace_Collision:
+Death_Egg_Final_Boss_Collision:
+Hidden_Palace_Portal_Collision:
+BS_Slot_Machine_Collision:	incbin	"Levels/Bonus Stages/Collision - Slot Machine.bin"
 
-Angel_Island_1_Collision:                                      ; Offset_0x1CD300
-                incbin  'data\aiz\aiz1_col.dat'                        
-Angel_Island_2_Collision:                                      ; Offset_0x1CDF00
-                incbin  'data\aiz\aiz2_col.dat'   
-Hydrocity_1_Collision:                                         ; Offset_0x1CEB00
-                incbin  'data\hz\hz1_col.dat' 
-Hydrocity_2_Collision:                                         ; Offset_0x1CF700                
-                incbin  'data\hz\hz2_col.dat' 
-Marble_Garden_1_Collision:                                     ; Offset_0x1D0300 
-                incbin  'data\mgz\mgz1_col.dat'
-Marble_Garden_2_Collision:                                     ; Offset_0x1D0F00  
-                incbin  'data\mgz\mgz2_col.dat'
-Carnival_Night_1_Collision:                                    ; Offset_0x1D1B00
-Carnival_Night_2_Collision:                                    ; Offset_0x1D1B00
-                incbin  'data\cnz\cnz_col.dat'
-Flying_Battery_1_Collision:                                    ; Offset_0x1D2700
-                incbin  'data\fbz\fbz1_col.dat'                 
-Flying_Battery_2_Collision:                                    ; Offset_0x1D3300
-                incbin  'data\fbz\fbz2_col.dat'   
-Icecap_1_Collision:                                            ; Offset_0x1D3F00 
-                incbin  'data\iz\iz1_col.dat'
-Icecap_2_Collision:                                            ; Offset_0x1D4B00
-                incbin  'data\iz\iz2_col.dat'
-Launch_Base_1_Collision:                                       ; Offset_0x1D5700 
-                incbin  'data\lbz\lbz1_col.dat'
-Launch_Base_2_Collision:                                       ; Offset_0x1D6300 
-                incbin  'data\lbz\lbz2_col.dat'
-Mushroom_Valley_1_Collision:                                   ; Offset_0x1D6F00
-Mushroom_Valley_2_Collision:                                   ; Offset_0x1D6F00  
-Sandopolis_1_Collision:                                        ; Offset_0x1D6F00 
-Sandopolis_2_Collision:                                        ; Offset_0x1D6F00 
-Lava_Reef_1_Collision:                                         ; Offset_0x1D6F00
-Lava_Reef_2_Collision:                                         ; Offset_0x1D6F00
-Sky_Sanctuary_1_Collision:                                     ; Offset_0x1D6F00
-Sky_Sanctuary_2_Collision:                                     ; Offset_0x1D6F00
-Death_Egg_1_Collision:                                         ; Offset_0x1D6F00
-Death_Egg_2_Collision:                                         ; Offset_0x1D6F00
-The_Doomsday_1_Collision:                                      ; Offset_0x1D6F00
-The_Doomsday_2_Collision:                                      ; Offset_0x1D6F00
-Ending_Collision:                                              ; Offset_0x1D6F00
-Azure_Lake_Collision:                                          ; Offset_0x1D6F00
-                incbin  'data\alz\alz_col.dat'
-Balloon_Park_Collision:                                        ; Offset_0x1D7B00
-                incbin  'data\bpz\bpz_col.dat'                
-Desert_Palace_Collision:                                       ; Offset_0x1D8700 
-                incbin  'data\dpz\dpz_col.dat'
-Chrome_Gadget_Collision:                                       ; Offset_0x1D9300
-                incbin  'data\cgz\cgz_col.dat'
-Endless_Mine_Collision:                                        ; Offset_0x1D9F00 
-                incbin  'data\emz\emz_col.dat'
-BS_Gumball_Machine_Collision:                                  ; Offset_0x1DAB00                    
-                incbin  'data\bs_gm\bsgm_col.dat'
-BS_Glowing_Spheres_Collision:                                  ; Offset_0x1DB700
-                incbin  'data\bs_gs\bsgs_col.dat'
-BS_Slot_Machine_Collision:                                     ; Offset_0x1DC300
-Lava_Reef_Boss_Collision:                                      ; Offset_0x1DC300
-Hidden_Palace_Collision:                                       ; Offset_0x1DC300
-Death_Egg_Final_Boss_Collision:                                ; Offset_0x1DC300
-Hidden_Palace_Portal_Collision:                                ; Offset_0x1DC300
-                incbin  'data\bs_sm\bssm_col.dat'       
-                
 ;------------------------------------------------------------------------------- 
 ; Mapa das fases
 ; ->>>
@@ -45703,7 +47066,7 @@ Level_Layout:                                                  ; Offset_0x1DCF00
                 dc.l    HPz_Map                                ; Offset_0x1E940E
                 dc.l    DEz_Boss_Map                           ; Offset_0x1E940E
                 dc.l    HPz_Portal_Map                         ; Offset_0x1E940E     
-; ---------------------------------------------------------------------------
+
 ; Offset_0x1DCFC0:
 AIz_Map_Act1:	incbin	"Levels/Angel Island/Level Layout - Act 1.bin"
 ; Offset_0x1DD80C:
