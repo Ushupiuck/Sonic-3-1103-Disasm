@@ -21173,8 +21173,61 @@ Obj_0x2E_AIz_Spiked_Rotating_Log:                              ; Offset_0x022A7E
                 include 'data\objects\obj_0x2E.asm'                               
 Obj_0x2F_Still_Sprite:                                         ; Offset_0x022E38
                 include 'data\objects\obj_0x2F.asm'
-Obj_0x30_Animated_Still_Sprite:                                ; Offset_0x0231C0
-                include 'data\objects\obj_0x30.asm'  
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 30 - Animated decorations
+; ---------------------------------------------------------------------------
+; Offet_0x0231C0: Obj_0x30_Animated_Still_Sprite:
+Obj30_AnimatedDecoration:
+		move.l	#Animated_Still_Sprite_Mappings,Obj_Map(a0)
+		ori.b	#4,Obj_Flags(a0)
+		moveq	#0,d0
+		move.b	Obj_Subtype(a0),d0
+		move.b	d0,Obj_Ani_Number(a0)
+		add.w	d0,d0
+		move.w	d0,d1
+		add.w	d0,d0
+		add.w	d1,d0
+		lea	Offset_0x02320C(pc,d0.w),a1
+		move.w	(a1)+,Obj_Art_VRAM(a0)
+		move.w	(a1)+,Obj_Priority(a0)
+		move.b	(a1)+,Obj_Width(a0)
+		move.b	(a1)+,Obj_Height(a0)
+		move.l	#Offset_0x0231FA,(a0)
+
+Offset_0x0231FA:		
+		lea	(Decoration2_AnimateData).l,a1
+		jsr	(AnimateSprite).l
+		jmp	(MarkObjGone).l
+; ===========================================================================
+
+Offset_0x02320C:
+		; VRAM, priority, width, and height
+		dc.w	$62F0, $300
+		dc.b	8, $C
+		dc.w	$62F0, $300
+		dc.b	8, $C
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Animation script for Animated Decorations
+; ---------------------------------------------------------------------------
+; Offset_0x023218: Animated_Still_Sprite_Animate_Data:
+Decoration2_AnimateData:
+		dc.w	Offset_0x02321C-Decoration2_AnimateData
+		dc.w	Offset_0x023223-Decoration2_AnimateData
+Offset_0x02321C:
+		dc.b	$03, $00, $01, $02, $03, $04, $FF
+Offset_0x023223:
+		dc.b	$03, $05, $06, $07, $08, $FF, $00   
+
+; ---------------------------------------------------------------------------
+; Sprite mappings for Animated Decorations
+; ---------------------------------------------------------------------------
+; Offset_0x02322A:
+Animated_Still_Sprite_Mappings:	include	"data/mappings/30 - Animated Decorations.asm"
+
 Obj_0x35_AIz_Plants:                                           ; Offset_0x023284 
                 include 'data\objects\obj_0x35.asm'
 Obj_AIz_Tree:                                                  ; Offset_0x0234AA
@@ -34071,10 +34124,10 @@ DOL_01: ; DOL - Debug Object List
                 dc.l    ($04<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
                 dc.l    ($04<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
                 dc.w    $6001
-                dc.l    Obj_0x30_Animated_Still_Sprite         ; Offset_0x0231C0
+                dc.l    Obj30_AnimatedDecoration         ; Offset_0x0231C0
                 dc.l    Animated_Still_Sprite_Mappings         ; Offset_0x02322A
                 dc.w    $62F0
-                dc.l    ($05<<$18)|Obj_0x30_Animated_Still_Sprite ; Offset_0x0231C0
+                dc.l    ($05<<$18)|Obj30_AnimatedDecoration ; Offset_0x0231C0
                 dc.l    ($01<<$18)|Animated_Still_Sprite_Mappings ; Offset_0x02322A
                 dc.w    $62F0
                 dc.l    ($21<<$18)|Obj_0x06_Ride_Vine          ; Offset_0x017A8E
@@ -35665,7 +35718,7 @@ Object_List:                                                   ; Offset_0x04C964
                 dc.l    Obj_0x2D_AIz_Falling_Log               ; Offset_0x0227AC
                 dc.l    Obj_0x2E_AIz_Spiked_Rotating_Log       ; Offset_0x022A7E
                 dc.l    Obj_0x2F_Still_Sprite                  ; Offset_0x022E38
-                dc.l    Obj_0x30_Animated_Still_Sprite         ; Offset_0x0231C0 ; $30
+                dc.l    Obj30_AnimatedDecoration         ; Offset_0x0231C0 ; $30
                 dc.l    Obj_0x31_LBz_Rotating_Cylinders        ; Offset_0x02350C
                 dc.l    Obj_0x32_AIz_Draw_Bridge               ; Offset_0x02235C
                 dc.l    Obj_0x33_Switch                        ; Offset_0x023662
@@ -45645,11 +45698,12 @@ Level_Layout:                                                  ; Offset_0x1DCF00
                 dc.l    HPz_Map                                ; Offset_0x1E940E
                 dc.l    DEz_Boss_Map                           ; Offset_0x1E940E
                 dc.l    HPz_Portal_Map                         ; Offset_0x1E940E     
-;-------------------------------------------------------------------------------
-AIz_Map_Act1:                                                  ; Offset_0x1DCFC0
-                incbin  'data\aiz\aiz_map1.dat'
-AIz_Map_Act2:                                                  ; Offset_0x1DD80C
-                incbin  'data\aiz\aiz_map2.dat'
+; ---------------------------------------------------------------------------
+; Offset_0x1DCFC0:
+AIz_Map_Act1:	incbin	"Levels/Angel Island/Level Layout - Act 1.bin"
+; Offset_0x1DD80C:
+AIz_Map_Act2:	incbin	"Levels/Angel Island/Level Layout - Act 2.bin"
+
 Hz_Map_Act1:                                                   ; Offset_0x1DE572
                 incbin  'data\hz\hz_map1.dat'
 Hz_Map_Act2:                                                   ; Offset_0x1DF0FA
@@ -46791,7 +46845,8 @@ Player_Start_Speed_Array:                                      ; Offset_0x1F7000
                 dc.w    $0580, $0010, $0200, $0000
 ;-------------------------------------------------------------------------------                
 Player_Start_Position_Array:                                   ; Offset_0x1F7018
-                dc.w    $1380, $041C, $0060, $02F9  ; AIz 
+		incbin	"Levels/Angel Island/Starting Position - Act 1.bin"
+		incbin	"Levels/Angel Island/Starting Position - Act 2.bin"
                 dc.w    $0280, $0020, $0220, $082C  ; Hz 
                 dc.w    $0040, $0070, $0060, $08BE  ; MGz
                 dc.w    $0060, $06CC, $0060, $022C  ; CNz
@@ -46973,16 +47028,19 @@ LBz_Automatic_Tunnel_From_To_Data:                             ; Offset_0x1F7258
                 dc.l    Offset_0x1FF61A
                 dc.l    Offset_0x1FF61A  
 
-                dc.w    $FFFF, $0000, $0000 
-;-------------------------------------------------------------------------------
-AIz_Obj_Act1:                                                  ; Offset_0x1F72DE
-                incbin  'data\aiz\obj_act1.dat'     
-AIz_Obj_Act2:                                                  ; Offset_0x1F75C6    
-                incbin  'data\aiz\obj_act2.dat'
-AIz_Rng_Act1:                                                  ; Offset_0x1F7A4C
-                incbin  'data\aiz\rng_act1.dat'
-AIz_Rng_Act2:                                                  ; Offset_0x1F7BE4    
-                incbin  'data\aiz\rng_act2.dat'
+		dc.w	$FFFF, 0, 0
+; ---------------------------------------------------------------------------
+; Offset_0x1F72DE:
+AIz_Obj_Act1:	incbin	"Levels/Angel Island/Object Layout - Act 1.bin"
+		dc.w	$FFFF, 0, 0
+; Offset_0x1F75C6:
+AIz_Obj_Act2:	incbin	"Levels/Angel Island/Object Layout - Act 2.bin"
+		dc.w	$FFFF, 0, 0
+; Offset_0x1F7A4C:
+AIz_Rng_Act1:	incbin	"Levels/Angel Island/Ring Layout - Act 1.bin"
+; Offset_0x1F7BE4:
+AIz_Rng_Act2:	incbin	"Levels/Angel Island/Ring Layout - Act 2.bin"
+
 ;-------------------------------------------------------------------------------                
                 dc.w    $FFFF, $0000, $0000   
 Hz_Obj_Act1:                                                   ; Offset_0x1F7F46

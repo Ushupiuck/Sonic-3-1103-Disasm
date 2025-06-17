@@ -1,12 +1,12 @@
-		dc.w	@spinFrame1-Rings_Mappings
-		dc.w	@spinFrame2-Rings_Mappings
-		dc.w	@spinFrame3-Rings_Mappings
-		dc.w	@spinFrame4-Rings_Mappings
-		dc.w	@sparkleFrame1-Rings_Mappings
-		dc.w	@sparkleFrame2-Rings_Mappings
-		dc.w	@sparkleFrame3-Rings_Mappings
-		dc.w	@sparkleFrame4-Rings_Mappings
-		dc.w	@blank-Rings_Mappings
+@int:		dc.w	@spinFrame1-@int
+		dc.w	@spinFrame2-@int
+		dc.w	@spinFrame3-@int
+		dc.w	@spinFrame4-@int
+		dc.w	@sparkleFrame1-@int
+		dc.w	@sparkleFrame2-@int
+		dc.w	@sparkleFrame3-@int
+		dc.w	@sparkleFrame4-@int
+		dc.w	@blank-@int
 ; Offset_0x010DF4:
 @spinFrame1:	dc.w	1
 		dc.w	$F805, $0000, -8
@@ -39,4 +39,5 @@
 @sparkleFrame4:	dc.w	1
 		dc.w	$F805, $100A, -8
 
+; Offset_0x010E34:
 @blank:		dc.w	0

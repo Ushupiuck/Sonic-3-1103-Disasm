@@ -110,7 +110,7 @@ Offset_0x017C12:
                 bmi.s   Offset_0x017C24
                 move.w  #$7FF0, Obj_X(A0)                                ; $0010
 Offset_0x017C24:
-                lea     (Animated_Still_Sprite_Animate_Data), A1 ; Offset_0x023218
+                lea     (Decoration2_AnimateData), A1 ; Offset_0x023218
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 bra     Offset_0x017D58  
 ;-------------------------------------------------------------------------------

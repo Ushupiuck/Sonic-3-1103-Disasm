@@ -1,15 +1,15 @@
-		dc.w @baseMonitor-Monitors_Mappings
-		dc.w @staticMonitor-Monitors_Mappings
-		dc.w @sonicMonitor-Monitors_Mappings
-		dc.w @eggmanMonitor-Monitors_Mappings
-		dc.w @ringMonitor-Monitors_Mappings
-		dc.w @speedMonitor-Monitors_Mappings
-		dc.w @fireMonitor-Monitors_Mappings
-		dc.w @thundMonitor-Monitors_Mappings
-		dc.w @bubbleMonitor-Monitors_Mappings
-		dc.w @invincMonitor-Monitors_Mappings
-		dc.w @superMonitor-Monitors_Mappings
-		dc.w @brokenMonitor-Monitors_Mappings
+@int:		dc.w @baseMonitor-@int
+		dc.w @staticMonitor-@int
+		dc.w @sonicMonitor-@int
+		dc.w @eggmanMonitor-@int
+		dc.w @ringMonitor-@int
+		dc.w @speedMonitor-@int
+		dc.w @fireMonitor-@int
+		dc.w @thundMonitor-@int
+		dc.w @bubbleMonitor-@int
+		dc.w @invincMonitor-@int
+		dc.w @superMonitor-@int
+		dc.w @brokenMonitor-@int
 ; Offset_0x0134BA:
 @baseMonitor:	dc.w	1
 		dc.w	$F00F, $0000, -$10
@@ -65,5 +65,6 @@
 		dc.w	$F305, $0038, -8
 		dc.w	$F00F, $0000, -$10
 
+; Offset_0x01354E:
 @brokenMonitor:	dc.w	1
 		dc.w	$FF0D, $0010, -$10
