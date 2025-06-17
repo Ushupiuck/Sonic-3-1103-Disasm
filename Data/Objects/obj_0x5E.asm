@@ -73,13 +73,13 @@ Offset_0x02C0D4:
                 move.w  Obj_Control_Var_0E(A0), A1                       ; $003E
                 move.w  Obj_Y(A1), Obj_Y(A0)                      ; $0014, $0014
                 addi.w  #$0008, Obj_Y(A0)                                ; $0014
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540 
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540 
 ;-------------------------------------------------------------------------------
 Offset_0x02C0EA:
                 move.w  Obj_Control_Var_0E(A0), A1                       ; $003E
                 move.w  Obj_Y(A1), Obj_Y(A0)                      ; $0014, $0014
                 addi.w  #$0010, Obj_Y(A0)                                ; $0014
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540 
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540 
 ;-------------------------------------------------------------------------------  
 Blade_Platform_Mappings:                                       ; Offset_0x02C100
                 dc.w    Offset_0x02C108-Blade_Platform_Mappings

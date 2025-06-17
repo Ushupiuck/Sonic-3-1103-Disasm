@@ -70,7 +70,7 @@ Offset_0x02E190:
 Offset_0x02E19E:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
 Offset_0x02E1A2:
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02E1AE:
                 cmpi.b  #$05, Obj_Ani_Number(A2)                         ; $0020

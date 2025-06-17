@@ -125,7 +125,7 @@ Offset_0x02A7D2:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x02A7EA
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02A7EA:
                 jmp     (DeleteObject)                         ; Offset_0x011138  

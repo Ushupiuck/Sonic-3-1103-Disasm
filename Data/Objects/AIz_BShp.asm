@@ -203,7 +203,7 @@ Offset_0x031458:
                 add.b   Obj_Ani_Number(A0), D0                           ; $0020
                 cmp.b   Obj_Map_Id(A0), D0                               ; $0022
                 bls.s   Offset_0x03146A
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x03146A:
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------

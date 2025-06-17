@@ -110,7 +110,7 @@ Offset_0x010C14:
                 addi.w  #$00E0, D0
                 cmp.w   Obj_Y(A0), D0                                    ; $0014
                 bcs.s   Offset_0x010C5C
-                bsr     Add_To_Collision_Response_List         ; Offset_0x00A540
+                bsr     Add_SpriteToCollisionResponseList         ; Offset_0x00A540
                 bra     DisplaySprite                          ; Offset_0x011148
 Offset_0x010C30:
                 tst.w   (Two_Player_Flag).w                          ; $FFFFFFD8

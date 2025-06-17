@@ -102,7 +102,7 @@ Offset_0x0292E6:
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi.s   Offset_0x029310
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x029310:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -153,7 +153,7 @@ Offset_0x02934E:
 Offset_0x0293AE:
                 lea     (Bumper_Animate_Data), A1              ; Offset_0x0293C6
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------   
 Bumper_Animate_Data:                                           ; Offset_0x0293C6

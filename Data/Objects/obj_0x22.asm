@@ -46,7 +46,7 @@ Offset_0x0200DE:
 Offset_0x0200F0:
                 rts
 Offset_0x0200F2:
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
 Offset_0x0200FE:

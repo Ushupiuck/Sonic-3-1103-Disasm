@@ -90,7 +90,7 @@ Offset_0x02746A:
                 andi.w  #$FF80, D0
                 cmp.w   D0, D1
                 bhi.s   Offset_0x027496
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x027496:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048

@@ -189,7 +189,7 @@ Offset_0x0454D4:
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 bne.s   Offset_0x0454EA
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x0454EA:
                 jmp     (DeleteObject)                         ; Offset_0x011138  
 ;-------------------------------------------------------------------------------

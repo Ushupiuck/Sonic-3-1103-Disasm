@@ -8669,7 +8669,7 @@ BuildRings:
 		sub.l	a0,d2				; are there any rings on screen?
 		beq.s	Offset_0x008A1C			; if not, branch
 		move.w	(Ring_Offset_Ptr).w,a4
-		lea	Level_Rings_Mappings(PC),a1
+		lea	Level_Rings_Mappings(pc),a1
 		move.w	4(a3),d4
 		move.w	#$F0,d5
 		move.w	(Screen_Wrap_Y).w,d3
@@ -11039,20 +11039,25 @@ Offset_0x00A52E:
 Offset_0x00A53A:
                 addq.b  #$01, Obj_Col_Prop(A1)                           ; $0029
                 rts 
-;===============================================================================
-; Rotina Touch_Special  
-; <<<-
-;===============================================================================  
 
-Add_To_Collision_Response_List:                                ; Offset_0x00A540
-                lea     (Collision_Response_List).w, A1              ; $FFFFE380
-                cmpi.w  #$007E, (A1)
-                bcc.s   Offset_0x00A550
-                addq.w  #$02, (A1)
-                adda.w  (A1), A1
-                move.w  A0, (A1)
-Offset_0x00A550:
-                rts
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to add a sprite to the collision response list
+; ---------------------------------------------------------------------------
+
+; Offset_0x00A540: Add_To_Collision_Response_List:
+Add_SpriteToCollisionResponseList:
+		lea	(Collision_Response_List).w,a1
+		cmpi.w	#$7E,(a1)		; is the list full?
+		bcc.s	@skip			; if yes, branch
+		addq.w	#2,(a1)
+		adda.w	(a1),a1
+		move.w	a0,(a1)
+; Offset_0x00A550:
+@skip:
+		rts
+; End of function Add_SpriteToCollisionResponseList
+
 ;-------------------------------------------------------------------------------
 Obj_Sonic_Knuckles_2P:                                         ; Offset_0x00A552
                 include 'data\objects\chars_2p.asm'
@@ -16726,7 +16731,7 @@ MarkObjGone_5_D0:                                              ; Offset_0x011BD0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Offset_0x011BE8
-                bsr     Add_To_Collision_Response_List         ; Offset_0x00A540
+                bsr     Add_SpriteToCollisionResponseList         ; Offset_0x00A540
                 bra     DisplaySprite                          ; Offset_0x011148
 Offset_0x011BE8:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -18381,7 +18386,7 @@ SolidObject_Monitor:
 		lea	(Obj_Player_Two).w,a1
 		moveq	#4,d6
 		bsr.w	SolidObject_Monitor_Tails
-		jsr	(Add_To_Collision_Response_List).l
+		jsr	(Add_SpriteToCollisionResponseList).l
 ; Offset_0x013020:
 Monitors_Animate:
 		lea	(Monitors_AnimateData).l,a1
@@ -29161,7 +29166,7 @@ Trap_Routines_List:                                            ; Offset_0x034220
                 dc.l    PlaySound                             ; Offset_0x001176
                 dc.l    Solid_Object                           ; Offset_0x013556
                 dc.l    Platform_Object                        ; Offset_0x013AF6
-                dc.l    Add_To_Collision_Response_List         ; Offset_0x00A540
+                dc.l    Add_SpriteToCollisionResponseList         ; Offset_0x00A540
                 dc.l    PseudoRandomNumber                     ; Offset_0x001AFA
                 dc.l    Add_Points                             ; Offset_0x007AEC
                 dc.l    LoadPLC                                ; Offset_0x0014D0
@@ -30772,7 +30777,7 @@ Run_Object_Hit_Wall_Left:                                      ; Offset_0x042446
                 jmp     (A1)           
 ;===============================================================================
 Add_To_Response_List_And_Display:                              ; Offset_0x042450
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;===============================================================================
 Child_Display_Or_Delete:                                       ; Offset_0x04245C
@@ -30787,7 +30792,7 @@ Child_Display_Touch_Or_Delete:                                 ; Offset_0x042472
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 bne.s   Child_Delete_2                         ; Offset_0x04248A
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Child_Delete_2:                                                ; Offset_0x04248A
                 bra     Go_Delete_Object_A0                    ; Offset_0x042D3E  
@@ -30815,7 +30820,7 @@ Child_Display_Touch_Or_Delete_2:                               ; Offset_0x0424BE
                 bne.s   Offset_0x0424DE
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 bne.s   Offset_0x0424D8
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x0424D8:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x0424DE:
@@ -30844,7 +30849,7 @@ Child_Display_Touch_Or_Flicker_Move:                           ; Offset_0x042520
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 bne.s   Run_Flicker_Move                       ; Offset_0x0424F4
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148    
 ;===============================================================================
 Child_Display_Touch_Or_Flicker_Move_2:                         ; Offset_0x042538
@@ -30856,7 +30861,7 @@ Child_Display_Touch_Or_Flicker_Move_2:                         ; Offset_0x042538
                 bset    #$07, Obj_Status(A0)                             ; $002A
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x042558:
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;===============================================================================  
 Inc_Level_Gradual_Max_X:                                       ; Offset_0x042564
@@ -31463,7 +31468,7 @@ Delete_Sprite_Clear_Respaw_Flag_Check_X:                       ; Offset_0x042B3C
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Delete_Sprite_Clear_Respaw_Flag        ; Offset_0x042A70
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;===============================================================================               
 Delete_Sprite_Clear_Respaw_Flag_Check_X_2                      ; Offset_0x042B5C
@@ -31472,7 +31477,7 @@ Delete_Sprite_Clear_Respaw_Flag_Check_X_2                      ; Offset_0x042B5C
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Delete_Sprite_Clear_Respaw_Flag_2      ; Offset_0x042AA2
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;===============================================================================                
 Delete_Sprite_Clear_Respaw_Flag_Check_X_3:                     ; Offset_0x042B7C
@@ -31481,7 +31486,7 @@ Delete_Sprite_Clear_Respaw_Flag_Check_X_3:                     ; Offset_0x042B7C
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Delete_Sprite_Clear_Respaw_Flag        ; Offset_0x042A70
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540   
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540   
 ;===============================================================================       
 Delete_Sprite_Clear_Respaw_Flag_Check_X_Y:                     ; Offset_0x042B96
                 move.w  Obj_X(A0), D0                                    ; $0010
@@ -31494,7 +31499,7 @@ Delete_Sprite_Clear_Respaw_Flag_Check_X_Y:                     ; Offset_0x042B96
                 addi.w  #$0080, D0
                 cmpi.w  #$0200, D0
                 bhi     Go_Delete_Object_A0                    ; Offset_0x042D3E
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;===============================================================================  
 Delete_Sprite_Slotted_Check_X:                                 ; Offset_0x042BCA
@@ -31536,7 +31541,7 @@ Check_Delete_Touch_Slotted:                                    ; Offset_0x042C1E
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi.s   Go_Delete_Slotted                      ; Offset_0x042BE2
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148    
 ;===============================================================================                  
 Go_Delete_Slotted_3:                                           ; Offset_0x042C42
@@ -31551,7 +31556,7 @@ Check_Delete_Touch_Slotted_2:                                  ; Offset_0x042C4A
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Go_Delete_Slotted                      ; Offset_0x042BE2
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;===============================================================================
 ; Delete_Sprite_Check_X_4:                                     ; Offset_0x042C70
@@ -31568,7 +31573,7 @@ Check_Delete_Touch_Slotted_2:                                  ; Offset_0x042C4A
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Go_Delete_Object_A0                    ; Offset_0x042D3E
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;===============================================================================
 ; Delete_Sprite_Check_X_6:                                     ; Offset_0x042CAA
@@ -31585,7 +31590,7 @@ Check_Delete_Touch_Slotted_2:                                  ; Offset_0x042C4A
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
                 bhi     Go_Delete_Object_A0_2                  ; Offset_0x042D4C
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;===============================================================================
 ; Delete_Sprite_Remove_Tracking_List_Check_X:                  ; Offset_0x042CE4
@@ -45961,18 +45966,25 @@ Pal_Level_Select_Menu:                                         ; Offset_0x1E9834
                 incbin  'data\menus\menu.pal'    
 Pal_Knuckles:                                                  ; Offset_0x1E98B4   
                 incbin  'data\all\knuckles.pal'       
-Pal_Angel_Island_Act_1:                                        ; Offset_0x1E98D4 
-                incbin  'data\aiz\aiz_1.pal'
-Pal_Angel_Island_Act_1_After_Knuckles:                         ; Offset_0x1E9934  
-                incbin  'data\aiz\aiz_1_a.pal'               
-Pal_Angel_Island_Act_2:                                        ; Offset_0x1E9994 
-                incbin  'data\aiz\aiz_2.pal'
-Pal_Angel_Island_Act_2_2:                                      ; Offset_0x1E99F4   
-                incbin  'data\aiz\aiz_2_a.pal'                   
-Pal_Angel_Island_Act_1_Underwater:                             ; Offset_0x1E9A54
-                incbin  'data\aiz\aiz_1_uw.pal'
-Pal_Angel_Island_Act_2_Underwater:                             ; Offset_0x1E9AD4
-                incbin  'data\aiz\aiz_2_uw.pal'
+
+; Offset_0x1E98D4:
+Pal_Angel_Island_Act_1:			incbin	"Levels/Angel Island/Palettes/Act 1 - Knuckles.bin"
+
+; Offset_0x1E9934:
+Pal_Angel_Island_Act_1_After_Knuckles:	incbin	"Levels/Angel Island/Palettes/Act 1 - Normal.bin"
+
+; Offset_0x1E9994:
+Pal_Angel_Island_Act_2:			incbin	"Levels/Angel Island/Palettes/Act 2 - Normal.bin"
+
+; Offset_0x1E99F4:
+Pal_Angel_Island_Act_2_2:		incbin	"Levels/Angel Island/Palettes/Act 2 - Airship.bin"
+
+; Offset_0x1E9AD4:
+Pal_Angel_Island_Act_1_Underwater:	incbin	"Levels/Angel Island/Palettes/Act 1 - Underwater.bin"
+
+; Offset_0x1E9A54:
+Pal_Angel_Island_Act_2_Underwater:	incbin	"Levels/Angel Island/Palettes/Act 2 - Underwater.bin"
+
 Pal_Hydrocity_Act_1:                                           ; Offset_0x1E9B54
                 incbin  'data\hz\hz_1.pal'
 Pal_Hydrocity_Act_2:                                           ; Offset_0x1E9BB4
@@ -46453,18 +46465,25 @@ Left_Over_Pal_Level_Select_Menu:                               ; Offset_0x1F270E
                 incbin  'data\menus\menu.pal'    
 Left_Over_Pal_Knuckles:                                        ; Offset_0x1F278E   
                 incbin  'data\all\knuckles.pal'        
-Left_Over_Pal_Angel_Island_Act_1:                              ; Offset_0x1F27AE 
-                incbin  'data\aiz\aiz_1.pal'
-LO_Pal_Angel_Island_Act_1_After_Knuckles:                      ; Offset_0x1F280E  
-                incbin  'data\aiz\aiz_1_a.pal'     
-Left_Over_Pal_Angel_Island_Act_2:                              ; Offset_0x1F286E 
-                incbin  'data\aiz\aiz_2.pal'
-Left_Over_Pal_Angel_Island_Act_2_2:                            ; Offset_0x1F28CE   
-                incbin  'data\aiz\aiz_2_a.pal'   
-LO_Pal_Angel_Island_Act_1_Underwater:                          ; Offset_0x1F292E
-                incbin  'data\aiz\aiz_1_uw.pal'                
-LO_Pal_Angel_Island_Act_2_Underwater:                          ; Offset_0x1F29AE
-                incbin  'data\aiz\aiz_2_uw.pal'                      
+
+; Offset_0x1F27AE:
+Left_Over_Pal_Angel_Island_Act_1:		incbin	"Levels/Angel Island/Palettes/Act 1 - Knuckles (Earliest).bin"
+
+; Offset_0x1F280E:
+LO_Pal_Angel_Island_Act_1_After_Knuckles:	incbin	"Levels/Angel Island/Palettes/Act 1 - Normal (Earliest).bin"
+
+; Offset_0x1F286E:
+Left_Over_Pal_Angel_Island_Act_2:		incbin	"Levels/Angel Island/Palettes/Act 2 - Normal (Earliest).bin"
+
+; Offset_0x1F28CE:
+Left_Over_Pal_Angel_Island_Act_2_2:		incbin	"Levels/Angel Island/Palettes/Act 2 - Airship (Earliest).bin"
+
+; Offset_0x1F292E:
+LO_Pal_Angel_Island_Act_1_Underwater:		incbin	"Levels/Angel Island/Palettes/Act 1 - Underwater (Earliest).bin"
+
+; Offset_0x1F29AE:
+LO_Pal_Angel_Island_Act_2_Underwater:		incbin	"Levels/Angel Island/Palettes/Act 2 - Underwater (Earliest).bin"
+
 Left_Over_Pal_Hydrocity_Act_1:                                 ; Offset_0x1F2A2E
                 incbin  'data\hz\hz_1_lo.pal'  
 Left_Over_Pal_Hydrocity_Act_2:                                 ; Offset_0x1F2A8E
@@ -46518,8 +46537,10 @@ Left_Over_Pal_Ending_2:                                        ; Offset_0x1F31AE
 
 Left_Over_Pal_Azure_Lake:                                      ; Offset_0x1F31AE
                 incbin  'data\alz\alz_lo.pal'
-Left_Over_Pal_Angel_Island_Act_1_2:                            ; Offset_0x1F320E
-                incbin  'data\aiz\aiz_1_lo.pal'         
+
+; Offset_0x1F320E:
+Left_Over_Pal_Angel_Island_Act_1_2:		incbin	"Levels/Angel Island/Palettes/Act 1 - Unused Introduction (Earliest).bin"
+
 Left_Over_Pal_Bonus_Stage_Gumball_Machine:                     ; Offset_0x1F326E
                 incbin  'data\bs_gm\bs_gm.pal'       
 Offset_0x1F32CE:
@@ -46753,18 +46774,25 @@ Left_Over_Pal_Level_Select_Menu_2:                             ; Offset_0x1F4FCA
                 incbin  'data\menus\menu.pal'    
 Left_Over_Pal_Knuckles_2:                                      ; Offset_0x1F504A   
                 incbin  'data\all\knuckles.pal'  
-Left_Over_Pal_Angel_Island_Act_1_2a:                           ; Offset_0x1F506A 
-                incbin  'data\aiz\aiz_1.pal'
-LO_Pal_Angel_Island_Act_1_After_Knuckles_2:                    ; Offset_0x1F50CA  
-                incbin  'data\aiz\aiz_1_a.pal'     
-Left_Over_Pal_Angel_Island_Act_2_2a:                           ; Offset_0x1F512A 
-                incbin  'data\aiz\aiz_2.pal'      
-Left_Over_Pal_Angel_Island_Act_2_2_2:                          ; Offset_0x1F518A   
-                incbin  'data\aiz\aiz_2_a.pal'                                                       
-LO_Pal_Angel_Island_Act_1_Underwater_2:                        ; Offset_0x1F51EA
-                incbin  'data\aiz\aiz_1_uw.pal'                
-LO_Pal_Angel_Island_Act_2_Underwater_2:                        ; Offset_0x1F526A
-                incbin  'data\aiz\aiz_2_uw.pal'          
+
+; Offset_0x1F50CA:
+Left_Over_Pal_Angel_Island_Act_1_2a:		incbin	"Levels/Angel Island/Palettes/Act 1 - Knuckles (Earlier).bin"
+
+; Offset_0x1E9934:
+LO_Pal_Angel_Island_Act_1_After_Knuckles_2:	incbin	"Levels/Angel Island/Palettes/Act 1 - Normal (Earlier).bin"
+
+; Offset_0x1F512A:
+Left_Over_Pal_Angel_Island_Act_2_2a:		incbin	"Levels/Angel Island/Palettes/Act 2 - Normal (Earlier).bin"
+
+; Offset_0x1F518A:
+Left_Over_Pal_Angel_Island_Act_2_2_2:		incbin	"Levels/Angel Island/Palettes/Act 2 - Airship (Earlier).bin"
+
+; Offset_0x1F51EA:
+LO_Pal_Angel_Island_Act_1_Underwater_2:		incbin	"Levels/Angel Island/Palettes/Act 1 - Underwater (Earlier).bin"
+
+; Offset_0x1F526A:
+LO_Pal_Angel_Island_Act_2_Underwater_2:		incbin	"Levels/Angel Island/Palettes/Act 2 - Underwater (Earlier).bin"
+
 Left_Over_Pal_Hydrocity_Act_1_2:                               ; Offset_0x1F52EA
                 incbin  'data\hz\hz_1_lo2.pal'  
 Left_Over_Pal_Hydrocity_Act_2_2:                               ; Offset_0x1F534A
@@ -46826,8 +46854,10 @@ Left_Over_Pal_Pal_Desert_Palace:                               ; Offset_0x1F5B8A
                 incbin  'data\dpz\dpz_lo.pal'
 Left_Over_Pal_Chrome_Gadget:                                   ; Offset_0x1F5BEA
                 incbin  'data\cgz\cgz_lo.pal'
-LO_Pal_Angel_Island_Act_1_Before_Knuckles_2                    ; Offset_0x1F5C4A
-                incbin  'data\aiz\aiz_1_lo.pal'
+
+; Offset_0x1F5C4A:
+LO_Pal_Angel_Island_Act_1_Before_Knuckles_2:	incbin	"Levels/Angel Island/Palettes/Act 1 - Unused Introduction (Earlier).bin"
+
 Left_Over_Pal_Bonus_Stage_Gumball_Machine_2:                   ; Offset_0x1F5CAA
                 incbin  'data\bs_gm\bs_gm.pal'  
 Left_Over_LRz_Rocks_Layout_2:                                  ; Offset_0x1F5D0A                                      

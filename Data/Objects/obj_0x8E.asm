@@ -374,7 +374,7 @@ Offset_0x03B4C2:
                 move.b  Obj_Ani_Time_2(A0), Obj_Col_Flags(A0)     ; $0025, $0028
 Offset_0x03B4D6:
                 move.b  #$70, Obj_Boss_Hit(A0)                           ; $0029
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x03B4E2:
                 move.l  #Offset_0x03B4F6, (A0)
                 move.b  #$A9, Obj_Col_Flags(A0)                          ; $0028
@@ -389,7 +389,7 @@ Offset_0x03B4F6:
                 bne.s   Offset_0x03B4F0
                 btst    #$06, Obj_Control_Var_08(A1)                     ; $0038
                 beq     Offset_0x03B462
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540 
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540 
 ;-------------------------------------------------------------------------------
 Offset_0x03B516:
                 move.l  #Offset_0x03B524, (A0)
@@ -398,7 +398,7 @@ Offset_0x03B516:
 ;-------------------------------------------------------------------------------
 Offset_0x03B524:
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540   
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540   
 ;-------------------------------------------------------------------------------
 Offset_0x03B52E:
                 lea     Bowling_Spin_Setup_Data_3(PC), A1      ; Offset_0x03B8BA

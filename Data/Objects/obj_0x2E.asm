@@ -126,7 +126,7 @@ Offset_0x022C14:
                 beq.s   Offset_0x022C3C
                 ext.w   D0
                 add.w   D0, Obj_Y(A0)                                    ; $0014
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x022C3C:
                 rts          
 ;-------------------------------------------------------------------------------

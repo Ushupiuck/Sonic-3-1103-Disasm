@@ -62,7 +62,7 @@ Offset_0x02C390:
                 bcs.s   Offset_0x02C3B2
                 cmpi.b  #$07, Obj_Map_Id(A0)                             ; $0022
                 bcc.s   Offset_0x02C3B2
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x02C3B2:
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------

@@ -54,7 +54,7 @@ Offset_0x01FFC0:
                 rts    
 ;-------------------------------------------------------------------------------
 Offset_0x020006:
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x02000C:                
                 move.b  (Level_Frame_Count+$01).w, D0                ; $FFFFFE05
                 andi.b  #$01, D0

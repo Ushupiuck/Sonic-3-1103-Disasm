@@ -54,7 +54,7 @@ Offset_0x04795A:
 ;-------------------------------------------------------------------------------
 Offset_0x047962:
                 move.b  #$98, Obj_Col_Flags(A0)                          ; $0028
-                jmp     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jmp     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 ;-------------------------------------------------------------------------------   
 Ice_Spikes_Setup_Data:                                         ; Offset_0x04796E
                 dc.l    Crushing_Column_Mappings               ; Offset_0x110938

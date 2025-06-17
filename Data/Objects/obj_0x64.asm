@@ -56,7 +56,7 @@ Offset_0x02C95C:
                 add.b   D0, Obj_Angle(A0)                                ; $0026
                 lea     (Bubble_Container_Animate_Data), A1    ; Offset_0x02CF9C
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02C980:
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
@@ -306,7 +306,7 @@ Offset_0x02CC76:
 Offset_0x02CC8E:
                 cmpi.b  #$09, Obj_Ani_Number(A0)                         ; $0020
                 beq.s   Offset_0x02CC9C
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
 Offset_0x02CC9C:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02CCA2:
@@ -375,7 +375,7 @@ Offset_0x02CD78:
                 beq.s   Offset_0x02CD84
                 jmp     (DeleteObject)                         ; Offset_0x011138
 Offset_0x02CD84:
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02CD90:
                 move.w  Obj_Control_Var_16(A2), D0                       ; $0046
@@ -434,7 +434,7 @@ Offset_0x02CE14:
                 bge.s   Offset_0x02CE3E
                 jmp     (DeleteObject)                         ; Offset_0x011138
 Offset_0x02CE3E:
-                jsr     (Add_To_Collision_Response_List)       ; Offset_0x00A540
+                jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02CE4A:
                 move.w  Obj_Control_Var_16(A2), D0                       ; $0046
