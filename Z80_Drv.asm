@@ -173,6 +173,7 @@ bankswitchToSFX macro
 	ld	hl,zBankRegister
 	xor	a
 	ld	e,1
+
 	ld	(hl),e
 	ld	(hl),a
 	ld	(hl),e
@@ -1731,56 +1732,65 @@ zFMFrequencies:
 	dw	$047C
 	dw	$04C0
 
+; ---------------------------------------------------------------------------
+; ===========================================================================
+; MUSIC BANKS
+; ===========================================================================
+
+zmakeSongBank macro addr
+	db	(((addr&3F8000h)/zROMWindow))&0Fh	; see bankswitchToMusicS3
+	endm
+
 z80_MusicBanks:
-	db	$06
-	db	$06
-	db	$06
-	db	$06
-	db	$06
-	db	$06
-	db	$07
-	db	$07
-	db	$07
-	db	$07
-	db	$07
-	db	$07
-	db	$07
-	db	$08
-	db	$08
-	db	$08
-	db	$08
-	db	$08
-	db	$08
-	db	$08
-	db	$08
-	db	$08
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$09
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0A
-	db	$0B
-	db	$0B
+	zmakeSongBank	Angel_Island_1_Snd_Data
+	zmakeSongBank	Angel_Island_2_Snd_Data
+	zmakeSongBank	Hydrocity_1_Snd_Data
+	zmakeSongBank	Hydrocity_2_Snd_Data
+	zmakeSongBank	Marble_Garden_1_Snd_Data
+	zmakeSongBank	Marble_Garden_2_Snd_Data
+	zmakeSongBank	Carnival_Night_1_Snd_Data
+	zmakeSongBank	Carnival_Night_2_Snd_Data
+	zmakeSongBank	Flying_Battery_1_Snd_Data
+	zmakeSongBank	Flying_Battery_2_Snd_Data
+	zmakeSongBank	Icecap_1_Snd_Data
+	zmakeSongBank	Icecap_2_Snd_Data
+	zmakeSongBank	Launch_Base_1_Snd_Data
+	zmakeSongBank	Launch_Base_2_Snd_Data
+	zmakeSongBank	Mushroom_Valley_1_Snd_Data
+	zmakeSongBank	Mushroom_Valley_2_Snd_Data
+	zmakeSongBank	Sandopolis_1_Snd_Data
+	zmakeSongBank	Sandopolis_2_Snd_Data
+	zmakeSongBank	Lava_Reef_1_Snd_Data
+	zmakeSongBank	Lava_Reef_2_Snd_Data
+	zmakeSongBank	Sky_Sanctuary_Snd_Data
+	zmakeSongBank	Death_Egg_1_Snd_Data
+	zmakeSongBank	Death_Egg_2_Snd_Data
+	zmakeSongBank	Mini_Boss_Snd_Data
+	zmakeSongBank	Boss_Snd_Data
+	zmakeSongBank	The_Doomsday_Snd_Data
+	zmakeSongBank	Glowing_Spheres_Bonus_Stage_Snd_Data
+	zmakeSongBank	Special_Stage_Snd_Data
+	zmakeSongBank	Slot_Machine_Bonus_Stage_Snd_Data
+	zmakeSongBank	Gumball_Machine_Bonus_Stage_Snd_Data
+	zmakeSongBank	Knuckles_Theme_Snd_Data
+	zmakeSongBank	Azure_Lake_Snd_Data
+	zmakeSongBank	Balloon_Park_Snd_Data
+	zmakeSongBank	Desert_Palace_Snd_Data
+	zmakeSongBank	Chrome_Gadget_Snd_Data
+	zmakeSongBank	Endless_Mine_Snd_Data
+	zmakeSongBank	Title_Screen_Snd_Data
+	zmakeSongBank	Credits_Snd_Data
+	zmakeSongBank	Time_Game_Over_Snd_Data
+	zmakeSongBank	Continue_Snd_Data
+	zmakeSongBank	Level_Results_Snd_Data
+	zmakeSongBank	Extra_Life_Snd_Data
+	zmakeSongBank	Got_Emerald_Snd_Data
+	zmakeSongBank	Invincibility_Snd_Data
+	zmakeSongBank	Competition_Menu_Snd_Data
+	zmakeSongBank	Super_Sonic_Theme_Snd_Data
+	zmakeSongBank	Data_Select_Menu_Snd_Data
+	zmakeSongBank	Final_Boss_Snd_Data
+	zmakeSongBank	Panic_Snd_Data
 
 zUpdateDACTrack:
 	call	zTrackRunTimer
@@ -1964,10 +1974,10 @@ cfChangeVolume:
 
 zSendTL:
     push   de              ; 000A1C D5
-    ld     de,$03f3        ; 000A1D 11 F3 03
+    ld     de,zFMInstrumentTLTable        ; 000A1D 11 F3 03
     ld     l,(ix+TLPtrLow)      ; 000A20 DD 6E 1C
     ld     h,(ix+TLPtrHigh)      ; 000A23 DD 66 1D
-    ld     b,$04           ; 000A26 06 04
+    ld     b,zFMInstrumentTLTable_End-zFMInstrumentTLTable           ; 000A26 06 04
 
 @loop:
     ld     a,(hl)          ; 000A28 7E

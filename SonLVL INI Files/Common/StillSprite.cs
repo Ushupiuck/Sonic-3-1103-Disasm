@@ -6,6 +6,27 @@ using SonicRetro.SonLVL.API;
 
 namespace S3KObjectDefinitions.AIZ
 {
+	class StillSprite2 : Common.StillSprite
+	{
+		public override void Init(ObjectData data)
+		{
+			var art1 = LevelData.ReadFile(
+				"../data/AIZ/Misclns.nem", CompressionType.Nemesis);
+
+			var indexer = new MultiFileIndexer<byte>();
+			indexer.AddFile(new List<byte>(LevelData.ReadFile("LevelArt", 0)), -32);
+			var art2 = indexer.ToArray();
+
+			BuildSpritesSubtypes(
+				new StillSpriteData(art1, 0, 2, false, 6, "Bridge Post"),
+				new StillSpriteData(art1, 1, 2, false, 6, "Large Rope Twist Tie"),
+				new StillSpriteData(art1, 2, 2, false, 6, "Rope Twist Tie"),
+				new StillSpriteData(art2, 3, 2, false, 6, "Tie Top Sprite"),
+				new StillSpriteData(art2, 4, 3, false, 6, "Waterfall Sprite"),
+				new StillSpriteData(art1, 5, 2, true, 6, "Bridge Post (high priority)"));
+		}
+	}
+
 	class AnimatedStillSprite2 : Common.AnimatedStillSprite
 	{
 		public override void Init(ObjectData data)
@@ -115,7 +136,7 @@ namespace S3KObjectDefinitions.Common
 
 		protected void BuildSpritesSubtypes(params StillSpriteData[] subtypes)
 		{
-			BuildSpritesSubtypes("../Levels/Misc/Map - Still Sprites.asm", subtypes);
+			BuildSpritesSubtypes("../data/mappings/2F - Static Decorations.asm", subtypes);
 		}
 
 		protected void BuildSpritesSubtypes(string mapfile, params StillSpriteData[] data)
