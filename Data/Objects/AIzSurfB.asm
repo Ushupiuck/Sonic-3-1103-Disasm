@@ -218,7 +218,7 @@ Offset_0x0188CE:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x0188CE
 Offset_0x0188FA:
                 rts      

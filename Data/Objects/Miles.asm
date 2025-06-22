@@ -2401,7 +2401,7 @@ Loop_Load_Miles_Art:                                           ; Offset_0x00EDA2
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
                 dbra    D5, Loop_Load_Miles_Art                ; Offset_0x00EDA2
 Exit_Load_Miles_Dynamic_PLC:                                   ; Offset_0x00EDCE
                 rts       
@@ -2767,7 +2767,7 @@ Offset_0x00F17C:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x00F17C
 Offset_0x00F1A4:
                 rts                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

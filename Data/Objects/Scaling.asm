@@ -77,7 +77,7 @@ Offset_0x01AADA:
                 lsl.w   #$04, D3
                 move.l  #(M68K_Dev_RAM_Start+$8000), D1              ; $FFFE8000
                 move.w  #$A000, D2
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
 Offset_0x01AB32:
                 move.w  Obj_Control_Var_04(A0), D0                       ; $0034
                 jmp     (MarkObjGone_2)                        ; Offset_0x011B1A

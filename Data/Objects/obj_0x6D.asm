@@ -54,7 +54,7 @@ Offset_0x02E2E0:
                 addi.l  #Art_Water_Splash_2, D1                ; Offset_0x131C02
                 move.w  #$7640, D2
                 move.w  #$0180, D3
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
 Offset_0x02E312:
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x02E318:
@@ -83,7 +83,7 @@ Offset_0x02E34A:
                 addi.l  #Art_Water_Splash, D1                  ; Offset_0x131482
                 move.w  #$88E0, D2
                 move.w  #$00C0, D3
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
 Offset_0x02E376:
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x02E37C:

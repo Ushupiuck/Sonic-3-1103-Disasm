@@ -83,7 +83,7 @@ Offset_0x018F9C:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x018F9C
 Offset_0x018FC8:
                 rts 

@@ -186,7 +186,7 @@ Offset_0x00F646:
                 move.w  #$FE00, D2
 Offset_0x00F682:
                 move.w  #$0060, D3
-                jsr     (DMA_68KtoVRAM)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
 Offset_0x00F68C:
                 rts      
 ;-------------------------------------------------------------------------------
