@@ -4,10 +4,10 @@
 ;===============================================================================
 ; Offset_0x047336:
                 lea     Swinging_Platform_Setup_Data(PC), A1   ; Offset_0x04776A
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x047352, (A0)
                 lea     Offset_0x047796(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.w  A1, Obj_Child_Ref(A0)                            ; $0046
                 rts
 ;-------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ Offset_0x04743E:
                 neg.w   D0
                 move.w  D0, Obj_Speed_Y(A0)                              ; $001A
                 lea     Offset_0x0477B0(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x047472:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X_2(PC) ; Offset_0x042B5C
 Offset_0x047476:
@@ -137,7 +137,7 @@ Offset_0x047494:
                 btst    #$03, D1
                 beq.s   Offset_0x0474C4
                 lea     Offset_0x0477BE(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x0474C4:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X_2(PC) ; Offset_0x042B5C
 Offset_0x0474C8:
@@ -149,7 +149,7 @@ Offset_0x0474D2:
 ;-------------------------------------------------------------------------------
 Offset_0x0474D6:
                 lea     Swinging_Platform_Setup_Data_4(PC), A1 ; Offset_0x04778A
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0474E4, (A0)
 Offset_0x0474E4:                
                 bsr     Offset_0x0476B2
@@ -166,7 +166,7 @@ Offset_0x0474FE:
 ;-------------------------------------------------------------------------------
 Offset_0x047506:
                 lea     Swinging_Platform_Setup_Data_5(PC), A1 ; Offset_0x047790
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x047514, (A0)
 Offset_0x047514:                
                 bsr     Offset_0x04769C
@@ -174,7 +174,7 @@ Offset_0x047514:
 ;-------------------------------------------------------------------------------
 Offset_0x04751C:
                 lea     Swinging_Platform_Setup_Data_2(PC), A1 ; Offset_0x047776
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x047564, (A0)
                 subi.w  #$0080, Obj_Y(A0)                                ; $0014
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -198,7 +198,7 @@ Offset_0x047564:
 ;-------------------------------------------------------------------------------
 Offset_0x047570:
                 lea     Swinging_Platform_Setup_Data_3(PC), A1 ; Offset_0x04777E
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x0475D0, (A0)
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C

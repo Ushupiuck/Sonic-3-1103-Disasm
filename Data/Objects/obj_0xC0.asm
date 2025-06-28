@@ -5,7 +5,7 @@
 ; Offset_0x0478D2:
                 jsr     Object_Check_Range(PC)                 ; Offset_0x04326E
                 lea     Ice_Spikes_Setup_Data(PC), A1          ; Offset_0x04796E
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 bne.s   Offset_0x0478FE
                 move.l  #Offset_0x04790C, (A0)
@@ -14,7 +14,7 @@
                 beq.s   Offset_0x0478FA
                 lea     Offset_0x047982(PC), A2
 Offset_0x0478FA:
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x0478FE:
                 move.l  #Offset_0x047920, (A0)
                 move.b  #$92, Obj_Col_Flags(A0)                          ; $0028

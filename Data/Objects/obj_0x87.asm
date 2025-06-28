@@ -21,11 +21,11 @@ Offset_0x04844E:
 ;-------------------------------------------------------------------------------
 Offset_0x04845C:
                 lea     Snale_Blaster_Setup_Data(PC), A1       ; Offset_0x0486DA
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  #$0020, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x048496, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x0486FE(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x04847A:
                 move.b  #$1A, Obj_Col_Flags(A0)                          ; $0028
@@ -44,7 +44,7 @@ Offset_0x048496:
 ;-------------------------------------------------------------------------------
 Offset_0x0484AE:
                 move.b  #$1A, Obj_Col_Flags(A0)                          ; $0028
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E  
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E  
 ;-------------------------------------------------------------------------------
 Offset_0x0484B8:
                 move.w  #$FFFE, Obj_Control_Var_10(A0)                   ; $0040
@@ -133,7 +133,7 @@ Offset_0x0485BC:
 ;-------------------------------------------------------------------------------
 Offset_0x0485C2:
                 lea     Snale_Blaster_Setup_Data_2(PC), A1     ; Offset_0x0486E6
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A 
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A 
 ;-------------------------------------------------------------------------------
 Offset_0x0485CA:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -168,7 +168,7 @@ Offset_0x048618:
 ;-------------------------------------------------------------------------------
 Offset_0x048620:
                 lea     Snale_Blaster_Setup_Data_3(PC), A1     ; Offset_0x0486EC
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A  
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A  
 ;-------------------------------------------------------------------------------
 Offset_0x048628:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046

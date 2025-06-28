@@ -16,7 +16,7 @@ Offset_0x044FA8:
 ;-------------------------------------------------------------------------------
 Offset_0x044FAC:
                 lea     Pointdexter_Setup_Data(PC), A1         ; Offset_0x045034
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x045040, Obj_Child_Data(A0)             ; $0030
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C

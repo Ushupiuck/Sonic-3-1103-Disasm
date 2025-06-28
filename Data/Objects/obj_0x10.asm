@@ -126,7 +126,7 @@ Offset_0x0209EE:
 Offset_0x0209FE:
                 addq.b  #$02, (A4)
                 moveq   #Rolling_Sfx, D0                                   ; $3C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x020A5E
 Offset_0x020A0A:
                 addq.b  #$02, $0001(A4)

@@ -9,7 +9,7 @@
                 move.w  Offset_0x045C9A(PC, D0), D1
                 jsr     Offset_0x045C9A(PC, D1)
                 lea     Clamer_PLC_Data(PC), A2                ; Offset_0x045E1A
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     Check_Delete_Touch_Slotted(PC)         ; Offset_0x042C1E
 ;-------------------------------------------------------------------------------
 Offset_0x045C9A:
@@ -20,9 +20,9 @@ Offset_0x045C9A:
 ;-------------------------------------------------------------------------------
 Offset_0x045CA2:
                 lea     Clamer_Setup_Data(PC), A1              ; Offset_0x045DD6
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 lea     Offset_0x045DFA(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A       
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A       
 ;-------------------------------------------------------------------------------
 Offset_0x045CB2:
                 btst    #$00, Obj_Control_Var_08(A0)                     ; $0038
@@ -76,7 +76,7 @@ Offset_0x045D2A:
 ;-------------------------------------------------------------------------------   
 Offset_0x045D4A:
                 lea     Clamer_Setup_Data_2(PC), A1            ; Offset_0x045DE8
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.b  Obj_Flags(A1), Obj_Flags(A0)              ; $0004, $0004
                 clr.w   Obj_Art_VRAM(A0)                                 ; $000A

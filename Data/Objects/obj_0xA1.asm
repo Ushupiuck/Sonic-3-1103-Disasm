@@ -19,7 +19,7 @@ Offset_0x045E62:
 ;-------------------------------------------------------------------------------
 Offset_0x045E6C:
                 lea     Sparkle_Setup_Data(PC), A1             ; Offset_0x045FC8
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72  
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72  
 ;-------------------------------------------------------------------------------
 Offset_0x045E74:
                 jsr     Find_Player(PC)                        ; Offset_0x042634
@@ -40,7 +40,7 @@ Offset_0x045E9C:
                 move.w  #$0004, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x045EBC, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x045FE0(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A    
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x045EB8:
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2  
@@ -75,7 +75,7 @@ Offset_0x045F02:
 ;-------------------------------------------------------------------------------
 Offset_0x045F06:
                 lea     Sparkle_Setup_Data_2(PC), A1           ; Offset_0x045FD4
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 moveq   #$34, D0
@@ -104,7 +104,7 @@ Offset_0x045F46:
 ;-------------------------------------------------------------------------------
 Offset_0x045F4C:
                 lea     Sparkle_Setup_Data_3(PC), A1           ; Offset_0x045FDA
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  #$0600, D0
                 btst    #$01, Obj_Flags(A1)                              ; $0004

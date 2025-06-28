@@ -20,14 +20,14 @@ Offset_0x044CEA:
 ;-------------------------------------------------------------------------------
 Offset_0x044CF2:
                 lea     Mega_Chopper_Setup_Data(PC), A1        ; Offset_0x044F80
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x044F8C, Obj_Child_Data(A0)             ; $0030
 Offset_0x044D02:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x044D04:
                 bsr     Offset_0x044E68
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jsr     Find_Player(PC)                        ; Offset_0x042634
                 move.b  (Vint_runcount+$03).w, D4         ; $FFFFFE0F
                 andi.b  #$07, D4
@@ -67,7 +67,7 @@ Offset_0x044D70:
 ;-------------------------------------------------------------------------------
 Offset_0x044D7C:
                 bsr     Offset_0x044E68
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bmi.s   Offset_0x044DAA
                 move.w  Obj_Y(A0), D0                                    ; $0014

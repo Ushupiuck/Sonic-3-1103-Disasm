@@ -18,7 +18,7 @@ Offset_0x025C4E:
                 jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
                 move.l  #Offset_0x025C64, (A0)
 Offset_0x025C64:                
-                tst.b   (Kosinski_Modules_Left).w                    ; $FFFFFF60
+                tst.b   (Kos_modules_left).w                    ; $FFFFFF60
                 beq.s   Offset_0x025C6C
                 rts
 Offset_0x025C6C:
@@ -42,7 +42,7 @@ Offset_0x025CB6:
                 bcs     Offset_0x025D40
                 move.l  #Offset_0x025D76, (A0)
                 moveq   #Geyser_Sfx, D0                                    ; $5D
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 lea     (Offset_0x025D46), A3
                 move.w  Obj_X(A0), D2                                    ; $0010
                 addi.w  #$0060, D2
@@ -132,9 +132,9 @@ Offset_0x025E02:
                 bmi.s   Offset_0x025E3A
                 clr.b   (Palette_Cycle_Counters).w                   ; $FFFFF650
                 move.w  #PSG_Mute, D0                                    ; $FFE2
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #Stop_SFx, D0                                    ; $FFE3
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0096, Obj_Control_Var_00(A0)                   ; $0030
                 move.l  #Offset_0x025E40, (A0)
                 rts
@@ -276,7 +276,7 @@ Offset_0x025FF8:
                 move.b  #$81, (Obj_Player_Two+Obj_Player_Control).w  ; $FFFFB078
                 move.l  #Offset_0x026020, (A0)
 Offset_0x026020:                
-                tst.b   (Kosinski_Modules_Left).w                    ; $FFFFFF60
+                tst.b   (Kos_modules_left).w                    ; $FFFFFF60
                 beq.s   Offset_0x026034
                 subi.w  #$0008, (Obj_Player_One+Obj_Y).w             ; $FFFFB014
                 subi.w  #$0008, (Obj_Player_Two+Obj_Y).w             ; $FFFFB05E
@@ -306,7 +306,7 @@ Offset_0x026080:
                 move.b  #$1A, (Obj_Player_Two+Obj_Ani_Number).w      ; $FFFFB06A
                 move.l  #Offset_0x026154, (A0)
                 moveq   #Geyser_Sfx, D0                                    ; $5D
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.b  #$01, (Palette_Cycle_Counters).w             ; $FFFFF650
                 lea     (Offset_0x026124), A3
                 move.w  Obj_X(A0), D2                                    ; $0010
@@ -410,11 +410,11 @@ Offset_0x026264:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bmi.s   Offset_0x0262A8
                 move.w  #Stop_SFx, D0                                    ; $FFE3
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #PSG_Mute, D0                                    ; $FFE2
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #Stop_SFx, D0                                    ; $FFE3
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.b  #$00, (Palette_Cycle_Counters).w             ; $FFFFF650
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
                 beq.s   Offset_0x02629A

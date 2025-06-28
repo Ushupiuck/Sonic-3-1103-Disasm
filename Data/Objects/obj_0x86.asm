@@ -49,17 +49,17 @@ Offset_0x03F19E:
 ;-------------------------------------------------------------------------------
 Offset_0x03F1A8:
                 lea     Beam_Rocket_Setup_Data(PC), A1         ; Offset_0x03FA56
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$08, Obj_Boss_Hit(A0)                           ; $0029
                 move.w  #$FF00, Obj_Speed_Y(A0)                          ; $001A
                 move.w  #$01C0, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03F1FE, Obj_Child(A0)                  ; $0034
                 lea     (LBz_Robotnik_Ship_Data), A2           ; Offset_0x03656E
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x03FAD8(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x03FAFE(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 tst.b   (Boss_Data_Buffer+$01).w                     ; $FFFFFA81
                 beq     Offset_0x03F186
                 lea     Offset_0x03FB80(PC), A2
@@ -183,7 +183,7 @@ Offset_0x03F342:
 Offset_0x03F35E:
                 move.l  #Offset_0x03F374, (A0)
                 lea     (LBz_Robotnik_Ship_Data_2), A2         ; Offset_0x03659E
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------
 Offset_0x03F374:
@@ -199,7 +199,7 @@ Offset_0x03F390:
                 move.w  D0, Obj_X(A0)                                    ; $0010
                 move.l  #Offset_0x03F3A8, (A0)
                 lea     Offset_0x03FAF6(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     (DisplaySprite)                        ; Offset_0x011148    
 ;-------------------------------------------------------------------------------
 Offset_0x03F3A8:
@@ -223,7 +223,7 @@ Offset_0x03F3DC:
 ;-------------------------------------------------------------------------------
 Offset_0x03F3E6:
                 lea     Beam_Rocket_Setup_Data_3(PC), A1       ; Offset_0x03FA68
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03F3F6, (A0)
                 rts                                       
 ;-------------------------------------------------------------------------------
@@ -245,7 +245,7 @@ Offset_0x03F410:
 ;-------------------------------------------------------------------------------
 Offset_0x03F416:
                 lea     Beam_Rocket_Setup_Data_4(PC), A1       ; Offset_0x03FA70
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 move.l  #Offset_0x03F440, Obj_Child(A0)                  ; $0034
                 rts   
@@ -267,16 +267,16 @@ Offset_0x03F440:
 Offset_0x03F454:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 lea     (Offset_0x037136), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     (Offset_0x041D62), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x03F46E:
                 jmp     (DeleteObject)                         ; Offset_0x011138 
 ;-------------------------------------------------------------------------------
 Offset_0x03F474:
                 lea     Beam_Rocket_Setup_Data_6(PC), A1       ; Offset_0x03FA7E
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03F484, (A0)
                 rts                    
 ;-------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ Offset_0x03F49A:
 ;-------------------------------------------------------------------------------
 Offset_0x03F4A0:
                 lea     Beam_Rocket_Setup_Data_7(PC), A1       ; Offset_0x03FA8A
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03F4BC, (A0)
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 beq.s   Offset_0x03F4BA
@@ -310,7 +310,7 @@ Offset_0x03F4D2:
 ;-------------------------------------------------------------------------------
 Offset_0x03F4D8:
                 lea     Beam_Rocket_Setup_Data_8(PC), A1       ; Offset_0x03FA92
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03F4F6, (A0)
                 move.l  #Offset_0x03F4F6, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x03FB52(PC), A2
@@ -344,12 +344,12 @@ Offset_0x03F53C:
 ;-------------------------------------------------------------------------------
 Offset_0x03F544:
                 lea     Beam_Rocket_Setup_Data_9(PC), A1       ; Offset_0x03FA9E
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03F568, (A0)
                 move.l  #Offset_0x03F568, Obj_Child(A0)                  ; $0034
                 move.w  #$0002, Obj_Control_Var_0C(A0)                   ; $003C
                 lea     Offset_0x03FB72(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x03F568:
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
@@ -358,7 +358,7 @@ Offset_0x03F568:
 ;-------------------------------------------------------------------------------
 Offset_0x03F576:
                 lea     Beam_Rocket_Setup_Data_B(PC), A1       ; Offset_0x03FAB2
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03F58E, (A0)
                 move.w  #$0060, Obj_Timer(A0)                            ; $002E
                 bsr     Offset_0x03FA0C
@@ -369,7 +369,7 @@ Offset_0x03F58E:
 ;-------------------------------------------------------------------------------
 Offset_0x03F59E:
                 lea     Beam_Rocket_Setup_Data_C(PC), A1       ; Offset_0x03FAB8
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03F5C2, (A0)
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  Obj_Child_Ref(A1), Obj_Height_3(A0)       ; $0046, $0044
@@ -397,7 +397,7 @@ Offset_0x03F5F0:
 ;-------------------------------------------------------------------------------
 Offset_0x03F5F6:
                 lea     Beam_Rocket_Setup_Data_D(PC), A1       ; Offset_0x03FABE
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03F60C, (A0)
                 move.w  #$0008, Obj_Control_Var_0A(A0)                   ; $003A
                 rts                       
@@ -434,7 +434,7 @@ Offset_0x03F662:
 ;-------------------------------------------------------------------------------
 Offset_0x03F67E:
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (DisplaySprite)                        ; Offset_0x011148    
 ;-------------------------------------------------------------------------------
 Offset_0x03F68C:
@@ -455,13 +455,13 @@ Offset_0x03F6B4:
                 btst    #$00, (Vint_runcount+$03).w       ; $FFFFFE0F
                 bne.s   Offset_0x03F6D4
                 lea     Offset_0x03FB6A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.l  #Offset_0x03FB95, Obj_Child_Data(A1)             ; $0030
                 bsr     Offset_0x03F880
                 bra     Offset_0x03F6E8
 Offset_0x03F6D4:
                 lea     Offset_0x03FB6A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.l  #Offset_0x03FB9B, Obj_Child_Data(A1)             ; $0030
                 bsr     Offset_0x03F880
 Offset_0x03F6E8:
@@ -470,29 +470,29 @@ Offset_0x03F6E8:
 ;-------------------------------------------------------------------------------
 Offset_0x03F6F4:
                 lea     Beam_Rocket_Setup_Data_E(PC), A1       ; Offset_0x03FAC6
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03F70E, (A0)                  
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
 Offset_0x03F70E:                
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------
 Offset_0x03F718:
                 lea     Beam_Rocket_Setup_Data_A(PC), A1       ; Offset_0x03FAAA
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03F730, (A0)
                 move.l  #Offset_0x03FB88, Obj_Child_Data(A0)             ; $0030
                 rts                               
 ;-------------------------------------------------------------------------------
 Offset_0x03F730:
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     Child_Display_Or_Delete_2(PC)          ; Offset_0x0424A8    
 ;-------------------------------------------------------------------------------
 Offset_0x03F73C:
                 lea     Beam_Rocket_Setup_Data_F(PC), A1       ; Offset_0x03FACC
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03F76E, (A0)
                 move.l  #Offset_0x03FBA1, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x03F780, Obj_Child(A0)                  ; $0034
@@ -504,7 +504,7 @@ Offset_0x03F76C:
                 rts    
 ;-------------------------------------------------------------------------------
 Offset_0x03F76E:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 addq.b  #$01, Obj_Control_Var_0C(A0)                     ; $003C
                 moveq   #$03, D2
                 jsr     Move_Sprite_Circular_Simple_Offset(PC) ; Offset_0x04270A
@@ -557,7 +557,7 @@ Offset_0x03F7EE:
                 beq.s   Offset_0x03F814
                 movem.l D0/D1, -(A7)
                 lea     Offset_0x03FB5A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 movem.l (A7)+, D0/D1
 Offset_0x03F814:
                 move.b  D1, Obj_Map_Id(A0)                               ; $0022
@@ -652,7 +652,7 @@ Offset_0x03F936:
                 move.w  Obj_Control_Var_0C(A0), D0                       ; $003C
                 bset    D0, Obj_Control_Var_08(A0)                       ; $0038
                 lea     (Offset_0x041D62), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.b  #$04, Obj_Subtype(A1)                            ; $002C
                 tst.b   (Boss_Data_Buffer+$01).w                     ; $FFFFFA81
                 bne.s   Offset_0x03F984
@@ -661,10 +661,10 @@ Offset_0x03F936:
 Offset_0x03F984:
                 move.l  #Offset_0x03F302, (A0)
                 lea     Offset_0x03FAEE(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03F992:
                 lea     Offset_0x03FAE0(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03F99A:
                 lea     Offset_0x03F9A6(PC), A1
                 lea     Offset_0x03F9AA(PC, D0), A2
@@ -691,9 +691,9 @@ Offset_0x03F9B2:
                 lea     (Offset_0x03FB2C), A2
 Offset_0x03F9E8:
                 move.w  #$0010, Obj_Timer(A0)                            ; $002E
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     (Offset_0x041D62), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03F9FC:
                 btst    #$06, Obj_Status(A1)                             ; $002A
                 beq.s   Offset_0x03FA0A

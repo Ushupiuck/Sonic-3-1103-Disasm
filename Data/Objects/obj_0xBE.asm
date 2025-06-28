@@ -5,7 +5,7 @@
 ; Offset_0x0477C6:
                 jsr     Object_Check_Range(PC)                 ; Offset_0x04326E
                 lea     Stalactite_Setup_Data(PC), A1          ; Offset_0x0478AC
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x0477E0, (A0)
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 rts
@@ -56,7 +56,7 @@ Offset_0x04785A:
 ;------------------------------------------------------------------------------- 
 Offset_0x047862:
                 lea     Offset_0x0478B8(PC), A1
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Animate_Raw_Delete_Sprite_Check_X_Y, (A0) ; Offset_0x042FB2
                 move.l  #Offset_0x047196, Obj_Child_Data(A0)             ; $0030
                 cmpi.b  #$06, Obj_Subtype(A0)                            ; $002C

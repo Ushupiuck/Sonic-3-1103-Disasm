@@ -31,7 +31,7 @@ Offset_0x039C96:
 ;-------------------------------------------------------------------------------
 Offset_0x039CB8:
                 lea     Drill_Mobile_Setup_Data(PC), A1        ; Offset_0x03ADF6
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 bset    #$07, Obj_Art_VRAM(A0)                           ; $000A
                 move.b  #$FF, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
@@ -46,10 +46,10 @@ Offset_0x039CB8:
                 lea     Pal_MGz_Boss(PC), A1                   ; Offset_0x03AFFA
                 jsr     (Pal_Load_Line_1)                      ; Offset_0x04314C
                 lea     (MGz_Robotnik_Ship_Data), A2           ; Offset_0x036586
-                jsr     (Load_Child_Object_A2)                 ; Offset_0x041D9A
+                jsr     (SetupChildObject)                 ; Offset_0x041D9A
                 move.b  #$09, Obj_Subtype(A1)                            ; $002C
                 lea     Offset_0x03AE46(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A    
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x039D24:
                 jmp     (Run_Object_Wait_Timer_A0)             ; Offset_0x0423D2  
@@ -202,7 +202,7 @@ Offset_0x039F34:
                 move.w  #$009F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x039F5C, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x03AEBC(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A    
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x039F5C:
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E

@@ -358,7 +358,7 @@ Offset_0x01482C:
                 dbra    D1, Offset_0x014824
 Offset_0x014886:
                 moveq   #Smash_Sfx, D0                                     ; $62
-                jmp     (Play_Music)                           ; Offset_0x001176   
+                jmp     (PlaySound)                           ; Offset_0x001176   
 ;-------------------------------------------------------------------------------
 Hz_Breakable_Bar_Mappings:                                     ; Offset_0x01488E
                 dc.w    Offset_0x01489E-Hz_Breakable_Bar_Mappings

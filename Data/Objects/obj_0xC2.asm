@@ -9,7 +9,7 @@
                 lea     Offset_0x047B64(PC, D0), A2
                 move.l  (A2)+, (A0)
                 move.l  (A2)+, A1
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72
 ;-------------------------------------------------------------------------------
 Offset_0x047B64:
                 dc.l    Offset_0x047B7C
@@ -58,7 +58,7 @@ Offset_0x047BCE:
 Offset_0x047BD0:
                 move.w  A3, Obj_Height_3(A0)                             ; $0044
                 lea     Offset_0x047CF8(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jsr     (Go_Delete_Object_A0)                  ; Offset_0x042D3E
                 addq.w  #$04, A7
                 rts     
@@ -82,7 +82,7 @@ Offset_0x047C0A:
                 move.w  D0, A1
                 move.w  #$0800, Obj_Speed_X(A1)                          ; $0018
                 move.w  #$0800, Obj_Inertia(A1)                          ; $001C
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     (Go_Delete_Object_A0)                  ; Offset_0x042D3E  
 ;-------------------------------------------------------------------------------
 Offset_0x047C22:
@@ -102,7 +102,7 @@ Offset_0x047C3C:
 ;-------------------------------------------------------------------------------
 Offset_0x047C44:
                 lea     Snow_Pile_Setup_Data_4(PC), A1         ; Offset_0x047CF0
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x047C62, (A0)
                 move.l  #Offset_0x047C6C, Obj_Child(A0)                  ; $0034
                 bsr     Offset_0x047C7C

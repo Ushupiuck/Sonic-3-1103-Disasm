@@ -19,7 +19,7 @@ Offset_0x0444A8:
 ;-------------------------------------------------------------------------------
 Offset_0x0444B2:
                 lea     Catakiller_Jr_Setup_Data(PC), A1       ; Offset_0x04460C
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  #$FF00, Obj_Speed_X(A0)                          ; $0018
                 lea     Offset_0x044642(PC), A2
                 jsr     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
@@ -82,7 +82,7 @@ Offset_0x04455C:
                 lea     Offset_0x044576(PC, D1), A1
                 lsr.w   #$01, D0
                 move.b  Offset_0x044582(PC, D0), Obj_Timer_2(A0)         ; $002F
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72
 ;-------------------------------------------------------------------------------  
 Offset_0x044576:
                 dc.w    Catakiller_Jr_Setup_Data_2-Offset_0x044576 ; Offset_0x044618
@@ -114,7 +114,7 @@ Offset_0x044590:
 ;-------------------------------------------------------------------------------
 Offset_0x0445BA:
                 lea     Offset_0x04463C(PC), A1
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0445D6, (A0)
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
                 jmp     (Child_Display_Or_Delete)              ; Offset_0x04245C  
@@ -137,7 +137,7 @@ Offset_0x0445FC:
 Offset_0x0445FE:
                 move.w  #$001A, Obj_Timer(A0)                            ; $002E
                 lea     Offset_0x04464A(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Catakiller_Jr_Setup_Data:                                      ; Offset_0x04460C
                 dc.l    Catakiller_Jr_Mappings                 ; Offset_0x10E9BE

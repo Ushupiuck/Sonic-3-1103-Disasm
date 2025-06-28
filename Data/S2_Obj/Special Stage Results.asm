@@ -145,7 +145,7 @@ Offset_0x024CFE:
 		move.w  #$0120, Obj_Y(A0)				; $0014
 		st      (HUD_Results_Refresh_Flag).w		 ; $FFFFF7D6
 		move.w  #S2_Panel_Spinning_Sfx, D0		       ; $00CF
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		bra     Offset_0x024E8C
 Offset_0x024D24:
 		move.w  (Player_Selected_Flag).w, D0		 ; $FFFFFF08
@@ -207,7 +207,7 @@ Offset_0x024DAE:
 		tst.w   D0
 		bne.s   Offset_0x024DF8
 		move.w  #S2_Cha_Ching_Sfx, D0		            ; $00C5
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		addq.b  #$02, Obj_Routine(A0)		            ; $0005
 		move.w  #$0078, Obj_Ani_Time(A0)		         ; $0024
 		tst.w   (Perfect_Bonus_Rings_Flag).w		 ; $FFFFFF06
@@ -231,7 +231,7 @@ Offset_0x024DF8:
 		andi.b  #$03, D0
 		bne.s   Offset_0x024DF6
 		move.w  #S2_Add_Points_Blip_Sfx, D0		      ; $00CD
-		jmp     (Play_Music)		           ; Offset_0x001176
+		jmp     (PlaySound)		           ; Offset_0x001176
 ;-------------------------------------------------------------------------------		  
 Offset_0x024E12:
 		move.w  #$0001, (Restart_Level_Flag).w               ; $FFFFFE02
@@ -253,10 +253,10 @@ Offset_0x024E3C:
 		andi.b  #$03, D0
 		bne.s   Offset_0x024E8A
 		move.w  #S2_Add_Points_Blip_Sfx, D0		      ; $00CD
-		jmp     (Play_Music)		           ; Offset_0x001176
+		jmp     (PlaySound)		           ; Offset_0x001176
 Offset_0x024E5A:
 		move.w  #S2_Cha_Ching_Sfx, D0		            ; $00C5
-		jsr     (Play_Music)		           ; Offset_0x001176
+		jsr     (PlaySound)		           ; Offset_0x001176
 		addq.b  #$04, Obj_Routine(A0)		            ; $0005
 		move.w  #$0078, Obj_Ani_Time(A0)		         ; $0024
 		cmpi.w  #$0002, (Player_Selected_Flag).w             ; $FFFFFF08

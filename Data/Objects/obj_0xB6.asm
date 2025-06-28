@@ -20,7 +20,7 @@ Offset_0x03CEAC:
 ;-------------------------------------------------------------------------------
 Offset_0x03CEB8:
                 lea     Barrier_Eggman_Setup_Data(PC), A1      ; Offset_0x03D43A
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$7F, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$06, Obj_Control_Var_09(A0)                     ; $0039
                 move.w  (Level_Limits_Max_Y).w, (Target_Camera_Max_Y).w ; $FFFFEE12, $FFFFFA98
@@ -37,7 +37,7 @@ Offset_0x03CEB8:
                 lea     Offset_0x03D46C(PC), A2
                 jsr     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
                 lea     Offset_0x03D474(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x03CF14:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
@@ -98,7 +98,7 @@ Offset_0x03CFB8:
                 bclr    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 clr.w   Obj_Speed_Y(A0)                                  ; $001A
                 lea     Offset_0x03D48A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03CFD0:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 jsr     (Find_Other_Object)                    ; Offset_0x04269E
@@ -161,7 +161,7 @@ Offset_0x03D07A:
 ;-------------------------------------------------------------------------------  
 Offset_0x03D08C:
                 lea     Barrier_Eggman_Setup_Data_2(PC), A1    ; Offset_0x03D446
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03D09E, (A0)
                 bra     Offset_0x03D390   
 ;-------------------------------------------------------------------------------
@@ -197,7 +197,7 @@ Offset_0x03D0F6:
 ;-------------------------------------------------------------------------------
 Offset_0x03D108:
                 lea     Barrier_Eggman_Setup_Data_3(PC), A1    ; Offset_0x03D44C
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03D124, (A0)
                 addi.w  #$00CC, Obj_X(A0)                                ; $0010
                 addi.w  #$007C, Obj_Y(A0)                                ; $0014
@@ -212,12 +212,12 @@ Offset_0x03D136:
                 move.l  #MarkObjGone, (A0)                     ; Offset_0x011AF2
                 move.b  #$03, Obj_Map_Id(A0)                             ; $0022
                 lea     (Offset_0x041D62), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------   
 Offset_0x03D152:
                 lea     Barrier_Eggman_Setup_Data_6(PC), A1    ; Offset_0x03D460
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03D176, (A0)
                 addi.w  #$00D8, Obj_X(A0)                                ; $0010
                 addi.w  #$0074, Obj_Y(A0)                                ; $0014
@@ -262,7 +262,7 @@ Offset_0x03D1E8:
 ;-------------------------------------------------------------------------------  
 Offset_0x03D1FC:
                 lea     Barrier_Eggman_Setup_Data_4(PC), A1    ; Offset_0x03D452
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03D234, (A0)
                 move.w  #$00B0, D0
                 move.b  Obj_Subtype(A0), D1                              ; $002C
@@ -300,7 +300,7 @@ Offset_0x03D26E:
 ;------------------------------------------------------------------------------- 
 Offset_0x03D274:
                 lea     Barrier_Eggman_Setup_Data_5(PC), A1    ; Offset_0x03D458
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03D294, (A0)
                 move.l  #Offset_0x03D49F, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x03D2B6, Obj_Child(A0)                  ; $0034
@@ -342,7 +342,7 @@ Offset_0x03D2F2:
 Offset_0x03D30A:
                 bset    #$00, Obj_Control_Var_08(A0)                     ; $0038
 Offset_0x03D310:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jsr     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450   
 ;-------------------------------------------------------------------------------
@@ -351,7 +351,7 @@ Offset_0x03D31C:
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E
                 st      (Earthquake_Flag).w                          ; $FFFFEECC
                 lea     (Offset_0x041D62), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03D340
                 addi.w  #$0060, Obj_Y(A1)                                ; $0014
 Offset_0x03D340:

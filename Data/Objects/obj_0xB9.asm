@@ -32,7 +32,7 @@ Offset_0x04666E:
 ;-------------------------------------------------------------------------------
 Offset_0x046682:
                 lea     Platform_Setup_Data(PC), A1            ; Offset_0x046AA6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  A0, (Obj_Knuckles_Mem_Address).w             ; $FFFFFAA4
                 move.b  #$20, Obj_Width_2(A0)                            ; $001F
                 move.b  #$12, Obj_Height_2(A0)                           ; $001E
@@ -43,7 +43,7 @@ Offset_0x046682:
                 tst.w   D0
                 bne     Offset_0x046738
                 lea     Offset_0x046AFA(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x0466B6:
                 dc.b    $02, $06, $0C, $0E  
@@ -225,7 +225,7 @@ Offset_0x0468A6:
 ;-------------------------------------------------------------------------------
 Offset_0x0468B4:
                 lea     Platform_Setup_Data_3(PC), A1          ; Offset_0x046AD6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Animate_Raw_Delete_Sprite_Check_X_Y, (A0) ; Offset_0x042FB2
                 move.l  #Offset_0x046B02, Obj_Child_Data(A0)             ; $0030
                 moveq   #$00, D0

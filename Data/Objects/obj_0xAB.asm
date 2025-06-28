@@ -5,7 +5,7 @@
 ; Offset_0x0482D2:
                 jsr     (Object_Check_Range)                   ; Offset_0x04326E
                 lea     Star_Pointer_Setup_Data(PC), A1        ; Offset_0x048416
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x048318, (A0)
                 bclr    #$01, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x0482F4
@@ -46,7 +46,7 @@ Offset_0x04834A:
 ;-------------------------------------------------------------------------------
 Offset_0x048354:
                 lea     Star_Pointer_Setup_Data_2(PC), A1      ; Offset_0x048422
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.b  #$08, Obj_Width_2(A0)                            ; $001F
                 move.l  #Offset_0x04837C, (A0)
                 moveq   #$00, D0

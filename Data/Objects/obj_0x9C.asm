@@ -22,12 +22,12 @@ Offset_0x04495E:
 ;-------------------------------------------------------------------------------
 Offset_0x04496E:
                 lea     Turbo_Spiker_Setup_Data(PC), A1        ; Offset_0x044C26
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 bclr    #$01, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x04498C
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
                 lea     Offset_0x044C90(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x04498C:
                 move.b  #$10, Obj_Width_2(A0)                            ; $001F
                 move.b  #$0F, Obj_Height_2(A0)                           ; $001E
@@ -42,7 +42,7 @@ Offset_0x04498C:
                 move.w  #$FF80, D4
                 jsr     Set_Velocity_X_Track_Player_One(PC)    ; Offset_0x042E4C
                 lea     Offset_0x044C58(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x0449CA:
                 jsr     Find_Player(PC)                        ; Offset_0x042634
@@ -55,7 +55,7 @@ Offset_0x0449DE:
                 tst.w   D0
                 beq.s   Offset_0x044A10
 Offset_0x0449E2:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 jsr     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2
                 jmp     Run_Object_Hit_Floor_D3_A0(PC)         ; Offset_0x0423F8  
@@ -103,7 +103,7 @@ Offset_0x044A58:
                 rts 
 ;-------------------------------------------------------------------------------
 Offset_0x044A6E:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 jmp     Run_Object_Hit_Floor_D3_A0(PC)         ; Offset_0x0423F8
 ;-------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ Offset_0x044A88:
                 bset    #$00, Obj_Control_Var_08(A0)                     ; $0038
                 move.w  #$0003, Obj_Timer(A0)                            ; $002E
                 lea     Offset_0x044C70(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x044AA2:
                 subq.w  #$01, Obj_Timer(A0)                              ; $002E
@@ -139,7 +139,7 @@ Offset_0x044AC6:
 ;-------------------------------------------------------------------------------
 Offset_0x044ACE:
                 lea     Turbo_Spiker_Setup_Data_2(PC), A1      ; Offset_0x044C32
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x044AE0, (A0)
                 jmp     Child_Display_Touch_Or_Delete(PC)      ; Offset_0x042472    
 ;-------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ Offset_0x044B08:
                 move.w  D0, Obj_Speed_X(A0)                              ; $0018
                 move.w  #$FC00, Obj_Speed_Y(A0)                          ; $001A
                 lea     Offset_0x044C60(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X_Y(PC) ; Offset_0x042B96   
 ;-------------------------------------------------------------------------------
 Offset_0x044B1E:
@@ -168,7 +168,7 @@ Offset_0x044B1E:
 ;------------------------------------------------------------------------------- 
 Offset_0x044B28:
                 lea     Turbo_Spiker_Setup_Data_3(PC), A1      ; Offset_0x044C38
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x044B3A, (A0)
                 jmp     Child_Display_Or_Delete(PC)            ; Offset_0x04245C   
 ;-------------------------------------------------------------------------------
@@ -188,7 +188,7 @@ Offset_0x044B62:
                 andi.b  #$03, D0
                 bne.s   Offset_0x044B92
                 lea     Offset_0x044C68(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x044B92
                 jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
                 andi.w  #$0007, D0
@@ -203,19 +203,19 @@ Offset_0x044B92:
 ;-------------------------------------------------------------------------------  
 Offset_0x044B94:
                 lea     Turbo_Spiker_Setup_Data_4(PC), A1      ; Offset_0x044C3E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x044BB8, (A0)
                 move.l  #Offset_0x044CA2, Obj_Child_Data(A0)             ; $0030
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x044BB8:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------  
 Offset_0x044BC2:
                 lea     Turbo_Spiker_Setup_Data_5(PC), A1      ; Offset_0x044C44
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x044BD8, (A0)
                 move.b  Obj_Subtype(A0), Obj_Timer_2(A0)          ; $002C, $002F
                 rts
@@ -231,13 +231,13 @@ Offset_0x044BE0:
                 rts  
 ;-------------------------------------------------------------------------------
 Offset_0x044BF8:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------
 Offset_0x044C02:
                 move.l  #Offset_0x044C10, (A0)
                 lea     Turbo_Spiker_Setup_Data_6(PC), A1      ; Offset_0x044C4C
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72   
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72   
 ;-------------------------------------------------------------------------------
 Offset_0x044C10:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046

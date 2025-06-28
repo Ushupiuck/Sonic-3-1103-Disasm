@@ -20,7 +20,7 @@ Offset_0x03EC28:
 ;-------------------------------------------------------------------------------
 Offset_0x03EC34:
                 lea     Twin_Hammer_Setup_Data(PC), A1         ; Offset_0x03F0B6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$06, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 move.w  #$0010, Obj_Timer(A0)                            ; $002E
@@ -28,7 +28,7 @@ Offset_0x03EC34:
                 lea     Twin_Hammer_Pallete(PC), A1            ; Offset_0x03F0FA
                 jsr     Pal_Load_Line_1(PC)                    ; Offset_0x04314C
                 lea     Offset_0x03F0CE(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x03F0D6(PC), A2
                 jsr     Load_Child_Object_Link_List_Repeat_A2(PC) ; Offset_0x041EA0
                 lea     Offset_0x03F0DC(PC), A2
@@ -65,7 +65,7 @@ Offset_0x03ECD4:
                 rts  
 ;-------------------------------------------------------------------------------
 Offset_0x03ECDC:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2    
 ;-------------------------------------------------------------------------------
 Offset_0x03ECE4:
@@ -85,7 +85,7 @@ Offset_0x03ECF8:
                 move.w  Offset_0x03ED20(PC, D1), Obj_Speed_Y(A0)         ; $001A
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
 Offset_0x03ED1C:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E  
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E  
 ;-------------------------------------------------------------------------------
 Offset_0x03ED20:
                 dc.w    $FF00, $0100   
@@ -111,7 +111,7 @@ Offset_0x03ED42:
 ;-------------------------------------------------------------------------------
 Offset_0x03ED48:
                 lea     Twin_Hammer_Setup_Data_2(PC), A1       ; Offset_0x03F0C2
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03F0E8, Obj_Child_Data(A0)             ; $0030
                 rts     
 ;-------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ Offset_0x03ED68:
                 rts  
 ;-------------------------------------------------------------------------------
 Offset_0x03ED78:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E  
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E  
 ;-------------------------------------------------------------------------------  
 Offset_0x03ED7C:
                 bset    #$02, Obj_Control_Var_08(A0)                     ; $0038
@@ -151,7 +151,7 @@ Offset_0x03ED9E:
 ;-------------------------------------------------------------------------------
 Offset_0x03EDAA:
                 lea     Twin_Hammer_Setup_Data_3(PC), A1       ; Offset_0x03F0C8
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  #$0100, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03EDFA, Obj_Child(A0)                  ; $0034
                 move.b  #$04, Obj_Control_Var_0D(A0)                     ; $003D
@@ -347,7 +347,7 @@ Offset_0x03F010:
                 move.w  #$0040, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03ED26, Obj_Child(A0)                  ; $0034
                 lea     (Offset_0x041D62), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03F02E:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046

@@ -28,11 +28,11 @@ Offset_0x0434B4:
 ;-------------------------------------------------------------------------------
 Offset_0x0434C6
                 lea     Egg_Prison_Setup_Data(PC), A1          ; Offset_0x04396A
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 btst    #$01, Obj_Flags(A0)                              ; $0004
                 bne.s   Offset_0x0434DE
                 lea     Offset_0x043994(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x0434DE:
                 move.b  #$08, Obj_Routine(A0)                            ; $0005
                 move.w  (Camera_X).w, D0                             ; $FFFFEE78
@@ -45,9 +45,9 @@ Offset_0x0434DE:
                 move.w  #$0001, Obj_Control_Var_0A(A0)                   ; $003A
                 jsr     (Swing_Setup)                          ; Offset_0x03669A
                 lea     Offset_0x04399C(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x0439A4(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x04351C:
                 btst    #$01, Obj_Control_Var_08(A0)                     ; $0038
@@ -58,11 +58,11 @@ Offset_0x04352A:
                 move.b  #$01, Obj_Map_Id(A0)                             ; $0022
                 move.w  #$0040, Obj_Timer(A0)                            ; $002E
                 lea     Offset_0x0439B2(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x0439D2(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     (Offset_0x041D62), A2
-                jsr     (Load_Child_Object_A2)                 ; Offset_0x041D9A
+                jsr     (SetupChildObject)                 ; Offset_0x041D9A
                 move.b  #$08, Obj_Subtype(A1)                            ; $002C
 Offset_0x043558:
                 rts       
@@ -131,7 +131,7 @@ Offset_0x0435F2:
 Offset_0x0435FC:
                 move.l  #Offset_0x04360A, (A0)
                 lea     Egg_Prison_Setup_Data_2(PC), A1        ; Offset_0x043976
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A 
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A 
 ;------------------------------------------------------------------------------- 
 Offset_0x04360A:
                 bsr     Offset_0x0438A2
@@ -153,7 +153,7 @@ Offset_0x043638:
                 move.l  #Offset_0x04364C, (A0)
                 bset    #$01, Obj_Flags(A0)                              ; $0004
                 lea     Egg_Prison_Setup_Data_2(PC), A1        ; Offset_0x043976
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A   
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A   
 ;-------------------------------------------------------------------------------
 Offset_0x04364C:
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016
@@ -196,7 +196,7 @@ Offset_0x0436A8:
 ;-------------------------------------------------------------------------------
 Offset_0x0436B6:
                 lea     Egg_Prison_Setup_Data_3(PC), A1        ; Offset_0x04397C
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 cmpi.w  #$0400, (Current_ZoneAndAct).w                         ; $FFFFFE10
                 bne.s   Offset_0x0436CC
                 move.w  #$044E, Obj_Art_VRAM(A0)                         ; $000A
@@ -209,7 +209,7 @@ Offset_0x0436CC:
 ;-------------------------------------------------------------------------------    
 Offset_0x0436E2:
                 lea     Egg_Prison_Setup_Data_5(PC), A1        ; Offset_0x04398E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0436F0, (A0)
 Offset_0x0436F0:                
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016
@@ -219,7 +219,7 @@ Offset_0x0436F0:
 ;-------------------------------------------------------------------------------
 Offset_0x043700:
                 lea     Egg_Prison_Setup_Data_4(PC), A1        ; Offset_0x043988
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x04371E, (A0)
                 move.b  #$08, Obj_Height_2(A0)                           ; $001E
                 bsr     Offset_0x0438C8
@@ -231,7 +231,7 @@ Offset_0x04371E:
                 move.l  #Offset_0x043734, (A0)
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
 Offset_0x043730:
-                jmp     Delete_Sprite_Check_X(PC)              ; Offset_0x042A58 
+                jmp     MarkObjectGone(PC)              ; Offset_0x042A58 
 ;-------------------------------------------------------------------------------
 Offset_0x043734:
                 jsr     Move_Light_Gravity(PC)                 ; Offset_0x0426C2
@@ -257,7 +257,7 @@ Offset_0x043768:
                 moveq   #$01, D0
 Offset_0x043774:
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
-                jmp     Delete_Sprite_Check_X(PC)              ; Offset_0x042A58
+                jmp     MarkObjectGone(PC)              ; Offset_0x042A58
 ;-------------------------------------------------------------------------------
 Offset_0x04377C:
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016
@@ -266,7 +266,7 @@ Offset_0x04377C:
                 move.l  #Offset_0x043796, (A0)
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
 Offset_0x043792:
-                jmp     Delete_Sprite_Check_X(PC)              ; Offset_0x042A58 
+                jmp     MarkObjectGone(PC)              ; Offset_0x042A58 
 ;-------------------------------------------------------------------------------
 Offset_0x043796:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000

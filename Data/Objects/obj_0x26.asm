@@ -119,7 +119,7 @@ Offset_0x014114:
                 move.b  #$02, Obj_Ani_Number(A1)                         ; $0020
                 addq.w  #$05, Obj_Y(A1)                                  ; $0014
                 moveq   #Rolling_Sfx, D0                                   ; $3C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 rts
 Offset_0x01413A:
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08

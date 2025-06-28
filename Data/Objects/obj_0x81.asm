@@ -17,7 +17,7 @@ Offset_0x043B58:
 ;-------------------------------------------------------------------------------
 Offset_0x043B5E:
                 lea     Bloominator_Setup_Data(PC), A1         ; Offset_0x043BE6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x043B82, Obj_Child(A0)                  ; $0034
 Offset_0x043B74:

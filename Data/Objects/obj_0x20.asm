@@ -45,7 +45,7 @@ Offset_0x01FE1C:
                 beq.s   Offset_0x01FE60
                 moveq   #Slide_Thunk_Sfx, D0                              ; -$50
 Offset_0x01FE60:
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x01FE7C
 Offset_0x01FE68:
                 move.w  Obj_Control_Var_04(A0), D2                       ; $0034

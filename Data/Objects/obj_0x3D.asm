@@ -88,7 +88,7 @@ Offset_0x019F76:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x019FD4
                 moveq   #Spike_Move_Sfx, D0                                ; $58
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x019FD4
 Offset_0x019F92:
                 tst.w   Obj_Control_Var_08(A0)                           ; $0038

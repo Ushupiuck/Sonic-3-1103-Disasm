@@ -17,10 +17,10 @@ Offset_0x049B3C:
 ;-------------------------------------------------------------------------------
 Offset_0x049B42:
                 lea     Dragonfly_Setup_Data(PC), A1           ; Offset_0x049D86
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.l  #Offset_0x049DBE, Obj_Child_Data(A0)             ; $0030
                 lea     Offset_0x049D9E(PC), A2
-                jsr     (Load_Child_Object_A2)                 ; Offset_0x041D9A
+                jsr     (SetupChildObject)                 ; Offset_0x041D9A
                 lea     Offset_0x049DA6(PC), A2
                 jsr     (Load_Child_Object_Link_List_Repeat_A2) ; Offset_0x041EA0
                 move.w  #$0200, D0
@@ -37,7 +37,7 @@ Offset_0x049B80:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x049B9A:
-                jsr     (Animate_Raw)                          ; Offset_0x04208E
+                jsr     (AnimateRaw)                          ; Offset_0x04208E
                 jsr     (Swing_Left_And_Right)                 ; Offset_0x042372
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -84,7 +84,7 @@ Offset_0x049C2A:
 ;-------------------------------------------------------------------------------
 Offset_0x049C34:
                 lea     Dragonfly_Setup_Data_3(PC), A1         ; Offset_0x049D98
-                jsr     (Object_Settings_3)                    ; Offset_0x041D7A
+                jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 bset    #$01, Obj_Flags(A0)                              ; $0004
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -163,7 +163,7 @@ Offset_0x049D14:
 ;-------------------------------------------------------------------------------
 Offset_0x049D2C:
                 lea     Dragonfly_Setup_Data_2(PC), A1         ; Offset_0x049D92
-                jsr     (Object_Settings_3)                    ; Offset_0x041D7A
+                jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 move.l  #Offset_0x049D42, (A0)
                 jmp     (Child_Display_Or_Delete)              ; Offset_0x04245C  
 ;-------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 ;===============================================================================  
 ; Offset_0x0493CC:
                 lea     Egg_Mobile_Setup_Data(PC), A1          ; Offset_0x0495AE
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.l  #Offset_0x0493E8, (A0)
                 move.w  Obj_Y(A0), Obj_Control_Var_0A(A0)         ; $0014, $003A
                 bset    #$00, Obj_Flags(A0)                              ; $0004
@@ -27,7 +27,7 @@ Offset_0x0493E8:
                 move.w  #$01DF, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x04945E, Obj_Child(A0)                  ; $0034
                 lea     (LBz_Robotnik_Ship_Data_2), A2         ; Offset_0x03659E
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x049440:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------

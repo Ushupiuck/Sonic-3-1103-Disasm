@@ -19,7 +19,7 @@ Offset_0x0446EC:
 Offset_0x0446F2:
                 move.b  #$01, Obj_Col_Prop(A0)                           ; $0029
                 lea     Blastoid_Setup_Data(PC), A1            ; Offset_0x044762
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72   
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72   
 ;-------------------------------------------------------------------------------
 Offset_0x044700:
                 jsr     Find_Player(PC)                        ; Offset_0x042634

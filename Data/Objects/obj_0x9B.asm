@@ -18,10 +18,10 @@ Offset_0x0447BE:
 ;-------------------------------------------------------------------------------
 Offset_0x0447C4:
                 lea     Buggernaut_Setup_Data(PC), A1          ; Offset_0x044922
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x04493C, Obj_Child_Data(A0)             ; $0030
                 lea     Offset_0x044934(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 addq.b  #$01, Obj_Control_Var_09(A0)                     ; $0039
 Offset_0x0447E0:                
                 move.b  #$02, Obj_Routine(A0)                            ; $0005
@@ -30,7 +30,7 @@ Offset_0x0447E0:
                 rts 
 ;-------------------------------------------------------------------------------
 Offset_0x0447F6:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2  
 ;-------------------------------------------------------------------------------
 Offset_0x0447FE:
@@ -50,7 +50,7 @@ Offset_0x044814:
                 jsr     Chase_Object(PC)                       ; Offset_0x042E6C
                 bsr     Offset_0x04490A
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2  
 ;-------------------------------------------------------------------------------
 Offset_0x04483E:
@@ -67,12 +67,12 @@ Offset_0x044850:
 ;-------------------------------------------------------------------------------
 Offset_0x044856:
                 lea     Buggernaut_Setup_Data_2(PC), A1        ; Offset_0x04492E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x044941, Obj_Child_Data(A0)             ; $0030
                 rts    
 ;-------------------------------------------------------------------------------
 Offset_0x044868:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 cmpi.l  #Offset_0x0447AC, (A1)
                 beq.s   Offset_0x04487E
@@ -103,7 +103,7 @@ Offset_0x0448C8:
                 rts    
 ;-------------------------------------------------------------------------------
 Offset_0x0448CE:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (SpeedToPos)                           ; Offset_0x01111E
 Offset_0x0448D8:
                 lea     (Obj_04_Mem_Address).w, A2                   ; $FFFFB128

@@ -17,7 +17,7 @@ Offset_0x04A2B6:
 ;-------------------------------------------------------------------------------
 Offset_0x04A2BC:
                 lea     Iwamodock_Setup_Data(PC), A1           ; Offset_0x04A334
-                jmp     (Object_Settings)                      ; Offset_0x041D72    
+                jmp     (SetupObjectAttributes)                      ; Offset_0x041D72    
 ;-------------------------------------------------------------------------------
 Offset_0x04A2C6:
                 jsr     (Find_Player)                          ; Offset_0x042634
@@ -41,7 +41,7 @@ Offset_0x04A2F2:
 ;-------------------------------------------------------------------------------
 Offset_0x04A306:
                 move.l  Obj_Control_Var_0E(A0), A1                       ; $003E
-                jsr     (Object_Settings_3)                    ; Offset_0x041D7A
+                jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 move.l  #Offset_0x043B32, (A0)
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsr.b   #$02, D0
@@ -51,7 +51,7 @@ Offset_0x04A306:
 ;-------------------------------------------------------------------------------
 Offset_0x04A328:
                 jsr     (ObjectFall)                           ; Offset_0x0110FE
-                jmp     (Animate_Raw)                          ; Offset_0x04208E 
+                jmp     (AnimateRaw)                          ; Offset_0x04208E 
 ;-------------------------------------------------------------------------------
 Iwamodock_Setup_Data:                                          ; Offset_0x04A334
                 dc.l    Iwamodock_Mappings                     ; Offset_0x10E46E

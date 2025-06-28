@@ -6,7 +6,7 @@
                 jsr     Object_Check_Range(PC)                 ; Offset_0x04326E
                 move.l  #Offset_0x0479A2, (A0)
                 lea     Ice_Cube_Setup_Data(PC), A1            ; Offset_0x047A72
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x0479A2:
@@ -42,7 +42,7 @@ Offset_0x0479F0:
                 bclr    #$03, Obj_Status(A1)                             ; $002A
                 move.b  #$02, Obj_Routine(A1)                            ; $0005
                 lea     Offset_0x047A86(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
                 jsr     (Play_Music)                           ; Offset_0x001176
                 jsr     (Go_Delete_Object_A0)                  ; Offset_0x042D3E
@@ -51,7 +51,7 @@ Offset_0x047A36:
 ;-------------------------------------------------------------------------------
 Offset_0x047A38:
                 lea     Ice_Cube_Setup_Data_2(PC), A1          ; Offset_0x047A7E
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Animate_Raw_Delete_Sprite_Check_X_Y, (A0) ; Offset_0x042FB2
                 move.l  #Offset_0x047184, Obj_Child_Data(A0)             ; $0030
                 cmpi.b  #$0C, Obj_Subtype(A0)                            ; $002C

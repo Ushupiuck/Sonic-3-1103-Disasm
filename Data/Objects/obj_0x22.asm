@@ -42,7 +42,7 @@ Offset_0x0200DE:
                 andi.b  #$1F, D0
                 bne.s   Offset_0x0200F0
                 moveq   #Buzzer_Sfx, D0                                   ; -$65
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x0200F0:
                 rts
 Offset_0x0200F2:

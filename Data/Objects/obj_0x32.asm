@@ -84,7 +84,7 @@ Offset_0x02249E:
                 bne.s   Offset_0x0224E2
                 move.b  #$01, Obj_Control_Var_06(A0)                     ; $0036
                 moveq   #Draw_Bridge_Move_Sfx, D0                          ; $5C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0068, D1
                 btst    #$00, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x0224C6
@@ -105,7 +105,7 @@ Offset_0x0224E2:
 Offset_0x0224F6:
                 move.b  #$00, Obj_Control_Var_06(A0)                     ; $0036
                 moveq   #Draw_Bridge_Move_Sfx, D0                          ; $5C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.l  #Offset_0x02251A, (A0)
                 bra.s   Offset_0x022514
 Offset_0x02250C:
@@ -306,7 +306,7 @@ Offset_0x02275A:
                 move.w  #$0000, Obj_Speed_X(A3)                          ; $0018
                 move.w  #$0000, Obj_Speed_Y(A3)                          ; $001A
                 moveq   #Bridge_Collapse_Sfx, D0                          ; -$69
-                jmp     (Play_Music)                           ; Offset_0x001176 
+                jmp     (PlaySound)                           ; Offset_0x001176 
 ;-------------------------------------------------------------------------------
 Offset_0x02276E:
                 dc.b    $08, $10, $0C, $0E, $06, $0A, $04, $02

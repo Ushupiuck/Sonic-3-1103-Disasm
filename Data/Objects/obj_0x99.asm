@@ -5,7 +5,7 @@
 ; Offset_0x04465C:
                 jsr     (Object_Check_Range)                   ; Offset_0x04326E
                 lea     Jawz_Setup_Data(PC), A1                ; Offset_0x0446C0
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x044678, (A0)
                 move.w  #$FE00, D4
                 jmp     Set_Velocity_X_Track_Player_One(PC)    ; Offset_0x042E4C
@@ -26,7 +26,7 @@ Offset_0x044692:
                 cmpi.b  #$09, Obj_Ani_Number(A1)                         ; $0020
                 beq.s   Offset_0x0446B6
                 lea     (Offset_0x0397A8), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E
 Offset_0x0446B6:
                 jmp     Enemy_Defeat_Score(PC)                 ; Offset_0x043018   

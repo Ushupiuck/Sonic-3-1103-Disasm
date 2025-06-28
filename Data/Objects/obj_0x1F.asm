@@ -134,7 +134,7 @@ Offset_0x01F9EA:
                 move.b  #$01, Obj_Timer(A1)                              ; $002E
                 move.b  #$01, (A2)
                 moveq   #Switch_Blip_Sfx, D0                               ; $64
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01FA5C:
                 rts  
 ;-------------------------------------------------------------------------------

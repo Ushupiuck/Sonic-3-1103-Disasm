@@ -72,7 +72,7 @@ Offset_0x010B8E:
                 dbra    D5, Offset_0x010B10
 Offset_0x010B9E:
                 move.w  #Ring_Lost_Sfx, D0                               ; $0034
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 tst.b   Obj_Player_One_Or_Two(A0)                        ; $003F
                 bne.s   Offset_0x010BC2
                 move.w  #$0000, (Ring_count).w               ; $FFFFFE20

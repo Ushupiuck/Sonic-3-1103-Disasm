@@ -284,7 +284,7 @@ Offset_0x00CFAE:
                 move.b  #$02, Obj_Ani_Number(A0)                         ; $0020
                 addq.w  #$04, Obj_Y(A0)                                  ; $0014
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 tst.w   Obj_Inertia(A0)                                  ; $001C
                 bne.s   Offset_0x00CFE0
                 move.w  #$0200, Obj_Inertia(A0)                          ; $001C
@@ -300,7 +300,7 @@ Offset_0x00CFE2:
                 beq     Offset_0x00D030
                 move.b  #$09, Obj_Ani_Number(A0)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 addq.l  #$04, A7
                 move.b  #$01, Obj_Player_Spdsh_Flag(A0)                  ; $003D
                 move.w  #$0000, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
@@ -344,7 +344,7 @@ Offset_0x00D098:
                 bset    #$02, Obj_Status(A0)                             ; $002A
                 move.b  #$00, Obj_Ani_Number(A6)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x00D10A
 ;-------------------------------------------------------------------------------
 Miles_Spindash_Speed_2P:                                       ; Offset_0x00D0B0
@@ -365,7 +365,7 @@ Offset_0x00D0DA:
                 beq     Offset_0x00D10A
                 move.w  #$0900, Obj_Ani_Number(A0)                       ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 addi.w  #$0200, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 cmpi.w  #$0800, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 bcs.s   Offset_0x00D10A

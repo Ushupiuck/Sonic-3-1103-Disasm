@@ -8,7 +8,7 @@
                 move.w  Offset_0x04182E(PC, D0), D1
                 jsr     Offset_0x04182E(PC, D1)
                 lea     Offset_0x041AAA(PC), A2
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------
 Offset_0x04182E:
@@ -20,7 +20,7 @@ Offset_0x04182E:
 ;-------------------------------------------------------------------------------
 Offset_0x041838:
                 lea     Offset_0x041A6C(PC), A1
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 move.w  A0, (Obj_End_Panel_Mem_Address).w            ; $FFFFFAA6
                 move.b  #$18, Obj_Width_2(A0)                            ; $001F
                 move.b  #$1E, Obj_Height_2(A0)                           ; $001E
@@ -33,7 +33,7 @@ Offset_0x041866:
                 subi.w  #$0020, D0
                 move.w  D0, Obj_Y(A0)                                    ; $0014
                 lea     Offset_0x041A96(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x04187A:
                 move.b  (Vint_runcount+$03).w, D0         ; $FFFFFE0F
@@ -46,7 +46,7 @@ Offset_0x04188C:
                 addi.w  #$000C, Obj_Speed_Y(A0)                          ; $001A
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 bsr     Offset_0x041A2E
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bmi.s   Offset_0x0418CA
                 jsr     (ObjHitFloor)                          ; Offset_0x009D84
@@ -60,7 +60,7 @@ Offset_0x0418CA:
                 rts       
 ;-------------------------------------------------------------------------------
 Offset_0x0418CC:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 subq.w  #$01, Obj_Timer(A0)                              ; $002E
                 bpl.s   Offset_0x0418E2
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
@@ -100,7 +100,7 @@ PLC_SpSP_End:
 ;-------------------------------------------------------------------------------
 Offset_0x041934:
                 lea     Offset_0x041A8A(PC), A1
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x04196E, (A0)
                 jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
                 andi.w  #$001F, D0
@@ -132,7 +132,7 @@ Offset_0x04198C:
 Offset_0x0419A8:
                 move.l  #Offset_0x0419B6, (A0)
                 lea     Offset_0x041A7E(PC), A1
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72  
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72  
 ;-------------------------------------------------------------------------------  
 Offset_0x0419B6:
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016

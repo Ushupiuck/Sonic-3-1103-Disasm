@@ -17,7 +17,7 @@ Offset_0x043F32:
 ;-------------------------------------------------------------------------------
 Offset_0x043F38:
                 lea     Monkey_Dude_Setup_Data(PC), A1          ; Offset_0x044420
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsr.w   #$02, D0
@@ -81,7 +81,7 @@ Offset_0x04400E:
                 bset    #$03, Obj_Control_Var_08(A0)                     ; $0038
 Offset_0x044014:                
                 lea     Offset_0x04442C(PC), A1
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 clr.b   Obj_Routine(A0)                                  ; $0005
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 add.b   D0, D0
@@ -303,7 +303,7 @@ Offset_0x044238:
 ;-------------------------------------------------------------------------------
 Offset_0x044246:
                 lea     Offset_0x044432(PC), A1
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x04427C, (A0)
                 move.l  #Offset_0x044483, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x044290, Obj_Child(A0)                  ; $0034

@@ -9,7 +9,7 @@
                 move.w  Offset_0x049E74(PC, D0), D1
                 jsr     Offset_0x049E74(PC, D1)
                 lea     Cluckoid_PLC_Data(PC), A2              ; Offset_0x049F96
-                jsr     (Load_Dynamic_PLC_A2)                  ; Offset_0x042A0A
+                jsr     (LoadDynamicPLC)                  ; Offset_0x042A0A
                 jmp     (Delete_Sprite_Clear_Respaw_Flag_Check_X) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x049E74:
@@ -20,9 +20,9 @@ Offset_0x049E74:
 ;-------------------------------------------------------------------------------
 Offset_0x049E7C:
                 lea     Cluckoid_Setup_Data(PC), A1            ; Offset_0x049F70
-                jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
+                jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
                 lea     Offset_0x049F8E(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A    
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x049E90:
                 jsr     (Find_Player)                          ; Offset_0x042634
@@ -72,7 +72,7 @@ Offset_0x049F02:
 ;-------------------------------------------------------------------------------
 Offset_0x049F06:
                 lea     Cluckoid_Setup_Data_2(PC), A1          ; Offset_0x049F82
-                jmp     (Object_Settings)                      ; Offset_0x041D72 
+                jmp     (SetupObjectAttributes)                      ; Offset_0x041D72 
 ;-------------------------------------------------------------------------------
 Offset_0x049F10:
                 rts   

@@ -6,7 +6,7 @@
                 jsr     Object_Check_Range(PC)                 ; Offset_0x04326E
                 move.l  #Offset_0x046D08, (A0)
                 lea     Freezer_Setup_Data(PC), A1             ; Offset_0x0470E6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x046D08:
@@ -69,18 +69,18 @@ Offset_0x046DA0:
                 beq.s   Offset_0x046DB6
                 lea     Offset_0x04712A(PC), A2
 Offset_0x046DB6:
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x046DBA:
                 lea     Offset_0x047112(PC), A2
                 btst    #$01, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x046DCA
                 lea     Offset_0x04711A(PC), A2
 Offset_0x046DCA:
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x046DCE:
                 lea     Freezer_Setup_Data_2(PC), A1           ; Offset_0x0470F2
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x046DDE, (A0)
 Offset_0x046DDC:                
                 rts          
@@ -97,7 +97,7 @@ Offset_0x046DFA:
                 move.l  #Offset_0x046E0E, (A0)
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E
                 lea     Freezer_Setup_Data(PC), A1             ; Offset_0x0470E6
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72  
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72  
 ;-------------------------------------------------------------------------------
 Offset_0x046E0E:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -129,7 +129,7 @@ Offset_0x046E54:
 ;-------------------------------------------------------------------------------
 Offset_0x046E60:
                 lea     Freezer_Setup_Data_3(PC), A1           ; Offset_0x0470FA
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x046EBE, (A0)
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 move.w  Obj_Height_3(A0), A1                             ; $0044
@@ -189,12 +189,12 @@ Offset_0x046F24:
                 clr.b   Obj_Timer(A1)                                    ; $002E
                 move.b  #$78, Obj_Child(A1)                              ; $0034
                 lea     Offset_0x04713A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     (DeleteObject)                         ; Offset_0x011138  
 ;-------------------------------------------------------------------------------
 Offset_0x046F46:
                 lea     Freezer_Setup_Data_4(PC), A1           ; Offset_0x047106
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Animate_Raw_Delete_Sprite_Check_X_Y, (A0) ; Offset_0x042FB2
                 move.l  #Offset_0x04718E, Obj_Child_Data(A0)             ; $0030
                 cmpi.b  #$08, Obj_Subtype(A0)                            ; $002C
@@ -295,7 +295,7 @@ Offset_0x04704A:
                 clr.w   Obj_Inertia(A4)                                  ; $001C
                 move.l  D0, D4
                 lea     Offset_0x047132(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.l  D4, D0
                 move.w  A4, Obj_Height_3(A1)                             ; $0044
 Offset_0x047098:

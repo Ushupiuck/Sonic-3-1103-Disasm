@@ -824,17 +824,31 @@ Perfect_Bonus_Rings_Flag         equ M68K_RAM_Start+$FF06
 Player_Selected_Flag             equ M68K_RAM_Start+$FF08 
 Player_Select_Flag               equ M68K_RAM_Start+$FF0A 
 Two_Player_Items_Mode            equ M68K_RAM_Start+$FF0C
-Kosinski_Mod_Queue_Count         equ M68K_RAM_Start+$FF0E
-Kosinski_Saved_Registers         equ M68K_RAM_Start+$FF10 
-Kosinski_Saved_SR                equ M68K_RAM_Start+$FF38
-Kosinski_Bookmark                equ M68K_RAM_Start+$FF3A
-Kosinski_Description_Field       equ M68K_RAM_Start+$FF3E
-Kosinski_Decomp_Queue            equ M68K_RAM_Start+$FF40
-Kosinski_Decomp_Destination      equ M68K_RAM_Start+$FF44
-Kosinski_Modules_Left            equ M68K_RAM_Start+$FF60
-Kosinski_Module_Size             equ M68K_RAM_Start+$FF62
-Kosinski_Mod_Queue               equ M68K_RAM_Start+$FF64
-Kosinski_Mod_Destination         equ M68K_RAM_Start+$FF68
+
+		pusho						; save options
+		opt	ae+					; enable auto evens
+
+		rsset M68K_RAM_Start+$FF0E
+Kos_decomp_queue_count:		rs.w	1
+Kos_decomp_stored_registers:	rs.w	20
+Kos_decomp_stored_SR:		rs.w	1
+Kos_decomp_bookmark:		rs.l	1
+Kos_description_field:		rs.w	1
+
+Kos_decomp_queue:		rs.l	2*4
+Kos_decomp_queue_End:		equ	__rs
+
+Kos_decomp_destination:		equ	__rs-28
+Kos_modules_left:		rs.b	1
+				rs.b	1	; unused
+Kos_last_module_size:		rs.w	1
+
+Kos_module_queue:		rs.w	3*4
+Kos_module_queue_End:		equ	__rs
+
+Kos_module_destination:		equ	__rs-20
+		popo						; restore options
+
 Tmp_FF7C                         equ M68K_RAM_Start+$FF7C
 Tmp_FF7E                         equ M68K_RAM_Start+$FF7E
 Level_Select_Hold_Timer          equ M68K_RAM_Start+$FF80 

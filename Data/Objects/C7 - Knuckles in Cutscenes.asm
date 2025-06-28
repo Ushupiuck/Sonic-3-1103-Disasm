@@ -31,7 +31,7 @@ CutKnux_AIZ1:
 		jsr	CutKnux_AIZ1_Index(pc,d1.w)
 		bsr.w	Offset_0x035538
 		lea	Knuckles_PLC_Data(pc),a2
-		jsr	(Load_Dynamic_PLC_A2).l
+		jsr	(LoadDynamicPLC).l
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 ; Offset_0x034BF6:
@@ -42,7 +42,7 @@ CutKnux_AIZ1_Index:	offsetTable
 ; Offset_0x034BFA:
 CutKnux_AIZ1_Init:
 		lea	Knuckles_Setup_Data(pc),a1
-		jsr	(Object_Settings_Slotted).l
+		jsr	(SetupSlottedObjectAttributes).l
 		move.b	#8,Obj_Map_Id(a0)
 		move.w	#$1400,Obj_X(a0)
 		move.w	#$430,Obj_Y(a0)
@@ -69,7 +69,7 @@ CutKnux_AIZ2:
 		move.w	CutKnux_AIZ2_Index(pc,d0.w),d1
 		jsr	CutKnux_AIZ2_Index(pc,d1.w)
 		lea	Knuckles_PLC_Data(pc),a2
-		jsr	(Load_Dynamic_PLC_A2).l
+		jsr	(LoadDynamicPLC).l
 		jmp	(Check_Delete_Touch_Slotted).l
 ; ===========================================================================
 ; Offset_0x034C50:
@@ -84,7 +84,7 @@ CutKnux_AIZ2_Index:	offsetTable
 ; Offset_0x034C5C:
 CutKnux_AIZ2_Init:
 		lea	Knuckles_Setup_Data(pc),a1
-		jsr	(Object_Settings_Slotted).l
+		jsr	(SetupSlottedObjectAttributes).l
 		move.w	#$4B8E,Obj_X(a0)
 		move.w	#$17D,Obj_Y(a0)
 		bset	#0,Obj_Flags(a0)
@@ -128,7 +128,7 @@ Offset_0x034CE2:
 Offset_0x034CF8:		
 		rts
 Offset_0x034CFA:
-		jsr     (Animate_Raw)		          ; Offset_0x04208E
+		jsr     (AnimateRaw)		          ; Offset_0x04208E
 		jmp     (Run_Object_Wait_Timer_A0)             ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------    
 Offset_0x034D06:
@@ -145,7 +145,7 @@ Offset_0x034D18:
 		rts 
 ;-------------------------------------------------------------------------------  
 Offset_0x034D36:
-		jsr     (Animate_Raw)		          ; Offset_0x04208E
+		jsr     (AnimateRaw)		          ; Offset_0x04208E
 		jsr     (ObjectFall)		           ; Offset_0x0110FE
 		tst.w   Obj_Speed_Y(A0)				  ; $001A
 		bmi.s   Offset_0x034D62
@@ -164,7 +164,7 @@ Offset_0x034D64:
 		bra     Offset_0x034CE2            
 ;-------------------------------------------------------------------------------  
 Offset_0x034D70:
-		jmp     (Animate_Raw)		          ; Offset_0x04208E 
+		jmp     (AnimateRaw)		          ; Offset_0x04208E 
 ;------------------------------------------------------------------------------- 
 Knuckles_In_Carnival_Night_2_Lamp:		             ; Offset_0x034D76
 		lea     Offset_0x034DAE(PC), A1
@@ -175,7 +175,7 @@ Knuckles_In_Carnival_Night_2_Lamp:		             ; Offset_0x034D76
 		jsr     Offset_0x034DA2(PC, D1)
 		bsr     Offset_0x035538
 		lea     Knuckles_PLC_Data(PC), A2              ; Offset_0x0355A4
-		jsr     (Load_Dynamic_PLC_A2)		  ; Offset_0x042A0A
+		jsr     (LoadDynamicPLC)		  ; Offset_0x042A0A
 		jmp     (Check_Delete_Touch_Slotted)           ; Offset_0x042C1E   
 ;-------------------------------------------------------------------------------
 Offset_0x034DA2:
@@ -191,7 +191,7 @@ Offset_0x034DAE:
 ;-------------------------------------------------------------------------------
 Offset_0x034DB6:
 		lea     Knuckles_Setup_Data(PC), A1            ; Offset_0x035548
-		jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
+		jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
 		move.w  #$0078, Obj_Height_3(A0)		         ; $0044
 		moveq   #Volume_Down, D0				  ; -$20
 		jsr     (PlaySound)		           ; Offset_0x001176
@@ -243,7 +243,7 @@ Offset_0x034E6A:
 		lea     Knuckles_Palette_CNz_Lamp(PC), A1      ; Offset_0x03560E
 		jsr     (Pal_Load_Line_1)		      ; Offset_0x04314C
 		lea     Offset_0x034E92(PC), A2
-		jsr     (Load_Child_Object_A2)		 ; Offset_0x041D9A
+		jsr     (SetupChildObject)		 ; Offset_0x041D9A
 		jsr     (Remove_From_Tracking_Slot)            ; Offset_0x042BFA
 		jmp     (Go_Delete_Object_A0)		  ; Offset_0x042D3E
 ;-------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ Knuckles_In_Carnival_Night_2_Boss:		             ; Offset_0x034EA0
 		move.w  Offset_0x034EC8(PC, D0), D1
 		jsr     Offset_0x034EC8(PC, D1)
 		lea     Knuckles_PLC_Data(PC), A2              ; Offset_0x0355A4
-		jsr     (Load_Dynamic_PLC_A2)		  ; Offset_0x042A0A
+		jsr     (LoadDynamicPLC)		  ; Offset_0x042A0A
 		jmp     (Check_Delete_Touch_Slotted)           ; Offset_0x042C1E  
 ;-------------------------------------------------------------------------------
 Offset_0x034EC8:
@@ -278,7 +278,7 @@ Offset_0x034ED4:
 ;-------------------------------------------------------------------------------
 Offset_0x034EDC:
 		lea     Knuckles_Setup_Data(PC), A1            ; Offset_0x035548
-		jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
+		jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
 		move.l  #Offset_0x0355CB, Obj_Child_Data(A0)             ; $0030
 		moveq   #Volume_Down, D0				  ; -$20
 		jsr     (PlaySound)		           ; Offset_0x001176
@@ -295,10 +295,10 @@ Offset_0x034EDC:
 		lea     Knuckles_Palette(PC), A1               ; Offset_0x0355EE
 		jsr     (Pal_Load_Line_1)		      ; Offset_0x04314C
 		lea     Offset_0x03557E(PC), A2
-		jmp     (Load_Child_Object_A2)		 ; Offset_0x041D9A  
+		jmp     (SetupChildObject)		 ; Offset_0x041D9A  
 ;------------------------------------------------------------------------------- 
 Offset_0x034F48:
-		jsr     (Animate_Raw)		          ; Offset_0x04208E
+		jsr     (AnimateRaw)		          ; Offset_0x04208E
 		jmp     (Update_Sonic_Level_Limits_X_Y_Play_Music) ; Offset_0x0433DE   
 ;-------------------------------------------------------------------------------
 Offset_0x034F54:
@@ -308,7 +308,7 @@ Offset_0x034F54:
 		rts         
 ;-------------------------------------------------------------------------------
 Offset_0x034F6A:
-		jsr     (Animate_Raw)		          ; Offset_0x04208E
+		jsr     (AnimateRaw)		          ; Offset_0x04208E
 		jmp     (Run_Object_Wait_Timer_A0)             ; Offset_0x0423D2  
 ;-------------------------------------------------------------------------------
 Offset_0x034F76:
@@ -319,7 +319,7 @@ Offset_0x034F76:
 		bra     Offset_0x034D18           
 ;-------------------------------------------------------------------------------
 Offset_0x034F92:
-		jsr     (Animate_Raw)		          ; Offset_0x04208E
+		jsr     (AnimateRaw)		          ; Offset_0x04208E
 		jsr     (ObjectFall)		           ; Offset_0x0110FE
 		tst.w   Obj_Speed_Y(A0)				  ; $001A
 		bmi.s   Offset_0x034FCC
@@ -355,14 +355,14 @@ Offset_0x034FF8:
 		bra     Offset_0x034D18  
 ;-------------------------------------------------------------------------------
 Offset_0x035014:
-		jsr     (Animate_Raw)		          ; Offset_0x04208E
+		jsr     (AnimateRaw)		          ; Offset_0x04208E
 		jsr     (ObjectFall)		           ; Offset_0x0110FE
 		tst.b   Obj_Flags(A0)				    ; $0004
 		bmi     Offset_0x034CF8
 		lea     Knuckles_Palette_CNz_Boss(PC), A1      ; Offset_0x03562E
 		jsr     (Pal_Load_Line_1)		      ; Offset_0x04314C
 		lea     Offset_0x03504E(PC), A2
-		jsr     (Load_Child_Object_A2)		 ; Offset_0x041D9A
+		jsr     (SetupChildObject)		 ; Offset_0x041D9A
 		move.w  (Target_Camera_Max_Y).w, (Level_Limits_Max_Y).w ; $FFFFFA98, $FFFFEE12
 		jsr     (Remove_From_Tracking_Slot)            ; Offset_0x042BFA
 		jmp     (Go_Delete_Object_A0)		  ; Offset_0x042D3E  
@@ -395,7 +395,7 @@ Knuckles_In_Launch_Base_1:				     ; Offset_0x03508E
 		move.w  Offset_0x0350AC(PC, D0), D1
 		jsr     Offset_0x0350AC(PC, D1)
 		lea     Knuckles_PLC_Data(PC), A2              ; Offset_0x0355A4
-		jsr     (Load_Dynamic_PLC_A2)		  ; Offset_0x042A0A
+		jsr     (LoadDynamicPLC)		  ; Offset_0x042A0A
 		jmp     (Check_Delete_Touch_Slotted)           ; Offset_0x042C1E   
 ;-------------------------------------------------------------------------------
 Offset_0x0350AC:
@@ -410,13 +410,13 @@ Offset_0x0350AC:
 ;-------------------------------------------------------------------------------
 Offset_0x0350BC:
 		lea     Knuckles_Setup_Data(PC), A1            ; Offset_0x035548
-		jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
+		jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
 		move.b  #$16, Obj_Map_Id(A0)		             ; $0022
 		move.w  #$00A0, (Sonic_Level_Limits_Min_Y).w         ; $FFFFEE18
 		lea     Knuckles_Palette(PC), A1               ; Offset_0x0355EE
 		jsr     (Pal_Load_Line_1)		      ; Offset_0x04314C
 		lea     Offset_0x035586(PC), A2
-		jsr     (Load_Child_Object_A2)		 ; Offset_0x041D9A   
+		jsr     (SetupChildObject)		 ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x0350E6:
 		btst    #$03, Obj_Control_Var_08(A0)		     ; $0038
@@ -446,7 +446,7 @@ Offset_0x035134:
 		move.w  #$000F, Obj_Timer(A0)		            ; $002E
 		move.l  #Offset_0x03515E, Obj_Child(A0)		  ; $0034
 		lea     Offset_0x03558E(PC), A2
-		jsr     (Load_Child_Object_A2)		 ; Offset_0x041D9A
+		jsr     (SetupChildObject)		 ; Offset_0x041D9A
 		lea     (PLC_After_Knuckles_LBz_1), A1         ; Offset_0x041BBA
 		jmp     (LoadPLC_Direct)		           ; Offset_0x001502  
 ;-------------------------------------------------------------------------------
@@ -474,7 +474,7 @@ Offset_0x0351AC:
 		tst.b   Obj_Flags(A0)				    ; $0004
 		bpl     Offset_0x0351BE
 		addq.w  #$02, Obj_X(A0)				  ; $0010
-		jmp     (Animate_Raw)		          ; Offset_0x04208E
+		jmp     (AnimateRaw)		          ; Offset_0x04208E
 Offset_0x0351BE:
 		clr.b   (Knuckles_Control_Lock_Flag).w               ; $FFFFFAA9
 		jsr     (Restore_Player_Control)               ; Offset_0x0432EE
@@ -524,7 +524,7 @@ Offset_0x035258:
 ;-------------------------------------------------------------------------------
 Offset_0x035260:
 		lea     Offset_0x035566(PC), A1
-		jsr     (Object_Settings)		      ; Offset_0x041D72
+		jsr     (SetupObjectAttributes)		      ; Offset_0x041D72
 		move.l  #Offset_0x03527C, (A0)
 		move.w  #$FE00, Obj_Speed_X(A0)		          ; $0018
 		move.w  #$FC00, Obj_Speed_Y(A0)		          ; $001A
@@ -558,7 +558,7 @@ Knuckles_In_Launch_Base_2:				     ; Offset_0x0352D0
 		jsr     Offset_0x0352F2(PC, D1)
 		bsr     Offset_0x035538
 		lea     Knuckles_PLC_Data(PC), A2              ; Offset_0x0355A4
-		jsr     (Load_Dynamic_PLC_A2)		  ; Offset_0x042A0A
+		jsr     (LoadDynamicPLC)		  ; Offset_0x042A0A
 		jmp     (Check_Delete_Touch_Slotted)           ; Offset_0x042C1E     
 ;-------------------------------------------------------------------------------
 Offset_0x0352F2:
@@ -571,7 +571,7 @@ Offset_0x0352F2:
 ;-------------------------------------------------------------------------------
 Offset_0x0352FE:
 		lea     Knuckles_Setup_Data(PC), A1            ; Offset_0x035548
-		jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
+		jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
 		bset    #$00, Obj_Flags(A0)		              ; $0004
 		move.b  #$20, Obj_Map_Id(A0)		             ; $0022
 		move.w  #$0078, Obj_Height_3(A0)		         ; $0044
@@ -606,12 +606,12 @@ Offset_0x035362:
 		clr.b   Obj_Ani_Time(A0)				 ; $0024
 		clr.b   Obj_Ani_Frame(A0)				; $0023
 Offset_0x03537E:
-		jmp     (Animate_Raw)		          ; Offset_0x04208E    
+		jmp     (AnimateRaw)		          ; Offset_0x04208E    
 ;-------------------------------------------------------------------------------
 Offset_0x035384:
 		btst    #$03, Obj_Control_Var_08(A0)		     ; $0038
 		bne.s   Offset_0x035392
-		jmp     (Animate_Raw)		          ; Offset_0x04208E
+		jmp     (AnimateRaw)		          ; Offset_0x04208E
 Offset_0x035392:
 		move.b  #$0A, Obj_Routine(A0)		            ; $0005
 		bset    #$00, Obj_Flags(A0)		              ; $0004
@@ -625,7 +625,7 @@ Offset_0x0353B2:
 ;-------------------------------------------------------------------------------
 Offset_0x0353B8:
 		lea     Offset_0x035572(PC), A1
-		jsr     (Object_Settings)		      ; Offset_0x041D72
+		jsr     (SetupObjectAttributes)		      ; Offset_0x041D72
 		move.l  #Offset_0x035400, (A0)
 		moveq   #$00, D0
 		move.b  Obj_Subtype(A0), D0		              ; $002C

@@ -56,7 +56,7 @@ Offset_0x010CDE:
                 bset    #$00, Obj_Flags(A1)                              ; $0004
 Offset_0x010D16:
                 move.w  #S2_Enter_Big_Ring_Sfx, D0                       ; $0032      
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 bra.s   Offset_0x010CC0
 Offset_0x010D22:
                 bra     DeleteObject                           ; Offset_0x011138 

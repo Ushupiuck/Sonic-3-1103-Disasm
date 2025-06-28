@@ -26,7 +26,7 @@ Offset_0x03FEB6:
 ;-------------------------------------------------------------------------------
 Offset_0x03FEBE:
                 lea     Ball_Shooter_Setup_Data(PC), A1        ; Offset_0x0405D2
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$01, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #Volume_Down, D0                                  ; -$20
@@ -40,7 +40,7 @@ Offset_0x03FEBE:
                 move.w  #$3A20, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
                 move.l  #Offset_0x03FF3A, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x040632(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #$77, D0
                 jsr     (LoadPLC)                              ; Offset_0x0014D0
                 lea     (Art_Ball_Shooter), A1                 ; Offset_0x1224EC
@@ -57,7 +57,7 @@ Offset_0x03FF3A:
                 lea     Offset_0x040670(PC), A2
                 jsr     Load_Child_Object_Link_List_Repeat_A2(PC) ; Offset_0x041EA0
                 lea     Offset_0x040640(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A        
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A        
 ;-------------------------------------------------------------------------------
 Offset_0x03FF50:
                 btst    #$00, Obj_Control_Var_08(A0)                     ; $0038
@@ -82,7 +82,7 @@ Offset_0x03FF78:
                 move.w  #$00DF, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03FFA4, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x040648(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A    
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x03FF9A:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -132,7 +132,7 @@ Offset_0x04001A:
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x040048(PC, D0), D1
                 jsr     Offset_0x040048(PC, D1)
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 btst    #$07, Obj_Status(A0)                             ; $002A
                 bne.s   Offset_0x040044
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -150,7 +150,7 @@ Offset_0x040048:
 ;-------------------------------------------------------------------------------
 Offset_0x040050:
                 lea     Ball_Shooter_Setup_Data_7(PC), A1      ; Offset_0x040610
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0406DA, Obj_Child_Data(A0)             ; $0030
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 move.w  #$000F, Obj_Timer(A0)                            ; $002E
@@ -191,17 +191,17 @@ Offset_0x0400C6:
                 andi.w  #$0003, D0
                 bne     Offset_0x03FF60
                 lea     Offset_0x04067E(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x0400F0:
                 move.l  #DeleteObject, (A0)                    ; Offset_0x011138
                 bset    #$07, Obj_Status(A0)                             ; $002A
                 lea     Offset_0x040686(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A     
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A     
 ;-------------------------------------------------------------------------------
 Offset_0x040104:
                 lea     Ball_Shooter_Setup_Data_8(PC), A1      ; Offset_0x040616
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x04013E, (A0)
                 move.l  #Offset_0x0406DE, Obj_Child_Data(A0)             ; $0030
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
@@ -219,12 +219,12 @@ Offset_0x04013E:
                 addq.w  #$01, Obj_Timer(A0)                              ; $002E
                 bmi     Offset_0x03FF60
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------    
 Offset_0x040156:
                 lea     Ball_Shooter_Setup_Data_9(PC), A1      ; Offset_0x04061E
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 bra     Offset_0x04047C              
 ;-------------------------------------------------------------------------------
@@ -243,7 +243,7 @@ Offset_0x04017E:
 ;-------------------------------------------------------------------------------
 Offset_0x040184:
                 lea     Ball_Shooter_Setup_Data_5(PC), A1      ; Offset_0x040602
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsr.w   #$01, D0
@@ -271,11 +271,11 @@ Offset_0x0401C2:
                 rts   
 Offset_0x0401D0:
                 lea     Offset_0x04065C(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x0401D8:
                 lea     Ball_Shooter_Setup_Data_6(PC), A1      ; Offset_0x040608
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -305,7 +305,7 @@ Offset_0x040222:
 ;-------------------------------------------------------------------------------
 Offset_0x04022C:
                 lea     Ball_Shooter_Setup_Data_A(PC), A1      ; Offset_0x040626
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$80, Obj_Control_Var_0C(A0)                     ; $003C
                 subi.w  #$0018, Obj_X(A0)                                ; $0010
                 addi.w  #$0030, Obj_Y(A0)                                ; $0014
@@ -376,7 +376,7 @@ Offset_0x0402E2:
 ;-------------------------------------------------------------------------------
 Offset_0x0402E8:
                 lea     Ball_Shooter_Setup_Data_2(PC), A1      ; Offset_0x0405DE
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  #$FE80, Obj_Speed_X(A0)                          ; $0018
                 move.l  #Offset_0x0406D0, Obj_Child_Data(A0)             ; $0030
                 move.w  #$0015, Obj_Timer(A0)                            ; $002E
@@ -418,7 +418,7 @@ Offset_0x040368:
 ;-------------------------------------------------------------------------------
 Offset_0x040370:
                 lea     Ball_Shooter_Setup_Data_3(PC), A1      ; Offset_0x0405EA
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72  
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72  
 ;-------------------------------------------------------------------------------
 Offset_0x040378:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -437,7 +437,7 @@ Offset_0x04039C:
                 bne.s   Offset_0x0403B4
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 bne.s   Offset_0x0403BC
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E
 Offset_0x0403B4:
                 move.b  #$02, Obj_Map_Id(A0)                             ; $0022
                 rts
@@ -456,7 +456,7 @@ Offset_0x0403D8:
 ;-------------------------------------------------------------------------------
 Offset_0x0403DE:
                 lea     Ball_Shooter_Setup_Data_4(PC), A1      ; Offset_0x0405F6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x0403EE, (A0)
                 rts                  
 ;-------------------------------------------------------------------------------
@@ -478,7 +478,7 @@ Offset_0x040414:
 ;-------------------------------------------------------------------------------
 Offset_0x04041E:
                 lea     Offset_0x040676(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.b  Obj_Control_Var_09(A0), D0                       ; $0039
                 addq.b  #$01, Obj_Control_Var_09(A0)                     ; $0039
                 andi.w  #$0007, D0
@@ -574,7 +574,7 @@ Offset_0x04053A:
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x040004, Obj_Child(A0)                  ; $0034
                 lea     (Offset_0x041D62), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.b  #$04, Obj_Subtype(A1)                            ; $002C
                 move.w  #$0000, (Target_Camera_Min_Y).w              ; $FFFFFA96
                 lea     Level_Resize_Min_Y(PC), A2             ; Offset_0x042628

@@ -27,7 +27,7 @@ Offset_0x048FDC:
 ;-------------------------------------------------------------------------------
 Offset_0x048FE4:
                 lea     Robotnik_Setup_Data(PC), A1            ; Offset_0x049380
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.b  #$FF, Obj_Boss_Hit(A0)                           ; $0029
                 jsr     (Swing_Setup)                          ; Offset_0x03669A
                 move.w  #$3820, (Sonic_Level_Limits_Min_X).w         ; $FFFFEE14
@@ -35,7 +35,7 @@ Offset_0x048FE4:
                 moveq   #$60, D0
                 jsr     (LoadPLC)                              ; Offset_0x0014D0
                 lea     (LBz_Robotnik_Ship_Data), A2           ; Offset_0x03656E
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x049398(PC), A2
                 jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ Offset_0x04910A:
                 move.w  #$0200, Obj_Speed_X(A0)                          ; $0018
                 move.w  #$0200, Obj_Speed_Y(A0)                          ; $001A
                 lea     (LBz_Robotnik_Ship_Data_2), A2         ; Offset_0x03659E
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A   
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x04912E:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -158,7 +158,7 @@ Offset_0x049198:
 Offset_0x04919C:
                 bset    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 lea     Offset_0x0493A8(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     Go_Delete_Object_A0_2(PC)              ; Offset_0x042D4C  
 ;-------------------------------------------------------------------------------
 Offset_0x0491AE:
@@ -178,7 +178,7 @@ Offset_0x0491C2:
 ;-------------------------------------------------------------------------------
 Offset_0x0491CE:
                 lea     Robotnik_Setup_Data_2(PC), A1          ; Offset_0x04938C
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 bra     Offset_0x04927C   
 ;-------------------------------------------------------------------------------
 Offset_0x0491DC:
@@ -198,7 +198,7 @@ Offset_0x049200:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x049202:
-                jmp     (Animate_Raw)                          ; Offset_0x04208E 
+                jmp     (AnimateRaw)                          ; Offset_0x04208E 
 ;-------------------------------------------------------------------------------
 Offset_0x049208:
                 move.b  #$08, Obj_Routine(A0)                            ; $0005
@@ -231,7 +231,7 @@ Offset_0x04925C:
                 rts     
 ;-------------------------------------------------------------------------------
 Offset_0x049264:
-                jmp     (Animate_Raw)                          ; Offset_0x04208E    
+                jmp     (AnimateRaw)                          ; Offset_0x04208E    
 ;-------------------------------------------------------------------------------
 Offset_0x04926A:
                 move.l  #Offset_0x049278, (A0)
@@ -239,7 +239,7 @@ Offset_0x04926A:
                 rts       
 ;-------------------------------------------------------------------------------
 Offset_0x049278:
-                jmp     Delete_Sprite_Check_X(PC)              ; Offset_0x042A58   
+                jmp     MarkObjectGone(PC)              ; Offset_0x042A58   
 ;-------------------------------------------------------------------------------
 Offset_0x04927C:
                 moveq   #$00, D0

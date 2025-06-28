@@ -55,7 +55,7 @@ Offset_0x03DD3C:
 ;-------------------------------------------------------------------------------
 Offset_0x03DD50:
                 lea     Big_Icedus_Setup_Data(PC), A1          ; Offset_0x03E3F2
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$06, Obj_Boss_Hit(A0)                           ; $0029
                 move.w  #$0200, Obj_Control_Var_0E(A0)                   ; $003E
                 move.w  #$0080, Obj_Speed_Y(A0)                          ; $001A
@@ -64,7 +64,7 @@ Offset_0x03DD50:
                 lea     Offset_0x03E43C(PC), A2
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 lea     Offset_0x03E416(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x03DD88:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -181,7 +181,7 @@ Offset_0x03DEE8:
 Offset_0x03DEFE:
                 jsr     (Obj_Load_End_Level_Art)               ; Offset_0x043302
                 lea     Offset_0x03E442(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x03DF0C:
                 moveq   #$00, D0
@@ -200,7 +200,7 @@ Offset_0x03DF24:
 ;-------------------------------------------------------------------------------
 Offset_0x03DF2C:
                 lea     Big_Icedus_Setup_Data_2(PC), A1        ; Offset_0x03E3FE
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 bra     Offset_0x03E14E   
 ;-------------------------------------------------------------------------------
 Offset_0x03DF38:
@@ -251,7 +251,7 @@ Offset_0x03DF8A:
 ;-------------------------------------------------------------------------------
 Offset_0x03DFA2:
                 lea     Big_Icedus_Setup_Data_3(PC), A1        ; Offset_0x03E404
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 bra     Offset_0x03E190                 
 ;-------------------------------------------------------------------------------
 Offset_0x03DFAE:
@@ -381,7 +381,7 @@ Offset_0x03E128:
 ;-------------------------------------------------------------------------------   
 Offset_0x03E12A:
                 lea     Big_Icedus_Setup_Data_4(PC), A1        ; Offset_0x03E410
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -601,7 +601,7 @@ Offset_0x03E3B2:
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03DEFE, Obj_Child(A0)                  ; $0034
                 lea     (Offset_0x041D62), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03E3D4:
                 lea     Offset_0x03E3E6(PC), A1
                 lea     Offset_0x03E3EA(PC, D0), A2

@@ -9,7 +9,7 @@
                 move.w  Offset_0x047FAA(PC, D0), D1
                 jsr     Offset_0x047FAA(PC, D1)
                 lea     Penguinator_PLC_Data(PC), A2           ; Offset_0x0482A6
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     Check_Delete_Touch_Slotted(PC)         ; Offset_0x042C1E   
 ;-------------------------------------------------------------------------------
 Offset_0x047FAA:
@@ -24,7 +24,7 @@ Offset_0x047FAA:
 ;-------------------------------------------------------------------------------
 Offset_0x047FBA:
                 lea     Penguinator_Setup_Data(PC), A1         ; Offset_0x048280
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 bclr    #$01, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x047FD0
                 bset    #$07, Obj_Art_VRAM(A0)                           ; $000A
@@ -159,7 +159,7 @@ Offset_0x048166:
                 bge     Offset_0x0480B4
                 add.w   D1, Obj_Y(A0)                                    ; $0014
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E    
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E    
 ;-------------------------------------------------------------------------------
 Offset_0x048188:
                 move.b  #$0C, Obj_Routine(A0)                            ; $0005
@@ -194,7 +194,7 @@ Offset_0x0481E8:
 ;-------------------------------------------------------------------------------
 Obj_Snow_Dust: ; Usado também pelo objeto 0xBD                 ; Offset_0x0481EC
                 lea     Snow_Dust_Setup_Data(PC), A1           ; Offset_0x048292
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -241,7 +241,7 @@ Offset_0x04826E:
                 andi.w  #$0003, D0
                 bne.s   Offset_0x048216
                 lea     Offset_0x04829E(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;------------------------------------------------------------------------------- 
 Penguinator_Setup_Data:                                        ; Offset_0x048280
                 dc.w    $0003

@@ -8,7 +8,7 @@
                 move.l  #Offset_0x03BA02, (A0)
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.b  #$19, Obj_Angle(A0)                              ; $0026
                 move.w  (Level_Limits_Max_Y).w, (Target_Camera_Max_Y).w ; $FFFFEE12, $FFFFFA98
@@ -53,7 +53,7 @@ Offset_0x03BA2A:
 ;-------------------------------------------------------------------------------
 Offset_0x03BA3A:
                 lea     Graviton_Mobile_Setup_Data(PC), A1     ; Offset_0x03C198
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$08, Obj_Boss_Hit(A0)                           ; $0029
                 move.w  Obj_Y(A0), Obj_Control_Var_0A(A0)         ; $0014, $003A
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
@@ -61,12 +61,12 @@ Offset_0x03BA3A:
                 move.w  #$FF00, Obj_Speed_X(A0)                          ; $0018
                 jsr     Swing_Setup(PC)                        ; Offset_0x03669A
                 lea     (CNz_Iz_Robotnik_Ship_Data), A2        ; Offset_0x03658E
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03BA78
                 move.b  #$09, Obj_Subtype(A1)                            ; $002C
 Offset_0x03BA78:
                 lea     Offset_0x03C1E0(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x03C1E8(PC), A2
                 jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ Offset_0x03BB64:
                 move.w  #$00FF, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03BB80, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x03C1F8(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A     
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A     
 ;-------------------------------------------------------------------------------
 Offset_0x03BB80:
                 bclr    #$02, Obj_Control_Var_08(A0)                     ; $0038
@@ -195,9 +195,9 @@ Offset_0x03BBF6:
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03BC20, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 lea     Offset_0x03C214(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A    
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x03BC20:
                 move.l  #Offset_0x03BC46, (A0)
@@ -243,7 +243,7 @@ Offset_0x03BCA2:
 ;-------------------------------------------------------------------------------
 Offset_0x03BCAE:
                 lea     Graviton_Mobile_Setup_Data_3(PC), A1   ; Offset_0x03C1B0
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 move.l  #Offset_0x03C231, Obj_Child_Data(A0)             ; $0030
                 rts 
@@ -274,7 +274,7 @@ Offset_0x03BCFA:
 ;-------------------------------------------------------------------------------
 Offset_0x03BD0C:
                 moveq   #Floor_Thump_Sfx, D0                               ; $68
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.w  Obj_Speed_Y(A0), D0                              ; $001A
                 cmpi.w  #$0080, D0
                 bcs.s   Offset_0x03BD28
@@ -319,7 +319,7 @@ Offset_0x03BD82:
 ;-------------------------------------------------------------------------------
 Offset_0x03BD8A:
                 lea     Graviton_Mobile_Setup_Data_4(PC), A1   ; Offset_0x03C1BC
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 beq.s   Offset_0x03BDA4
@@ -351,7 +351,7 @@ Offset_0x03BDD2:
 ;-------------------------------------------------------------------------------
 Offset_0x03BDE0:
                 lea     Graviton_Mobile_Setup_Data_6(PC), A1   ; Offset_0x03C1C8
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsl.b   #$05, D0
                 move.b  D0, Obj_Control_Var_0C(A0)                       ; $003C
@@ -382,7 +382,7 @@ Offset_0x03BE2C:
 Offset_0x03BE48:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 lea     Offset_0x03C1F0(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.b  Obj_Subtype(A0), Obj_Subtype(A1)          ; $002C, $002C
                 rts                 
 ;-------------------------------------------------------------------------------
@@ -449,7 +449,7 @@ Offset_0x03BF0A:
 ;-------------------------------------------------------------------------------
 Offset_0x03BF14:
                 lea     Graviton_Mobile_Setup_Data_7(PC), A1   ; Offset_0x03C1D4
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03C240, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x03BF58, Obj_Child(A0)                  ; $0034
                 btst    #$01, Obj_Subtype(A0)                            ; $002C
@@ -462,7 +462,7 @@ Offset_0x03BF3E:
 ;-------------------------------------------------------------------------------
 Offset_0x03BF48:
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 bsr     Offset_0x03C030
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450    
 ;-------------------------------------------------------------------------------
@@ -478,7 +478,7 @@ Offset_0x03BF58:
 ;-------------------------------------------------------------------------------
 ; Offset_0x03BF78:  Left over ???
                 lea     Graviton_Mobile_Setup_Data_7(PC), A1   ; Offset_0x03C1D4
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03BF58, Obj_Child(A0)                  ; $0034
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 beq.s   Offset_0x03BFA0
@@ -499,7 +499,7 @@ Offset_0x03BFB2:
 ;-------------------------------------------------------------------------------
 Offset_0x03BFC2:
                 lea     Graviton_Mobile_Setup_Data_5(PC), A1   ; Offset_0x03C1C2
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsr.b   #$01, D0
@@ -593,7 +593,7 @@ Offset_0x03C0AE:
                 bne.s   Offset_0x03C0D2
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x03C0D2:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 moveq   #$00, D0
@@ -639,7 +639,7 @@ Offset_0x03C14A:
 Offset_0x03C154:
                 move.l  #DeleteObject, (A0)                    ; Offset_0x011138
                 lea     Offset_0x03C206(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03C162:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 btst    #$07, Obj_Status(A1)                             ; $002A

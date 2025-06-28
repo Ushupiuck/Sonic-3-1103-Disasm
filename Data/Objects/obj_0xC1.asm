@@ -11,7 +11,7 @@
                 lea     Offset_0x047B3C(PC), A1
                 move.l  #Offset_0x047AF2, (A0)
 Offset_0x047AEE:
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72
 ;-------------------------------------------------------------------------------
 Offset_0x047AF2:
                 moveq   #$00, D0

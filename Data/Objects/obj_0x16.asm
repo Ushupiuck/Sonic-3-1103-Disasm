@@ -36,7 +36,7 @@ Offset_0x01D368:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x01D376
                 moveq   #Fire_Shield_Sfx, D0                               ; $43
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01D376:
                 moveq   #$00, D1
                 move.b  Obj_Width(A0), D1                                ; $0007

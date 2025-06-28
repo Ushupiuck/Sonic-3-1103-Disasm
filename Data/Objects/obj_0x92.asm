@@ -18,9 +18,9 @@ Offset_0x04A41E:
 ;-------------------------------------------------------------------------------
 Offset_0x04A424:
                 lea     Toxomister_Setup_Data(PC), A1          ; Offset_0x04A708
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 lea     Offset_0x04A730(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A  
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x04A438:
                 tst.b   Obj_Flags(A0)                                    ; $0004
@@ -33,7 +33,7 @@ Offset_0x04A440:
                 beq.s   Offset_0x04A456
                 lea     Offset_0x04A728(PC), A2
 Offset_0x04A456:
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A   
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x04A45C:
                 rts    
@@ -52,7 +52,7 @@ Offset_0x04A476:
 ;-------------------------------------------------------------------------------
 Offset_0x04A47A:
                 lea     Toxomister_Setup_Data_2(PC), A1        ; Offset_0x04A714
-                jmp     (Object_Settings_3)                    ; Offset_0x041D7A  
+                jmp     (SetupObjectAttributes3)                    ; Offset_0x041D7A  
 ;-------------------------------------------------------------------------------
 Offset_0x04A484:
                 rts                
@@ -74,13 +74,13 @@ Offset_0x04A49A:
 ;-------------------------------------------------------------------------------
 Offset_0x04A4A6:
                 lea     Toxomister_Setup_Data_3(PC), A1        ; Offset_0x04A71A
-                jsr     (Object_Settings_3)                    ; Offset_0x041D7A
+                jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 move.b  #$D8, Obj_Col_Flags(A0)                          ; $0028
                 move.b  #$18, Obj_Height_2(A0)                           ; $001E
                 move.w  #$006F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x04A4DE, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x04A738(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A     
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A     
 ;-------------------------------------------------------------------------------
 Offset_0x04A4D4:
                 bsr     Offset_0x04A654
@@ -138,7 +138,7 @@ Offset_0x04A56E:
 ;-------------------------------------------------------------------------------
 Offset_0x04A574:
                 lea     Toxomister_Setup_Data_3(PC), A1        ; Offset_0x04A71A
-                jsr     (Object_Settings_3)                    ; Offset_0x041D7A
+                jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 move.l  #Offset_0x04A5AE, (A0)
                 move.l  #Offset_0x04A764, Obj_Child_Data(A0)             ; $0030
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -177,13 +177,13 @@ Offset_0x04A5F2:
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
 Offset_0x04A60C:
                 jsr     (Refresh_Child_Position)               ; Offset_0x042016
-                jsr     (Animate_Raw)                          ; Offset_0x04208E
+                jsr     (AnimateRaw)                          ; Offset_0x04208E
                 jmp     (Delete_Sprite_Check_X_Y)              ; Offset_0x042AD0  
 ;-------------------------------------------------------------------------------
 Offset_0x04A61E:
                 addi.w  #$FFF0, Obj_Speed_Y(A0)                          ; $001A
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jsr     (Animate_Raw)                          ; Offset_0x04208E
+                jsr     (AnimateRaw)                          ; Offset_0x04208E
                 jmp     (Delete_Sprite_Check_X_Y)              ; Offset_0x042AD0  
 ;-------------------------------------------------------------------------------
 Offset_0x04A636:

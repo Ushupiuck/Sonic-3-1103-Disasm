@@ -30,7 +30,7 @@ Offset_0x04529A:
 ;-------------------------------------------------------------------------------
 Offset_0x0452A2:
                 lea     Tunnelbot_Setup_Data(PC), A1           ; Offset_0x0457C4
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$08, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$28, Obj_Height_2(A0)                           ; $001E
                 move.w  #$2E00, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
@@ -41,7 +41,7 @@ Offset_0x0452A2:
                 move.w  #$0078, Obj_Height_3(A0)                         ; $0044
                 bset    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 lea     Offset_0x0457FA(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #Volume_Down, D0                                  ; -$20
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     PLC_Tunnelbot(PC), A1                  ; Offset_0x045856
@@ -97,7 +97,7 @@ Offset_0x045376:
                 beq.s   Offset_0x0453CE
                 move.w  D0, D3
                 lea     Offset_0x045830(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 cmpi.w  #$0008, D3
                 bcc.s   Offset_0x0453CE
                 bset    #$00, Obj_Flags(A1)                              ; $0004
@@ -108,7 +108,7 @@ Offset_0x0453D0:
                 dc.w    $0030, $0048, $0060, $0078, $00C8, $00E0, $00F8, $0110  
 ;-------------------------------------------------------------------------------  
 Offset_0x0453E0:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 moveq   #$02, D0
                 move.b  (Vint_runcount+$03).w, D1         ; $FFFFFE0F
                 btst    #$00, D1
@@ -137,7 +137,7 @@ Offset_0x045424:
 ;-------------------------------------------------------------------------------
 Offset_0x045434:
                 addq.w  #$04, Obj_Y(A0)                                  ; $0014
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2 
 ;-------------------------------------------------------------------------------
 Offset_0x045440:
@@ -147,7 +147,7 @@ Offset_0x045440:
                 rts        
 ;-------------------------------------------------------------------------------
 Offset_0x045456:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 subq.w  #$01, Obj_Y(A0)                                  ; $0014
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2  
 ;-------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ Offset_0x045462:
 Offset_0x04547C:
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2    
 ;-------------------------------------------------------------------------------
 Offset_0x045490:
@@ -177,7 +177,7 @@ Offset_0x0454A6:
 Offset_0x0454B6:
                 jsr     (Obj_Load_End_Level_Art)               ; Offset_0x043302
                 lea     Offset_0x045810(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A    
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x0454C6:
                 move.l  #Offset_0x0454D4, (A0)
@@ -195,7 +195,7 @@ Offset_0x0454EA:
 ;-------------------------------------------------------------------------------
 Offset_0x0454F0:
                 lea     Tunnelbot_Debris_Setup_Data(PC), A1    ; Offset_0x0457D0
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
                 andi.b  #$03, D0
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
@@ -205,7 +205,7 @@ Offset_0x0454F0:
                 tst.b   D0
                 bne.s   Offset_0x04551E
                 lea     Tunnelbot_Spires_Setup_Data(PC), A1    ; Offset_0x0457DC
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
 Offset_0x04551E:
                 move.l  #Delete_Sprite_Timed_Or_Move_Light_Gravity, (A0) ; Offset_0x042956
                 move.w  #$005F, Obj_Timer(A0)                            ; $002E
@@ -213,7 +213,7 @@ Offset_0x04551E:
 ;-------------------------------------------------------------------------------
 Offset_0x04552E:
                 lea     Tunnelbot_Moving_Spike_Platform_Setup_Data(PC), A1 ; Offset_0x0457EE
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x045570, (A0)
                 move.w  (Camera_X).w, D0                             ; $FFFFEE78
                 addi.w  #$0030, D0
@@ -281,7 +281,7 @@ Offset_0x04560C:
 ;-------------------------------------------------------------------------------
 Offset_0x045616:
                 lea     Tunnelbot_Setup_Data_2(PC), A1         ; Offset_0x0457E8
-                jsr     (Object_Settings_3)                    ; Offset_0x041D7A
+                jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -366,7 +366,7 @@ Offset_0x04570A:
 ;-------------------------------------------------------------------------------
 Offset_0x04570C:
                 lea     Offset_0x045808(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x04573A
                 jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
                 andi.w  #$01FF, D0
@@ -412,7 +412,7 @@ Offset_0x04578E:
                 move.w  #$0040, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x0454B6, Obj_Child(A0)                  ; $0034
                 lea     (Offset_0x041D62), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A   
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x0457B2:
                 dc.w    (Palette_Row_1_Offset+$18)                       ; $ED38

@@ -9,7 +9,7 @@
                 move.w  Offset_0x043C4A(PC, D0), D1
                 jsr     Offset_0x043C4A(PC, D1)
                 lea     Rhinobot_PLC_Data(PC), A2              ; Offset_0x043EF8
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     Check_Delete_Touch_Slotted(PC)         ; Offset_0x042C1E
 ;-------------------------------------------------------------------------------
 Offset_0x043C4A:
@@ -20,7 +20,7 @@ Offset_0x043C4A:
 ;-------------------------------------------------------------------------------
 Offset_0x043C52:
                 lea     Rhinobot_Setup_Data(PC), A1            ; Offset_0x043EC4
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 move.b  #$08, Obj_Width_2(A0)                            ; $001F
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 move.w  #$FFF0, D0
@@ -63,7 +63,7 @@ Offset_0x043CD0:
                 move.w  Offset_0x043CEE(PC, D0), D1
                 jsr     Offset_0x043CEE(PC, D1)
                 lea     Rhinobot_PLC_Data(PC), A2              ; Offset_0x043EF8
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     Child_Display_Or_Delete_Remember(PC)   ; Offset_0x04248E  
 ;-------------------------------------------------------------------------------
 Offset_0x043CEE:
@@ -72,10 +72,10 @@ Offset_0x043CEE:
 ;-------------------------------------------------------------------------------
 Offset_0x043CF2:
                 lea     Rhinobot_Setup_Data_2(PC), A1          ; Offset_0x043ED6
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 move.l  #Go_Delete_Slotted_3, Obj_Child(A0) ; Offset_0x042C42, $0034
 Offset_0x043D02:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E
 ;-------------------------------------------------------------------------------  
 Offset_0x043D06:
                 bchg    #02, Obj_Control_Var_08(A0)                      ; $0038
@@ -110,7 +110,7 @@ Offset_0x043D58:
                 moveq   #Grab_Sfx, D0                                      ; $4A
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     Offset_0x043EF0(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x043D92
                 move.l  #Offset_0x043F10, Obj_Child_Data(A1)             ; $0030
 Offset_0x043D92:
@@ -187,7 +187,7 @@ Offset_0x043E4A:
                 moveq   #Grab_Sfx, D0                                      ; $4A
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     Offset_0x043EE8(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x043E68
                 move.l  #Offset_0x043F00, Obj_Child_Data(A1)             ; $0030
 Offset_0x043E68:

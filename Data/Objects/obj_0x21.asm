@@ -36,7 +36,7 @@ Offset_0x01FF76:
                 move.b  #$98, Obj_Col_Flags(A1)                          ; $0028
                 move.l  #Offset_0x020006, (A1)
                 moveq   #Energy_Zap_Sfx, D0                               ; -$37
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01FFBA:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x01FFC0:

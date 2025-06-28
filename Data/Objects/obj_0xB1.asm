@@ -104,7 +104,7 @@ Offset_0x03A0D2:
                 move.l  #Offset_0x03A102, Obj_Child(A0)                  ; $0034
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 lea     Offset_0x03AEA8(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03A102:
                 move.l  #Offset_0x03A10E, (A0)
@@ -122,7 +122,7 @@ Offset_0x03A11C:
 ;------------------------------------------------------------------------------- 
 Offset_0x03A12C:
                 lea     Drill_Mobile_Setup_Data_3(PC), A1      ; Offset_0x03AE08
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 cmpi.l  #Obj_0xB0_MGz_Drill_Mobile, (A1)       ; Offset_0x039C7E
                 bne.s   Offset_0x03A146
@@ -130,7 +130,7 @@ Offset_0x03A12C:
 Offset_0x03A146:
                 move.l  #Offset_0x03A154, (A0)
                 lea     Offset_0x03AE60(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x03A154:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -164,7 +164,7 @@ Offset_0x03A1B2:
 ;-------------------------------------------------------------------------------
 Offset_0x03A1B8:
                 lea     Drill_Mobile_Setup_Data_4(PC), A1      ; Offset_0x03AE0E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03A1D2, (A0)
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  Obj_Child_Ref(A1), Obj_Height_3(A0)       ; $0046, $0044
@@ -215,7 +215,7 @@ Offset_0x03A252:
                 bsr     Offset_0x03AA30
                 bclr    #$05, Obj_Control_Var_08(A0)                     ; $0038
                 lea     Offset_0x03AE80(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #$00, D0
                 jmp     (Child_Display_Touch_Or_Flicker_Move_2) ; Offset_0x042538
 Offset_0x03A288:
@@ -225,11 +225,11 @@ Offset_0x03A288:
                 bclr    #$02, Obj_Control_Var_08(A0)                     ; $0038
                 bsr     Offset_0x03AB2A
                 lea     Offset_0x03AE98(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03A2AE:                
                 bclr    #$05, Obj_Control_Var_08(A0)                     ; $0038
                 lea     Offset_0x03AE80(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #$00, D0
                 jmp     (Child_Display_Touch_Or_Flicker_Move_2) ; Offset_0x042538
 ;-------------------------------------------------------------------------------
@@ -300,7 +300,7 @@ Offset_0x03A39A:
                 move.l  #Offset_0x03A3C8, Obj_Child(A0)                  ; $0034
                 bsr     Offset_0x03ABD0
                 lea     Offset_0x03AE98(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03A3C2
                 move.b  #$02, Obj_Subtype(A1)                            ; $002C
 Offset_0x03A3C2:
@@ -329,7 +329,7 @@ Offset_0x03A3FE:
 ;-------------------------------------------------------------------------------
 Offset_0x03A406:
                 lea     Drill_Mobile_Setup_Data_2(PC), A1      ; Offset_0x03AE02
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03A416, (A0)
                 rts                                                         
 ;-------------------------------------------------------------------------------
@@ -342,7 +342,7 @@ Offset_0x03A416:
 ;-------------------------------------------------------------------------------
 Offset_0x03A42E:
                 lea     Drill_Mobile_Setup_Data_4(PC), A1      ; Offset_0x03AE0E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 move.l  #Offset_0x03A474, (A0)
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -392,11 +392,11 @@ Offset_0x03A4D6:
 Offset_0x03A4DC:
                 move.w  #$0004, Obj_Timer(A0)                            ; $002E
                 lea     Offset_0x03AEA0(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x03A4EA:
                 lea     Drill_Mobile_Setup_Data_5(PC), A1      ; Offset_0x03AE14
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03A526, (A0)
                 move.w  #$002F, Obj_Timer(A0)                            ; $002E
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
@@ -454,7 +454,7 @@ Offset_0x03A59C:
 ;-------------------------------------------------------------------------------
 Offset_0x03A5A0:
                 lea     Drill_Mobile_Setup_Data_5(PC), A1      ; Offset_0x03AE14
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03A5BA, (A0)
                 bsr     Offset_0x03AA6A
                 move.l  #Offset_0x03A5D4, Obj_Child(A0)                  ; $0034
@@ -509,7 +509,7 @@ Offset_0x03A648:
 ;-------------------------------------------------------------------------------
 Offset_0x03A65A:
                 lea     Drill_Mobile_Setup_Data_6(PC), A1      ; Offset_0x03AE1A
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03A696, (A0)
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 subi.b  #$04, D0
@@ -522,7 +522,7 @@ Offset_0x03A65A:
                 bclr    #$07, Obj_Art_VRAM(A0)                           ; $000A
 Offset_0x03A68E:
                 lea     Offset_0x03AE68(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A    
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x03A696:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -540,7 +540,7 @@ Offset_0x03A6B4:
 ;-------------------------------------------------------------------------------
 Offset_0x03A6C2:
                 lea     Drill_Mobile_Setup_Data_7(PC), A1      ; Offset_0x03AE20
-                jsr     Object_Settings_2(PC)                  ; Offset_0x041D76
+                jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x03A6FC, (A0)
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  Obj_Child_Ref(A1), Obj_Height_3(A0)       ; $0046, $0044
@@ -573,7 +573,7 @@ Offset_0x03A730:
 ;-------------------------------------------------------------------------------
 Offset_0x03A736:
                 lea     Drill_Mobile_Setup_Data_8(PC), A1      ; Offset_0x03AE28
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03A748, (A0)
                 bra     Offset_0x03AADE        
 ;-------------------------------------------------------------------------------
@@ -583,7 +583,7 @@ Offset_0x03A748:
 ;-------------------------------------------------------------------------------
 ; Offset_0x03A754:
                 lea     Drill_Mobile_Setup_Data_9(PC), A1      ; Offset_0x03AE34
-                jsr     Object_Settings_3(PC)  
+                jsr     SetupObjectAttributes3(PC)  
                 move.l  #Offset_0x03A76E, (A0)
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  Obj_Child_Ref(A1), Obj_Height_3(A0)       ; $0046, $0044
@@ -613,7 +613,7 @@ Offset_0x03A7B2:
 ;-------------------------------------------------------------------------------
 Offset_0x03A7BA:
                 lea     Drill_Mobile_Setup_Data_3(PC), A1      ; Offset_0x03AE08
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
@@ -629,7 +629,7 @@ Offset_0x03A7DA:
 ;-------------------------------------------------------------------------------
 Offset_0x03A7EC:
                 lea     Drill_Mobile_Setup_Data_A(PC), A1      ; Offset_0x03AE3A
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x03A856, (A0)
                 move.w  #$7F40, Obj_Control_Var_0A(A0)                   ; $003A
                 move.w  (Camera_X).w, D0                             ; $FFFFEE78

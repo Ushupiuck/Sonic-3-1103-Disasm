@@ -25,7 +25,7 @@ Offset_0x03C2AC:
 ;-------------------------------------------------------------------------------
 Offset_0x03C2B4:
                 lea     Gapsule_Setup_Data(PC), A1             ; Offset_0x03CDA6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$06, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
@@ -38,7 +38,7 @@ Offset_0x03C2B4:
                 lea     Gapsule_Palette(PC), A1                ; Offset_0x03CE5E
                 jsr     Pal_Load_Line_1(PC)                    ; Offset_0x04314C
                 lea     Offset_0x03CDF4(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A    
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------
 Offset_0x03C300:
                 jmp     (Update_Sonic_Level_Limits_X_Y)        ; Offset_0x0433B8    
@@ -77,16 +77,16 @@ Offset_0x03C35C:
                 bclr    #$07, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x03C346
                 lea     Offset_0x03CE26(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x03C36C:
                 jsr     (Obj_Load_End_Level_Art)               ; Offset_0x043302
                 lea     Offset_0x03CE2E(PC), A2
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 lea     Offset_0x03CE34(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x0439B2(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x03C38A:
                 moveq   #$00, D0
@@ -102,7 +102,7 @@ Offset_0x03C3A2:
 ;-------------------------------------------------------------------------------
 Offset_0x03C3A6:
                 lea     Gapsule_Setup_Data_8(PC), A1           ; Offset_0x03CDD6
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Y(A0), Obj_Control_Var_0E(A0)         ; $0014, $003E
                 rts     
 ;-------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ Offset_0x03C42C:
 ;-------------------------------------------------------------------------------
 Offset_0x03C434:
                 lea     Gapsule_Setup_Data_6(PC), A1           ; Offset_0x03CDCA
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A  
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A  
 ;-------------------------------------------------------------------------------
 Offset_0x03C43C:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -179,7 +179,7 @@ Offset_0x03C46C:
 ;-------------------------------------------------------------------------------      
 Offset_0x03C480:
                 lea     Gapsule_Setup_Data_7(PC), A1           ; Offset_0x03CDD0
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03C4B2, (A0)
                 move.w  #$0EEE, (Palette_Row_1_Offset+$1E).w         ; $FFFFED3E
                 lea     (Gapsule_Palette_Rotation_Script), A1  ; Offset_0x03CE7E
@@ -210,7 +210,7 @@ Offset_0x03C4CE:
 ;-------------------------------------------------------------------------------
 Offset_0x03C4D6:
                 lea     Gapsule_Setup_Data_2(PC), A1           ; Offset_0x03CDB2
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsr.b   #$01, D0
                 addq.b  #$01, D0
@@ -261,7 +261,7 @@ Offset_0x03C538:
 ;-------------------------------------------------------------------------------
 Offset_0x03C54E:
                 lea     Gapsule_Setup_Data_3(PC), A1           ; Offset_0x03CDB8
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  #$FEC0, D0
                 subi.b  #$0A, Obj_Subtype(A0)                            ; $002C
                 beq.s   Offset_0x03C570
@@ -446,11 +446,11 @@ Offset_0x03C7B2:
                 beq.s   Offset_0x03C7CC
                 lea     Gapsule_Setup_Data_4(PC), A1           ; Offset_0x03CDBE
                 move.w  #$0004, Obj_Control_Var_0E(A0)                   ; $003E
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
 Offset_0x03C7CC:
                 lea     Gapsule_Setup_Data_5(PC), A1           ; Offset_0x03CDC4
                 move.w  #$0003, Obj_Control_Var_0E(A0)                   ; $003E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.b  #$86, Obj_Col_Flags(A0)                          ; $0028
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  Obj_Child_Ref(A1), A1                            ; $0046
@@ -675,7 +675,7 @@ Offset_0x03CAA2:
 Offset_0x03CAC0:
                 move.l  #Offset_0x03CACE, (A0)
                 lea     Gapsule_Setup_Data_A(PC), A1           ; Offset_0x03CDE8
-                jmp     Object_Settings(PC)                    ; Offset_0x041D72     
+                jmp     SetupObjectAttributes(PC)                    ; Offset_0x041D72     
 ;-------------------------------------------------------------------------------
 Offset_0x03CACE:
                 bsr     Offset_0x03CAF0
@@ -933,7 +933,7 @@ Offset_0x03CD46:
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03C36C, Obj_Child(A0)                  ; $0034
                 lea     (Offset_0x041D62), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03CD6E:
                 dc.w    (Palette_Row_1_Offset+$04)                       ; $ED24

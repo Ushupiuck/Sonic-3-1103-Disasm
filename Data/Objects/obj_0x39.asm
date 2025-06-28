@@ -21,7 +21,7 @@ Offset_0x026762:
                 jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
                 move.l  #Offset_0x026778, (A0)
 Offset_0x026778:                
-                tst.b   (Kosinski_Modules_Left).w                    ; $FFFFFF60
+                tst.b   (Kos_modules_left).w                    ; $FFFFFF60
                 beq.s   Offset_0x026780
                 rts
 Offset_0x026780:

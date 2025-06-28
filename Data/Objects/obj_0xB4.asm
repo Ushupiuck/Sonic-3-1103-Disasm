@@ -19,7 +19,7 @@ Offset_0x03D4F4:
 ;-------------------------------------------------------------------------------
 Offset_0x03D4FE:
                 lea     Hang_Mobile_Setup_Data(PC), A1         ; Offset_0x03DBAA
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$08, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
@@ -33,13 +33,13 @@ Offset_0x03D4FE:
                 moveq   #Volume_Down, D0                                  ; -$20
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     (FBz_Robotnik_Ship_Data), A2           ; Offset_0x036596
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03D55C
                 move.b  #$0B, Obj_Subtype(A1)                            ; $002C
                 move.w  A1, Obj_Control_Var_0E(A0)                       ; $003E
 Offset_0x03D55C:
                 lea     Offset_0x03DBF2(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x03D564:
                 move.w  (Camera_X).w, (Sonic_Level_Limits_Min_X).w ; $FFFFEE78, $FFFFEE14
@@ -133,7 +133,7 @@ Offset_0x03D67A:
                 moveq   #Volume_Down, D0                                  ; -$20
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     Offset_0x03DC1C(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------  
 Offset_0x03D6A4:
                 move.l  #Run_Object_Wait_Timer_A0, (A0)        ; Offset_0x0423D2
@@ -178,9 +178,9 @@ Offset_0x03D724:
 ;-------------------------------------------------------------------------------
 Offset_0x03D72C:
                 lea     Hang_Mobile_Setup_Data_2(PC), A1       ; Offset_0x03DBB6
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 lea     Offset_0x03DC06(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 bne.s   Offset_0x03D74C
@@ -213,7 +213,7 @@ Offset_0x03D780:
                 rts
 Offset_0x03D796:
                 lea     Offset_0x03DC36(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     Go_Delete_Object_A0_2(PC)              ; Offset_0x042D4C  
 ;-------------------------------------------------------------------------------
 Offset_0x03D7A2:
@@ -253,7 +253,7 @@ Offset_0x03D7FC:
 ;-------------------------------------------------------------------------------
 Offset_0x03D802:
                 lea     Hang_Mobile_Setup_Data_3(PC), A1       ; Offset_0x03DBBC
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 tst.b   Obj_Subtype(A1)                                  ; $002C
                 beq.s   Offset_0x03D81A
@@ -302,7 +302,7 @@ Offset_0x03D88E:
 ;-------------------------------------------------------------------------------
 Offset_0x03D892:
                 lea     Hang_Mobile_Setup_Data_3(PC), A1       ; Offset_0x03DBBC
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 moveq   #-$1C, D0
                 btst    #$00, Obj_Flags(A1)                              ; $0004
@@ -322,7 +322,7 @@ Offset_0x03D8C6:
 ;-------------------------------------------------------------------------------
 Offset_0x03D8CE:
                 lea     Hang_Mobile_Setup_Data_4(PC), A1       ; Offset_0x03DBC2
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
 Offset_0x03D8D6:                
                 move.l  #Offset_0x03D8E8, (A0)
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -367,7 +367,7 @@ Offset_0x03D958:
 ;-------------------------------------------------------------------------------
 Offset_0x03D968:
                 lea     Hang_Mobile_Setup_Data_5(PC), A1       ; Offset_0x03DBC8
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
@@ -380,7 +380,7 @@ Offset_0x03D968:
 ;-------------------------------------------------------------------------------
 Offset_0x03D990:
                 lea     Hang_Mobile_Setup_Data_5(PC), A1       ; Offset_0x03DBC8
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
@@ -458,7 +458,7 @@ Offset_0x03DA3A:
                 add.w   D0, D0
                 move.l  Offset_0x03DA84(PC, D0), Obj_Child_Data(A0)      ; $0030
                 move.l  Offset_0x03DAA8(PC, D0), A1
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 jmp     Refresh_Child_Position(PC)             ; Offset_0x042016
 ;-------------------------------------------------------------------------------
 Offset_0x03DA60:

@@ -119,7 +119,7 @@ Offset_0x01CA96:
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 clr.b   Obj_Control_Var_0D(A1)                           ; $003D
                 moveq   #Small_Bumper_Sfx, D0                             ; -$75
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 rts            
 ;-------------------------------------------------------------------------------  
 Offset_0x01CAEA:

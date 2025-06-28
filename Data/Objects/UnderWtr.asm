@@ -219,7 +219,7 @@ Offset_0x00F68E:
                 tst.b   Obj_Player_One_Or_Two_2(A0)                      ; $0043
                 bne.s   Offset_0x00F6FE
                 moveq   #Panic_Snd, D0                                     ; $31
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x00F6FE:
                 subq.b  #$01, Obj_P_Spd_Shoes_Time(A0)                   ; $0036
                 bpl.s   Offset_0x00F720
@@ -230,13 +230,13 @@ Offset_0x00F712:
                 tst.b   Obj_Player_One_Or_Two_2(A0)                      ; $0043
                 bne.s   Offset_0x00F720
                 moveq   #Underwater_Sfx, D0                                ; $79
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x00F720:
                 subq.b  #$01, Obj_Subtype(A2)                            ; $002C
                 bcc     Offset_0x00F7AE
                 move.b  #$81, Obj_Player_Control(A2)                     ; $002E
                 move.w  #Drowning_Sfx, D0                                ; $003B
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.b  #$0A, Obj_Player_Selected(A0)                    ; $0038
                 move.w  #$0001, Obj_Player_Next_Tilt(A0)                 ; $003A
                 move.w  #$0078, Obj_P_Flips_Remaining(A0)                ; $0030

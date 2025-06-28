@@ -4,7 +4,7 @@
 ;===============================================================================  
 Offset_0x0468EC:
                 lea     Breakable_Wall_Setup_Data_2(PC), A1    ; Offset_0x046AE2
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x046938, (A0)
                 move.l  #Offset_0x046B08, Obj_Child_Data(A0)             ; $0030
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
@@ -22,14 +22,14 @@ Offset_0x046926:
                 dc.b    $0C, $34
 ;-------------------------------------------------------------------------------
 Offset_0x046938:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jsr     (ObjectFall)                           ; Offset_0x0110FE
                 jsr     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2  
 ;-------------------------------------------------------------------------------
 Obj_0xBA_Iz_Breakable_Wall:                                    ; Offset_0x04694C
                 lea     Breakable_Wall_Setup_Data(PC), A1      ; Offset_0x046ACA
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x046960, (A0)
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------

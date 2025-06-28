@@ -62,3 +62,18 @@ current_offset_table = \*
 offsetTableEntry macro ptr
 	dc.\0 ptr-current_offset_table
     endm
+
+; macro to create an entry for object data
+objdata macro pri,width,height,frame,collision,VRAM,mapping
+  if (narg=7)
+	dc.l	mapping
+	dc.w	VRAM, pri
+	dc.b	width, height, frame, collision
+  elseif (narg=6)
+	dc.w	VRAM, pri
+	dc.b	width, height, frame, collision
+  elseif (narg=5)
+	dc.w	pri
+	dc.b	width, height, frame, collision
+  endif
+	endm

@@ -16,7 +16,7 @@ Offset_0x04876E:
 ;-------------------------------------------------------------------------------
 Offset_0x048772:
                 lea     Ribot_Setup_Data(PC), A1               ; Offset_0x048A2C
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 bset    #$02, Obj_Control_Var_08(A0)                     ; $0038
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 subq.b  #$02, D0
@@ -24,15 +24,15 @@ Offset_0x048772:
                 bpl.s   Offset_0x0487AA
                 move.l  #Offset_0x048A88, Obj_Child_Data(A0)             ; $0030
                 lea     Offset_0x048A44(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x04879A:
                 move.l  #Offset_0x048A88, Obj_Child_Data(A0)             ; $0030
                 lea     Offset_0x048A52(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x0487AA:
                 move.l  #Offset_0x048A8E, Obj_Child_Data(A0)             ; $0030
                 lea     Offset_0x048A60(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x0487BA:
                 bclr    #$02, Obj_Control_Var_08(A0)                     ; $0038
@@ -45,7 +45,7 @@ Offset_0x0487BA:
 Offset_0x0487D4:
                 bset    D0, Obj_Control_Var_08(A0)                       ; $0038
 Offset_0x0487D8:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E  
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E  
 ;-------------------------------------------------------------------------------   
 Offset_0x0487DC:
                 moveq   #$00, D2
@@ -66,7 +66,7 @@ Offset_0x0487F8:
 ;-------------------------------------------------------------------------------
 Offset_0x048802:
                 lea     Ribot_Setup_Data_2(PC), A1             ; Offset_0x048A38
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.b  #$08, Obj_Height_2(A0)                           ; $001E
                 move.b  #$F0, Obj_Control_Var_13(A0)                     ; $0043
                 move.w  Obj_X(A0), Obj_Control_Var_0E(A0)         ; $0010, $003E
@@ -207,7 +207,7 @@ Offset_0x048962:
 ;-------------------------------------------------------------------------------   
 Offset_0x04896C:
                 lea     Ribot_Setup_Data_3(PC), A1             ; Offset_0x048A3E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x04898A, (A0)
                 move.w  Obj_X(A0), Obj_Control_Var_0E(A0)         ; $0010, $003E
                 move.w  Obj_Y(A0), Obj_Control_Var_10(A0)         ; $0014, $0040

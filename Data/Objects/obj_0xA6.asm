@@ -19,10 +19,10 @@ Offset_0x045B3E:
 ;-------------------------------------------------------------------------------
 Offset_0x045B48:
                 lea     Mantis_Setup_Data(PC), A1              ; Offset_0x045C50
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$29, Obj_Height_2(A0)                           ; $001E
                 lea     Offset_0x045C62(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x045B5E:
                 jsr     Find_Player(PC)                        ; Offset_0x042634
@@ -108,7 +108,7 @@ Offset_0x045C2C:
 ;-------------------------------------------------------------------------------
 Offset_0x045C30:
                 lea     Mantis_Setup_Data_2(PC), A1            ; Offset_0x045C5C
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A  
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A  
 ;-------------------------------------------------------------------------------
 Offset_0x045C38:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046

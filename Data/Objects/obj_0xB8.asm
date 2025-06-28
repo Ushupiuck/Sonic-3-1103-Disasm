@@ -13,7 +13,7 @@
                 moveq   #$70, D3
                 move.w  (A7)+, D4
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                jmp     Delete_Sprite_Check_X(PC)              ; Offset_0x042A58 
+                jmp     MarkObjectGone(PC)              ; Offset_0x042A58 
 ;-------------------------------------------------------------------------------
 Offset_0x046B32:
                 dc.w    Offset_0x046B4A-Offset_0x046B32
@@ -31,7 +31,7 @@ Offset_0x046B32:
 ;-------------------------------------------------------------------------------
 Offset_0x046B4A:
                 lea     Crushing_Column_Setup_Data(PC), A1     ; Offset_0x046CD8
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$70, Obj_Height_2(A0)                           ; $001E
                 move.w  Obj_Y(A0), Obj_Control_Var_0E(A0)         ; $0014, $003E
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E
@@ -39,7 +39,7 @@ Offset_0x046B4A:
                 bcc.s   Offset_0x046B7A
                 move.b  #$0C, Obj_Map_Id(A0)                             ; $0022
                 lea     Offset_0x046CEA(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x046B7A:
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 add.b   D0, D0
@@ -169,7 +169,7 @@ Offset_0x046CA8:
 Offset_0x046CB6:
                 move.l  #Offset_0x046CC4, (A0)
                 lea     Crushing_Column_Setup_Data_2(PC), A1   ; Offset_0x046CE4
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
 Offset_0x046CC4:                
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 move.w  Obj_Y(A1), D0                                    ; $0014

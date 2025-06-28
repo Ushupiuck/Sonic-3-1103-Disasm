@@ -47,7 +47,7 @@ Offset_0x039980:
 ;-------------------------------------------------------------------------------
 Offset_0x03999A:
                 lea     Drill_Mobile_Setup_Data(PC), A1        ; Offset_0x03ADF6
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.b  #$FF, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$30, Obj_Width_2(A0)                            ; $001F
                 move.b  #$24, Obj_Height_2(A0)                           ; $001E
@@ -55,12 +55,12 @@ Offset_0x03999A:
                 bset    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 move.w  #$F800, Obj_Speed_Y(A0)                          ; $001A
                 lea     MGz_Robotnik_Ship_Data(PC), A2         ; Offset_0x036586
-                jsr     (Load_Child_Object_A2)                 ; Offset_0x041D9A
+                jsr     (SetupChildObject)                 ; Offset_0x041D9A
                 bne.s   Offset_0x0399DA
                 move.b  #$09, Obj_Subtype(A1)                            ; $002C
 Offset_0x0399DA:
                 lea     Offset_0x03AE46(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A     
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A     
 ;-------------------------------------------------------------------------------
 Offset_0x0399E4:
                 tst.l   (PLC_Data_Buffer).w                          ; $FFFFF680

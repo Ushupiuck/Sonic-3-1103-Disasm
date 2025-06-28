@@ -22,7 +22,7 @@ Offset_0x046134:
 ;-------------------------------------------------------------------------------
 Offset_0x046144:
                 lea     Blaster_Setup_Data(PC), A1             ; Offset_0x046312
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 bset    #$01, Obj_Flags(A0)                              ; $0004
                 bclr    #$01, Obj_Flags(A0)                              ; $0004
@@ -88,7 +88,7 @@ Offset_0x04621E:
                 move.b  #$08, Obj_Routine(A0)                            ; $0005
                 move.l  #Offset_0x046208, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x04633C(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x046344(PC), A2
                 jmp     Load_Child_Object_Complex_Adjusted_A2(PC) ; Offset_0x041EE0 
 ;------------------------------------------------------------------------------- 
@@ -142,7 +142,7 @@ Offset_0x0462AE:
 ;-------------------------------------------------------------------------------
 Offset_0x0462C4:
                 lea     Blaster_Setup_Data_2(PC), A1           ; Offset_0x04631E
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0462DC, (A0)
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
                 rts     

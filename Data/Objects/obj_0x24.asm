@@ -68,7 +68,7 @@ Offset_0x020216:
                 clr.b   $0001(A4)
                 bsr     Offset_0x02036A
                 moveq   #Rolling_Sfx, D0                                   ; $3C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x02029A:
                 rts     
 ;-------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ Offset_0x0202D2:
                 move.w  #$0000, Obj_Speed_Y(A1)                          ; $001A
 Offset_0x0202F4:
                 moveq   #Tube_Launcher_Sfx, D0                            ; -$6B
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 btst    #$05, Obj_Subtype(A0)                            ; $002C
                 beq.s   Offset_0x020330
                 move.l  A1, A2

@@ -4,7 +4,7 @@
 ;===============================================================================  
 ; Offset_0x04719E:
                 lea     Segmented_Column_Setup_Data(PC), A1    ; Offset_0x047314
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Delete_Sprite_Check_X_2, (A0)         ; Offset_0x042A8A
                 lea     Offset_0x047326(PC), A2
                 tst.b   Obj_Subtype(A0)                                  ; $002C
@@ -15,7 +15,7 @@ Offset_0x0471BA:
 ;-------------------------------------------------------------------------------
 Offset_0x0471BE:
                 lea     Offset_0x047320(PC), A1
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0471E8, (A0)
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -109,7 +109,7 @@ Offset_0x0472C0:
                 bclr    D1, Obj_Status(A1)                               ; $002A
                 bset    #$00, Obj_Control_Var_08(A0)                     ; $0038
                 lea     Offset_0x04713A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jsr     Displace_Player_Offset(PC)             ; Offset_0x04315A
                 jsr     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E
                 moveq   #Smash_Sfx, D0                                     ; $62

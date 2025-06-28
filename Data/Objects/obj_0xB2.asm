@@ -48,18 +48,18 @@ Offset_0x03E510:
 ;-------------------------------------------------------------------------------
 Offset_0x03E518:
                 lea     Freezer_Mobile_Setup_Data(PC), A1      ; Offset_0x03EB38
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$08, Obj_Boss_Hit(A0)                           ; $0029
                 move.w  #$0080, Obj_Speed_Y(A0)                          ; $001A
                 move.w  #$00CF, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03E55E, Obj_Child(A0)                  ; $0034
                 lea     (Offset_0x03EB68), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03E54C
                 move.b  #$09, Obj_Subtype(A1)                            ; $002C
 Offset_0x03E54C:
                 lea     Offset_0x03EB70(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x03E554:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -132,7 +132,7 @@ Offset_0x03E628:
                 moveq   #Volume_Down, D0                                  ; -$20
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     Offset_0x03EB9E(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x03E652:
                 move.l  #Offset_0x03E678, (A0)
@@ -174,7 +174,7 @@ Offset_0x03E6CA:
 ;-------------------------------------------------------------------------------
 Offset_0x03E6D0:
                 lea     Freezer_Mobile_Setup_Data_2(PC), A1    ; Offset_0x03EB44
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A 
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A 
 ;-------------------------------------------------------------------------------
 Offset_0x03E6D8:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -218,7 +218,7 @@ Offset_0x03E73E:
 ;-------------------------------------------------------------------------------
 Offset_0x03E748:
                 lea     Freezer_Mobile_Setup_Data_3(PC), A1    ; Offset_0x03EB4A
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A 
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A 
 ;-------------------------------------------------------------------------------
 Offset_0x03E750:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -288,9 +288,9 @@ Offset_0x03E7F6:
 ;-------------------------------------------------------------------------------
 Offset_0x03E800:
                 lea     Freezer_Mobile_Setup_Data_4(PC), A1    ; Offset_0x03EB50
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 lea     Offset_0x03EB96(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A       
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A       
 ;-------------------------------------------------------------------------------
 Offset_0x03E810:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -325,7 +325,7 @@ Offset_0x03E860:
 ;-------------------------------------------------------------------------------
 Offset_0x03E876:
                 lea     Freezer_Mobile_Setup_Data_5(PC), A1    ; Offset_0x03EB56
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Run_Object_Wait_Timer_A0, (A0)        ; Offset_0x0423D2
                 move.l  #Offset_0x03E890, Obj_Child(A0)                  ; $0034
                 bra     Offset_0x03E9A8   
@@ -386,7 +386,7 @@ Offset_0x03E932:
 ;-------------------------------------------------------------------------------
 Offset_0x03E938:
                 lea     Freezer_Mobile_Setup_Data_6(PC), A1    ; Offset_0x03EB62
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0

@@ -28,7 +28,7 @@ Offset_0x041094:
 ;-------------------------------------------------------------------------------
 Offset_0x0410B0:
                 lea     Guardian_Setup_Data(PC), A1            ; Offset_0x0416C2
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$3C, Obj_Height_2(A0)                           ; $001E
                 lea     (Guardian_Palette), A1                 ; Offset_0x041700
                 lea     (Palette_Row_1_Offset).w, A2                 ; $FFFFED20
@@ -70,7 +70,7 @@ Offset_0x04111C:
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x04113A, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x0416F8(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x04113A:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
@@ -91,7 +91,7 @@ Offset_0x041164:
                 move.w  #$003E, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x04117E, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x0416E8(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x04117A:
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2 
@@ -192,11 +192,11 @@ Offset_0x0412A8:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x0412C0:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E 
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E 
 ;-------------------------------------------------------------------------------
 Offset_0x0412C4:
                 lea     Offset_0x0416F0(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x0412CC:                
                 move.b  #$14, Obj_Routine(A0)                            ; $0005
                 move.b  #$01, Obj_Control_Var_0A(A0)                     ; $003A
@@ -279,7 +279,7 @@ Offset_0x0413BA:
 ;-------------------------------------------------------------------------------
 Offset_0x0413BC:
                 lea     Guardian_Setup_Data_2(PC), A1          ; Offset_0x0416CE
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0413CA, (A0)
 Offset_0x0413CA:                
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -300,11 +300,11 @@ Offset_0x0413E2:
 Offset_0x0413F8:
                 dc.w    Offset_0x0413FE-Offset_0x0413F8
                 dc.w    Offset_0x041406-Offset_0x0413F8
-                dc.w    Animate_Raw-Offset_0x0413F8            ; Offset_0x04208E
+                dc.w    AnimateRaw-Offset_0x0413F8            ; Offset_0x04208E
 ;-------------------------------------------------------------------------------
 Offset_0x0413FE:
                 lea     Guardian_Setup_Data_4(PC), A1          ; Offset_0x0416DA
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A 
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A 
 ;-------------------------------------------------------------------------------
 Offset_0x041406:
                 move.b  Obj_Boss_Hit(A0), D0                             ; $0029
@@ -331,7 +331,7 @@ Offset_0x041446:
 ;-------------------------------------------------------------------------------
 Offset_0x04144C:
                 lea     Guardian_Setup_Data_3(PC), A1          ; Offset_0x0416D4
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 bclr    #$00, Obj_Flags(A0)                              ; $0004
                 btst    #$00, Obj_Flags(A1)                              ; $0004

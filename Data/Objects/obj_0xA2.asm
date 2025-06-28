@@ -17,9 +17,9 @@ Offset_0x04601C:
 ;-------------------------------------------------------------------------------
 Offset_0x046022:
                 lea     Batbot_Setup_Data(PC), A1              ; Offset_0x0460E2
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 lea     Offset_0x0460FA(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A 
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
 Offset_0x046032:
                 jsr     Find_Player(PC)                        ; Offset_0x042634
@@ -61,7 +61,7 @@ Offset_0x04608C:
 ;-------------------------------------------------------------------------------
 Offset_0x046092:
                 lea     Batbot_Setup_Data_2(PC), A1            ; Offset_0x0460EE
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A 
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A 
 ;-------------------------------------------------------------------------------
 Offset_0x04609A:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -92,7 +92,7 @@ Offset_0x0460D2:
 ;-------------------------------------------------------------------------------
 Offset_0x0460D8:
                 lea     Batbot_Setup_Data_3(PC), A1            ; Offset_0x0460F4
-                jmp     Object_Settings_3(PC)                  ; Offset_0x041D7A    
+                jmp     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A    
 ;-------------------------------------------------------------------------------
 Offset_0x0460E0:
                 rts

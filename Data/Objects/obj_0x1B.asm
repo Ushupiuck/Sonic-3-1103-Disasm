@@ -194,7 +194,7 @@ Offset_0x01E560:
                 dbra    D1, Offset_0x01E556
 Offset_0x01E594:
                 moveq   #Smash_Sfx, D0                                     ; $62
-                jmp     (Play_Music)                           ; Offset_0x001176   
+                jmp     (PlaySound)                           ; Offset_0x001176   
 ;-------------------------------------------------------------------------------  
 Offset_0x01E59C:
                 dc.w    $FC80, $FDC0, $FD00, $FDB0, $FD80, $FDA0, $FE00, $FDA0

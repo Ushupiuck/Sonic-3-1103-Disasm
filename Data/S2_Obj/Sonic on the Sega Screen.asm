@@ -21,7 +21,7 @@ SegaSonic_Index:	offsetTable
 ; Offset_0x0344A2:
 SegaSonic_Init:
 		lea	S2_Obj_0xB0_Setup_Data(pc),a1
-		jsr	(Object_Settings).l
+		jsr	(SetupObjectAttributes).l
 		move.b	#0,Obj_Flags(a0)
 		move.w  #$1E8,Obj_X(a0)
 		move.w  #$F0,Obj_Y(a0)
@@ -207,7 +207,7 @@ SegaSonic_PlayChant:
 		addq.b	#2,Obj_Routine(a0)
 		st	(PalCycle_Done_Flag).w
 		move.b	#$FA,d0
-		jsr	(Play_Music).l
+		jsr	(PlaySound).l
 ; Offset_0x0346BA:
 SegaSonic_End:
 		rts

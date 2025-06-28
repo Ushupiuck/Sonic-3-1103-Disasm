@@ -20,12 +20,12 @@ Offset_0x045178:
 ;-------------------------------------------------------------------------------
 Offset_0x045182:
                 lea     Tunnelbot_Setup_Data(PC), A1           ; Offset_0x0457C4
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$FE, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$28, Obj_Height_2(A0)                           ; $001E
                 jsr     (Swing_Setup)                          ; Offset_0x03669A
                 lea     Offset_0x0457FA(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x0451A4:
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
@@ -51,7 +51,7 @@ Offset_0x0451E4:
                 rts  
 ;-------------------------------------------------------------------------------
 Offset_0x0451FC:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 subq.w  #$01, Obj_Y(A0)                                  ; $0014
                 jsr     (Object_HitCeiling)                    ; Offset_0x009FB4
                 tst.w   D1
@@ -69,7 +69,7 @@ Offset_0x045216:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x045230:
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 moveq   #-$02, D0
                 move.b  (Vint_runcount+$03).w, D1         ; $FFFFFE0F
                 btst    #$00, D1

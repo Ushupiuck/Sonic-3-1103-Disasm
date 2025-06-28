@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x035484:
                 lea     Knuckles_Switch_Setup_Data(PC), A1     ; Offset_0x03555A
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.l  #Offset_0x0354AA, (A0)
                 addq.w  #$04, Obj_Y(A0)                                  ; $0014
                 lea     Knuckles_Switch_PLC_Data(PC), A1       ; Offset_0x0354A2

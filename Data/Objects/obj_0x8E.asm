@@ -19,7 +19,7 @@ Offset_0x03B026:
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03B07E, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #$5D, D0
                 jsr     (LoadPLC)                              ; Offset_0x0014D0
@@ -29,7 +29,7 @@ Offset_0x03B026:
 Offset_0x03B07E:
                 move.l  #Offset_0x03B08E, (A0)
                 moveq   #Mini_Boss_Snd, D0                                 ; $18
-                jsr     (Play_Music)                           ; Offset_0x001176  
+                jsr     (PlaySound)                           ; Offset_0x001176  
 Offset_0x03B08C:  
                 rts                               
 ;-------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ Offset_0x03B0B2:
 ;-------------------------------------------------------------------------------
 Offset_0x03B0C2:
                 lea     Bowling_Spin_Setup_Data(PC), A1        ; Offset_0x03B8A8
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$06, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$04, Obj_Width_3(A0)                            ; $0045
                 bset    #$03, Obj_Control_Var_08(A0)                     ; $0038
@@ -64,7 +64,7 @@ Offset_0x03B0C2:
                 move.w  #$011F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03B102, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x03B8D2(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A   
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x03B0F8:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -112,7 +112,7 @@ Offset_0x03B17C:
                 bset    #$06, Obj_Control_Var_08(A0)                     ; $0038
                 move.b  #$7F, Obj_Control_Var_0B(A0)                     ; $003B
                 lea     Offset_0x03B8F6(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------   
 Offset_0x03B19E:
                 subq.b  #$01, Obj_Control_Var_0B(A0)                     ; $003B
@@ -144,7 +144,7 @@ Offset_0x03B1DC:
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03B20E, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 lea     Offset_0x03B91A(PC), A2
                 jmp     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A    
 ;-------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ Offset_0x03B232:
 ;-------------------------------------------------------------------------------
 Offset_0x03B23A:
                 lea     Bowling_Spin_Setup_Data_2(PC), A1      ; Offset_0x03B8B4
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.b  #$10, Obj_Width_2(A0)                            ; $001F
                 move.b  #$08, Obj_Height_2(A0)                           ; $001E
                 rts   
@@ -210,7 +210,7 @@ Offset_0x03B29C:
                 moveq   #$08, D3
                 move.w  (A7)+, D4
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                jsr     Animate_Raw(PC)                        ; Offset_0x04208E
+                jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 tst.w   Obj_Speed_X(A0)                                  ; $0018
                 bmi.s   Offset_0x03B2FA
                 moveq   #$10, D3
@@ -273,7 +273,7 @@ Offset_0x03B368:
                 rts
 Offset_0x03B396:
                 lea     Offset_0x03B90A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03B3AC
                 tst.w   Obj_Speed_X(A0)                                  ; $0018
                 bmi.s   Offset_0x03B3AC
@@ -322,13 +322,13 @@ Offset_0x03B414:
                 rts
 Offset_0x03B41A:
                 lea     Offset_0x03B912(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.b  #$06, Obj_Subtype(A1)                            ; $002C
                 clr.b   Obj_Col_Flags(A0)                                ; $0028
                 jmp     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E
 Offset_0x03B430:
                 lea     Offset_0x03B912(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03B460
                 move.b  #$06, Obj_Subtype(A1)                            ; $002C
                 move.w  (Background_Events).w, D0                    ; $FFFFEED2
@@ -402,7 +402,7 @@ Offset_0x03B524:
 ;-------------------------------------------------------------------------------
 Offset_0x03B52E:
                 lea     Bowling_Spin_Setup_Data_3(PC), A1      ; Offset_0x03B8BA
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Run_Object_Wait_Timer_A0, (A0)        ; Offset_0x0423D2
                 move.l  #Offset_0x03B562, Obj_Child(A0)                  ; $0034
                 move.l  #Offset_0x03B949, Obj_Child_Data(A0)             ; $0030
@@ -427,7 +427,7 @@ Offset_0x03B578:
 ;-------------------------------------------------------------------------------   
 Offset_0x03B588:
                 lea     Bowling_Spin_Setup_Data_3(PC), A1      ; Offset_0x03B8BA
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03B5B2, (A0)
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -450,7 +450,7 @@ Offset_0x03B5B2:
 ;-------------------------------------------------------------------------------
 Offset_0x03B5CC:
                 lea     Bowling_Spin_Setup_Data_4(PC), A1      ; Offset_0x03B8C0
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Animate_Raw_Multi_Delay_Touch, (A0)   ; Offset_0x042FAA
                 move.w  #$3208, Obj_X(A0)                                ; $0010
                 btst    #$00, Obj_Flags(A0)                              ; $0004
@@ -463,7 +463,7 @@ Offset_0x03B5EE:
 ;-------------------------------------------------------------------------------  
 Offset_0x03B600:
                 lea     Bowling_Spin_Setup_Data_5(PC), A1      ; Offset_0x03B8C6
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -524,7 +524,7 @@ Offset_0x03B6BA:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x03B6E0:
                 moveq   #$00, D0
                 btst    #$00, Obj_Ani_Number(A0)                         ; $0020
@@ -546,7 +546,7 @@ Offset_0x03B704:
                 move.l  #Offset_0x03B1DC, Obj_Child(A0)                  ; $0034
                 move.w  #$0020, (Palette_Row_1_Offset+$14).w         ; $FFFFED34
                 lea     Offset_0x03B912(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.w  #$1000, (Level_Limits_Max_Y).w               ; $FFFFEE12
                 jmp     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
 Offset_0x03B73A:
@@ -580,7 +580,7 @@ Offset_0x03B776:
                 move.l  (A2)+, (A1)+
                 move.l  (A2)+, (A1)+
                 lea     Offset_0x03B8E0(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------  
 Offset_0x03B788:
                 move.w  (Background_Events+$04).w, D0                ; $FFFFEED6

@@ -22,9 +22,9 @@ Offset_0x045882:
 ;-------------------------------------------------------------------------------
 Offset_0x04588E:
                 lea     Spiker_Setup_Data(PC), A1              ; Offset_0x045AC0
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 lea     Offset_0x045AE4(PC), A2
-                jmp     Load_Child_Object_A2(PC)               ; Offset_0x041D9A  
+                jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x04589E:
                 jsr     Find_Player(PC)                        ; Offset_0x042634
@@ -103,7 +103,7 @@ Offset_0x045968:
 ;-------------------------------------------------------------------------------
 Offset_0x045970:
                 lea     Spiker_Setup_Data_2(PC), A1            ; Offset_0x045ACC
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 bne.s   Offset_0x045984
                 bset    #$00, Obj_Flags(A0)                              ; $0004
@@ -173,7 +173,7 @@ Offset_0x045A14:
 ;-------------------------------------------------------------------------------
 Offset_0x045A1A:
                 lea     Spiker_Setup_Data_3(PC), A1            ; Offset_0x045AD2
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A  
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A  
 ;-------------------------------------------------------------------------------
 Offset_0x045A22:
                 jsr     Check_Player_Collision(PC)             ; Offset_0x0430D4

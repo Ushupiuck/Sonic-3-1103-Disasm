@@ -19,10 +19,10 @@ Offset_0x0499D4:
 ;-------------------------------------------------------------------------------
 Offset_0x0499DE:
                 lea     Mushmeanie_Setup_Data(PC), A1          ; Offset_0x049AF6
-                jsr     (Object_Settings)                      ; Offset_0x041D72
+                jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.b  #$12, Obj_Height_2(A0)                           ; $001E
                 lea     Offset_0x049B0A(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A   
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x0499F8:
                 jsr     (Find_Player)                          ; Offset_0x042634
@@ -108,7 +108,7 @@ Offset_0x049AE6:
 ;-------------------------------------------------------------------------------
 Offset_0x049AEA:
                 lea     Mushmeanie_Setup_Data_2(PC), A1        ; Offset_0x049B02
-                jmp     (Object_Settings_2)                    ; Offset_0x041D76
+                jmp     (SetupObjectAttributes2)                    ; Offset_0x041D76
 ;-------------------------------------------------------------------------------
 Offset_0x049AF4:
                 rts         

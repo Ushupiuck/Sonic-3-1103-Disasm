@@ -15,7 +15,7 @@ Offset_0x041BD8:
 ;-------------------------------------------------------------------------------  
 Boss_Explosion_Control:                                        ; Offset_0x041BDE
                 lea     Offset_0x041D3E(PC), A1
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Obj_Normal_Explode, Obj_Control_Var_04(A0) ; Offset_0x041C30, $0034
                 cmpi.b  #$08, Obj_Subtype(A0)                            ; $002C
                 bne.s   Offset_0x041BFE
@@ -44,7 +44,7 @@ Obj_Normal_Explode:                                            ; Offset_0x041C30
                 moveq   #Level_Projectile_Sfx, D0                          ; $75
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     Offset_0x041D5A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne     Offset_0x041D0E           
 Offset_0x041C50:                
                 jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
@@ -69,7 +69,7 @@ Offset_0x041C7A:
                 bmi.s   Offset_0x041C76
                 move.w  #$0002, Obj_Timer(A0)                            ; $002E
                 lea     Offset_0x041D6A(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne     Offset_0x041D0E
                 move.b  #$02, Obj_Routine(A1)                            ; $0005
                 bra.s   Offset_0x041C50
@@ -129,7 +129,7 @@ Offset_0x041D0E:
 ;-------------------------------------------------------------------------------
 Offset_0x041D10:
                 lea     Offset_0x041D3E(PC), A1
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x041D34, (A0)                  
                 move.l  #Offset_0x041D4A, Obj_Child_Data(A0)             ; $0030
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034

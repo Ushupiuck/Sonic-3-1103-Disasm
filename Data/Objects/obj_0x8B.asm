@@ -9,7 +9,7 @@
                 move.w  Offset_0x048E1A(PC, D0), D1
                 jsr     Offset_0x048E1A(PC, D1)
                 lea     Flybot_767_PLC_Data(PC), A2            ; Offset_0x048F78
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     (Check_Delete_Touch_Slotted)           ; Offset_0x042C1E
 ;-------------------------------------------------------------------------------
 Offset_0x048E1A:
@@ -22,7 +22,7 @@ Offset_0x048E1A:
 ;-------------------------------------------------------------------------------
 Offset_0x048E26:
                 lea     Flybot_767_Setup_Data(PC), A1          ; Offset_0x048F66
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 move.l  #Offset_0x048F80, Obj_Child_Data(A0)             ; $0030
                 jsr     Find_Player(PC)                        ; Offset_0x042634
                 move.w  #$FF00, D4
@@ -44,7 +44,7 @@ Offset_0x048E5C:
                 cmpi.b  #$06, Obj_Map_Id(A0)                             ; $0022
                 beq.s   Offset_0x048E7C
 Offset_0x048E78:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E
 Offset_0x048E7C:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 clr.w   Obj_Speed_Y(A0)                                  ; $001A
@@ -57,7 +57,7 @@ Offset_0x048E7C:
 ;-------------------------------------------------------------------------------
 Offset_0x048EA6:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E 
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E 
 ;-------------------------------------------------------------------------------  
 Offset_0x048EB0:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
@@ -75,7 +75,7 @@ Offset_0x048ED0:
                 tst.w   D1
                 beq.s   Offset_0x048EE8
 Offset_0x048EE4:
-                jmp     Animate_Raw(PC)                        ; Offset_0x04208E
+                jmp     AnimateRaw(PC)                        ; Offset_0x04208E
 Offset_0x048EE8:
                 move.b  #$08, Obj_Routine(A0)                            ; $0005
                 move.l  #Offset_0x048FA1, Obj_Child_Data(A0)             ; $0030
@@ -87,7 +87,7 @@ Offset_0x048EFC:
                 move.w  Obj_Y(A0), D0                                    ; $0014
                 cmp.w   Obj_Height_3(A0), D0                             ; $0044
                 bcs.s   Offset_0x048F12
-                jmp     (Animate_Raw)                          ; Offset_0x04208E
+                jmp     (AnimateRaw)                          ; Offset_0x04208E
 Offset_0x048F12:
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
                 move.l  #Offset_0x048F80, Obj_Child_Data(A0)             ; $0030

@@ -16,7 +16,7 @@ Offset_0x048AAC:
 ;-------------------------------------------------------------------------------
 Offset_0x048AB0:
                 lea     Orbinaut_Setup_Data(PC), A1            ; Offset_0x048B98
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  #$FF80, D0
                 btst    #$00, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x048AC6
@@ -24,7 +24,7 @@ Offset_0x048AB0:
 Offset_0x048AC6:
                 move.w  D0, Obj_Speed_X(A0)                              ; $0018
                 lea     Offset_0x048BAA(PC), A2
-                jmp     (Load_Child_Object_A2)                 ; Offset_0x041D9A  
+                jmp     (SetupChildObject)                 ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
 Offset_0x048AD4:
                 tst.b   Obj_Subtype(A0)                                  ; $002C
@@ -36,7 +36,7 @@ Offset_0x048AE2:
 ;------------------------------------------------------------------------------- 
 Offset_0x048AE8:
                 lea     Offset_0x048BA4(PC), A1
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x048B18, (A0)
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 lsl.b   #$05, D0

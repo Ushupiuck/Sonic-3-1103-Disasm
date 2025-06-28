@@ -154,7 +154,7 @@ Offset_0x01DB24:
                 bpl.s   Offset_0x01DB62
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01DB62:
                 rts
 Offset_0x01DB64:
@@ -162,7 +162,7 @@ Offset_0x01DB64:
                 bmi.s   Offset_0x01DB78
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01DB78:
                 rts   
 ;-------------------------------------------------------------------------------
@@ -197,7 +197,7 @@ Offset_0x01DB9E:
                 bpl.s   Offset_0x01DBDC
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01DBDC:
                 rts
 Offset_0x01DBDE:
@@ -205,7 +205,7 @@ Offset_0x01DBDE:
                 bmi.s   Offset_0x01DBF2
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01DBF2:
                 rts  
 ;-------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ Offset_0x01DC34:
                 bpl.s   Offset_0x01DC58
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01DC58:
                 rts
 Offset_0x01DC5A:
@@ -247,7 +247,7 @@ Offset_0x01DC5A:
                 bmi.s   Offset_0x01DC6E
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x01DC6E:
                 rts  
 ;-------------------------------------------------------------------------------
@@ -259,7 +259,7 @@ Offset_0x01DC70:
                 move.w  #$0000, Obj_Speed_Y(A0)                          ; $001A
                 move.l  #Offset_0x01DCF4, (A0)
                 moveq   #Hurt_Sfx, D0                                      ; $35   
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
                 lea     Obj_Control_Var_0C(A0), A2                       ; $003C
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 move.w  #$FD00, D0

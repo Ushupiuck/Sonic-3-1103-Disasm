@@ -23,7 +23,7 @@ Offset_0x0463B4:
                 cmpi.b  #$04, Obj_Subtype(A0)                            ; $002C
                 beq.s   Offset_0x046410
                 lea     Techno_Squeek_Setup_Data(PC), A1       ; Offset_0x0465CC
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x0465F2, Obj_Child_Data(A0)             ; $0030
                 bset    #$00, Obj_Flags(A0)                              ; $0004
                 cmpi.b  #$02, Obj_Subtype(A0)                            ; $002C
@@ -31,7 +31,7 @@ Offset_0x0463B4:
                 bset    #$01, Obj_Flags(A0)                              ; $0004
 Offset_0x0463EE:
                 lea     Offset_0x0465EA(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.w  #$0400, D0
                 move.w  D0, Obj_Control_Var_0A(A0)                       ; $003A
                 move.w  D0, Obj_Speed_X(A0)                              ; $0018
@@ -40,12 +40,12 @@ Offset_0x0463EE:
                 rts
 Offset_0x046410:
                 lea     Techno_Squeek_Setup_Data_2(PC), A1     ; Offset_0x0465D8
-                jsr     Object_Settings(PC)                    ; Offset_0x041D72
+                jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 move.l  #Offset_0x046618, Obj_Child_Data(A0)             ; $0030
                 bset    #$01, Obj_Flags(A0)                              ; $0004
                 lea     Offset_0x0465EA(PC), A2
-                jsr     Load_Child_Object_A2(PC)               ; Offset_0x041D9A
+                jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 move.w  #$0400, D0
                 move.w  D0, Obj_Control_Var_0E(A0)                       ; $003E
                 move.w  D0, Obj_Speed_Y(A0)                              ; $001A
@@ -134,7 +134,7 @@ Offset_0x046538:
 ;-------------------------------------------------------------------------------
 Offset_0x04653E:
                 lea     Techno_Squeek_Setup_Data_3(PC), A1     ; Offset_0x0465E4
-                jsr     Object_Settings_3(PC)                  ; Offset_0x041D7A
+                jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 cmpi.b  #$04, Obj_Subtype(A1)                            ; $002C
                 bne.s   Offset_0x046558

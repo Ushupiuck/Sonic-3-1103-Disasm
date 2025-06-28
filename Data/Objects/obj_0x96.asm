@@ -9,7 +9,7 @@
                 move.w  Offset_0x049DEE(PC, D0), D1
                 jsr     Offset_0x049DEE(PC, D1)
                 lea     Butterdroid_PLC_Data(PC), A2           ; Offset_0x049E46
-                jsr     (Load_Dynamic_PLC_A2)                  ; Offset_0x042A0A
+                jsr     (LoadDynamicPLC)                  ; Offset_0x042A0A
                 jmp     (Delete_Sprite_Clear_Respaw_Flag_Check_X) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x049DEE:
@@ -18,7 +18,7 @@ Offset_0x049DEE:
 ;-------------------------------------------------------------------------------
 Offset_0x049DF2:
                 lea     Butterdroid_Setup_Data(PC), A1         ; Offset_0x049E34
-                jsr     (Object_Settings_Slotted)              ; Offset_0x04298C
+                jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
                 move.l  #Offset_0x049E46, Obj_Child_Data(A0)             ; $0030
                 rts     
 ;-------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Offset_0x049E1C:
                 move.w  #$0004, D1
                 jsr     Chase_Object(PC)                       ; Offset_0x042E6C
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jmp     (Animate_Raw)                          ; Offset_0x04208E  
+                jmp     (AnimateRaw)                          ; Offset_0x04208E  
 ;-------------------------------------------------------------------------------  
 Butterdroid_Setup_Data:                                        ; Offset_0x049E34
                 dc.w    $0003, $A512, $0009, $0000

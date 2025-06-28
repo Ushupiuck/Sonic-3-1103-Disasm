@@ -57,7 +57,7 @@ Offset_0x023726:
                 tst.b   (A3)
                 bne.s   Offset_0x023732
                 moveq   #Switch_Blip_Sfx, D0                               ; $64
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x023732:
                 bset    D3, (A3)
                 move.b  #$01, Obj_Map_Id(A0)                             ; $0022
@@ -92,7 +92,7 @@ Offset_0x023790:
                 tst.b   (A3)
                 bne.s   Offset_0x02379C
                 moveq   #Switch_Blip_Sfx, D0                               ; $64
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x02379C:
                 bset    D3, (A3)
                 move.b  #$01, Obj_Map_Id(A0)                             ; $0022
@@ -130,7 +130,7 @@ Offset_0x023818:
                 tst.b   (A3)
                 bne.s   Offset_0x023824
                 moveq   #Switch_Blip_Sfx, D0                               ; $64
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (PlaySound)                           ; Offset_0x001176
 Offset_0x023824:
                 bset    D3, (A3)
                 move.b  #$01, Obj_Map_Id(A0)                             ; $0022

@@ -14,7 +14,7 @@
                 move.b  #$86, Obj_Col_Flags(A0)                          ; $0028
 Offset_0x045072:
                 lea     Bubbles_PLC_Data(PC), A2               ; Offset_0x045138
-                jsr     Load_Dynamic_PLC_A2(PC)                ; Offset_0x042A0A
+                jsr     LoadDynamicPLC(PC)                ; Offset_0x042A0A
                 jmp     Check_Delete_Touch_Slotted(PC)         ; Offset_0x042C1E
 ;-------------------------------------------------------------------------------
 Offset_0x04507E:
@@ -24,7 +24,7 @@ Offset_0x04507E:
 ;-------------------------------------------------------------------------------
 Offset_0x045084:
                 lea     Bubbles_Setup_Data(PC), A1             ; Offset_0x045126
-                jsr     Object_Settings_Slotted(PC)            ; Offset_0x04298C
+                jsr     SetupSlottedObjectAttributes(PC)            ; Offset_0x04298C
                 move.w  #$FF80, Obj_Speed_X(A0)                          ; $0018
                 btst    #$00, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x04509E

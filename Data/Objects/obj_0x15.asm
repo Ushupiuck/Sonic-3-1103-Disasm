@@ -109,7 +109,7 @@ Offset_0x01D196:
                 bclr    #$05, Obj_Status(A1)                             ; $002A
 Offset_0x01D1B4:
                 moveq   #Spring_Sfx, D0                                   ; -$2E
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (PlaySound)                           ; Offset_0x001176
 ;-------------------------------------------------------------------------------
 Offset_0x01D1BC:
                 move.l  #Player_Launcher_Mappings, Obj_Map(A0) ; Offset_0x01D2CA, $000C
