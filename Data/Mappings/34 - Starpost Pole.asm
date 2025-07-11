@@ -1,8 +1,8 @@
-@int:		dc.w	Offset_0x02428C-@int
-		dc.w	Offset_0x0242A6-@int
-		dc.w	Offset_0x0242BA-@int
-		dc.w	Offset_0x0242C2-@int
-		dc.w	Offset_0x0242CA-@int
+.int:		dc.w	Offset_0x02428C-.int
+		dc.w	Offset_0x0242A6-.int
+		dc.w	Offset_0x0242BA-.int
+		dc.w	Offset_0x0242C2-.int
+		dc.w	Offset_0x0242CA-.int
 Offset_0x02428C:
 		dc.w	$0004
 		dc.w	$E801, $000E, $FFFC

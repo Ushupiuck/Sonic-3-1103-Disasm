@@ -1,7 +1,7 @@
-@int:		dc.w	Offset_0x022A16-@int
-		dc.w	Offset_0x022A30-@int
-		dc.w	Offset_0x022A4A-@int
-		dc.w	Offset_0x022A64-@int
+.int:		dc.w	Offset_0x022A16-.int
+		dc.w	Offset_0x022A30-.int
+		dc.w	Offset_0x022A4A-.int
+		dc.w	Offset_0x022A64-.int
 
 Offset_0x022A16:
 		dc.w	$0004

@@ -1,8 +1,8 @@
 ; tells the Z80 to stop, and waits for it to finish stopping (acquire bus)
 stopZ80 macro
 	move.w	#$100,(Z80_Bus_Request).l	; stop the Z80
-@loop:	btst	#0,(Z80_Bus_Request).l
-	bne.s	@loop				; loop until it says it has stopped
+.loop:	btst	#0,(Z80_Bus_Request).l
+	bne.s	.loop				; loop until it says it has stopped
     endm
 
 ; tells the Z80 to start again

@@ -1,10 +1,10 @@
-@int:		dc.w	Offset_0x015784-@int
-		dc.w	Offset_0x0157AA-@int
-		dc.w	Offset_0x0157C4-@int
-		dc.w	Offset_0x0157DE-@int
-		dc.w	Offset_0x0157E6-@int
-		dc.w	Offset_0x0157EE-@int
-		dc.w	Offset_0x0157F6-@int
+.int:		dc.w	Offset_0x015784-.int
+		dc.w	Offset_0x0157AA-.int
+		dc.w	Offset_0x0157C4-.int
+		dc.w	Offset_0x0157DE-.int
+		dc.w	Offset_0x0157E6-.int
+		dc.w	Offset_0x0157EE-.int
+		dc.w	Offset_0x0157F6-.int
 Offset_0x015784:
 		dc.w	$0006
 		dc.w	$D80B, $0072, $FFE8

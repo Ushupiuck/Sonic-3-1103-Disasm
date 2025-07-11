@@ -1,14 +1,14 @@
-@int:		dc.w	Offset_0x019C46-@int
-		dc.w	Offset_0x019C54-@int
-		dc.w	Offset_0x019C5C-@int
-		dc.w	Offset_0x019C8E-@int
-		dc.w	Offset_0x019C9C-@int
-		dc.w	Offset_0x019CA4-@int
-		dc.w	Offset_0x019CD6-@int
-		dc.w	Offset_0x019CF2-@int
-		dc.w	Offset_0x019D0C-@int
-		dc.w	Offset_0x019D20-@int
-		dc.w	Offset_0x019D40-@int
+.int:		dc.w	Offset_0x019C46-.int
+		dc.w	Offset_0x019C54-.int
+		dc.w	Offset_0x019C5C-.int
+		dc.w	Offset_0x019C8E-.int
+		dc.w	Offset_0x019C9C-.int
+		dc.w	Offset_0x019CA4-.int
+		dc.w	Offset_0x019CD6-.int
+		dc.w	Offset_0x019CF2-.int
+		dc.w	Offset_0x019D0C-.int
+		dc.w	Offset_0x019D20-.int
+		dc.w	Offset_0x019D40-.int
 
 ; Offset_0x019C30:
 Springs_Mappings_01:

@@ -30,6 +30,8 @@
 ; 0x1885CA - Chunks n�o usados na Launch Base
 ; 0x1E9814 - Segunda linha da paleta do Sonic n�o � usada
 ; ---------------------------------------------------------------------------
+		opt	l.					; . is the local label symbol
+
 		include	"axm68k/Macros - Setup.asm"
 		include	"axm68k/Macros - More CPUs.asm"
 		CPU 68000
@@ -545,7 +547,7 @@ Offset_0x0005BE:
 		; Sonic 3 page-flips its sprite tables in competition mode, in order to
 		; resolve a bug that caused glitched sprites to appear in lag frames
 		tst.w	(Use_Normal_Sprite_Table).w
-		beq.s	@useAltSpriteTable
+		beq.s	.useAltSpriteTable
 		lea	(VDP_Control_Port).l,a5
 		move.l	#$94019340,(a5)
 		move.l	#$96FC9500,(a5)
@@ -555,7 +557,7 @@ Offset_0x0005BE:
 		move.w	(DMA_Trigger).w,(a5)
 		bra.s	Offset_0x000646
 ; Offset_0x000622:
-@useAltSpriteTable:
+.useAltSpriteTable:
 		lea	(VDP_Control_Port).l,a5
 		move.l	#$94019340,(a5)
 		move.l	#$96BC9540,(a5)
@@ -682,17 +684,17 @@ Offset_0x0007AA:
 		move.w	#$83,(DMA_Trigger).w
 		move.w	(DMA_Trigger).w,(a5)
 		tst.w	(Two_Player_Flag).w
-		beq.s	@useNormalSpriteTable
+		beq.s	.useNormalSpriteTable
 		tst.w	(Normal_Sprite_Table_Flag).w
-		beq.s	@enableAltSpriteTable
+		beq.s	.enableAltSpriteTable
 		clr.w	(Normal_Sprite_Table_Flag).w
 		eori.w	#-1,(Use_Normal_Sprite_Table).w
 ; Offset_0x0007E8:
-@enableAltSpriteTable:
+.enableAltSpriteTable:
 		; Sonic 3 page-flips its sprite tables in competition mode, in order to
 		; resolve a bug that caused glitched sprites to appear in lag frames
 		tst.w	(Use_Normal_Sprite_Table).w
-		bne.s	@useNormalSpriteTable
+		bne.s	.useNormalSpriteTable
 		lea	(VDP_Control_Port).l,a5
 		move.l	#$94019340,(a5)
 		move.l	#$96BC9540,(a5)
@@ -702,7 +704,7 @@ Offset_0x0007AA:
 		move.w	(DMA_Trigger).w,(a5)
 		bra.s	Offset_0x000838
 ; Offset_0x000814:
-@useNormalSpriteTable:
+.useNormalSpriteTable:
 		lea	(VDP_Control_Port).l,a5
 		move.l	#$94019340,(a5)
 		move.l	#$96FC9500,(a5)
@@ -1063,15 +1065,15 @@ HBlank_WaterPAL:
 		move.l	(Palette_Underwater_Ptr).w,a2
 		moveq	#$C,d0
 ; Offset_0x000D40:
-@wait1:		dbf	d0,@wait1
+.wait1:		dbf	d0,.wait1
 		move.w	(a2)+,d1
 		move.b	(Scanline_Counter).w,d0
 		subi.b	#200,d0			; are we below line 200?
-		bcs.s	@transferColours	; if yes, branch
+		bcs.s	.transferColours	; if yes, branch
 		sub.b	d0,d1
-		bcs.s	@skipTransfer
+		bcs.s	.skipTransfer
 ; Offset_0x000D54:
-@transferColours:
+.transferColours:
 		move.w	(a2)+,d0
 		lea	(Palette_Underwater_Buffer).w,a0
 		adda.w	d0,a0
@@ -1084,10 +1086,10 @@ HBlank_WaterPAL:
 		nop
 		moveq	#$24,d0
 ; Offset_0x000D70:
-@wait2:		dbf	d0,@wait2
-		dbf	d1,@transferColours	; repeat for number of colors
+.wait2:		dbf	d0,.wait2
+		dbf	d1,.transferColours	; repeat for number of colors
 ; Offset_0x000D78:
-@skipTransfer:
+.skipTransfer:
 		startZ80
 		movem.l	(sp)+,d0/d1/a0-a2
 		tst.b	(H_Int_Update_Flag).w
@@ -1124,15 +1126,15 @@ HBlank_WaterNTSC:
 		move.l	(Palette_Underwater_Ptr).w,a2
 		moveq	#$1B,d0
 ; Offset_0x000DD4:
-@wait1:		dbf	d0,@wait1
+.wait1:		dbf	d0,.wait1
 		move.w	(a2)+,d1
 		move.b	(Scanline_Counter).w,d0
 		subi.b	#200,d0			; are we below line 200?
-		bcs.s	@transferColors		; if yes, branch
+		bcs.s	.transferColors		; if yes, branch
 		sub.b	d0,d1
-		bcs.s	@skipTransfer
+		bcs.s	.skipTransfer
 ; Offset_0x000DE8:
-@transferColors:
+.transferColors:
 		move.w	(a2)+,d0
 		lea	(Palette_Underwater_Buffer).w,a0
 		adda.w	d0,a0
@@ -1144,11 +1146,11 @@ HBlank_WaterNTSC:
 		nop
 		moveq	#$33,d0
 ; Offset_0x000E02:
-@wait2:
-		dbf	d0,@wait2
-		dbf	d1,@transferColors	; repeat for number of colors
+.wait2:
+		dbf	d0,.wait2
+		dbf	d1,.transferColors	; repeat for number of colors
 ; Offset_0x000E0A:
-@skipTransfer:
+.skipTransfer:
 		startZ80
 		movem.l	(sp)+,d0/d1/a0-a2
 		tst.b	(H_Int_Update_Flag).w
@@ -1626,15 +1628,15 @@ PlaneMapToVRAM_H40:
 		lea	(VDP_Data_Port).l,a6
 		move.l	#$800000,d4
 ; Offset_0x0012C8: ShowVDPGraphics_LineLoop:
-@repeatPerLine:
+.repeatPerLine:
 		move.l	d0,VDP_Control_Port-VDP_Data_Port(a6)
 		move.w	d1,d3
 ; Offset_0x0012CE: ShowVDPGraphics_TileLoop:
-@repeatPerTile:
+.repeatPerTile:
 		move.w	(a1)+,(a6)		; from source address to destination in VDP
-		dbf	d3,@repeatPerTile	; next tile
+		dbf	d3,.repeatPerTile	; next tile
 		add.l	d4,d0			; increase destination address by $80 (1 line)
-		dbf	d2,@repeatPerLine	; next line
+		dbf	d2,.repeatPerLine	; next line
 		rts
 ; End of function ShowVDPGraphics
 
@@ -1650,15 +1652,15 @@ PlaneMapToVRAM_H80:
 		lea	(VDP_Data_Port).l,a6
 		move.l	#$1000000,d4
 ; Offset_0x0012E8: ShowVDPGraphicsSS_TileLoop:
-@repeatPerLine:
+.repeatPerLine:
 		move.l	d0,VDP_Control_Port-VDP_Data_Port(a6)
 		move.w	d1,d3
 ; Offset_0x0012EE: ShowVDPGraphicsSS_LineLoop:
-@repeatPerTile:
+.repeatPerTile:
 		move.w	(a1)+,(a6)		; from source address to destination in VDP
-		dbf	d3,@repeatPerTile	; next tile
+		dbf	d3,.repeatPerTile	; next tile
 		add.l	d4,d0			; increase destination address by $100 (1 line)
-		dbf	d2,@repeatPerLine	; next line
+		dbf	d2,.repeatPerLine	; next line
 		rts
 ; End of function PlaneMapToVRAM_H80_SpecialStage
 
@@ -1940,23 +1942,23 @@ LoadPLC:
 		lea	(a1,d0.w),a1
 		lea	(PLC_Data_Buffer).w,a2
 ; Offset_0x0014E8:
-@findFreeSlot:
+.findFreeSlot:
 		tst.l	(a2)					; is the current slot on the queue free?
-		beq.s	@getPieceCount				; if yes, branch
+		beq.s	.getPieceCount				; if yes, branch
 		addq.w	#6,a2					; otherwise skip past and check the next slot
-		bra.s	@findFreeSlot
+		bra.s	.findFreeSlot
 ; ---------------------------------------------------------------------------
 ; Offset_0x0014F0:
-@getPieceCount:
+.getPieceCount:
 		move.w	(a1)+,d0
-		bmi.s	@done
+		bmi.s	.done
 ; Offset_0x0014F4:
-@queuePieces:
+.queuePieces:
 		move.l	(a1)+,(a2)+				; store compressed data location
 		move.w	(a1)+,(a2)+				; store destination in VRAM
-		dbf	d0,@queuePieces
+		dbf	d0,.queuePieces
 ; Offset_0x0014FC:
-@done:
+.done:
 		movem.l	(sp)+,a1/a2
 		rts
 ; End of function LoadPLC
@@ -1971,23 +1973,23 @@ LoadPLC:
 LoadPLC_Direct:
 		lea	(PLC_Data_Buffer).w,a2
 ; Offset_0x001506:
-@findFreeSlot:
+.findFreeSlot:
 		tst.l	(a2)					; is the current slot on the queue free?
-		beq.s	@getPieceCount				; if yes, branch
+		beq.s	.getPieceCount				; if yes, branch
 		addq.w	#6,a2					; otherwise skip past and check the next slot
-		bra.s	@findFreeSlot
+		bra.s	.findFreeSlot
 ; ---------------------------------------------------------------------------
 ; Offset_0x00150E:
-@getPieceCount:
+.getPieceCount:
 		move.w	(a1)+,d0
-		bmi.s	@done
+		bmi.s	.done
 ; Offset_0x001512:
-@queuePieces:
+.queuePieces:
 		move.l	(a1)+,(a2)+				; store compressed data location
 		move.w	(a1)+,(a2)+				; store destination in VRAM
-		dbf	d0,@queuePieces
+		dbf	d0,.queuePieces
 ; Offset_0x00151A:
-@done:
+.done:
 		rts
 ; End of function LoadPLC_Direct
 
@@ -2007,14 +2009,14 @@ LoadPLC2:
 		bsr.s	ClearPLC
 		lea	(PLC_Data_Buffer).w,a2
 		move.w	(a1)+,d0
-		bmi.s	@done
+		bmi.s	.done
 ; Offset_0x00153A:
-@queuePieces:
+.queuePieces:
 		move.l	(a1)+,(a2)+				; store compressed data location
 		move.w	(a1)+,(a2)+				; store destination in VRAM
-		dbf	d0,@queuePieces
+		dbf	d0,.queuePieces
 ; Offset_0x001542:
-@done:
+.done:
 		movem.l	(sp)+,a1/a2
 		rts
 ; End of function LoadPLC2
@@ -2483,14 +2485,14 @@ Queue_Kos_Module:
 		beq.s	Process_Kos_Module_Queue_Init		; if yes, branch
 		addq.w	#6,a2			; otherwise, check next slot
 ; Offset_0x0018B2:
-@findFreeSlot:
+.findFreeSlot:
 		tst.l	(a2)
-		beq.s	@freeSlotFound
+		beq.s	.freeSlotFound
 		addq.w	#6,a2
-		bra.s	@findFreeSlot
+		bra.s	.findFreeSlot
 ; ---------------------------------------------------------------------------
 ; Offset_0x0018BA:
-@freeSlotFound:
+.freeSlotFound:
 		move.l  a1,(a2)+		; store source address
 		move.w  d2,(a2)+		; store destination VRAM address
 		rts
@@ -2506,21 +2508,21 @@ Queue_Kos_Module:
 Process_Kos_Module_Queue_Init:
 		move.w	(a1)+,d3		; get uncompressed size
 		cmpi.w	#$A000,d3
-		bne.s	@gotSize
+		bne.s	.gotSize
 		move.w	#$8000,d3		; $A000 means $8000 for some reason
 ; Offset_0x0018CC:
-@gotSize:
+.gotSize:
 		lsr.w	#1,d3
 		move.w	d3,d0
 		rol.w	#5,d0
 		andi.w	#$1F,d0			; get number of complete modules
 		move.b	d0,(Kos_modules_left).w
 		andi.l	#$7FF,d3		; get size of last module in words
-		bne.s	@gotLeftover		; branch if it's non-zero
+		bne.s	.gotLeftover		; branch if it's non-zero
 		subq.b	#1,(Kos_modules_left).w	; otherwise decrement the number of modules
 		move.l	#$800,d3	; and take the size of the last module to be $800 words
 ; Offset_0x0018EC:
-@gotLeftover:
+.gotLeftover:
 		move.w	d3,(Kos_last_module_size).w
 		move.w	d2,(Kos_module_destination).w
 		move.l	a1,(Kos_module_queue).w
@@ -2537,16 +2539,16 @@ Process_Kos_Module_Queue_Init:
 ; Offset_0x0018FE: Process_Kosinski_Queue:
 Process_Kos_Module_Queue:
 		tst.b	(Kos_modules_left).w
-		bne.s	@modulesLeft
+		bne.s	.modulesLeft
 ; Offset_0x001904:
-@done:
+.done:
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x001906:
-@modulesLeft:
-		bmi.s	@decompressionStarted
+.modulesLeft:
+		bmi.s	.decompressionStarted
 		cmpi.w	#(Kos_decomp_queue_End-Kos_decomp_queue)/8,(Kos_decomp_queue_count).w
-		bcc.s	@done					; branch if the Kosinski decompression queue is full
+		bcc.s	.done					; branch if the Kosinski decompression queue is full
 		move.l	(Kos_module_queue).w,a1
 		lea	(Kosinski_Decomp_Buffer).w,a2
 		bsr.w	Queue_Kos				; add current module to decompression queue
@@ -2554,18 +2556,18 @@ Process_Kos_Module_Queue:
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x001924:
-@decompressionStarted:
+.decompressionStarted:
 		tst.w	(Kos_decomp_queue_count).w
-		bne.s	@done					; branch if the decompression isn't complete
+		bne.s	.done					; branch if the decompression isn't complete
 
 		; otherwise, DMA the decompressed data to VRAM
 		andi.b	#$7F,(Kos_modules_left).w
 		move.l	#$800,d3
 		subq.b	#1,(Kos_modules_left).w
-		bne.s	@skip					; branch if it isn't the last module
+		bne.s	.skip					; branch if it isn't the last module
 		move.w	(Kos_last_module_size).w,d3
 ; Offset_0x001940:
-@skip:
+.skip:
 		move.w	(Kos_module_destination).w,d2
 		move.w	d2,d0
 		add.w	d3,d0
@@ -2581,7 +2583,7 @@ Process_Kos_Module_Queue:
 		andi.l	#$FFFFFF,d1
 		jsr	(QueueDMATransfer).l
 		tst.b	(Kos_modules_left).w
-		bne.s	@exit					; return if this wasn't the last module
+		bne.s	.exit					; return if this wasn't the last module
 		; otherwise, shift all entries up
 		lea	(Kos_module_queue).w,a0
 		lea	(Kos_module_queue+6).w,a1
@@ -2592,12 +2594,12 @@ Process_Kos_Module_Queue:
 		move.l	#0,(a0)+				; and mark the last slot as free
 		move.w	#0,(a0)+
 		move.l	(Kos_module_queue).w,d0
-		beq.s	@exit					; return if the queue is now empty
+		beq.s	.exit					; return if the queue is now empty
 		move.l	d0,a1
 		move.w	(Kos_module_destination).w,d2
 		jmp	(Process_Kos_Module_Queue_Init).l
 ; Offset_0x0019AC:
-@exit:
+.exit:
 		rts
 ; End of function Process_Kos_Module_Queue
 
@@ -2629,16 +2631,16 @@ Queue_Kos:
 ; Offset_0x0019C6: Set_Kosinski_Bookmark:
 Set_Kos_Bookmark:
 		tst.w	(Kos_decomp_queue_count).w
-		bpl.s	@return					; branch if decompression wasn't in progress
+		bpl.s	.return					; branch if decompression wasn't in progress
 		move.l	$42(sp),d0				; check address V-int is supposed to return to
 		cmpi.l	#Process_Kos_Queue,d0
-		bcs.s	@return
+		bcs.s	.return
 		cmpi.l	#Process_Kos_Queue_Done,d0
-		bcc.s	@return
+		bcc.s	.return
 		move.l	$42(sp),(Kos_decomp_bookmark).w
 		move.l	#Backup_Kos_Registers,$42(sp)	; force V-int to return here instead if needed
 ; Offset_0x0019EE:
-@return:
+.return:
 		rts
 ; End of function Set_Kos_Bookmark
 
@@ -3664,12 +3666,12 @@ Pal_FadeFromBlack:
 		jsr	Pal_Clear(pc)
 		move.w	#$15,d4
 ; Offset_0x002D2E: Pal_FadeTo_Loop:
-@loop:
+.loop:
 		move.b	#$12,(VBlank_Index).w
 		bsr.w	Wait_For_VSync
 		bsr.s	Pal_FadeIn
 		bsr.w	RunPLC_RAM
-		dbf	d4,@loop
+		dbf	d4,.loop
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -3685,9 +3687,9 @@ Pal_FadeIn:
 		adda.w	d0,a1
 		move.b	(Palette_Fade_Count).w,d0
 ; Offset_0x002D5A:
-@nextColor:
+.nextColor:
 		bsr.s	Pal_AddColor
-		dbf	d0,@nextColor
+		dbf	d0,.nextColor
 		tst.b	(Water_Level_Flag).w
 		beq.s	Offset_0x002D82
 		moveq	#0,d0
@@ -3698,9 +3700,9 @@ Pal_FadeIn:
 		adda.w	d0,a1
 		move.b	(Palette_Fade_Count).w,d0
 ; Offset_0x002D7C:
-@loop:
+.loop:
 		bsr.s	Pal_AddColor
-		dbf	d0,@loop
+		dbf	d0,.loop
 
 Offset_0x002D82:
 		rts
@@ -3756,14 +3758,14 @@ Pal_Clear:
 		moveq	#0,d1
 		move.b	(Palette_Fade_Count).w,d0
 ; Offset_0x002DC2:
-@loop:
+.loop:
 		move.w	d1,(a0)+
 		tst.b	(Water_Level_Flag).w
-		beq.s	@noWater
+		beq.s	.noWater
 		move.w	d1,(Palette_Underwater_Buffer-Palette_Buffer)-2(a0)
 ; Offset_0x002DCE:
-@noWater:
-		dbf	d0,@loop
+.noWater:
+		dbf	d0,.loop
 		rts
 ; End of function Pal_Clear
 
@@ -3798,12 +3800,12 @@ Pal_FadeToBlack:
 		move.w	#$3F,(Palette_Fade_Info).w
 		move.w	#$15,d4
 ; Offset_0x002DF2: Pal_FadeFrom_Loop:
-@loop:
+.loop:
 		move.b	#$12,(VBlank_Index).w
 		bsr.w	Wait_For_VSync
 		bsr.s	Pal_FadeOut
 		bsr.w	RunPLC_RAM
-		dbf	d4,@loop
+		dbf	d4,.loop
 		rts
 
 ;-------------------------------------------------------------------------------
@@ -4002,9 +4004,9 @@ PalLoad_ForFade:
 		adda.w	#$80,a3
 		move.w	(a1)+,d7
 ; Offset_0x002FB2: PalLoad1_Loop:
-@loop:
+.loop:
 		move.l	(a2)+,(a3)+
-		dbf	d7,@loop
+		dbf	d7,.loop
 		rts
 ; End of function PalLoad_ForFade
 
@@ -4018,9 +4020,9 @@ PalLoad_Now:
 		move.w	(a1)+,a3
 		move.w	(a1)+,d7
 ; Offset_0x002FCA: PalLoad2_Loop:
-@loop:
+.loop:
 		move.l	(a2)+,(a3)+
-		dbf	d7,@loop
+		dbf	d7,.loop
 		rts
 ; End of function PalLoad_Now
 
@@ -4406,10 +4408,10 @@ TitleScreen_Demo:
 
 		addq.w	#1,(Demo_Sequence_Idx).w
 		cmpi.w	#4,(Demo_Sequence_Idx).w		; have we reached the end of the demo index?
-		bcs.s	@notIndexEnd				; if not, branch
+		bcs.s	.notIndexEnd				; if not, branch
 		move.w	#0,(Demo_Sequence_Idx).w
 ; Offset_0x003500:
-@notIndexEnd:
+.notIndexEnd:
 		move.w  #1,(Auto_Control_Player_Flag).w
 		move.b  #gm_DemoMode,(Game_Mode).w
 		move.b  #3,(Life_count).w
@@ -4872,7 +4874,7 @@ Offset_0x003A0A:
 		bsr.w	Level_SetPlayerMode
 		moveq	#6,d0
 		tst.w	(Two_Player_Flag).w
-		bne.s	@loadPLC
+		bne.s	.loadPLC
 		moveq	#PLCID_LvlStd2,d0
 		bsr.w	LoadPLC
 
@@ -4882,10 +4884,10 @@ Offset_0x003A0A:
 		; for some reason, Sonic 3 final is missing this and the Miles
 		; graphic, meaning it displays Tails even on a Japanese console
 		tst.b	(Hardware_Id).w				; is this a Japanese Mega Drive?
-		bpl.s	@loadPLC				; if not, branch
+		bpl.s	.loadPLC				; if not, branch
 		addq.w	#2,d0					; load MILES life icon
 ; Offset_0x003A2E:
-@loadPLC:
+.loadPLC:
 		bsr.w	LoadPLC
 ; Offset_0x003A32:
 Level_ClrRam:
@@ -11249,12 +11251,12 @@ Offset_0x00A53A:
 Add_SpriteToCollisionResponseList:
 		lea	(Collision_Response_List).w,a1
 		cmpi.w	#$7E,(a1)		; is the list full?
-		bcc.s	@skip			; if yes, branch
+		bcc.s	.skip			; if yes, branch
 		addq.w	#2,(a1)
 		adda.w	(a1),a1
 		move.w	a0,(a1)
 ; Offset_0x00A550:
-@skip:
+.skip:
 		rts
 ; End of function Add_SpriteToCollisionResponseList
 
@@ -11824,7 +11826,7 @@ SuperSonic_Balance:
 ; Offset_0x00AFEA:
 Sonic_BalanceOnObjRight:
 		btst	#0,Obj_Status(a0)			; is Sonic facing right?
-		bne.s	@facingRight				; if yes, branch
+		bne.s	.facingRight				; if yes, branch
 		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
 		addq.w	#6,d2
 		cmp.w	d2,d1					; is Sonic REALLY close to the edge?
@@ -11832,7 +11834,7 @@ Sonic_BalanceOnObjRight:
 		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
 		bra.w	Sonic_ResetScr
 ; Offset_0x00B00A:
-@facingRight:
+.facingRight:
 		; this code is still in final, but redundant since both animation sets are the same
 		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
 		addq.w	#6,d2
@@ -11846,14 +11848,14 @@ Sonic_BalanceOnObjRight:
 ; Offset_0x00B028:
 Sonic_BalanceOnObjLeft:
 		btst	#0,Obj_Status(a0)			; is Sonic facing left?
-		beq.s	@facingLeft				; if yes, branch
+		beq.s	.facingLeft				; if yes, branch
 		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
 		cmpi.w	#-4,d1					; is Sonic REALLY close to the edge?
 		bge.w	Sonic_ResetScr				; if yes, branch
 		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
 		bra.w	Sonic_ResetScr
 ; Offset_0x00B048:
-@facingLeft:
+.facingLeft:
 		; same as above
 		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
 		cmpi.w	#-4,d1					; is Sonic REALLY close to the edge?
@@ -11873,7 +11875,7 @@ Sonic_Balance:
 		cmpi.b	#3,Obj_Player_Next_Tilt(a0)
 		bne.s	Sonic_BalanceLeft
 		btst	#0,Obj_Status(a0)			; is Sonic facing right?
-		bne.s	@facingRight				; if yes, branch
+		bne.s	.facingRight				; if yes, branch
 		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
 		move.w	Obj_X(a0),d3
 		subq.w	#6,d3
@@ -11883,7 +11885,7 @@ Sonic_Balance:
 		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
 		bra.w	Sonic_ResetScr
 ; Offset_0x00B0B0:
-@facingRight:
+.facingRight:
 		; same as above as above
 		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
 		move.w	Obj_X(a0),d3
@@ -11900,7 +11902,7 @@ Sonic_BalanceLeft:
 		cmpi.b	#3,Obj_Player_Tilt(a0)
 		bne.s	Sonic_Lookup
 		btst	#0,Obj_Status(a0)			; is Sonic facing left?
-		beq.s	@facingLeft				; if yes, branch
+		beq.s	.facingLeft				; if yes, branch
 		move.b	#6,Obj_Ani_Number(a0)			; use "balancing" animation 1
 		move.w	Obj_X(a0),d3
 		addq.w	#6,d3
@@ -11910,7 +11912,7 @@ Sonic_BalanceLeft:
 		move.b	#$C,Obj_Ani_Number(a0)			; use "balancing" animation 2
 		bra.w	Sonic_ResetScr
 ; Offset_0x00B10E:
-@facingLeft:
+.facingLeft:
 		; you get the point, right?
 		move.b	#$1D,Obj_Ani_Number(a0)			; use "balancing" animation 3
 		move.w	Obj_X(a0),d3
@@ -12303,20 +12305,20 @@ Sonic_ChgJumpDir:
 		bne.s	Sonic_Jump_ResetScr			; if yes, branch to skip bidair control
 		move.w	Obj_Speed_X(a0),d0
 		btst	#2,(Control_Ports_Logical_Data).w	; is left being held?
-		beq.s	@jumpRight				; if not, branch
+		beq.s	.jumpRight				; if not, branch
 
 		bset	#0,Obj_Status(a0)
 		sub.w	d5,d0					; add acceleration to the left
 		move.w	d6,d1
 		neg.w	d1
 		cmp.w	d1,d0					; compare new speed with top speed
-		bgt.s	@jumpRight				; if new speed is less than the maximum, branch
+		bgt.s	.jumpRight				; if new speed is less than the maximum, branch
 		add.w	d5,d0					; remove this frame's acceleration change
 		cmp.w	d1,d0					; compare speed with top speed
-		ble.s	@jumpRight				; if speed was already greater than the maximum, branch
+		ble.s	.jumpRight				; if speed was already greater than the maximum, branch
 		move.w	d1,d0					; limit speed in air going left, even if Sonic was already going faster (speed limit/cap)
 ; Offset_0x00B504:
-@jumpRight:
+.jumpRight:
 		btst	#3,(Control_Ports_Logical_Data).w	; is right being held?
 		beq.s	Sonic_JumpMove				; if not, branch
 		bclr	#0,Obj_Status(a0)
@@ -12640,24 +12642,24 @@ Sonic_ThrowRings:
 		beq.w	Offset_0x00B8B6				; if not, branch
 		move.b	(Control_Ports_Logical_Data+1).w,d0
 		andi.b	#$20,d0					; has C been pressed?
-		beq.s	@notRolling				; if not, branch
+		beq.s	.notRolling				; if not, branch
 		move.w	Obj_Speed_X(a0),d2
 		bsr.w	AllocateObject
-		bne.w	@skip
+		bne.w	.skip
 		bsr.w	Obj_ThrownRing				; load a ring firing right
 		move.w	#$800,Obj_Speed_X(a1)
 		move.w	#0,Obj_Speed_Y(a1)
 		add.w	d2,Obj_Speed_X(a1)
 		bsr.w	AllocateObject
-		bne.w	@skip
+		bne.w	.skip
 		bsr.w	Obj_ThrownRing				; load a ring firing left
 		move.w	#-$800,Obj_Speed_X(a1)
 		move.w	#0,Obj_Speed_Y(a1)
 		add.w	d2,Obj_Speed_X(a1)
 ; Offset_0x00B80C:
-@skip:
+.skip:
 		btst	#2,Obj_Status(a0)			; is Sonic rolling?
-		beq.s	@notRolling				; if not, branch
+		beq.s	.notRolling				; if not, branch
 		bclr	#2,Obj_Status(a0)			; clear Sonic's roll status
 		; and reset Sonic's size and animation
 		move.b	Obj_Height_2(a0),d0
@@ -12668,7 +12670,7 @@ Sonic_ThrowRings:
 		ext.w	d0
 		add.w	d0,Obj_Y(a0)
 ; Offset_0x00B83A:
-@notRolling:
+.notRolling:
 		move.b	(Control_Ports_Logical_Data+1).w,d0
 		andi.b	#$10,d0					; has B been pressed?
 		beq.s	Offset_0x00B8B6				; if not, branch
@@ -12687,7 +12689,7 @@ Offset_0x00B866:
 
 Offset_0x00B870:
 		btst	#2,Obj_Status(a0)			; is Sonic rolling?
-		beq.s	@notRolling2				; if not, branch
+		beq.s	.notRolling2				; if not, branch
 		bclr	#2,Obj_Status(a0)			; clear Sonic's roll status
 		; and reset Sonic's size and animation
 		move.b	Obj_Height_2(a0),d0
@@ -12698,7 +12700,7 @@ Offset_0x00B870:
 		ext.w	d0
 		add.w	d0,Obj_Y(a0)
 ; Offset_0x00B89E:
-@notRolling2:
+.notRolling2:
 		; strangely, only the single ring fire clears Sonic's vertical momentum
 		move.w	#0,Obj_Speed_Y(a0)
 		move.w	#$200,d0
@@ -12726,7 +12728,7 @@ Sonic_HyperDash:
 		beq.w	Offset_0x00B952
 		move.b	(Control_Ports_Logical_Data).w,d0
 		andi.w	#$F,d0
-		beq.s	@noInput
+		beq.s	.noInput
 		lsl.w	#2,d0
 		lea	Sonic_HyperDash_Velocities(pc,d0.w),a1
 		move.w	(a1)+,d0
@@ -12736,10 +12738,10 @@ Sonic_HyperDash:
 		move.w	d0,Obj_Speed_Y(a0)
 		lea	(Camera_X_Scroll_Delay).w,a1
 		cmpa.w	#Obj_Player_One,a0
-		beq.s	@notPlayerTwo
+		beq.s	.notPlayerTwo
 		lea	(Camera_X_Scroll_Delay_2P).w,a1
 ; Offset_0x00B8FA:
-@notPlayerTwo:
+.notPlayerTwo:
 		move.w	d0,(a1)
 		bsr.w	ResetPlayerPositionArray
 		move.w	#1,(Dropdash_flag).w
@@ -12748,23 +12750,23 @@ Sonic_HyperDash:
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x00B912:
-@noInput:
+.noInput:
 		; if there's no directional input, we just dash forward
 		move.w	#$800,d0
 		btst	#0,Obj_Status(a0)
-		beq.s	@applySpeeds
+		beq.s	.applySpeeds
 		neg.w	d0
 ; Offset_0x00B920:
-@applySpeeds:
+.applySpeeds:
 		move.w	d0,Obj_Speed_X(a0)
 		move.w	d0,Obj_Inertia(a0)
 		move.w	#0,Obj_Speed_Y(a0)
 		lea	(Camera_X_Scroll_Delay).w,a1
 		cmpa.w	#Obj_Player_One,a0
-		beq.s	@notPlayerTwoAgain
+		beq.s	.notPlayerTwoAgain
 		lea	(Camera_X_Scroll_Delay_2P).w,a1
 ; Offset_0x00B93C:
-@notPlayerTwoAgain:
+.notPlayerTwoAgain:
 		move.w	d0,(a1)
 		bsr.w	ResetPlayerPositionArray
 		move.w	#1,(Dropdash_flag).w
@@ -12872,16 +12874,16 @@ Sonic_Super:
 		beq.s	Sonic_RevertToNormal
 		ori.b	#1,(Update_HUD_rings).w
 		cmpi.w	#1,(Ring_count).w
-		beq.s	@resetHUD
+		beq.s	.resetHUD
 		cmpi.w	#10,(Ring_count).w
-		beq.s	@resetHUD
+		beq.s	.resetHUD
 		cmpi.w	#100,(Ring_count).w
-		bne.s	@updateHUD
+		bne.s	.updateHUD
 ; Offset_0x00BA86:
-@resetHUD:
+.resetHUD:
 		ori.b	#$80,(Update_HUD_rings).w
 ; Offset_0x00BA8C:
-@updateHUD:
+.updateHUD:
 		subq.w	#1,(Ring_count).w
 		bne.s	Offset_0x00BAD8
 ; Offset_0x00BA92:
@@ -14112,7 +14114,7 @@ Load_Sonic_Dynamic_PLC_D0:
 		bmi.s	Offset_0x00C83C
 		move.w	#($680&$7FF)<<5,d4
 ; Offset_0x00C818: Loop_Load_Sonic_Art:
-@loadSonicArt:
+.loadSonicArt:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -14126,7 +14128,7 @@ Load_Sonic_Dynamic_PLC_D0:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(QueueDMATransfer).l
-		dbf	d5,@loadSonicArt
+		dbf	d5,.loadSonicArt
 
 Offset_0x00C83C:
 		rts
@@ -15006,10 +15008,10 @@ Obj_FireShield:
 		move.w	#$79C,Obj_Art_VRAM(a0)
 		move.w	#$F380,Obj_Control_Var_10(a0)
 		btst	#7,(Obj_Player_One+Obj_Art_VRAM).w
-		beq.s	@notHighPriority
+		beq.s	.notHighPriority
 		bset	#7,Obj_Art_VRAM(a0)
 ; Offset_0x010410:
-@notHighPriority:
+.notHighPriority:
 		move.l	#FireShield_Main,(a0)
 ; Offset_0x010416:
 FireShield_Main:
@@ -15025,7 +15027,7 @@ FireShield_Main:
 		tst.w	Obj_Art_VRAM(A2)
 		bpl.s	FireShield_Display
 		ori.w	#$8000,Obj_Art_VRAM(a0)
-; Offset_0x01044E: @notHighPriority:
+; Offset_0x01044E: .notHighPriority:
 FireShield_Display:
 		lea	(FireShield_AnimateData).l,a1
 		jsr	(AnimateSprite).l
@@ -15055,10 +15057,10 @@ Obj_LightningShield:
 		move.w	#$79C,Obj_Art_VRAM(a0)
 		move.w	#$F380,Obj_Control_Var_10(a0)
 		btst	#7,(Obj_Player_One+Obj_Art_VRAM).w
-		beq.s	@notHighPriority
+		beq.s	.notHighPriority
 		bset	#7,Obj_Art_VRAM(a0)
 ; Offset_0x0104B6:
-@notHighPriority:
+.notHighPriority:
 		move.l	#LightningShield_Main,(a0)
 ; Offset_0x0104BC:
 LightningShield_Main:
@@ -15074,7 +15076,7 @@ LightningShield_Main:
 		tst.w	Obj_Art_VRAM(A2)
 		bpl.s	LightningShield_Display
 		ori.w	#$8000,Obj_Art_VRAM(a0)
-; Offset_0x0104F4: @notHighPriority:
+; Offset_0x0104F4: .notHighPriority:
 LightningShield_Display:
 		lea	(LightningShield_AnimateData).l,a1
 		jsr	(AnimateSprite).l
@@ -15104,10 +15106,10 @@ Obj_BubbleShield:
 		move.w	#$79C,Obj_Art_VRAM(a0)
 		move.w	#$F380,Obj_Control_Var_10(a0)
 		btst	#7,(Obj_Player_One+Obj_Art_VRAM).w
-		beq.s	@notHighPriority
+		beq.s	.notHighPriority
 		bset	#7,Obj_Art_VRAM(a0)
 ; Offset_0x01055C:
-@notHighPriority:
+.notHighPriority:
 		move.l	#BubbleShield_Main,(a0)
 ; Offset_0x010562:
 BubbleShield_Main:
@@ -15123,7 +15125,7 @@ BubbleShield_Main:
 		tst.w	Obj_Art_VRAM(A2)
 		bpl.s	BubbleShield_Display
 		ori.w	#$8000,Obj_Art_VRAM(a0)
-; Offset_0x01059A: @notHighPriority:
+; Offset_0x01059A: .notHighPriority:
 BubbleShield_Display:
 		lea	(BubbleShield_AnimateData).l,a1
 		jsr	(AnimateSprite).l
@@ -15156,7 +15158,7 @@ LoadShieldDynamicPLC:
 		bmi.s	Offset_0x010606
 		move.w	Obj_Control_Var_10(a0),d4
 ; Offset_0x0105DC: Loop_Load_Shield_Dynamic_PLC:
-@loop:
+.loop:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -15170,7 +15172,7 @@ LoadShieldDynamicPLC:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(QueueDMATransfer).l
-		dbf	d5,@loop
+		dbf	d5,.loop
 
 Offset_0x010606:
 		rts
@@ -18960,16 +18962,16 @@ Monitors_ChkOverEdge:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#1,Obj_Status(a1)			; is the character in the air?
-		bne.s	@inAir					; if yes, branch
+		bne.s	.inAir					; if yes, branch
 		; check, if character is standing on
 		move.w	Obj_X(a1),d0
 		sub.w	Obj_X(a0),d0
 		add.w	d1,d0
-		bmi.s	@inAir					; branch, if character is behind the left edge of the monitor
+		bmi.s	.inAir					; branch, if character is behind the left edge of the monitor
 		cmp.w	d2,d0
 		bcs.s	Monitors_CharStandOn			; branch, if character is behind the right edge of the monitor
 ; Offset_0x013076:
-@inAir:
+.inAir:
 		bclr	#3,Obj_Status(a1)			; clear 'on object' bit
 		bset	#1,Obj_Status(a1)			; set 'in air' bit
 		bclr	d6,Obj_Status(a0)			; clear 'standing on' bit for the current character
@@ -18990,11 +18992,11 @@ Monitors_Break:
 		beq.s	Monitors_SpawnIcon			; if not, branch
 		move.b	d0,d1
 		andi.b	#$28,d1					; is it the main character?
-		beq.s	@TailsBreakMonitor			; if not, branch
+		beq.s	.TailsBreakMonitor			; if not, branch
 		andi.b	#$D7,(Obj_Player_One+Obj_Status).w
 		ori.b	#2,(Obj_Player_One+Obj_Status).w	; prevent Sonic from walking in the air
 ; Offset_0x0130B2:
-@TailsBreakMonitor:
+.TailsBreakMonitor:
 		andi.b	#$50,d0					; is it the sidekick?
 		beq.s	Monitors_SpawnIcon			; if not, branch
 		andi.b	#$D7,(Obj_Player_Two+Obj_Status).w
@@ -19060,10 +19062,10 @@ MonitorContents_Init:
 		andi.w	#7,d0					; and 7 means there are 8 different items
 		addq.w	#1,d0					; add 1 to prevent getting the static monitor
 		tst.w	(Two_Player_Items_Mode).w		; are monitors set to 'teleport only'?
-		beq.s	@noTeleport				; if not, branch
+		beq.s	.noTeleport				; if not, branch
 		moveq	#8,d0					; force contents to be teleport
 ; Offset_0x013178:
-@noTeleport:
+.noTeleport:
 		; keep teleport monitor from causing unwanted effects
 		cmpi.w	#8,d0					; is it the teleport monitor?
 		bne.s	Offset_0x01318E				; if not, branch
@@ -19151,37 +19153,37 @@ MonitorContents_Rings:
 		lea	(Total_Ring_Count_Address).w,a5
 		; another Sonic 2 leftover
 		cmpa.w	#Obj_Player_One,a1
-		beq.s	@notTails
+		beq.s	.notTails
 		lea	(Ring_Count_Address_P2).w,a2
 		lea	(HUD_Rings_Refresh_Flag_P2).w,a3
 		lea	(Ring_Status_Flag_P2).w,a4
 		lea	(Total_Ring_Count_Address_P2).w,a5
 ; Offset_0x013246:
-@notTails:
+.notTails:
 		; these two functions cap ring collection at 999 rings
 		addi.w	#10,(a5)
 		cmpi.w	#999,(a5)
-		bcs.s	@under999Rings
+		bcs.s	.under999Rings
 		move.w	#999,(a5)
 ; Offset_0x013254:
-@under999Rings:
+.under999Rings:
 		addi.w	#10,(a2)
 		cmpi.w	#999,(a2)
-		bcs.s	@under999Rings2
+		bcs.s	.under999Rings2
 		move.w	#999,(a2)
 ; Offset_0x013262:
-@under999Rings2:
+.under999Rings2:
 		ori.b	#1,(a3)
 		cmpi.w	#100,(a2)
-		bcs.s	@playSound
+		bcs.s	.playSound
 		bset	#1,(a4)
 		beq.s	MonitorContents_SonicOrTails
 		cmpi.w	#200,(a2)
-		bcs.s	@playSound
+		bcs.s	.playSound
 		bset	#2,(a4)
 		beq.s	MonitorContents_SonicOrTails
 ; Offset_0x01327E:
-@playSound:
+.playSound:
 		moveq	#Ring_Sfx,d0
 		jmp	(PlaySound).l
 ; ---------------------------------------------------------------------------
@@ -19199,20 +19201,20 @@ MonitorContents_SpeedShoes:
 		bset	#Speed_Type, Obj_Player_Status(a1)
 		move.b	#$96,Obj_P_Spd_Shoes_Time(a1)
 		cmpa.w	#Obj_Player_One,a1
-		bne.s	@notSonic
+		bne.s	.notSonic
 		cmpi.w	#2,(Player_Selected_Flag).w
-		beq.s	@notSonic
+		beq.s	.notSonic
 		move.w	#$C00,(Sonic_Max_Speed).w
 		move.w	#$18,(Sonic_Acceleration).w
 		move.w	#$80,(Sonic_Deceleration).w
-		bra.s	@playMusic
+		bra.s	.playMusic
 ; Offset_0x0132C2:
-@notSonic:
+.notSonic:
 		move.w	#$C00,(Miles_Max_Speed).w
 		move.w	#$18,(Miles_Acceleration).w
 		move.w	#$80,(Miles_Deceleration).w
 ; Offset_0x0132D4:
-@playMusic:
+.playMusic:
 		moveq	#Invincibility_Snd,d0
 		jmp	(PlaySound).l
 ; ===========================================================================
@@ -19224,12 +19226,12 @@ MonitorContents_FireShield:
 		moveq	#Got_Fire_Shield_Sfx,d0
 		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
-		bne.s	@notSonic
+		bne.s	.notSonic
 		move.l	#Obj_FireShield,(Obj_P1_Shield).w
 		move.w	a1,(Obj_P1_Shield+Obj_Player_Last).w
 		rts
 ; Offset_0x013306:
-@notSonic:
+.notSonic:
 		move.l	#Obj_FireShield,(Obj_P2_Shield).w
 		move.w	a1,(Obj_P2_Shield+Obj_Player_Last).w
 		rts
@@ -19242,12 +19244,12 @@ MonitorContents_LightningShield:
 		moveq	#Got_Lightning_Shield_Sfx,d0
 		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
-		bne.s	@notSonic
+		bne.s	.notSonic
 		move.l	#Obj_LightningShield,(Obj_P1_Shield).w
 		move.w	a1,(Obj_P1_Shield+Obj_Player_Last).w
 		rts
 ; Offset_0x01333E:
-@notSonic:
+.notSonic:
 		move.l	#Obj_LightningShield,(Obj_P2_Shield).w
 		move.w	a1,(Obj_P2_Shield+Obj_Player_Last).w
 		rts
@@ -19260,12 +19262,12 @@ MonitorContents_BubbleShield:
 		moveq	#Got_Water_Shield_Sfx,d0
 		jsr	(PlaySound).l
 		tst.b	Obj_Player_One_Or_Two_2(a0)
-		bne.s	@notSonic
+		bne.s	.notSonic
 		move.l	#Obj_BubbleShield,(Obj_P1_Shield).w
 		move.w	a1,(Obj_P1_Shield+Obj_Player_Last).w
 		rts
 ; Offset_0x013376:
-@notSonic:
+.notSonic:
 		move.l	#Obj_BubbleShield,(Obj_P2_Shield).w
 		move.w	a1,(Obj_P2_Shield+Obj_Player_Last).w
 		rts
@@ -19286,12 +19288,12 @@ MonitorContents_Invincibility:
 
 Offset_0x0133AE:
 		tst.b	Obj_Player_One_Or_Two_2(a0)
-		bne.s	@notSonic
+		bne.s	.notSonic
 		move.l	#Obj_Invincibility,(Obj_P1_Invincibility).w
 		move.w	a1,(Obj_P1_Invincibility+Obj_Player_Last).w
 		rts
 ; Offset_0x0133C2:
-@notSonic:
+.notSonic:
 		move.l	#Obj_Invincibility,(Obj_P2_Invincibility).w
 		move.w	a1,(Obj_P2_Invincibility+Obj_Player_Last).w
 
@@ -27919,9 +27921,9 @@ WriteToVRAM:
 		swap.w	d0
 		move.l	d0,VDP_Control_Port-VDP_Data_Port(a6)
 ; Offset_0x02F68E:
-@copyToVRAM:
+.copyToVRAM:
 		move.l	(a0)+,(a6)
-		dbf	d1,@copyToVRAM
+		dbf	d1,.copyToVRAM
 		rts
 ; End of function WriteToVRAM
 
@@ -32787,7 +32789,7 @@ LBZ1_BackgroundIndex:
 ; Offset_0x03376E: LBz_1_Normal:
 LBZ1_NormalBackground:
 		tst.w	(Level_Events_Buffer_5).w
-		beq.s	@normalDeform
+		beq.s	.normalDeform
 		clr.w	(Level_Events_Buffer_5).w
 		; The level transition appears to have been programmed for a much earlier build
 		; of the game due to several oddities that cause it to break, as documented below
@@ -32809,7 +32811,7 @@ LBZ1_NormalBackground:
 		movem.l	(sp)+,d7-a0/a2-a3
 		addq.w	#4,(Level_Events_Routine_2).w
 ; Offset_0x0337C6:
-@normalDeform:
+.normalDeform:
 		jsr	LBZ1_Deform(pc)
 		lea	LBz_1_Draw_Array(pc),a4
 		lea	(Horizontal_Scroll_Table).w,a5
@@ -32827,7 +32829,7 @@ LBZ1_NormalBackground:
 ; Offset_0x0337F6: LBz_1_Transition:
 LBZ1_LevelTransition:
 		tst.b	(Kos_modules_left).w
-		bne.w	@normalDeform
+		bne.w	.normalDeform
 		move.w	#LBz_Act_2,(Current_ZoneAndAct).w
 		clr.b	(Saved_Level_Flag).w
 		clr.b	(Saved_Level_Flag_P2).w
@@ -32862,7 +32864,7 @@ LBZ1_LevelTransition:
 		jsr	Reset_Tile_Offset_Position_Actual(pc)
 		clr.w	(Level_Events_Routine_2).w
 ; Offset_0x033878:
-@normalDeform:
+.normalDeform:
 		lea	LBz_1_Deform_Array(pc),a4
 		lea	(Horizontal_Scroll_Table+8).w,a5
 		jmp	Apply_Deformation(pc)
@@ -37494,7 +37496,7 @@ AnimateRaw:
 ; Offset_0x042092:
 Animate_Raw_A1:
 		subq.b	#1,Obj_Ani_Time(a0)	; subtract 1 from frame duration
-		bpl.s	@animWait		; if time remains, branch
+		bpl.s	.animWait		; if time remains, branch
 		moveq	#0,d0
 		move.b	Obj_Ani_Frame(a0),d0	; load current frame number
 		addq.w	#1,d0
@@ -37505,7 +37507,7 @@ Animate_Raw_A1:
 		move.b	(a1),Obj_Ani_Time(a0)	; load frame duration
 		move.b	d1,Obj_Map_Id(a0)	; load sprite number
 ; Offset_0x0420B4:
-@animWait:
+.animWait:
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x0420B6:
@@ -38453,14 +38455,14 @@ SetupSlottedObjectAttributes:
 		lea	(Slotted_Objects_Bits).w,a2
 		adda.w	d5,a2
 		move.b	(a2),d5
-		beq.s	@createObject
+		beq.s	.createObject
 ; Offset_0x0429A4:
-@loop:
+.loop:
 		lsr.b	#1,d5				; check slot with each bit
-		bcc.s	@createObject			; if the slot is clear, create object
+		bcc.s	.createObject			; if the slot is clear, create object
 		addq.w	#1,d0
 		add.w	d4,d3
-		dbf	d1,@loop			; repeat until full
+		dbf	d1,.loop			; repeat until full
 		moveq	#0,d0
 		move.l	d0,(a0)
 		move.l	d0,Obj_X(a0)
@@ -38472,7 +38474,7 @@ SetupSlottedObjectAttributes:
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x0429CC:
-@createObject:
+.createObject:
 		bset	d0,(a2)				; activate slot
 		move.b	d0,Obj_Control_Var_0B(a0)
 		move.w	a2,Obj_Control_Var_0C(a0)	; keep track of address and bit number
@@ -38518,7 +38520,7 @@ LoadDynamicPLC:
 		move.w	(a2)+,d5			; get number of DMA transactions
 		moveq	#0,d3
 ; Offset_0x042A32: Loop_Load_Art:
-@loop:
+.loop:
 		move.w	(a2)+,d3
 		move.l	d3,d1
 		; This is an optimization that isolates the lower 4 bits, meaning that
@@ -38535,7 +38537,7 @@ LoadDynamicPLC:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(QueueDMATransfer).l
-		dbf	d5,@loop
+		dbf	d5,.loop
 
 Offset_0x042A56:
 		rts

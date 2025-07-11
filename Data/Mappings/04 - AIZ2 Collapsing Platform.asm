@@ -1,9 +1,9 @@
-@int:		dc.w	@platform1-@int
-		dc.w	@platform1-@int
-		dc.w	@platform2-@int
-		dc.w	@platform2-@int
+.int:		dc.w	.platform1-.int
+		dc.w	.platform1-.int
+		dc.w	.platform2-.int
+		dc.w	.platform2-.int
 ; Offset_0x016100:
-@platform1:	dc.w	$D
+.platform1:	dc.w	$D
 		dc.w	$E00D, $0000, $FFD0
 		dc.w	$E00D, $0800, $FFF0
 		dc.w	$E005, $0008, $0010
@@ -19,7 +19,7 @@
 		dc.w	$100D, $001E, $0010
 
 ; Offset_0x016150:
-@platform2:	dc.w	$18
+.platform2:	dc.w	$18
 		dc.w	$E005, $0000, $FFD0
 		dc.w	$E005, $0004, $FFE0
 		dc.w	$E005, $0804, $FFF0

@@ -1,6 +1,6 @@
-@int:		dc.w	Offset_0x0242EA-@int
-		dc.w	Offset_0x0242F2-@int
-		dc.w	Offset_0x0242FA-@int
+.int:		dc.w	Offset_0x0242EA-.int
+		dc.w	Offset_0x0242F2-.int
+		dc.w	Offset_0x0242FA-.int
 Offset_0x0242EA:
 		dc.w	$0001
 		dc.w	$F805, $0000, $FFF8

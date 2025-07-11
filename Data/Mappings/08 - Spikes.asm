@@ -1,11 +1,11 @@
-@int:		dc.w	Offset_0x01A89C-@int
-		dc.w	Offset_0x01A8AA-@int
-		dc.w	Offset_0x01A8C4-@int
-		dc.w	Offset_0x01A8EA-@int
-		dc.w	Offset_0x01A91C-@int
-		dc.w	Offset_0x01A92A-@int
-		dc.w	Offset_0x01A944-@int
-		dc.w	Offset_0x01A96A-@int
+.int:		dc.w	Offset_0x01A89C-.int
+		dc.w	Offset_0x01A8AA-.int
+		dc.w	Offset_0x01A8C4-.int
+		dc.w	Offset_0x01A8EA-.int
+		dc.w	Offset_0x01A91C-.int
+		dc.w	Offset_0x01A92A-.int
+		dc.w	Offset_0x01A944-.int
+		dc.w	Offset_0x01A96A-.int
 Offset_0x01A89C:
 		dc.w	$0002
 		dc.w	$F007, $0000, $FFF0
