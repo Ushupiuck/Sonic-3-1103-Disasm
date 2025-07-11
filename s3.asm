@@ -31,6 +31,11 @@
 ; 0x1E9814 - Segunda linha da paleta do Sonic n�o � usada
 ; ---------------------------------------------------------------------------
 		opt	l.					; . is the local label symbol
+		opt	ae-					; automatic evens disabled by default
+		opt oz+						; address register indirect zero-displacement optimization enabled by default
+		opt	an+					; allow Intel/Zilog-style number suffixes (used in the Z80 code and definitions)
+		opt	ws+					; allow statements to contain white-spaces
+		opt	w+					; print warnings
 
 		include	"axm68k/Macros - Setup.asm"
 		include	"axm68k/Macros - More CPUs.asm"
