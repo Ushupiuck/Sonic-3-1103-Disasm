@@ -35,7 +35,7 @@ Offset_0x0365F4:
 Offset_0x036602:
                 move.l  #Offset_0x036638, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x0370C8(PC), A2
-                jsr     (Load_Child_Object_Repeat_A2)          ; Offset_0x041E4E  
+                jsr     (SetupChildObject_Repeat)          ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
 Offset_0x036614:                
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
@@ -127,7 +127,7 @@ Offset_0x036738:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x03674A:
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
-                jsr     (Level_Load_Music)                     ; Offset_0x0432CA
+                jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 jmp     (Go_Delete_Object_A0_2)                ; Offset_0x042D4C
 ;-------------------------------------------------------------------------------
 Offset_0x03675A:

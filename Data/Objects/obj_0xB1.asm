@@ -117,7 +117,7 @@ Offset_0x03A10E:
                 bne     Offset_0x039966
 Offset_0x03A11C:
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                jsr     (Restore_Player_Control)               ; Offset_0x0432EE
+                jsr     (Restore_PlayerControl)               ; Offset_0x0432EE
                 jmp     (Go_Delete_Object_A0_2)                ; Offset_0x042D4C
 ;------------------------------------------------------------------------------- 
 Offset_0x03A12C:
@@ -147,7 +147,7 @@ Offset_0x03A154:
                 beq.s   Offset_0x03A188
                 lea     Offset_0x03AE90(PC), A2
 Offset_0x03A188:
-                jsr     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
+                jsr     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E
                 bra     Offset_0x03A196
 Offset_0x03A190:
                 bclr    #$01, Obj_Control_Var_08(A0)                     ; $0038

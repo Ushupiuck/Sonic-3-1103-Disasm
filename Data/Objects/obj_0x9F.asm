@@ -22,7 +22,7 @@ Offset_0x0444B2:
                 jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.w  #$FF00, Obj_Speed_X(A0)                          ; $0018
                 lea     Offset_0x044642(PC), A2
-                jsr     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
+                jsr     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E
 Offset_0x0444C8:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 move.b  #$03, Obj_Control_Var_09(A0)                     ; $0039

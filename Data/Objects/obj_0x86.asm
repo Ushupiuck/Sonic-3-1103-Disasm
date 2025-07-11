@@ -63,7 +63,7 @@ Offset_0x03F1A8:
                 tst.b   (Boss_Data_Buffer+$01).w                     ; $FFFFFA81
                 beq     Offset_0x03F186
                 lea     Offset_0x03FB80(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E   
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
 Offset_0x03F1F4:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -314,7 +314,7 @@ Offset_0x03F4D8:
                 move.l  #Offset_0x03F4F6, (A0)
                 move.l  #Offset_0x03F4F6, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x03FB52(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E  
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
 Offset_0x03F4F6:
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C

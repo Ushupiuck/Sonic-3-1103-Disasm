@@ -102,7 +102,7 @@ Offset_0x04117E:
                 move.w  #$0007, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x0411AA, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x0416E0(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E  
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
 Offset_0x0411A0:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E

@@ -477,9 +477,9 @@ Offset_0x0351AC:
 		jmp     (AnimateRaw)		          ; Offset_0x04208E
 Offset_0x0351BE:
 		clr.b   (Knuckles_Control_Lock_Flag).w               ; $FFFFFAA9
-		jsr     (Restore_Player_Control)               ; Offset_0x0432EE
+		jsr     (Restore_PlayerControl)               ; Offset_0x0432EE
 		lea     (Obj_Player_Two).w, A1		       ; $FFFFB04A
-		jsr     (Restore_Player_Control_A1)            ; Offset_0x0432F2
+		jsr     (Restore_PlayerControl2)            ; Offset_0x0432F2
 		move.w  #$3B20, (Target_Camera_Max_X).w              ; $FFFFFA92
 		lea     (Level_Resize_Max_X), A2               ; Offset_0x04261C
 		jsr     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A
@@ -578,7 +578,7 @@ Offset_0x0352FE:
 		lea     Knuckles_Palette(PC), A1               ; Offset_0x0355EE
 		jsr     (Pal_Load_Line_1)		      ; Offset_0x04314C
 		lea     Offset_0x03559C(PC), A2
-		jmp     (Load_Child_Object_Repeat_A2)          ; Offset_0x041E4E  
+		jmp     (SetupChildObject_Repeat)          ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
 Offset_0x03532E:
 		btst    #$01, Obj_Control_Var_08(A0)		     ; $0038

@@ -37,7 +37,7 @@ Offset_0x048FE4:
                 lea     (LBz_Robotnik_Ship_Data), A2           ; Offset_0x03656E
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x049398(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E   
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
 Offset_0x049020:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
@@ -142,7 +142,7 @@ Offset_0x049152:
 Offset_0x049162:
                 move.l  #Offset_0x049172, (A0)
                 lea     Offset_0x0493A0(PC), A2
-                jmp     (Load_Child_Object_Repeat_A2)          ; Offset_0x041E4E  
+                jmp     (SetupChildObject_Repeat)          ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
 Offset_0x049172:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046

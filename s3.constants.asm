@@ -143,9 +143,11 @@ Obj_Player_Last       equ $42     ; Byte / Word   ; 3D          ; 42..43
 Obj_Player_Top_Solid  equ $46     ; Byte          ; 3E          ; 46
 Obj_Player_LRB_Solid  equ $47     ; Byte          ; 3F          ; 47 ; Left / Right / Bottom
 
-; Variaveis usadas pelos chefes
-Obj_Boss_Hit          equ $29
-
+; Variables used by bosses
+Obj_LeftLock		equ $1C
+Obj_BossMusic		equ $26
+Obj_Boss_Hit		equ $29
+Obj_BossMusicTimer	equ $2E
 
 ; Status dos jogadores. Também usado pelos escudos para proteção
 Classic_Type       equ $00

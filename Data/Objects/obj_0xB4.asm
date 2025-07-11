@@ -140,7 +140,7 @@ Offset_0x03D6A4:
                 st      (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03D6C2, Obj_Child(A0)                  ; $0034
-                jmp     (Level_Load_Music)                     ; Offset_0x0432CA    
+                jmp     (Restore_LevelMusic)                     ; Offset_0x0432CA    
 ;-------------------------------------------------------------------------------  
 Offset_0x03D6C2:
                 move.l  #Offset_0x03D6DE, (A0)
@@ -157,7 +157,7 @@ Offset_0x03D6DE:
                 bne     Offset_0x03D57C
 Offset_0x03D6F2:
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                jsr     Restore_Player_Control(PC)             ; Offset_0x0432EE
+                jsr     Restore_PlayerControl(PC)             ; Offset_0x0432EE
                 move.w  #$6000, (Target_Camera_Max_X).w              ; $FFFFFA92
                 lea     (Level_Resize_Max_X), A2               ; Offset_0x04261C
                 jsr     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A
@@ -261,7 +261,7 @@ Offset_0x03D802:
 Offset_0x03D81A:
                 move.w  Obj_Child_Ref(A1), Obj_Height_3(A0)       ; $0046, $0044
                 lea     Offset_0x03DC0E(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E   
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
 Offset_0x03D828:
                 jsr     Refresh_Child_Position(PC)             ; Offset_0x042016

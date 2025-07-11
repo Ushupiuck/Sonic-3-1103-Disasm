@@ -68,7 +68,7 @@ Offset_0x03BA78:
                 lea     Offset_0x03C1E0(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x03C1E8(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E   
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
 Offset_0x03BA88:
                 jsr     Swing_Up_And_Down(PC)                  ; Offset_0x04232E
@@ -203,7 +203,7 @@ Offset_0x03BC20:
                 move.l  #Offset_0x03BC46, (A0)
                 st      (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
-                jsr     (Level_Load_Music)                     ; Offset_0x0432CA
+                jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 move.w  #$48F0, (Target_Camera_Max_X).w              ; $FFFFFA92
                 lea     (Level_Resize_Max_X), A2               ; Offset_0x04261C
                 jmp     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A   
@@ -216,7 +216,7 @@ Offset_0x03BC46:
                 bne     Offset_0x03BA0E
 Offset_0x03BC5A:
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                jsr     Restore_Player_Control(PC)             ; Offset_0x0432EE
+                jsr     Restore_PlayerControl(PC)             ; Offset_0x0432EE
                 move.w  #$0000, (Target_Camera_Min_Y).w              ; $FFFFFA96
                 lea     (Level_Resize_Min_Y), A2               ; Offset_0x042628
                 jsr     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A

@@ -35,7 +35,7 @@ Offset_0x03CEB8:
                 lea     Barrier_Eggman_Palette(PC), A1         ; Offset_0x03D4BE
                 jsr     Pal_Load_Line_1(PC)                    ; Offset_0x04314C
                 lea     Offset_0x03D46C(PC), A2
-                jsr     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
+                jsr     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E
                 lea     Offset_0x03D474(PC), A2
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Offset_0x03CF70:
                 bset    #$07, Obj_Control_Var_08(A0)                     ; $0038
                 bne     Offset_0x03CF3E
                 lea     Offset_0x03D482(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E  
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
 Offset_0x03CF82:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E

@@ -209,7 +209,7 @@ Flame_Mobile_Defeated:                                         ; Offset_0x0374D4
 Drill_Mobile_Defeated:                                         ; Offset_0x0374DA                
                 st      (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
-                jsr     (Level_Load_Music)                     ; Offset_0x0432CA
+                jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 lea     AIz_MGz_Boss_Load_Egg_Prison(PC), A2   ; Offset_0x037D18
                 jsr     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A
                 bset    #$01, Obj_Flags(A1)                              ; $0004
@@ -224,7 +224,7 @@ Offset_0x037504:
 Offset_0x037512:
                 move.l  #Offset_0x037538, (A0)
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                jsr     (Restore_Player_Control)               ; Offset_0x0432EE
+                jsr     (Restore_PlayerControl)               ; Offset_0x0432EE
                 st      (Control_Locked_Flag_P1).w                   ; $FFFFF7CC
                 move.w  #$4A38, (Target_Camera_Max_X).w              ; $FFFFFA92
                 lea     (Level_Resize_Max_X), A2               ; Offset_0x04261C

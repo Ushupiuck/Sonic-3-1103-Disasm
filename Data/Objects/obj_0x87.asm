@@ -193,7 +193,7 @@ Offset_0x04865C:
                 cmpi.b  #$04, Obj_Ani_Frame(A0)                          ; $0023
                 bne.s   Offset_0x048690
                 lea     Offset_0x048712(PC), A2
-                jsr     Load_Child_Object_Complex_A2(PC)       ; Offset_0x041DEA
+                jsr     SetupChildObject_Complex(PC)       ; Offset_0x041DEA
                 move.w  Obj_Child_Ref(A0), A2                            ; $0046
                 btst    #$00, Obj_Flags(A2)                              ; $0004
                 beq.s   Offset_0x048686

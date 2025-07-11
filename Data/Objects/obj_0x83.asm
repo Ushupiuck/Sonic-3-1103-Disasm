@@ -440,7 +440,7 @@ Offset_0x0443D0:
                 moveq   #Missile_Throw_Sfx, D0                             ; $56
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     (Offset_0x044462), A2
-                jsr     Load_Child_Object_Complex_A2(PC)       ; Offset_0x041DEA
+                jsr     SetupChildObject_Complex(PC)       ; Offset_0x041DEA
                 bne.s   Offset_0x0443A4
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x0443A4

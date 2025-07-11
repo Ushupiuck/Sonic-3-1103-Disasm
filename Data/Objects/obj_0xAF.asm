@@ -86,7 +86,7 @@ Offset_0x0399F4:
                 beq.s   Offset_0x039A32
                 lea     Offset_0x03AE78(PC), A2
 Offset_0x039A32:
-                jsr     (Load_Child_Object_Repeat_A2)          ; Offset_0x041E4E
+                jsr     (SetupChildObject_Repeat)          ; Offset_0x041E4E
 Offset_0x039A38:
                 jmp     (SpeedToPos)                           ; Offset_0x01111E
 Offset_0x039A3E:
@@ -203,13 +203,13 @@ Offset_0x039BB4:
                 beq.s   Offset_0x039BCA
                 lea     Offset_0x03AE78(PC), A2
 Offset_0x039BCA:
-                jmp     (Load_Child_Object_Repeat_A2)          ; Offset_0x041E4E   
+                jmp     (SetupChildObject_Repeat)          ; Offset_0x041E4E   
 ;-------------------------------------------------------------------------------
 Offset_0x039BD0:
                 bset    #$05, Obj_Control_Var_08(A0)                     ; $0038
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
                 move.l  #DeleteObject, (A0)                    ; Offset_0x011138
-                jsr     (Level_Load_Music)                     ; Offset_0x0432CA
+                jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 lea     (Marble_Garden_1_Tiles), A1            ; Offset_0x15D0A4
                 move.w  #$0000, D2
                 jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
@@ -226,7 +226,7 @@ Offset_0x039BD0:
                 jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
                 lea     (PLC_MGz_After_Boss), A1               ; Offset_0x041B90
                 jsr     (LoadPLC_Direct)                           ; Offset_0x001502
-                lea     (Pal_Marble_Garden_Act_1), A1          ; Offset_0x1E9D14
+                lea     (Palette_MGZ), A1          ; Offset_0x1E9D14
                 jsr     (Pal_Load_Line_1)                      ; Offset_0x04314C
                 btst    #$00, Obj_Flags(A0)                              ; $0004
                 bne.s   Offset_0x039C60

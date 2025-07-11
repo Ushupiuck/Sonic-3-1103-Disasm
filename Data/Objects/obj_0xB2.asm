@@ -138,7 +138,7 @@ Offset_0x03E652:
                 move.l  #Offset_0x03E678, (A0)
                 st      (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
-                jsr     (Level_Load_Music)                     ; Offset_0x0432CA
+                jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 move.w  #$44C0, (Target_Camera_Max_X).w              ; $FFFFFA92
                 lea     (Level_Resize_Max_X), A2               ; Offset_0x04261C
                 jmp     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A  
@@ -151,7 +151,7 @@ Offset_0x03E678:
                 bne     Offset_0x03E4F8
 Offset_0x03E68C:
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                jsr     Restore_Player_Control(PC)             ; Offset_0x0432EE
+                jsr     Restore_PlayerControl(PC)             ; Offset_0x0432EE
                 move.w  (Target_Camera_Max_Y).w, (Level_Limits_Max_Y).w ; $FFFFFA98, $FFFFEE12
                 move.w  #$47C0, (Target_Camera_Max_X).w              ; $FFFFFA92
                 lea     (Level_Resize_Max_X), A2               ; Offset_0x04261C

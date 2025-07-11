@@ -45,7 +45,7 @@ Offset_0x043BAC:
                 moveq   #$51, D0
                 jsr     (Play_Music)                           ; Offset_0x001176
                 lea     Offset_0x043BFE(PC), A2
-                jsr     Load_Child_Object_Complex_A2(PC)       ; Offset_0x041DEA
+                jsr     SetupChildObject_Complex(PC)       ; Offset_0x041DEA
                 bne.s   Offset_0x043BCE
                 addq.b  #$01, Obj_Control_Var_09(A0)                     ; $0039
                 btst    #$00, Obj_Control_Var_09(A0)                     ; $0039

@@ -37,7 +37,7 @@ Offset_0x04A2F2:
                 move.l  #Obj_Explosion, (A0)                      ; Offset_0x013D7C
                 clr.b   Obj_Routine(A0)                                  ; $0005
                 lea     Offset_0x04A346(PC), A2
-                jmp     (Load_Child_Object_Complex_A2)         ; Offset_0x041DEA    
+                jmp     (SetupChildObject_Complex)         ; Offset_0x041DEA    
 ;-------------------------------------------------------------------------------
 Offset_0x04A306:
                 move.l  Obj_Control_Var_0E(A0), A1                       ; $003E

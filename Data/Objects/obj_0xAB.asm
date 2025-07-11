@@ -17,7 +17,7 @@ Offset_0x0482F4:
                 move.w  Offset_0x048310(PC, D0), D4
                 jsr     (Set_Velocity_X_Track_Player_One)      ; Offset_0x042E4C
                 lea     Offset_0x048428(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E     
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E     
 ;-------------------------------------------------------------------------------
 Offset_0x048310:
                 dc.w    $FFC0, $FFA0, $FF80, $FF00     

@@ -153,7 +153,7 @@ Offset_0x03B1DC:
 ;-------------------------------------------------------------------------------
 Offset_0x03B20E:
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
-                jsr     (Level_Load_Music)                     ; Offset_0x0432CA
+                jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 jsr     After_Boss_Clean_Up(PC)                ; Offset_0x041ACA
                 jmp     Go_Delete_Object_A0_2(PC)              ; Offset_0x042D4C   
 ;-------------------------------------------------------------------------------

@@ -123,7 +123,7 @@ Offset_0x03FFEE:
 Offset_0x040004:
                 bset    #$05, Obj_Control_Var_08(A0)                     ; $0038
                 clr.b   (Boss_Flag).w                                ; $FFFFF7AA
-                jsr     Level_Load_Music(PC)                   ; Offset_0x0432CA
+                jsr     Restore_LevelMusic(PC)                   ; Offset_0x0432CA
                 move.l  #Go_Delete_Object_A0_2, (A0)           ; Offset_0x042D4C
                 rts    
 ;-------------------------------------------------------------------------------

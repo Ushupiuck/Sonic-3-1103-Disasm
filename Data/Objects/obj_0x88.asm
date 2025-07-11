@@ -266,17 +266,17 @@ Offset_0x0489FC:
                 beq.s   Offset_0x048A12
                 bpl.s   Offset_0x048A24
                 lea     Offset_0x048A68(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E
 Offset_0x048A12:
                 lea     Offset_0x048A70(PC), A2
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 beq.s   Offset_0x048A20
                 lea     Offset_0x048A78(PC), A2
 Offset_0x048A20:
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E
 Offset_0x048A24:
                 lea     Offset_0x048A80(PC), A2
-                jmp     Load_Child_Object_Repeat_A2(PC)        ; Offset_0x041E4E 
+                jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E 
 ;-------------------------------------------------------------------------------
 Ribot_Setup_Data:                                              ; Offset_0x048A2C
                 dc.l    Ribot_Mappings                         ; Offset_0x10D486
