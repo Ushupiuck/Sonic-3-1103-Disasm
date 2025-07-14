@@ -1643,7 +1643,7 @@ PlaneMapToVRAM_H40:
 		add.l	d4,d0			; increase destination address by $80 (1 line)
 		dbf	d2,.repeatPerLine	; next line
 		rts
-; End of function ShowVDPGraphics
+; End of function PlaneMapToVRAM_H40
 
 ; ---------------------------------------------------------------------------
 ; Same as above, but for a plane that is double the size
@@ -4284,7 +4284,7 @@ Offset_0x003300:
 		bsr.w	TitleSonic_LoadFrame
 		move.b	#4,(VBlank_Index).w
 		bsr.w	Wait_For_VSync
-		moveq	#PLCID_LvlStd1,d0
+		moveq	#id_PLC_Main1,d0
 		bsr.w	LoadPLC2
 
 		move.w	#0,(Secret_Code_Input_Entries).w
@@ -4880,12 +4880,12 @@ Offset_0x003A0A:
 		moveq	#6,d0
 		tst.w	(Two_Player_Flag).w
 		bne.s	.loadPLC
-		moveq	#PLCID_LvlStd2,d0
+		moveq	#id_PLC_Main2,d0
 		bsr.w	LoadPLC
 
 		cmpi.w	#2,(Player_Selected_Flag).w		; are we playing as Tails?
 		bne.s	Level_ClrRam				; if not, branch
-		addq.w	#PLCID_LvlStd3-PLCID_LvlStd2,d0		; load TAILS life icon
+		addq.w	#id_PLC_Main3-id_PLC_Main2,d0		; load TAILS life icon
 		; for some reason, Sonic 3 final is missing this and the Miles
 		; graphic, meaning it displays Tails even on a Japanese console
 		tst.b	(Hardware_Id).w				; is this a Japanese Mega Drive?
@@ -5103,7 +5103,7 @@ Offset_0x003D68:
 		bne.w	Offset_0x003EE2
 		cmpi.b	#ALz_Id,(Current_Zone).w
 		bcc.s	Level_StartGame
-		moveq	#2,d0
+		moveq	#id_PLC_Main3,d0
 		bsr.w	LoadPLC
 ; Offset_0x003D94:
 Level_StartGame:
@@ -6661,7 +6661,7 @@ Offset_0x0053F2:
 		clr.b	(Title_Card_Flag).w                          ; $FFFFF711
 		clr.w	(Animate_Counters).w                         ; $FFFFF7F0
 		clr.w	(Game_Over_2P_Flag).w                        ; $FFFFFF98
-		lea	(Menu_Animate), A2                     ; Offset_0x006614
+		lea	(Anim_SonicMilesBG), A2                     ; Offset_0x006614
 		jsr	(Dynamic_Normal)                       ; Offset_0x01F2DE
 		moveq	#$04, D0
 		bsr.w	PalLoad_ForFade                               ; Offset_0x002F9E
@@ -6690,7 +6690,7 @@ Offset_0x00549C:
 		bsr.w	Offset_0x00555C
 		bsr.w	Offset_0x005580
 		move	#$2300, SR
-		lea	(Menu_Animate), A2                     ; Offset_0x006614
+		lea	(Anim_SonicMilesBG), A2                     ; Offset_0x006614
 		jsr	(Dynamic_Normal)                       ; Offset_0x01F2DE
 		move.b	(Control_Ports_Buffer_Data+$0001).w, D0      ; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+$0003).w, D0      ; $FFFFF607
@@ -6758,10 +6758,10 @@ Offset_0x005580:
 		move.w	#$6000, D0
 		lea	(M68K_RAM_Start+$0048), A2                   ; $FFFF0048
 		move.l	(A3)+, A1
-		bsr.w	Offset_0x0056BC
+		bsr.w	MenuScreenTextToRAM
 		lea	(M68K_RAM_Start+$0094), A2                   ; $FFFF0094
 		move.l	(A3)+, A1
-		bsr.w	Offset_0x0056BC
+		bsr.w	MenuScreenTextToRAM
 		lea	(M68K_RAM_Start+$00D8), A2                   ; $FFFF00D8
 		move.l	$0004(A3), A1
 		bsr.w	Offset_0x005600
@@ -6779,7 +6779,7 @@ Offset_0x0055C6:
 		moveq	#$10, D1
 		moveq	#$0B, D2
 		bsr.w	PlaneMapToVRAM_H40                        ; Offset_0x0012BC
-		lea	(Pal_Levels_Icons), A1                 ; Offset_0x006230
+		lea	(Palette_S2LevelIcons), A1                 ; Offset_0x006230
 		moveq	#$00, D0
 		move.b	(A3), D0
 		lsl.w	#$05, D0
@@ -6811,10 +6811,10 @@ Offset_0x00561A:
 		moveq	#$00, D0
 		lea	(M68K_RAM_Start+$01E0), A2                   ; $FFFF01E0
 		move.l	(A3)+, A1
-		bsr.w	Offset_0x0056BC
+		bsr.w	MenuScreenTextToRAM
 		lea	(M68K_RAM_Start+$022C), A2                   ; $FFFF022C
 		move.l	(A3)+, A1
-		bsr.w	Offset_0x0056BC
+		bsr.w	MenuScreenTextToRAM
 		lea	(M68K_RAM_Start+$0270), A2                   ; $FFFF0270
 		lea	(M68K_RAM_Start+$0498), A1                   ; $FFFF0498
 		bsr.w	Offset_0x005600
@@ -6846,16 +6846,35 @@ Level_Select_Text_2P:                                          ; Offset_0x00567C
 		dc.l	Map_Special                            ; Offset_0x006143
 		dc.l	Map_Stage                              ; Offset_0x006156
 		dc.w	$47AC, $0003, $0CFF, $0450      
-;-------------------------------------------------------------------------------    
-Offset_0x0056BC:
-		moveq	#$00, D1
-		move.b	(A1)+, D1
+
+; ---------------------------------------------------------------------------
+; Common menu screen subroutine for transferring text to RAM
+
+; ARGUMENTS:
+; d0 = starting art tile
+; a1 = data source
+; a2 = destination
+; ---------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; Offset_0x0056BC:
+MenuScreenTextToRAM:
+		moveq	#0,d1
+		move.b	(a1)+,d1
+
 Offset_0x0056C0:
-		move.b	(A1)+, D0
-		move.w	D0, (A2)+
-		dbf	D1, Offset_0x0056C0
-		rts    
+		move.b	(a1)+,d0
+		move.w	d0,(a2)+
+		dbf	d1,Offset_0x0056C0
+		rts
+; End of function MenuScreenTextToRAM
+
 ; ===========================================================================
+; ---------------------------------------------------------------------------
+; (SUB) GAME MODE - Options Menu (from Sonic 2)
+; Was apparently accessable at some point due to minor programming changes
+; ---------------------------------------------------------------------------
 ; Offset_0x0056CA:
 OptionsMenu:
 		lea	(M68K_RAM_Start).l,a1
@@ -6866,19 +6885,24 @@ OptionsMenu:
 		lea	(Options_Frame_Mappings).l,a0
 		move.w	#$2070,d0
 		bsr.w	EnigmaDec
+
 		clr.b	(Options_Menu_Cursor).w
-		bsr.w	Offset_0x005880
+		bsr.w	OptionsMenu_DrawSelected
 		addq.b	#1,(Options_Menu_Cursor).w
-		bsr.w	Offset_0x0058F2
+		bsr.w	OptionsMenu_DrawUnselected
 		addq.b	#1,(Options_Menu_Cursor).w
-		bsr.w	Offset_0x0058F2
+		bsr.w	OptionsMenu_DrawUnselected
+
 		clr.b	(Options_Menu_Cursor).w
 		clr.b	(Title_Card_Flag).w
 		clr.w	(Animate_Counters).w
-		lea	(Menu_Animate).l,a2
+		lea	(Anim_SonicMilesBG).l,a2
 		jsr	(Dynamic_Normal).l
+
 		moveq	#4,d0
 		bsr.w	PalLoad_ForFade
+		; missing queue to play the menu music
+
 		clr.w	(Two_Player_Flag).w
 		clr.l	(Camera_X).w
 		clr.l	(Camera_Y).w
@@ -6895,11 +6919,11 @@ OptionsMenu_Main:
 		move.b	#$16,(VBlank_Index).w
 		bsr.w	Wait_For_VSync
 		move	#$2700,sr
-		bsr.w	Offset_0x0058F2
-		bsr.w	Offset_0x0057DE
-		bsr.w	Offset_0x005880
+		bsr.w	OptionsMenu_DrawUnselected
+		bsr.w	OptionsMenu_Controls
+		bsr.w	OptionsMenu_DrawSelected
 		move	#$2300,sr
-		lea	(Menu_Animate).l,a2
+		lea	(Anim_SonicMilesBG).l,a2
 		jsr	(Dynamic_Normal).l
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0
@@ -6915,7 +6939,7 @@ OptionsMenu_Select:
 		move.w	d0,(Two_Player_Flag).w
 		move.w	d0,(Two_Player_Flag_2).w
 		move.w	d0,(Current_ZoneAndAct).w
-		move.w	d0,(Apparent_ZoneAndAct).w
+		move.w	d0,(Apparent_ZoneAndAct).w	; also clears the apparent stage
 		move.b	#gm_PlayMode,(Game_Mode).w
 		rts
 ; ===========================================================================
@@ -6936,62 +6960,72 @@ OptionsMenu_Exit:
 		move.b	#gm_SEGALogo,(Game_Mode).w
 		rts
 
-Offset_0x0057DE:
-		moveq   #$00, D2
-		move.b  (Options_Menu_Cursor).w, D2		  ; $FFFFFF8C
-		move.b  (Control_Ports_Buffer_Data+$0001).w, D0      ; $FFFFF605
-		or.b    (Control_Ports_Buffer_Data+$0003).w, D0      ; $FFFFF607
-		btst    #$00, D0
-		beq.s   Offset_0x0057FA
-		subq.b  #$01, D2
-		bcc.s   Offset_0x0057FA
-		move.b  #$02, D2
-Offset_0x0057FA:
-		btst    #$01, D0
-		beq.s   Offset_0x00580A
-		addq.b  #$01, D2
-		cmpi.b  #$03, D2
-		bcs.s   Offset_0x00580A
-		moveq   #$00, D2
-Offset_0x00580A:
-		move.b  D2, (Options_Menu_Cursor).w		  ; $FFFFFF8C
-		lsl.w   #$02, D2
-		move.b  OptionsMenu_Choices(pc,d2.w), D3    ; Offset_0x005874
-		move.l  OptionsMenu_Choices(pc,d2.w), A1    ; Offset_0x005874
-		move.w  (A1), D2
-		btst    #$02, D0
-		beq.s   Offset_0x005826
-		subq.b  #$01, D2
-		bcc.s   Offset_0x005826
-		move.b  D3, D2
-Offset_0x005826:
-		btst    #$03, D0
-		beq.s   Offset_0x005834
-		addq.b  #$01, D2
-		cmp.b   D3, D2
-		bls.s   Offset_0x005834
-		moveq   #$00, D2
-Offset_0x005834:
-		btst    #$06, D0
-		beq.s   Offset_0x005844
-		addi.b  #$10, D2
-		cmp.b   D3, D2
-		bls.s   Offset_0x005844
-		moveq   #$00, D2
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to move around the options menu
+; ---------------------------------------------------------------------------
+; Offset_0x0057DE:
+OptionsMenu_Controls:
+		moveq	#0,d2
+		move.b	(Options_Menu_Cursor).w,d2
+		move.b	(Control_Ports_Buffer_Data+1).w,d0
+		or.b	(Control_Ports_Buffer_Data+3).w,d0
+		btst	#0,d0
+		beq.s	Offset_0x0057FA
+		subq.b	#1,d2
+		bcc.s	Offset_0x0057FA
+		move.b	#2,d2
 
-Offset_0x005844:
+Offset_0x0057FA:
+		btst	#1,d0
+		beq.s	Offset_0x00580A
+		addq.b	#1,d2
+		cmpi.b	#3,d2
+		bcs.s	Offset_0x00580A
+		moveq	#0,d2
+
+Offset_0x00580A:
+		move.b	d2,(Options_Menu_Cursor).w
+		lsl.w	#2,d2
+		move.b	OptionsMenu_Choices(pc,d2.w),d3
+		move.l	OptionsMenu_Choices(pc,d2.w),a1
+		move.w	(a1),d2
+		btst	#2,d0
+		beq.s	Offset_0x005826
+		subq.b	#1,d2
+		bcc.s	Offset_0x005826
+		move.b	d3,d2
+
+Offset_0x005826:
+		btst	#3,d0
+		beq.s	Offset_0x005834
+		addq.b	#1,d2
+		cmp.b	d3,d2
+		bls.s	Offset_0x005834
+		moveq	#0,d2
+
+Offset_0x005834:
+		btst	#6,d0
+		beq.s	OptionsMenu_PlaySound
+		addi.b	#$10,d2
+		cmp.b	d3,d2
+		bls.s	OptionsMenu_PlaySound
+		moveq	#0,d2
+; Offset_0x005844:
+OptionsMenu_PlaySound:
 		move.w	d2,(a1)
 		cmpi.b	#2,(Options_Menu_Cursor).w
 		bne.s	Offset_0x005872
 		andi.w	#$30,d0
 		beq.s	Offset_0x005872
 		move.w	(Sound_Test_Sound).w,d0
+		; no longer add $80 to the sound test ID
 		bsr.w	PlaySound
-		lea	(S2_Code_Level_Select).l,a0
-		lea	(S2_Code_14_Continues).l,a2
+		lea	(S2LevelSelect_Cheat).l,a0
+		lea	(S214Continues_Cheat).l,a2
 		lea	(Level_Select_Flag).w,a1
 		moveq	#0,d2
-		bsr.w	Menu_Check_Secret_Codes
+		bsr.w	Menus_CheckCheats
 
 Offset_0x005872:
 		rts
@@ -7001,566 +7035,663 @@ OptionsMenu_Choices:
 		dc.l	(3-1)<<24|(Player_Select_Flag&$FFFFFF)		; PLAYER SELECT
 		dc.l	(2-1)<<24|(Two_Player_Items_Mode&$FFFFFF)	; TWO-PLAYER ITEMS
 		dc.l	($CA-1)<<24|(Sound_Test_Sound&$FFFFFF)		; SOUND TEST
-; ===========================================================================
+		; extended sound test range
+; End of function OptionsMenu_Controls
 
-Offset_0x005880:
-		bsr.w	Offset_0x005962
-		moveq	#$00, D1
-		move.b	(Options_Menu_Cursor).w, D1                  ; $FFFFFF8C
-		lsl.w	#$03, D1
-		lea	(Menu_Options_Idx), A3                 ; Offset_0x0059B4
-		lea	$00(A3, D1), A3
-		move.w	#$6000, D0
-		lea	(M68K_RAM_Start+$0030), A2                   ; $FFFF0030
-		move.l	(A3)+, A1
-		bsr.w	Offset_0x0056BC
-		lea	(M68K_RAM_Start+$00B6), A2                   ; $FFFF00B6
-		moveq	#$00, D1
-		cmpi.b	#$02, (Options_Menu_Cursor).w                ; $FFFFFF8C
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to highlight the current selection on the options menu
+; ---------------------------------------------------------------------------
+; Offset_0x005880:
+OptionsMenu_DrawSelected:
+		bsr.w	OptionsMenu_SelectTextPtr
+		moveq	#0,d1
+		move.b	(Options_Menu_Cursor).w,d1
+		lsl.w	#3,d1
+		lea	(OptionsMenu_Boxes).l,a3
+		lea	(a3,d1.w),a3
+		move.w	#$6000,d0
+		lea	(M68K_RAM_Start+$30).l,a2
+		move.l	(a3)+,a1
+		bsr.w	MenuScreenTextToRAM
+		lea	(M68K_RAM_Start+$B6).l,a2
+		moveq	#0,d1
+		cmpi.b	#2,(Options_Menu_Cursor).w
 		beq.s	Offset_0x0058C8
-		move.b	(Options_Menu_Cursor).w, D1                  ; $FFFFFF8C
-		lsl.w	#$02, D1
-		lea	OptionsMenu_Choices(PC), A1        ; Offset_0x005874
-		move.l	$00(A1, D1), A1
-		move.w	(A1), D1
-		lsl.w	#$02, D1
+		move.b	(Options_Menu_Cursor).w,d1
+		lsl.w	#2,d1
+		lea	OptionsMenu_Choices(pc),a1
+		move.l	(a1,d1.w),a1
+		move.w	(a1),d1
+		lsl.w	#2,d1
+
 Offset_0x0058C8:
-		move.l	$00(A4, D1), A1
-		bsr.w	Offset_0x0056BC
-		cmpi.b	#$02, (Options_Menu_Cursor).w                ; $FFFFFF8C
+		move.l	(a4,d1.w),a1
+		bsr.w	MenuScreenTextToRAM
+		cmpi.b	#2,(Options_Menu_Cursor).w
 		bne.s	Offset_0x0058E2
-		lea	(M68K_RAM_Start+$00C2), A2                   ; $FFFF00C2
-		bsr.w	Offset_0x005990
+		lea	(M68K_RAM_Start+$C2).l,a2
+		bsr.w	OptionsMenu_DrawSoundNumber
+
 Offset_0x0058E2:
-		lea	(M68K_RAM_Start), A1                         ; $FFFF0000
-		move.l	(A3)+, D0
-		moveq	#$15, D1
-		moveq	#$07, D2
-		bra.w	PlaneMapToVRAM_H40                        ; Offset_0x0012BC
-;-------------------------------------------------------------------------------
-Offset_0x0058F2:
-		bsr.w	Offset_0x005962
-		moveq	#$00, D1
-		move.b	(Options_Menu_Cursor).w, D1                  ; $FFFFFF8C
-		lsl.w	#$03, D1
-		lea	(Menu_Options_Idx), A3                 ; Offset_0x0059B4
-		lea	$00(A3, D1), A3
-		moveq	#$00, D0
-		lea	(M68K_RAM_Start+$0190), A2                   ; $FFFF0190
-		move.l	(A3)+, A1
-		bsr.w	Offset_0x0056BC
-		lea	(M68K_RAM_Start+$0216), A2                   ; $FFFF0216
-		moveq	#$00, D1
-		cmpi.b	#$02, (Options_Menu_Cursor).w                ; $FFFFFF8C
+		lea	(M68K_RAM_Start).l,a1
+		move.l	(a3)+,d0
+		moveq	#$15,d1
+		moveq	#7,d2
+		bra.w	PlaneMapToVRAM_H40
+; ===========================================================================
+; Offset_0x0058F2:
+OptionsMenu_DrawUnselected:
+		bsr.w	OptionsMenu_SelectTextPtr
+		moveq	#0,d1
+		move.b	(Options_Menu_Cursor).w,d1
+		lsl.w	#3,d1
+		lea	(OptionsMenu_Boxes).l,a3
+		lea	(a3,d1.w),a3
+		moveq	#0,d0
+		lea	(M68K_RAM_Start+$190).l,a2
+		move.l	(a3)+,a1
+		bsr.w	MenuScreenTextToRAM
+		lea	(M68K_RAM_Start+$216).l,a2
+		moveq	#0,d1
+		cmpi.b	#2,(Options_Menu_Cursor).w
 		beq.s	Offset_0x005938
-		move.b	(Options_Menu_Cursor).w, D1                  ; $FFFFFF8C
-		lsl.w	#$02, D1
-		lea	OptionsMenu_Choices(PC), A1        ; Offset_0x005874
-		move.l	$00(A1, D1), A1
-		move.w	(A1), D1
-		lsl.w	#$02, D1
+		move.b	(Options_Menu_Cursor).w,d1
+		lsl.w	#2,d1
+		lea	OptionsMenu_Choices(pc),a1
+		move.l	(a1,d1.w),a1
+		move.w	(a1),d1
+		lsl.w	#2,d1
+
 Offset_0x005938:
-		move.l	$00(A4, D1), A1
-		bsr.w	Offset_0x0056BC
-		cmpi.b	#$02, (Options_Menu_Cursor).w                ; $FFFFFF8C
+		move.l	(a4,d1.w),a1
+		bsr.w	MenuScreenTextToRAM
+		cmpi.b	#2,(Options_Menu_Cursor).w
 		bne.s	Offset_0x005952
-		lea	($FFFF0222), A2
-		bsr.w	Offset_0x005990
+		lea	(M68K_RAM_Start+$222).l,a2
+		bsr.w	OptionsMenu_DrawSoundNumber
+
 Offset_0x005952:
-		lea	(M68K_RAM_Start+$0160), A1                   ; $FFFF0160
-		move.l	(A3)+, D0
-		moveq	#$15, D1
-		moveq	#$07, D2
-		bra.w	PlaneMapToVRAM_H40                        ; Offset_0x0012BC
-Offset_0x005962:
-		lea	(Map_Player_Select_Jap_Idx), A4        ; Offset_0x0059CC
-		tst.b	(Hardware_Id).w                              ; $FFFFFFF8
+		lea	(M68K_RAM_Start+$160).l,a1
+		move.l	(a3)+,d0
+		moveq	#$15,d1
+		moveq	#7,d2
+		bra.w	PlaneMapToVRAM_H40
+; ===========================================================================
+; Offset_0x005962:
+OptionsMenu_SelectTextPtr:
+		lea	(OptionsText_PlayerSelect).l,a4
+		tst.b	(Hardware_Id).w
 		bpl.s	Offset_0x005974
-		lea	(Map_Player_Select_Idx), A4            ; Offset_0x0059D8
+		lea	(OptionsText_PlayerSelect2).l,a4
+
 Offset_0x005974:
-		tst.b	(Options_Menu_Cursor).w                      ; $FFFFFF8C
+		tst.b	(Options_Menu_Cursor).w
 		beq.s	Offset_0x005980
-		lea	(Map_Vs_Mode_Items_Idx), A4            ; Offset_0x0059E4
+		lea	(OptionsText_TwoPlayerItems).l,a4
+
 Offset_0x005980:
-		cmpi.b	#$02, (Options_Menu_Cursor).w                ; $FFFFFF8C
+		cmpi.b	#2,(Options_Menu_Cursor).w
 		bne.s	Offset_0x00598E
-		lea	(Map_Sound_Test_Idx), A4               ; Offset_0x0059EC
+		lea	(OptionsText_SoundTest).l,a4
+
 Offset_0x00598E:
 		rts
-Offset_0x005990:
-		move.w	(Sound_Test_Sound).w, D1                     ; $FFFFFF84
-		move.b	D1, D2
-		lsr.b	#$04, D1
-		bsr.s	Offset_0x00599C
-		move.b	D2, D1
-Offset_0x00599C:
-		andi.w	#$000F, D1
-		cmpi.b	#$0A, D1
-		bcs.s	Offset_0x0059AA
-		addi.b	#$04, D1
-Offset_0x0059AA:
-		addi.b	#$10, D1
-		move.b	D1, D0
-		move.w	D0, (A2)+
-		rts    
-;-------------------------------------------------------------------------------                
-Menu_Options_Idx:                                              ; Offset_0x0059B4
-		dc.l	Map_Player_Select_Caption              ; Offset_0x006058
-		dc.w	$4192, $0003
-		dc.l	Map_Vs_Mode_Items_Caption              ; Offset_0x0060BA       
-		dc.w	$4592, $0003
-		dc.l	Map_Sound_Test_Caption                 ; Offset_0x0060EC   
-		dc.w	$4992, $0003  
-;-------------------------------------------------------------------------------                
-Map_Player_Select_Jap_Idx:                                     ; Offset_0x0059CC 
-		dc.l	Map_Sonic_And_Miles                    ; Offset_0x00606A                 
-		dc.l	Map_Sonic_Alone                        ; Offset_0x00608A  
-		dc.l	Map_Miles_Alone                        ; Offset_0x00609A    
-;-------------------------------------------------------------------------------                
-Map_Player_Select_Idx:                                         ; Offset_0x0059D8  
-		dc.l	Map_Sonic_And_Tails                    ; Offset_0x00607A 
-		dc.l	Map_Sonic_Alone                        ; Offset_0x00608A
-		dc.l	Map_Tails_Alone                        ; Offset_0x0060AA  
-;-------------------------------------------------------------------------------                
-Map_Vs_Mode_Items_Idx:                                         ; Offset_0x0059E4  
-		dc.l	Map_All_Kinds_Items                    ; Offset_0x0060CC  
-		dc.l	Map_Teleport_Only                      ; Offset_0x0060DC  
-;-------------------------------------------------------------------------------                
-Map_Sound_Test_Idx:                                            ; Offset_0x0059EC          
-		dc.l	Map_Sound_Test_Sound                   ; Offset_0x0060FE   
 ; ===========================================================================
+; Offset_0x005990:
+OptionsMenu_DrawSoundNumber:
+		move.w	(Sound_Test_Sound).w,d1
+		move.b	d1,d2
+		lsr.b	#4,d1
+		bsr.s	Offset_0x00599C
+		move.b	d2,d1
+
+Offset_0x00599C:
+		andi.w	#$F,d1
+		cmpi.b	#$A,d1
+		bcs.s	Offset_0x0059AA
+		addi.b	#4,d1
+
+Offset_0x0059AA:
+		addi.b	#$10,d1
+		move.b	d1,d0
+		move.w	d0,(a2)+
+		rts
+; End of function OptionsMenu_DrawSelected
+
+; ===========================================================================
+; Offset_0x0059B4: Menu_Options_Idx:
+OptionsMenu_Boxes:
+		dc.l	Map_Player_Select_Caption
+		dc.w	$4192, 3
+		dc.l	Map_Vs_Mode_Items_Caption
+		dc.w	$4592, 3
+		dc.l	Map_Sound_Test_Caption
+		dc.w	$4992, 3
+; Offset_0x0059CC: Map_Player_Select_Jap_Idx:
+OptionsText_PlayerSelect:
+		dc.l	Map_Sonic_And_Miles
+		dc.l	Map_Sonic_Alone
+		dc.l	Map_Miles_Alone
+; Offset_0x0059D8: Map_Player_Select_Idx:
+OptionsText_PlayerSelect2:
+		dc.l	Map_Sonic_And_Tails
+		dc.l	Map_Sonic_Alone
+		dc.l	Map_Tails_Alone
+; Offset_0x0059E4: Map_Vs_Mode_Items_Idx:
+OptionsText_TwoPlayerItems:
+		dc.l	Map_All_Kinds_Items
+		dc.l	Map_Teleport_Only
+; Offset_0x0059EC: Map_Sound_Test_Idx:
+OptionsText_SoundTest:
+		dc.l	Map_Sound_Test_Sound
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; (SUB) GAME MODE - Level Select
+; ---------------------------------------------------------------------------
 ; Offset_0x0059F0: Level_Select_Menu:
 LevelSelect_Menu:
-		lea	(M68K_RAM_Start), A1                         ; $FFFF0000
-		lea	(S2_Menu_Level_Select_Text), A0        ; Offset_0x00648E
-		move.w	#$0000, D0
-		bsr.w	EnigmaDec                              ; Offset_0x00168A
-		lea	(M68K_RAM_Start), A3                         ; $FFFF0000
-		move.w	#$031F, D1
+		; load the Sonic 2 level select text (for the level icons)
+		lea	(M68K_RAM_Start).l,a1
+		lea	(S2_Menu_Level_Select_Text).l,a0
+		move.w	#0,d0
+		bsr.w	EnigmaDec
+		; then clear most of it, except the bottom (again, for the icons)
+		lea	(M68K_RAM_Start).l,a3
+		move.w	#$31F,d1
+
 Offset_0x005A0E:
-		move.w	#$0000, (A3)+
-		dbf	D1, Offset_0x005A0E
-		lea	(M68K_RAM_Start+$0696), A3                   ; $FFFF0696
-		move.w	#$000F, D1
+		move.w	#0,(a3)+
+		dbf	d1,Offset_0x005A0E
+		; and clear a bit more (Oil Ocean's name)
+		lea	(M68K_RAM_Start+$696).l,a3
+		move.w	#$F,d1
+
 Offset_0x005A20:
-		move.w	#$0000, (A3)+
-		dbf	D1, Offset_0x005A20
-		lea	(M68K_RAM_Start), A3                         ; $FFFF0000
-		lea	(Menu_Level_Select_Text), A1           ; Offset_0x00618A
-		lea	(Menu_Text_Positions), A5              ; Offset_0x005FB8
-		moveq	#$00, D0
-		move.w	#$000E, D1
+		move.w	#0,(a3)+
+		dbf	d1,Offset_0x005A20
+
+		; begin adding the *actual* level select text; Sonic 3 opts to create
+		; it on the spot using character data, rather than just storing the
+		; whole plane map in its ROM
+		lea	(M68K_RAM_Start).l,a3
+		lea	(LevelSelect_Names).l,a1
+		lea	(LevelSelect_TextPositions).l,a5
+		moveq	#0,d0
+		move.w	#15-1,d1
+
 Offset_0x005A40:
-		move.w	(A5)+, D3
-		lea	$00(A3, D3), A2
-		moveq	#$00, D2
-		move.b	(A1)+, D2
-		move.w	D2, D3
-Offset_0x005A4C:
-		move.b	(A1)+, D0
-		move.w	D0, (A2)+
-		dbf	D2, Offset_0x005A4C
-		move.w	#$000D, D2
-		sub.w	D3, D2
-		bcs.s	Offset_0x005A64
-Offset_0x005A5C:
-		move.w	#$0000, (A2)+
-		dbf	D2, Offset_0x005A5C
-Offset_0x005A64:
-		move.w	#$0011, (A2)
-		lea	$0050(A2), A2
-		move.w	#$0012, (A2)
-		dbf	D1, Offset_0x005A40
-		move.w	#$0000, (A2)
-		lea	-$50(A2), A2
-		move.w	#$001A, (A2)
-		lea	(M68K_RAM_Start), A1                         ; $FFFF0000
-		move.l	#$40000003, D0
-		moveq	#$27, D1
-		moveq	#$1B, D2
-		jsr	(PlaneMapToVRAM_H40)                      ; Offset_0x0012BC
-		moveq	#$00, D3
-		bsr.w	Offset_0x005EA6
-		lea	(M68K_RAM_Start+$08C0), A1                   ; $FFFF08C0
-		lea	(Menu_Icons_Mappings), A0              ; Offset_0x0065E2
-		move.w	#$0090, D0
-		bsr.w	EnigmaDec                              ; Offset_0x00168A
-		bsr.w	Offset_0x005ED4
-		clr.w	(Player_Selected_Flag).w                     ; $FFFFFF08
-		clr.w	(Results_Screen_2P).w                        ; $FFFFFF02
-		clr.b	(Title_Card_Flag).w                          ; $FFFFF711
-		clr.w	(Animate_Counters).w                         ; $FFFFF7F0
-		lea	(Menu_Animate), A2                     ; Offset_0x006614
-		jsr	(Dynamic_Normal)                       ; Offset_0x01F2DE
-		moveq	#$04, D0
-		bsr.w	PalLoad_ForFade                               ; Offset_0x002F9E
-		lea	(Palette_Row_2_Offset).w, A1                 ; $FFFFED40
-		lea	(Palette_Data_Target+$40).w, A2              ; $FFFFEDC0
-		moveq	#$07, D1
+		move.w	(a5)+,d3		; get relative address in plane map to write to
+		lea	(a3,d3.w),a2		; get absolute address
+		moveq	#0,d2
+		move.b	(a1)+,d2		; get length of the string
+		move.w	d2,d3
+; Offset_0x005A4C:
+.drawZoneName:
+		move.b	(a1)+,d0		; get character from string
+		move.w	d0,(a2)+		; send the character to the plane map
+		dbf	d2,.drawZoneName	; repeat until the string is completed
+
+		move.w	#$D,d2			; maximum length of the string
+		sub.w	d3,d2			; get remaining space
+		bcs.s	.drawActNumber		; if none is present, branch
+; Offset_0x005A5C:
+.fillWithBlank:
+		move.w	#0,(a2)+		; fill the remaining space with blank characters
+		dbf	d2,.fillWithBlank
+; Offset_0x005A64:
+.drawActNumber:
+		move.w	#$11,(a2)		; write 1 next to the zone name
+		lea	$50(a2),a2
+		move.w	#$12,(a2)		; write 2 one line below that
+		dbf	d1,Offset_0x005A40
+
+		; this assumes that the last line is the sound test
+		move.w	#0,(a2)			; get rid of 2
+		lea	-$50(a2),a2
+		move.w	#$1A,(a2)		; replace 1 with *
+
+		; and finally send it to VRAM
+		lea	(M68K_RAM_Start).l,a1
+		move.l	#$40000003,d0
+		moveq	#$27,d1
+		moveq	#$1B,d2
+		jsr	(PlaneMapToVRAM_H40).l
+
+		moveq	#0,d3
+		bsr.w	LevelSelect_DrawSoundNumber
+
+		lea	(M68K_RAM_Start+$8C0).l,a1
+		lea	(Menu_Icons_Mappings).l,a0
+		move.w	#$90,d0
+		bsr.w	EnigmaDec
+		bsr.w	LevelSelect_DrawIcon
+
+		clr.w	(Player_Selected_Flag).w
+		clr.w	(Results_Screen_2P).w
+		clr.b	(Title_Card_Flag).w
+		clr.w	(Animate_Counters).w
+		lea	(Anim_SonicMilesBG).l,a2
+		jsr	(Dynamic_Normal).l
+		moveq	#4,d0
+		bsr.w	PalLoad_ForFade
+		lea	(Palette_Row_2_Offset).w,a1
+		lea	(Palette_Data_Target+$40).w,a2
+		moveq	#7,d1
+
 Offset_0x005AE0:
-		move.l	(A1), (A2)+
-		clr.l	(A1)+
-		dbf	D1, Offset_0x005AE0
-		move.w	#$0707, (Demo_Timer).w                       ; $FFFFF614
-		clr.w	(Two_Player_Flag).w                          ; $FFFFFFD8
-		clr.l	(Camera_X).w                                 ; $FFFFEE78
-		clr.l	(Camera_Y).w                                 ; $FFFFEE7C
-		move.w	#$0101, (Level_Select_Flag).w                ; $FFFFFFD0
+		move.l	(a1),(a2)+
+		clr.l	(a1)+
+		dbf	d1,Offset_0x005AE0
+
+		move.w	#$707,(Demo_Timer).w
+		clr.w	(Two_Player_Flag).w
+		clr.l	(Camera_X).w
+		clr.l	(Camera_Y).w
+		; unlike the final, this wasn't removed, in fact the debug flag was added
+		; here meaning the player didn't need to input 01 03 05 07 to enable it
+		move.w	#$101,(Level_Select_Flag).w
 		nop
 		nop
 		nop
-		clr.w	(Secret_Code_Input_Entries).w                ; $FFFFFFD4
-		clr.w	(Secret_Code_Input_Entries_2).w              ; $FFFFFFD6
-		move.b	#$16, (VBlank_Index).w                       ; $FFFFF62A
-		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
-		move.w	(VDP_Register_1_Command).w, D0               ; $FFFFF60E
-		ori.b	#$40, D0
-		move.w	D0, (VDP_Control_Port)                       ; $00C00004
-		bsr.w	Pal_FadeFromBlack                             ; Offset_0x002D20
-Offset_0x005B2A:
-		move.b	#$16, (VBlank_Index).w                       ; $FFFFF62A
-		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
-		move	#$2700, SR
-		moveq	#$00, D3
-		bsr.w	Offset_0x005DE6
-		bsr.w	Level_Select_Controls                  ; Offset_0x005CBC
-		move.w	#$6000, D3
-		bsr.w	Offset_0x005DE6
-		bsr.w	Offset_0x005ED4
-		move	#$2300, SR
-		lea	(Menu_Animate), A2                     ; Offset_0x006614
-		jsr	(Dynamic_Normal)                       ; Offset_0x01F2DE
-		move.b	(Control_Ports_Buffer_Data+$0001).w, D0      ; $FFFFF605
-		or.b	(Control_Ports_Buffer_Data+$0003).w, D0      ; $FFFFF607
-		andi.b	#$80, D0
-		bne.s	Offset_0x005B70
-		bra.w	Offset_0x005B2A
-Offset_0x005B70:
-		move.w	(Level_Select_Menu_Cursor).w, D0             ; $FFFFFF82
-		add.w	D0, D0
-		move.w	Menu_Level_Select_Array(pc,d0.w), D0    ; Offset_0x005BF2
-		bmi.w	Menu_Game_Reset                        ; Offset_0x005C2C
-		cmpi.w	#Disabled_Level, D0                              ; $5555
-		beq.w	Offset_0x005B2A
-		cmpi.w	#SK_Special_Stage, D0                            ; $4001
-		beq.w	Menu_Run_SK_Special_Stage              ; Offset_0x005B9E
-		cmpi.w	#S3_Special_Stage, D0                            ; $4000    
-		bne.w	Menu_Load_Level                        ; Offset_0x005C34
-		move.b	#gm_S3_Special_Stage, (Game_Mode).w     ; $2C, $FFFFF600
+		clr.w	(Secret_Code_Input_Entries).w
+		clr.w	(Secret_Code_Input_Entries_2).w
+		move.b	#$16,(VBlank_Index).w
+		bsr.w	Wait_For_VSync
+		move.w	(VDP_Register_1_Command).w,d0
+		ori.b	#$40,d0
+		move.w	d0,(VDP_Control_Port).l
+		bsr.w	Pal_FadeFromBlack
+; Offset_0x005B2A:
+LevelSelect_Main:
+		move.b	#$16,(VBlank_Index).w
+		bsr.w	Wait_For_VSync
+		move	#$2700,sr
+		moveq	#0,d3
+		bsr.w	LevelSelect_MarkFields
+		bsr.w	LevelSelect_Controls
+		move.w	#$6000,d3
+		bsr.w	LevelSelect_MarkFields
+		bsr.w	LevelSelect_DrawIcon
+		move	#$2300,sr
+		lea	(Anim_SonicMilesBG).l,a2
+		jsr	(Dynamic_Normal).l
+		move.b	(Control_Ports_Buffer_Data+1).w,d0
+		or.b	(Control_Ports_Buffer_Data+3).w,d0
+		andi.b	#$80,d0
+		bne.s	LevelSelect_PressStart
+		bra.w	LevelSelect_Main
+; ===========================================================================
+; Offset_0x005B70:
+LevelSelect_PressStart:
+		move.w	(Level_Select_Menu_Cursor).w,d0
+		add.w	d0,d0
+		move.w	LevelSelect_Levels(pc,d0.w),d0
+		bmi.w	LevelSelect_ResetGame		; if it is -1, branch
+		cmpi.w	#$5555,d0			; is the level disabled?
+		beq.w	LevelSelect_Main		; if yes, branch
+		cmpi.w	#$4001,d0			; is this the second Special Stage?
+		beq.w	LevelSelect_SpecialStage2	; if yes, branch
+		cmpi.w	#$4000,d0			; is this the first Special Stage?
+		bne.w	LevelSelect_LoadLevel		; if not, branch
+; LevelSelect_SpecialStage1:
+		move.b	#gm_S3_Special_Stage,(Game_Mode).w
 		rts
-Menu_Run_SK_Special_Stage:                                     ; Offset_0x005B9E
-		move.b	#gm_SK_Special_Stage, (Game_Mode).w     ; $30, $FFFFF600
-		rts  
-;-------------------------------------------------------------------------------
-Menu_Run_S2_Special_Stage:                                     ; Offset_0x005BA6
-		move.b	#gm_S2_SpecialStage, (Game_Mode).w      ; $10, $FFFFF600
-		clr.w	(Current_ZoneAndAct).w                                 ; $FFFFFE10
-		clr.w	(Apparent_ZoneAndAct).w                               ; $FFFFEE54
-		move.b	#$03, (Life_count).w                         ; $FFFFFE12
-		move.b	#$03, (Life_Count_P2).w                      ; $FFFFFEC6
-		moveq	#$00, D0
-		move.w	D0, (Ring_count).w                   ; $FFFFFE20
-		move.l	D0, (Timer).w                   ; $FFFFFE22
-		move.l	D0, (Score_Count_Address).w                  ; $FFFFFE26
-		move.w	D0, (Ring_Count_Address_P2).w                ; $FFFFFED0
-		move.l	D0, (Time_Count_Address_P2).w                ; $FFFFFED2
-		move.l	D0, (Score_Count_Address_P2).w               ; $FFFFFED6
-		move.l	#$00001388, (Next_Extra_Life_Score).w        ; $FFFFFFC0
-		move.l	#$00001388, (Next_Extra_Life_Score_P2).w     ; $FFFFFFC4
-		move.w	(Player_Select_Flag).w, (Player_Selected_Flag).w ; $FFFFFF0A
-		rts      
-;-------------------------------------------------------------------------------
-Menu_Level_Select_Array:                                       ; Offset_0x005BF2
-		dc.w	AIz_Act_1                                        ; $0000
-		dc.w	AIz_Act_2                                        ; $0001
-		dc.w	Hz_Act_1                                         ; $0100
-		dc.w	Hz_Act_2                                         ; $0101
-		dc.w	MGz_Act_1                                        ; $0200
-		dc.w	MGz_Act_2                                        ; $0201
-		dc.w	CNz_Act_1                                        ; $0300
-		dc.w	CNz_Act_2                                        ; $0301
-		dc.w	FBz_Act_1                                        ; $0400
-		dc.w	FBz_Act_2                                        ; $0401
-		dc.w	Iz_Act_1                                         ; $0500
-		dc.w	Iz_Act_2                                         ; $0501
-		dc.w	LBz_Act_1                                        ; $0600
-		dc.w	LBz_Act_2                                        ; $0601
-		dc.w	Disabled_Level                                   ; $5555
-		dc.w	Disabled_Level                                   ; $5555
-		dc.w	Disabled_Level                                   ; $5555
-		dc.w	Disabled_Level                                   ; $5555
-		dc.w	Alz_Act_1                                        ; $0E00
-		dc.w	BPz_Act_1                                        ; $0F00
-		dc.w	DPz_Act_1                                        ; $1000
-		dc.w	CGz_Act_1                                        ; $1100
-		dc.w	EMz_Act_1                                        ; $1200
-		dc.w	GM_BS_Act_1                                      ; $1300
-		dc.w	GS_BS_Act_1                                      ; $1400
-		dc.w	SM_BS_Act_1                                      ; $1500
-		dc.w	S3_Special_Stage                                 ; $4000
-		dc.w	SK_Special_Stage                                 ; $4001
-		dc.w	Reset_Game                                       ; $FFFF
-;------------------------------------------------------------------------------- 
-Menu_Game_Reset:                                               ; Offset_0x005C2C
-		move.b	#gm_SEGALogo, (Game_Mode).w             ; $00, $FFFFF600
+; ---------------------------------------------------------------------------
+; Offset_0x005B9E: Menu_Run_SK_Special_Stage:
+LevelSelect_SpecialStage2:
+		move.b	#gm_SK_Special_Stage,(Game_Mode).w
+		rts
+; Offset_0x005BA6: Menu_Run_S2_Special_Stage:
+		move.b	#gm_S2_SpecialStage, (Game_Mode).w
+		clr.w	(Current_ZoneAndAct).w
+		clr.w	(Apparent_ZoneAndAct).w
+		move.b	#3,(Life_count).w
+		move.b	#3,(Life_Count_P2).w
+		moveq	#0,d0
+		move.w	d0,(Ring_count).w
+		move.l	d0,(Timer).w
+		move.l	d0,(Score_Count_Address).w
+		move.w	d0,(Ring_Count_Address_P2).w
+		move.l	d0,(Time_Count_Address_P2).w
+		move.l	d0,(Score_Count_Address_P2).w
+		move.l	#5000,(Next_Extra_Life_Score).w
+		move.l	#5000,(Next_Extra_Life_Score_P2).w
+		move.w	(Player_Select_Flag).w,(Player_Selected_Flag).w
+		rts
+; ===========================================================================
+; Offset_0x005BF2: Menu_Level_Select_Array:
+LevelSelect_Levels:
+		dc.w	AIz_Act_1,	AIz_Act_2	; ANGEL ISLAND
+		dc.w	Hz_Act_1,	Hz_Act_2	; HYDROCITY
+		dc.w	MGz_Act_1,	MGz_Act_2	; MARBLE GARDEN
+		dc.w	CNz_Act_1,	CNz_Act_2	; CARNIVAL NIGHT
+		dc.w	FBz_Act_1,	FBz_Act_2	; FLYING BATTERY
+		dc.w	Iz_Act_1,	Iz_Act_2	; ICECAP
+		dc.w	LBz_Act_1,	LBz_Act_2	; LAUNCH BASE
+		dc.w	$5555,		$5555		; MUSHROOM VALLEY
+		dc.w	$5555,		$5555		; SANDOPOLIS
+		dc.w	Alz_Act_1,	BPz_Act_1	; 2P VS
+		dc.w	DPz_Act_1,	CGz_Act_1	; 2P VS
+		dc.w	EMz_Act_1,	GM_BS_Act_1	; 2P VS
+		dc.w	GS_BS_Act_1,	SM_BS_Act_1	; BONUS
+		dc.w	$4000,		$4001		; SPECIAL STAGE
+		dc.w	-1				; SOUND TEST
+; ===========================================================================
+; Offset_0x005C2C: Menu_Game_Reset:
+LevelSelect_ResetGame:
+		move.b	#gm_SEGALogo,(Game_Mode).w
 		rts                    
-;------------------------------------------------------------------------------- 
-Menu_Load_Level:                                               ; Offset_0x005C34
-		andi.w	#$3FFF, D0
-		move.w	D0, (Current_ZoneAndAct).w                             ; $FFFFFE10
-		move.w	D0, (Apparent_ZoneAndAct).w                           ; $FFFFEE54
-		cmpi.w	#AIz_Act_2, D0                                   ; $0001
-		beq.s	Offset_0x005C4C
-		cmpi.w	#Iz_Act_2, D0                                    ; $0501
-		bne.s	Offset_0x005C50
-Offset_0x005C4C:
-		clr.b	(Apparent_Act).w                                 ; $FFFFEE55
-Offset_0x005C50:
-		move.b	#gm_PlayMode, (Game_Mode).w             ; $0C, $FFFFF600
-		move.b	#$03, (Life_count).w                         ; $FFFFFE12
-		move.b	#$03, (Life_Count_P2).w                      ; $FFFFFEC6
-		moveq	#$00, D0
-		move.w	D0, (Ring_count).w                   ; $FFFFFE20
-		move.l	D0, (Timer).w                   ; $FFFFFE22
-		move.l	D0, (Score_Count_Address).w                  ; $FFFFFE26
-		move.w	D0, (Ring_Count_Address_P2).w                ; $FFFFFED0
-		move.l	D0, (Time_Count_Address_P2).w                ; $FFFFFED2
-		move.l	D0, (Score_Count_Address_P2).w               ; $FFFFFED6
-		move.b	D0, (Continue_count).w                       ; $FFFFFE18
-		move.l	#$00001388, (Next_Extra_Life_Score).w        ; $FFFFFFC0
-		move.l	#$00001388, (Next_Extra_Life_Score_P2).w     ; $FFFFFFC4
-		move.b	#Special_Stage_Entry_Sfx, D0                       ; $D0
-		jsr	(PlaySound)                           ; Offset_0x001176
-		moveq	#$00, D0
-		move.w	D0, (Two_Player_Flag_2).w                    ; $FFFFFF8A
-		move.w	D0, (Two_Player_Flag).w                      ; $FFFFFFD8
-		cmpi.b	#ALz_Id, (Current_Zone).w                   ; $0E, $FFFFFE10
-		bcs.s	Offset_0x005CBA
-		cmpi.b	#GM_BS_Id, (Current_Zone).w                 ; $13, $FFFFFE10
-		bcc.s	Offset_0x005CBA
-		move.w	#$0001, (Two_Player_Flag).w                  ; $FFFFFFD8
-Offset_0x005CBA:
-		rts   
-;-------------------------------------------------------------------------------
-Level_Select_Controls:                                         ; Offset_0x005CBC
-		move.b	(Control_Ports_Buffer_Data+$0001).w, D1      ; $FFFFF605
-		andi.b	#$03, D1
-		bne.s	Offset_0x005CCC
-		subq.w	#$01, (Level_Select_Hold_Timer).w            ; $FFFFFF80
-		bpl.s	Offset_0x005D02
-Offset_0x005CCC:
-		move.w	#$000B, (Level_Select_Hold_Timer).w          ; $FFFFFF80
-		move.b	(Control_Ports_Buffer_Data).w, D1            ; $FFFFF604
-		andi.b	#$03, D1
-		beq.s	Offset_0x005D02
-		move.w	(Level_Select_Menu_Cursor).w, D0             ; $FFFFFF82
-		btst	#$00, D1
-		beq.s	Offset_0x005CEC
-		subq.w	#$01, D0
-		bcc.s	Offset_0x005CEC
-		moveq	#$1C, D0
-Offset_0x005CEC:
-		btst	#$01, D1
-		beq.s	Offset_0x005CFC
-		addq.w	#$01, D0
-		cmpi.w	#$001D, D0
-		bcs.s	Offset_0x005CFC
-		moveq	#$00, D0
-Offset_0x005CFC:
-		move.w	D0, (Level_Select_Menu_Cursor).w             ; $FFFFFF82
+; ===========================================================================
+; Offset_0x005C34: Menu_Load_Level:
+LevelSelect_LoadLevel:
+		andi.w	#$3FFF,d0
+		move.w	d0,(Current_ZoneAndAct).w
+		move.w	d0,(Apparent_ZoneAndAct).w
+		cmpi.w	#AIz_Act_2,d0		; is this Angel Island 2?
+		beq.s	.loadAct1		; if yes, branch
+		cmpi.w	#Iz_Act_2,d0		; is this IceCap 2?
+		bne.s	.setDefaults		; if not, branch
+; Offset_0x005C4C:
+.loadAct1:
+		clr.b	(Apparent_Act).w	; tell the game we're actually in Act 1
+; Offset_0x005C50:
+.setDefaults:
+		move.b	#gm_PlayMode,(Game_Mode).w
+		move.b	#3,(Life_count).w
+		move.b	#3,(Life_Count_P2).w
+		moveq	#0,d0
+		move.w	d0,(Ring_count).w
+		move.l	d0,(Timer).w
+		move.l	d0,(Score_Count_Address).w
+		move.w	d0,(Ring_Count_Address_P2).w
+		move.l	d0,(Time_Count_Address_P2).w
+		move.l	d0,(Score_Count_Address_P2).w
+		move.b	d0,(Continue_count).w
+		move.l	#5000,(Next_Extra_Life_Score).w
+		move.l	#5000,(Next_Extra_Life_Score_P2).w
+		move.b	#Special_Stage_Entry_Sfx,d0
+		jsr	(PlaySound).l
+		moveq	#0,d0
+		move.w	d0,(Two_Player_Flag_2).w
+		move.w	d0,(Two_Player_Flag).w
+		cmpi.b	#ALz_Id,(Current_Zone).w	; is this Azure Lake or above?
+		bcs.s	.noTwoPlayer			; if not, branch
+		cmpi.b	#GM_BS_Id,(Current_Zone).w	; is this the Gumball Machine or above?
+		bcc.s	.noTwoPlayer			; if yes, branch
+		move.w	#1,(Two_Player_Flag).w
+; Offset_0x005CBA:
+.noTwoPlayer:
 		rts
-Offset_0x005D02:
-		cmpi.w	#$001C, (Level_Select_Menu_Cursor).w         ; $FFFFFF82
-		bne.s	Offset_0x005D78
-		move.w	(Sound_Test_Sound).w, D0                     ; $FFFFFF84
-		move.b	(Control_Ports_Buffer_Data+$0001).w, D1      ; $FFFFF605
-		btst	#$02, D1
+; End of function LevelSelect_PressStart
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to move around the level select screen
+; ---------------------------------------------------------------------------
+; Offset_0x005CBC: Level_Select_Controls:
+LevelSelect_Controls:
+		move.b	(Control_Ports_Buffer_Data+1).w,d1
+		andi.b	#3,d1
+		bne.s	Offset_0x005CCC
+		subq.w	#1,(Level_Select_Hold_Timer).w
+		bpl.s	LevelSelect_CheckLR
+
+Offset_0x005CCC:
+		move.w	#$B,(Level_Select_Hold_Timer).w
+		move.b	(Control_Ports_Buffer_Data).w,d1
+		andi.b	#3,d1
+		beq.s	LevelSelect_CheckLR
+		move.w	(Level_Select_Menu_Cursor).w,d0
+		btst	#0,d1
+		beq.s	Offset_0x005CEC
+		subq.w	#1,d0
+		bcc.s	Offset_0x005CEC
+		moveq	#$1C,d0
+
+Offset_0x005CEC:
+		btst	#1,d1
+		beq.s	Offset_0x005CFC
+		addq.w	#1,d0
+		cmpi.w	#$1D,d0
+		bcs.s	Offset_0x005CFC
+		moveq	#0,d0
+
+Offset_0x005CFC:
+		move.w	d0,(Level_Select_Menu_Cursor).w
+		rts
+; ===========================================================================
+; Offset_0x005D02:
+LevelSelect_CheckLR:
+		cmpi.w	#$1C,(Level_Select_Menu_Cursor).w
+		bne.s	LevelSelect_SwitchSide
+; LevelSelect_SoundTest:
+		move.w	(Sound_Test_Sound).w,d0
+		move.b	(Control_Ports_Buffer_Data+1).w,d1
+		btst	#2,d1
 		beq.s	Offset_0x005D1E
-		subq.b	#$01, D0
+		subq.b	#1,d0
 		bcc.s	Offset_0x005D1E
-		moveq	#$00, D0
+		moveq	#0,d0
+
 Offset_0x005D1E:
-		btst	#$03, D1
+		btst	#3,d1
 		beq.s	Offset_0x005D2E
-		addq.b	#$01, D0
-		cmpi.w	#$0100, D0
+		addq.b	#1,d0
+		cmpi.w	#$100,d0
 		bcs.s	Offset_0x005D2E
-		moveq	#$00, D0
+		moveq	#0,d0
+
 Offset_0x005D2E:
-		btst	#$06, D1
-		beq.s	Offset_0x005D3C
-		addi.b	#$10, D0
-		andi.b	#$FF, D0
-Offset_0x005D3C:
-		move.w	D0, (Sound_Test_Sound).w                     ; $FFFFFF84
-		btst	#$05, D1
-		beq.s	Offset_0x005D66
-		move.w	(Sound_Test_Sound).w, D0                     ; $FFFFFF84
-		jsr	(PlaySound)                           ; Offset_0x001176
-		lea	(Code_Debug_Mode), A0                  ; Offset_0x00604E
-		lea	(Code_All_Emeralds), A2                ; Offset_0x006053
-		lea	(Debug_Mode_Flag).w, A1                      ; $FFFFFFD2
-		moveq	#$01, D2
-		bra.w	Menu_Check_Secret_Codes                ; Offset_0x005FD8
-Offset_0x005D66:
-		btst	#$04, D1
+		btst	#6,d1
+		beq.s	LevelSelect_PlaySound
+		addi.b	#$10,d0
+		andi.b	#$FF,d0
+; Offset_0x005D3C:
+LevelSelect_PlaySound:
+		move.w	d0,(Sound_Test_Sound).w
+		btst	#5,d1
+		beq.s	LevelSelect_MutePSG
+		move.w	(Sound_Test_Sound).w,d0
+		jsr	(PlaySound).l
+		lea	(DebugMode_Cheat).l,a0
+		lea	(AllEmeralds_Cheat).l,a2
+		lea	(Debug_Mode_Flag).w,a1
+		moveq	#1,d2
+		bra.w	Menus_CheckCheats
+; ---------------------------------------------------------------------------
+; Offset_0x005D66:
+LevelSelect_MutePSG:
+		btst	#4,d1
 		beq.s	Offset_0x005D76
-		move.w	#Error_Sfx, D0                                   ; $00D3
-		jsr	(PlaySound)                           ; Offset_0x001176
+		move.w	#Error_Sfx,d0		; incorrect sound ID... though not sure why we'd
+		jsr	(PlaySound).l		; need a sound command to mute PSG anyways
+
 Offset_0x005D76:
 		rts
-Offset_0x005D78:
-		move.b	(Control_Ports_Buffer_Data+$0001).w, D1      ; $FFFFF605
-		andi.b	#$0C, D1
+; ===========================================================================
+; Offset_0x005D78:
+LevelSelect_SwitchSide:
+		move.b	(Control_Ports_Buffer_Data+1).w,d1
+		andi.b	#$C,d1
 		beq.s	Offset_0x005D8E
-		move.w	(Level_Select_Menu_Cursor).w, D0             ; $FFFFFF82
-		move.b	Menu_Left_Right_Select(pc,d0.w), D0     ; Offset_0x005D92
-		move.w	D0, (Level_Select_Menu_Cursor).w             ; $FFFFFF82
+		move.w	(Level_Select_Menu_Cursor).w,d0
+		move.b	LevelSelect_SwitchTable(pc,d0.w),d0
+		move.w	d0,(Level_Select_Menu_Cursor).w
+
 Offset_0x005D8E:
-		bra.s	Offset_0x005DB0  
+		bra.s	LevelSelect_ChangeCharacter
 		rts
-;-------------------------------------------------------------------------------
-Menu_Left_Right_Select:                                        ; Offset_0x005D92
+; ===========================================================================
+; Offset_0x005D92: Menu_Left_Right_Select:
+LevelSelect_SwitchTable:
+		; LEFT SIDE
 		dc.b	$12, $13, $14, $15, $16, $17, $18, $19
 		dc.b	$1A, $1B, $1C, $1C, $1C, $1C, $1C, $1C
-		dc.b	$1C, $1C, $00, $01, $02, $03, $04, $05
-		dc.b	$06, $07, $08, $09, $0A, $0B   
-;-------------------------------------------------------------------------------
-Offset_0x005DB0:
-		btst	#$05, (Control_Ports_Buffer_Data+$0001).w    ; $FFFFF605
+		dc.b	$1C, $1C
+		; RIGHT SIDE
+		dc.b	$00, $01, $02, $03, $04, $05, $06, $07
+		dc.b	$08, $09, $0A, $0B   
+; ===========================================================================
+; Offset_0x005DB0:
+LevelSelect_ChangeCharacter:
+		btst	#5,(Control_Ports_Buffer_Data+1).w
 		beq.s	Offset_0x005DCA
-		addq.b	#$01, (Menu_Player_One_Cursor).w             ; $FFFFFFDA
-		cmpi.b	#$03, (Menu_Player_One_Cursor).w             ; $FFFFFFDA
+		addq.b	#1,(Menu_Player_One_Cursor).w
+		cmpi.b	#3,(Menu_Player_One_Cursor).w
 		bcs.s	Offset_0x005DCA
-		move.b	#$00, (Menu_Player_One_Cursor).w             ; $FFFFFFDA
+		move.b	#0,(Menu_Player_One_Cursor).w
+
 Offset_0x005DCA:
-		btst	#$05, (Control_Ports_Buffer_Data+$0003).w    ; $FFFFF607
+		btst	#5,(Control_Ports_Buffer_Data+3).w
 		beq.s	Offset_0x005DE4
-		addq.b	#$01, (Menu_Player_Two_Cursor).w             ; $FFFFFFDB
-		cmpi.b	#$03, (Menu_Player_Two_Cursor).w             ; $FFFFFFDB
+		addq.b	#1,(Menu_Player_Two_Cursor).w
+		cmpi.b	#3,(Menu_Player_Two_Cursor).w
 		bcs.s	Offset_0x005DE4
-		move.b	#$00, (Menu_Player_Two_Cursor).w             ; $FFFFFFDB
+		move.b	#0,(Menu_Player_Two_Cursor).w
+
 Offset_0x005DE4:
-		rts     
-;-------------------------------------------------------------------------------
-Offset_0x005DE6:
-		lea	(M68K_RAM_Start), A4                         ; $FFFF0000
-		lea	(Menu_Text_Highlight), A5              ; Offset_0x005F44
-		lea	(VDP_Data_Port), A6                          ; $00C00000
-		moveq	#$00, D0
-		move.w	(Level_Select_Menu_Cursor).w, D0             ; $FFFFFF82
-		lsl.w	#$02, D0
-		lea	$00(A5, D0), A3
-		moveq	#$00, D0
-		move.b	(A3), D0
-		mulu.w	#$0050, D0
-		moveq	#$00, D1
-		move.b	$0001(A3), D1
-		add.w	D1, D0
-		lea	$00(A4, D0), A1
-		moveq	#$00, D1
-		move.b	(A3), D1
-		lsl.w	#$07, D1
-		add.b	$0001(A3), D1
-		addi.w	#$C000, D1
-		lsl.l	#$02, D1
-		lsr.w	#$02, D1
-		ori.w	#$4000, D1
-                swap.w  D1
-		move.l	D1, $0004(A6)
-		moveq	#$0E, D2
+		rts
+; End of function LevelSelect_Controls
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Subroutine to highlight the current selection on the level select
+; ---------------------------------------------------------------------------
+; Offset_0x005DE6:
+LevelSelect_MarkFields:
+		lea	(M68K_RAM_Start).l,a4
+		lea	(LevelSelect_MarkTable).l,a5
+		lea	(VDP_Data_Port).l,a6
+		moveq	#0,d0
+		move.w	(Level_Select_Menu_Cursor).w,d0
+		lsl.w	#2,d0
+		lea	(a5,d0.w),a3
+		moveq	#0,d0
+		move.b	(a3),d0
+		mulu.w	#$50,d0
+		moveq	#0,d1
+		move.b	1(a3),d1
+		add.w	d1,d0
+		lea	(a4,d0.w),a1
+		moveq	#0,d1
+		move.b	(a3),d1
+		lsl.w	#7,d1
+		add.b	1(a3),d1
+		addi.w	#$C000,d1
+		lsl.l	#2,d1
+		lsr.w	#2,d1
+		ori.w	#$4000,d1
+		swap.w	D1
+		move.l	d1,4(a6)
+		moveq	#$E,d2
+
 Offset_0x005E36:
-		move.w	(A1)+, D0
-		add.w	D3, D0
-		move.w	D0, (A6)
-		dbf	D2, Offset_0x005E36
-		addq.w	#$02, A3
-		moveq	#$00, D0
-		move.b	(A3), D0
+		move.w	(a1)+,d0
+		add.w	d3,d0
+		move.w	d0,(a6)
+		dbf	d2,Offset_0x005E36
+		addq.w	#2,a3
+		moveq	#0,d0
+		move.b	(a3),d0
 		beq.s	Offset_0x005E7A
-		mulu.w	#$0050, D0
-		moveq	#$00, D1
-		move.b	$0001(A3), D1
-		add.w	D1, D0
-		lea	$00(A4, D0), A1
-		moveq	#$00, D1
-		move.b	(A3), D1
-		lsl.w	#$07, D1
-		add.b	$0001(A3), D1
-		addi.w	#$C000, D1
-		lsl.l	#$02, D1
-		lsr.w	#$02, D1
-		ori.w	#$4000, D1
-                swap.w  D1
-		move.l	D1, $0004(A6)
-		move.w	(A1)+, D0
-		add.w	D3, D0
-		move.w	D0, (A6)
+		mulu.w	#$50,d0
+		moveq	#0,d1
+		move.b	1(a3),d1
+		add.w	d1,d0
+		lea	(a4,d0.w),a1
+		moveq	#0,d1
+		move.b	(a3),d1
+		lsl.w	#7,d1
+		add.b	1(a3),d1
+		addi.w	#$C000,d1
+		lsl.l	#2,d1
+		lsr.w	#2,d1
+		ori.w	#$4000,d1
+		swap.w	d1
+		move.l	d1,4(a6)
+		move.w	(a1)+,d0
+		add.w	d3,d0
+		move.w	d0,(a6)
+
 Offset_0x005E7A:
-		cmpi.w	#$001C, (Level_Select_Menu_Cursor).w         ; $FFFFFF82
-		bne.s	Offset_0x005E86
-		bra.w	Offset_0x005EA6
-Offset_0x005E86:
-		move.l	#$41B80003, (VDP_Control_Port)               ; $00C00004
-		move.b	(Menu_Player_One_Cursor).w, D0               ; $FFFFFFDA
-		bsr.s	Offset_0x005EB4
-		move.l	#$41C00003, (VDP_Control_Port)               ; $00C00004
-		move.b	(Menu_Player_Two_Cursor).w, D0               ; $FFFFFFDB
-		bra.s	Offset_0x005EB4
-Offset_0x005EA6:
-		move.l	#$48460003, (VDP_Control_Port)               ; $00C00004
-		move.w	(Sound_Test_Sound).w, D0                     ; $FFFFFF84
-Offset_0x005EB4:
-		move.b	D0, D2
-		lsr.b	#$04, D0
+		cmpi.w	#$1C,(Level_Select_Menu_Cursor).w
+		bne.s	LevelSelect_DrawCharacterNumber
+		bra.w	LevelSelect_DrawSoundNumber
+; ===========================================================================
+; Offset_0x005E86:
+LevelSelect_DrawCharacterNumber:
+		move.l	#$41B80003,(VDP_Control_Port).l
+		move.b	(Menu_Player_One_Cursor).w,d0
+		bsr.s	LevelSelect_DrawDigit
+		move.l	#$41C00003,(VDP_Control_Port).l
+		move.b	(Menu_Player_Two_Cursor).w,d0
+		bra.s	LevelSelect_DrawDigit
+; ===========================================================================
+; Offset_0x005EA6:
+LevelSelect_DrawSoundNumber:
+		move.l	#$48460003,(VDP_Control_Port).l
+		move.w	(Sound_Test_Sound).w,d0
+; Offset_0x005EB4:
+LevelSelect_DrawDigit:
+		move.b	d0,d2
+		lsr.b	#4,d0
 		bsr.s	Offset_0x005EBC
-		move.b	D2, D0
+		move.b	d2,d0
+
 Offset_0x005EBC:
-		andi.w	#$000F, D0
-		cmpi.b	#$0A, D0
+		andi.w	#$F,d0
+		cmpi.b	#$A,d0
 		bcs.s	Offset_0x005ECA
-		addi.b	#$04, D0
+		addi.b	#4,d0
 Offset_0x005ECA:
-		addi.b	#$10, D0
-		add.w	D3, D0
-		move.w	D0, (A6)
+		addi.b	#$10,d0
+		add.w	d3,d0
+		move.w	d0,(a6)
 		rts     
-;-------------------------------------------------------------------------------
-Offset_0x005ED4:
-		move.w	(Level_Select_Menu_Cursor).w, D0             ; $FFFFFF82
-		lea	(Menu_Icon_List), A3                   ; Offset_0x005F26
-		lea	$00(A3, D0), A3
-		lea	(M68K_RAM_Start+$08C0), A1                   ; $FFFF08C0
-		moveq	#$00, D0
-		move.b	(A3), D0
-		lsl.w	#$03, D0
-		move.w	D0, D1
-		add.w	D0, D0
-		add.w	D1, D0
-		lea	$00(A1, D0), A1
-		move.l	#$4B360003, D0
-		moveq	#$03, D1
-		moveq	#$02, D2
-		jsr	(PlaneMapToVRAM_H40)                      ; Offset_0x0012BC
-		lea	(Pal_Levels_Icons), A1                 ; Offset_0x006230
-		moveq	#$00, D0
-		move.b	(A3), D0
-		lsl.w	#$05, D0
-		lea	$00(A1, D0), A1
-		lea	(Palette_Row_2_Offset).w, A2                 ; $FFFFED40
-		moveq	#$07, D1
+; ===========================================================================
+; Offset_0x005ED4:
+LevelSelect_DrawIcon:
+		move.w	(Level_Select_Menu_Cursor).w,d0
+		lea	(LevelSelect_IconTable).l,a3
+		lea	(a3,d0.w),a3
+		lea	(M68K_RAM_Start+$8C0).l,a1
+		moveq	#0,d0
+		move.b	(a3),d0
+		lsl.w	#3,d0
+		move.w	d0,d1
+		add.w	d0,d0
+		add.w	d1,d0
+		lea	(a1,d0.w),a1
+		move.l	#$4B360003,d0
+		moveq	#3,d1
+		moveq	#2,d2
+		jsr	(PlaneMapToVRAM_H40).l
+		lea	(Palette_S2LevelIcons).l,a1
+		moveq	#0,d0
+		move.b	(a3),d0
+		lsl.w	#5,d0
+		lea	(a1,d0.w),a1
+		lea	(Palette_Row_2_Offset).w,a2
+		moveq	#7,d1
+
 Offset_0x005F1E:
-		move.l	(A1)+, (A2)+
-		dbf	D1, Offset_0x005F1E
-		rts     
-;-------------------------------------------------------------------------------
-Menu_Icon_List:                                                ; Offset_0x005F26
+		move.l	(a1)+,(a2)+
+		dbf	d1,Offset_0x005F1E
+		rts
+; End of function LevelSelect_MarkFields
+
+; ===========================================================================
+; Offset_0x005F26: Menu_Icon_List:
+LevelSelect_IconTable:
 		dc.b	$00, $00, $07, $07, $08, $08, $06, $06
 		dc.b	$02, $02, $05, $05, $04, $04, $01, $01
 		dc.b	$09, $09, $0A, $0A, $03, $03, $0B, $0B
-		dc.b	$0B, $0B, $0C, $0C, $0E, $00  
-;-------------------------------------------------------------------------------
-Menu_Text_Highlight:                                           ; Offset_0x005F44
+		dc.b	$0B, $0B, $0C, $0C, $0E
+		even
+; Offset_0x005F44: Menu_Text_Highlight:
+LevelSelect_MarkTable:
 		dc.w	$0106, $0124, $0106, $0224, $0406, $0424, $0406, $0524
 		dc.w	$0706, $0724, $0706, $0824, $0A06, $0A24, $0A06, $0B24
 		dc.w	$0D06, $0D24, $0D06, $0E24, $1006, $1024, $1006, $1124
@@ -7568,62 +7699,76 @@ Menu_Text_Highlight:                                           ; Offset_0x005F44
 		dc.w	$1906, $1924, $1906, $1A24, $012C, $014A, $012C, $024A
 		dc.w	$042C, $044A, $042C, $054A, $072C, $074A, $072C, $084A
 		dc.w	$0A2C, $0A4A, $0A2C, $0B4A, $0D2C, $0D4A, $0D2C, $0E4A
-		dc.w	$102C, $104A 
-;-------------------------------------------------------------------------------                
-Menu_Text_Positions:                                           ; Offset_0x005FB8
+		dc.w	$102C, $104A
+; Offset_0x005FB8: Menu_Text_Positions:
+LevelSelect_TextPositions:
 		dc.w	$0056, $0146, $0236, $0326, $0416, $0506, $05F6, $06E6
-		dc.w	$07D6, $007C, $016C, $025C, $034C, $043C, $052C, $061C 
-;-------------------------------------------------------------------------------
-Menu_Check_Secret_Codes:                                       ; Offset_0x005FD8
-		move.w	(Secret_Code_Input_Entries).w, D0            ; $FFFFFFD4
-		adda.w	D0, A0
-		move.w	(Sound_Test_Sound).w, D0                     ; $FFFFFF84
-		cmp.b	(A0), D0
+		dc.w	$07D6, $007C, $016C, $025C, $034C, $043C, $052C, $061C
+; ===========================================================================
+; Offset_0x005FD8: Menu_Check_Secret_Codes:
+Menus_CheckCheats:
+		move.w	(Secret_Code_Input_Entries).w,d0
+		adda.w	d0,a0
+		move.w	(Sound_Test_Sound).w,d0
+		cmp.b	(a0),d0
 		bne.s	Offset_0x005FFC
-		addq.w	#$01, (Secret_Code_Input_Entries).w          ; $FFFFFFD4
-		tst.b	$0001(A0)
+		addq.w	#1,(Secret_Code_Input_Entries).w
+		tst.b	1(a0)
 		bne.s	Offset_0x006002
-		move.w	#$0101, (A1)
-		moveq	#Ring_Sfx, D0                                      ; $32
-		jsr	(PlaySound)                           ; Offset_0x001176
+		move.w	#$101,(a1)
+		moveq	#Ring_Sfx,d0
+		jsr	(PlaySound).l
+
 Offset_0x005FFC:
-		move.w	#$0000, (Secret_Code_Input_Entries).w        ; $FFFFFFD4
+		move.w	#0,(Secret_Code_Input_Entries).w
+
 Offset_0x006002:
-		move.w	(Secret_Code_Input_Entries_2).w, D0          ; $FFFFFFD6
-		adda.w	D0, A2
-		move.w	(Sound_Test_Sound).w, D0                     ; $FFFFFF84
-		cmp.b	(A2), D0
+		move.w	(Secret_Code_Input_Entries_2).w,d0
+		adda.w	d0,a2
+		move.w	(Sound_Test_Sound).w,d0
+		cmp.b	(a2),d0
 		bne.s	Offset_0x00603C
-		addq.w	#$01, (Secret_Code_Input_Entries_2).w        ; $FFFFFFD6
-		tst.b	$0001(A2)
+		addq.w	#1,(Secret_Code_Input_Entries_2).w
+		tst.b	1(a2)
 		bne.s	Offset_0x006042
-		tst.w	D2
+		tst.w	d2
 		bne.s	Offset_0x00602E
-		move.b	#$0F, (Continue_count).w                     ; $FFFFFE18
-		moveq	#Continue_Snd, D0                                  ; $28
-		jsr	(PlaySound)                           ; Offset_0x001176
+		move.b	#$F,(Continue_count).w
+		; Yes, they actually fixed the broken 14 continues bug; also ended up being
+		; fixed in (technically) Knuckles in Sonic 2, Sonic Mega Collection, and the
+		; Wii Virtual Console release, the latter two being based on REV01 while KiS2
+		; was based on REV02, as was Sonic 3
+		moveq	#Continue_Snd,d0
+		jsr	(PlaySound).l
 		bra.s	Offset_0x00603C
+; ---------------------------------------------------------------------------
+
 Offset_0x00602E:
-		move.w	#$0007, (SS_Completed_Flag).w                ; $FFFFFFB0
-		moveq	#Got_Emerald_Snd, D0                               ; $2B
-		jsr	(PlaySound)                           ; Offset_0x001176
+		move.w	#7,(SS_Completed_Flag).w	; misnomer
+		moveq	#Got_Emerald_Snd,d0
+		jsr	(PlaySound).l
+
 Offset_0x00603C:
-		move.w	#$0000, (Secret_Code_Input_Entries_2).w      ; $FFFFFFD6
+		move.w	#0,(Secret_Code_Input_Entries_2).w
+
 Offset_0x006042:
-		rts    
-;-------------------------------------------------------------------------------                    
-S2_Code_Level_Select:                                          ; Offset_0x006044
-		dc.b	$19, $65, $09, $17, $00  
-;-------------------------------------------------------------------------------                 
-S2_Code_14_Continues:                                          ; Offset_0x006049
-		dc.b	$01, $01, $02, $04, $00    
-;-------------------------------------------------------------------------------                  
-Code_Debug_Mode:                                               ; Offset_0x00604E
-		dc.b	$01, $03, $05, $07, $00   
-;-------------------------------------------------------------------------------                 
-Code_All_Emeralds:                                             ; Offset_0x006053
-		dc.b	$02, $04, $05, $06, $00  
-;-------------------------------------------------------------------------------                  
+		rts
+; End of function Menus_CheckCheats
+
+; ===========================================================================
+; Offset_0x006044: S2_Code_Level_Select:
+S2LevelSelect_Cheat:	dc.b	$19,$65, 9,$17, 0
+; Offset_0x006049: S2_Code_14_Continues:
+S214Continues_Cheat:	dc.b	1, 1, 2, 4, 0
+; Offset_0x00604E: Code_Debug_Mode:
+DebugMode_Cheat:	dc.b	1, 3, 5, 7, 0
+; Offset_0x006053: Code_All_Emeralds:
+AllEmeralds_Cheat:	dc.b	2, 4, 5, 6, 0
+
+; ---------------------------------------------------------------------------
+; First byte is the length of the string, make sure to change it if the
+; string itself ever changes length
+
 Map_Player_Select_Caption:                                     ; Offset_0x006058
 		dc.b	$10
 		dc.b	_st,__,_P,_L,_A,_Y,_E,_R,__,_S,_E,_L,_E,_C,_T,__,_st                   
@@ -7660,79 +7805,85 @@ Map_Sound_Test_Sound:                                          ; Offset_0x0060FE
 		dc.b	$0E
 		dc.b	__,__,__,__,__,__,_0,_0,__,__,__,__,__,__,__                    
 ;-------------------------------------------------------------------------------  
-Map_Emerald_Hill:                                              ; Offset_0x00610E
-		dc.b	$0B,_E,_M,_E,_R,_A,_L,_D,__,_H,_I,_L,_L              
-Map_Mystic_Cave:                                               ; Offset_0x00611B
-		dc.b	$0B,__,_M,_Y,_S,_T,_I,_C,__,_C,_A,_V,_E              
-Map_Casino_Night:                                              ; Offset_0x006128
-		dc.b	$0B,_C,_A,_S,_I,_N,_O,__,_N,_I,_G,_H,_T
-; Map_Special_Stage:                                           ; Offset_0x006135
-		dc.b	$0C,_S,_P,_E,_C,_I,_A,_L,__,_S,_T,_A,_G,_E  
-Map_Special:                                                   ; Offset_0x006143    
-		dc.b	$0B,__,__,__,_S,_P,_E,_C,_I,_A,_L,__,__  
-Map_Zone:                                                      ; Offset_0x006150
-		dc.b	$04,_Z,_O,_N,_E,__ 
-Map_Stage:                                                     ; Offset_0x006156
-		dc.b	$04,_S,_T,_A,_G,_E                  
-; Map_Game_Over: 
-		dc.b	$08,_G,_A,_M,_E,__,_O,_V,_E,_R
-; Map_Time_Over:              
-		dc.b	$08,_T,_I,_M,_E,__,_O,_V,_E,_R
-; Map_No_Game: 
-		dc.b	$06,_N,_O,__,_G,_A,_M,_E
-; Map_Tied:  
-		dc.b	$03,_T,_I,_E,_D
+; Offset_0x00610E:
+Map_Emerald_Hill:
+		dc.b	11,_E,_M,_E,_R,_A,_L,_D,__,_H,_I,_L,_L
+; Offset_0x00611B:
+Map_Mystic_Cave:
+		dc.b	11,__,_M,_Y,_S,_T,_I,_C,__,_C,_A,_V,_E
+; Offset_0x006128:
+Map_Casino_Night:
+		dc.b	11,_C,_A,_S,_I,_N,_O,__,_N,_I,_G,_H,_T
+; Offset_0x006135:
+Map_Special_Stage:
+		dc.b	12,_S,_P,_E,_C,_I,_A,_L,__,_S,_T,_A,_G,_E
+; Offset_0x006143:
+Map_Special:	dc.b	11,__,__,__,_S,_P,_E,_C,_I,_A,_L,__,__
+; Offset_0x006150:
+Map_Zone:	dc.b	4,_Z,_O,_N,_E,__
+; Offset_0x006156:
+Map_Stage:	dc.b	4,_S,_T,_A,_G,_E
+; Map_Game_Over:
+		dc.b	8,_G,_A,_M,_E,__,_O,_V,_E,_R
+; Map_Time_Over:
+		dc.b	8,_T,_I,_M,_E,__,_O,_V,_E,_R
+; Map_No_Game:
+		dc.b	6,_N,_O,__,_G,_A,_M,_E
+; Map_Tied:
+		dc.b	3,_T,_I,_E,_D
 ; Map_1P:
-		dc.b	$02,__,_1,_P
-; Map_2P:         
-		dc.b	$02,__,_2,_P
-; Map_Blank: 
-		dc.b	$03,__,__,__,__
-;-------------------------------------------------------------------------------                                                                                
-Menu_Level_Select_Text:                                        ; Offset_0x00618A
-		dc.b	$0B,_A,_N,_G,_E,_L,__,_I,_S,_L,_A,_N,_D 
-		dc.b	$08,_H,_Y,_D,_R,_O,_C,_I,_T,_Y
-		dc.b	$0C,_M,_A,_R,_B,_L,_E,__,_G,_A,_R,_D,_E,_N
-		dc.b	$0D,_C,_A,_R,_N,_I,_V,_A,_L,__,_N,_I,_G,_H,_T
-		dc.b	$0D,_F,_L,_Y,_I,_N,_G,__,_B,_A,_T,_T,_E,_R,_Y
-		dc.b	$05,_I,_C,_E,_C,_A,_P 
-		dc.b	$0A,_L,_A,_U,_N,_C,_H,__,_B,_A,_S,_E 
-		dc.b	$0E,_M,_U,_S,_H,_R,_O,_O,_M,__,_V,_A,_L,_L,_E,_Y
-                
-		dc.b	$09,_S,_A,_N,_D,_O,_P,_O,_L,_I,_S
-		dc.b	$04,_2,_P,__,_V,_S
-		dc.b	$04,_2,_P,__,_V,_S 
-		dc.b	$04,_2,_P,__,_V,_S
-		dc.b	$04,_B,_O,_N,_U,_S
-		dc.b	$0C,_S,_P,_E,_C,_I,_A,_L,__,_S,_T,_A,_G,_E
-		dc.b	$0C,_S,_O,_U,_N,_D,__,_T,_E,_S,_T,__,__,_st,__                    
-;------------------------------------------------------------------------------- 
-Pal_Levels_Icons:                                              ; Offset_0x006230               
-                incbin  'data\menus\lvsicons.pal'  
-;------------------------------------------------------------------------------- 
-Vs_Level_Select_Frame_Mappings:                                ; Offset_0x006410
-                incbin  'data\menus\vsslctmn.eni'                                 
-;-------------------------------------------------------------------------------   
-Options_Frame_Mappings:                                        ; Offset_0x006462
-                incbin  'data\menus\optframe.eni' 
-;-------------------------------------------------------------------------------                 
-S2_Menu_Level_Select_Text:                                     ; Offset_0x00648E 
-                incbin  'data\menus\menutext.eni'  
-;-------------------------------------------------------------------------------                
-Menu_Icons_Mappings:                                           ; Offset_0x0065E2
-                incbin  'data\menus\iconsmap.eni'     
-;-------------------------------------------------------------------------------
-Menu_Animate:                                                  ; Offset_0x006614
-		dc.w	$0000                        ; Total de Anima��es     
-		dc.l	($FF<<$18)|Art_Menu_Sonic_Miles        ; Offset_0x0A8DC0
-		dc.w	$0020                        ; VRAM 
-		dc.b	$06, $0A                     ; Quadros / Tiles
-		dc.b	$00, $C7, $0A, $05, $14, $05 ; Carregar quadro / Tempo do quadro
-		dc.b	$1E, $C7, $14, $05, $0A, $05 ; Carregar quadro / Tempo do quadro                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-;===============================================================================
-; Menu de op��es, menu de sele��o de fases no modo 1 e 2 jogadores 
-; <<<-
-;=============================================================================== 
+		dc.b	2,__,_1,_P
+; Map_2P:
+		dc.b	2,__,_2,_P
+; Map_Blank:
+		dc.b	3,__,__,__,__
+
+; Offset_0x00618A: Menu_Level_Select_Text:
+LevelSelect_Names:
+		dc.b	11,_A,_N,_G,_E,_L,__,_I,_S,_L,_A,_N,_D
+		dc.b	8, _H,_Y,_D,_R,_O,_C,_I,_T,_Y
+		dc.b	12,_M,_A,_R,_B,_L,_E,__,_G,_A,_R,_D,_E,_N
+		dc.b	13,_C,_A,_R,_N,_I,_V,_A,_L,__,_N,_I,_G,_H,_T
+		dc.b	13,_F,_L,_Y,_I,_N,_G,__,_B,_A,_T,_T,_E,_R,_Y
+		dc.b	5, _I,_C,_E,_C,_A,_P 
+		dc.b	10,_L,_A,_U,_N,_C,_H,__,_B,_A,_S,_E 
+		dc.b	14,_M,_U,_S,_H,_R,_O,_O,_M,__,_V,_A,_L,_L,_E,_Y
+
+		dc.b	9, _S,_A,_N,_D,_O,_P,_O,_L,_I,_S
+		dc.b	4, _2,_P,__,_V,_S
+		dc.b	4, _2,_P,__,_V,_S 
+		dc.b	4, _2,_P,__,_V,_S
+		dc.b	4, _B,_O,_N,_U,_S
+		dc.b	12,_S,_P,_E,_C,_I,_A,_L,__,_S,_T,_A,_G,_E
+		dc.b	12,_S,_O,_U,_N,_D,__,_T,_E,_S,_T,__,__,_st
+		even
+
+; ---------------------------------------------------------------------------
+; Offset_0x006230: Pal_Levels_Icons:
+Palette_S2LevelIcons:		incbin	"data/menus/lvsicons.pal"
+; Offset_0x006410:
+Vs_Level_Select_Frame_Mappings:	incbin	"data/menus/vsslctmn.eni"
+; Offset_0x006462:
+Options_Frame_Mappings:		incbin	"data/menus/optframe.eni"
+; Offset_0x00648E:
+S2_Menu_Level_Select_Text:	incbin	"data/menus/menutext.eni"
+; Offset_0x0065E2:
+Menu_Icons_Mappings:		incbin	"data/menus/iconsmap.eni"
+
+; with the two player results removed, the animation script has been moved here
+; Offset_0x006614: Menu_Animate:
+Anim_SonicMilesBG:
+		dc.w	0
+		dc.l	($FF<<$18)|Art_Menu_Sonic_Miles	; duration (in frames) and art
+		dc.w	$20				; VRAM location
+		dc.b	6, $A				; amount of entries and tiles
+		dc.b	0,$C7
+		dc.b	$A, 5
+		dc.b	$14, 5
+		dc.b	$1E,$C7
+		dc.b	$14, 5
+		dc.b	$A, 5
+		even
 
 ;===============================================================================
 ; Modo de teste para o Special Stage 
@@ -13544,7 +13695,7 @@ Sonic_Finished:
 		move.b	#8,Obj_Routine(a0)
 		move.w	#Game_Over_Time_Over_Snd,d0
 		jsr	(PlaySound).l
-		moveq	#3,d0
+		moveq	#id_PLC_GameOver,d0
 		jmp	(LoadPLC).l
 ; ===========================================================================
 ; Offset_0x00C1E0:
@@ -14704,11 +14855,11 @@ Invincibility_Index:	offsetTable
 
 Offset_0x00FA0E:
 		dc.l	Offset_0x00FC11
-		dc.b	0, $B
+		dc.w	$B
 		dc.l	Offset_0x00FC26
-		dc.b	$16, $D
+		dc.b	$160D
 		dc.l	Offset_0x00FC3F
-		dc.b	$2C, $D
+		dc.b	$2C0D
 ; ===========================================================================
 ; Offset_0x00FA20:
 Invincibility_Init:
@@ -14721,7 +14872,7 @@ Invincibility_Init:
 		moveq	#0,d2
 		lea	Offset_0x00FA0E-6(pc),a2
 		lea	(a0),a1
-		moveq	#4-1,d1
+		moveq	#3,d1
 
 Offset_0x00FA2A:
 		move.l	(a0),(a1)
@@ -14734,7 +14885,7 @@ Offset_0x00FA2A:
 		move.b	#$10,Obj_Width(a1)
 		move.w	#2,Obj_Sub_Y(a1)
 		move.w	Obj_Player_Last(a0),Obj_Player_Last(a1)
-		move.b	D2, Obj_Control_Var_06(a1)
+		move.b	d2,Obj_Control_Var_06(a1)
 		addq.w	#1,d2
 		move.l	(a2)+,Obj_Control_Var_00(a1)
 		move.w	(a2)+,Obj_Control_Var_04(a1)
@@ -26296,7 +26447,7 @@ TitleCard_LoadMainGraphics:
 TitleCard_LoadAnimals:
 		move.w	(Apparent_ZoneAndAct).w,d0
 		jsr	Level_Load_Enemies_Art(pc)		; load animals based on zone
-		moveq	#2,d0
+		moveq	#id_PLC_Main3,d0
 		jsr	(LoadPLC).l
 		jmp	(DeleteObject).l
 
@@ -40484,10 +40635,10 @@ TilesMainTable:                                                ; Offset_0x04A77E
 ; ---------------------------------------------------------------------------
 ; Offset_0x04ABFE:
 ArtLoadCues:	offsetTable
-PLCptr_LvlStd1:		offsetTableEntry.w PLC_Default
-PLCptr_LvlStd2:		offsetTableEntry.w PLC_Default_Sonic
-PLCptr_LvlStd3:		offsetTableEntry.w PLC_Default_Flickies
-		dc.w	PLC_Game_Over_Time_Over-ArtLoadCues    ; Offset_0x04AD3E ; $03
+PLCptr_Main1:		offsetTableEntry.w PLC_Default
+PLCptr_Main2:		offsetTableEntry.w PLC_Default_Sonic
+PLCptr_Main3:		offsetTableEntry.w PLC_Default_Flickies
+PLCptr_GameOver:	offsetTableEntry.w PLC_Game_Over_Time_Over
 		dc.w	PLC_Act_1_Clear-ArtLoadCues            ; Offset_0x04AD46 ; $04
 		dc.w	PLC_Default_2P-ArtLoadCues             ; Offset_0x04AD4E ; $05
 		dc.w	PLC_Default_2P-ArtLoadCues             ; Offset_0x04AD4E ; $06

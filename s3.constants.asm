@@ -39,10 +39,11 @@ Btn_A                 equ $06
 Btn_Start             equ $07
 
 ; PATTERN LOAD CUES
-PLCID__First		equ 0
-PLCID_LvlStd1		equ (PLCptr_LvlStd1-ArtLoadCues)/2+PLCID__First
-PLCID_LvlStd2		equ (PLCptr_LvlStd2-ArtLoadCues)/2+PLCID__First
-PLCID_LvlStd3		equ (PLCptr_LvlStd3-ArtLoadCues)/2+PLCID__First
+id_PLC__First		equ 0
+id_PLC_Main1		equ (PLCptr_Main1-ArtLoadCues)/2+id_PLC__First
+id_PLC_Main2		equ (PLCptr_Main2-ArtLoadCues)/2+id_PLC__First
+id_PLC_Main3		equ (PLCptr_Main3-ArtLoadCues)/2+id_PLC__First
+id_PLC_GameOver		equ (PLCptr_GameOver-ArtLoadCues)/2+id_PLC__First
 
 ; ---------------------------------------------------------------------------
 ; Sprite Status Table
@@ -219,12 +220,6 @@ GM_BS_Id              equ $13
 GM_BS_Act_1           equ $1300
 GS_BS_Act_1           equ $1400
 SM_BS_Act_1           equ $1500
-
-S3_Special_Stage      equ $4000
-SK_Special_Stage      equ $4001
-Disabled_Level        equ $5555
-Reset_Game            equ $FFFF
-
 
 ; Músicas 
 Angel_Island_1_Snd       equ $0001
