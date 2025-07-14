@@ -7382,7 +7382,7 @@ LevelSelect_Levels:
 ; Offset_0x005C2C: Menu_Game_Reset:
 LevelSelect_ResetGame:
 		move.b	#gm_SEGALogo,(Game_Mode).w
-		rts                    
+		rts
 ; ===========================================================================
 ; Offset_0x005C34: Menu_Load_Level:
 LevelSelect_LoadLevel:
@@ -7583,7 +7583,7 @@ LevelSelect_MarkFields:
 		lsl.l	#2,d1
 		lsr.w	#2,d1
 		ori.w	#$4000,d1
-		swap.w	D1
+		swap.w	d1
 		move.l	d1,4(a6)
 		moveq	#$E,d2
 
@@ -7649,7 +7649,7 @@ Offset_0x005ECA:
 		addi.b	#$10,d0
 		add.w	d3,d0
 		move.w	d0,(a6)
-		rts     
+		rts
 ; ===========================================================================
 ; Offset_0x005ED4:
 LevelSelect_DrawIcon:
