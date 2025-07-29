@@ -25563,73 +25563,53 @@ Obj_0x2E_AIz_Spiked_Rotating_Log:                              ; Offset_0x022A7E
 ; ---------------------------------------------------------------------------
 ; Object 2F - Static decorations
 ; ---------------------------------------------------------------------------
-; Offset_0x022E38:
-Obj_0x2F_Still_Sprite:
-		move.l	#Still_Sprite_Mappings, Obj_Map(A0) ; Offset_0x022F02, $000C
-		ori.b	#$04, Obj_Flags(A0)					; $0004
-		moveq	#$00, D0
-		move.b	Obj_Subtype(A0), D0					; $002C
-		move.b	D0, Obj_Map_Id(A0)					; $0022
-		add.w	D0, D0
-		move.w	D0, D1
-		add.w	D0, D0
-		add.w	D1, D0
-		lea	Offset_0x022E78(pc,d0.w), A1
-		move.w	(A1)+, Obj_Art_VRAM(A0)				; $000A
-		move.w	(A1)+, Obj_Priority(A0)				; $0008
-		move.b	(A1)+, Obj_Width(A0)					; $0007
-		move.b	(A1)+, Obj_Height(A0)					; $0006
-		move.l	#Offset_0x022E72, (A0)
-Offset_0x022E72:		
-		jmp	(MarkObjGone)				; Offset_0x011AF2	
-;-------------------------------------------------------------------------------
-Offset_0x022E78:
-		dc.w	$42F0, $0300
-		dc.b	$0C, $0C
-		dc.w	$42F0, $0300 
-		dc.b	$10, $08
-		dc.w	$42F0, $0300
-		dc.b	$08, $04
-		dc.w	$4001, $0300 
-		dc.b	$08, $08
-		dc.w	$6001, $0300
-		dc.b	$08, $20
-		dc.w	$C2F0, $0300 
-		dc.b	$0C, $0C
-		dc.w	$C001, $0000
-		dc.b	$40, $40
-		dc.w	$C001, $0000 
-		dc.b	$40, $20
-		dc.w	$4001, $0300
-		dc.b	$40, $10
-		dc.w	$C001, $0000
-		dc.b	$40, $40
-		dc.w	$C001, $0000
-		dc.b	$40, $60
-		dc.w	$4451, $0300 
-		dc.b	$10, $18
-		dc.w	$4451, $0300
-		dc.b	$10, $18
-		dc.w	$4451, $0300 
-		dc.b	$10, $18
-		dc.w	$4451, $0300
-		dc.b	$10, $18
-		dc.w	$C368, $0000
-		dc.b	$08, $30
-		dc.w	$C379, $0000
-		dc.b	$30, $18
-		dc.w	$C399, $0000 
-		dc.b	$0C, $10
-		dc.w	$C3A4, $0000
-		dc.b	$20, $34
-		dc.w	$4038, $0300 
-		dc.b	$04, $10
-		dc.w	$440D, $0300
-		dc.b	$08, $08
-		dc.w	$2433, $0300 
-		dc.b	$10, $40
-		dc.w	$2433, $0300
-		dc.b	$10, $80
+; Offset_0x022E38: Obj_0x2F_Still_Sprite:
+Obj2F_StaticDecoration:
+		move.l	#Still_Sprite_Mappings,Obj_Map(a0)
+		ori.b	#4,Obj_Flags(a0)
+		moveq	#0,d0
+		move.b	Obj_Subtype(a0),d0
+		move.b	d0,Obj_Map_Id(a0)
+		add.w	d0,d0
+		move.w	d0,d1
+		add.w	d0,d0
+		add.w	d1,d0
+		lea	StaticDecoration_ObjData(pc,d0.w),a1
+		move.w	(a1)+,Obj_Art_VRAM(a0)
+		move.w	(a1)+,Obj_Priority(a0)
+		move.b	(a1)+,Obj_Width(a0)
+		move.b	(a1)+,Obj_Height(a0)
+		move.l	#StaticDecoration_Display,(a0)
+; Offset_0x022E72:
+StaticDecoration_Display:
+		jmp	(MarkObjGone).l
+; ===========================================================================
+; Offset_0x022E78:
+StaticDecoration_ObjData:
+		; priority, width, height, and VRAM
+		objdatasimple $300, $C, $C, $42F0
+		objdatasimple $300,$10,  8, $42F0
+		objdatasimple $300,  8,  4, $42F0
+		objdatasimple $300,  8,  8, $4001
+		objdatasimple $300,  8,$20, $6001
+		objdatasimple $300, $C, $C, $C2F0
+		objdatasimple    0,$40,$40, $C001
+		objdatasimple    0,$40,$20, $C001
+		objdatasimple $300,$40,$10, $4001
+		objdatasimple    0,$40,$40, $C001
+		objdatasimple    0,$40,$60, $C001
+		objdatasimple $300,$10,$18, $4451
+		objdatasimple $300,$10,$18, $4451
+		objdatasimple $300,$10,$18, $4451
+		objdatasimple $300,$10,$18, $4451
+		objdatasimple    0,  8,$30, $C368
+		objdatasimple    0,$30,$18, $C379
+		objdatasimple    0, $C,$10, $C399
+		objdatasimple    0,$20,$34, $C3A4
+		objdatasimple $300,  4,$10, $4038
+		objdatasimple $300,  8,  8, $440D
+		objdatasimple $300,$10,$40, $2433
+		objdatasimple $300,$10,$80, $2433
 ; ---------------------------------------------------------------------------
 ; Sprite Mappings - Static Decorations
 ; ---------------------------------------------------------------------------
@@ -41751,19 +41731,19 @@ DOL_01: ; DOL - Debug Object List
 		dc.l	($08<<$18)|Obj_0x2E_AIz_Spiked_Rotating_Log ; Offset_0x022A7E
 		dc.l	Spiked_Rotating_Log_Mappings           ; Offset_0x022C4E
 		dc.w	$42F0
-		dc.l	Obj_0x2F_Still_Sprite                  ; Offset_0x022E38
+		dc.l	Obj2F_StaticDecoration                  ; Offset_0x022E38
 		dc.l	Still_Sprite_Mappings                  ; Offset_0x022F02
 		dc.w	$42F0
-		dc.l	($01<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($01<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($01<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$42F0
-		dc.l	($02<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($02<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($02<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$42F0
-		dc.l	($03<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($03<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($03<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4001
-		dc.l	($04<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($04<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($04<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$6001
 		dc.l	Obj30_AnimatedDecoration         ; Offset_0x0231C0
@@ -41903,19 +41883,19 @@ DOL_02: ; DOL - Debug Object List
 		dc.l	($09<<$18)|Obj_0x0F_Collapsing_Platform ; Offset_0x01595E
 		dc.l	($38<<$18)|Hz_Collapsing_Platform_Mappings ; Offset_0x016366
 		dc.w	$C001
-		dc.l	($06<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($06<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($06<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C001
-		dc.l	($07<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($07<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($07<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C001
-		dc.l	($08<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($08<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($08<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4001
-		dc.l	($09<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($09<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($09<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C001
-		dc.l	($0A<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($0A<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($0A<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C001
 		dc.l	($13<<$18)|Obj_0x54_Oxygen_Bubbles     ; Offset_0x025500
@@ -41936,16 +41916,16 @@ DOL_02: ; DOL - Debug Object List
 		dc.l	Obj_0x68_Hz_Spinning_Column            ; Offset_0x0289B8
 		dc.l	($02<<$18)|Spinning_Column_Mappings    ; Offset_0x028BFC
 		dc.w	$4040
-		dc.l	($0F<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($0F<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($0F<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C368
-		dc.l	($10<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($10<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($10<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C379
-		dc.l	($11<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($11<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($11<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C399
-		dc.l	($12<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($12<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($12<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$C3A4
 		dc.l	Obj_0x6E_Hz_Waterfall                  ; Offset_0x02E0A8
@@ -41954,7 +41934,7 @@ DOL_02: ; DOL - Debug Object List
 		dc.l	Obj_0x6D_Hz_Water_Splash               ; Offset_0x02E22E
 		dc.l	Water_Splash_Mappings                  ; Offset_0x02E4D0
 		dc.w	$43B2
-		dc.l	($13<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($13<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($13<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4038
 		dc.l	Obj_0x6C_Bridge                        ; Offset_0x02E504
@@ -42022,16 +42002,16 @@ DOL_03: ; DOL - Debug Object List
 		dc.l	Obj_0xA6_MGz_Mantis                    ; Offset_0x045B26
 		dc.l	Mantis_Mappings                        ; Offset_0x10ECDE
 		dc.w	$254F
-		dc.l	($0B<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($0B<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($0B<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4451
-		dc.l	($0C<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($0C<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($0C<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4451
-		dc.l	($0D<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($0D<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($0D<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4451
-		dc.l	($0E<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($0E<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($0E<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$4451
 		dc.l	Obj_0x0F_Collapsing_Platform           ; Offset_0x01595E
@@ -42554,13 +42534,13 @@ DOL_08: ; DOL - Debug Object List
 		dc.l	($02<<$18)|Obj_0x10_LBz_Tube_Elevator  ; Offset_0x020856
 		dc.l	Tube_Elevator_Mappings                 ; Offset_0x020D4E
 		dc.w	$2455
-		dc.l	($14<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($14<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($14<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$440D
-		dc.l	($15<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($15<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($15<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$2433
-		dc.l	($16<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($16<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($16<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$2433
 DOL_08_End:
@@ -42679,13 +42659,13 @@ DOL_09: ; DOL - Debug Object List
 		dc.l	Obj_0x0D_Breakable_Wall                ; Offset_0x0170CA
 		dc.l	LBz_Breakable_Wall_Mappings            ; Offset_0x017A3E
 		dc.w	$22EA
-		dc.l	($14<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($14<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($14<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$440D
-		dc.l	($15<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($15<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($15<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$2433
-		dc.l	($16<<$18)|Obj_0x2F_Still_Sprite       ; Offset_0x022E38
+		dc.l	($16<<$18)|Obj2F_StaticDecoration       ; Offset_0x022E38
 		dc.l	($16<<$18)|Still_Sprite_Mappings       ; Offset_0x022F02
 		dc.w	$2433
 DOL_09_End:
@@ -43359,7 +43339,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x2C_AIz_Collapsing_Bridge         ; Offset_0x021F0C
 		dc.l	Obj_0x2D_AIz_Falling_Log               ; Offset_0x0227AC
 		dc.l	Obj_0x2E_AIz_Spiked_Rotating_Log       ; Offset_0x022A7E
-		dc.l	Obj_0x2F_Still_Sprite                  ; Offset_0x022E38
+		dc.l	Obj2F_StaticDecoration                  ; Offset_0x022E38
 		dc.l	Obj30_AnimatedDecoration
 		dc.l	Obj_0x31_LBz_Rotating_Cylinders        ; Offset_0x02350C
 		dc.l	Obj_0x32_AIz_Draw_Bridge               ; Offset_0x02235C
