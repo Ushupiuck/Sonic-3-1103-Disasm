@@ -52,17 +52,6 @@ clearRAM macro startaddr,endaddr
     	endc
     	endm
 
-; macro to declare an offset table
-offsetTable macro *
-\* EQU *
-current_offset_table = \*
-    endm
-
-; macro to declare an entry in an offset table
-offsetTableEntry macro ptr
-	dc.\0 ptr-current_offset_table
-    endm
-
 ; macros to create an entry for object data
 objdata macro pri,width,height,frame,collision,VRAM,mapping
   if (narg=7)

@@ -10,13 +10,13 @@ Obj_SegaSonic:
 		jmp	SegaSonic_Index(pc,d1.w)
 ; ===========================================================================
 ; Offset_0x034496:
-SegaSonic_Index:	offsetTable
-		offsetTableEntry.w SegaSonic_Init
-		offsetTableEntry.w SegaSonic_RunLeft
-		offsetTableEntry.w SegaSonic_MidWipe
-		offsetTableEntry.w SegaSonic_RunRight
-		offsetTableEntry.w SegaSonic_EndWipe
-		offsetTableEntry.w SegaSonic_End
+SegaSonic_Index:
+		dc.w SegaSonic_Init-SegaSonic_Index
+		dc.w SegaSonic_RunLeft-SegaSonic_Index
+		dc.w SegaSonic_MidWipe-SegaSonic_Index
+		dc.w SegaSonic_RunRight-SegaSonic_Index
+		dc.w SegaSonic_EndWipe-SegaSonic_Index
+		dc.w SegaSonic_End-SegaSonic_Index
 ; ===========================================================================
 ; Offset_0x0344A2:
 SegaSonic_Init:

@@ -35,9 +35,9 @@ CutKnux_AIZ1:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 ; Offset_0x034BF6:
-CutKnux_AIZ1_Index:	offsetTable
-		offsetTableEntry.w CutKnux_AIZ1_Init
-		offsetTableEntry.w CutKnux_AIZ1_Null
+CutKnux_AIZ1_Index:
+		dc.w CutKnux_AIZ1_Init-CutKnux_AIZ1_Index
+		dc.w CutKnux_AIZ1_Null-CutKnux_AIZ1_Index
 ; ===========================================================================
 ; Offset_0x034BFA:
 CutKnux_AIZ1_Init:
@@ -73,13 +73,13 @@ CutKnux_AIZ2:
 		jmp	(Check_Delete_Touch_Slotted).l
 ; ===========================================================================
 ; Offset_0x034C50:
-CutKnux_AIZ2_Index:	offsetTable
-		offsetTableEntry.w CutKnux_AIZ2_Init
-		offsetTableEntry.w CutKnux_Wait
-		offsetTableEntry.w Offset_0x034CAE
-		offsetTableEntry.w Offset_0x034CFA
-		offsetTableEntry.w Offset_0x034D36
-		offsetTableEntry.w Offset_0x034D70
+CutKnux_AIZ2_Index:
+		dc.w CutKnux_AIZ2_Init-CutKnux_AIZ2_Index
+		dc.w CutKnux_Wait-CutKnux_AIZ2_Index
+		dc.w Offset_0x034CAE-CutKnux_AIZ2_Index
+		dc.w Offset_0x034CFA-CutKnux_AIZ2_Index
+		dc.w Offset_0x034D36-CutKnux_AIZ2_Index
+		dc.w Offset_0x034D70-CutKnux_AIZ2_Index
 ; ===========================================================================
 ; Offset_0x034C5C:
 CutKnux_AIZ2_Init:

@@ -1,4 +1,5 @@
 ; TODO: Obj05, Obj35, Obj07, Obj_0x08, Obj_0x04, Obj_0x0F, Obj02, Obj_0x0C
+; Obj_0x2F_Still_Sprite
 
 ; ---------------------------------------------------------------------------
 ; Sonic the Hedgehog 3 - November 3, 1993 GitHub disassembly
@@ -32,7 +33,7 @@
 ; ---------------------------------------------------------------------------
 		opt	l.					; . is the local label symbol
 		opt	ae-					; automatic evens disabled by default
-		opt oz+						; address register indirect zero-displacement optimization enabled by default
+		opt	oz+					; address register indirect zero-displacement optimization enabled by default
 		opt	an+					; allow Intel/Zilog-style number suffixes (used in the Z80 code and definitions)
 		opt	ws+					; allow statements to contain white-spaces
 		opt	w+					; print warnings
@@ -443,21 +444,20 @@ VBlank_Finalize:
 
 ; ===========================================================================
 ; Offset_0x0004AC:
-VBlank_List:	offsetTable
-		offsetTableEntry.w VBlank_00
-		offsetTableEntry.w VBlank_SEGA
-		offsetTableEntry.w VBlank_Title
-		offsetTableEntry.w VBlank_06
-		offsetTableEntry.w VBlank_08
-		offsetTableEntry.w VBlank_0A
-		offsetTableEntry.w VBlank_0C
-		offsetTableEntry.w VBlank_0E
-		offsetTableEntry.w VBlank_10
-		offsetTableEntry.w VBlank_12
-		offsetTableEntry.w VBlank_14
-		offsetTableEntry.w VBlank_16
-		offsetTableEntry.w VBlank_18
-		offsetTableEntry.w VBlank_1A
+VBlank_List:	dc.w VBlank_00-VBlank_List
+		dc.w VBlank_SEGA-VBlank_List
+		dc.w VBlank_Title-VBlank_List
+		dc.w VBlank_06-VBlank_List
+		dc.w VBlank_08-VBlank_List
+		dc.w VBlank_0A-VBlank_List
+		dc.w VBlank_0C-VBlank_List
+		dc.w VBlank_0E-VBlank_List
+		dc.w VBlank_10-VBlank_List
+		dc.w VBlank_12-VBlank_List
+		dc.w VBlank_14-VBlank_List
+		dc.w VBlank_16-VBlank_List
+		dc.w VBlank_18-VBlank_List
+		dc.w VBlank_1A-VBlank_List
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; VBlank Routine 0 - run when a frame ends before it reaches WaitForVBlank
@@ -11441,13 +11441,12 @@ Sonic_Normal:
 		jmp	Sonic_Index(pc,d1.w)
 ; ===========================================================================
 ; Offset_0x00AA5C:
-Sonic_Index:	offsetTable
-		offsetTableEntry.w Sonic_Init
-		offsetTableEntry.w Sonic_Control
-		offsetTableEntry.w Sonic_Hurt
-		offsetTableEntry.w Sonic_Death
-		offsetTableEntry.w Sonic_ResetLevel
-		offsetTableEntry.w Sonic_Animate
+Sonic_Index:	dc.w Sonic_Init-Sonic_Index
+		dc.w Sonic_Control-Sonic_Index
+		dc.w Sonic_Hurt-Sonic_Index
+		dc.w Sonic_Death-Sonic_Index
+		dc.w Sonic_ResetLevel-Sonic_Index
+		dc.w Sonic_Animate-Sonic_Index
 ; ===========================================================================
 ; Offset_0x00AA68: Sonic_Main:
 Sonic_Init:
@@ -12963,9 +12962,9 @@ ThrownRing_LoadIndex:
 		jmp	ThrownRing_Index(pc,d1.w)
 ; ===========================================================================
 ; Offset_0x00B9D6:
-ThrownRing_Index:	offsetTable
-		offsetTableEntry.w ThrownRing_Init
-		offsetTableEntry.w ThrownRing_Main
+ThrownRing_Index:
+		dc.w ThrownRing_Init-ThrownRing_Index
+		dc.w ThrownRing_Main-ThrownRing_Index
 ; ===========================================================================
 ; Offset_0x00B9DA:
 ThrownRing_Init:
@@ -14796,9 +14795,9 @@ Obj_ClassicShield:
 		jmp	ClassicShield_Index(pc,d1.w)
 ; ===========================================================================
 ; Offset_0x00F980:
-ClassicShield_Index:	offsetTable
-		offsetTableEntry.w ClassicShield_Init
-		offsetTableEntry.w ClassicShield_Main
+ClassicShield_Index:
+		dc.w ClassicShield_Init-ClassicShield_Index
+		dc.w ClassicShield_Main-ClassicShield_Index
 ; ===========================================================================
 ; Offset_0x00F984:
 ClassicShield_Init:
@@ -14847,19 +14846,19 @@ Obj_Invincibility:
 		jmp	Invincibility_Index(pc,d1.w)
 ; ===========================================================================
 ; Offset_0x00FA08:
-Invincibility_Index:	offsetTable
-		offsetTableEntry.w Invincibility_Init
-		offsetTableEntry.w Invincibility_BigStars
-		offsetTableEntry.w Invincibility_TrailingStars
+Invincibility_Index:
+		dc.w Invincibility_Init-Invincibility_Index
+		dc.w Invincibility_BigStars-Invincibility_Index
+		dc.w Invincibility_TrailingStars-Invincibility_Index
 ; ===========================================================================
 
 Offset_0x00FA0E:
 		dc.l	Offset_0x00FC11
 		dc.w	$B
 		dc.l	Offset_0x00FC26
-		dc.b	$160D
+		dc.w	$160D
 		dc.l	Offset_0x00FC3F
-		dc.b	$2C0D
+		dc.w	$2C0D
 ; ===========================================================================
 ; Offset_0x00FA20:
 Invincibility_Init:
@@ -15667,12 +15666,11 @@ Obj00_Rings:
 		jmp	Rings_Index(pc,d1.w) 
 ; ===========================================================================
 ; Offset_0x0109B2:
-Rings_Index:	offsetTable
-		offsetTableEntry.w Rings_Init
-		offsetTableEntry.w Rings_Main
-		offsetTableEntry.w Rings_Collect
-		offsetTableEntry.w Rings_Display
-		offsetTableEntry.w Rings_Delete
+Rings_Index:	dc.w Rings_Init-Rings_Index
+		dc.w Rings_Main-Rings_Index
+		dc.w Rings_Collect-Rings_Index
+		dc.w Rings_Display-Rings_Index
+		dc.w Rings_Delete-Rings_Index
 ; ===========================================================================
 ; Offset_0x0109BC:
 Rings_Init:
@@ -18490,9 +18488,9 @@ DynResize_LBz_2:
 		jmp	DynResize_LBZ2_Index(pc,d0.w)  
 ; ===========================================================================
 ; Offset_0x01293A:
-DynResize_LBZ2_Index:	offsetTable
-		offsetTableEntry.w Offset_0x01293E
-		offsetTableEntry.w Offset_0x012984
+DynResize_LBZ2_Index:
+		dc.w Offset_0x01293E-DynResize_LBZ2_Index
+		dc.w Offset_0x012984-DynResize_LBZ2_Index
 ; ===========================================================================
 
 Offset_0x01293E:
@@ -18514,7 +18512,6 @@ Offset_0x01293E:
 
 Offset_0x012982:
 		rts
-
 ; ---------------------------------------------------------------------------
 
 Offset_0x012984:
@@ -19023,12 +19020,11 @@ Obj01_Monitors:
 		jmp	Monitors_Index(pc,d1.w)   
 ; ===========================================================================
 ; Offset_0x012F52:
-Monitors_Index:	offsetTable
-		offsetTableEntry.w Monitors_Init
-		offsetTableEntry.w Monitors_Main
-		offsetTableEntry.w Monitors_Break
-		offsetTableEntry.w Monitors_Animate
-		offsetTableEntry.w Monitors_ChkDel
+Monitors_Index:	dc.w Monitors_Init-Monitors_Index
+		dc.w Monitors_Main-Monitors_Index
+		dc.w Monitors_Break-Monitors_Index
+		dc.w Monitors_Animate-Monitors_Index
+		dc.w Monitors_ChkDel-Monitors_Index
 ; ===========================================================================
 ; Offset_0x012F5C:
 Monitors_Init:
@@ -19196,10 +19192,10 @@ Obj_MonitorContents:
 		jmp	MonitorContents_Index(pc,d1.w)
 ; ===========================================================================
 ; Offset_0x013132:
-MonitorContents_Index:	offsetTable
-		offsetTableEntry.w MonitorContents_Init
-		offsetTableEntry.w MonitorContents_Raise
-		offsetTableEntry.w MonitorContents_Delete
+MonitorContents_Index:
+		dc.w MonitorContents_Init-MonitorContents_Index
+		dc.w MonitorContents_Raise-MonitorContents_Index
+		dc.w MonitorContents_Delete-MonitorContents_Index
 ; ===========================================================================
 ; Offset_0x013138:
 MonitorContents_Init:
@@ -19275,17 +19271,17 @@ MonitorContents_CheckType:
 		jmp	MonitorContents_Type(pc,d0.w)
 ; ===========================================================================
 ; Offset_0x0131F0:
-MonitorContents_Type:	offsetTable
-		offsetTableEntry.w MonitorContents_Eggman
-		offsetTableEntry.w MonitorContents_SonicLife
-		offsetTableEntry.w MonitorContents_Eggman
-		offsetTableEntry.w MonitorContents_Rings
-		offsetTableEntry.w MonitorContents_SpeedShoes
-		offsetTableEntry.w MonitorContents_FireShield
-		offsetTableEntry.w MonitorContents_LightningShield
-		offsetTableEntry.w MonitorContents_BubbleShield
-		offsetTableEntry.w MonitorContents_Invincibility
-		offsetTableEntry.w MonitorContents_SuperSonic
+MonitorContents_Type:
+		dc.w MonitorContents_Eggman-MonitorContents_Type
+		dc.w MonitorContents_SonicLife-MonitorContents_Type
+		dc.w MonitorContents_Eggman-MonitorContents_Type
+		dc.w MonitorContents_Rings-MonitorContents_Type
+		dc.w MonitorContents_SpeedShoes-MonitorContents_Type
+		dc.w MonitorContents_FireShield-MonitorContents_Type
+		dc.w MonitorContents_LightningShield-MonitorContents_Type
+		dc.w MonitorContents_BubbleShield-MonitorContents_Type
+		dc.w MonitorContents_Invincibility-MonitorContents_Type
+		dc.w MonitorContents_SuperSonic-MonitorContents_Type
 ; ===========================================================================
 ; Offset_0x013204: Monitor_Static: Monitor_Robotnik: S2_Monitor_Miles_Life:
 MonitorContents_Eggman:
@@ -20337,10 +20333,10 @@ Obj_Explosion:
 		jmp	Explosion_Index(pc,d1.w)   
 ; ===========================================================================
 ; Offset_0x013D8A:
-Explosion_Index:	offsetTable
-		offsetTableEntry.w Explosion_Init
-		offsetTableEntry.w Explosion_Main
-		offsetTableEntry.w Explosion_Display
+Explosion_Index:
+		dc.w Explosion_Init-Explosion_Index
+		dc.w Explosion_Main-Explosion_Index
+		dc.w Explosion_Display-Explosion_Index
 ; ===========================================================================
 ; Offset_0x013D90:
 Explosion_Init:
@@ -26327,11 +26323,11 @@ Obj_TitleCard:
 		jmp	TitleCard_Index(pc,d1.w)				 
 ; ===========================================================================
 ; Offset_0x024554:
-TitleCard_Index:	offsetTable
-		offsetTableEntry.w TitleCard_Init
-		offsetTableEntry.w TitleCard_Main
-		offsetTableEntry.w TitleCard_Wait
-		offsetTableEntry.w TitleCard_Wait2
+TitleCard_Index:
+		dc.w TitleCard_Init-TitleCard_Index
+		dc.w TitleCard_Main-TitleCard_Index
+		dc.w TitleCard_Wait-TitleCard_Index
+		dc.w TitleCard_Wait2-TitleCard_Index
 ; ===========================================================================
 ; Offset_0x02455C:
 TitleCard_Init:
@@ -26591,11 +26587,11 @@ Obj_LevelResults:
 		jmp	LevelResults_Index(pc,d1.w)  
 ; ===========================================================================
 ; Offset_0x0247DE:
-LevelResults_Index:	offsetTable
-		offsetTableEntry.w LevelResults_Init
-		offsetTableEntry.w LevelResults_Main
-		offsetTableEntry.w LevelResults_Wait
-		offsetTableEntry.w LevelResults_Wait2
+LevelResults_Index:
+		dc.w LevelResults_Init-LevelResults_Index
+		dc.w LevelResults_Main-LevelResults_Index
+		dc.w LevelResults_Wait-LevelResults_Index
+		dc.w LevelResults_Wait2-LevelResults_Index
 ; ===========================================================================
 ; Offset_0x0247E6:
 LevelResults_Init:
@@ -34446,21 +34442,21 @@ ObjCA_AIZPlaneIntro:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 ; Offset_0x035AF0:
-AIZPlaneIntro_Index:	offsetTable
-		offsetTableEntry.w AIZPlaneIntro_Init
-		offsetTableEntry.w AIZPlaneIntro_Wait
-		offsetTableEntry.w AIZPlaneIntro_SwoopDown
-		offsetTableEntry.w AIZPlaneIntro_Wait
-		offsetTableEntry.w AIZPlaneIntro_SonicFallBehind
-		offsetTableEntry.w AIZPlaneIntro_SonicFallBehind2
-		offsetTableEntry.w AIZPlaneIntro_Wait3
-		offsetTableEntry.w AIZPlaneIntro_SonicMove
-		offsetTableEntry.w Offset_0x035C8E
-		offsetTableEntry.w AIZPlaneIntro_SonicMove2
-		offsetTableEntry.w Offset_0x035CEC
-		offsetTableEntry.w AIZPlaneIntro_ReachedShores
-		offsetTableEntry.w AIZPlaneIntro_InJungle
-		offsetTableEntry.w AIZPlaneIntro_UpperCutSonic
+AIZPlaneIntro_Index:
+		dc.w AIZPlaneIntro_Init-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_Wait-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_SwoopDown-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_Wait-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_SonicFallBehind-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_SonicFallBehind2-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_Wait3-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_SonicMove-AIZPlaneIntro_Index
+		dc.w Offset_0x035C8E-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_SonicMove2-AIZPlaneIntro_Index
+		dc.w Offset_0x035CEC-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_ReachedShores-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_InJungle-AIZPlaneIntro_Index
+		dc.w AIZPlaneIntro_UpperCutSonic-AIZPlaneIntro_Index
 ; ===========================================================================
 ; Offset_0x035B0C:
 AIZPlaneIntro_Init:
@@ -34923,10 +34919,10 @@ Obj_RobotnikHead:
 		jmp	(Child_Display_Or_Delete_2).l
 ; ===========================================================================
 ; Offset_0x036078:
-RobotnikHead_Index:	offsetTable
-		offsetTableEntry.w RobotnikHead_Init
-		offsetTableEntry.w RobotnikHead_Main
-		offsetTableEntry.w RobotnikHead_Delete
+RobotnikHead_Index:
+		dc.w RobotnikHead_Init-RobotnikHead_Index
+		dc.w RobotnikHead_Main-RobotnikHead_Index
+		dc.w RobotnikHead_Delete-RobotnikHead_Index
 ; ===========================================================================
 ; Offset_0x03607E:
 RobotnikHead_Init:
@@ -34980,10 +34976,10 @@ Obj_AIZRobotnikHead:
 		jmp	(Child_Display_Or_Delete_2).l
 ; ===========================================================================
 ; Offset_0x0360FE:
-AIZRobotnikHead_Index:	offsetTable
-		offsetTableEntry.w RobotnikHead_Init
-		offsetTableEntry.w RobotnikHead_Main
-		offsetTableEntry.w RobotnikHead_Delete
+AIZRobotnikHead_Index:
+		dc.w RobotnikHead_Init-AIZRobotnikHead_Index
+		dc.w RobotnikHead_Main-AIZRobotnikHead_Index
+		dc.w RobotnikHead_Delete-AIZRobotnikHead_Index
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -35000,10 +34996,10 @@ Obj_FBZRobotnikHead:
 		jmp	(Child_Display_Or_Delete_2).l
 ; ===========================================================================
 ; Offset_0x036124:
-FBZRobotnikHead_Index:	offsetTable
-		offsetTableEntry.w FBZRobotnikHead_Init
-		offsetTableEntry.w FBZRobotnikHead_Main
-		offsetTableEntry.w RobotnikHead_Delete
+FBZRobotnikHead_Index:
+		dc.w FBZRobotnikHead_Init-FBZRobotnikHead_Index
+		dc.w FBZRobotnikHead_Main-FBZRobotnikHead_Index
+		dc.w RobotnikHead_Delete-FBZRobotnikHead_Index
 ; ===========================================================================
 ; Offset_0x03612A:
 FBZRobotnikHead_Init:
@@ -35055,10 +35051,10 @@ LBz_Robotnik_Ship:                                             ; Offset_0x036192
 		jsr	Offset_0x0361AC(pc,d1.w)
 		jmp	(Child_Display_Or_Delete_2)            ; Offset_0x0424A8 
 ;-------------------------------------------------------------------------------    
-Offset_0x0361AC:	offsetTable
-		offsetTableEntry.w Offset_0x0361B2
-		offsetTableEntry.w Offset_0x0361BC
-		offsetTableEntry.w RobotnikHead_Delete
+Offset_0x0361AC:
+		dc.w Offset_0x0361B2-Offset_0x0361AC
+		dc.w Offset_0x0361BC-Offset_0x0361AC
+		dc.w RobotnikHead_Delete-Offset_0x0361AC
 ;-------------------------------------------------------------------------------
 Offset_0x0361B2:
 		lea	Robotnik_Head_Setup_Data(PC), A1       ; Offset_0x03652C
@@ -35478,12 +35474,12 @@ Offset_0x038B86:
 		jmp	(Add_To_Response_List_And_Display).l
 ; ===========================================================================
 ; Offset_0x038B9E:
-ScrewMobile_Index:	offsetTable
-		offsetTableEntry.w ScrewMobile_Init
-		offsetTableEntry.w ScrewMobile_Descend
-		offsetTableEntry.w ScrewMobile_BobUpAndDown
-		offsetTableEntry.w ScrewMobile_BobUpAndDown
-		offsetTableEntry.w Offset_0x038C70
+ScrewMobile_Index:
+		dc.w ScrewMobile_Init-ScrewMobile_Index
+		dc.w ScrewMobile_Descend-ScrewMobile_Index
+		dc.w ScrewMobile_BobUpAndDown-ScrewMobile_Index
+		dc.w ScrewMobile_BobUpAndDown-ScrewMobile_Index
+		dc.w Offset_0x038C70-ScrewMobile_Index
 ; ===========================================================================
 ; Offset_0x038BA8:
 ScrewMobile_Init:
@@ -36624,9 +36620,8 @@ Obj84_HeyHo:
 		jmp	(DisplaySprite).l
 ; ===========================================================================
 ; Offset_0x040718:
-HeyHo_Index:	offsetTable
-		offsetTableEntry.w HeyHo_Init
-		offsetTableEntry.w HeyHo_Main
+HeyHo_Index:	dc.w HeyHo_Init-HeyHo_Index
+		dc.w HeyHo_Main-HeyHo_Index
 ; ===========================================================================
 ; Offset_0x04071C:
 HeyHo_Init:
@@ -39994,10 +39989,9 @@ Obj90_Fireworm:
 		jmp	(MarkObjectGone).l
 ; ===========================================================================
 ; Offset_0x049FD0:
-Fireworm_Index:	offsetTable
-		offsetTableEntry.w Fireworm_Init
-		offsetTableEntry.w Fireworm_Main
-		offsetTableEntry.w Fireworm_Action-2
+Fireworm_Index:	dc.w Fireworm_Init-Fireworm_Index
+		dc.w Fireworm_Main-Fireworm_Index
+		dc.w Fireworm_Action-2-Fireworm_Index
 ; ===========================================================================
 ; Offset_0x049FD6:
 Fireworm_Init:
@@ -40035,12 +40029,12 @@ Fireworm_Action:
 		jmp	(Display_Sprite_Check_X).l
 ; ===========================================================================
 ; Offset_0x04A028:
-Fireworm_Index2:	offsetTable
-		offsetTableEntry.w Fireworm_Init2
-		offsetTableEntry.w Fireworm_TrackSonic
-		offsetTableEntry.w Fireworm_Move
-		offsetTableEntry.w Fireworm_BobUpAndDown
-		offsetTableEntry.w Fireworm_TurnAround
+Fireworm_Index2:
+		dc.w Fireworm_Init2-Fireworm_Index2
+		dc.w Fireworm_TrackSonic-Fireworm_Index2
+		dc.w Fireworm_Move-Fireworm_Index2
+		dc.w Fireworm_BobUpAndDown-Fireworm_Index2
+		dc.w Fireworm_TurnAround-Fireworm_Index2
 ; ===========================================================================
 ; Offset_0x04A032:
 Fireworm_Init2:
@@ -40144,12 +40138,12 @@ Fireworm_Body:
 		jmp	(Child_Display_Touch_Or_Flicker_Move).l
 ; ===========================================================================
 ; Offset_0x04A154:
-FirewormBody_Index:	offsetTable
-		offsetTableEntry.w FirewormBody_Init
-		offsetTableEntry.w FirewormBody_Wait
-		offsetTableEntry.w FirewormBody_Wait
-		offsetTableEntry.w Fireworm_BobUpAndDown
-		offsetTableEntry.w Fireworm_TurnAround
+FirewormBody_Index:
+		dc.w FirewormBody_Init-FirewormBody_Index
+		dc.w FirewormBody_Wait-FirewormBody_Index
+		dc.w FirewormBody_Wait-FirewormBody_Index
+		dc.w Fireworm_BobUpAndDown-FirewormBody_Index
+		dc.w Fireworm_TurnAround-FirewormBody_Index
 ; ===========================================================================
 ; Offset_0x04A15E:
 FirewormBody_Init:
@@ -40190,10 +40184,10 @@ Fireworm_Flame:
 		jmp	(Child_Display_Touch_Or_Delete).l
 ; ===========================================================================
 ; Offset_0x04A1C4:
-FirewormFlame_Index:	offsetTable
-		offsetTableEntry.w FirewormFlame_Init
-		offsetTableEntry.w FirewormFlame_Animate
-		offsetTableEntry.w FirewormFlame_Wait
+FirewormFlame_Index:
+		dc.w FirewormFlame_Init-FirewormFlame_Index
+		dc.w FirewormFlame_Animate-FirewormFlame_Index
+		dc.w FirewormFlame_Wait-FirewormFlame_Index
 ; ===========================================================================
 ; Offset_0x04A1CA:
 FirewormFlame_Init:
@@ -40634,11 +40628,11 @@ TilesMainTable:                                                ; Offset_0x04A77E
 ; themselves are a list of what graphics to load at a specific VRAM address
 ; ---------------------------------------------------------------------------
 ; Offset_0x04ABFE:
-ArtLoadCues:	offsetTable
-PLCptr_Main1:		offsetTableEntry.w PLC_Default
-PLCptr_Main2:		offsetTableEntry.w PLC_Default_Sonic
-PLCptr_Main3:		offsetTableEntry.w PLC_Default_Flickies
-PLCptr_GameOver:	offsetTableEntry.w PLC_Game_Over_Time_Over
+ArtLoadCues:
+PLCptr_Main1:		dc.w PLC_Default-ArtLoadCues
+PLCptr_Main2:		dc.w PLC_Default_Sonic-ArtLoadCues
+PLCptr_Main3:		dc.w PLC_Default_Flickies-ArtLoadCues
+PLCptr_GameOver:	dc.w PLC_Game_Over_Time_Over-ArtLoadCues
 		dc.w	PLC_Act_1_Clear-ArtLoadCues            ; Offset_0x04AD46 ; $04
 		dc.w	PLC_Default_2P-ArtLoadCues             ; Offset_0x04AD4E ; $05
 		dc.w	PLC_Default_2P-ArtLoadCues             ; Offset_0x04AD4E ; $06
@@ -41598,55 +41592,54 @@ Offset_0x04B3F6:
 		rts   
 ; ===========================================================================
 ; Offset_0x04B418:
-Debug_Index:	offsetTable
-		offsetTableEntry.w DebugList_AIZ1
-		offsetTableEntry.w Debug_AIz_2
-		offsetTableEntry.w Debug_Hz
-		offsetTableEntry.w Debug_Hz
-		offsetTableEntry.w Debug_MGz
-		offsetTableEntry.w Debug_MGz
-		offsetTableEntry.w Debug_CNz
-		offsetTableEntry.w Debug_CNz
-		offsetTableEntry.w Debug_FBz
-		offsetTableEntry.w Debug_FBz
-		offsetTableEntry.w Debug_Iz_1
-		offsetTableEntry.w Debug_Iz_2
-		offsetTableEntry.w Debug_LBz_1
-		offsetTableEntry.w Debug_LBz_2
-		offsetTableEntry.w Debug_MVz
-		offsetTableEntry.w Debug_MVz
-		offsetTableEntry.w Debug_Sz
-		offsetTableEntry.w Debug_Sz
-		offsetTableEntry.w Debug_LRz
-		offsetTableEntry.w Debug_LRz
-		offsetTableEntry.w Debug_SSz
-		offsetTableEntry.w Debug_SSz
-		offsetTableEntry.w Debug_DEz
-		offsetTableEntry.w Debug_DEz
-		offsetTableEntry.w Debug_TDz
-		offsetTableEntry.w Debug_TDz
-		offsetTableEntry.w Debug_HPz
-		offsetTableEntry.w Debug_HPz
-		offsetTableEntry.w Debug_ALz
-		offsetTableEntry.w Debug_ALz
-		offsetTableEntry.w Debug_BPz
-		offsetTableEntry.w Debug_BPz
-		offsetTableEntry.w Debug_DPz
-		offsetTableEntry.w Debug_DPz
-		offsetTableEntry.w Debug_CGz
-		offsetTableEntry.w Debug_CGz
-		offsetTableEntry.w Debug_EMz
-		offsetTableEntry.w Debug_EMz
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
-		offsetTableEntry.w Debug_Default
+Debug_Index:	dc.w DebugList_AIZ1-Debug_Index
+		dc.w Debug_AIz_2-Debug_Index
+		dc.w Debug_Hz-Debug_Index
+		dc.w Debug_Hz-Debug_Index
+		dc.w Debug_MGz-Debug_Index
+		dc.w Debug_MGz-Debug_Index
+		dc.w Debug_CNz-Debug_Index
+		dc.w Debug_CNz-Debug_Index
+		dc.w Debug_FBz-Debug_Index
+		dc.w Debug_FBz-Debug_Index
+		dc.w Debug_Iz_1-Debug_Index
+		dc.w Debug_Iz_2-Debug_Index
+		dc.w Debug_LBz_1-Debug_Index
+		dc.w Debug_LBz_2-Debug_Index
+		dc.w Debug_MVz-Debug_Index
+		dc.w Debug_MVz-Debug_Index
+		dc.w Debug_Sz-Debug_Index
+		dc.w Debug_Sz-Debug_Index
+		dc.w Debug_LRz-Debug_Index
+		dc.w Debug_LRz-Debug_Index
+		dc.w Debug_SSz-Debug_Index
+		dc.w Debug_SSz-Debug_Index
+		dc.w Debug_DEz-Debug_Index
+		dc.w Debug_DEz-Debug_Index
+		dc.w Debug_TDz-Debug_Index
+		dc.w Debug_TDz-Debug_Index
+		dc.w Debug_HPz-Debug_Index
+		dc.w Debug_HPz-Debug_Index
+		dc.w Debug_ALz-Debug_Index
+		dc.w Debug_ALz-Debug_Index
+		dc.w Debug_BPz-Debug_Index
+		dc.w Debug_BPz-Debug_Index
+		dc.w Debug_DPz-Debug_Index
+		dc.w Debug_DPz-Debug_Index
+		dc.w Debug_CGz-Debug_Index
+		dc.w Debug_CGz-Debug_Index
+		dc.w Debug_EMz-Debug_Index
+		dc.w Debug_EMz-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
+		dc.w Debug_Default-Debug_Index
 
 ; macro for a debug object list header
 ; must be on the same line as a label that has a corresponding _End label later
