@@ -1268,7 +1268,7 @@ Offset_0x000F24:
 		move.b	(A1), D1
 		andi.b	#$3F, D1
 		or.b	D1, D0
-                not.b   D0
+		not.b	D0
 		move.b	(A0), D1
 		eor.b	D0, D1
 		move.b	D0, (A0)+
@@ -1447,7 +1447,7 @@ SoundDriverLoad:
 		; load SMPS sound driver
 		lea	(Z80_Driver).l,a0
 		lea	(Z80_RAM_Start).l,a1
-		move.w	#$1851,d0
+		move.w	#Z80_Driver_End-Z80_Driver-1,d0
 
 Offset_0x001128:
 		move.b	(a0)+, (a1)+
@@ -1778,8 +1778,8 @@ NemesisDec_Main:                                               ; Offset_0x0013AC
 		move.w	(A0)+, D2
 		lsl.w	#$01, D2
 		bcc.s	Offset_0x0013BA
-              ; Aponta A3 para NemesisDec_Output_XOR se A3 = NemesisDec_Output ou
-              ; Aponta A3 para NemesisDec_OutputRAM_XOR se A3 = NemesisDec_OutputRAM  
+		; Points A3 to NemesisDec_Output_XOR if A3 = NemesisDec_Output or
+		; Points A3 to NemesisDec_OutputRAM_XOR if A3 = NemesisDec_OutputRAM  
 		adda.w	#(NemesisDec_Output_XOR-NemesisDec_Output), A3   ; $000A
 Offset_0x0013BA:
 		lsl.w	#$02, D2
@@ -1805,7 +1805,7 @@ NemesisDec_2:                                                  ; Offset_0x0013DA
 		bcc.s	Offset_0x001426
 		andi.w	#$00FF, D1
 		add.w	D1, D1
-		move.b	$00(A1, D1), D0
+		move.b	(A1, D1), D0
 		ext.w	D0
 		sub.w	D0, D6
 		cmpi.w	#$0009, D6
@@ -1825,8 +1825,8 @@ NemesisDec_Loop_SubType:                                       ; Offset_0x001412
 		or.b	D1, D4
 		subq.w	#$01, D3
 		bne.s	Offset_0x001420
-              ; A3 Cont�m uma das rotinas de descompress�o no formato Nemesis.  
-              ; ( NemesisDec_Output_XOR ou NemesisDec_OutputRAM_XOR ) 
+		; A3 Contains one of the decompression routines in Nemesis format.
+		; ( NemesisDec_Output_XOR or NemesisDec_OutputRAM_XOR ) 
 		jmp	(A3)
 ;-------------------------------------------------------------------------------
 NemesisDec_3:                                                  ; Offset_0x00141C
@@ -1922,7 +1922,7 @@ Offset_0x0014B8:
 		lsl.w	D1, D5
 		subq.w	#$01, D5
 Offset_0x0014C4:
-		move.w	D7, $00(A1, D0)
+		move.w	D7, (A1, D0)
 		addq.w	#$02, D0
 		dbf	D5, Offset_0x0014C4
 		bra.s	Offset_0x00148A                                                                                         
@@ -2340,7 +2340,7 @@ Offset_0x001792:
 		bcc.s	Offset_0x0017C2
 		move.w	D7, D6
 		addi.w	#$0010, D6
-                neg.w   D7
+		neg.w   D7
 		lsl.w	D7, D1
 		move.b	(A0), D5
 		rol.b	D7, D5
@@ -2814,10 +2814,10 @@ Offset_0x001B06:
 		asl.l	#$03, D1
 		add.l	D0, D1
 		move.w	D1, D0
-                swap.w  D1
+		swap	D1
 		add.w	D1, D0
 		move.w	D0, D1
-                swap.w  D1
+		swap	D1
 		move.l	D1, (Random_Seed).w                          ; $FFFFF636
 		rts 
 ;===============================================================================
@@ -2899,11 +2899,11 @@ CalcAngle:                                                     ; Offset_0x001DB8
 		move.w	D2, D4
 		tst.w	D3
 		bpl.s	Offset_0x001DD0
-                neg.w   D3
+		neg.w	D3
 Offset_0x001DD0:
 		tst.w	D4
 		bpl.s	Offset_0x001DD6
-                neg.w   D4
+		neg.w	D4
 Offset_0x001DD6:
 		cmp.w	D3, D4
 		bcc.s	Offset_0x001DE6
@@ -2920,12 +2920,12 @@ Offset_0x001DE6:
 Offset_0x001DF0:
 		tst.w	D1
 		bpl.s	Offset_0x001DFA
-                neg.w   D0
+		neg.w	D0
 		addi.w	#$0080, D0
 Offset_0x001DFA:
 		tst.w	D2
 		bpl.s	Offset_0x001E04
-                neg.w   D0
+		neg.w	D0
 		addi.w	#$0100, D0
 Offset_0x001E04:
 		movem.l	(A7)+, D3/D4
@@ -3052,7 +3052,7 @@ PalCycle_AIZ1:
 		move.b	(Palette_Cycle_Flag).w,d0
 		beq.s	Offset_0x001FEC
 		; waterfall cycle
-                subq.w	#1,(Palette_Cycle_Count_1).w
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x001FEA
 		move.w	#7,(Palette_Cycle_Count_1).w
 		move.w	(Palette_Cycle_Count_0).w, D0
@@ -3088,7 +3088,7 @@ Offset_0x001FEC:
 		move.w	#$0000, (Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x00200E:
 		lea	(Pal_AIz1_Cyc2), A0                    ; Offset_0x002450
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$04).w    ; $FFFFED64
+		move.l	(A0, D0), (Palette_Row_3_Offset+$04).w    ; $FFFFED64
 		move.l	$04(A0, D0), (Palette_Row_3_Offset+$08).w    ; $FFFFED68
 		move.w	(Palette_Cycle_Counters+$02).w, D0           ; $FFFFF652
 		addq.w	#$06, (Palette_Cycle_Counters+$02).w         ; $FFFFF652
@@ -3097,7 +3097,7 @@ Offset_0x00200E:
 		move.w	#$0000, (Palette_Cycle_Counters+$02).w       ; $FFFFF652
 Offset_0x002036:
 		lea	(Pal_AIz1_Cyc3), A0                    ; Offset_0x0024D0
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$1A).w    ; $FFFFED7A
+		move.l	(A0, D0), (Palette_Row_3_Offset+$1A).w    ; $FFFFED7A
 		move.w	$04(A0, D0), (Palette_Row_3_Offset+$1E).w    ; $FFFFED7E
 Offset_0x002048:
 		rts         
@@ -3110,7 +3110,7 @@ PalCycle_AIz_2:                                                ; Offset_0x00204A
 		addq.w	#$08, (Palette_Cycle_Count_0).w              ; $FFFFF632
 		andi.w	#$0018, D0
 		lea	(Pal_AIz2_Cyc1), A0                    ; Offset_0x002560
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$18).w    ; $FFFFED78
+		move.l	(A0, D0), (Palette_Row_3_Offset+$18).w    ; $FFFFED78
 		move.l	$04(A0, D0), (Palette_Row_3_Offset+$1C).w    ; $FFFFED7C
 		move.w	(Palette_Cycle_Counters+$02).w, D0           ; $FFFFF652
 		addq.w	#$06, (Palette_Cycle_Counters+$02).w         ; $FFFFF652
@@ -3123,7 +3123,7 @@ Offset_0x00208A:
 		bcs.s	Offset_0x00209E
 		lea	(Pal_AIz2_Cyc3), A0                    ; Offset_0x0025B0
 Offset_0x00209E:
-		move.w	$00(A0, D0), (Palette_Row_2_Offset+$08).w    ; $FFFFED48
+		move.w	(A0, D0), (Palette_Row_2_Offset+$08).w    ; $FFFFED48
 		move.w	$02(A0, D0), (Palette_Row_2_Offset+$10).w    ; $FFFFED50
 		move.w	$04(A0, D0), (Palette_Row_3_Offset+$16).w    ; $FFFFED76
 		move.w	#$0A0E, (Palette_Row_2_Offset+$1C).w         ; $FFFFED5C
@@ -3145,7 +3145,7 @@ Offset_0x0020E6:
 		bcs.s	Offset_0x0020FA
 		lea	(Pal_AIz2_Cyc5), A0                    ; Offset_0x002614
 Offset_0x0020FA:
-		move.w	$00(A0, D0), (Palette_Row_3_Offset+$02).w    ; $FFFFED62
+		move.w	(A0, D0), (Palette_Row_3_Offset+$02).w    ; $FFFFED62
 Offset_0x002100:
 		rts     
 ;-------------------------------------------------------------------------------
@@ -3164,9 +3164,9 @@ Offset_0x00211A:
 		bcs.s	Offset_0x002136
 		move.w	#$0000, (Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x002136:
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$06).w    ; $FFFFED46
+		move.l	(A0, D0), (Palette_Row_2_Offset+$06).w    ; $FFFFED46
 		move.l	$04(A0, D0), (Palette_Row_2_Offset+$0A).w    ; $FFFFED4A
-		move.l	$00(A0, D0), (Palette_UW_Row_2_Offset+$06).w ; $FFFFF0C6
+		move.l	(A0, D0), (Palette_UW_Row_2_Offset+$06).w ; $FFFFF0C6
 		move.l	$04(A0, D0), (Palette_UW_Row_2_Offset+$0A).w ; $FFFFF0CA
 Offset_0x00214E:
 		rts 
@@ -3186,7 +3186,7 @@ PalCycle_CNz_2:
 		bcs.s	Offset_0x00217A
 		move.w	#$0000, (Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x00217A:
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$12).w    ; $FFFFED72
+		move.l	(A0, D0), (Palette_Row_3_Offset+$12).w    ; $FFFFED72
 		move.w	$04(A0, D0), (Palette_Row_3_Offset+$16).w    ; $FFFFED76
 Offset_0x002186:
 		lea	(Pal_CNz_Cyc2), A0                     ; Offset_0x0026C8
@@ -3196,7 +3196,7 @@ Offset_0x002186:
 		bcs.s	Offset_0x0021A2
 		move.w	#$0000, (Palette_Cycle_Counters+$02).w       ; $FFFFF652
 Offset_0x0021A2:
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$12).w    ; $FFFFED52
+		move.l	(A0, D0), (Palette_Row_2_Offset+$12).w    ; $FFFFED52
 		move.w	$04(A0, D0), (Palette_Row_2_Offset+$16).w    ; $FFFFED56
 		subq.w	#$01, (Palette_Cycle_Counters+$08).w         ; $FFFFF658
 		bpl.s	Offset_0x0021DC
@@ -3208,7 +3208,7 @@ Offset_0x0021A2:
 		bcs.s	Offset_0x0021D6
 		move.w	#$0000, (Palette_Cycle_Counters+$04).w       ; $FFFFF654
 Offset_0x0021D6:
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$0E).w    ; $FFFFED4E
+		move.l	(A0, D0), (Palette_Row_2_Offset+$0E).w    ; $FFFFED4E
 Offset_0x0021DC:
 		rts    
 ;-------------------------------------------------------------------------------
@@ -3228,7 +3228,7 @@ PalCycle_Iz_2:
 		bcs.s	Offset_0x002208
 		move.w	#$0000, (Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x002208:
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
+		move.l	(A0, D0), (Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
 Offset_0x00220E:
 		subq.w	#$01, (Palette_Cycle_Counters+$08).w         ; $FFFFF658
 		bpl.s	Offset_0x002242
@@ -3242,7 +3242,7 @@ Offset_0x00220E:
 Offset_0x002236:
 		tst.w	(Background_Events+$16).w                    ; $FFFFEEE8
 		beq.s	Offset_0x002242
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$1C).w    ; $FFFFED7C
+		move.l	(A0, D0), (Palette_Row_3_Offset+$1C).w    ; $FFFFED7C
 Offset_0x002242:
 		subq.w	#$01, (Palette_Cycle_Counters+$0A).w         ; $FFFFF65A
 		bpl.s	Offset_0x002298
@@ -3256,7 +3256,7 @@ Offset_0x002242:
 Offset_0x00226A:
 		tst.w	(Background_Events+$16).w                    ; $FFFFEEE8
 		beq.s	Offset_0x002276
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$18).w    ; $FFFFED78
+		move.l	(A0, D0), (Palette_Row_3_Offset+$18).w    ; $FFFFED78
 Offset_0x002276:
 		lea	(Pal_Iz_Cyc4), A0                      ; Offset_0x00285C
 		move.w	(Palette_Cycle_Counters+$06).w, D0           ; $FFFFF656
@@ -3265,16 +3265,16 @@ Offset_0x002276:
 		bcs.s	Offset_0x002292
 		move.w	#$0000, (Palette_Cycle_Counters+$06).w       ; $FFFFF656
 Offset_0x002292:
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$18).w    ; $FFFFED58
+		move.l	(A0, D0), (Palette_Row_2_Offset+$18).w    ; $FFFFED58
 Offset_0x002298:
 		rts    
 ;-------------------------------------------------------------------------------
 PalCycle_LBz_1:                                                ; Offset_0x00229A
-		lea	(Pal_LBz1_Cyc), A0                     ; Offset_0x00289C
+		lea	(Pal_LBz1_Cyc).l, A0                     ; Offset_0x00289C
 		bra.s	PalCycle_LBz_Main                      ; Offset_0x0022A8            
 ;-------------------------------------------------------------------------------
 PalCycle_LBz_2:                                                ; Offset_0x0022A2
-		lea	(Pal_LBz2_Cyc), A0                     ; Offset_0x0028AE
+		lea	(Pal_LBz2_Cyc).l, A0                     ; Offset_0x0028AE
 PalCycle_LBz_Main:                
 		subq.w	#$01, (Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x0022D6
@@ -3285,7 +3285,7 @@ PalCycle_LBz_Main:
 		bcs.s	Offset_0x0022CA
 		move.w	#$0000, (Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x0022CA:
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$10).w    ; $FFFFED50
+		move.l	(A0, D0), (Palette_Row_2_Offset+$10).w    ; $FFFFED50
 		move.w	$04(A0, D0), (Palette_Row_2_Offset+$14).w    ; $FFFFED54
 Offset_0x0022D6:
 		rts  
@@ -3301,7 +3301,7 @@ PalCycle_LRz_1:                                                ; Offset_0x0022D8
 		move.w	#$0000, (Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x0022FA:
 		lea	(Pal_LRz1_Cyc1), A0                    ; Offset_0x0028C0
-		move.l	$00(A0, D0), (Palette_Row_2_Offset+$02).w    ; $FFFFED42
+		move.l	(A0, D0), (Palette_Row_2_Offset+$02).w    ; $FFFFED42
 		move.l	$04(A0, D0), (Palette_Row_2_Offset+$06).w    ; $FFFFED46
 		move.w	(Palette_Cycle_Counters+$02).w, D0           ; $FFFFF652
 		addq.w	#$04, (Palette_Cycle_Counters+$02).w         ; $FFFFF652
@@ -3310,7 +3310,7 @@ Offset_0x0022FA:
 		move.w	#$0000, (Palette_Cycle_Counters+$02).w       ; $FFFFF652
 Offset_0x002322:
 		lea	(Pal_LRz1_Cyc2), A0                    ; Offset_0x002940
-		move.l	$00(A0, D0), (Palette_Row_3_Offset+$02).w    ; $FFFFED62
+		move.l	(A0, D0), (Palette_Row_3_Offset+$02).w    ; $FFFFED62
 Offset_0x00232E:
 		rts      
 ;-------------------------------------------------------------------------------
@@ -44323,6 +44323,7 @@ z80_SFXPointers:
 		dc.w	(((Sfx_D7_Ptr>>$08)|(Sfx_D7_Ptr<<$08))&$FFFF)    ; $DE73
 		dc.w	(((Sfx_D8_Ptr>>$08)|(Sfx_D8_Ptr<<$08))&$FFFF)    ; $DEB4
 		dc.w	(((Sfx_D9_Ptr>>$08)|(Sfx_D9_Ptr<<$08))&$FFFF)    ; $DEDC               
+Z80_Driver_End
 ;-------------------------------------------------------------------------------
 Offset_0x0E1852:
                 incbin  'data\unknown\dummy4.dat'
