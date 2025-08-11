@@ -1185,6 +1185,14 @@ zPSGInitBytes:
 
 zPlaySound:
     sub    $32             ; 000547 D6 32
+; Ring SFX patch below provided by ValleyBell.
+; Originally used zSpecFM3FreqsSFX to make the rings alternate between speakers, a better method would be to use unused RAM as long as it's a byte in size.
+;	or     a ; is it equal to $32?
+;	jr     nz,.notequ ; if not, branch
+;	ld     a,(zRingSpeaker) ; load zRingSpeaker into a
+;	xor    1 ; set a to 1
+;	ld     (zRingSpeaker),a ; load a back into zRingSpeaker
+;.notequ:
     ex     af,af          ; 000549 08
 
 	; sound bankswitch
