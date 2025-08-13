@@ -418,7 +418,9 @@ Conveyor_Belt_Data_Array         equ M68K_RAM_Start+$CFE0
 Obj_Memory_Address_End:		equ	M68K_RAM_Start+$D000
      
 Kosinski_Decomp_Buffer           equ M68K_RAM_Start+$D000
-Horizontal_Scroll_Buffer         equ M68K_RAM_Start+$E000 
+Horizontal_Scroll_Buffer         equ M68K_RAM_Start+$E000
+Horizontal_Scroll_Buffer_End     equ M68K_RAM_Start+$E380
+Horizontal_Scroll_Buffer_End_Padded equ M68K_RAM_Start+$E400
                            
 Collision_Response_List          equ M68K_RAM_Start+$E380
 
@@ -680,6 +682,7 @@ Animate_Counters                 equ M68K_RAM_Start+$F7F0
 Misc_Variables_End:		equ	M68K_RAM_Start+$F800
 
 Sprite_Table_Buffer              equ M68K_RAM_Start+$F800
+Sprite_Table_Buffer_End          equ M68K_RAM_Start+$FA80
 Boss_Data_Buffer                 equ M68K_RAM_Start+$FA80
 ;Tmp_FA81                         equ M68K_RAM_Start+$FA81
 ;Tmp_FA82                         equ M68K_RAM_Start+$FA82
