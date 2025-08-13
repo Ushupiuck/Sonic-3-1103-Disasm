@@ -36,6 +36,11 @@
 		include "s3.macrosetup.asm"
 		include	"s3.constants.asm"
 		include	"s3.macros.asm"
+; ---------------------------------------------------------------------------
+; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
+FixMusicAndSFXDataBugs = 0
+SonicDriverVer = 3 ; Tell SMPS2ASM that we are targetting Sonic 3's sound driver
+		include "Sound/_smps2asm_inc.asm"
 
 StartOfRom:
 		dc.l	0				; Initial stack pointer value
@@ -43694,7 +43699,7 @@ Asm_Code_1:                                                    ; Offset_0x0AFF0F
 ; Z80 Bank $16
                 align   $8000
 Angel_Island_1_Snd_Data:                                       ; Offset_0x0B0000
-                binclude  "sound\aiz_1.snd"
+                include  "sound\music\aiz1.asm"
 Angel_Island_2_Snd_Data:                                       ; Offset_0x0B2210
                 binclude  "sound\aiz_2.snd"
 Hydrocity_1_Snd_Data:                                          ; Offset_0x0B3F24
