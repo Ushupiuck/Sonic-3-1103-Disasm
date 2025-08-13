@@ -1745,7 +1745,7 @@ ProcessDMAQueue_Done:
 ;===============================================================================
 ; Rotina de descompress�o no formato Nemesis
 ; ->>>
-;=============================================================================== 
+;===============================================================================
 NemesisDec:                                                    ; Offset_0x001390
 		movem.l	D0-D7/A0/A1/A3-A5, -(A7)
 		lea	(NemesisDec_Output).l, A3                ; Offset_0x001452
@@ -1777,7 +1777,7 @@ Offset_0x0013BA:
 		bsr.s	NemesisDec_2                           ; Offset_0x0013DA
 		movem.l	(A7)+, D0-D7/A0/A1/A3-A5
 		rts
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 NemesisDec_2:                                                  ; Offset_0x0013DA
 		move.w	D6, D7
 		subq.w	#$08, D7
@@ -1800,15 +1800,15 @@ Offset_0x001402:
 		move.w	D1, D0
 		andi.w	#$000F, D1
 		andi.w	#$00F0, D0
-NemesisDec_SubType:                                            ; Offset_0x001410                
+NemesisDec_SubType:                                            ; Offset_0x001410
 		lsr.w	#$04, D0
-NemesisDec_Loop_SubType:                                       ; Offset_0x001412                
+NemesisDec_Loop_SubType:                                       ; Offset_0x001412
 		lsl.l	#$04, D4
 		or.b	D1, D4
 		subq.w	#$01, D3
 		bne.s	Offset_0x001420
 		; A3 Contains one of the decompression routines in Nemesis format.
-		; ( NemesisDec_Output_XOR or NemesisDec_OutputRAM_XOR ) 
+		; ( NemesisDec_Output_XOR or NemesisDec_OutputRAM_XOR )
 		jmp	(A3)
 ;-------------------------------------------------------------------------------
 NemesisDec_3:                                                  ; Offset_0x00141C
@@ -1907,11 +1907,11 @@ Offset_0x0014C4:
 		move.w	D7, (A1, D0)
 		addq.w	#$02, D0
 		dbf	D5, Offset_0x0014C4
-		bra.s	Offset_0x00148A                                                                                         
+		bra.s	Offset_0x00148A
 ;===============================================================================
 ; Rotina de descompress�o no formato Nemesis
 ; <<<-
-;=============================================================================== 
+;===============================================================================
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -2175,7 +2175,7 @@ RunPLC_ROM_Loop:
 ;===============================================================================
 ; Rotina de descompress�o no formato Enigma
 ; ->>>
-;===============================================================================  
+;===============================================================================
 EnigmaDec:                                                     ; Offset_0x00168A
 		movem.l	D0-D7/A1-A5, -(A7)
 		move.w	D0, A3
@@ -5520,7 +5520,7 @@ Dynamic_Water_Height:                                          ; Offset_0x00427C
 		sub.w	(Current_Water_Level).w, D0                  ; $FFFFF648
 		beq.s	Offset_0x0042AA
 		bcc.s	Offset_0x0042A6
-                neg.w   D1
+		neg.w   D1
 Offset_0x0042A6:
 		add.w	D1, (Current_Water_Level).w                  ; $FFFFF648
 Offset_0x0042AA:
@@ -9278,7 +9278,7 @@ Offset_0x008C1C:
 Offset_0x008C28:
 		move.w	Obj_Flags(A1), D0                                ; $0004
 		sub.w	Obj_Y(A0), D0                                    ; $0014
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0020, D0
 		blt.s	Offset_0x008C42
 		move.w	#$0A00, Obj_Speed_Y(A0)                          ; $001A
@@ -9286,7 +9286,7 @@ Offset_0x008C28:
 Offset_0x008C42:
 		move.w	$0002(A1), D0
 		sub.w	Obj_X(A0), D0                                    ; $0010
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0020, D0
 		blt.s	Offset_0x008C5C
 		move.w	#$0A00, Obj_Speed_X(A0)                          ; $0018
@@ -9317,9 +9317,9 @@ Offset_0x008C8C:
 		sub.w	D3, D0
 		move.w	D0, D1
 		bpl.s	Offset_0x008CA6
-                neg.w   D1
+		neg.w   D1
 Offset_0x008CA6:
-                neg.w   D0
+		neg.w   D0
 		add.w	D3, D0
 		move.b	D0, (CNz_Triangle_Angle_Buffer+$01).w        ; $FFFFFFDD
 		move.b	D1, (CNz_Triangle_Angle_Buffer+$03).w        ; $FFFFFFDF
@@ -9340,7 +9340,7 @@ Offset_0x008CBA:
 Offset_0x008CDA:
 		move.w	$0004(A1), D0
 		sub.w	Obj_Y(A0), D0                                    ; $0014
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0020, D0
 		blt.s	Offset_0x008CF4
 		move.w	#$0A00, Obj_Speed_Y(A0)                          ; $001A
@@ -9355,7 +9355,7 @@ Offset_0x008CF4:
 Offset_0x008D0C:
 		move.w	$0002(A1), D0
 		sub.w	Obj_X(A0), D0                                    ; $0010
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0020, D0
 		blt.s	Offset_0x008D20
 		move.w	#$0020, D0
@@ -9375,7 +9375,7 @@ Offset_0x008D3E:
 Offset_0x008D40:
 		move.w	$0004(A1), D0
 		sub.w	Obj_Y(A0), D0                                    ; $0014
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0008, D0
 		blt.s	Offset_0x008D5A
 		move.w	#$0A00, Obj_Speed_Y(A0)                          ; $001A
@@ -9388,7 +9388,7 @@ Offset_0x008D5A:
 		move.w	#$F600, Obj_Speed_X(A0)                          ; $0018
 		bra.w	Offset_0x008E9C
 Offset_0x008D72:
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0040, D0
 		blt.s	Offset_0x008D84
 		move.w	#$0A00, Obj_Speed_X(A0)                          ; $0018
@@ -9417,7 +9417,7 @@ Offset_0x008DB0:
 		move.w	#$F600, Obj_Speed_X(A0)                          ; $0018
 		bra.w	Offset_0x008E9C
 Offset_0x008DC8:
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0040, D0
 		blt.s	Offset_0x008DDA
 		move.w	#$0A00, Obj_Speed_X(A0)                          ; $0018
@@ -9434,7 +9434,7 @@ Offset_0x008DE6:
 Offset_0x008DEE:                            
 		move.w	$0002(A1), D0
 		sub.w	Obj_X(A0), D0                                    ; $0010
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0008, D0
 		blt.s	Offset_0x008E08
 		move.w	#$0A00, Obj_Speed_X(A0)                          ; $0018
@@ -9447,7 +9447,7 @@ Offset_0x008E08:
 		move.w	#$F600, Obj_Speed_Y(A0)                          ; $001A
 		bra.w	Offset_0x008E9C
 Offset_0x008E20:
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0040, D0
 		blt.s	Offset_0x008E32
 		move.w	#$0A00, Obj_Speed_X(A0)                          ; $0018
@@ -9476,7 +9476,7 @@ Offset_0x008E5E:
 		move.w	#$F600, Obj_Speed_Y(A0)                          ; $001A
 		bra.w	Offset_0x008E9C
 Offset_0x008E76:
-                neg.w   D0
+		neg.w   D0
 		cmpi.w	#$0040, D0
 		blt.s	Offset_0x008E88
 		move.w	#$0A00, Obj_Speed_X(A0)                          ; $0018
@@ -9570,7 +9570,7 @@ Offset_0x00919E:
 		add.w	D0, D2
 		move.b	Obj_Width_2(A0), D0                              ; $001F
 		ext.w	D0
-                neg.w   D0
+		neg.w   D0
 		add.w	D0, D3
 		lea	(Secondary_Angle).w, A4                      ; $FFFFF76A
 		move.w	#$0010, A3
@@ -9591,7 +9591,7 @@ Offset_0x00922A:
 		bne.s	Offset_0x009248
 		move.b	Obj_Speed_X(A0), D0                              ; $0018
 		bpl.s	Offset_0x009238
-                neg.b   D0
+		neg.b   D0
 Offset_0x009238:
 		addq.b	#$04, D0
 		cmpi.b	#$0E, D0
@@ -9623,7 +9623,7 @@ Offset_0x009274:
 		move.b	D2, D0
 		sub.b	Obj_Angle(A0), D0                                ; $0026
 		bpl.s	Offset_0x009284
-                neg.b   D0
+		neg.b   D0
 Offset_0x009284:
 		cmpi.b	#$20, D0
 		bcc.s	Offset_0x009290
@@ -9650,7 +9650,7 @@ Player_WalkVertR:                                              ; Offset_0x0092A2
 		moveq	#$00, D0
 		move.b	Obj_Width_2(A0), D0                              ; $001F
 		ext.w	D0
-                neg.w   D0
+		neg.w   D0
 		add.w	D0, D2
 		move.b	Obj_Height_2(A0), D0                             ; $001E
 		ext.w	D0
@@ -9698,7 +9698,7 @@ Offset_0x009332:
 		bne.s	Offset_0x009350
 		move.b	Obj_Speed_Y(A0), D0                              ; $001A
 		bpl.s	Offset_0x009340
-                neg.b   D0
+		neg.b   D0
 Offset_0x009340:
 		addq.b	#$04, D0
 		cmpi.b	#$0E, D0
@@ -9769,7 +9769,7 @@ Offset_0x0093E0:
 		bne.s	Offset_0x0093FE
 		move.b	Obj_Speed_X(A0), D0                              ; $0018
 		bpl.s	Offset_0x0093EE
-                neg.b   D0
+		neg.b   D0
 Offset_0x0093EE:
 		addq.b	#$04, D0
 		cmpi.b	#$0E, D0
@@ -9840,7 +9840,7 @@ Offset_0x00948E:
 		bne.s	Offset_0x0094AC
 		move.b	Obj_Speed_Y(A0), D0                              ; $001A
 		bpl.s	Offset_0x00949C
-                neg.b   D0
+		neg.b   D0
 Offset_0x00949C:
 		addq.b	#$04, D0
 		cmpi.b	#$0E, D0
@@ -10012,12 +10012,12 @@ Offset_0x009792:
 		btst	#$0A, D4
 		beq.s	Offset_0x0097B6
                 not.w   D1
-                neg.b   (A4)
+		neg.b   (A4)
 Offset_0x0097B6:
 		btst	#$0B, D4
 		beq.s	Offset_0x0097C6
 		addi.b	#$40, (A4)
-                neg.b   (A4)
+		neg.b   (A4)
 		subi.b	#$40, (A4)
 Offset_0x0097C6:
 		andi.w	#$000F, D1
@@ -10028,7 +10028,7 @@ Offset_0x0097C6:
 		eor.w	D6, D4
 		btst	#$0B, D4
 		beq.s	Offset_0x0097E2
-                neg.w   D0
+		neg.w   D0
 Offset_0x0097E2:
 		tst.w	D0
 		beq.s	Offset_0x009784
@@ -10078,12 +10078,12 @@ Offset_0x009836:
 		btst	#$0A, D4
 		beq.s	Offset_0x00985A
                 not.w   D1
-                neg.b   (A4)
+		neg.b   (A4)
 Offset_0x00985A:
 		btst	#$0B, D4
 		beq.s	Offset_0x00986A
 		addi.b	#$40, (A4)
-                neg.b   (A4)
+		neg.b   (A4)
 		subi.b	#$40, (A4)
 Offset_0x00986A:
 		andi.w	#$000F, D1
@@ -10094,7 +10094,7 @@ Offset_0x00986A:
 		eor.w	D6, D4
 		btst	#$0B, D4
 		beq.s	Offset_0x009886
-                neg.w   D0
+		neg.w   D0
 Offset_0x009886:
 		tst.w	D0
 		beq.s	Offset_0x009828
@@ -10164,12 +10164,12 @@ Offset_0x0098FC:
 		btst	#$0A, D4
 		beq.s	Offset_0x009920
                 not.w   D1
-                neg.b   (A4)
+		neg.b   (A4)
 Offset_0x009920:
 		btst	#$0B, D4
 		beq.s	Offset_0x009930
 		addi.b	#$40, (A4)
-                neg.b   (A4)
+		neg.b   (A4)
 		subi.b	#$40, (A4)
 Offset_0x009930:
 		andi.w	#$000F, D1
@@ -10180,7 +10180,7 @@ Offset_0x009930:
 		eor.w	D6, D4
 		btst	#$0B, D4
 		beq.s	Offset_0x00994C
-                neg.w   D0
+		neg.w   D0
 Offset_0x00994C:
 		tst.w	D0
 		beq.s	Offset_0x0098F6
@@ -10276,12 +10276,12 @@ Offset_0x0099FE:
 		beq.s	Offset_0x009A2A
                 not.w   D1
 		addi.b	#$40, (A4)
-                neg.b   (A4)
+		neg.b   (A4)
 		subi.b	#$40, (A4)
 Offset_0x009A2A:
 		btst	#$0A, D4
 		beq.s	Offset_0x009A32
-                neg.b   (A4)
+		neg.b   (A4)
 Offset_0x009A32:
 		andi.w	#$000F, D1
 		add.w	D0, D1
@@ -10291,7 +10291,7 @@ Offset_0x009A32:
 		eor.w	D6, D4
 		btst	#$0A, D4
 		beq.s	Offset_0x009A4E
-                neg.w   D0
+		neg.w   D0
 Offset_0x009A4E:
 		tst.w	D0
 		beq.s	Offset_0x0099F0
@@ -10343,12 +10343,12 @@ Offset_0x009AA2:
 		beq.s	Offset_0x009ACE
                 not.w   D1
 		addi.b	#$40, (A4)
-                neg.b   (A4)
+		neg.b   (A4)
 		subi.b	#$40, (A4)
 Offset_0x009ACE:
 		btst	#$0A, D4
 		beq.s	Offset_0x009AD6
-                neg.b   (A4)
+		neg.b   (A4)
 Offset_0x009AD6:
 		andi.w	#$000F, D1
 		add.w	D0, D1
@@ -10358,7 +10358,7 @@ Offset_0x009AD6:
 		eor.w	D6, D4
 		btst	#$0A, D4
 		beq.s	Offset_0x009AF2
-                neg.w   D0
+		neg.w   D0
 Offset_0x009AF2:
 		tst.w	D0
 		beq.s	Offset_0x009A94
@@ -11171,7 +11171,7 @@ Touch_Monitor:                                                 ; Offset_0x00A2C4
 		subi.w	#$0010, D0
 		cmp.w	Obj_Y(A1), D0                                    ; $0014
 		bcs.s	Offset_0x00A312
-                neg.w   Obj_Speed_Y(A0)                                  ; $001A
+		neg.w   Obj_Speed_Y(A0)                                  ; $001A
 		move.w	#$FE80, Obj_Speed_Y(A1)                          ; $001A
 		tst.b	Obj_Player_St_Convex(A1)                         ; $003C
 		bne.s	Offset_0x00A312
@@ -11185,7 +11185,7 @@ Offset_0x00A2F0:
 Offset_0x00A2FC:
 		cmpi.b	#$02, Obj_Ani_Number(A0)                         ; $0020
 		bne.s	Offset_0x00A312
-                neg.w   Obj_Speed_Y(A0)                                  ; $001A
+		neg.w   Obj_Speed_Y(A0)                                  ; $001A
 		move.b	#$04, Obj_Routine(A1)                            ; $0005
 		move.w	A0, Obj_Player_Last(A1)                          ; $0042
 Offset_0x00A312:
@@ -11201,9 +11201,9 @@ Touch_Enemy:                                                   ; Offset_0x00A314
 Offset_0x00A32E:
 		tst.b	Obj_Col_Prop(A1)                                 ; $0029
 		beq.s	Touch_Enemy_Normal                     ; Offset_0x00A35A
-                neg.w   Obj_Speed_X(A0)                                  ; $0018
-                neg.w   Obj_Speed_Y(A0)                                  ; $001A
-                neg.w   Obj_Inertia(A0)                                  ; $001C
+		neg.w   Obj_Speed_X(A0)                                  ; $0018
+		neg.w   Obj_Speed_Y(A0)                                  ; $001A
+		neg.w   Obj_Inertia(A0)                                  ; $001C
 		move.b	Obj_Col_Flags(A1), Obj_Ani_Time_2(A1)     ; $0025, $0028
 		move.b	#$00, Obj_Col_Flags(A1)                          ; $0028
 		subq.b	#$01, Obj_Col_Prop(A1)                           ; $0029
@@ -11243,7 +11243,7 @@ Offset_0x00A39E:
 		move.w	Obj_Y(A0), D0                                    ; $0014
 		cmp.w	Obj_Y(A1), D0                                    ; $0014
 		bcc.s	Offset_0x00A3CE
-                neg.w   Obj_Speed_Y(A0)                                  ; $001A
+		neg.w   Obj_Speed_Y(A0)                                  ; $001A
 		rts
 Offset_0x00A3C6:
 		addi.w	#$0100, Obj_Speed_Y(A0)                          ; $001A
@@ -11308,7 +11308,7 @@ Offset_0x00A478:
 		move.w	Obj_X(A0), D0                                    ; $0010
 		cmp.w	Obj_X(A2), D0                                    ; $0010
 		bcs.s	Offset_0x00A486
-                neg.w   Obj_Speed_X(A0)                                  ; $0018
+		neg.w   Obj_Speed_X(A0)                                  ; $0018
 Offset_0x00A486:
 		move.w	#$0000, Obj_Inertia(A0)                          ; $001C
 		move.b	#$1A, Obj_Ani_Number(A0)                         ; $0020
@@ -16264,7 +16264,7 @@ Offset_0x011386:
 		dbf	D7, Offset_0x011386
 Offset_0x01138E:
 		subi.w	#$004F, D6
-                neg.w   D6
+		neg.w   D6
 		move.b	D6, (Sprites_Drawn).w                        ; $FFFFF62C
 		tst.w	(Sprite_Mask_Flag).w                         ; $FFFFEF3A
 		beq.s	Offset_0x0113C0
@@ -16423,7 +16423,7 @@ Build_Sprite_Left:                                             ; Offset_0x01150C
 		eori.w	#$0800, D2
 		move.w	D2, (A6)+
 		move.w	(A1)+, D2
-                neg.w   D2
+		neg.w   D2
 		move.b	Offset_0x011542(pc,d6.w), D6
 		sub.w	D6, D2
 		add.w	D0, D2
@@ -16443,7 +16443,7 @@ Offset_0x011542:
 Build_Sprite_Upside_Down_Left:                                 ; Offset_0x011552
 		move.b	(A1)+, D2
 		ext.w	D2
-                neg.w   D2
+		neg.w   D2
 		move.b	(A1), D6
 		move.b	Offset_0x011592(pc,d6.w), D6
 		sub.w	D6, D2
@@ -16457,7 +16457,7 @@ Build_Sprite_Upside_Down_Left:                                 ; Offset_0x011552
 		eori.w	#$1800, D2
 		move.w	D2, (A6)+
 		move.w	(A1)+, D2
-                neg.w   D2
+		neg.w   D2
 		move.b	Offset_0x011542(pc,d6.w), D6
 		sub.w	D6, D2
 		add.w	D0, D2
@@ -16477,7 +16477,7 @@ Offset_0x011592:
 Build_Sprite_Upside_Down_Right:                                ; Offset_0x0115A2
 		move.b	(A1)+, D2
 		ext.w	D2
-                neg.w   D2
+		neg.w   D2
 		move.b	(A1)+, D6
 		move.b	D6, $0002(A6)
 		move.b	Offset_0x011592(pc,d6.w), D6
@@ -16557,7 +16557,7 @@ Offset_0x011630:
 		eori.w	#$0800, D2
 		move.w	D2, (A6)+
 		move.w	(A1)+, D2
-                neg.w   D2
+		neg.w   D2
 		move.b	Offset_0x011686(pc,d6.w), D6
 		sub.w	D6, D2
 		add.w	D0, D2
@@ -16585,7 +16585,7 @@ Offset_0x011686:
 Offset_0x011696:
 		move.b	(A1)+, D2
 		ext.w	D2
-                neg.w   D2
+		neg.w   D2
 		move.b	(A1), D6
 		move.b	Offset_0x0116F6(pc,d6.w), D6
 		sub.w	D6, D2
@@ -16603,7 +16603,7 @@ Offset_0x011696:
 		eori.w	#$1800, D2
 		move.w	D2, (A6)+
 		move.w	(A1)+, D2
-                neg.w   D2
+		neg.w   D2
 		move.b	Offset_0x011686(pc,d6.w), D6
 		sub.w	D6, D2
 		add.w	D0, D2
@@ -16631,7 +16631,7 @@ Offset_0x0116F6:
 Offset_0x011706:
 		move.b	(A1)+, D2
 		ext.w	D2
-                neg.w   D2
+		neg.w   D2
 		move.b	(A1)+, D6
 		move.b	D6, $0002(A6)
 		move.b	Offset_0x0116F6(pc,d6.w), D6
@@ -17767,7 +17767,7 @@ Offset_0x0122A0:
 		bne.s	Offset_0x0122DE
 		move.w	Obj_Inertia(A0), D1                              ; $001C
 		bpl.s	Offset_0x0122B4
-                neg.w   D1
+		neg.w   D1
 Offset_0x0122B4:
 		cmpi.w	#$0800, D1
 		bcc.s	Offset_0x0122DE
@@ -19852,7 +19852,7 @@ Offset_0x0138D4:
 		add.w	D1, D1
 		sub.w	D1, D0
 		move.w	D0, D5
-                neg.w   D5
+		neg.w   D5
 Offset_0x0138FC:
 		move.w	D3, D1
 		cmp.w	D3, D2
@@ -19860,7 +19860,7 @@ Offset_0x0138FC:
 		subq.w	#$04, D3
 		sub.w	D4, D3
 		move.w	D3, D1
-                neg.w   D1
+		neg.w   D1
 Offset_0x01390A:
 		cmp.w	D1, D5
 		bhi.w	Offset_0x0139A2
@@ -19953,7 +19953,7 @@ Offset_0x0139EC:
 		bne.s	Offset_0x0139D4
 		move.w	D0, D4
 		bpl.s	Offset_0x0139FA
-                neg.w   D4
+		neg.w   D4
 Offset_0x0139FA:
 		cmpi.w	#$0010, D4
 		bcs.w	Offset_0x013910
@@ -24036,7 +24036,7 @@ Offset_0x01E9BE:
 Offset_0x01EA22:
 		bra.w	Offset_0x01EAA8
 Offset_0x01EA26:
-                neg.w   D1
+		neg.w   D1
 		addi.w	#$0080, D1
 		bcc.s	Offset_0x01EAA8
 		lsl.w	#$05, D1
@@ -24225,7 +24225,7 @@ Offset_0x01EC42:
 		cmp.b	$0001(A3), D1
 		beq.s	Offset_0x01ECA8
 		move.b	D1, $0001(A3)
-                neg.w   D1
+		neg.w   D1
 		move.w	D1, D2
 		andi.w	#$0007, D1
 		ror.w	#$07, D1
@@ -24553,7 +24553,7 @@ Offset_0x01F002:
 Offset_0x01F04A:
 		rts
 Offset_0x01F04C:
-                neg.w   D1
+		neg.w   D1
 		addi.w	#$0040, D1
 		bcc.s	Offset_0x01F0B0
 		lsl.w	#$06, D1
@@ -24617,7 +24617,7 @@ Dynamic_LRz_1:                                                 ; Offset_0x01F0FA
 		move.w	(Background_Events+$12).w, D0                ; $FFFFEEE4
 		sub.w	(Screen_Pos_Buffer_X_2).w, D0                ; $FFFFEE8C
 		divu.w	#$0030, D0
-                swap	D0
+		swap	D0
 		cmp.b	$0001(A3), D0
 		beq.s	Offset_0x01F168
 		move.b	D0, $0001(A3)
@@ -28110,7 +28110,7 @@ DrawBlockColumn:
 		beq.w	Offset_0x02F888
 		tst.b	D2
 		bpl.s	Offset_0x02F71A
-                neg.w   D2
+		neg.w   D2
 		move.w	D3, D0
 		addi.w	#$0150, D0
 Offset_0x02F71A:
@@ -28135,10 +28135,10 @@ Draw_Tile_Column_2:                                            ; Offset_0x02F73E
 		beq.w	Offset_0x02F888
 		tst.b	D2
 		bpl.s	Offset_0x02F75E
-                neg.w   D2
+		neg.w   D2
 		move.w	D3, D0
 		addi.w	#$0150, D0
-                swap	D1
+		swap	D1
 Offset_0x02F75E:
 		andi.w	#$0030, D2
 		cmpi.w	#$0010, D2
@@ -28182,7 +28182,7 @@ Setup_Tile_Column_Drawn:                                       ; Offset_0x02F780
 		jsr	Get_Level_Chunk_Column(PC)             ; Offset_0x02F88A
 		bra.s	Offset_0x02F81C
 Offset_0x02F7CE:
-                neg.w   D5
+		neg.w   D5
 		move.w	D5, -(A7)
 		move.w	D0, D5
 		asr.w	#$02, D5
@@ -28215,25 +28215,25 @@ Offset_0x02F7CE:
 		add.w	D5, D5
 		adda.w	D5, A0
 Offset_0x02F81C:
-                swap	D7
+		swap	D7
 Offset_0x02F81E:
 		move.w	$00(A5, D2), D3
 		move.w	D3, D4
 		andi.w	#$03FF, D3
 		lsl.w	#$03, D3
 		move.w	$00(A2, D3), D5
-                swap	D5
+		swap	D5
 		move.w	$04(A2, D3), D5
 		move.w	$06(A2, D3), D7
 		move.w	$02(A2, D3), D3
-                swap	D3
+		swap	D3
 		move.w	D7, D3
 		btst	#$0B, D4
 		beq.s	Offset_0x02F856
 		eori.l	#$10001000, D5
 		eori.l	#$10001000, D3
-                swap	D5
-                swap	D3
+		swap	D5
+		swap	D3
 Offset_0x02F856:
 		btst	#$0A, D4
 		beq.s	Offset_0x02F86A
@@ -28251,7 +28251,7 @@ Offset_0x02F86A:
 		bsr.s	Get_Level_Chunk_Column                 ; Offset_0x02F88A
 Offset_0x02F880:
 		dbf	D6, Offset_0x02F81E
-                swap	D7
+		swap	D7
 		clr.w	(A0)
 Offset_0x02F888:
 		rts
@@ -28284,7 +28284,7 @@ DrawBlockRow:
 		beq.w	Offset_0x02FA18
 		tst.b	D2
 		bpl.s	Offset_0x02F8CC
-                neg.w   D2
+		neg.w   D2
 		move.w	D3, D0
 		addi.w	#$00F0, D0
 		and.w	(Level_Layout_Wrap_Y).w, D0                  ; $FFFFEEAC
@@ -28311,11 +28311,11 @@ Draw_Tile_Row_2:                                               ; Offset_0x02F8F4
 		beq.w	Offset_0x02FA18
 		tst.b	D2
 		bpl.s	Offset_0x02F918
-                neg.w   D2
+		neg.w   D2
 		move.w	D3, D0
 		addi.w	#$00F0, D0
 		and.w	(Level_Layout_Wrap_Y).w, D0                  ; $FFFFEEAC
-                swap	D1
+		swap	D1
 Offset_0x02F918:
 		andi.w	#$0030, D2
 		cmpi.w	#$0010, D2
@@ -28360,7 +28360,7 @@ Setup_Tile_Row_Draw:                                           ; Offset_0x02F93E
 		jsr	Get_Chunk_Addr(PC)                     ; Offset_0x02FA1A
 		bra.s	Offset_0x02F9C4
 Offset_0x02F984:
-                neg.w   D5
+		neg.w   D5
 		move.w	D5, -(A7)
 		move.w	D0, D5
 		andi.w	#$00F0, D5
@@ -28407,8 +28407,8 @@ Offset_0x02F9EC:
 		beq.s	Offset_0x02FA02
 		eori.l	#$08000800, D5
 		eori.l	#$08000800, D3
-                swap	D5
-                swap	D3
+		swap	D5
+		swap	D3
 Offset_0x02FA02:
 		move.l	D5, (A1)+
 		move.l	D3, (A0)+
@@ -28587,7 +28587,7 @@ Offset_0x02FB92:
 		subq.w	#$01, D5
 		bra.s	Offset_0x02FB92
 Offset_0x02FBA2:
-                neg.w   D6
+		neg.w   D6
 		lsr.w	#$04, D6
 		moveq	#$0F, D4
 		sub.w	D6, D4
@@ -28638,7 +28638,7 @@ Offset_0x02FBFE:
 		bra.s	Offset_0x02FBFE
 Offset_0x02FC08:
 		move.w	(A5), D1
-                swap	D1
+		swap	D1
 		rts
 ;-------------------------------------------------------------------------------
 Draw_Tiles_Vertical:                                           ; Offset_0x02FC0E
@@ -28670,7 +28670,7 @@ Offset_0x02FC4A:
 		subq.w	#$01, D5
 		bra.s	Offset_0x02FC4A
 Offset_0x02FC5A:
-                neg.w   D6
+		neg.w   D6
 		lsr.w	#$04, D6
 		moveq	#$15, D4
 		sub.w	D6, D4
@@ -28721,7 +28721,7 @@ Offset_0x02FCB6:
 		bra.s	Offset_0x02FCB6
 Offset_0x02FCC0:
 		move.w	(A5), D1
-                swap	D1
+		swap	D1
 		rts
 ;-------------------------------------------------------------------------------  
 Draw_Plane_Vertical_Bottom_Up:                                 ; Offset_0x02FCC6
@@ -28778,10 +28778,10 @@ Offset_0x02FD36:
 Plain_Deformation:                                             ; Offset_0x02FD42
 		lea	(Horizontal_Scroll_Buffer).w, A1             ; $FFFFE000
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                neg.w   D0
-                swap	D0
+		neg.w   D0
+		swap	D0
 		move.w	(Screen_Pos_Buffer_X_2).w, D0                ; $FFFFEE8C
-                neg.w   D0
+		neg.w   D0
 		moveq	#$37, D1
 Offset_0x02FD56:
 		move.l	D0, (A1)+
@@ -28834,15 +28834,15 @@ Offset_0x02FDA8:
 		add.w	D2, D2
 		adda.w	D2, A5
 Offset_0x02FDB2:
-                neg.w   D0
+		neg.w   D0
 		move.w	D1, D2
 		sub.w	D0, D2
 		bcc.s	Offset_0x02FDBE
 		move.w	D1, D0
 		addq.w	#$01, D0
 Offset_0x02FDBE:
-                neg.w   D3
-                swap	D3
+		neg.w   D3
+		swap	D3
 Offset_0x02FDC2:
 		subq.w	#$01, D0
 Offset_0x02FDC4:
@@ -28852,17 +28852,17 @@ Offset_0x02FDC4:
 		bcc.s	Offset_0x02FDD2
 Offset_0x02FDCC:
 		move.w	(A5)+, D3
-                neg.w   D3
+		neg.w   D3
 		move.l	D3, (A1)+
 Offset_0x02FDD2:
 		move.w	(A5)+, D3
-                neg.w   D3
+		neg.w   D3
 		move.l	D3, (A1)+
 		dbf	D0, Offset_0x02FDCC
 		bra.s	Offset_0x02FDEE
 Offset_0x02FDDE:
 		move.w	(A5)+, D3
-                neg.w   D3
+		neg.w   D3
 		lsr.w	#$01, D0
 		bcc.s	Offset_0x02FDE8
 Offset_0x02FDE6:
@@ -28887,8 +28887,8 @@ Offset_0x02FE06:
 		rts         
 ;-------------------------------------------------------------------------------
 Apply_All_Deformation:                                         ; Offset_0x02FE08
-                swap	D7
-                swap	D3
+		swap	D7
+		swap	D3
 Offset_0x02FE0C:
 		move.w	(A4)+, D3
                 smi     D7
@@ -28911,8 +28911,8 @@ Offset_0x02FE28:
 		add.w	D3, D3
 		adda.w	D3, A5
 Offset_0x02FE32:
-                swap	D3
-                neg.w   D0
+		swap	D3
+		neg.w   D0
 		move.w	D1, D4
 		sub.w	D0, D4
 		bcc.s	Offset_0x02FE40
@@ -28927,34 +28927,34 @@ Offset_0x02FE42:
 		bcc.s	Offset_0x02FE56
 Offset_0x02FE4A:
 		move.w	(A2)+, D6
-                swap	D6
+		swap	D6
 		move.w	(A5)+, D6
-                neg.w   D6
+		neg.w   D6
 		add.w	(A6)+, D6
 		move.l	D6, (A1)+
 Offset_0x02FE56:
 		move.w	(A2)+, D6
-                swap	D6
+		swap	D6
 		move.w	(A5)+, D6
-                neg.w   D6
+		neg.w   D6
 		add.w	(A6)+, D6
 		move.l	D6, (A1)+
 		dbf	D0, Offset_0x02FE4A
 		bra.s	Offset_0x02FE88
 Offset_0x02FE68:
 		move.w	(A5)+, D5
-                neg.w   D5
+		neg.w   D5
 		lsr.w	#$01, D0
 		bcc.s	Offset_0x02FE7A
 Offset_0x02FE70:
 		move.w	(A2)+, D6
-                swap	D6
+		swap	D6
 		move.w	(A6)+, D6
 		add.w	D5, D6
 		move.l	D6, (A1)+
 Offset_0x02FE7A:
 		move.w	(A2)+, D6
-                swap	D6
+		swap	D6
 		move.w	(A6)+, D6
 		add.w	D5, D6
 		move.l	D6, (A1)+
@@ -28973,7 +28973,7 @@ Offset_0x02FE96:
 		move.w	D5, D0
 		bra.s	Offset_0x02FE42
 Offset_0x02FEA0:
-                swap	D7
+		swap	D7
 		rts   
 ;-------------------------------------------------------------------------------
 Apply_Foreground_Vertical_Scroll:                              ; Offset_0x02FEA4
@@ -28992,7 +28992,7 @@ Offset_0x02FEBE:
 		lsr.w	#$04, D2
 		sub.w	D2, D0
 		bpl.s	Offset_0x02FEBE
-                neg.w   D0
+		neg.w   D0
 		moveq	#$13, D2
 		sub.w	D0, D2
 		bcc.s	Offset_0x02FED2
@@ -29078,7 +29078,7 @@ Adjust_Background_During_Loop:
 		move.w	D0, (A1)+
 		sub.w	D1, D0
 		bpl.s	Offset_0x02FF80
-                neg.w   D0
+		neg.w   D0
 		cmp.w	D2, D0
 		bcs.s	Offset_0x02FF7C
 		sub.w	D3, D0
@@ -29345,7 +29345,7 @@ Offset_0x030528:
 		move.w	#$0002, (Background_Events).w                ; $FFFFEED2
 Offset_0x03053C:
 		lsl.w	#$04, D0
-                neg.w   D0
+		neg.w   D0
 		addi.w	#$0470, D0
 Offset_0x030544:
 		cmp.w	(Screen_Pos_Rounded_Y).w, D0                 ; $FFFFEE8A
@@ -29420,8 +29420,8 @@ Offset_0x03060E:
 		beq.s	Offset_0x030624
 		eori.l	#$08000800, D5
 		eori.l	#$08000800, D3
-                swap	D5
-                swap	D3
+		swap	D5
+		swap	D3
 Offset_0x030624:
 		tst.b	(A6)+
 		beq.s	Offset_0x03062A
@@ -29582,7 +29582,7 @@ AIz_1_Fire_Transition:                                         ; Offset_0x030832
 		tst.w	(Background_Events+$02).w                    ; $FFFFEED4
 		bne.s	Offset_0x030852
 		move.w	(Background_Events).w, D0                    ; $FFFFEED2
-                swap	D0
+		swap	D0
 		clr.w	D0
 		sub.l	(Screen_Pos_Buffer_Y_2).w, D0                ; $FFFFEE90
 		asr.l	#$05, D0
@@ -29714,7 +29714,7 @@ Offset_0x030A16:
 Offset_0x030A1E:
 		move.w	D0, (A1)+
 		subi.w	#$0580, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		move.l	D0, D1
 		asr.l	#$05, D1
@@ -29722,7 +29722,7 @@ Offset_0x030A1E:
 Offset_0x030A2E:
 		add.l	D1, D0
 		move.l	D0, D3
-                swap	D3
+		swap	D3
 		addi.w	#$0580, D3
 		move.w	D3, (A1)+
 		dbf	D2, Offset_0x030A2E
@@ -29753,7 +29753,7 @@ AIz_1_Deform:                                                  ; Offset_0x030A64
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
 		subi.w	#$1300, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$05, D0
 		move.l	D0, D2
@@ -29762,37 +29762,37 @@ AIz_1_Deform:                                                  ; Offset_0x030A64
 		lsl.l	#$03, D0
 		sub.l	D1, D0
 		lea	(Horizontal_Scroll_Table+$0030).w, A1        ; $FFFFA830
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, -$2C(A1)
 		move.w	D0, $0002(A1)
 		move.w	D0, $000A(A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0004(A1)
 		move.w	D0, $0008(A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0006(A1)
 		lea	(Horizontal_Scroll_Table+$0016).w, A1        ; $FFFFA816
 		move.l	D2, D0
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		move.l	(Horizontal_Scroll_Table+$003C).w, D3        ; $FFFFA83C
 		addi.l	#$00002000, (Horizontal_Scroll_Table+$003C).w ; $FFFFA83C
 		asr.l	#$01, D0
 		moveq	#$05, D1
 Offset_0x030AD4:
 		add.l	D3, D0
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		add.l	D2, D0
 		dbf	D1, Offset_0x030AD4
 		lea	(Horizontal_Scroll_Table+$0016).w, A1        ; $FFFFA816
@@ -29801,9 +29801,9 @@ Offset_0x030AD4:
 		moveq	#$0C, D1
 Offset_0x030AEC:
 		add.l	D2, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)+
-                swap	D0
+		swap	D0
 		dbf	D1, Offset_0x030AEC
 		rts 
 ;-------------------------------------------------------------------------------
@@ -29823,14 +29823,14 @@ Offset_0x030B14:
 		lea	AIz_Water_Fg_Deform_Delta(PC), A6      ; Offset_0x03005C
 		move.w	(Water_Level_Move).w, D0                     ; $FFFFF646
 		subi.w	#$00DE, D1
-                neg.w   D1
+		neg.w   D1
 		move.w	(Level_frame_counter).w, D2                    ; $FFFFFE04
 		add.w	D0, D2
 		add.w	D0, D2
 		andi.w	#$007E, D2
 		adda.w	D2, A6
 		move.w	(Screen_Pos_Buffer_X).w, D6                  ; $FFFFEE80
-                neg.w   D6
+		neg.w   D6
 		jsr	Make_Foreground_Deform_Array(PC)       ; Offset_0x02FD64
 		move.l	(A7)+, A1
 		lea	(Horizontal_Scroll_Table+$0040).w, A2        ; $FFFFA840
@@ -29870,7 +29870,7 @@ AIz_Transition_Wavy_Flame:                                     ; Offset_0x030B98
 		lea	(Vertical_Scroll_Buffer).w, A1               ; $FFFFEEEA
 		lea	AIz_Flame_Vertical_Scroll(PC), A5      ; Offset_0x030C5A
 		move.w	(Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
-                swap	D0
+		swap	D0
 		move.w	(Screen_Pos_Buffer_Y_2).w, D1                ; $FFFFEE90
 		move.w	(Level_frame_counter).w, D2                    ; $FFFFFE04
 		asr.w	#$02, D2
@@ -30119,7 +30119,7 @@ Offset_0x030F36:
 		jsr	AIz_2_Apply_Deform(PC)                 ; Offset_0x03105E
 		lea	(Horizontal_Scroll_Buffer+$0002).w, A1       ; $FFFFE002
 		move.w	(Screen_Pos_Buffer_X_2).w, D0                ; $FFFFEE8C
-                neg.w   D0
+		neg.w   D0
 		moveq	#$37, D1
 Offset_0x030F46:
 		move.w	D0, (A1)
@@ -30205,7 +30205,7 @@ AIZ_2_Deform:                                                  ; Offset_0x031006
 		addi.w	#$00A8, (Screen_Pos_Buffer_Y_2).w            ; $FFFFEE90
 Offset_0x031026:
 		move.w	(Level_Events_Buffer_1).w, D0                ; $FFFFEEB6
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
@@ -30220,12 +30220,12 @@ Offset_0x031044:
 		move.b	(A5)+, D3
 		bmi.s	Offset_0x03105C
 		ext.w	D3
-                swap	D0
+		swap	D0
 Offset_0x03104C:
 		move.b	(A5)+, D2
 		move.w	D0, $00(A1, D2)
 		dbf	D3, Offset_0x03104C
-                swap	D0
+		swap	D0
 		add.l	D1, D0
 		bra.s	Offset_0x031044
 Offset_0x03105C:
@@ -30241,7 +30241,7 @@ AIz_2_Apply_Deform:                                            ; Offset_0x03105E
 		add.w	D0, D2
 		moveq	#$3E, D3
 		move.w	(Screen_Pos_Buffer_X).w, D6                  ; $FFFFEE80
-                neg.w   D6
+		neg.w   D6
 		move.w	(Water_Level_Move).w, D4                     ; $FFFFF646
 		sub.w	D0, D4
 		bls.s	Offset_0x0310A8
@@ -30254,7 +30254,7 @@ AIz_2_Apply_Deform:                                            ; Offset_0x03105E
 		jsr	Make_Foreground_Deform_Array(PC)       ; Offset_0x02FD64
 		move.w	(Water_Level_Move).w, D0                     ; $FFFFF646
 		subi.w	#$00DE, D1
-                neg.w   D1
+		neg.w   D1
 		move.w	(Level_frame_counter).w, D2                    ; $FFFFFE04
 		add.w	D0, D2
 		add.w	D0, D2
@@ -30293,7 +30293,7 @@ Offset_0x0310AE:
 		sub.w	(Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
 		add.w	(Screen_Pos_Buffer_Y_2).w, D0                ; $FFFFEE90
 		subi.w	#$00DE, D1
-                neg.w   D1
+		neg.w   D1
 		move.w	(Level_frame_counter).w, D2                    ; $FFFFFE04
 		asr.w	#$01, D2
 		add.w	D0, D2
@@ -30309,7 +30309,7 @@ Offset_0x031122:
 		beq.s	Offset_0x031150
 		lea	(Horizontal_Scroll_Buffer).w, A1             ; $FFFFE000
 		move.w	(AIz_Flying_Battery_X).w, D0                 ; $FFFFEE98
-                neg.w   D0
+		neg.w   D0
 		moveq	#$0F, D1
 Offset_0x03113C:
 		move.w	D0, (A1)
@@ -30702,13 +30702,13 @@ Hz_1_Deform:                                                   ; Offset_0x031C88
 		move.w	(Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
 		subi.w	#$0610, D0
 		move.w	D0, D1
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$04, D0
 		move.l	D0, D2
 		add.l	D0, D0
 		add.l	D2, D0
-                swap	D0
+		swap	D0
 		move.w	D0, D2
 		addi.w	#$0110, D0
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
@@ -30861,7 +30861,7 @@ Hz_2_Deform:                                                   ; Offset_0x031E26
 		asr.w	#$02, D0
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
@@ -30874,12 +30874,12 @@ Offset_0x031E48:
 		bmi.s	Offset_0x031E62
 		beq.s	Offset_0x031E5E
 		ext.w	D3
-                swap	D0
+		swap	D0
 Offset_0x031E52:
 		move.b	(A5)+, D2
 		move.w	D0, $00(A1, D2)
 		dbf	D3, Offset_0x031E52
-                swap	D0
+		swap	D0
 Offset_0x031E5E:
 		sub.l	D1, D0
 		bra.s	Offset_0x031E48
@@ -30903,7 +30903,7 @@ Offset_0x031E62:
 		jmp	(DeleteObject)                         ; Offset_0x011138
 Offset_0x031E9A:
 		move.w	(Background_Events).w, D4                    ; $FFFFEED2
-                neg.w   D4
+		neg.w   D4
 		addi.w	#$05C0, D4
 		move.w	D4, Obj_X(A0)                                    ; $0010
 		move.w	#$0700, Obj_Y(A0)                                ; $0014
@@ -31024,7 +31024,7 @@ Offset_0x032054:
 MGz_1_Deform:                                                  ; Offset_0x032068
 		move.w	(Earthquake_Offset).w, (Screen_Pos_Buffer_Y_2).w ; $FFFFEECE, $FFFFEE90
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$02, D0
 		move.l	D0, D1
@@ -31032,9 +31032,9 @@ MGz_1_Deform:                                                  ; Offset_0x032068
 		lea	(Horizontal_Scroll_Table+$001C).w, A1        ; $FFFFA81C
 		moveq	#$08, D2
 Offset_0x032082:
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		dbf	D2, Offset_0x032082
 		lea	(Horizontal_Scroll_Table).w, A1              ; $FFFFA800
@@ -31045,9 +31045,9 @@ Offset_0x032082:
 Offset_0x0320A2:
 		add.l	D2, D0
 		addi.l	#$00000500, D2
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)+
-                swap	D0
+		swap	D0
 		add.l	D1, D0
 		dbf	D3, Offset_0x0320A2
 		move.w	-2(A1), D0
@@ -31106,7 +31106,7 @@ MGz_2_Move_Background:                                         ; Offset_0x03214C
 		addi.l	#$00000800, D0
 		move.l	D0, (Background_Events+$08).w                ; $FFFFEEDA
 Offset_0x032162:
-                swap	D0
+		swap	D0
 		add.w	D0, (Background_Events+$0C).w                ; $FFFFEEDE
 		jmp	LoadTilesAsYouMove_Foreground(PC)             ; Offset_0x02FB0E 
 ;-------------------------------------------------------------------------------  
@@ -31150,7 +31150,7 @@ Offset_0x0321DA:
 		move.w	D1, Obj_X(A1)                                    ; $0010
 		move.w	D2, Obj_Timer(A1)                                ; $002E
 		move.l	D3, Obj_Control_Var_00(A1)                       ; $0030
-                swap	D2
+		swap	D2
 		jsr	(AllocateObject_Immediate)               ; Offset_0x011DC8
 		bne.s	Offset_0x03221A
 		move.l	#Obj_Earthquake_Tiles_Attributes, (A1) ; Offset_0x0325CE
@@ -31158,7 +31158,7 @@ Offset_0x0321DA:
 		move.w	D2, Obj_Timer(A1)                                ; $002E
 		move.l	D3, Obj_Control_Var_00(A1)                       ; $0030
 		addi.w	#$0020, D1
-                swap	D2
+		swap	D2
 		addq.l	#$04, D3
 		jsr	(AllocateObject_Immediate)               ; Offset_0x011DC8
 		dbne	D4, Offset_0x0321DA
@@ -31453,9 +31453,9 @@ Offset_0x03255E:
 		bcc.s	Offset_0x032580
 		move.w	(Background_Events+$0A).w, D1                ; $FFFFEEDC
 		moveq	#$08, D6
-                swap	D2
+		swap	D2
 		jsr	Setup_Tile_Row_Draw(PC)                ; Offset_0x02F93E
-                swap	D2
+		swap	D2
 Offset_0x032580:
 		addi.w	#$0010, D0
 		dbf	D2, Offset_0x03255E
@@ -31671,13 +31671,13 @@ Offset_0x0328CA:
 		move.w	(Earthquake_Offset).w, D2                    ; $FFFFEECE
 		sub.w	D2, D0
 		sub.w	D1, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$04, D0
 		move.l	D0, D1
 		add.l	D0, D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		add.w	D2, D0
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		clr.w	(Screen_Pos_Buffer_X_2).w                    ; $FFFFEE8C
@@ -31689,7 +31689,7 @@ Offset_0x0328F6:
 		bne.s	Offset_0x032906
 		move.w	(Background_Events+$0C).w, D0                ; $FFFFEEDE
 Offset_0x032906:
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
@@ -31699,9 +31699,9 @@ Offset_0x032906:
 		lea	(Horizontal_Scroll_Table+$0036).w, A1        ; $FFFFA836
 		moveq	#$07, D3
 Offset_0x03291A:
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		dbf	D3, Offset_0x03291A
 		tst.w	(Background_Events+$0E).w                    ; $FFFFEEE0
@@ -31717,9 +31717,9 @@ Offset_0x032934:
 Offset_0x032946:
 		move.w	(A5)+, D4
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $00(A1, D4)
-                swap	D0
+		swap	D0
 		add.l	D2, D0
 		dbf	D3, Offset_0x032946
 		lea	MGz_2_Deform_Offset(PC), A5            ; Offset_0x032B80
@@ -31966,7 +31966,7 @@ CNz_2_Events_Run_2:                                            ; Offset_0x032CA4
 ;------------------------------------------------------------------------------- 
 CNz_Deform:                                                    ; Offset_0x032CC4
 		move.w	(Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$04, D0
 		move.l	D0, D1
@@ -31974,41 +31974,41 @@ CNz_Deform:                                                    ; Offset_0x032CC4
 		add.l	D1, D0
 		asr.l	#$02, D1
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
 		asr.l	#$03, D1
 		lea	(Horizontal_Scroll_Table+$000A).w, A1        ; $FFFFA80A
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (Screen_Pos_Buffer_X_2).w                ; $FFFFEE8C
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (Background_Events+$10).w                ; $FFFFEEE2
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		asr.l	#$01, D1
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
 		rts 
 ;-------------------------------------------------------------------------------                 
@@ -32235,13 +32235,13 @@ Iz_1_Intro_Deform:                                             ; Offset_0x032FF0
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
 		move.w	(Earthquake_Offset).w, D3                    ; $FFFFEECE
 		sub.w	D3, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$05, D0
 		move.l	D0, D1
-                swap	D0
+		swap	D0
 		add.w	D3, D0
-                swap	D0
+		swap	D0
 		lea	(Horizontal_Scroll_Table).w, A1              ; $FFFFA800
 		moveq	#$04, D2
 		bsr.s	Offset_0x033038
@@ -32251,9 +32251,9 @@ Iz_1_Intro_Deform:                                             ; Offset_0x032FF0
 		add.l	D2, D1
 		moveq	#$08, D2
 Offset_0x033038:
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)+
-                swap	D0
+		swap	D0
 		add.l	D1, D0
 		dbf	D2, Offset_0x033038
 		rts 
@@ -32469,7 +32469,7 @@ Iz_2_Out_Deform:                                               ; Offset_0x0332C8
 		move.w	(Level_frame_counter).w, D1                    ; $FFFFFE04
 		asr.w	#$01, D1
 		add.w	D1, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		andi.l	#$007FFFFF, D0
@@ -32478,14 +32478,14 @@ Iz_2_Out_Deform:                                               ; Offset_0x0332C8
 		lea	(Horizontal_Scroll_Table+$0064).w, A1        ; $FFFFA864
 		moveq	#$27, D2
 Offset_0x0332EE:
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		dbf	D2, Offset_0x0332EE
 		lea	(Horizontal_Scroll_Table).w, A1              ; $FFFFA800
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
@@ -32494,11 +32494,11 @@ Offset_0x0332EE:
 		move.l	D1, $0064(A1)
 		asr.l	#$02, D0
 		move.l	D0, D1
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)+
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)+
 		move.w	(Level_frame_counter).w, D1                    ; $FFFFFE04
 		lsr.w	#$02, D1
@@ -32521,37 +32521,37 @@ Iz_2_Set_In_Deform:                                            ; Offset_0x033340
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		lea	(Horizontal_Scroll_Table).w, A1              ; $FFFFA800
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
 		asr.l	#$03, D1
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)
 		move.w	D0, $0010(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0002(A1)
 		move.w	D0, $000E(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0004(A1)
 		move.w	D0, $000C(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0006(A1)
 		move.w	D0, $000A(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (Screen_Pos_Buffer_X_2).w                ; $FFFFEE8C
 		move.w	D0, $0008(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (Background_Events+$10).w                ; $FFFFEEE2
 		rts            
 ;------------------------------------------------------------------------------- 
@@ -32709,13 +32709,13 @@ Offset_0x033558:
 		move.l	(A1), D5
 		sub.l	D4, D5
 		sub.l	D0, D5
-                swap	D5
+		swap	D5
 		cmpi.w	#$FD00, D5
 		bgt.s	Offset_0x03357A
 		move.w	#$FD00, D5
 		subq.w	#$01, D2
 Offset_0x03357A:
-                swap	D5
+		swap	D5
 		move.l	D5, (A1)+
 		dbf	D3, Offset_0x033558
 		tst.w	D2
@@ -32993,7 +32993,7 @@ LBZ1_Deform:
 		move.w	d0,(Screen_Pos_Buffer_Y_2).w
 		; setup horizontal scrolling
 		move.w	(Screen_Pos_Buffer_X).w,d0
-                swap	d0
+		swap	d0
 		clr.w	d0
 		asr.l	#4,d0
 		move.l	d0,d1
@@ -33138,7 +33138,7 @@ LBz_2_Deform:                                                  ; Offset_0x0339E4
 		move.w	(Screen_Pos_Buffer_Y).w, D0                  ; $FFFFEE84
 		subi.w	#$05F0, D0
 		move.w	D0, D1
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D2
@@ -33146,14 +33146,14 @@ LBz_2_Deform:                                                  ; Offset_0x0339E4
 		sub.l	D2, D0
 		asr.l	#$02, D2
 		sub.l	D2, D0
-                swap	D0
+		swap	D0
 		move.w	D0, D2
 		addi.w	#$02C0, D0
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		sub.w	D1, D2
 		move.w	D2, (Background_Events+$10).w                ; $FFFFEEE2
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		tst.w	D2
 		beq.w	Offset_0x033ACE
@@ -33168,26 +33168,26 @@ LBz_2_Deform:                                                  ; Offset_0x0339E4
 		bgt.s	Offset_0x033A4E
 		lea	(Horizontal_Scroll_Table+$001E).w, A1        ; $FFFFA81E
 Offset_0x033A36:
-                swap	D1
+		swap	D1
 		move.w	D1, (A1)+
-                swap	D1
+		swap	D1
 		sub.l	D3, D1
-                swap	D1
+		swap	D1
 		move.w	D1, (A1)+
-                swap	D1
+		swap	D1
 		sub.l	D3, D1
 		dbf	D4, Offset_0x033A36
 		bra.w	Offset_0x033ACE
 Offset_0x033A4E:
 		lea	(Horizontal_Scroll_Table+$011E).w, A1        ; $FFFFA91E
 Offset_0x033A52:
-                swap	D1
+		swap	D1
 		move.w	D1, -(A1)
-                swap	D1
+		swap	D1
 		sub.l	D3, D1
-                swap	D1
+		swap	D1
 		move.w	D1, -(A1)
-                swap	D1
+		swap	D1
 		sub.l	D3, D1
 		dbf	D4, Offset_0x033A52
 		cmpi.w	#$0040, D2
@@ -33198,7 +33198,7 @@ Offset_0x033A52:
 		move.w	D2, D1
 		bmi.s	Offset_0x033AA6
 		move.w	D1, D3
-                neg.w   D3
+		neg.w   D3
 		addi.w	#$0040, D3
 		lsl.w	#$06, D3
 		adda.w	D3, A6
@@ -33221,7 +33221,7 @@ Offset_0x033AA6:
 		addi.w	#$0040, D3
 		lsl.w	#$06, D3
 		adda.w	D3, A6
-                neg.w   D1
+		neg.w   D1
 		subq.w	#$01, D1
 		moveq	#$00, D3
 		lsr.w	#$01, D1
@@ -33241,21 +33241,21 @@ Offset_0x033ACE:
 		asr.l	#$01, D1
 		move.l	D1, D3
 		asr.l	#$03, D3
-                swap	D1
+		swap	D1
 		move.w	D1, (Screen_Pos_Buffer_X_2).w                ; $FFFFEE8C
 		move.w	D1, -(A1)
-                swap	D1
+		swap	D1
 		sub.l	D3, D1
-                swap	D1
+		swap	D1
 		move.w	D1, (Background_Events+$12).w                ; $FFFFEEE4
 		move.w	D1, -(A1)
-                swap	D1
+		swap	D1
 		lea	LBz_2_Underwater_Deform_Array(PC), A5  ; Offset_0x033C1A
 		sub.l	D3, D1
 		moveq	#$04, D4
 Offset_0x033AF8:
 		sub.l	D3, D1
-                swap	D1
+		swap	D1
 		move.w	(A5)+, D5
 Offset_0x033AFE:
 		move.w	D1, -(A1)
@@ -33263,7 +33263,7 @@ Offset_0x033AFE:
 		move.w	D1, -(A1)
 		move.w	D1, -(A1)
 		dbf	D5, Offset_0x033AFE
-                swap	D1
+		swap	D1
 		dbf	D4, Offset_0x033AF8
 		moveq	#$3F, D3
 		tst.w	D2
@@ -33271,7 +33271,7 @@ Offset_0x033AFE:
 		sub.w	D2, D3
 		bcs.s	Offset_0x033B28
 Offset_0x033B1A:
-                swap	D1
+		swap	D1
 		lsr.w	#$01, D3
 		bcc.s	Offset_0x033B22
 Offset_0x033B20:
@@ -33291,9 +33291,9 @@ Offset_0x033B28:
 Offset_0x033B44:
 		move.w	(A5)+, D6
 		add.l	D4, D1
-                swap	D1
+		swap	D1
 		move.w	D1, $00(A1, D6)
-                swap	D1
+		swap	D1
 		add.l	D3, D1
 		dbf	D5, Offset_0x033B44
 		move.l	D0, D1
@@ -33301,11 +33301,11 @@ Offset_0x033B44:
 		move.l	D1, D3
 		asr.l	#$01, D3
 		lea	(Horizontal_Scroll_Table+$001A).w, A1        ; $FFFFA81A
-                swap	D1
+		swap	D1
 		move.w	D1, (A1)+
-                swap	D1
+		swap	D1
 		add.l	D3, D1
-                swap	D1
+		swap	D1
 		move.w	D1, (A1)+
 		tst.w	D2
 		bpl.s	Offset_0x033B84
@@ -33324,9 +33324,9 @@ Offset_0x033B88:
 		move.w	D1, (A1)+
 		move.w	D1, (A1)+
 		dbf	D5, Offset_0x033B88
-                swap	D1
+		swap	D1
 		add.l	D3, D1
-                swap	D1
+		swap	D1
 Offset_0x033B96:
 		lsr.w	#$01, D4
 		bcc.s	Offset_0x033B9C
@@ -33456,30 +33456,30 @@ LRz_Deform:                                                    ; Offset_0x033CD4
 		add.w	D1, D0
 		move.w	D0, (Screen_Pos_Buffer_Y_2).w                ; $FFFFEE90
 		move.w	(Screen_Pos_Buffer_X).w, D0                  ; $FFFFEE80
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$03, D0
 		move.l	D0, D1
 		move.l	D0, D2
 		asr.l	#$02, D0
-                swap	D1
+		swap	D1
 		move.w	D1, (Screen_Pos_Buffer_X_2).w                ; $FFFFEE8C
 		move.w	D1, (Horizontal_Scroll_Table+$0004).w        ; $FFFFA804
-                swap	D1
+		swap	D1
 		sub.l	D0, D1
-                swap	D1
+		swap	D1
 		move.w	D1, (Background_Events+$10).w                ; $FFFFEEE2
-                swap	D1
+		swap	D1
 		sub.l	D0, D1
-                swap	D1
+		swap	D1
 		move.w	D1, (Background_Events+$12).w                ; $FFFFEEE4
 		lea	(Horizontal_Scroll_Table+$001C).w, A1        ; $FFFFA81C
 		move.l	D2, D1
 		moveq	#$07, D3
 Offset_0x033D1C:
-                swap	D1
+		swap	D1
 		move.w	D1, -(A1)
-                swap	D1
+		swap	D1
 		add.l	D0, D1
 		dbf	D3, Offset_0x033D1C
 		lea	(Horizontal_Scroll_Table+$001C).w, A1        ; $FFFFA81C
@@ -33487,9 +33487,9 @@ Offset_0x033D1C:
 		add.l	D0, D0
 		moveq	#$04, D3
 Offset_0x033D32:
-                swap	D2
+		swap	D2
 		move.w	D2, (A1)+
-                swap	D2
+		swap	D2
 		add.l	D0, D2
 		dbf	D3, Offset_0x033D32
 		rts 
@@ -33653,9 +33653,9 @@ DPz_Events_Run_2:                                              ; Offset_0x033EBE
 		bsr.s	Offset_0x033EE2
 		jmp	Update_Vertical_Scroll_Value_P2(PC)    ; Offset_0x02FF3A
 Offset_0x033EE2:
-                neg.w   D0
-                swap	D0
-                neg.w   D1
+		neg.w   D0
+		swap	D0
+		neg.w   D1
 		move.w	D1, D0
 Offset_0x033EEA:
 		move.l	D0, (A1)+
@@ -33683,16 +33683,16 @@ ALz_Deform:                                                    ; Offset_0x033EF8
 		bra.s	Offset_0x033F46
 Offset_0x033F30:
 		subi.w	#$0148, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		move.l	D0, D1
 		asr.l	#$02, D1
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		addi.w	#$0048, D0
 		rts
 Offset_0x033F46:
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, $0090(A1)
@@ -33705,9 +33705,9 @@ Offset_0x033F46:
 		moveq	#$05, D4
 Offset_0x033F62:
 		add.l	D3, D1
-                swap	D1
+		swap	D1
 		move.w	D1, -(A5)
-                swap	D1
+		swap	D1
 		add.l	D2, D1
 		dbf	D4, Offset_0x033F62
 		movem.w	(A5), D1-D6
@@ -33723,16 +33723,16 @@ Offset_0x033F62:
 		asr.l	#$01, D2
 		moveq	#$02, D3
 Offset_0x033F8C:
-                swap	D1
+		swap	D1
 		move.w	D1, (A5)+
-                swap	D1
+		swap	D1
 		add.l	D2, D1
 		dbf	D3, Offset_0x033F8C
 		move.w	(Background_Events).w, D1                    ; $FFFFEED2
 		lsr.w	#$03, D1
 		andi.w	#$003E, D1
 		lea	$00(A4, D1), A6
-                swap	D0
+		swap	D0
 		moveq	#$3E, D1
 Offset_0x033FAA:
 		move.w	(A6)+, D2
@@ -33760,16 +33760,16 @@ Offset_0x033FDE:
 		addi.w	#$0090, D0
 		rts
 Offset_0x033FEA:
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
 		asr.l	#$03, D1
 		moveq	#$06, D2
 Offset_0x033FF6:
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		dbf	D2, Offset_0x033FF6
 		rts  
@@ -33819,26 +33819,26 @@ Offset_0x034074:
 		bmi.s	Offset_0x034080
 		move.w	(Background_Events+$08).w, D1                ; $FFFFEEDA
 		mulu.w	D1, D0
-                swap	D0
+		swap	D0
 		rts
 Offset_0x034080:
 		moveq	#$00, D0
 		rts
 Offset_0x034084:
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$01, D0
 		move.l	D0, D1
 		asr.l	#$02, D1
 		moveq	#$03, D2
 Offset_0x034090:
-                swap	D0
+		swap	D0
 		move.w	D0, -(A1)
-                swap	D0
+		swap	D0
 		sub.l	D1, D0
 		dbf	D2, Offset_0x034090
 		asr.l	#$02, D1
-                swap	D1
+		swap	D1
 		addi.w	#$0100, D1
 		move.w	D1, -(A1)
 		rts  
@@ -33858,41 +33858,41 @@ EMz_Deform:                                                    ; Offset_0x0340A8
 		bsr.s	Offset_0x0340E6
 Offset_0x0340D0:
 		subi.w	#$0148, D0
-                swap	D0
+		swap	D0
 		clr.w	D0
 		move.l	D0, D1
 		asr.l	#$02, D1
 		sub.l	D1, D0
-                swap	D0
+		swap	D0
 		addi.w	#$0048, D0
 		rts
 Offset_0x0340E6:
-                swap	D0
+		swap	D0
 		clr.w	D0
 		asr.l	#$03, D0
 		move.l	D0, D1
-                swap	D0
+		swap	D0
 		move.w	D0, $000E(A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $000C(A1)
 		move.w	D0, $0010(A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0006(A1)
 		move.w	D0, $000A(A1)
 		move.w	D0, $0012(A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, (A1)
 		move.w	D0, $0004(A1)
 		move.w	D0, $0008(A1)
-                swap	D0
+		swap	D0
 		add.l	D1, D0
-                swap	D0
+		swap	D0
 		move.w	D0, $0002(A1)
 		rts          
 ;-------------------------------------------------------------------------------
@@ -34228,12 +34228,12 @@ Sub_Sega_Intro:                                                ; Offset_0x034A2C
 		andi.w	#$0001, D2
 		addq.w	#$01, D2
 		lsl.w	#$06, D2
-                swap	D2
+		swap	D2
 		move.w	D1, D3
 		lsr.w	#$01, D3
 		addq.w	#$01, D3
 		lsl.w	#$06, D3
-                swap	D3
+		swap	D3
 		bsr.w	Offset_0x034A58
 		btst	#$01, D0
 		beq.w	Null_Sub_3                             ; Offset_0x034652
@@ -34244,17 +34244,17 @@ Offset_0x034A56:
 		move.l	A5, A2
 Offset_0x034A58:
 		move.l	A2, A4
-                swap	D2
+		swap	D2
 		lea	$00(A2, D2), A3
-                swap	D2
+		swap	D2
 		move.w	D1, D5
 		andi.w	#$0001, D5
 		bsr.w	Offset_0x034AD2
 		btst	#$01, D1
 		beq.s	Offset_0x034A94
-                swap	D2
+		swap	D2
 		move.w	D2, D4
-                swap	D2
+		swap	D2
 		add.w	D4, D4
 		move.w	D0, D3
 		andi.w	#$0001, D3
@@ -34262,9 +34262,9 @@ Offset_0x034A58:
 		adda.w	D4, A4
 		move.w	D1, D5
 		lsr.w	#$01, D5
-                swap	D3
+		swap	D3
 		lea	$00(A4, D3), A5
-                swap	D3
+		swap	D3
 		bsr.w	Offset_0x034AEA
 Offset_0x034A94:
 		btst	#$00, D0
@@ -34272,10 +34272,10 @@ Offset_0x034A94:
 		btst	#$01, D0
 		beq.s	Offset_0x034AD0
 Offset_0x034AA0:
-                swap	D2
+		swap	D2
 		lea	$00(A2, D2), A2
 		lea	$00(A2, D2), A3
-                swap	D2
+		swap	D2
 		move.w	D1, D5
 		andi.w	#$0001, D5
 		bsr.w	Offset_0x034AD2
@@ -34283,10 +34283,10 @@ Offset_0x034AA0:
 		beq.s	Offset_0x034AD0
 		move.w	D1, D5
 		lsr.w	#$01, D5
-                swap	D3
+		swap	D3
 		lea	$00(A4, D3), A4
 		lea	$00(A4, D3), A5
-                swap	D3
+		swap	D3
 		bsr.w	Offset_0x034AEA
 Offset_0x034AD0:
 		rts
@@ -37462,7 +37462,7 @@ Offset_0x041EE4:
 		ext.w	D1
 		btst	#$00, Obj_Flags(A0)                              ; $0004
 		beq.s	Offset_0x041F24
-                neg.w   D1
+		neg.w   D1
 Offset_0x041F24:
 		add.w	D1, D0
 		move.w	D0, Obj_X(A1)                                    ; $0010
@@ -37475,7 +37475,7 @@ Offset_0x041F24:
 		move.w	(A2)+, D1
 		btst	#$00, Obj_Flags(A0)                              ; $0004
 		beq.s	Offset_0x041F48
-                neg.w   D1
+		neg.w   D1
 Offset_0x041F48:
 		move.w	D1, Obj_Speed_X(A1)                              ; $0018
 		move.w	(A2)+, Obj_Speed_Y(A1)                           ; $001A
@@ -37575,7 +37575,7 @@ Refresh_Child_Position_Adjusted:                               ; Offset_0x04203C
 		bclr	#$00, Obj_Flags(A0)                              ; $0004
 		btst	#$00, Obj_Flags(A1)                              ; $0004
 		beq.s	Offset_0x042060
-                neg.w   D1
+		neg.w   D1
 		bset	#$00, Obj_Flags(A0)                              ; $0004
 Offset_0x042060:
 		add.w	D1, D0
@@ -37586,7 +37586,7 @@ Offset_0x042060:
 		bclr	#$01, Obj_Flags(A0)                              ; $0004
 		btst	#$01, Obj_Flags(A1)                              ; $0004
 		beq.s	Offset_0x042086
-                neg.w   D1
+		neg.w   D1
 		bset	#$01, Obj_Flags(A0)                              ; $0004
 Offset_0x042086:
 		add.w	D1, D0
@@ -37624,7 +37624,7 @@ Animate_Raw_A1:
 ; ---------------------------------------------------------------------------
 ; Offset_0x0420B6:
 AnimateRaw_Scripts:
-                neg.b   d1
+		neg.b   d1
 		jsr	AnimateRaw_Index-4(pc,d1.w)
 		clr.b	Obj_Ani_Frame(A0)
 		rts
@@ -37720,7 +37720,7 @@ Offset_0x042188:
 		moveq	#$00, D2
 		rts
 Offset_0x04218C:
-                neg.b   D1
+		neg.b   D1
 		jsr	Offset_0x042198-$04(pc,d1.w)
 		clr.b	Obj_Ani_Frame(A0)                                ; $0023
 		rts       
@@ -37890,21 +37890,21 @@ Swing_Up_And_Down:                                             ; Offset_0x04232E
 		moveq	#$00, D3
 		btst	#$00, Obj_Control_Var_08(A0)                     ; $0038
 		bne.s	Offset_0x04235A
-                neg.w   D0
+		neg.w   D0
 		add.w	D0, D1
-                neg.w   D2
+		neg.w   D2
 		cmp.w	D2, D1
 		bgt.s	Offset_0x04236C
 		bset	#$00, Obj_Control_Var_08(A0)                     ; $0038
-                neg.w   D0
-                neg.w   D2
+		neg.w   D0
+		neg.w   D2
 		moveq	#$01, D3
 Offset_0x04235A:
 		add.w	D0, D1
 		cmp.w	D2, D1
 		blt.s	Offset_0x04236C
 		bclr	#$00, Obj_Control_Var_08(A0)                     ; $0038
-                neg.w   D0
+		neg.w   D0
 		add.w	D0, D1
 		moveq	#$01, D3
 Offset_0x04236C:
@@ -37918,21 +37918,21 @@ Swing_Left_And_Right:                                          ; Offset_0x042372
 		moveq	#$00, D3
 		btst	#$03, Obj_Control_Var_08(A0)                     ; $0038
 		bne.s	Offset_0x04239E
-                neg.w   D0
+		neg.w   D0
 		add.w	D0, D1
-                neg.w   D2
+		neg.w   D2
 		cmp.w	D2, D1
 		bgt.s	Offset_0x0423B0
 		bset	#$03, Obj_Control_Var_08(A0)                     ; $0038
-                neg.w   D0
-                neg.w   D2
+		neg.w   D0
+		neg.w   D2
 		moveq	#$01, D3
 Offset_0x04239E:
 		add.w	D0, D1
 		cmp.w	D2, D1
 		blt.s	Offset_0x0423B0
 		bclr	#$03, Obj_Control_Var_08(A0)                     ; $0038
-                neg.w   D0
+		neg.w   D0
 		add.w	D0, D1
 		moveq	#$01, D3
 Offset_0x0423B0:
@@ -37978,7 +37978,7 @@ Run_Object_Hit_Floor_D3_A0:                                    ; Offset_0x0423F8
 		ext.l	D3
 		lsl.l	#$08, D3
 		add.l	Obj_X(A0), D3                                    ; $0010
-                swap	D3
+		swap	D3
 		jsr	(ObjHitFloor_D3)                       ; Offset_0x009D88
 		cmpi.w	#$FFFF, D1
 		blt.s	Run_Object_Hit_Floor_D3                ; Offset_0x04241E
@@ -38103,7 +38103,7 @@ Inc_Level_Gradual_Max_X:                                       ; Offset_0x042564
 		move.l	Obj_Control_Var_00(A0), D1                       ; $0030
 		addi.l	#$00004000, D1
 		move.l	D1, Obj_Control_Var_00(A0)                       ; $0030
-                swap	D1
+		swap	D1
 		add.w	D1, D0
 		cmp.w	(Target_Camera_Max_X).w, D0                  ; $FFFFFA92
 		bcc.s	Offset_0x042586
@@ -38120,7 +38120,7 @@ Inc_Level_Gradual_Min_X:                                       ; Offset_0x042592
 		move.l	Obj_Control_Var_00(A0), D1                       ; $0030
 		addi.l	#$00004000, D1
 		move.l	D1, Obj_Control_Var_00(A0)                       ; $0030
-                swap	D1
+		swap	D1
 		sub.w	D1, D0
 		cmp.w	(Target_Camera_Min_X).w, D0                  ; $FFFFFA94
 		ble.s	Offset_0x0425B4
@@ -38135,7 +38135,7 @@ Inc_Level_Gradual_Min_Y:                                       ; Offset_0x0425C0
 		move.l	Obj_Control_Var_00(A0), D1                       ; $0030
 		addi.l	#$00004000, D1
 		move.l	D1, Obj_Control_Var_00(A0)                       ; $0030
-                swap	D1
+		swap	D1
 		sub.w	D1, D0
 		cmp.w	(Target_Camera_Min_Y).w, D0                  ; $FFFFFA96
 		ble.s	Offset_0x0425E2
@@ -38150,7 +38150,7 @@ Inc_Level_Gradual_Max_Y:                                       ; Offset_0x0425EE
 		move.l	Obj_Control_Var_00(A0), D1                       ; $0030
 		addi.l	#$00004000, D1
 		move.l	D1, Obj_Control_Var_00(A0)                       ; $0030
-                swap	D1
+		swap	D1
 		add.w	D1, D0
 		cmp.w	(Target_Camera_Max_Y).w, D0                  ; $FFFFFA98
 		bgt.s	Offset_0x042610
@@ -38183,14 +38183,14 @@ Find_Player:                                                   ; Offset_0x042634
 		move.w	Obj_X(A0), D2                                    ; $0010
 		sub.w	Obj_X(A1), D2                                    ; $0010
 		bpl.s	Offset_0x04264A
-                neg.w   D2
+		neg.w   D2
 		addq.w	#$02, D0
 Offset_0x04264A:
 		lea	(Obj_Player_Two).w, A2                       ; $FFFFB04A
 		move.w	Obj_X(A0), D3                                    ; $0010
 		sub.w	Obj_X(A2), D3                                    ; $0010
 		bpl.s	Offset_0x04265C
-                neg.w   D3
+		neg.w   D3
 		addq.w	#$02, D1
 Offset_0x04265C:
 		cmp.w	D3, D2
@@ -38203,7 +38203,7 @@ Offset_0x042666:
 		move.w	Obj_Y(A0), D3                                    ; $0014
 		sub.w	Obj_Y(A1), D3                                    ; $0014
 		bpl.s	Offset_0x042676
-                neg.w   D3
+		neg.w   D3
 		addq.w	#$02, D1
 Offset_0x042676:
 		rts
@@ -38230,14 +38230,14 @@ Find_Other_Object:                                             ; Offset_0x04269E
 		move.w	Obj_X(A0), D2                                    ; $0010
 		sub.w	Obj_X(A1), D2                                    ; $0010
 		bpl.s	Offset_0x0426B0
-                neg.w   D2
+		neg.w   D2
 		addq.w	#$02, D0
 Offset_0x0426B0:
 		moveq	#$00, D1
 		move.w	Obj_Y(A0), D3                                    ; $0014
 		sub.w	Obj_Y(A1), D3                                    ; $0014
 		bpl.s	Offset_0x0426C0
-                neg.w   D3
+		neg.w   D3
 		addq.w	#$02, D1
 Offset_0x0426C0:
 		rts   
@@ -38327,25 +38327,25 @@ At_Angle_0x40_To_0x7F:                                         ; Offset_0x042792
 		move.b	$00(A3, D4), D1
 		add.w	D1, D2
 		move.b	$00(A2, D0), D1
-                neg.w   D1
+		neg.w   D1
 		add.w	D1, D3
 		rts 
 ;-------------------------------------------------------------------------------
 At_Angle_0x80_To_0xBF:                                         ; Offset_0x0427A4
 		moveq	#$00, D1
 		move.b	$00(A2, D0), D1
-                neg.w   D1
+		neg.w   D1
 		add.w	D1, D2
 		moveq	#$00, D1
 		move.b	$00(A3, D4), D1
-                neg.w   D1
+		neg.w   D1
 		add.w	D1, D3
 		rts  
 ;-------------------------------------------------------------------------------
 At_Angle_0xC0_To_0xFF:                                         ; Offset_0x0427BA
 		moveq	#$00, D1
 		move.b	$00(A3, D4), D1
-                neg.w   D1
+		neg.w   D1
 		add.w	D1, D2
 		moveq	#$00, D1
 		move.b	$00(A2, D0), D1
@@ -38384,13 +38384,13 @@ Offset_0x042808:
 Offset_0x042810:
 		moveq	#$00, D1
 		move.b	$00(A2, D0), D1
-                neg.w   D1
+		neg.w   D1
 		rts 
 ;-------------------------------------------------------------------------------
 Offset_0x04281A:
 		moveq	#$00, D1
 		move.b	$00(A3, D4), D1
-                neg.w   D1
+		neg.w   D1
 		rts 
 ;-------------------------------------------------------------------------------
 Offset_0x042824:
@@ -38427,14 +38427,14 @@ Offset_0x04285E:
 		move.w	D0, D1
 		andi.w	#$003F, D1
 		move.b	$00(A1, D1), D1
-                neg.w   D1
+		neg.w   D1
 		bra.w	Offset_0x04287E    
 ;-------------------------------------------------------------------------------
 Offset_0x04286E:
 		move.w	#$00FF, D1
 		sub.w	D0, D1
 		move.b	$00(A1, D1), D1
-                neg.w   D1
+		neg.w   D1
 		bra.w	Offset_0x04287E
 ;-------------------------------------------------------------------------------                
 Offset_0x04287E:
@@ -38481,14 +38481,14 @@ Offset_0x0428D8:
 		move.w	D0, D1
 		andi.w	#$003F, D1
 		move.w	$00(A1, D1), D1
-                neg.w   D1
+		neg.w   D1
 		bra.w	Offset_0x0428F8    
 ;-------------------------------------------------------------------------------
 Offset_0x0428E8:
 		move.w	#$00FF, D1
 		sub.w	D0, D1
 		move.w	$00(A1, D1), D1
-                neg.w   D1
+		neg.w   D1
 		bra.w	Offset_0x0428F8  
 ;-------------------------------------------------------------------------------
 Offset_0x0428F8:
@@ -38922,7 +38922,7 @@ Set_Indexed_Velocity_D0:                                       ; Offset_0x042D64
 		move.w	(A1)+, Obj_Speed_Y(A0)                           ; $001A
 		btst	#$00, Obj_Flags(A0)                              ; $0004
 		beq.s	Offset_0x042D7C
-                neg.w   Obj_Speed_X(A0)                                  ; $0018
+		neg.w   Obj_Speed_X(A0)                                  ; $0018
 Offset_0x042D7C:
 		rts                    
 ;-------------------------------------------------------------------------------
@@ -38938,7 +38938,7 @@ Find_Player_Eight_Way:                                         ; Offset_0x042DC2
 		cmp.w	D2, D3
 		beq.s	Offset_0x042E18
 		bhi.s	Offset_0x042DF2
-                swap	D3
+		swap	D3
 		clr.w	D3
 		divu.w	D2, D3
 		tst.w	D0
@@ -38955,7 +38955,7 @@ Offset_0x042DE4:
 		bne.s	Offset_0x042E40
 		bra.w	Offset_0x042E48
 Offset_0x042DF2:
-                swap	D2
+		swap	D2
 		clr.w	D2
 		divu.w	D3, D2
 		tst.w	D1
@@ -39012,7 +39012,7 @@ Set_Velocity_X_Track_Player_One:                               ; Offset_0x042E4C
 		bclr	#$00, Obj_Flags(A0)                              ; $0004
 		tst.w	D0
 		beq.s	Offset_0x042E66
-                neg.w   D4
+		neg.w   D4
 		bset	#$00, Obj_Flags(A0)                              ; $0004
 Offset_0x042E66:
 		move.w	D4, Obj_Speed_X(A0)                              ; $0018
@@ -39020,14 +39020,14 @@ Offset_0x042E66:
 ;===============================================================================  
 Chase_Object:                                                  ; Offset_0x042E6C
 		move.w	D0, D2
-                neg.w   D2
+		neg.w   D2
 		move.w	D1, D3
 		move.w	Obj_X(A0), D4                                    ; $0010
 		cmp.w	Obj_X(A1), D4                                    ; $0010
                 seq     D5
 		beq.s	Offset_0x042E94
 		bcs.s	Offset_0x042E82
-                neg.w   D1
+		neg.w   D1
 Offset_0x042E82:
 		move.w	Obj_Speed_X(A0), D4                              ; $0018
 		add.w	D1, D4
@@ -39041,7 +39041,7 @@ Offset_0x042E94:
 		cmp.w	Obj_Y(A1), D4                                    ; $0014
 		beq.s	Offset_0x042EB6
 		bcs.s	Offset_0x042EA2
-                neg.w   D3
+		neg.w   D3
 Offset_0x042EA2:
 		move.w	Obj_Speed_Y(A0), D4                              ; $001A
 		add.w	D3, D4
@@ -39061,11 +39061,11 @@ Offset_0x042EB6:
 ;===============================================================================    
 Chase_Object_X_Only:                                           ; Offset_0x042EC4
 		move.w	D0, D2
-                neg.w   D2
+		neg.w   D2
 		move.w	Obj_X(A0), D3                                    ; $0010
 		cmp.w	Obj_X(A1), D3                                    ; $0010
 		bcs.s	Offset_0x042ED4
-                neg.w   D1
+		neg.w   D1
 Offset_0x042ED4:
 		move.w	Obj_Speed_X(A0), D3                              ; $0018
 		add.w	D1, D3
@@ -39241,7 +39241,7 @@ Offset_0x04304E:
 		move.w	Obj_Y(A1), D0                                    ; $0014
 		cmp.w	Obj_Y(A0), D0                                    ; $0014
 		bcc.s	Offset_0x043088
-                neg.w   Obj_Speed_Y(A1)                                  ; $001A
+		neg.w   Obj_Speed_Y(A1)                                  ; $001A
 		jmp	(DisplaySprite)                        ; Offset_0x011148
 Offset_0x04307C:
 		addi.w	#$0100, Obj_Speed_Y(A0)                          ; $001A
@@ -39313,7 +39313,7 @@ Check_Player_In_Range:                                         ; Offset_0x043104
 		move.w	D4, D6
 		add.w	(A1)+, D6
 		bsr.w	Offset_0x043138
-                swap	D0
+		swap	D0
 		lea	(Obj_Player_One).w, A2                       ; $FFFFB000
 		move.w	Obj_X(A2), D1                                    ; $0010
 		move.w	Obj_Y(A2), D2                                    ; $0014
@@ -39391,7 +39391,7 @@ Offset_0x0431D2:
 Offset_0x0431DE:
 		rts
 Offset_0x0431E0:
-                neg.w   D1
+		neg.w   D1
 		jmp	(Offset_0x0431E6-$08)(pc,d1.w)   
 ;-------------------------------------------------------------------------------                
 Offset_0x0431E6:
@@ -39791,7 +39791,7 @@ Offset_0x046A56:
 		andi.w	#$000E, D3
 		move.w	Obj_Speed_X(A0), D1                              ; $0018
 		bpl.s	Offset_0x046A68
-                neg.w   D1
+		neg.w   D1
 Offset_0x046A68:
 		move.w	Offset_0x046A70(pc,d3.w), D0
 		jmp	Offset_0x046A70(pc,d0.w)
@@ -41441,7 +41441,7 @@ Offset_0x04B2B6:
 		moveq	#$00, D1
 		move.b	(Debug_Speed).w, D1              ; $FFFFFE0B
 		addq.w	#$01, D1
-                swap	D1
+		swap	D1
 		asr.l	#$04, D1
 		move.l	Obj_Y(A0), D2                                    ; $0014
 		move.l	Obj_X(A0), D3                                    ; $0010
@@ -41450,7 +41450,7 @@ Offset_0x04B2B6:
 		sub.l	D1, D2
 		moveq	#$00, D0
 		move.w	(Sonic_Level_Limits_Min_Y).w, D0             ; $FFFFEE18
-                swap	D0
+		swap	D0
 		cmp.l	D0, D2
 		bge.s	Offset_0x04B2E0
 		move.l	D0, D2
@@ -41461,7 +41461,7 @@ Offset_0x04B2E0:
 		moveq	#$00, D0
 		move.w	(Level_Limits_Max_Y).w, D0                   ; $FFFFEE12
 		addi.w	#$00DF, D0
-                swap	D0
+		swap	D0
 		cmp.l	D0, D2
 		blt.s	Offset_0x04B2FA
 		move.l	D0, D2
