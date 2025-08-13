@@ -18,11 +18,17 @@ rom_ptr_z80 macro addr
 	dc.w	z80_ptr(addr)
     endm
 
-; we don't have bytesToLcnt or bytesToWcnt yet, so here's examples of when they are used
-; bytesToLcnt
-; #(XX>>2-YY>>2)-1
-; bytesToWcnt
-; #(XX>>1-YY>>1)-1
+; calculates initial loop counter value for a dbf loop
+; that writes n bytes total at 4 bytes per iteration
+bytesToLcnt function n,n>>2-1
+
+; calculates initial loop counter value for a dbf loop
+; that writes n bytes total at 2 bytes per iteration
+bytesToWcnt function n,n>>1-1
+
+; calculates initial loop counter value for a dbf loop
+; that writes n bytes total at x bytes per iteration
+bytesToXcnt function n,x,n/x-1
 
 ; fills a region of 68k RAM with 0
 clearRAM macro startaddr,endaddr
@@ -42,7 +48,7 @@ clearRAM macro startaddr,endaddr
     	if (startaddr&1)
 			move.b	d0,(a1)+			; clear the first byte if start address is odd
 	    endc
-		move.w	#((endaddr-startaddr)-(startaddr&1))/4-1,d1
+		move.w	#bytesToLcnt((endaddr-startaddr)-(startaddr&1)),d1
 
 	.loop:
 		move.l	d0,(a1)+
