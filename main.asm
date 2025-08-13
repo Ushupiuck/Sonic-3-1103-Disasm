@@ -43705,7 +43705,7 @@ Angel_Island_1_Snd_Data:                                       ; Offset_0x0B0000
 Angel_Island_2_Snd_Data:                                       ; Offset_0x0B2210
                 include  "sound\music\aiz2.asm"
 Hydrocity_1_Snd_Data:                                          ; Offset_0x0B3F24
-                binclude  "sound\hz_1.snd"                
+                include  "sound\music\hcz1.asm"                
 Hydrocity_2_Snd_Data:                                          ; Offset_0x0B5492
                 binclude  "sound\hz_2.snd"
 Marble_Garden_1_Snd_Data:                                      ; Offset_0x0B6E51

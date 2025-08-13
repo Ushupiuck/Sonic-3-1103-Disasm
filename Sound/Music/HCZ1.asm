@@ -14,6 +14,10 @@ s3p3_Header:
 	smpsHeaderPSG       s3p3_PSG2,	$E8, $05, $00, sTone_0C
 	smpsHeaderPSG       s3p3_PSG3,	$00, $03, $00, sTone_0C
 
+; Unreachable
+	smpsStop
+	smpsStop
+
 ; DAC Data
 s3p3_DAC:
 	dc.b	dKickS3, $14, dKickS3, $04, dSnareS3, $20, dKickS3, $10, dSnareS3, $14, dKickS3, $18
@@ -46,6 +50,9 @@ s3p3_DAC:
 	dc.b	$14, dKickS3, $04, dSnareS3, $08, dKickS3, $18, dKickS3, $10, dSnareS3, $20, dSnareS3
 	dc.b	$0C, dSnareS3, dSnareS3, $04, dSnareS3, $0C, dSnareS3, $18, dSnareS3, $0C, dSnareS3
 	smpsJump            s3p3_DAC
+
+; Unreachable
+	smpsStop
 
 ; FM1 Data
 s3p3_FM1:
@@ -157,6 +164,9 @@ s3p3_FM1:
 	dc.b	$02, nRst, $0A, nG4, $02, nRst, nG4, $0A, nRst, $02, nG4, nRst
 	dc.b	$2E
 	smpsJump            s3p3_FM1
+
+; Unreachable
+	smpsStop
 
 ; FM2 Data
 s3p3_FM2:
@@ -275,6 +285,9 @@ s3p3_FM2:
 	dc.b	nRst, $0A, nD4, $02, nRst, nD4, $0A, nRst, $02, nD4, nRst, $2E
 	smpsJump            s3p3_FM2
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p3_FM3:
 	smpsPan             panRight, $00
@@ -331,6 +344,9 @@ s3p3_Jump01:
 	dc.b	$04, nRst, $08, nC5, $04, nRst, $08, nC5, $04, nC5, $0C, nB4
 	dc.b	$04, nRst, $2C
 	smpsJump            s3p3_Jump01
+
+; Unreachable
+	smpsStop
 
 ; FM4 Data
 s3p3_FM4:
@@ -435,6 +451,9 @@ s3p3_FM4:
 	dc.b	nF0, $04, nRst, nFs0, $02, nRst, nG0, $06, nRst, $02, nBb0, nRst
 	smpsJump            s3p3_FM4
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p3_FM5:
 	smpsPan             panLeft, $00
@@ -492,6 +511,9 @@ s3p3_Jump00:
 	dc.b	$04, nRst, $08, nC5, $04, nRst, $08, nC5, $04, nC5, $0C, nB4
 	dc.b	$04, nRst, $2C
 	smpsJump            s3p3_Jump00
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p3_PSG1:
@@ -557,12 +579,21 @@ s3p3_Jump02:
 	dc.b	$2E
 	smpsJump            s3p3_Jump02
 
+; Unreachable
+	smpsStop
+
 ; PSG2 Data
 s3p3_PSG2:
 	smpsPSGvoice        sTone_0A
 	dc.b	nRst, $01
 	smpsDetune          $01
+
+s3p3_Jump03:
 	smpsJump            s3p3_Jump02
+
+; Unreachable
+	smpsJump            s3p3_Jump03
+	smpsStop
 
 ; PSG3 Data
 s3p3_PSG3:
@@ -718,6 +749,9 @@ s3p3_Loop03:
 	smpsLoop            $01, $0E, s3p3_Loop03
 	dc.b	nRst, $60
 	smpsJump            s3p3_Loop00
+
+; Unreachable
+	smpsStop
 
 s3p3_Voices:
 ;	Voice $00
@@ -1331,4 +1365,3 @@ s3p3_Voices:
 	smpsVcDecayLevel    $02, $02, $03, $03
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $8A, $8A, $8A, $8A
-
