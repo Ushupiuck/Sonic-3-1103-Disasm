@@ -58,6 +58,9 @@ s3p11_Jump00:
 	smpsFMAlterVol      $FD
 	smpsJump            s3p11_Jump00
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p11_FM2:
 	smpsSetvoice        $01
@@ -91,6 +94,9 @@ s3p11_Jump03:
 	dc.b	nA2, $05, nRst, $07, nF2, $05, nRst, $07
 	smpsJump            s3p11_Jump03
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p11_FM3:
 	smpsPan             panLeft, $00
@@ -112,6 +118,9 @@ s3p11_Jump02:
 	dc.b	nRst, $04, nF3, $04, nRst, $08, nD3, $04, nF3, nRst, $08, nD3
 	dc.b	$08, nRst, $04, nA3, $04, nRst, $08, nA3, $0C, nD3
 	smpsJump            s3p11_Jump02
+
+; Unreachable
+	smpsStop
 
 ; FM4 Data
 s3p11_FM4:
@@ -135,16 +144,25 @@ s3p11_Jump01:
 	dc.b	$08, nRst, $04, nC4, $04, nRst, $08, nC4, $0C, nD3
 	smpsJump            s3p11_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p11_FM5:
 	dc.b	nRst, $60, nRst, nRst, $09
 	smpsDetune          $05
 	smpsJump            s3p11_Jump00
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p11_DAC:
 	dc.b	dKickS3, $18, dKickS3, dKickS3, dKickS3
 	smpsJump            s3p11_DAC
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p11_PSG1:
@@ -179,6 +197,9 @@ s3p11_Call00:
 s3p11_PSG2:
 	dc.b	nRst, $09
 	smpsJump            s3p11_PSG1
+
+; Unreachable
+	smpsStop
 
 ; PSG3 Data
 s3p11_PSG3:
@@ -247,6 +268,9 @@ s3p11_Loop00:
 	smpsPSGAlterVol     $01
 	dc.b	nRst, $04
 	smpsJump            s3p11_Loop00
+
+; Unreachable
+	smpsStop
 
 s3p11_Voices:
 ;	Voice $00

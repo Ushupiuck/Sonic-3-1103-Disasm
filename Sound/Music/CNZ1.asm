@@ -14,6 +14,10 @@ s3p7_Header:
 	smpsHeaderPSG       s3p7_PSG2,	$03, $05, $00, sTone_0C
 	smpsHeaderPSG       s3p7_PSG3,	$00, $03, $00, sTone_0C
 
+; Unreachable
+	smpsStop
+	smpsStop
+
 ; DAC Data
 s3p7_DAC:
 	dc.b	dKickS3, $18, dKickS3, $14, dSnareS3, $0C, dKickS3, $04, dKickS3, $18, dSnareS3, $0C
@@ -105,6 +109,9 @@ s3p7_DAC:
 	dc.b	$08, dSnareS3, $0C, dSnareS3, $04, dSnareS3, $0C, dSnareS3, $08, dSnareS3, $0C, dSnareS3
 	dc.b	$04, dSnareS3, $08, dSnareS3, $04, dSnareS3, $0C, dSnareS3
 	smpsJump            s3p7_DAC
+
+; Unreachable
+	smpsStop
 
 ; FM1 Data
 s3p7_FM1:
@@ -240,6 +247,9 @@ s3p7_Jump03:
 	dc.b	$04, nRst, nB3, nRst, $08, nB3, $04, nB3, $0C, nA3, $02, nG3
 	dc.b	nF3, nE3, nD3, nC3, nB2, nRst, $0A
 	smpsJump            s3p7_Jump03
+
+; Unreachable
+	smpsStop
 
 ; FM2 Data
 s3p7_FM2:
@@ -377,6 +387,9 @@ s3p7_Jump02:
 	dc.b	nC3, nB2, nA2, nG2, nF2, nRst, $0A
 	smpsJump            s3p7_Jump02
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p7_FM3:
 	smpsSetvoice        $05
@@ -433,6 +446,9 @@ s3p7_Jump01:
 	dc.b	$04, nG4, nRst, $08, nG4, nG4, $0C, nG4, $04, nG4, nRst, $10
 	dc.b	nA3, $04, nBb3, $0C
 	smpsJump            s3p7_Jump01
+
+; Unreachable
+	smpsStop
 
 ; FM4 Data
 s3p7_FM4:
@@ -653,6 +669,10 @@ s3p7_FM4:
 	dc.b	nCs2, $14, nB1, $10, nCs2, $14, nB1, $04, nCs2, nRst, $20
 	smpsJump            s3p7_FM4
 
+; Unreachable
+	dc.b	nRst, $0C
+	smpsStop
+
 ; FM5 Data
 s3p7_FM5:
 	dc.b	nRst, $02
@@ -713,6 +733,10 @@ s3p7_Jump00:
 	dc.b	nA3, $04
 	smpsFMAlterVol      $F8
 	smpsJump            s3p7_Jump00
+
+; Unreachable
+	dc.b	nBb3, $0C
+	smpsStop
 
 ; PSG1 Data
 s3p7_PSG1:
@@ -783,6 +807,9 @@ s3p7_Jump05:
 	dc.b	nRst, nB3, nRst, $22
 	smpsChangeTransposition $0C
 	smpsJump            s3p7_Jump05
+
+; Unreachable
+	smpsStop
 
 ; PSG2 Data
 s3p7_PSG2:
@@ -855,6 +882,9 @@ s3p7_Jump04:
 	dc.b	nRst, nB3, nRst, $22
 	smpsChangeTransposition $0C
 	smpsJump            s3p7_Jump04
+
+; Unreachable
+	smpsStop
 
 ; PSG3 Data
 s3p7_PSG3:
@@ -1046,6 +1076,9 @@ s3p7_Loop04:
 	smpsPSGvoice        sTone_08
 	dc.b	nMaxPSG1, $24
 	smpsJump            s3p7_PSG3
+
+; Unreachable
+	smpsStop
 
 s3p7_Voices:
 ;	Voice $00

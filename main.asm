@@ -43717,19 +43717,20 @@ Marble_Garden_2_Snd_Data:                                      ; Offset_0x0B7468
 ; Z80 Bank $17
 Snd_Bank2_Start:	startBank
 Carnival_Night_1_Snd_Data:                                     ; Offset_0x0B8000
-                binclude  "sound\cnz_1.snd"
+                include  "sound\music\cnz1.asm"
 Carnival_Night_2_Snd_Data:                                     ; Offset_0x0B9BBB
-                binclude  "sound\cnz_2.snd"                                                             
+                include  "sound\music\cnz2.asm"                                                             
 Flying_Battery_1_Snd_Data:                                     ; Offset_0x0BB99E
-                binclude  "sound\fbz_1.snd" 
+                include  "sound\music\fbz1.asm" 
 Flying_Battery_2_Snd_Data:                                     ; Offset_0x0BBF36
-                binclude  "sound\fbz_2.snd"                                               
+                include  "sound\music\fbz2.asm"                                               
 Icecap_1_Snd_Data:                                             ; Offset_0x0BC499
-                binclude  "sound\iz_1.snd"
+                include  "sound\music\icz1.asm"
 Icecap_2_Snd_Data:                                             ; Offset_0x0BCA37
-                binclude  "sound\iz_2.snd"   
+                include  "sound\music\icz2.asm"   
 Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
-                binclude  "sound\lbz_1.snd"
+                include  "sound\music\lbz1.asm"
+				binclude "data\leftoverbank2.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_2:                                                    ; Offset_0x0BFBA4
 		dc.b	" the screen.", $0D, $0A, $0D, $0A   

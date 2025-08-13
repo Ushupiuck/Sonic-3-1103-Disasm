@@ -14,6 +14,10 @@ s3p8_Header:
 	smpsHeaderPSG       s3p8_PSG2,	$F4, $05, $00, sTone_0C
 	smpsHeaderPSG       s3p8_PSG3,	$00, $03, $00, sTone_0C
 
+; Unreachable
+	smpsStop
+	smpsStop
+
 ; DAC Data
 s3p8_DAC:
 	dc.b	dSnareS3, $0C, dClapS3, dSnareS3, $06, dClapS3, $0C, dClapS3, $06, dSnareS3, dClapS3, dClapS3
@@ -70,6 +74,9 @@ s3p8_DAC:
 	dc.b	dSnareS3, $06, dSnareS3, $0C, dSnareS3, $06, dSnareS3, $0C, dSnareS3, $06, dSnareS3, $12
 	dc.b	dSnareS3, $06, dSnareS3, dSnareS3, $04, nRst, $02
 	smpsJump            s3p8_DAC
+
+; Unreachable
+	smpsStop
 
 ; FM1 Data
 s3p8_FM1:
@@ -156,6 +163,9 @@ s3p8_FM1:
 	dc.b	nA3, $06, nA3, nRst, nA3, nA3, nRst, nA3, nA3, nRst, nA3, nA3
 	dc.b	$0C, nG3, $02, nF3, nEb3, nD3, nC3, nBb2, nA2, nRst, $0A
 	smpsJump            s3p8_FM1
+
+; Unreachable
+	smpsStop
 
 ; FM2 Data
 s3p8_FM2:
@@ -275,6 +285,9 @@ s3p8_FM2:
 	dc.b	$0C, nD3, $02, nC3, nBb2, nA2, nG2, nF2, nEb2, nRst, $0A
 	smpsJump            s3p8_FM2
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p8_FM3:
 	smpsPan             panLeft, $00
@@ -354,6 +367,9 @@ s3p8_Jump01:
 	dc.b	nEb3, $06, nF3, $0C
 	smpsJump            s3p8_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p8_FM4:
 	smpsSetvoice        $14
@@ -418,6 +434,9 @@ s3p8_FM4:
 	dc.b	nRst, $08, nEb1, $04, nRst, $02, nBb0, $0A, nRst, $02, nEb1, $0A
 	dc.b	nRst, $02, nB1, $12, nA1, nB1, nA1, $06, nB1, nRst, $1E
 	smpsJump            s3p8_FM4
+
+; Unreachable
+	smpsStop
 
 ; FM5 Data
 s3p8_FM5:
@@ -503,6 +522,9 @@ s3p8_Jump00:
 	smpsFMAlterVol      $02
 	dc.b	nEb3, $06, nF3, $0C
 	smpsJump            s3p8_Jump00
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p8_PSG1:
@@ -608,6 +630,9 @@ s3p8_Jump03:
 	dc.b	$04, nRst, $02, nB4, $04, nRst, $20
 	smpsJump            s3p8_Jump03
 
+; Unreachable
+	smpsStop
+
 ; PSG2 Data
 s3p8_PSG2:
 	smpsPSGvoice        sTone_0A
@@ -712,6 +737,9 @@ s3p8_Jump02:
 	dc.b	$04, nRst, $02, nB3, $04, nRst, $02, nB4, $04, nRst, $02, nB3
 	dc.b	$04, nRst, $02, nB4, $04, nRst, $20
 	smpsJump            s3p8_Jump02
+
+; Unreachable
+	smpsStop
 
 ; PSG3 Data
 s3p8_PSG3:
@@ -839,6 +867,9 @@ s3p8_Loop03:
 	smpsPSGvoice        sTone_08
 	dc.b	nMaxPSG1, $60, $0C
 	smpsJump            s3p8_PSG3
+
+; Unreachable
+	smpsStop
 
 s3p8_Voices:
 ;	Voice $00

@@ -56,6 +56,9 @@ s3p12_Jump01:
 	dc.b	nRst, $60, nRst, nRst, nRst, nRst, nRst, nRst, nRst
 	smpsJump            s3p12_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p12_FM2:
 	smpsSetvoice        $01
@@ -76,6 +79,9 @@ s3p12_Jump04:
 	dc.b	$04, nRst, $08, nD2, nA2, $04, nRst, $08, nA2, $04, nA2, nRst
 	dc.b	$08, nA2, $0C, nD2
 	smpsJump            s3p12_Jump04
+
+; Unreachable
+	smpsStop
 
 ; FM3 Data
 s3p12_FM3:
@@ -99,6 +105,9 @@ s3p12_Jump03:
 	dc.b	$08, nRst, $04, nA3, $04, nRst, $08, nA3, $0C, nD3
 	smpsJump            s3p12_Jump03
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p12_FM4:
 	smpsPan             panRight, $00
@@ -121,11 +130,17 @@ s3p12_Jump02:
 	dc.b	$08, nRst, $04, nC4, $04, nRst, $08, nC4, $0C, nD3
 	smpsJump            s3p12_Jump02
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p12_FM5:
 	dc.b	nRst, $60, nRst, nRst, $09
 	smpsDetune          $05
 	smpsJump            s3p12_Jump01
+
+; Unreachable
+	smpsStop
 
 ; DAC Data
 s3p12_DAC:
@@ -156,6 +171,9 @@ s3p12_Jump00:
 	dc.b	dSnareS3, $04, nRst, dSnareS3, nRst, $08, dSnareS3, $04, dSnareS3, nRst, $08, dSnareS3
 	dc.b	$04, nRst, dSnareS3, dSnareS3, nRst, dSnareS3, dSnareS3, nRst, $08
 	smpsJump            s3p12_Jump00
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p12_PSG1:
@@ -190,6 +208,9 @@ s3p12_Call00:
 s3p12_PSG2:
 	dc.b	nRst, $09
 	smpsJump            s3p12_PSG1
+
+; Unreachable
+	smpsStop
 
 ; PSG3 Data
 s3p12_PSG3:
@@ -258,6 +279,9 @@ s3p12_Loop00:
 	smpsPSGAlterVol     $04
 	dc.b	nRst, $04
 	smpsJump            s3p12_Loop00
+
+; Unreachable
+	smpsStop
 
 s3p12_Voices:
 ;	Voice $00

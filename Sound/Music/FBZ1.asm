@@ -46,6 +46,9 @@ s3p9_Jump01:
 	dc.b	nE5, $7F, smpsNoAttack, nE5, $05, nRst, $30
 	smpsJump            s3p9_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p9_FM2:
 	smpsSetvoice        $01
@@ -84,6 +87,9 @@ s3p9_Loop08:
 	dc.b	nE3, nA2, $03, nRst, nA2, nRst
 	smpsJump            s3p9_Loop08
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p9_FM3:
 	smpsModSet          $0D, $01, $02, $06
@@ -111,6 +117,9 @@ s3p9_Loop07:
 	dc.b	nRst, $0C, nE5, $06, nRst, nE5, nRst, nE5, nRst, nE5, nRst, $2A
 	smpsJump            s3p9_Loop06
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p9_FM4:
 	smpsModSet          $0D, $01, $02, $06
@@ -137,6 +146,9 @@ s3p9_Loop05:
 	smpsLoop            $00, $02, s3p9_Loop05
 	dc.b	nRst, $0C, nC5, $06, nRst, nC5, nRst, nC5, nRst, nC5, nRst, $2A
 	smpsJump            s3p9_Loop04
+
+; Unreachable
+	smpsStop
 
 ; FM5 Data
 s3p9_FM5:
@@ -171,6 +183,9 @@ s3p9_Jump00:
 	dc.b	nE5, $7F, smpsNoAttack, nE5, $05, nRst, $30
 	smpsJump            s3p9_Jump00
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p9_DAC:
 	dc.b	dKickS3, $06, dKickS3, dKickS3, dKickS3
@@ -198,12 +213,18 @@ s3p9_Loop03:
 	dc.b	dKickS3, $0C, dSnareS3, dSnareS3, dSnareS3, $06, dSnareS3, dSnareS3, $30
 	smpsJump            s3p9_Loop00
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p9_PSG1:
 	smpsStop
 
 ; PSG2 Data
 s3p9_PSG2:
+	smpsStop
+
+; Unreachable
 	smpsStop
 
 ; PSG3 Data
