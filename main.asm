@@ -43694,33 +43694,33 @@ Asm_Code_1:                                                    ; Offset_0x0AFF0F
 ; Z80 Bank $16
                 align   $8000
 Angel_Island_1_Snd_Data:                                       ; Offset_0x0B0000
-                binclude  "data\sounds\aiz_1.snd"
+                binclude  "sound\aiz_1.snd"
 Angel_Island_2_Snd_Data:                                       ; Offset_0x0B2210
-                binclude  "data\sounds\aiz_2.snd"
+                binclude  "sound\aiz_2.snd"
 Hydrocity_1_Snd_Data:                                          ; Offset_0x0B3F24
-                binclude  "data\sounds\hz_1.snd"                
+                binclude  "sound\hz_1.snd"                
 Hydrocity_2_Snd_Data:                                          ; Offset_0x0B5492
-                binclude  "data\sounds\hz_2.snd"
+                binclude  "sound\hz_2.snd"
 Marble_Garden_1_Snd_Data:                                      ; Offset_0x0B6E51
-                binclude  "data\sounds\mgz_1.snd"  
+                binclude  "sound\mgz_1.snd"  
 Marble_Garden_2_Snd_Data:                                      ; Offset_0x0B7468
-                binclude  "data\sounds\mgz_2.snd"
+                binclude  "sound\mgz_2.snd"
 ; Z80 Bank $17    
                 align   $8000
 Carnival_Night_1_Snd_Data:                                     ; Offset_0x0B8000
-                binclude  "data\sounds\cnz_1.snd"
+                binclude  "sound\cnz_1.snd"
 Carnival_Night_2_Snd_Data:                                     ; Offset_0x0B9BBB
-                binclude  "data\sounds\cnz_2.snd"                                                             
+                binclude  "sound\cnz_2.snd"                                                             
 Flying_Battery_1_Snd_Data:                                     ; Offset_0x0BB99E
-                binclude  "data\sounds\fbz_1.snd" 
+                binclude  "sound\fbz_1.snd" 
 Flying_Battery_2_Snd_Data:                                     ; Offset_0x0BBF36
-                binclude  "data\sounds\fbz_2.snd"                                               
+                binclude  "sound\fbz_2.snd"                                               
 Icecap_1_Snd_Data:                                             ; Offset_0x0BC499
-                binclude  "data\sounds\iz_1.snd"
+                binclude  "sound\iz_1.snd"
 Icecap_2_Snd_Data:                                             ; Offset_0x0BCA37
-                binclude  "data\sounds\iz_2.snd"   
+                binclude  "sound\iz_2.snd"   
 Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
-                binclude  "data\sounds\lbz_1.snd"   
+                binclude  "sound\lbz_1.snd"   
 ;-------------------------------------------------------------------------------
 Asm_Code_2:                                                    ; Offset_0x0BFBA4
 		dc.b	" the screen.", $0D, $0A, $0D, $0A   
@@ -43746,49 +43746,49 @@ Asm_Code_2:                                                    ; Offset_0x0BFBA4
 ; Z80 Bank $18
                 align   $8000
 Launch_Base_2_Snd_Data:                                        ; Offset_0x0C0000
-                binclude  "data\sounds\lbz_2.snd"                                              
+                binclude  "sound\lbz_2.snd"                                              
 Mushroom_Valley_1_Snd_Data:                                    ; Offset_0x0C252A
-                binclude  "data\sounds\mvz_1.snd" 
+                binclude  "sound\mvz_1.snd" 
 Mushroom_Valley_2_Snd_Data:                                    ; Offset_0x0C2A9C
-                binclude  "data\sounds\mvz_2.snd" 
+                binclude  "sound\mvz_2.snd" 
 Sandopolis_1_Snd_Data:                                         ; Offset_0x0C3005
-                binclude  "data\sounds\sz_1.snd" 
+                binclude  "sound\sz_1.snd" 
 Sandopolis_2_Snd_Data:                                         ; Offset_0x0C366F
-                binclude  "data\sounds\sz_2.snd" 
+                binclude  "sound\sz_2.snd" 
 Lava_Reef_1_Snd_Data:                                          ; Offset_0x0C3C62
-                binclude  "data\sounds\lrz_1.snd" 
+                binclude  "sound\lrz_1.snd" 
 Lava_Reef_2_Snd_Data:                                          ; Offset_0x0C504F
-                binclude  "data\sounds\lrz_2.snd" 
+                binclude  "sound\lrz_2.snd" 
 Sky_Sanctuary_Snd_Data:                                        ; Offset_0x0C6642
-                binclude  "data\sounds\ssz.snd" 
+                binclude  "sound\ssz.snd" 
 Death_Egg_1_Snd_Data:                                          ; Offset_0x0C7954
-                binclude  "data\sounds\dez_1.snd" 
+                binclude  "sound\dez_1.snd" 
 ; Z80 Bank $19  
                 align   $8000
 Death_Egg_2_Snd_Data:                                          ; Offset_0x0C8000
-                binclude  "data\sounds\dez_2.snd"
+                binclude  "sound\dez_2.snd"
 Mini_Boss_Snd_Data:                                            ; Offset_0x0C8412
-                binclude  "data\sounds\miniboss.snd"
+                binclude  "sound\miniboss.snd"
 Boss_Snd_Data:                                                 ; Offset_0x0C8742
-                binclude  "data\sounds\boss.snd"
+                binclude  "sound\boss.snd"
 The_Doomsday_Snd_Data:                                         ; Offset_0x0C8C3E
-                binclude  "data\sounds\tdz.snd"
+                binclude  "sound\tdz.snd"
 Glowing_Spheres_Bonus_Stage_Snd_Data:                          ; Offset_0x0C9521
-                binclude  "data\sounds\gs_bs.snd"
+                binclude  "sound\gs_bs.snd"
 Special_Stage_Snd_Data:                                        ; Offset_0x0C9A84
-                binclude  "data\sounds\ss.snd"
+                binclude  "sound\ss.snd"
 Slot_Machine_Bonus_Stage_Snd_Data:                             ; Offset_0x0CA31C
-                binclude  "data\sounds\sm_bs.snd"
+                binclude  "sound\sm_bs.snd"
 Gumball_Machine_Bonus_Stage_Snd_Data:                          ; Offset_0x0CAE04
-                binclude  "data\sounds\gm_bs.snd"
+                binclude  "sound\gm_bs.snd"
 Knuckles_Theme_Snd_Data:                                       ; Offset_0x0CBB19
-                binclude  "data\sounds\knuckles.snd"
+                binclude  "sound\knuckles.snd"
 Azure_Lake_Snd_Data:                                           ; Offset_0x0CBE82
-                binclude  "data\sounds\alz.snd"
+                binclude  "sound\alz.snd"
 Balloon_Park_Snd_Data:                                         ; Offset_0x0CC988
-                binclude  "data\sounds\bpz.snd"
+                binclude  "sound\bpz.snd"
 Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
-                binclude  "data\sounds\dpz.snd"
+                binclude  "sound\dpz.snd"
 ;-------------------------------------------------------------------------------                
 Asm_Code_3:                                                    ; Offset_0x0CF962
 		dc.b	$0A
@@ -43823,37 +43823,37 @@ Asm_Code_3:                                                    ; Offset_0x0CF962
 ; Z80 Bank $1A
                 align   $8000
 Chrome_Gadget_Snd_Data:                                        ; Offset_0x0D0000
-                binclude  "data\sounds\cgz.snd"
+                binclude  "sound\cgz.snd"
 Endless_Mine_Snd_Data:                                         ; Offset_0x0D224B
-                binclude  "data\sounds\emz.snd"
+                binclude  "sound\emz.snd"
 Title_Screen_Snd_Data:                                         ; Offset_0x0D2993
-                binclude  "data\sounds\ts.snd"
+                binclude  "sound\ts.snd"
 Credits_Snd_Data:                                              ; Offset_0x0D2DCC
-                binclude  "data\sounds\credits.snd"
+                binclude  "sound\credits.snd"
 Time_Game_Over_Snd_Data:                                       ; Offset_0x0D383C
-                binclude  "data\sounds\tgovr.snd"
+                binclude  "sound\tgovr.snd"
 Continue_Snd_Data:                                             ; Offset_0x0D3A99
-                binclude  "data\sounds\continue.snd"
+                binclude  "sound\continue.snd"
 Level_Results_Snd_Data:                                        ; Offset_0x0D427A
-                binclude  "data\sounds\results.snd"
+                binclude  "sound\results.snd"
 Extra_Life_Snd_Data:                                           ; Offset_0x0D476A
-                binclude  "data\sounds\1up.snd"
+                binclude  "sound\1up.snd"
 Got_Emerald_Snd_Data:                                          ; Offset_0x0D496A
-                binclude  "data\sounds\emerald.snd"
+                binclude  "sound\emerald.snd"
 Invincibility_Snd_Data:                                        ; Offset_0x0D4A38
-                binclude  "data\sounds\invcblty.snd"
+                binclude  "sound\invcblty.snd"
 Competition_Menu_Snd_Data:                                     ; Offset_0x0D4CB8
-                binclude  "data\sounds\2p_menu.snd"
+                binclude  "sound\2p_menu.snd"
 Super_Sonic_Theme_Snd_Data:                                    ; Offset_0x0D5EAA
-                binclude  "data\sounds\s_sonic.snd"
+                binclude  "sound\s_sonic.snd"
 Data_Select_Menu_Snd_Data:                                     ; Offset_0x0D695E
-                binclude  "data\sounds\menu.snd"
+                binclude  "sound\menu.snd"
 ; Z80 Bank $1B
                 align   $8000
 Final_Boss_Snd_Data:                                           ; Offset_0x0D8000
-                binclude  "data\sounds\f_boss.snd"
+                binclude  "sound\f_boss.snd"
 Panic_Snd_Data:                                                ; Offset_0x0D8592
-                binclude  "data\sounds\panic.snd"                                 
+                binclude  "sound\panic.snd"                                 
 ;-------------------------------------------------------------------------------
 ; Offset_0x0D86C0:
                 binclude  "data\unknown\dummy3.dat" 
@@ -43872,339 +43872,339 @@ Offset_0x0E1852:
                 binclude  "data\unknown\dummy4.dat"
 ;-------------------------------------------------------------------------------
 Ring_Sfx_Data:                                           ; $32 ; Offset_0x0EC000
-                binclude  "data\sounds\0x32.sfx"                
+                binclude  "sound\0x32.sfx"                
 Ring_Left_Speaker_Sfx_Data:                                    ; Offset_0x0EC02E
-                binclude  "data\sounds\0x33.sfx"
+                binclude  "sound\0x33.sfx"
 Ring_Lost_Sfx_Data:                                            ; Offset_0x0EC05C
-                binclude  "data\sounds\0x34.sfx"
+                binclude  "sound\0x34.sfx"
 Hurt_Sfx_Data:                                                 ; Offset_0x0EC084
-                binclude  "data\sounds\0x35.sfx"
+                binclude  "sound\0x35.sfx"
 Skidding_Sfx_Data:                                             ; Offset_0x0EC0B6
-                binclude  "data\sounds\0x36.sfx"
+                binclude  "sound\0x36.sfx"
 Spike_Hurt_Sfx_Data:                                           ; Offset_0x0EC0EB
-                binclude  "data\sounds\0x37.sfx"
+                binclude  "sound\0x37.sfx"
 Collect_Oxygen_Sfx_Data:                                       ; Offset_0x0EC11A
-                binclude  "data\sounds\0x38.sfx"
+                binclude  "sound\0x38.sfx"
 Water_Splash_Sfx_Data:                                         ; Offset_0x0EC150
-                binclude  "data\sounds\0x39.sfx"
+                binclude  "sound\0x39.sfx"
 Got_Classic_Shield_Sfx_Data:                                   ; Offset_0x0EC191
-                binclude  "data\sounds\0x3A.sfx"
+                binclude  "sound\0x3A.sfx"
 Drowning_Sfx_Data:                                             ; Offset_0x0EC1BC
-                binclude  "data\sounds\0x3B.sfx"
+                binclude  "sound\0x3B.sfx"
 Rolling_Sfx_Data:                                              ; Offset_0x0EC20B
-                binclude  "data\sounds\0x3C.sfx"
+                binclude  "sound\0x3C.sfx"
 Object_Hit_Sfx_Data:                                           ; Offset_0x0EC249
-                binclude  "data\sounds\0x3D.sfx"
+                binclude  "sound\0x3D.sfx"
 Got_Fire_Shield_Sfx_Data:                                      ; Offset_0x0EC283
-                binclude  "data\sounds\0x3E.sfx"
+                binclude  "sound\0x3E.sfx"
 Got_Water_Shield_Sfx_Data:                                     ; Offset_0x0EC2AE
-                binclude  "data\sounds\0x3F.sfx"
+                binclude  "sound\0x3F.sfx"
 Offset_0x0EC2D1: 
-                binclude  "data\sounds\0x40.sfx"
+                binclude  "sound\0x40.sfx"
 Got_Lightning_Shield_Sfx_Data:                                 ; Offset_0x0EC2F4  
-                binclude  "data\sounds\0x41.sfx"
+                binclude  "sound\0x41.sfx"
 Offset_0x0EC317:    
-                binclude  "data\sounds\0x42.sfx"
+                binclude  "sound\0x42.sfx"
 Fire_Shield_Sfx_Data:                                          ; Offset_0x0EC32F  
-                binclude  "data\sounds\0x43.sfx"
+                binclude  "sound\0x43.sfx"
 Offset_0x0EC34A:   
-                binclude  "data\sounds\0x44.sfx"
+                binclude  "sound\0x44.sfx"
 Offset_0x0EC377:  
-                binclude  "data\sounds\0x45.sfx"
+                binclude  "sound\0x45.sfx"
 Hyper_Form_Change_Sfx_Data:                                    ; Offset_0x0EC39F   
-                binclude  "data\sounds\0x46.sfx"
+                binclude  "sound\0x46.sfx"
 Offset_0x0EC3CC:  
-                binclude  "data\sounds\0x47.sfx"
+                binclude  "sound\0x47.sfx"
 Offset_0x0EC3EC:  
-                binclude  "data\sounds\0x48.sfx"
+                binclude  "sound\0x48.sfx"
 Offset_0x0EC414:     
-                binclude  "data\sounds\0x49.sfx"
+                binclude  "sound\0x49.sfx"
 Grab_Sfx_Data:                                                 ; Offset_0x0EC41E   
-                binclude  "data\sounds\0x4A.sfx"
+                binclude  "sound\0x4A.sfx"
 Offset_0x0EC438: 
-                binclude  "data\sounds\0x4B.sfx"
+                binclude  "sound\0x4B.sfx"
 Offset_0x0EC460:  
-                binclude  "data\sounds\0x4C.sfx"
+                binclude  "sound\0x4C.sfx"
 Offset_0x0EC483:  
-                binclude  "data\sounds\0x4D.sfx"
+                binclude  "sound\0x4D.sfx"
 Offset_0x0EC498:  
-                binclude  "data\sounds\0x4E.sfx"
+                binclude  "sound\0x4E.sfx"
 Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0  
-                binclude  "data\sounds\0x4F.sfx"
+                binclude  "sound\0x4F.sfx"
 Offset_0x0EC4F1:  
-                binclude  "data\sounds\0x50.sfx"
+                binclude  "sound\0x50.sfx"
 Projectile_Sfx_Data:                                           ; Offset_0x0EC51B  
-                binclude  "data\sounds\0x51.sfx"
+                binclude  "sound\0x51.sfx"
 Missile_Explosion_Sfx_Data:                                    ; Offset_0x0EC548  
-                binclude  "data\sounds\0x52.sfx"
+                binclude  "sound\0x52.sfx"
 Flame_Sfx_Data:                                                ; Offset_0x0EC58C  
-                binclude  "data\sounds\0x53.sfx"
+                binclude  "sound\0x53.sfx"
 Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D  
-                binclude  "data\sounds\0x54.sfx"
+                binclude  "sound\0x54.sfx"
 Offset_0x0EC5D1:  
-                binclude  "data\sounds\0x55.sfx"
+                binclude  "sound\0x55.sfx"
 Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609  
-                binclude  "data\sounds\0x56.sfx"
+                binclude  "sound\0x56.sfx"
 Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A  
-                binclude  "data\sounds\0x57.sfx"
+                binclude  "sound\0x57.sfx"
 Spike_Move_Sfx_Data:                                           ; Offset_0x0EC671  
-                binclude  "data\sounds\0x58.sfx"
+                binclude  "sound\0x58.sfx"
 Offset_0x0EC68E:  
-                binclude  "data\sounds\0x59.sfx"
+                binclude  "sound\0x59.sfx"
 Offset_0x0EC6CE:  
-                binclude  "data\sounds\0x5A.sfx"
+                binclude  "sound\0x5A.sfx"
 Offset_0x0EC711:  
-                binclude  "data\sounds\0x5B.sfx"
+                binclude  "sound\0x5B.sfx"
 Draw_Bridge_Move_Sfx_Data:                                     ; Offset_0x0EC739  
-                binclude  "data\sounds\0x5C.sfx"
+                binclude  "sound\0x5C.sfx"
 Geyser_Sfx_Data:                                               ; Offset_0x0EC749  
-                binclude  "data\sounds\0x5D.sfx"
+                binclude  "sound\0x5D.sfx"
 Fan_Big_Sfx_Data:                                              ; Offset_0x0EC762  
-                binclude  "data\sounds\0x5E.sfx"
+                binclude  "sound\0x5E.sfx"
 Offset_0x0EC794:  
-                binclude  "data\sounds\0x5F.sfx"
+                binclude  "sound\0x5F.sfx"
 Offset_0x0EC7C5:  
-                binclude  "data\sounds\0x60.sfx"
+                binclude  "sound\0x60.sfx"
 Offset_0x0EC7DD:  
-                binclude  "data\sounds\0x61.sfx"
+                binclude  "sound\0x61.sfx"
 Smash_Sfx_Data:                                                ; Offset_0x0EC7F6  
-                binclude  "data\sounds\0x62.sfx"
+                binclude  "sound\0x62.sfx"
 Offset_0x0EC852:  
-                binclude  "data\sounds\0x63.sfx"
+                binclude  "sound\0x63.sfx"
 Switch_Blip_Sfx_Data:                                          ; Offset_0x0EC87F  
-                binclude  "data\sounds\0x64.sfx"
+                binclude  "sound\0x64.sfx"
 Offset_0x0EC88C:                        
-                binclude  "data\sounds\0x65.sfx"
+                binclude  "sound\0x65.sfx"
 Offset_0x0EC89B:  
-                binclude  "data\sounds\0x66.sfx"
+                binclude  "sound\0x66.sfx"
 Offset_0x0EC8C3:  
-                binclude  "data\sounds\0x67.sfx"
+                binclude  "sound\0x67.sfx"
 Floor_Thump_Sfx_Data:                                          ; Offset_0x0EC8F9  
-                binclude  "data\sounds\0x68.sfx"
+                binclude  "sound\0x68.sfx"
 Offset_0x0EC922:  
-                binclude  "data\sounds\0x69.sfx"
+                binclude  "sound\0x69.sfx"
 Offset_0x0EC94A:  
-                binclude  "data\sounds\0x6A.sfx"
+                binclude  "sound\0x6A.sfx"
 Offset_0x0EC97C:  
-                binclude  "data\sounds\0x6B.sfx"
+                binclude  "sound\0x6B.sfx"
 Crash_Sfx_Data:                                                ; Offset_0x0EC997  
-                binclude  "data\sounds\0x6C.sfx"
+                binclude  "sound\0x6C.sfx"
 Offset_0x0EC9BF:  
-                binclude  "data\sounds\0x6D.sfx"
+                binclude  "sound\0x6D.sfx"
 Offset_0x0ECA00:  
-                binclude  "data\sounds\0x6E_6F.sfx"
+                binclude  "sound\0x6E_6F.sfx"
 Jump_Sfx_Data:                                                 ; Offset_0x0ECA31  
-                binclude  "data\sounds\0x70.sfx"
+                binclude  "sound\0x70.sfx"
 Offset_0x0ECA47:  
-                binclude  "data\sounds\0x71.sfx"
+                binclude  "sound\0x71.sfx"
 Offset_0x0ECA71:  
-                binclude  "data\sounds\0x72.sfx"
+                binclude  "sound\0x72.sfx"
 Offset_0x0ECA90:  
-                binclude  "data\sounds\0x73.sfx"
+                binclude  "sound\0x73.sfx"
 Offset_0x0ECAC2:  
-                binclude  "data\sounds\0x74.sfx"
+                binclude  "sound\0x74.sfx"
 Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7  
-                binclude  "data\sounds\0x75.sfx"
+                binclude  "sound\0x75.sfx"
 Offset_0x0ECB23:  
-                binclude  "data\sounds\0x76.sfx"
+                binclude  "sound\0x76.sfx"
 Offset_0x0ECB52:  
-                binclude  "data\sounds\0x77.sfx"
+                binclude  "sound\0x77.sfx"
 Offset_0x0ECB7F:  
-                binclude  "data\sounds\0x78.sfx"
+                binclude  "sound\0x78.sfx"
 Underwater_Sfx_Data:                                           ; Offset_0x0ECBB2  
-                binclude  "data\sounds\0x79.sfx"
+                binclude  "sound\0x79.sfx"
 Offset_0x0ECBC4:  
-                binclude  "data\sounds\0x7A.sfx"
+                binclude  "sound\0x7A.sfx"
 Offset_0x0ECC05:  
-                binclude  "data\sounds\0x7B.sfx"
+                binclude  "sound\0x7B.sfx"
 Boss_Hit_Sfx_Data:                                             ; Offset_0x0ECC24  
-                binclude  "data\sounds\0x7C.sfx"
+                binclude  "sound\0x7C.sfx"
 Offset_0x0ECC58:  
-                binclude  "data\sounds\0x7D.sfx"
+                binclude  "sound\0x7D.sfx"
 Offset_0x0ECC8E:  
-                binclude  "data\sounds\0x7E.sfx"
+                binclude  "sound\0x7E.sfx"
 Offset_0x0ECCD8:  
-                binclude  "data\sounds\0x7F.sfx"
+                binclude  "sound\0x7F.sfx"
 Hoverpad_Sfx_Data:                                             ; Offset_0x0ECD05  
-                binclude  "data\sounds\0x80.sfx"
+                binclude  "sound\0x80.sfx"
 Transporter_Sfx_Data:                                          ; Offset_0x0ECD32  
-                binclude  "data\sounds\0x81.sfx"
+                binclude  "sound\0x81.sfx"
 Tunnel_Booster_Sfx_Data:                                       ; Offset_0x0ECD66  
-                binclude  "data\sounds\0x82.sfx"
+                binclude  "sound\0x82.sfx"
 Rising_Platform_Sfx_Data:                                      ; Offset_0x0ECD96  
-                binclude  "data\sounds\0x83.sfx"
+                binclude  "sound\0x83.sfx"
 Wave_Hover_Sfx_Data:                                           ; Offset_0x0ECDC5  
-                binclude  "data\sounds\0x84.sfx"
+                binclude  "sound\0x84.sfx"
 Trapdoor_Sfx_Data:                                             ; Offset_0x0ECDF6  
-                binclude  "data\sounds\0x85.sfx"
+                binclude  "sound\0x85.sfx"
 Balloon_Pop_Sfx_Data:                                          ; Offset_0x0ECE20  
-                binclude  "data\sounds\0x86.sfx"
+                binclude  "sound\0x86.sfx"
 Cannon_Turn_Sfx_Data:                                          ; Offset_0x0ECE6A  
-                binclude  "data\sounds\0x87.sfx"
+                binclude  "sound\0x87.sfx"
 Offset_0x0ECE99:  
-                binclude  "data\sounds\0x88.sfx"
+                binclude  "sound\0x88.sfx"
 Offset_0x0ECEC6:  
-                binclude  "data\sounds\0x89.sfx"
+                binclude  "sound\0x89.sfx"
 Offset_0x0ECF11:  
-                binclude  "data\sounds\0x8A.sfx"
+                binclude  "sound\0x8A.sfx"
 Small_Bumper_Sfx_Data:                                         ; Offset_0x0ECF45  
-                binclude  "data\sounds\0x8B.sfx"
+                binclude  "sound\0x8B.sfx"
 Offset_0x0ECF75:  
-                binclude  "data\sounds\0x8C.sfx"
+                binclude  "sound\0x8C.sfx"
 Offset_0x0ECFA6:  
-                binclude  "data\sounds\0x8D.sfx"
+                binclude  "sound\0x8D.sfx"
 Offset_0x0ECFD3:  
-                binclude  "data\sounds\0x8E.sfx"
+                binclude  "sound\0x8E.sfx"
 Offset_0x0ECFE4:  
-                binclude  "data\sounds\0x8F.sfx"
+                binclude  "sound\0x8F.sfx"
 Offset_0x0ECFFC:  
-                binclude  "data\sounds\0x90.sfx"
+                binclude  "sound\0x90.sfx"
 Frost_Puff_Sfx_Data:                                           ; Offset_0x0ED032  
-                binclude  "data\sounds\0x91.sfx"
+                binclude  "sound\0x91.sfx"
 Ice_Spike_Sfx_Data:                                            ; Offset_0x0ED050  
-                binclude  "data\sounds\0x92.sfx"
+                binclude  "sound\0x92.sfx"
 Offset_0x0ED07F:  
-                binclude  "data\sounds\0x93.sfx"
+                binclude  "sound\0x93.sfx"
 Offset_0x0ED0B2:  
-                binclude  "data\sounds\0x94.sfx"
+                binclude  "sound\0x94.sfx"
 Tube_Launcher_Sfx_Data:                                        ; Offset_0x0ED0E4  
-                binclude  "data\sounds\0x95.sfx"
+                binclude  "sound\0x95.sfx"
 Offset_0x0ED12F:  
-                binclude  "data\sounds\0x96.sfx"
+                binclude  "sound\0x96.sfx"
 Bridge_Collapse_Sfx_Data:                                      ; Offset_0x0ED14D  
-                binclude  "data\sounds\0x97.sfx"
+                binclude  "sound\0x97.sfx"
 Offset_0x0ED199:  
-                binclude  "data\sounds\0x98.sfx"
+                binclude  "sound\0x98.sfx"
 Offset_0x0ED1D1:  
-                binclude  "data\sounds\0x99.sfx"
+                binclude  "sound\0x99.sfx"
 Offset_0x0ED1FE:  
-                binclude  "data\sounds\0x9A.sfx"
+                binclude  "sound\0x9A.sfx"
 Buzzer_Sfx_Data:                                               ; Offset_0x0ED22B  
-                binclude  "data\sounds\0x9B.sfx"
+                binclude  "sound\0x9B.sfx"
 Offset_0x0ED258:  
-                binclude  "data\sounds\0x9C.sfx"
+                binclude  "sound\0x9C.sfx"
 Offset_0x0ED288:  
-                binclude  "data\sounds\0x9D.sfx"
+                binclude  "sound\0x9D.sfx"
 Offset_0x0ED2AE:  
-                binclude  "data\sounds\0x9E.sfx"
+                binclude  "sound\0x9E.sfx"
 Offset_0x0ED2D4:  
-                binclude  "data\sounds\0x9F.sfx"
+                binclude  "sound\0x9F.sfx"
 Offset_0x0ED30A:  
-                binclude  "data\sounds\0xA0.sfx"
+                binclude  "sound\0xA0.sfx"
 Offset_0x0ED337:  
-                binclude  "data\sounds\0xA1.sfx"
+                binclude  "sound\0xA1.sfx"
 Offset_0x0ED344:  
-                binclude  "data\sounds\0xA2.sfx"
+                binclude  "sound\0xA2.sfx"
 Offset_0x0ED378:  
-                binclude  "data\sounds\0xA3.sfx"
+                binclude  "sound\0xA3.sfx"
 Offset_0x0ED3AE:  
-                binclude  "data\sounds\0xA4.sfx"
+                binclude  "sound\0xA4.sfx"
 Offset_0x0ED3E2:  
-                binclude  "data\sounds\0xA5.sfx"
+                binclude  "sound\0xA5.sfx"
 Offset_0x0ED413:  
-                binclude  "data\sounds\0xA6.sfx"
+                binclude  "sound\0xA6.sfx"
 Offset_0x0ED42D:  
-                binclude  "data\sounds\0xA7.sfx"
+                binclude  "sound\0xA7.sfx"
 Offset_0x0ED45E:  
-                binclude  "data\sounds\0xA8.sfx"
+                binclude  "sound\0xA8.sfx"
 Offset_0x0ED494:  
-                binclude  "data\sounds\0xA9.sfx"
+                binclude  "sound\0xA9.sfx"
 Door_Close_Sfx_Data:                                           ; Offset_0x0ED4C6  
-                binclude  "data\sounds\0xAA.sfx"
+                binclude  "sound\0xAA.sfx"
 Offset_0x0ED4FC:  
-                binclude  "data\sounds\0xAB.sfx"
+                binclude  "sound\0xAB.sfx"
 Offset_0x0ED530:  
-                binclude  "data\sounds\0xAC.sfx"
+                binclude  "sound\0xAC.sfx"
 Offset_0x0ED57A:  
-                binclude  "data\sounds\0xAD.sfx"
+                binclude  "sound\0xAD.sfx"
 Offset_0x0ED5A9:  
-                binclude  "data\sounds\0xAE.sfx"
+                binclude  "sound\0xAE.sfx"
 Offset_0x0ED5DC:  
-                binclude  "data\sounds\0xAF.sfx"
+                binclude  "sound\0xAF.sfx"
 Slide_Thunk_Sfx_Data:                                          ; Offset_0x0ED60B  
-                binclude  "data\sounds\0xB0.sfx"
+                binclude  "sound\0xB0.sfx"
 Offset_0x0ED63F:  
-                binclude  "data\sounds\0xB1.sfx"
+                binclude  "sound\0xB1.sfx"
 Offset_0x0ED652:  
-                binclude  "data\sounds\0xB2.sfx"
+                binclude  "sound\0xB2.sfx"
 Offset_0x0ED688:  
-                binclude  "data\sounds\0xB3.sfx"
+                binclude  "sound\0xB3.sfx"
 Offset_0x0ED6D4:  
-                binclude  "data\sounds\0xB4.sfx"
+                binclude  "sound\0xB4.sfx"
 Offset_0x0ED6EA:  
-                binclude  "data\sounds\0xB5.sfx"
+                binclude  "sound\0xB5.sfx"
 Offset_0x0ED720:  
-                binclude  "data\sounds\0xB6.sfx"
+                binclude  "sound\0xB6.sfx"
 Offset_0x0ED73F:  
-                binclude  "data\sounds\0xB7.sfx"
+                binclude  "sound\0xB7.sfx"
 Offset_0x0ED7A4:  
-                binclude  "data\sounds\0xB8.sfx"
+                binclude  "sound\0xB8.sfx"
 Offset_0x0ED7DB:  
-                binclude  "data\sounds\0xB9.sfx"
+                binclude  "sound\0xB9.sfx"
 Offset_0x0ED80F:  
-                binclude  "data\sounds\0xBA.sfx"
+                binclude  "sound\0xBA.sfx"
 Super_Form_Change_Sfx_Data:                                    ; Offset_0x0ED850  
-                binclude  "data\sounds\0xBB.sfx"
+                binclude  "sound\0xBB.sfx"
 Offset_0x0ED88C:  
-                binclude  "data\sounds\0xBC.sfx"
+                binclude  "sound\0xBC.sfx"
 Offset_0x0ED8BA:  
-                binclude  "data\sounds\0xBD.sfx" 
+                binclude  "sound\0xBD.sfx" 
 Offset_0x0ED8D2:  
-                binclude  "data\sounds\0xBE.sfx"
+                binclude  "sound\0xBE.sfx"
 Offset_0x0ED8FA:  
-                binclude  "data\sounds\0xBF.sfx"
+                binclude  "sound\0xBF.sfx"
 Offset_0x0ED927:  
-                binclude  "data\sounds\0xC0.sfx"
+                binclude  "sound\0xC0.sfx"
 Offset_0x0ED956:  
-                binclude  "data\sounds\0xC1.sfx"
+                binclude  "sound\0xC1.sfx"
 Offset_0x0ED98E:  
-                binclude  "data\sounds\0xC2.sfx"
+                binclude  "sound\0xC2.sfx"
 Offset_0x0ED9BB:  
-                binclude  "data\sounds\0xC3.sfx"
+                binclude  "sound\0xC3.sfx"
 Offset_0x0ED9E8:  
-                binclude  "data\sounds\0xC4.sfx"
+                binclude  "sound\0xC4.sfx"
 Offset_0x0EDA15:  
-                binclude  "data\sounds\0xC5.sfx"
+                binclude  "sound\0xC5.sfx"
 Offset_0x0EDA42:  
-                binclude  "data\sounds\0xC6.sfx"
+                binclude  "sound\0xC6.sfx"
 Offset_0x0EDA6F:  
-                binclude  "data\sounds\0xC7.sfx"
+                binclude  "sound\0xC7.sfx"
 Offset_0x0EDA87:  
-                binclude  "data\sounds\0xC8.sfx"
+                binclude  "sound\0xC8.sfx"
 Energy_Zap_Sfx_Data:                                           ; Offset_0x0EDAB7  
-                binclude  "data\sounds\0xC9.sfx"
+                binclude  "sound\0xC9.sfx"
 Offset_0x0EDAE1:  
-                binclude  "data\sounds\0xCA.sfx"
+                binclude  "sound\0xCA.sfx"
 Offset_0x0EDAF7:  
-                binclude  "data\sounds\0xCB.sfx"
+                binclude  "sound\0xCB.sfx"
 Offset_0x0EDB52:  
-                binclude  "data\sounds\0xCC.sfx"
+                binclude  "sound\0xCC.sfx"
 Offset_0x0EDBA3:  
-                binclude  "data\sounds\0xCD.sfx"
+                binclude  "sound\0xCD.sfx"
 Check_Point_Sfx_Data:                                          ; Offset_0x0EDC15  
-                binclude  "data\sounds\0xCE.sfx"
+                binclude  "sound\0xCE.sfx"
 Offset_0x0EDC3F:  
-                binclude  "data\sounds\0xCF.sfx"
+                binclude  "sound\0xCF.sfx"
 Special_Stage_Entry_Sfx_Data:                                  ; Offset_0x0EDC74  
-                binclude  "data\sounds\0xD0.sfx"
+                binclude  "sound\0xD0.sfx"
 Offset_0x0EDCA1:  
-                binclude  "data\sounds\0xD1.sfx"
+                binclude  "sound\0xD1.sfx"
 Spring_Sfx_Data:                                               ; Offset_0x0EDD1C  
-                binclude  "data\sounds\0xD2.sfx"
+                binclude  "sound\0xD2.sfx"
 Error_Sfx_Data:                                                ; Offset_0x0EDD71  
-                binclude  "data\sounds\0xD3.sfx"
+                binclude  "sound\0xD3.sfx"
 Offset_0x0EDD9D:  
-                binclude  "data\sounds\0xD4.sfx"
+                binclude  "sound\0xD4.sfx"
 Offset_0x0EDE17:  
-                binclude  "data\sounds\0xD5.sfx"
+                binclude  "sound\0xD5.sfx"
 Offset_0x0EDE4B:  
-                binclude  "data\sounds\0xD6.sfx"
+                binclude  "sound\0xD6.sfx"
 Offset_0x0EDE73:  
-                binclude  "data\sounds\0xD7.sfx"
+                binclude  "sound\0xD7.sfx"
 Offset_0x0EDEB4:  
-                binclude  "data\sounds\0xD8.sfx"
+                binclude  "sound\0xD8.sfx"
 Offset_0x0EDEDC:  
-                binclude  "data\sounds\0xD9.sfx"                               
+                binclude  "sound\0xD9.sfx"                               
 ;-------------------------------------------------------------------------------
 Offset_0x0EDF30:
                 binclude  "data\unknown\dummy5.dat"   
@@ -44410,66 +44410,66 @@ DAC_9B_Setup:                                                  ; Offset_0x0F00B8
                 
 ;-------------------------------------------------------------------------------
 DAC_86_Data:                                                   ; Offset_0x0F00BD
-                binclude  "data\sounds\dacs\dac_86.bin" 
+                binclude  "sound\dacs\dac_86.bin" 
 DAC_86_Data_End:                  
 ;-------------------------------------------------------------------------------                          
 DAC_81_Data:                                                   ; Offset_0x0F03BD
-                binclude  "data\sounds\dacs\dac_81.bin" 
+                binclude  "sound\dacs\dac_81.bin" 
 DAC_81_Data_End:  
 ;-------------------------------------------------------------------------------
 DAC_82_To_85_Data:                                             ; Offset_0x0F0B4D
-                binclude  "data\sounds\dacs\dac82-85.bin" 
+                binclude  "sound\dacs\dac82-85.bin" 
 DAC_82_To_85_Data_End:  
 ;-------------------------------------------------------------------------------
 DAC_94_To_97_Data:                                             ; Offset_0x0F100D
-                binclude  "data\sounds\dacs\dac94-97.bin" 
+                binclude  "sound\dacs\dac94-97.bin" 
 DAC_94_To_97_Data_End: 
 ;-------------------------------------------------------------------------------
 DAC_90_To_93_Data:                                             ; Offset_0x0F199D
-                binclude  "data\sounds\dacs\dac90-93.bin" 
+                binclude  "sound\dacs\dac90-93.bin" 
 DAC_90_To_93_Data_End:       
 ;-------------------------------------------------------------------------------
 DAC_88_Data:                                                   ; Offset_0x0F1FED
-                binclude  "data\sounds\dacs\dac_88.bin" 
+                binclude  "sound\dacs\dac_88.bin" 
 DAC_88_Data_End:  
 ;-------------------------------------------------------------------------------
 DAC_8A_To_8B_Data:                                             ; Offset_0x0F323D
-                binclude  "data\sounds\dacs\dac8A-8B.bin" 
+                binclude  "sound\dacs\dac8A-8B.bin" 
 DAC_8A_To_8B_Data_End:     
 ;-------------------------------------------------------------------------------
 DAC_8C_Data:                                                   ; Offset_0x0F339D
-                binclude  "data\sounds\dacs\dac_8C.bin" 
+                binclude  "sound\dacs\dac_8C.bin" 
 DAC_8C_Data_End:   
 ;-------------------------------------------------------------------------------
 DAC_8D_To_8E_Data:                                             ; Offset_0x0F3408
-                binclude  "data\sounds\dacs\dac8D-8E.bin" 
+                binclude  "sound\dacs\dac8D-8E.bin" 
 DAC_8D_To_8E_Data_End:                    
 ;-------------------------------------------------------------------------------
 DAC_87_Data:                                                   ; Offset_0x0F38D8
-                binclude  "data\sounds\dacs\dac_87.bin" 
+                binclude  "sound\dacs\dac_87.bin" 
 DAC_87_Data_End:   
 ;-------------------------------------------------------------------------------
 DAC_8F_Data:                                                   ; Offset_0x0F4018
-                binclude  "data\sounds\dacs\dac_8F.bin" 
+                binclude  "sound\dacs\dac_8F.bin" 
 DAC_8F_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_89_Data:                                                   ; Offset_0x0F4528
-                binclude  "data\sounds\dacs\dac_89.bin" 
+                binclude  "sound\dacs\dac_89.bin" 
 DAC_89_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_98_To_9A_Data:                                             ; Offset_0x0F4F48
-                binclude  "data\sounds\dacs\dac98-9A.bin" 
+                binclude  "sound\dacs\dac98-9A.bin" 
 DAC_98_To_9A_Data_End:  
 ;-------------------------------------------------------------------------------
 DAC_9B_Data:                                                   ; Offset_0x0F5C67
-                binclude  "data\sounds\dacs\dac_9B.bin" 
+                binclude  "sound\dacs\dac_9B.bin" 
 DAC_9B_Data_End:
 ;-------------------------------------------------------------------------------
 Offset_0x0F7304:
                 binclude  "data\unknown\dummy6.dat"           
 ;-------------------------------------------------------------------------------                   
 SEGA_PCM_Data:                                                 ; Offset_0x0F8000
-                binclude  "data\sounds\sega.pcm"
+                binclude  "sound\sega.pcm"
 ;===============================================================================
 ; Mapeamento dos Sprites do Sonic      
 ; ->>>
