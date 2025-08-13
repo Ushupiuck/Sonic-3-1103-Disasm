@@ -2729,8 +2729,8 @@ zPlaySEGAPCM:
     ld     (hl),a          ; 000E61 77
     ld     (hl),a          ; 000E62 77
     ld     (hl),a          ; 000E63 77
-    ld     hl,zROMWindow        ; 000E64 21 00 80
-    ld     de,6caah        ; 000E67 11 AA 6C
+    ld     hl,zmake68kPtr(SEGA_PCM_Data)        ; 000E64 21 00 80
+    ld     de,SEGA_PCM_Data_End-SEGA_PCM_Data        ; 000E67 11 AA 6C
     ld     a,2ah           ; 000E6A 3E 2A
     ld     (zYM2612_A0),a       ; 000E6C 32 00 40
 

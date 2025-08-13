@@ -42,6 +42,8 @@ FixMusicAndSFXDataBugs = 0
 SonicDriverVer = 3 ; Tell SMPS2ASM that we are targetting Sonic 3's sound driver
 		include "Sound/_smps2asm_inc.asm"
 
+Size_of_SndBank = $4000
+
 StartOfRom:
 		dc.l	0				; Initial stack pointer value
 Prog_Start_Vector: 
@@ -43697,7 +43699,7 @@ Asm_Code_1:                                                    ; Offset_0x0AFF0F
 	endc
 
 ; Z80 Bank $16
-                align   $8000
+Snd_Bank1_Start:	startBank
 Angel_Island_1_Snd_Data:                                       ; Offset_0x0B0000
                 include  "sound\music\aiz1.asm"
 Angel_Island_2_Snd_Data:                                       ; Offset_0x0B2210
@@ -43710,8 +43712,9 @@ Marble_Garden_1_Snd_Data:                                      ; Offset_0x0B6E51
                 binclude  "sound\mgz_1.snd"  
 Marble_Garden_2_Snd_Data:                                      ; Offset_0x0B7468
                 binclude  "sound\mgz_2.snd"
-; Z80 Bank $17    
-                align   $8000
+	finishBank
+; Z80 Bank $17
+Snd_Bank2_Start:	startBank
 Carnival_Night_1_Snd_Data:                                     ; Offset_0x0B8000
                 binclude  "sound\cnz_1.snd"
 Carnival_Night_2_Snd_Data:                                     ; Offset_0x0B9BBB
@@ -43725,7 +43728,7 @@ Icecap_1_Snd_Data:                                             ; Offset_0x0BC499
 Icecap_2_Snd_Data:                                             ; Offset_0x0BCA37
                 binclude  "sound\iz_2.snd"   
 Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
-                binclude  "sound\lbz_1.snd"   
+                binclude  "sound\lbz_1.snd"
 ;-------------------------------------------------------------------------------
 Asm_Code_2:                                                    ; Offset_0x0BFBA4
 		dc.b	" the screen.", $0D, $0A, $0D, $0A   
@@ -43749,7 +43752,7 @@ Asm_Code_2:                                                    ; Offset_0x0BFBA4
 		dc.b	"                Move.w  #1,D0                 "  
 ;-------------------------------------------------------------------------------                
 ; Z80 Bank $18
-                align   $8000
+Snd_Bank3_Start:	startBank
 Launch_Base_2_Snd_Data:                                        ; Offset_0x0C0000
                 binclude  "sound\lbz_2.snd"                                              
 Mushroom_Valley_1_Snd_Data:                                    ; Offset_0x0C252A
@@ -43768,8 +43771,9 @@ Sky_Sanctuary_Snd_Data:                                        ; Offset_0x0C6642
                 binclude  "sound\ssz.snd" 
 Death_Egg_1_Snd_Data:                                          ; Offset_0x0C7954
                 binclude  "sound\dez_1.snd" 
-; Z80 Bank $19  
-                align   $8000
+	finishBank
+; Z80 Bank $19
+Snd_Bank4_Start:	startBank
 Death_Egg_2_Snd_Data:                                          ; Offset_0x0C8000
                 binclude  "sound\dez_2.snd"
 Mini_Boss_Snd_Data:                                            ; Offset_0x0C8412
@@ -43824,9 +43828,10 @@ Asm_Code_3:                                                    ; Offset_0x0CF962
 		dc.b	"                Move.w  CurrentDistance+2,D7                    ; Get fractional part of DISTANCE.", $0D, $0A
 		dc.b	"                Moveq   #2,D6                                   ; Two digits.", $0D, $0A
 		dc.b	"                Move.w  #'0'"
+	finishBank
 ;-------------------------------------------------------------------------------                                
 ; Z80 Bank $1A
-                align   $8000
+Snd_Bank5_Start:	startBank
 Chrome_Gadget_Snd_Data:                                        ; Offset_0x0D0000
                 binclude  "sound\cgz.snd"
 Endless_Mine_Snd_Data:                                         ; Offset_0x0D224B
@@ -43853,21 +43858,22 @@ Super_Sonic_Theme_Snd_Data:                                    ; Offset_0x0D5EAA
                 binclude  "sound\s_sonic.snd"
 Data_Select_Menu_Snd_Data:                                     ; Offset_0x0D695E
                 binclude  "sound\menu.snd"
+	finishBank
 ; Z80 Bank $1B
-                align   $8000
+Snd_Bank6_Start:	startBank
 Final_Boss_Snd_Data:                                           ; Offset_0x0D8000
                 binclude  "sound\f_boss.snd"
 Panic_Snd_Data:                                                ; Offset_0x0D8592
-                binclude  "sound\panic.snd"                                 
+                binclude  "sound\panic.snd"
 ;-------------------------------------------------------------------------------
 ; Offset_0x0D86C0:
-                binclude  "data\unknown\dummy3.dat" 
-Asm_Code_4:                                                    ; Offset_0x0DFEF2                
+                binclude  "data\unknown\dummy3.dat"
+Asm_Code_4:                                                    ; Offset_0x0DFEF2
 		dc.b	"L_No1,VIEW_NOT_FLIPPED,VIEW_SIZE_6", $0D, $0A
 		dc.b	"                Dc.b    VIEW_PLANET10,VIEW_PAL_NoA,VIEW_FLIPPED,VIEW_SIZE_6", $0D, $0A, $0D, $0A
-
 		dc.b	"                Dc.b    VIEW_PLANET4,VIEW_PAL_NoC,VIEW_FLIPPED,VIEW_SIZE_7", $0D, $0A
-		dc.b	"                Dc.b    VIEW_PLANET10,VIEW_PAL_No1,VIEW_NOT_FLIPPED,VIEW_SIZE_7"  
+		dc.b	"                Dc.b    VIEW_PLANET10,VIEW_PAL_No1,VIEW_NOT_FLIPPED,VIEW_SIZE_7"
+	finishBank
 ;-------------------------------------------------------------------------------
 ; Offset_0xE0000:
 Z80_Driver:	include	"s3.sounddriver.asm"
@@ -43876,6 +43882,9 @@ Z80_Driver_End
 Offset_0x0E1852:
                 binclude  "data\unknown\dummy4.dat"
 ;-------------------------------------------------------------------------------
+	cnop -Size_of_SndBank, $8000	; aligned to end of bank
+
+SndBank:
 Ring_Sfx_Data:                                           ; $32 ; Offset_0x0EC000
                 binclude  "sound\0x32.sfx"                
 Ring_Left_Speaker_Sfx_Data:                                    ; Offset_0x0EC02E
@@ -44215,8 +44224,15 @@ Offset_0x0EDF30:
                 binclude  "data\unknown\dummy5.dat"   
 ;-------------------------------------------------------------------------------
 Left_Over_Code:                                                ; Offset_0x0EF1DD
-                binclude "data/leftover.bin" ;If you want to remove this, uncomment the next line and comment the previous one.
-                ;align $8000
+                binclude "data/leftover.bin"
+SndBank_End
+
+	if SndBank_End - SndBank > $8000
+		fatal "SndBank must fit within $8000 bytes, but was $\{SndBank_End-SndBank }. Try moving something to the other bank."
+	endif
+	if SndBank_End - SndBank > Size_of_SndBank
+		fatal "Size_of_SndBank = $\{Size_of_SndBank}, but you have $\{SndBank_End-SndBank} bytes of sound effects."
+	endif
 ;-------------------------------------------------------------------------------
 DAC_81_Ptr      equ (DAC_81_Setup&$FFFF)|$8000
 DAC_82_Ptr      equ (DAC_82_Setup&$FFFF)|$8000
@@ -44276,6 +44292,7 @@ DAC_9B_Size           equ (DAC_9B_Data_End-DAC_9B_Data)
 DAC_9B_Data_Ptr       equ (DAC_9B_Data&$FFFF)|$8000
 
 DAC_Table:                                                     ; Offset_0x0F0000
+DACBank:	startBank
 		dc.w	(((DAC_81_Ptr>>$08)|(DAC_81_Ptr<<$08))&$FFFF)    ; $8036
 		dc.w	(((DAC_82_Ptr>>$08)|(DAC_82_Ptr<<$08))&$FFFF)    ; $803B
 		dc.w	(((DAC_83_Ptr>>$08)|(DAC_83_Ptr<<$08))&$FFFF)    ; $8040
@@ -44471,10 +44488,15 @@ DAC_9B_Data:                                                   ; Offset_0x0F5C67
 DAC_9B_Data_End:
 ;-------------------------------------------------------------------------------
 Offset_0x0F7304:
-                binclude  "data\unknown\dummy6.dat"           
-;-------------------------------------------------------------------------------                   
+                binclude  "data\unknown\dummy6.dat"
+	finishBank
+;-------------------------------------------------------------------------------
+SEGABank:	startBank
 SEGA_PCM_Data:                                                 ; Offset_0x0F8000
                 binclude  "sound\sega.pcm"
+SEGA_PCM_Data_End:
+				binclude  "data\leftover2.bin"
+	finishBank
 ;===============================================================================
 ; Mapeamento dos Sprites do Sonic      
 ; ->>>
