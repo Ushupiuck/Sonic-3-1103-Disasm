@@ -43707,11 +43707,12 @@ Angel_Island_2_Snd_Data:                                       ; Offset_0x0B2210
 Hydrocity_1_Snd_Data:                                          ; Offset_0x0B3F24
                 include  "sound\music\hcz1.asm"                
 Hydrocity_2_Snd_Data:                                          ; Offset_0x0B5492
-                binclude  "sound\hz_2.snd"
+                include  "sound\music\hcz2.asm"
 Marble_Garden_1_Snd_Data:                                      ; Offset_0x0B6E51
-                binclude  "sound\mgz_1.snd"  
+                include  "sound\music\mgz1.asm"  
 Marble_Garden_2_Snd_Data:                                      ; Offset_0x0B7468
-                binclude  "sound\mgz_2.snd"
+                include  "sound\music\mgz2.asm"
+				binclude "data\leftoverbank1.bin"
 	finishBank
 ; Z80 Bank $17
 Snd_Bank2_Start:	startBank

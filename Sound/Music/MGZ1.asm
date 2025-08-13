@@ -39,6 +39,9 @@ s3p5_Loop05:
 	dc.b	nC3, $16
 	smpsJump            s3p5_FM1
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p5_FM2:
 	smpsSetvoice        $00
@@ -71,6 +74,9 @@ s3p5_FM2:
 	dc.b	nFs5, $0C, nE5, nEb5, nCs5, $06, nRst, nRst, $0C, nEb5, $06, nRst
 	dc.b	$12, nB4, $24, nRst, $18
 	smpsJump            s3p5_FM2
+
+; Unreachable
+	smpsStop
 
 ; FM3 Data
 s3p5_FM3:
@@ -133,6 +139,9 @@ s3p5_Loop03:
 	dc.b	nRst, nFs4, $08, nEb4, $06, nRst, nRst, $10, nE4, $18
 	smpsJump            s3p5_FM3
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p5_FM4:
 	smpsSetvoice        $02
@@ -194,6 +203,9 @@ s3p5_Loop01:
 	dc.b	nRst, nB4, $08, nFs4, $06, nRst, nRst, $10, nA4, $18
 	smpsJump            s3p5_FM4
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p5_FM5:
 	dc.b	nRst, $0B
@@ -230,6 +242,9 @@ s3p5_Jump00:
 	dc.b	$12, nB4, $24, nRst, $18
 	smpsJump            s3p5_Jump00
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p5_DAC:
 	dc.b	dKickS3, $0C, dKickS3, $08, dKickS3, $04, dSnareS3, $0C, dKickS3, $08, dKickS3, $0C
@@ -242,12 +257,18 @@ s3p5_DAC:
 	smpsLoop            $00, $07, s3p5_DAC
 	smpsJump            s3p5_DAC
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p5_PSG1:
 	smpsStop
 
 ; PSG2 Data
 s3p5_PSG2:
+	smpsStop
+
+; Unreachable
 	smpsStop
 
 ; PSG3 Data
