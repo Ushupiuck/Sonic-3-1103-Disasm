@@ -1,5 +1,5 @@
 s3built.bin
-Sonic_3_Proto.md
+s3built.prev.bin
 _Other/Gens.cfg
 
 _Other/language.dat
@@ -7,4 +7,5 @@ _Other/language.dat
 SonLVL INI Files/SonLVL.log
 SonLVL INI Files/dllcache
 
-s3original.bin
+main.log
+main.lst

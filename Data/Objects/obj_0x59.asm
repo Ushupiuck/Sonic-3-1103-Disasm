@@ -20,9 +20,9 @@ Offset_0x01C978:
                 move.w  #$001B, D1
                 move.w  #$0010, D2
                 move.w  Obj_X(A0), D4                                    ; $0010
-                lea     (Offset_0x01CAEA), A2
+                lea     (Offset_0x01CAEA).l, A2
                 jsr     (Solid_Object_3)                       ; Offset_0x01360E
-                swap.w  D6
+                swap	D6
                 andi.w  #$0033, D6
                 beq.s   Offset_0x01C9FE
                 move.b  D6, D0
@@ -105,8 +105,8 @@ Offset_0x01CA96:
                 addi.w  #$0010, D2
                 sub.w   Obj_X(A1), D1                                    ; $0010
                 sub.w   Obj_Y(A1), D2                                    ; $0014
-                jsr     (CalcAngle)                            ; Offset_0x001DB8
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcAngle).l                            ; Offset_0x001DB8
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$F900, D1
                 asr.l   #$08, D1
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
@@ -119,7 +119,7 @@ Offset_0x01CA96:
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 clr.b   Obj_Control_Var_0D(A1)                           ; $003D
                 moveq   #Small_Bumper_Sfx, D0                             ; -$75
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 rts            
 ;-------------------------------------------------------------------------------  
 Offset_0x01CAEA:

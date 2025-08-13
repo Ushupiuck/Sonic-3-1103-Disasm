@@ -167,7 +167,7 @@ Offset_0x04A5CC:
                 btst    #$02, Obj_Control_Var_08(A1)                     ; $0038
                 beq.s   Offset_0x04A5EE
                 bsr     Offset_0x04A6DC
-                bra     Offset_0x04A5F2
+                bra.w   Offset_0x04A5F2
 Offset_0x04A5EE:
                 clr.w   Obj_Speed_X(A0)                                  ; $0018
 Offset_0x04A5F2:

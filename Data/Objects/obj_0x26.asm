@@ -29,7 +29,7 @@ Offset_0x014000:
                 move.b  #$01, Obj_Control_Var_05(A0)                     ; $0035
 Offset_0x014010:
                 move.l  #Offset_0x01413A, (A0)
-                bra     Offset_0x01413A 
+                bra.w   Offset_0x01413A 
 ;-------------------------------------------------------------------------------
 Offset_0x01401A:
                 dc.w    $0020, $0040, $0080, $0100       
@@ -53,7 +53,7 @@ Offset_0x014056:
                 move.l  #Offset_0x01405C, (A0)
 Offset_0x01405C:                
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
-                bne     Offset_0x0140FC
+                bne.w   Offset_0x0140FC
                 move.w  Obj_X(A0), D1                                    ; $0010
                 lea     Obj_Control_Var_04(A0), A2                       ; $0034
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
@@ -119,7 +119,7 @@ Offset_0x014114:
                 move.b  #$02, Obj_Ani_Number(A1)                         ; $0020
                 addq.w  #$05, Obj_Y(A1)                                  ; $0014
                 moveq   #Rolling_Sfx, D0                                   ; $3C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 rts
 Offset_0x01413A:
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
@@ -130,7 +130,7 @@ Offset_0x01413A:
                 bsr.s   Offset_0x01415E
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 cmpi.w  #$0004, (Miles_CPU_Routine).w                ; $FFFFF708
-                beq     Offset_0x0141E0
+                beq.w   Offset_0x0141E0
 Offset_0x01415E:
                 tst.b   (A2)+
                 bne.s   Offset_0x0141A2
@@ -150,7 +150,7 @@ Offset_0x01415E:
                 btst    #$00, Obj_Flags(A0)                              ; $0004
                 bne.s   Offset_0x01419A
                 move.b  #$01, Obj_Player_Spdsh_Flag(A1)                  ; $003D
-                bra     Offset_0x01410A
+                bra.w   Offset_0x01410A
 Offset_0x01419A:
                 move.b  #$00, Obj_Player_Spdsh_Flag(A1)                  ; $003D
                 bra.s   Offset_0x0141E0

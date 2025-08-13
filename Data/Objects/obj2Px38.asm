@@ -19,9 +19,9 @@
                 move.l  #Offset_0x0269A4, (A0)
 Offset_0x0269A4:                
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x0269CC
+                bsr.w   Offset_0x0269CC
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x0269CC
+                bsr.w   Offset_0x0269CC
                 addq.b  #$01, Obj_Map_Id(A0)                             ; $0022
                 cmpi.b  #$03, Obj_Map_Id(A0)                             ; $0022
                 bcs.s   Offset_0x0269C6
@@ -30,7 +30,7 @@ Offset_0x0269C6:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x0269CC:
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
-                bcc     Offset_0x026A4E
+                bcc.w   Offset_0x026A4E
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bne.s   Offset_0x026A4E
                 move.w  Obj_X(A1), D0                                    ; $0010

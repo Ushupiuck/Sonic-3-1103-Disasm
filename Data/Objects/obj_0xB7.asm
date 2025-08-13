@@ -34,7 +34,7 @@ Offset_0x049440:
 Offset_0x049444:
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Offset_0x049592
+                bsr.w   Offset_0x049592
                 jsr     (Run_Object_Wait_Timer_A0)             ; Offset_0x0423D2
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C  
 ;-------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ Offset_0x049472:
 Offset_0x049480:
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Offset_0x049592
+                bsr.w   Offset_0x049592
                 move.w  (Obj_Knuckles_Mem_Address).w, A1             ; $FFFFFAA4
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
@@ -73,7 +73,7 @@ Offset_0x0494C0:
 ;-------------------------------------------------------------------------------
 Offset_0x0494D4:
                 jsr     (Move_Light_Gravity)                   ; Offset_0x0426C2
-                bsr     Offset_0x049592
+                bsr.w   Offset_0x049592
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bmi.s   Offset_0x049514
                 move.w  Obj_Y(A0), D0                                    ; $0014
@@ -92,7 +92,7 @@ Offset_0x049514:
 ; Offset_0x049518:
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Offset_0x049592
+                bsr.w   Offset_0x049592
                 jsr     (Run_Object_Wait_Timer_A0)             ; Offset_0x0423D2
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C   
 ;-------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ Offset_0x04954E:
 Offset_0x04955A:
                 jsr     (Swing_Up_And_Down)                    ; Offset_0x04232E
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Offset_0x049592
+                bsr.w   Offset_0x049592
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C   
 ;-------------------------------------------------------------------------------
 ; Offset_0x04956E:

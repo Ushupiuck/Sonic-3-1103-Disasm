@@ -9,7 +9,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x048FCC(PC, D0), D1
                 jsr     Offset_0x048FCC(PC, D1)
-                jsr     (Offset_0x04934C)
+                jsr     (Offset_0x04934C).l
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450   
 ;-------------------------------------------------------------------------------
 Offset_0x048FCC:
@@ -33,7 +33,7 @@ Offset_0x048FE4:
                 move.w  #$3820, (Sonic_Level_Limits_Min_X).w         ; $FFFFEE14
                 move.w  #$3AE8, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
                 moveq   #$60, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     (LBz_Robotnik_Ship_Data), A2           ; Offset_0x03656E
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 lea     Offset_0x049398(PC), A2
@@ -119,7 +119,7 @@ Offset_0x04910A:
                 bset    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 move.w  #$0200, Obj_Speed_X(A0)                          ; $0018
                 move.w  #$0200, Obj_Speed_Y(A0)                          ; $001A
-                lea     (LBz_Robotnik_Ship_Data_2), A2         ; Offset_0x03659E
+                lea     (LBz_Robotnik_Ship_Data_2).l, A2         ; Offset_0x03659E
                 jmp     (SetupChildObject)                 ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
 Offset_0x04912E:
@@ -136,7 +136,7 @@ Offset_0x04913E:
 ;-------------------------------------------------------------------------------
 Offset_0x049152:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                jsr     (Offset_0x04934C)
+                jsr     (Offset_0x04934C).l
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X_2(PC) ; Offset_0x042B5C  
 ;-------------------------------------------------------------------------------
 Offset_0x049162:
@@ -310,7 +310,7 @@ Offset_0x04934C:
                 bne.s   Offset_0x04936C
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #$7C, D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 bset    #$06, Obj_Status(A0)                             ; $002A
 Offset_0x04936C:
                 subq.b  #$01, Obj_Ani_Number(A0)                         ; $0020

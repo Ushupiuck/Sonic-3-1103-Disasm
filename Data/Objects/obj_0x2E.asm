@@ -12,7 +12,7 @@
                 move.w  Obj_Y(A0), Obj_Control_Var_00(A0)         ; $0014, $0030
                 move.b  (Water_Entered_Counter).w, Obj_Control_Var_06(A0) ; $FFFFF64D, $0036
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x022AD4
+                bne.w   Offset_0x022AD4
                 move.l  #Offset_0x022C14, (A1)
                 move.b  #$04, Obj_Flags(A1)                              ; $0004
                 move.b  #$9C, Obj_Col_Flags(A1)                          ; $0028
@@ -53,7 +53,7 @@ Offset_0x022B3A:
                 andi.b  #$7F, Obj_Control_Var_04(A0)                     ; $0034
 Offset_0x022B40:
                 move.b  Obj_Control_Var_02(A0), D0                       ; $0032
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$05, D0
                 add.w   Obj_Control_Var_00(A0), D0                       ; $0030
                 move.w  D0, Obj_Y(A0)                                    ; $0014
@@ -101,7 +101,7 @@ Offset_0x022BBC:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x022BF4
+                bhi.w   Offset_0x022BF4
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x022BF4:
                 move.w  Obj_Control_Var_0C(A0), D0                       ; $003C

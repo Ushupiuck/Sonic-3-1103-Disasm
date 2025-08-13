@@ -26,12 +26,12 @@ Offset_0x047B7C:
                 beq.s   Offset_0x047B9A
                 tst.w   D0
                 beq.s   Offset_0x047B90
-                bsr     Offset_0x047BA6
+                bsr.w   Offset_0x047BA6
 Offset_0x047B90:
-                swap.w  D0
+                swap	D0
                 tst.w   D0
                 beq.s   Offset_0x047B9A
-                bsr     Offset_0x047BA6
+                bsr.w   Offset_0x047BA6
 Offset_0x047B9A:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C   
 ;-------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ Offset_0x047BE6:
                 tst.w   D0
                 beq.s   Offset_0x047BFE
                 lea     Offset_0x047D1E(PC), A2
-                bsr     Offset_0x047C0A
+                bsr.w   Offset_0x047C0A
 Offset_0x047BFE:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C   
 ;-------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ Offset_0x047C44:
                 jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Offset_0x047C62, (A0)
                 move.l  #Offset_0x047C6C, Obj_Child(A0)                  ; $0034
-                bsr     Offset_0x047C7C
+                bsr.w   Offset_0x047C7C
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
 Offset_0x047C62:                
                 jsr     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2

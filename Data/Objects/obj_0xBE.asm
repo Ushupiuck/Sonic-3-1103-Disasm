@@ -11,7 +11,7 @@
                 rts
 ;-------------------------------------------------------------------------------
 Offset_0x0477E0:
-                bsr     Offset_0x04789C
+                bsr.w   Offset_0x04789C
                 jsr     Find_Player(PC)                        ; Offset_0x042634
                 cmpi.w  #$0070, D2
                 bcc.s   Offset_0x047802
@@ -46,12 +46,12 @@ Offset_0x04782C:
                 lea     Offset_0x0478C4(PC), A2
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 moveq   #Floor_Thump_Sfx, D0                               ; $68
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x047856:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C 
 ;-------------------------------------------------------------------------------
 Offset_0x04785A:
-                bsr     Offset_0x04789C
+                bsr.w   Offset_0x04789C
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C 
 ;------------------------------------------------------------------------------- 
 Offset_0x047862:
@@ -63,7 +63,7 @@ Offset_0x047862:
                 bcc.s   Offset_0x047888
                 move.l  #Offset_0x04718E, Obj_Child_Data(A0)             ; $0030
 Offset_0x047888:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.b  #$03, D0
                 move.b  D0, Obj_Ani_Frame(A0)                            ; $0023
                 moveq   #$00, D0

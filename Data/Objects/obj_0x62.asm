@@ -36,7 +36,7 @@ Offset_0x02C4E6:
                 move.b  #$00, Obj_Control_Var_0A(A0)                     ; $003A
                 move.b  #$01, Obj_Ani_Number(A0)                         ; $0020
 Offset_0x02C50A:
-                lea     (Dissolving_Sand_Bar_Animate_Data), A1 ; Offset_0x02C58A
+                lea     (Dissolving_Sand_Bar_Animate_Data).l, A1 ; Offset_0x02C58A
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 moveq   #$00, D0
                 move.b  Obj_Map_Id(A0), D0                               ; $0022

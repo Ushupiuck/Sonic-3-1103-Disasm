@@ -76,7 +76,7 @@ Offset_0x044868:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 cmpi.l  #Offset_0x0447AC, (A1)
                 beq.s   Offset_0x04487E
-                bsr     Offset_0x0448D8
+                bsr.w   Offset_0x0448D8
                 beq.s   Offset_0x0448A6
 Offset_0x04487E:
                 bclr    #$00, Obj_Flags(A0)                              ; $0004
@@ -87,7 +87,7 @@ Offset_0x044892:
                 move.w  #$0200, D0
                 moveq   #$20, D1
                 jsr     Chase_Object(PC)                       ; Offset_0x042E6C
-                bsr     Offset_0x04490A
+                bsr.w   Offset_0x04490A
                 jmp     (SpeedToPos)                           ; Offset_0x01111E
 Offset_0x0448A6:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005

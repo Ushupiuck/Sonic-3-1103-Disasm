@@ -35,11 +35,11 @@ Offset_0x02555E:
                 move.b  D0, Obj_Ani_Number(A0)                           ; $0020
                 move.w  Obj_X(A0), Obj_Control_Var_00(A0)         ; $0010, $0030
                 move.w  #$FF78, Obj_Speed_Y(A0)                          ; $001A
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.b  D0, Obj_Angle(A0)                                ; $0026
 ;-------------------------------------------------------------------------------
 Offset_0x025578:
-                lea     (Oxygen_Bubbles_Animate_Data), A1      ; Offset_0x02583E
+                lea     (Oxygen_Bubbles_Animate_Data).l, A1      ; Offset_0x02583E
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 cmpi.b  #$06, Obj_Map_Id(A0)                             ; $0022
                 bne.s   Offset_0x025592
@@ -51,7 +51,7 @@ Offset_0x025592:
                 bcs.s   Offset_0x0255AA
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 addq.b  #$04, Obj_Ani_Number(A0)                         ; $0020
-                bra     Offset_0x0255F4
+                bra.w   Offset_0x0255F4
 Offset_0x0255AA:
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 addq.b  #$01, Obj_Angle(A0)                              ; $0026
@@ -75,7 +75,7 @@ Offset_0x0255EE:
                 jmp     (DeleteObject)                         ; Offset_0x011138     
 ;-------------------------------------------------------------------------------
 Offset_0x0255F4:
-                lea     (Oxygen_Bubbles_Animate_Data), A1      ; Offset_0x02583E
+                lea     (Oxygen_Bubbles_Animate_Data).l, A1      ; Offset_0x02583E
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x02560C
@@ -98,7 +98,7 @@ Offset_0x025618:
                 bpl     Offset_0x025718
                 move.w  #$0001, Obj_Control_Var_06(A0)                   ; $0036
 Offset_0x025640:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  D0, D1
                 andi.w  #$0007, D0
                 cmpi.w  #$0006, D0
@@ -118,14 +118,14 @@ Offset_0x02567A:
                 subq.w  #$01, Obj_Control_Var_08(A0)                     ; $0038
                 bpl     Offset_0x025718
 Offset_0x025682:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$001F, D0
                 move.w  D0, Obj_Control_Var_08(A0)                       ; $0038
                 jsr     (AllocateObject)                     ; Offset_0x011DD8
                 bne.s   Offset_0x0256FC
                 move.l  (A0), (A1)
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$000F, D0
                 subq.w  #$08, D0
                 add.w   D0, Obj_X(A1)                                    ; $0010
@@ -136,7 +136,7 @@ Offset_0x025682:
                 move.b  $00(A2, D0), Obj_Subtype(A1)                     ; $002C
                 btst    #$07, Obj_Control_Var_06(A0)                     ; $0036
                 beq.s   Offset_0x0256FC
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$0003, D0
                 bne.s   Offset_0x0256E8
                 bset    #$06, Obj_Control_Var_06(A0)                     ; $0036
@@ -151,23 +151,23 @@ Offset_0x0256E8:
 Offset_0x0256FC:
                 subq.b  #$01, Obj_Control_Var_04(A0)                     ; $0034
                 bpl.s   Offset_0x025718
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$007F, D0
                 addi.w  #$0080, D0
                 add.w   D0, Obj_Control_Var_08(A0)                       ; $0038
                 clr.w   Obj_Control_Var_06(A0)                           ; $0036
 Offset_0x025718:
-                lea     (Oxygen_Bubbles_Animate_Data), A1      ; Offset_0x02583E
+                lea     (Oxygen_Bubbles_Animate_Data).l, A1      ; Offset_0x02583E
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
 Offset_0x025724:
                 move.w  Obj_X(A0), D0                                    ; $0010
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x025746
+                bhi.w   Offset_0x025746
                 move.w  (Water_Level_Move).w, D0                     ; $FFFFF646
                 cmp.w   Obj_Y(A0), D0                                    ; $0014
-                bcs     Offset_0x025758
+                bcs.w   Offset_0x025758
                 rts
 Offset_0x025746:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -189,25 +189,25 @@ Offset_0x025770:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
 Offset_0x02577A:
                 tst.b   Obj_Timer(A1)                                    ; $002E
-                bmi     Offset_0x02583C
+                bmi.w   Offset_0x02583C
                 move.w  Obj_X(A1), D0                                    ; $0010
                 move.w  Obj_X(A0), D1                                    ; $0010
                 subi.w  #$0010, D1
                 cmp.w   D0, D1
-                bcc     Offset_0x02583C
+                bcc.w   Offset_0x02583C
                 addi.w  #$0020, D1
                 cmp.w   D0, D1
-                bcs     Offset_0x02583C
+                bcs.w   Offset_0x02583C
                 move.w  Obj_Y(A1), D0                                    ; $0014
                 move.w  Obj_Y(A0), D1                                    ; $0014
                 cmp.w   D0, D1
-                bcc     Offset_0x02583C
+                bcc.w   Offset_0x02583C
                 addi.w  #$0010, D1
                 cmp.w   D0, D1
-                bcs     Offset_0x02583C
+                bcs.w   Offset_0x02583C
                 jsr     (ResumeMusic)                         ; Offset_0x00F89E
                 move.w  #Collect_Oxygen_Sfx, D0                          ; $0038
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 clr.w   Obj_Speed_X(A1)                                  ; $0018
                 clr.w   Obj_Speed_Y(A1)                                  ; $001A
                 clr.w   Obj_Inertia(A1)                                  ; $001C
@@ -217,7 +217,7 @@ Offset_0x02577A:
                 bclr    #$05, Obj_Status(A1)                             ; $002A
                 bclr    #$04, Obj_Status(A1)                             ; $002A
                 btst    #$02, Obj_Status(A1)                             ; $002A
-                beq     Offset_0x02582A
+                beq.w   Offset_0x02582A
                 cmpi.l  #Obj_Sonic, (A1)                       ; Offset_0x00AA36
                 bne.s   Offset_0x02581A
                 bclr    #$02, Obj_Status(A1)                             ; $002A

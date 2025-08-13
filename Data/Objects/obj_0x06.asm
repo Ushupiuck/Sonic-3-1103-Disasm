@@ -18,7 +18,7 @@
                 moveq   #$03, D1
                 addq.w  #$01, D1
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x017B1E
+                bne.w   Offset_0x017B1E
                 move.w  A1, Obj_Parent_Ref(A0)                           ; $003E
                 move.l  #Offset_0x017D94, (A1)
                 move.w  A0, Obj_Control_Var_0C(A1)                       ; $003C
@@ -26,7 +26,7 @@
 ;-------------------------------------------------------------------------------
 Offset_0x017AD8:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x017B1E
+                bne.w   Offset_0x017B1E
                 move.l  #Offset_0x017E28, (A1)
                 move.w  A2, Obj_Control_Var_0C(A1)                       ; $003C
                 move.w  A1, Obj_Control_Var_0E(A2)                       ; $003E
@@ -110,7 +110,7 @@ Offset_0x017C12:
                 bmi.s   Offset_0x017C24
                 move.w  #$7FF0, Obj_X(A0)                                ; $0010
 Offset_0x017C24:
-                lea     (Decoration2_AnimateData), A1 ; Offset_0x023218
+                lea     (Decoration2_AnimateData).l, A1 ; Offset_0x023218
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 bra     Offset_0x017D58  
 ;-------------------------------------------------------------------------------
@@ -185,12 +185,12 @@ Offset_0x017D0E:
                 move.w  D0, Obj_Control_Var_0A(A0)                       ; $003A
                 move.w  Obj_Control_Var_0E(A0), A1                       ; $003E
                 move.w  Obj_Control_Var_0A(A0), Obj_Control_Var_0A(A1) ; $003A, $003A
-                bra     Offset_0x017D58   
+                bra.w   Offset_0x017D58   
 ;-------------------------------------------------------------------------------
 Offset_0x017D2A:
                 move.b  Obj_Control_Var_08(A0), D0                       ; $0038
                 addi.w  #$0200, Obj_Control_Var_08(A0)                   ; $0038
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$02, D0
                 cmpi.w  #$0400, D0
                 bne.s   Offset_0x017D46
@@ -205,7 +205,7 @@ Offset_0x017D58:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x017D72
+                bhi.w   Offset_0x017D72
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x017D72:
                 move.w  Obj_Control_Var_06(A0), D2                       ; $0036
@@ -225,7 +225,7 @@ Offset_0x017D94:
                 bne.s   Offset_0x017DBC
                 move.b  Obj_Control_Var_08(A0), D0                       ; $0038
                 addi.w  #$0200, Obj_Control_Var_08(A0)                   ; $0038
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$02, D0
                 cmpi.w  #$0400, D0
                 bne.s   Offset_0x017DB6
@@ -236,7 +236,7 @@ Offset_0x017DB6:
 Offset_0x017DBC:
                 move.b  Obj_Control_Var_08(A0), D0                       ; $0038
                 addi.w  #$0100, Obj_Control_Var_08(A0)                   ; $0038
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$03, D0
                 move.w  D0, Obj_Control_Var_0A(A0)                       ; $003A
 Offset_0x017DD2:
@@ -273,14 +273,14 @@ Offset_0x017E28:
                 addq.b  #$04, D0
                 lsr.b   #$03, D0
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
-                bsr     Offset_0x017E54
+                bsr.w   Offset_0x017E54
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x017E54:
                 move.w  Obj_Control_Var_0C(A0), A1                       ; $003C
                 move.b  Obj_Angle(A1), D0                                ; $0026
                 addq.b  #$04, D0
                 andi.b  #$F8, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 neg.w   D0
                 addi.w  #$0008, D0
                 addi.w  #$0008, D1
@@ -295,7 +295,7 @@ Offset_0x017E54:
 Offset_0x017E88:
                 move.w  Obj_X(A0), D4                                    ; $0010
                 move.w  Obj_Y(A0), D5                                    ; $0014
-                bsr     Offset_0x017E54
+                bsr.w   Offset_0x017E54
                 cmp.w   Obj_X(A0), D4                                    ; $0010
                 beq.s   Offset_0x017E9E
                 move.w  D4, Obj_Control_Var_12(A0)                       ; $0042
@@ -354,7 +354,7 @@ Offset_0x017F44:
                 move.b  #$3C, $0002(A2)
                 move.w  Obj_Control_Var_0C(A0), A3                       ; $003C
                 move.b  Obj_Angle(A3), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$03, D1
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
                 asl.w   #$03, D0
@@ -422,7 +422,7 @@ Offset_0x018020:
                 move.b  Obj_Angle(A3), D0                                ; $0026
                 addq.b  #$04, D0
                 andi.b  #$F8, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 neg.w   D0
                 addi.w  #$0008, D0
                 addi.w  #$0008, D1
@@ -453,17 +453,17 @@ Offset_0x018088:
                 tst.b   $0002(A2)
                 beq.s   Offset_0x018096
                 subq.b  #$01, $0002(A2)
-                bne     Offset_0x0180FC
+                bne.w   Offset_0x0180FC
 Offset_0x018096:
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$0010, D0
                 cmpi.w  #$0020, D0
-                bcc     Offset_0x0180FC
+                bcc.w   Offset_0x0180FC
                 move.w  Obj_Y(A1), D1                                    ; $0014
                 sub.w   Obj_Y(A0), D1                                    ; $0014
                 cmpi.w  #$0018, D1
-                bcc     Offset_0x0180FC
+                bcc.w   Offset_0x0180FC
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bne.s   Offset_0x0180FC
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005

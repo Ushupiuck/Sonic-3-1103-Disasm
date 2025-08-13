@@ -84,7 +84,7 @@ Offset_0x02249E:
                 bne.s   Offset_0x0224E2
                 move.b  #$01, Obj_Control_Var_06(A0)                     ; $0036
                 moveq   #Draw_Bridge_Move_Sfx, D0                          ; $5C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #$0068, D1
                 btst    #$00, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x0224C6
@@ -105,7 +105,7 @@ Offset_0x0224E2:
 Offset_0x0224F6:
                 move.b  #$00, Obj_Control_Var_06(A0)                     ; $0036
                 moveq   #Draw_Bridge_Move_Sfx, D0                          ; $5C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.l  #Offset_0x02251A, (A0)
                 bra.s   Offset_0x022514
 Offset_0x02250C:
@@ -143,7 +143,7 @@ Offset_0x022560:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x022584
+                bhi.w   Offset_0x022584
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x022584:
                 move.w  Obj_Control_Var_0C(A0), D0                       ; $003C
@@ -172,7 +172,7 @@ Offset_0x0225B8:
                 moveq   #$00, D0
                 moveq   #$00, D1
                 move.b  Obj_Control_Var_08(A0), D0                       ; $0038
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  Obj_Control_Var_02(A0), D2                       ; $0032
                 move.w  Obj_Control_Var_00(A0), D3                       ; $0030
                 moveq   #$00, D6
@@ -180,8 +180,8 @@ Offset_0x0225B8:
                 move.w  Obj_Sub_Y(A1), D6                                ; $0016
                 subq.w  #$01, D6
                 bcs.s   Offset_0x02265A
-                swap.w  D0
-                swap.w  D1
+                swap	D0
+                swap	D1
                 asr.l   #$04, D0
                 asr.l   #$04, D1
                 move.l  D0, D4
@@ -189,8 +189,8 @@ Offset_0x0225B8:
                 lea     Obj_Speed_X(A1), A2                              ; $0018
 Offset_0x0225F4:
                 movem.l D4/D5, -(A7)
-                swap.w  D4
-                swap.w  D5
+                swap	D4
+                swap	D5
                 add.w   D2, D4
                 add.w   D3, D5
                 move.w  D5, (A2)+
@@ -210,8 +210,8 @@ Offset_0x0225F4:
                 lea     Obj_Speed_X(A1), A2                              ; $0018
 Offset_0x022630:
                 movem.l D4/D5, -(A7)
-                swap.w  D4
-                swap.w  D5
+                swap	D4
+                swap	D5
                 add.w   D2, D4
                 add.w   D3, D5
                 move.w  D5, (A2)+
@@ -269,7 +269,7 @@ Offset_0x0226C8:
 Offset_0x0226D2:
                 rts
 Offset_0x0226D4:
-                lea     (Offset_0x02276E), A4
+                lea     (Offset_0x02276E).l, A4
                 lea     Obj_Speed_X(A3), A2                              ; $0018
                 move.w  Obj_Sub_Y(A3), D6                                ; $0016
                 subq.w  #$01, D6
@@ -306,7 +306,7 @@ Offset_0x02275A:
                 move.w  #$0000, Obj_Speed_X(A3)                          ; $0018
                 move.w  #$0000, Obj_Speed_Y(A3)                          ; $001A
                 moveq   #Bridge_Collapse_Sfx, D0                          ; -$69
-                jmp     (PlaySound)                           ; Offset_0x001176 
+                jmp     (PlaySound).l                           ; Offset_0x001176 
 ;-------------------------------------------------------------------------------
 Offset_0x02276E:
                 dc.b    $08, $10, $0C, $0E, $06, $0A, $04, $02

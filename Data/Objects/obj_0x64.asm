@@ -27,7 +27,7 @@ Offset_0x02C8F8:
 Offset_0x02C914:                
                 bsr.s   Offset_0x02C980
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$03, D1
                 move.w  D1, D2
                 add.w   D1, D1
@@ -54,7 +54,7 @@ Offset_0x02C95C:
                 move.w  D0, Obj_Y(A0)                                    ; $0014
                 move.b  Obj_Flip_Angle(A0), D0                           ; $0027
                 add.b   D0, Obj_Angle(A0)                                ; $0026
-                lea     (Bubble_Container_Animate_Data), A1    ; Offset_0x02CF9C
+                lea     (Bubble_Container_Animate_Data).l, A1    ; Offset_0x02CF9C
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148
@@ -298,7 +298,7 @@ Offset_0x02CC64:
 Offset_0x02CC72:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
 Offset_0x02CC76:
-                lea     (Bubble_Container_Animate_Data), A1    ; Offset_0x02CF9C
+                lea     (Bubble_Container_Animate_Data).l, A1    ; Offset_0x02CF9C
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Routine(A0)                                  ; $0005
                 beq.s   Offset_0x02CC8E
@@ -332,7 +332,7 @@ Offset_0x02CCAE:
                 neg.w   Obj_Inertia(A2)                                  ; $001C
 Offset_0x02CCFE:
                 moveq   #Small_Bumper_Sfx, D0                             ; -$75
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (Play_Music).l                           ; Offset_0x001176
 ;-------------------------------------------------------------------------------
 Offset_0x02CD06:
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
@@ -349,7 +349,7 @@ Offset_0x02CD1A:
 Offset_0x02CD28:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
 Offset_0x02CD2C:
-                lea     (Bubble_Container_Animate_Data), A1    ; Offset_0x02CF9C
+                lea     (Bubble_Container_Animate_Data).l, A1    ; Offset_0x02CF9C
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Control_Var_0C(A0)                           ; $003C
                 beq.s   Offset_0x02CD78
@@ -422,7 +422,7 @@ Offset_0x02CE02:
 Offset_0x02CE10:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
 Offset_0x02CE14:
-                bsr     Offset_0x02CE6A
+                bsr.w   Offset_0x02CE6A
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 addi.b  #$10, D0
                 lsr.b   #$05, D0
@@ -450,7 +450,7 @@ Offset_0x02CE6A:
                 btst    #$01, Obj_Status(A0)                             ; $002A
                 bne.s   Offset_0x02CED4
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  Obj_Inertia(A0), D1                              ; $001C
                 asr.l   #$08, D1
                 move.w  D1, Obj_Speed_X(A0)                              ; $0018
@@ -521,7 +521,7 @@ Offset_0x02CF5C:
                 rts
 ;-------------------------------------------------------------------------------                
 Offset_0x02CF5E:
-                lea     (Bubble_Container_Animate_Data), A1    ; Offset_0x02CF9C
+                lea     (Bubble_Container_Animate_Data).l, A1    ; Offset_0x02CF9C
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Routine(A0)                                  ; $0005
                 beq.s   Offset_0x02CF76
@@ -530,7 +530,7 @@ Offset_0x02CF76:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02CF7C:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02CF9A
+                bne.w   Offset_0x02CF9A
                 moveq   #$2C, D0
 Offset_0x02CF88:
                 move.w  $00(A0, D0), $00(A1, D0)

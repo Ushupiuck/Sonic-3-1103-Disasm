@@ -83,7 +83,7 @@ Offset_0x046708:
 Offset_0x04670E:
                 addq.b  #$01, Obj_Control_Var_09(A0)                     ; $0039
                 cmpi.b  #$10, Obj_Control_Var_09(A0)                     ; $0039
-                bcs     Offset_0x046738
+                bcs.w   Offset_0x046738
                 move.b  #$08, Obj_Routine(A0)                            ; $0005
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 jsr     Find_Player(PC)                        ; Offset_0x042634
@@ -137,7 +137,7 @@ Offset_0x04679E:
                 move.b  #$0C, Obj_Routine(A0)                            ; $0005
                 add.w   D1, Obj_X(A0)                                    ; $0010
                 tst.b   Obj_Subtype(A0)                                  ; $002C
-                beq     Offset_0x046738
+                beq.w   Offset_0x046738
                 lea     Offset_0x046AEE(PC), A2
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
@@ -166,7 +166,7 @@ Offset_0x0467FC:
                 jsr     (Object_HitWall_Right)                 ; Offset_0x009EEE
                 tst.w   D1
                 bmi.s   Offset_0x046834
-                bra     Offset_0x04683C
+                bra.w   Offset_0x04683C
 Offset_0x046828:
                 moveq   #-$20, D3
                 jsr     (Object_HitWall_Left)                  ; Offset_0x00A138

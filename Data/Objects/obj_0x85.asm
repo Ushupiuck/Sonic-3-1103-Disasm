@@ -7,7 +7,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x03EC28(PC, D0), D1
                 jsr     Offset_0x03EC28(PC, D1)
-                bsr     Offset_0x03EFB8
+                bsr.w   Offset_0x03EFB8
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x03EC28:
@@ -51,12 +51,12 @@ Offset_0x03EC96:
 Offset_0x03ECA0:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 bset    #$01, Obj_Control_Var_08(A0)                     ; $0038
-                lea     (Offset_0x03F0E2), A1
+                lea     (Offset_0x03F0E2).l, A1
                 lea     (Boss_Data_Buffer+$02).w, A2                 ; $FFFFFA82
                 moveq   #$05, D6
 Offset_0x03ECB8:
                 move.b  (A1)+, (A2)+
-                dbra    D6, Offset_0x03ECB8
+                dbra.w  D6, Offset_0x03ECB8
                 move.l  #(Boss_Data_Buffer+$02), Obj_Child_Data(A0) ; $FFFFFA82, $0030
                 move.b  #$10, Obj_Ani_Time(A0)                           ; $0024
                 move.l  #Offset_0x03ECE4, Obj_Child(A0)                  ; $0034
@@ -161,7 +161,7 @@ Offset_0x03EDAA:
                 move.w  #$0004, Obj_Control_Var_0E(A0)                   ; $003E
                 bset    #$01, Obj_Control_Var_08(A0)                     ; $0038
 Offset_0x03EDE0:
-                bra     Offset_0x03EF2A  
+                bra.w   Offset_0x03EF2A  
 ;-------------------------------------------------------------------------------
 Offset_0x03EDE4:
                 tst.b   Obj_Subtype(A0)                                  ; $002C
@@ -174,7 +174,7 @@ Offset_0x03EDEE:
 ;-------------------------------------------------------------------------------
 Offset_0x03EDFA:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
-                bsr     Offset_0x03EF84
+                bsr.w   Offset_0x03EF84
                 move.l  #Offset_0x03EE36, Obj_Child(A0)                  ; $0034
                 rts      
 ;-------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ Offset_0x03EE2C:
                 jmp     (Move_Sprite_Circular_Simple)          ; Offset_0x0426E2    
 ;-------------------------------------------------------------------------------
 Offset_0x03EE36:
-                bsr     Offset_0x03EF9E
+                bsr.w   Offset_0x03EF9E
                 move.l  #Offset_0x03EEA6, Obj_Child(A0)                  ; $0034
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 beq.s   Offset_0x03EE60
@@ -227,7 +227,7 @@ Offset_0x03EE92:
 Offset_0x03EEA6:
                 bclr    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 neg.b   Obj_Control_Var_0D(A0)                           ; $003D
-                bsr     Offset_0x03EDFA
+                bsr.w   Offset_0x03EDFA
                 cmpi.b  #$0A, Obj_Subtype(A0)                            ; $002C
                 bne.s   Offset_0x03EED6
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
@@ -332,7 +332,7 @@ Offset_0x03EFD2:
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03EFF2:
                 jsr     Hit_Boss_Flash(PC)                     ; Offset_0x04297A
                 subq.b  #$01, Obj_Ani_Number(A0)                         ; $0020
@@ -346,7 +346,7 @@ Offset_0x03F010:
                 move.l  #Display_Sprite_Wait, (A0)             ; Offset_0x042F8E
                 move.w  #$0040, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03ED26, Obj_Child(A0)                  ; $0034
-                lea     (Offset_0x041D62), A2
+                lea     (Offset_0x041D62).l, A2
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03F02E:
@@ -365,7 +365,7 @@ Offset_0x03F04E:
                 move.w  D0, A1
                 bset    #$07, Obj_Status(A1)                             ; $002A
 Offset_0x03F05C:
-                bsr     Offset_0x03F070
+                bsr.w   Offset_0x03F070
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450 
 ;-------------------------------------------------------------------------------
 Offset_0x03F064:

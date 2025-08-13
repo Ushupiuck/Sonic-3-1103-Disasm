@@ -9,16 +9,16 @@
                 move.l  #Offset_0x039958, Obj_Child(A0)                  ; $0034
                 clr.b   Obj_Subtype(A0)                                  ; $002C
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 moveq   #$6D, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Pal_MGz_Boss(PC), A1                   ; Offset_0x03AFFA
                 jmp     (Pal_Load_Line_1)                      ; Offset_0x04314C  
 ;-------------------------------------------------------------------------------
 Offset_0x039958:
                 move.l  #Offset_0x039968, (A0)
                 moveq   #Boss_Snd, D0                                      ; $19
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x039966:                
                 rts                
 ;-------------------------------------------------------------------------------
@@ -212,20 +212,20 @@ Offset_0x039BD0:
                 jsr     (Restore_LevelMusic)                     ; Offset_0x0432CA
                 lea     (Marble_Garden_1_Tiles), A1            ; Offset_0x15D0A4
                 move.w  #$0000, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 lea     (Marble_Garden_2_Tiles_2), A1          ; Offset_0x1632A8
                 move.w  #$4FC0, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 moveq   #$14, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     (Art_Spiker), A1                       ; Offset_0x11A308
                 move.w  #$A600, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 lea     (Art_Mantis), A1                       ; Offset_0x11A51A
                 move.w  #$A9E0, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 lea     (PLC_MGz_After_Boss), A1               ; Offset_0x041B90
-                jsr     (LoadPLC_Direct)                           ; Offset_0x001502
+                jsr     (LoadPLC_Direct).l                           ; Offset_0x001502
                 lea     (Palette_MGZ), A1          ; Offset_0x1E9D14
                 jsr     (Pal_Load_Line_1)                      ; Offset_0x04314C
                 btst    #$00, Obj_Flags(A0)                              ; $0004

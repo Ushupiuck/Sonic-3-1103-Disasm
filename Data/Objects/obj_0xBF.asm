@@ -17,7 +17,7 @@ Offset_0x0479A2:
                 moveq   #$10, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                bsr     Offset_0x0479C8
+                bsr.w   Offset_0x0479C8
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x0479C8:
                 move.b  Obj_Status(A0), D0                               ; $002A
@@ -44,7 +44,7 @@ Offset_0x0479F0:
                 lea     Offset_0x047A86(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 jsr     (Go_Delete_Object_A0)                  ; Offset_0x042D3E
 Offset_0x047A36:
                 rts     
@@ -58,7 +58,7 @@ Offset_0x047A38:
                 bcs.s   Offset_0x047A5E
                 move.l  #Offset_0x04718E, Obj_Child_Data(A0)             ; $0030
 Offset_0x047A5E:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.b  #$03, D0
                 move.b  D0, Obj_Ani_Frame(A0)                            ; $0023
                 moveq   #$00, D0

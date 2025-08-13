@@ -23,8 +23,8 @@
                 move.b  #$00, Obj_Map_Id(A1)                             ; $0022
                 move.b  #$03, Obj_Player_Control(A1)                     ; $002E
 Offset_0x018640:
-                jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Intro_Surfboard_Main                   ; Offset_0x018654
+                jsr     (AllocateObjectAfterCurrent).l                  ; Offset_0x011DE0
+                bne.w   Intro_Surfboard_Main                   ; Offset_0x018654
                 move.l  #Intro_Surfboard_Splash, (A1)          ; Offset_0x018AC4
                 move.w  A0, Obj_P_Flips_Remaining(A1)                    ; $0030
 ;-------------------------------------------------------------------------------                
@@ -36,8 +36,8 @@ Intro_Surfboard_Main:                                          ; Offset_0x018654
                 addi.w  #$0008, Obj_X(A0)                                ; $0010
                 cmpi.w  #$0900, Obj_X(A1)                                ; $0010
                 bcs.s   Offset_0x0186C4
-                jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x018698
+                jsr     (AllocateObjectAfterCurrent).l                  ; Offset_0x011DE0
+                bne.w   Offset_0x018698
                 move.l  #Surfboard, (A1)                       ; Offset_0x018D7A
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
@@ -50,17 +50,17 @@ Offset_0x018698:
                 move.w  #$0001, Obj_Ani_Number(A0)                       ; $0020
                 subi.w  #$0005, Obj_X(A0)                                ; $0010
                 move.b  #$07, Obj_Map_Id(A0)                             ; $0022
-                jsr     (Intro_Surfboard_Load_PLC)             ; Offset_0x0188A8
+                jsr     (Intro_Surfboard_Load_PLC).l             ; Offset_0x0188A8
                 bra.s   Offset_0x0186C8
 Offset_0x0186C4:
-                bsr     Intro_Surfboard_Move                   ; Offset_0x018806
+                bsr.w   Intro_Surfboard_Move                   ; Offset_0x018806
 Offset_0x0186C8:
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Intro_Surfboard_Jump:                                          ; Offset_0x0186CE
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 addi.w  #$0008, Obj_X(A1)                                ; $0010
-                jsr     (SpeedToPos)                           ; Offset_0x01111E
+                jsr     (SpeedToPos).l                           ; Offset_0x01111E
                 addi.w  #$0020, Obj_Speed_Y(A0)                          ; $001A
                 moveq   #$01, D2
                 move.w  Obj_X(A0), D0                                    ; $0010
@@ -85,10 +85,10 @@ Offset_0x0186F8:
                 move.w  #$0000, Obj_Speed_Y(A1)                          ; $001A
                 move.l  #Intro_Surfboard_Run, (A0)              ; Offset_0x01875C
 Offset_0x01873C:
-                lea     (Intro_Surfboard_Jump_Animate_Data), A1 ; Offset_0x018754
-                jsr     (AnimateSprite)                        ; Offset_0x01115E
-                jsr     (Intro_Surfboard_Load_PLC)             ; Offset_0x0188A8
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2   
+                lea     (Intro_Surfboard_Jump_Animate_Data).l, A1 ; Offset_0x018754
+                jsr     (AnimateSprite).l                        ; Offset_0x01115E
+                jsr     (Intro_Surfboard_Load_PLC).l             ; Offset_0x0188A8
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2   
 ;-------------------------------------------------------------------------------
 Intro_Surfboard_Jump_Animate_Data:                             ; Offset_0x018754
                 dc.w    Offset_0x018756-Intro_Surfboard_Jump_Animate_Data
@@ -105,7 +105,7 @@ Intro_Surfboard_Run:                                           ; Offset_0x01875C
                 bcc.s   Offset_0x01877E
                 move.w  #$FEC8, Obj_Speed_Y(A0)                          ; $001A
 Offset_0x01877E:
-                jsr     (SpeedToPos)                           ; Offset_0x01111E
+                jsr     (SpeedToPos).l                           ; Offset_0x01111E
                 cmpi.w  #$13C0, Obj_X(A0)                                ; $0010
                 bcs.s   Offset_0x0187AA
                 move.b  #$00, Obj_Player_Control(A0)                     ; $002E
@@ -114,13 +114,13 @@ Offset_0x01877E:
                 move.w  #$0400, (Control_Ports_Logical_Data).w       ; $FFFFF602
                 move.w  #$000E, Obj_Player_Control(A3)                   ; $002E
 Offset_0x0187AA:
-                jsr     (Sonic_Animate1P)                      ; Offset_0x00C2E0
+                jsr     (Sonic_Animate1P).l                      ; Offset_0x00C2E0
                 move.l  A3, -(A7)
-                jsr     (LoadSonicDynamicPLC)               ; Offset_0x00C7EA
+                jsr     (LoadSonicDynamicPLC).l               ; Offset_0x00C7EA
                 move.l  (A7)+, A0
                 addi.w  #$0008, Obj_X(A0)                                ; $0010
                 move.b  #$00, Obj_Map_Id(A0)                             ; $0022
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2   
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2   
 ;-------------------------------------------------------------------------------
 Intro_Surfboard_Stop:                                          ; Offset_0x0187CC
                 subq.w  #$01, Obj_Player_Control(A0)                     ; $002E
@@ -133,10 +133,10 @@ Intro_Surfboard_Stop:                                          ; Offset_0x0187CC
                 move.w  #$0000, (Control_Ports_Logical_Data).w       ; $FFFFF602
                 move.l  #Offset_0x018800, (A0)
 Offset_0x0187FA:
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2 
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2 
 ;-------------------------------------------------------------------------------
 Offset_0x018800:
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2 
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2 
 ;-------------------------------------------------------------------------------                
 Intro_Surfboard_Move:                                          ; Offset_0x018806
                 move.w  #$0002, D1
@@ -158,7 +158,7 @@ Offset_0x018816:
                 neg.w   D1
 Offset_0x01883E:
                 add.w   D1, Obj_Speed_Y(A0)                              ; $001A
-                jsr     (SpeedToPos)                           ; Offset_0x01111E
+                jsr     (SpeedToPos).l                           ; Offset_0x01111E
                 move.w  Obj_Speed_Y(A0), D0                              ; $001A
                 tst.w   D2
                 bne.s   Offset_0x018852
@@ -173,12 +173,12 @@ Offset_0x018860:
                 move.b  $00(A1, D0), D0
                 addq.b  #$01, D0
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
-                jsr     (Intro_Surfboard_Load_PLC)             ; Offset_0x0188A8
+                jsr     (Intro_Surfboard_Load_PLC).l             ; Offset_0x0188A8
                 subq.w  #$01, Obj_Player_Control(A0)                     ; $002E
                 bpl.s   Offset_0x018892
                 move.w  #$0005, Obj_Player_Control(A0)                   ; $002E
-                jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x018892
+                jsr     (AllocateObjectAfterCurrent).l                  ; Offset_0x011DE0
+                bne.w   Offset_0x018892
                 move.l  #Surfboard_Waves, (A1)                 ; Offset_0x018A3C
                 move.w  A0, Obj_P_Flips_Remaining(A1)                    ; $0030
 Offset_0x018892:
@@ -198,7 +198,7 @@ Intro_Surfboard_Load_PLC:                                      ; Offset_0x0188A8
                 cmp.b   (Sonic_Previous_Frame).w, D0                 ; $FFFFF766
                 beq.s   Offset_0x0188FA
                 move.b  D0, (Sonic_Previous_Frame).w                 ; $FFFFF766
-                lea     (Intro_Surfboard_Dyn_Script), A2       ; Offset_0x0189D8
+                lea     (Intro_Surfboard_Dyn_Script).l, A2       ; Offset_0x0189D8
                 add.w   D0, D0
                 adda.w  $00(A2, D0), A2
                 move.w  (A2)+, D5
@@ -218,7 +218,7 @@ Offset_0x0188CE:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer).l                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x0188CE
 Offset_0x0188FA:
                 rts      
@@ -343,13 +343,13 @@ Surfboard_Waves:                                               ; Offset_0x018A3C
                 addi.w  #$FFD8, Obj_X(A0)                                ; $0010
                 addi.w  #$0018, Obj_Y(A0)                                ; $0014
 Offset_0x018A96:                
-                lea     (Surfboard_Waves_Animate_Data), A1     ; Offset_0x018AB4
-                jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
+                lea     (Surfboard_Waves_Animate_Data).l, A1     ; Offset_0x018AB4
+                jsr     (AnimateSprite_2).l                      ; Offset_0x0111FE
                 tst.b   Obj_Routine(A0)                                  ; $0005
                 beq.s   Offset_0x018AAE
                 move.w  #$7FFF, Obj_X(A0)                                ; $0010
 Offset_0x018AAE:
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2   
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2   
 ;-------------------------------------------------------------------------------
 Surfboard_Waves_Animate_Data:                                  ; Offset_0x018AB4
                 dc.w    Offset_0x018AB6-Surfboard_Waves_Animate_Data
@@ -360,8 +360,8 @@ Offset_0x018AB6:
 Intro_Surfboard_Splash:                                        ; Offset_0x018AC4
                 move.l  A0, A1
                 bsr.s   Offset_0x018AF4
-                jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x018AF2
+                jsr     (AllocateObjectAfterCurrent).l                  ; Offset_0x011DE0
+                bne.w   Offset_0x018AF2
                 bsr.s   Offset_0x018B0C
                 move.l  #Offset_0x018BA8, (A1)
                 move.w  #$0080, Obj_Priority(A1)                         ; $0008
@@ -385,8 +385,8 @@ Offset_0x018B0C:
                 rts
 Offset_0x018B34:
                 move.w  Obj_P_Flips_Remaining(A0), A1                    ; $0030
-                lea     (Offset_0x018B9A), A2
-                bsr     Offset_0x018C1A
+                lea     (Offset_0x018B9A).l, A2
+                bsr.w   Offset_0x018C1A
                 move.w  Obj_X(A1), Obj_X(A0)                      ; $0010, $0010
                 move.w  Obj_Y(A1), Obj_Y(A0)                      ; $0014, $0014
                 move.w  Obj_P_Horiz_Ctrl_Lock(A0), D0                    ; $0032
@@ -395,7 +395,7 @@ Offset_0x018B34:
                 add.w   D0, Obj_Y(A0)                                    ; $0014
                 cmpi.b  #$07, Obj_Map_Id(A1)                             ; $0022
                 bcs.s   Offset_0x018B6C
-                jmp     (DeleteObject)                         ; Offset_0x011138
+                jmp     (DeleteObject).l                         ; Offset_0x011138
 Offset_0x018B6C:
                 cmpi.b  #$05, Obj_Map_Id(A1)                             ; $0022
                 bcs.s   Offset_0x018B82
@@ -408,9 +408,9 @@ Offset_0x018B80:
 Offset_0x018B82:
                 move.w  #$0003, Obj_P_Spd_Shoes_Time(A0)                 ; $0036
 Offset_0x018B88:
-                lea     (Intro_Surfboard_Splash_Animate_Data), A1 ; Offset_0x018C50
-                jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2     
+                lea     (Intro_Surfboard_Splash_Animate_Data).l, A1 ; Offset_0x018C50
+                jsr     (AnimateSprite_2).l                      ; Offset_0x0111FE
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2     
 ;-------------------------------------------------------------------------------
 Offset_0x018B9A:
                 dc.b    $00, $18, $00, $11, $00, $15, $F8, $15
@@ -418,7 +418,7 @@ Offset_0x018B9A:
 ;-------------------------------------------------------------------------------
 Offset_0x018BA8:
                 move.w  Obj_P_Flips_Remaining(A0), A1                    ; $0030
-                lea     (Offset_0x018C0C), A2
+                lea     (Offset_0x018C0C).l, A2
                 bsr.s   Offset_0x018C1A
                 move.w  Obj_X(A1), Obj_X(A0)                      ; $0010, $0010
                 move.w  Obj_Y(A1), Obj_Y(A0)                      ; $0014, $0014
@@ -428,7 +428,7 @@ Offset_0x018BA8:
                 add.w   D0, Obj_Y(A0)                                    ; $0014
                 cmpi.b  #$07, Obj_Map_Id(A1)                             ; $0022
                 bcs.s   Offset_0x018BDE
-                jmp     (DeleteObject)                         ; Offset_0x011138
+                jmp     (DeleteObject).l                         ; Offset_0x011138
 Offset_0x018BDE:
                 cmpi.b  #$05, Obj_Map_Id(A1)                             ; $0022
                 bcc.s   Offset_0x018BF4
@@ -441,9 +441,9 @@ Offset_0x018BF2:
 Offset_0x018BF4:
                 move.w  #$0003, Obj_P_Spd_Shoes_Time(A0)                 ; $0036
 Offset_0x018BFA:
-                lea     (Intro_Surfboard_Splash_Animate_Data), A1 ; Offset_0x018C50
-                jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2   
+                lea     (Intro_Surfboard_Splash_Animate_Data).l, A1 ; Offset_0x018C50
+                jsr     (AnimateSprite_2).l                      ; Offset_0x0111FE
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2   
 ;-------------------------------------------------------------------------------
 Offset_0x018C0C:
                 dc.b    $F8, $12, $F8, $12, $F8, $12, $F8, $12
@@ -579,10 +579,10 @@ Offset_0x018DB2:
                 beq.s   Offset_0x018DC6
                 subi.w  #$0010, Obj_Speed_X(A0)                          ; $0018
 Offset_0x018DC6:
-                jsr     (SpeedToPos)                           ; Offset_0x01111E
+                jsr     (SpeedToPos).l                           ; Offset_0x01111E
                 addi.w  #$0020, Obj_Speed_Y(A0)                          ; $001A
-                lea     (Surfboard_Animate_Data), A1           ; Offset_0x018E0A
-                jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
+                lea     (Surfboard_Animate_Data).l, A1           ; Offset_0x018E0A
+                jsr     (AnimateSprite_2).l                      ; Offset_0x0111FE
                 move.b  #$00, Obj_Status(A0)                             ; $002A
                 move.b  Obj_Ani_Frame(A0), D0                            ; $0023
                 andi.b  #$07, D0
@@ -594,7 +594,7 @@ Offset_0x018DF8:
                 beq.s   Offset_0x018E04
                 move.w  #$7FFF, Obj_X(A0)                                ; $0010
 Offset_0x018E04:
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Surfboard_Animate_Data:                                        ; Offset_0x018E0A
                 dc.w    Offset_0x018E0C-Surfboard_Animate_Data

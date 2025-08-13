@@ -24,7 +24,7 @@
                 beq.s   Offset_0x0273B2
                 addi.w  #$0018, Obj_Y(A0)                                ; $0014
                 move.l  #Offset_0x027416, (A0)
-                bra     Offset_0x027416
+                bra.w   Offset_0x027416
 Offset_0x0273B2:
                 subi.w  #$0018, Obj_Y(A0)                                ; $0014
                 move.w  #$0040, Obj_Angle(A0)                            ; $0026
@@ -37,7 +37,7 @@ Offset_0x0273C4:
                 move.l  #Offset_0x0273E2, (A0)
                 move.w  Obj_X(A0), Obj_Control_Var_00(A0)         ; $0010, $0030
 Offset_0x0273DE:
-                bra     Offset_0x02746A
+                bra.w   Offset_0x02746A
 ;-------------------------------------------------------------------------------
 Offset_0x0273E2:
                 subq.w  #$02, Obj_Angle(A0)                              ; $0026

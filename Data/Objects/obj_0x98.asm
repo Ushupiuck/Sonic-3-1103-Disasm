@@ -30,13 +30,13 @@ Offset_0x0410B0:
                 lea     Guardian_Setup_Data(PC), A1            ; Offset_0x0416C2
                 jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.b  #$3C, Obj_Height_2(A0)                           ; $001E
-                lea     (Guardian_Palette), A1                 ; Offset_0x041700
+                lea     (Guardian_Palette).l, A1                 ; Offset_0x041700
                 lea     (Palette_Row_1_Offset).w, A2                 ; $FFFFED20
                 moveq   #$07, D6
 Offset_0x0410CA:
                 move.l  (A1)+, (A2)+
                 dbra    D6, Offset_0x0410CA
-                lea     (Guardian_Palette_2), A1               ; Offset_0x041720
+                lea     (Guardian_Palette_2).l, A1               ; Offset_0x041720
                 lea     (Palette_Row_1_Data_Target).w, A2            ; $FFFFEDA0
                 moveq   #$07, D6
 Offset_0x0410DC:
@@ -57,7 +57,7 @@ Offset_0x0410F2:
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x04111C, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x041116:                
                 rts   
 ;-------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ Offset_0x041118:
 ;-------------------------------------------------------------------------------
 Offset_0x04111C:
                 moveq   #Mini_Boss_Snd, D0                                 ; $18
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x04113A, Obj_Child(A0)                  ; $0034
                 lea     Offset_0x0416F8(PC), A2

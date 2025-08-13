@@ -21,13 +21,13 @@ Offset_0x018EDE:
                 move.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 move.l  #Offset_0x018F10, (A0)
 Offset_0x018EF8:
-                lea     (Knuckles_Animate_Data), A1            ; Offset_0x018F48
+                lea     (Knuckles_Animate_Data).l, A1            ; Offset_0x018F48
                 jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
                 jsr     (Load_Knuckles_Dynamic_PLC)            ; Offset_0x018F76
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x018F10:
-                lea     (Knuckles_Animate_Data), A1            ; Offset_0x018F48
+                lea     (Knuckles_Animate_Data).l, A1            ; Offset_0x018F48
                 jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
                 tst.b   Obj_Routine(A0)                                  ; $0005
                 beq.s   Offset_0x018F34
@@ -35,7 +35,7 @@ Offset_0x018F10:
                 move.w  #$0800, Obj_Speed_X(A0)                          ; $0018
                 move.l  #Offset_0x018F40, (A0)
 Offset_0x018F34:
-                jsr     (Load_Knuckles_Dynamic_PLC)            ; Offset_0x018F76
+                jsr     (Load_Knuckles_Dynamic_PLC).l            ; Offset_0x018F76
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2  
 ;-------------------------------------------------------------------------------
 Offset_0x018F40:
@@ -63,7 +63,7 @@ Load_Knuckles_Dynamic_PLC:                                     ; Offset_0x018F76
                 cmp.b   Obj_Player_Control(A0), D0                       ; $002E
                 beq.s   Offset_0x018FC8
                 move.b  D0, Obj_Player_Control(A0)                       ; $002E
-                lea     (Knuckles_Dyn_Script), A2              ; Offset_0x019166
+                lea     (Knuckles_Dyn_Script).l, A2              ; Offset_0x019166
                 add.w   D0, D0
                 adda.w  $00(A2, D0), A2
                 move.w  (A2)+, D5
@@ -83,7 +83,7 @@ Offset_0x018F9C:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer).l                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x018F9C
 Offset_0x018FC8:
                 rts 

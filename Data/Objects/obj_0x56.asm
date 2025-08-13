@@ -48,7 +48,7 @@ Offset_0x02AB0C:
                 addq.w  #$01, D3
                 move.w  (A7)+, D4
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                swap.w  D6
+                swap	D6
                 andi.w  #$0003, D6
                 beq.s   Offset_0x02AB88
                 move.b  D6, D0

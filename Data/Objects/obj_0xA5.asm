@@ -180,7 +180,7 @@ Offset_0x045A22:
                 bne.s   Offset_0x045A2A
                 rts
 Offset_0x045A2A:
-                bsr     Offset_0x045A74
+                bsr.w   Offset_0x045A74
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 clr.b   Obj_Col_Flags(A0)                                ; $0028
                 move.w  #$0010, Obj_Timer(A0)                            ; $002E
@@ -206,7 +206,7 @@ Offset_0x045A74:
                 move.b  #$02, Obj_Routine(A1)                            ; $0005
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 moveq   #Spring_Sfx, D0                                   ; -$2E
-                jmp     (Play_Music)                           ; Offset_0x001176;      
+                jmp     (Play_Music).l                           ; Offset_0x001176;      
 ;-------------------------------------------------------------------------------
 Offset_0x045A94:
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038

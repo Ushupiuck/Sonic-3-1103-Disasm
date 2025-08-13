@@ -59,7 +59,7 @@ Offset_0x01C484:
                 move.w  Obj_X(A0), -(A7)                                 ; $0010
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
-                lea     (Offset_0x01BE36), A1
+                lea     (Offset_0x01BE36).l, A1
                 move.w  $00(A1, D0), D1
                 jsr     $00(A1, D1)
                 move.w  (A7)+, D4
@@ -76,7 +76,7 @@ Offset_0x01C4B8:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmp.w   Obj_Control_Var_12(A0), D0                       ; $0042
-                bhi     Offset_0x01C4D2
+                bhi.w   Offset_0x01C4D2
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01C4D2:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048

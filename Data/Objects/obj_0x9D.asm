@@ -9,7 +9,7 @@
                 move.w  Offset_0x044CEA(PC, D0), D1
                 jsr     Offset_0x044CEA(PC, D1)
                 btst    #$07, Obj_Status(A0)                             ; $002A
-                bne     Enemy_Defeat_Score                     ; Offset_0x043018
+                bne.w   Enemy_Defeat_Score                     ; Offset_0x043018
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C     
 ;-------------------------------------------------------------------------------
 Offset_0x044CEA:
@@ -26,7 +26,7 @@ Offset_0x044D02:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x044D04:
-                bsr     Offset_0x044E68
+                bsr.w   Offset_0x044E68
                 jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jsr     Find_Player(PC)                        ; Offset_0x042634
                 move.b  (Vint_runcount+$03).w, D4         ; $FFFFFE0F
@@ -66,7 +66,7 @@ Offset_0x044D70:
                 rts      
 ;-------------------------------------------------------------------------------
 Offset_0x044D7C:
-                bsr     Offset_0x044E68
+                bsr.w   Offset_0x044E68
                 jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bmi.s   Offset_0x044DAA
@@ -124,8 +124,8 @@ Offset_0x044E16:
 Offset_0x044E34:
                 add.w   D1, D0
                 move.w  D0, Obj_Y(A0)                                    ; $0014
-                bsr     Offset_0x044F12
-                beq     Offset_0x044D02
+                bsr.w   Offset_0x044F12
+                beq.w   Offset_0x044D02
 Offset_0x044E42:
                 move.l  #ObjectFall_Delete_Sprite_Check_X_Y, (A0) ; Offset_0x042FB6
                 move.b  #$02, Obj_Map_Id(A0)                             ; $0022
@@ -139,7 +139,7 @@ Offset_0x044E5C:
                 rts
 Offset_0x044E68:
                 move.b  Obj_Col_Prop(A0), D0                             ; $0029
-                beq     Offset_0x044D02
+                beq.w   Offset_0x044D02
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
                 andi.w  #$0003, D0
                 lsl.w   #$02, D0
@@ -148,9 +148,9 @@ Offset_0x044E68:
                 move.w  Obj_Y(A0), D1                                    ; $0014
                 sub.w   Obj_Y(A1), D1                                    ; $0014
                 cmpi.w  #$FFF0, D1
-                blt     Offset_0x044D02
+                blt.w   Offset_0x044D02
                 cmpi.w  #$0010, D1
-                bge     Offset_0x044D02
+                bge.w   Offset_0x044D02
                 move.w  A1, Obj_Height_3(A0)                             ; $0044
                 cmpi.b  #$02, Obj_Ani_Number(A1)                         ; $0020
                 beq.s   Offset_0x044F0A
@@ -208,7 +208,7 @@ Offset_0x044F44:
 Offset_0x044F4A:
                 move.w  D0, (Ring_count).w                   ; $FFFFFE20
                 moveq   #Ring_Left_Speaker_Sfx, D0                         ; $33
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x044F56:
                 moveq   #$00, D0
                 rts

@@ -194,7 +194,7 @@ Offset_0x034DB6:
 		jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
 		move.w  #$0078, Obj_Height_3(A0)		         ; $0044
 		moveq   #Volume_Down, D0				  ; -$20
-		jsr     (PlaySound)		           ; Offset_0x001176
+		jsr     (PlaySound).l		           ; Offset_0x001176
 		move.w  (Sonic_Level_Limits_Min_Y).w, (Target_Camera_Min_Y).w ; $FFFFEE18, $FFFFFA96
 		move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
 		move.w  #$3940, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
@@ -281,7 +281,7 @@ Offset_0x034EDC:
 		jsr     (SetupSlottedObjectAttributes)              ; Offset_0x04298C
 		move.l  #Offset_0x0355CB, Obj_Child_Data(A0)             ; $0030
 		moveq   #Volume_Down, D0				  ; -$20
-		jsr     (PlaySound)		           ; Offset_0x001176
+		jsr     (PlaySound).l		           ; Offset_0x001176
 		move.w  #$0078, Obj_Timer(A0)		            ; $002E
 		move.b  #$1F, Obj_Angle(A0)		              ; $0026
 		move.w  (Sonic_Level_Limits_Min_Y).w, (Target_Camera_Min_Y).w ; $FFFFEE18, $FFFFFA96
@@ -425,7 +425,7 @@ Offset_0x0350E6:
 Offset_0x0350F0:
 		move.b  #$04, Obj_Routine(A0)		            ; $0005
 		moveq   #Volume_Down, D0				  ; -$20
-		jsr     (PlaySound)		           ; Offset_0x001176
+		jsr     (PlaySound).l		           ; Offset_0x001176
 		move.w  #$0077, Obj_Timer(A0)		            ; $002E
 		move.l  #Offset_0x03510E, Obj_Child(A0)		  ; $0034
 		rts       
@@ -433,7 +433,7 @@ Offset_0x0350F0:
 Offset_0x03510E:
 		move.b  #$06, Obj_Routine(A0)		            ; $0005
 		moveq   #Knuckles_Theme_Snd, D0		            ; $1F
-		jsr     (PlaySound)		           ; Offset_0x001176
+		jsr     (PlaySound).l		           ; Offset_0x001176
 		move.l  #Offset_0x0355CF, Obj_Child_Data(A0)             ; $0030
 		move.l  #Offset_0x035134, Obj_Child(A0)		  ; $0034
 		rts  
@@ -447,8 +447,8 @@ Offset_0x035134:
 		move.l  #Offset_0x03515E, Obj_Child(A0)		  ; $0034
 		lea     Offset_0x03558E(PC), A2
 		jsr     (SetupChildObject)		 ; Offset_0x041D9A
-		lea     (PLC_After_Knuckles_LBz_1), A1         ; Offset_0x041BBA
-		jmp     (LoadPLC_Direct)		           ; Offset_0x001502  
+		lea     (PLC_After_Knuckles_LBz_1).l, A1         ; Offset_0x041BBA
+		jmp     (LoadPLC_Direct).l		           ; Offset_0x001502  
 ;-------------------------------------------------------------------------------
 Offset_0x03515E:
 		move.b  #$0A, Obj_Routine(A0)		            ; $0005
@@ -472,7 +472,7 @@ Offset_0x035194:
 ;-------------------------------------------------------------------------------
 Offset_0x0351AC:
 		tst.b   Obj_Flags(A0)				    ; $0004
-		bpl     Offset_0x0351BE
+		bpl.w   Offset_0x0351BE
 		addq.w  #$02, Obj_X(A0)				  ; $0010
 		jmp     (AnimateRaw)		          ; Offset_0x04208E
 Offset_0x0351BE:
@@ -501,12 +501,12 @@ Offset_0x035200:
 		beq.s   Offset_0x03522C
 		move.w  Obj_Child_Ref(A0), A2		            ; $0046
 		bset    #$03, Obj_Control_Var_08(A2)		     ; $0038
-		bsr     Offset_0x03523E
+		bsr.w   Offset_0x03523E
 Offset_0x03522C:
-		swap.w  D0
+		swap	D0
 		tst.w   D0
 		beq.s   Offset_0x035236
-		bsr     Offset_0x03523E
+		bsr.w   Offset_0x03523E
 Offset_0x035236:
 		rts
 Offset_0x035238:
@@ -542,7 +542,7 @@ Offset_0x035288:
 		move.w  (A1)+, Obj_X(A0)				 ; $0010
 		move.w  (A1)+, Obj_Y(A0)				 ; $0014
 		move.b  #$0A, Obj_Subtype(A0)		            ; $002C
-		jmp     (Offset_0x041C9A)
+		jmp     (Offset_0x041C9A).l
 ;-------------------------------------------------------------------------------
 Offset_0x0352B6:
 		dc.w    $3BC0, $01A0, $3B80, $01A0, $3B40, $01A0, $3B00, $01A0 

@@ -33,7 +33,7 @@ Offset_0x020092:
                 andi.w  #$000C, D0
                 move.l  Offset_0x0200FE(PC, D0), D0
                 add.w   D0, Obj_Y(A1)                                    ; $0014
-                swap.w  D0
+                swap	D0
                 add.w   D0, Obj_X(A1)                                    ; $0010
 Offset_0x0200DC:
                 rts
@@ -42,7 +42,7 @@ Offset_0x0200DE:
                 andi.b  #$1F, D0
                 bne.s   Offset_0x0200F0
                 moveq   #Buzzer_Sfx, D0                                   ; -$65
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x0200F0:
                 rts
 Offset_0x0200F2:

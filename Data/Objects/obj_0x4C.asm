@@ -29,7 +29,7 @@ Offset_0x02943A:
 ;-------------------------------------------------------------------------------
 Offset_0x029442:
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
-                bne     Offset_0x0294CC
+                bne.w   Offset_0x0294CC
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$0040, D0
@@ -61,14 +61,14 @@ Offset_0x0294B4:
                 move.w  D1, Obj_X(A1)                                    ; $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x0294CC:
                 rts           
 ;-------------------------------------------------------------------------------
 Offset_0x0294CE:
                 move.b  $0001(A4), D0
                 addq.b  #$08, $0001(A4)
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$03, D1
                 move.w  D1, D0
                 asr.w   #$01, D1
@@ -90,7 +90,7 @@ Offset_0x029508:
 Offset_0x02950A:
                 move.b  $0001(A4), D0
                 addi.b  #$0C, $0001(A4)
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$03, D1
                 move.w  D1, D0
                 asr.w   #$01, D1
@@ -107,7 +107,7 @@ Offset_0x02950A:
                 moveq   #$01, D0
 Offset_0x029542:
                 add.b   Obj_Subtype(A0), D0                              ; $002C
-                bsr     Offset_0x0295B2
+                bsr.w   Offset_0x0295B2
                 addq.b  #$02, (A4)
 Offset_0x02954C:
                 rts   
@@ -126,7 +126,7 @@ Offset_0x02954E:
                 move.w  (A2)+, D4
                 move.w  (A2)+, D5
                 move.w  #$0C00, D2
-                bra     Offset_0x0295E2
+                bra.w   Offset_0x0295E2
 Offset_0x02957A:
                 move.l  Obj_X(A1), D2                                    ; $0010
                 move.l  Obj_Y(A1), D3                                    ; $0014
@@ -150,7 +150,7 @@ Offset_0x0295A0:
 Offset_0x0295B2:
                 andi.w  #$000F, D0
                 add.w   D0, D0
-                lea     (Offset_0x029660), A2
+                lea     (Offset_0x029660).l, A2
                 adda.w  $00(A2, D0), A2
                 move.w  (A2)+, $0004(A4)
                 subq.w  #$04, $0004(A4)
@@ -183,13 +183,13 @@ Offset_0x029600:
                 moveq   #$00, D1
                 move.w  D5, D1
                 sub.w   Obj_Y(A1), D1                                    ; $0014
-                swap.w  D1
+                swap	D1
                 divs.w  D3, D1
                 moveq   #$00, D0
                 move.w  D4, D0
                 sub.w   Obj_X(A1), D0                                    ; $0010
                 beq.s   Offset_0x02961E
-                swap.w  D0
+                swap	D0
                 divs.w  D1, D0
 Offset_0x02961E:
                 move.w  D0, Obj_Speed_X(A1)                              ; $0018
@@ -204,13 +204,13 @@ Offset_0x029632:
                 moveq   #$00, D0
                 move.w  D4, D0
                 sub.w   Obj_X(A1), D0                                    ; $0010
-                swap.w  D0
+                swap	D0
                 divs.w  D2, D0
                 moveq   #$00, D1
                 move.w  D5, D1
                 sub.w   Obj_Y(A1), D1                                    ; $0014
                 beq.s   Offset_0x02964C
-                swap.w  D1
+                swap	D1
                 divs.w  D0, D1
 Offset_0x02964C:
                 move.w  D1, Obj_Speed_Y(A1)                              ; $001A

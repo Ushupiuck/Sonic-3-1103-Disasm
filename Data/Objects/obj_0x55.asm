@@ -34,7 +34,7 @@ Offset_0x02A642:
                 move.l  #Offset_0x02A648, (A0)
 Offset_0x02A648:                
                 tst.b   Obj_Control_Var_04(A0)                           ; $0034
-                bne     Offset_0x02A7CC
+                bne.w   Offset_0x02A7CC
                 move.w  (Obj_Player_One+Obj_X).w, D0                 ; $FFFFB010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 add.w   Obj_Control_Var_00(A0), D0                       ; $0030
@@ -50,17 +50,17 @@ Offset_0x02A648:
                 move.w  #$0100, Obj_Ani_Number(A0)                       ; $0020
 Offset_0x02A680:
                 tst.b   Obj_Col_Flags(A0)                                ; $0028
-                bne     Offset_0x02A736
+                bne.w   Offset_0x02A736
                 tst.w   Obj_Control_Var_02(A0)                           ; $0032
                 beq.s   Offset_0x02A6A0
                 subq.w  #$01, Obj_Control_Var_02(A0)                     ; $0032
-                bne     Offset_0x02A736
+                bne.w   Offset_0x02A736
                 move.b  #$17, Obj_Col_Flags(A0)                          ; $0028
-                bra     Offset_0x02A736
+                bra.w   Offset_0x02A736
 Offset_0x02A6A0:
                 move.w  #$003C, Obj_Control_Var_02(A0)                   ; $0032
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02A72E
+                bne.w   Offset_0x02A72E
                 move.l  #Offset_0x02A7F0, (A1)
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
                 bne.s   Offset_0x02A6EC
@@ -87,15 +87,15 @@ Offset_0x02A6EC:
                 move.b  #$02, Obj_Ani_Number(A1)                         ; $0020
 Offset_0x02A72E:
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x02A736:
-                lea     (Head_Trigger_Animate_Data), A1        ; Offset_0x02A802
+                lea     (Head_Trigger_Animate_Data).l, A1        ; Offset_0x02A802
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Routine(A0)                                  ; $0005
-                beq     Offset_0x02A7CC
+                beq.w   Offset_0x02A7CC
                 clr.b   Obj_Routine(A0)                                  ; $0005
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02A7CC
+                bne.w   Offset_0x02A7CC
                 move.l  #Offset_0x02A7D2, (A1)
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
@@ -117,7 +117,7 @@ Offset_0x02A736:
                 subi.w  #$0020, Obj_X(A1)                                ; $0010
 Offset_0x02A7C4:
                 moveq   #Level_Projectile_Sfx, D0                          ; $75
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x02A7CC:
                 jmp     (MarkObjGone_5)                        ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ Offset_0x02A7EA:
                 jmp     (DeleteObject)                         ; Offset_0x011138  
 ;-------------------------------------------------------------------------------
 Offset_0x02A7F0:
-                lea     (Head_Trigger_Animate_Data), A1        ; Offset_0x02A802
+                lea     (Head_Trigger_Animate_Data).l, A1        ; Offset_0x02A802
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2 
 ;-------------------------------------------------------------------------------   

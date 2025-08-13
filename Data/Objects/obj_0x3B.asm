@@ -15,7 +15,7 @@ Offset_0x025C3E:
 Offset_0x025C4E:
                 lea     (Art_Hz_Geyser_Horizontal), A1         ; Offset_0x12FCF0
                 move.w  #$A000, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 move.l  #Offset_0x025C64, (A0)
 Offset_0x025C64:                
                 tst.b   (Kos_modules_left).w                    ; $FFFFFF60
@@ -39,11 +39,11 @@ Offset_0x025CB6:
                 move.w  (Obj_Player_One+Obj_X).w, D0                 ; $FFFFB010
                 subi.w  #$0060, D0
                 cmp.w   Obj_X(A0), D0                                    ; $0010
-                bcs     Offset_0x025D40
+                bcs.w   Offset_0x025D40
                 move.l  #Offset_0x025D76, (A0)
                 moveq   #Geyser_Sfx, D0                                    ; $5D
-                jsr     (PlaySound)                           ; Offset_0x001176
-                lea     (Offset_0x025D46), A3
+                jsr     (PlaySound).l                           ; Offset_0x001176
+                lea     (Offset_0x025D46).l, A3
                 move.w  Obj_X(A0), D2                                    ; $0010
                 addi.w  #$0060, D2
                 move.w  Obj_Y(A0), D3                                    ; $0014
@@ -98,14 +98,14 @@ Offset_0x025D76:
                 addq.w  #$08, Obj_X(A0)                                  ; $0010
 Offset_0x025D84:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x025E02
+                bne.w   Offset_0x025E02
                 move.l  #Offset_0x025F18, (A1)
                 move.l  Obj_Map(A0), Obj_Map(A1)                  ; $000C, $000C
                 move.b  #$84, Obj_Flags(A1)                              ; $0004
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
                 move.w  (Level_Frame_Count).w, D0                    ; $FFFFFE04
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  D0, D1
                 andi.w  #$000F, D0
                 lsl.w   #$03, D0
@@ -132,9 +132,9 @@ Offset_0x025E02:
                 bmi.s   Offset_0x025E3A
                 clr.b   (Palette_Cycle_Counters).w                   ; $FFFFF650
                 move.w  #PSG_Mute, D0                                    ; $FFE2
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #Stop_SFx, D0                                    ; $FFE3
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #$0096, Obj_Control_Var_00(A0)                   ; $0030
                 move.l  #Offset_0x025E40, (A0)
                 rts
@@ -166,7 +166,7 @@ Offset_0x025E6A:
                 asr.w   Obj_Speed_X(A0)                                  ; $0018
                 move.l  #Offset_0x025EE2, (A0)
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x025EDC
+                bne.w   Offset_0x025EDC
                 move.l  #Offset_0x025F78, (A1)
                 move.l  #Water_Wall_Mappings, Obj_Map(A1) ; Offset_0x0262BA, $000C
                 move.w  #$2530, Obj_Art_VRAM(A1)                         ; $000A
@@ -190,7 +190,7 @@ Offset_0x025EF8:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 addi.w  #$0008, Obj_Speed_Y(A0)                          ; $001A
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x025F12
+                bpl.w   Offset_0x025F12
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x025F12:
                 jmp     (DeleteObject)                         ; Offset_0x011138 
@@ -206,27 +206,27 @@ Offset_0x025F18:
                 addq.b  #$04, Obj_Ani_Number(A0)                         ; $0020
 Offset_0x025F3C:
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x025F12
-                lea     (Water_Wall_Animate_Data), A1          ; Offset_0x025F9A
+                bpl.w   Offset_0x025F12
+                lea     (Water_Wall_Animate_Data).l, A1          ; Offset_0x025F9A
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------
 Offset_0x025F56:
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x025F12
-                lea     (Water_Wall_Animate_Data), A1          ; Offset_0x025F9A
+                bpl.w   Offset_0x025F12
+                lea     (Water_Wall_Animate_Data).l, A1          ; Offset_0x025F9A
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Routine(A0)                                  ; $0005
-                bne     Offset_0x025F12
+                bne.w   Offset_0x025F12
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------
 Offset_0x025F78:
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x025F12
-                lea     (Water_Wall_Animate_Data), A1          ; Offset_0x025F9A
+                bpl.w   Offset_0x025F12
+                lea     (Water_Wall_Animate_Data).l, A1          ; Offset_0x025F9A
                 jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
                 tst.b   Obj_Routine(A0)                                  ; $0005
-                bne     Offset_0x025F12
+                bne.w   Offset_0x025F12
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------      
 Water_Wall_Animate_Data:                                       ; Offset_0x025F9A
@@ -270,7 +270,7 @@ Offset_0x025FF2:
 Offset_0x025FF8:
                 lea     (Art_Hz_Geyser_Vertical), A1           ; Offset_0x130482
                 move.w  #$A000, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 move.b  #$01, Obj_Map_Id(A0)                             ; $0022
                 move.b  #$81, (Obj_Player_One+Obj_Timer).w           ; $FFFFB02E
                 move.b  #$81, (Obj_Player_Two+Obj_Player_Control).w  ; $FFFFB078
@@ -306,9 +306,9 @@ Offset_0x026080:
                 move.b  #$1A, (Obj_Player_Two+Obj_Ani_Number).w      ; $FFFFB06A
                 move.l  #Offset_0x026154, (A0)
                 moveq   #Geyser_Sfx, D0                                    ; $5D
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.b  #$01, (Palette_Cycle_Counters).w             ; $FFFFF650
-                lea     (Offset_0x026124), A3
+                lea     (Offset_0x026124).l, A3
                 move.w  Obj_X(A0), D2                                    ; $0010
                 move.w  Obj_Y(A0), D3                                    ; $0014
                 subi.w  #$0080, D3
@@ -367,8 +367,8 @@ Offset_0x0261AA:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 addi.w  #$0048, Obj_Speed_Y(A0)                          ; $001A
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02620E
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                bne.w   Offset_0x02620E
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  D0, D1
                 move.w  D0, D2
                 bsr.s   Offset_0x026214
@@ -379,7 +379,7 @@ Offset_0x0261AA:
                 move.w  #$F900, Obj_Speed_Y(A1)                          ; $001A
                 move.w  D0, D2
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02620E
+                bne.w   Offset_0x02620E
                 bsr.s   Offset_0x026214
                 subi.w  #$0010, Obj_X(A1)                                ; $0010
                 neg.w   D1
@@ -410,11 +410,11 @@ Offset_0x026264:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bmi.s   Offset_0x0262A8
                 move.w  #Stop_SFx, D0                                    ; $FFE3
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #PSG_Mute, D0                                    ; $FFE2
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #Stop_SFx, D0                                    ; $FFE3
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.b  #$00, (Palette_Cycle_Counters).w             ; $FFFFF650
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
                 beq.s   Offset_0x02629A

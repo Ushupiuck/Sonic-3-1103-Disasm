@@ -26,35 +26,35 @@
                 clr.w   (Ring_count).w                       ; $FFFFFE20
                 clr.w   (Ring_Count_Address_P2).w                    ; $FFFFFED0
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Offset_0x02DCD6, (A1)
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Offset_0x02DCD6, (A1)
                 move.b  #$01, Obj_Subtype(A1)                            ; $002C
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Obj_Lap_Number, (A1)                  ; Offset_0x02D4A8
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Obj_Lap_Number, (A1)                  ; Offset_0x02D4A8
                 move.b  #$01, Obj_Subtype(A1)                            ; $002C
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Obj_Neon_Display, (A1)                ; Offset_0x02D588
                 move.w  #$0120, Obj_X(A1)                                ; $0010
                 move.w  #$00B8, Obj_Y(A1)                                ; $0014
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Obj_Timer_P1, (A1)                    ; Offset_0x02DAE6
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Obj_Timer_P2, (A1)                    ; Offset_0x02DB48
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Offset_0x02DDF4, (A1)
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D23C
+                bne.w   Offset_0x02D23C
                 move.l  #Offset_0x02DDF4, (A1)
                 move.b  #$01, Obj_Subtype(A1)                            ; $002C
 Offset_0x02D23C:
@@ -68,7 +68,7 @@ Offset_0x02D242:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 lea     (Competition_Lap_Count_P2).w, A3             ; $FFFFFEFD
                 bsr     Offset_0x02D324
-                lea     (Goal_Marker_Animate_Data), A1         ; Offset_0x02D460
+                lea     (Goal_Marker_Animate_Data).l, A1         ; Offset_0x02D460
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 ;-------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ Offset_0x02D274:
                 clr.b   (Control_Locked_Flag_P2).w                   ; $FFFFF7CF
                 move.l  #Offset_0x02D242, (A0)
 Offset_0x02D312:
-                lea     (Goal_Marker_Animate_Data), A1         ; Offset_0x02D460
+                lea     (Goal_Marker_Animate_Data).l, A1         ; Offset_0x02D460
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 ;-------------------------------------------------------------------------------                
@@ -163,7 +163,7 @@ Offset_0x02D39E:
                 rts
 Offset_0x02D3D0:
                 cmp.w   Obj_X(A1), D1                                    ; $0010
-                bls     Offset_0x02D41C
+                bls.w   Offset_0x02D41C
                 move.b  #$00, -1(A2)
                 move.w  Obj_Y(A0), D2                                    ; $0014
                 move.w  D2, D3
@@ -171,9 +171,9 @@ Offset_0x02D3D0:
                 addi.w  #$0014, D3
                 move.w  Obj_Y(A1), D4                                    ; $0014
                 cmp.w   D2, D4
-                blt     Offset_0x02D41C
+                blt.w   Offset_0x02D41C
                 cmp.w   D3, D4
-                bge     Offset_0x02D41C
+                bge.w   Offset_0x02D41C
                 move.w  Obj_X(A1), D2                                    ; $0010
                 sub.w   D1, D2
                 bcc.s   Offset_0x02D406
@@ -190,7 +190,7 @@ Offset_0x02D41C:
                 rts
 ;-------------------------------------------------------------------------------                
 Find_Object_2P:                                                ; Offset_0x02D41E
-                lea     (Sprite_Table_2P), A4                  ; Offset_0x02D448
+                lea     (Sprite_Table_2P).l, A4                  ; Offset_0x02D448
                 adda.w  D0, A4
                 lea     (Obj_Dynamic_RAM).w, A1                      ; $FFFFB0DE
                 moveq   #$59, D0
@@ -319,7 +319,7 @@ Obj_Neon_Display:                                              ; Offset_0x02D588
                 move.b  #$28, Obj_Height(A0)                             ; $0006
                 move.l  #Offset_0x02D5AE, (A0)
 Offset_0x02D5AE:                
-                lea     (Neon_Display_Animate_Data), A1        ; Offset_0x02D6CE
+                lea     (Neon_Display_Animate_Data).l, A1        ; Offset_0x02D6CE
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 bsr.s   Offset_0x02D5C2
                 jmp     (DisplaySprite)                        ; Offset_0x011148
@@ -355,7 +355,7 @@ Offset_0x02D5F8:
                 move.b  #$80, (HUD_Timer_Refresh_Flag_P2).w          ; $FFFFFECA
                 rts
 Offset_0x02D632:
-                bsr     Offset_0x02D6A4
+                bsr.w   Offset_0x02D6A4
                 rts
 Offset_0x02D638:
                 cmp.b   (Competition_Lap_Count_P2).w, D0             ; $FFFFFEFD
@@ -364,7 +364,7 @@ Offset_0x02D638:
                 bset    #$04, Obj_Flags(A0)                              ; $0004
                 move.b  #$02, Obj_Control_Var_0A(A0)                     ; $003A
                 move.b  #$80, (HUD_Timer_Refresh_Flag_P2).w          ; $FFFFFECA
-                bsr     Offset_0x02D6A4
+                bsr.w   Offset_0x02D6A4
 Offset_0x02D65A:
                 rts
 Offset_0x02D65C:
@@ -392,7 +392,7 @@ Offset_0x02D6A2:
                 rts
 Offset_0x02D6A4:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02D6CC
+                bne.w   Offset_0x02D6CC
                 move.l  #Obj_Neon_Display, (A1)                ; Offset_0x02D588
                 move.w  #$0120, Obj_X(A1)                                ; $0010
                 move.w  #$00B8, Obj_Y(A1)                                ; $0014
@@ -661,7 +661,7 @@ Show_Timer:                                                    ; Offset_0x02DBA8
                 beq.s   Offset_0x02DBDC
                 bmi.s   Offset_0x02DBDC
                 cmpi.l  #$00093B3B, (A1)+
-                beq     Offset_0x02DBDC
+                beq.w   Offset_0x02DBDC
                 addq.b  #$01, -(A1)
                 cmpi.b  #$3C, (A1)
                 bcs.s   Offset_0x02DBDC
@@ -875,7 +875,7 @@ Offset_0x02DE8A:
                 asr.w   #$06, D0
                 addi.w  #$0090, D0
                 move.w  D0, Obj_X(A0)                                    ; $0010
-                lea     (Offset_0x02DEB0), A1
+                lea     (Offset_0x02DEB0).l, A1
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02DEAA:

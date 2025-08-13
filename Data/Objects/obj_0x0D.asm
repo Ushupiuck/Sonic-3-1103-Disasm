@@ -195,7 +195,7 @@ Offset_0x0173A0:
                 dbra    D1, Offset_0x017396
 Offset_0x0173DA:
                 moveq   #Smash_Sfx, D0                                     ; $62
-                jmp     (Play_Music)                           ; Offset_0x001176  
+                jmp     (Play_Music).l                           ; Offset_0x001176  
 ;-------------------------------------------------------------------------------
 Offset_0x0173E2:
                 move.w  (Obj_Player_One+Obj_Speed_X).w, Obj_Control_Var_00(A0) ; $FFFFB018, $0030
@@ -209,7 +209,7 @@ Offset_0x0173E2:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                swap.w  D6
+                swap	D6
                 andi.b  #$03, D6
                 beq     Offset_0x01749C
                 move.b  D6, D0

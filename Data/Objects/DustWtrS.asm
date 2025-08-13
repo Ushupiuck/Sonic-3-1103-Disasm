@@ -83,7 +83,7 @@ Offset_0x00FE5E:
                 bcs.s   Offset_0x00FE7C       
 ;-------------------------------------------------------------------------------
 Offset_0x00FE66:
-                lea     (Dust_Water_Splash_Animate_Data), A1   ; Offset_0x00FF72
+                lea     (Dust_Water_Splash_Animate_Data).l, A1   ; Offset_0x00FF72
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 bsr     Offset_0x00FF1E
                 jmp     (DisplaySprite)                        ; Offset_0x011148
@@ -137,7 +137,7 @@ Offset_0x00FF1E:
                 cmp.b   Obj_Control_Var_04(A0), D0                       ; $0034
                 beq.s   Offset_0x00FF70
                 move.b  D0, Obj_Control_Var_04(A0)                       ; $0034
-                lea     (Dust_Water_Splash_Dyn_Script), A2     ; Offset_0x010066
+                lea     (Dust_Water_Splash_Dyn_Script).l, A2     ; Offset_0x010066
                 add.w   D0, D0
                 adda.w  $00(A2, D0), A2
                 move.w  (A2)+, D5
@@ -157,7 +157,7 @@ Offset_0x00FF44:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer).l                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x00FF44
 Offset_0x00FF70:
                 rts     

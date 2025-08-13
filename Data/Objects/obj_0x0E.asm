@@ -22,7 +22,7 @@ Offset_0x01BC66:
                 jmp     (DeleteObject)                         ; Offset_0x011138
 Offset_0x01BC6C:
                 btst    #$01, Obj_Status(A1)                             ; $002A
-                bne     Offset_0x01BCF2
+                bne.w   Offset_0x01BCF2
                 move.w  Obj_X(A1), D0                                    ; $0010
                 addi.w  #$0010, D0
                 sub.w   Obj_X(A0), D0                                    ; $0010

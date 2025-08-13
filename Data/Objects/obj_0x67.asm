@@ -39,7 +39,7 @@ Offset_0x01C598:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmp.w   Obj_Control_Var_12(A0), D0                       ; $0042
-                bhi     Offset_0x01C5D2
+                bhi.w   Offset_0x01C5D2
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01C5D2:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -75,7 +75,7 @@ Offset_0x01C61E:
                 bcc.s   Offset_0x01C630
                 move.b  #$80, D0
 Offset_0x01C630:
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D1
                 move.b  Obj_Timer(A0), D3                                ; $002E
                 andi.b  #$03, D3

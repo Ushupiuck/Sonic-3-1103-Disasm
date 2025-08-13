@@ -21,7 +21,7 @@ Offset_0x01D31C:
                 andi.b  #$7F, D0
                 bne.s   Offset_0x01D376
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01D376
+                bne.w   Offset_0x01D376
                 move.l  #Offset_0x01D39A, (A1)
                 bsr.s   Offset_0x01D2EA
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
@@ -36,7 +36,7 @@ Offset_0x01D368:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x01D376
                 moveq   #Fire_Shield_Sfx, D0                               ; $43
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01D376:
                 moveq   #$00, D1
                 move.b  Obj_Width(A0), D1                                ; $0007
@@ -50,7 +50,7 @@ Offset_0x01D376:
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2     
 ;-------------------------------------------------------------------------------
 Offset_0x01D39A:
-                lea     (Flame_Thrower_Animate_Data), A1       ; Offset_0x01D3B8
+                lea     (Flame_Thrower_Animate_Data).l, A1       ; Offset_0x01D3B8
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   Obj_Routine(A0)                                  ; $0005
                 beq.s   Offset_0x01D3B2

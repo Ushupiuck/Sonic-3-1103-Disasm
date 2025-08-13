@@ -28,7 +28,7 @@ Obj_0x57_MGz_Trigger_Platform:                                 ; Offset_0x02A884
                 tst.w   D1
                 beq.s   Offset_0x02A8DA
                 move.l  #Offset_0x02A94E, (A0)
-                bra     Offset_0x02A94E
+                bra.w   Offset_0x02A94E
 Offset_0x02A8DA:
                 move.l  #Offset_0x02A8E0, (A0)
 Offset_0x02A8E0:                

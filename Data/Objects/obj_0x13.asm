@@ -13,7 +13,7 @@ Offset_0x01C890:
                 move.l  #Offset_0x01C8C2, (A0)
 Offset_0x01C8C2:                
                 move.b  Obj_Col_Prop(A0), D0                             ; $0029
-                beq     Offset_0x01C8F8
+                beq.w   Offset_0x01C8F8
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 andi.w  #$000F, D0
                 lea     (Level_Trigger_Array).w, A3                  ; $FFFFF7E0

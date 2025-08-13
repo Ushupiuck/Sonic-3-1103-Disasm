@@ -22,7 +22,7 @@ Offset_0x010C76:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x010CC0
                 cmpi.b  #$06, (SS_Completed_Flag).w                  ; $FFFFFFB0
-                beq     Offset_0x010D22
+                beq.w   Offset_0x010D22
                 cmpi.w  #$0032, (Ring_count).w               ; $FFFFFE20
                 bcc.s   Offset_0x010CAA
                 rts
@@ -38,14 +38,14 @@ Offset_0x010CC0:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     DeleteObject                           ; Offset_0x011138
-                bra     DisplaySprite                          ; Offset_0x011148
+                bhi.w   DeleteObject                           ; Offset_0x011138
+                bra.w   DisplaySprite                          ; Offset_0x011148
 ;------------------------------------------------------------------------------- 
 Offset_0x010CDE:
                 subq.b  #$02, Obj_Routine(A0)                            ; $0005
                 move.b  #$00, Obj_Col_Flags(A0)                          ; $0028
-                bsr     AllocateObject                       ; Offset_0x011DD8
-                bne     Offset_0x010D16
+                bsr.w   AllocateObject                       ; Offset_0x011DD8
+                bne.w   Offset_0x010D16
                 move.l  #Obj_S1_0x7C_Big_Ring_Flash, (A1)      ; Offset_0x010D26
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
@@ -56,10 +56,10 @@ Offset_0x010CDE:
                 bset    #$00, Obj_Flags(A1)                              ; $0004
 Offset_0x010D16:
                 move.w  #S2_Enter_Big_Ring_Sfx, D0                       ; $0032      
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 bra.s   Offset_0x010CC0
 Offset_0x010D22:
-                bra     DeleteObject                           ; Offset_0x011138 
+                bra.w   DeleteObject                           ; Offset_0x011138 
 ;=============================================================================== 
 ; Objeto 0x4B - Anel gigante usado no Sonic 1 para acesso ao Special Stage   
 ; <<<-          não usado (Left over)

@@ -72,7 +72,7 @@ Offset_0x01BDDC:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmp.w   Obj_Control_Var_12(A0), D0                       ; $0042
-                bhi     Offset_0x01BDF6
+                bhi.w   Offset_0x01BDF6
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01BDF6:
                 tst.b   Obj_Control_Var_0D(A0)                           ; $003D
@@ -133,7 +133,7 @@ Offset_0x01BE66:
                 addq.b  #$04, Obj_Control_Var_0A(A0)                     ; $003A
 Offset_0x01BE72:
                 move.b  Obj_Control_Var_0A(A0), D0                       ; $003A
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$06, D0
                 add.w   Obj_Control_Var_04(A0), D0                       ; $0034
                 move.w  D0, Obj_Y(A0)                                    ; $0014

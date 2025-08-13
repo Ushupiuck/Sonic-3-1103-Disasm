@@ -15,7 +15,7 @@
                 add.b   D0, D0
                 andi.b  #$0E, D0
                 move.b  D0, Obj_Ani_Number(A0)                           ; $0020
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.b  D0, Obj_Angle(A0)                                ; $0026
                 move.l  #Offset_0x0275A2, (A0)
 Offset_0x0275A2:                
@@ -31,7 +31,7 @@ Offset_0x0275B6:
                 beq.s   Offset_0x0275C4
                 bsr.s   Offset_0x0275FC
 Offset_0x0275C4:
-                lea     (Balloon_Animate_Data), A1             ; Offset_0x0276A6
+                lea     (Balloon_Animate_Data).l, A1             ; Offset_0x0276A6
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 tst.b   (Prog_Start_Vector+$01).w              ; Offset_0x000005
                 beq.s   Offset_0x0275DC
@@ -40,7 +40,7 @@ Offset_0x0275DC:
                 moveq   #$00, D0
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 addq.b  #$01, Obj_Angle(A0)                              ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$05, D0
                 add.w   Obj_Control_Var_02(A0), D0                       ; $0032
                 move.w  D0, Obj_Y(A0)                                    ; $0014
@@ -58,7 +58,7 @@ Offset_0x0275FC:
                 move.w  #$FC80, Obj_Speed_Y(A1)                          ; $001A
                 tst.b   Obj_Control_Var_04(A0)                           ; $0034
                 bne.s   Offset_0x027650
-                lea     (Offset_0x0276A2), A2
+                lea     (Offset_0x0276A2).l, A2
                 bsr.s   Offset_0x027666
                 bsr.s   Offset_0x027666
                 bsr.s   Offset_0x027666
@@ -69,7 +69,7 @@ Offset_0x027650:
                 tst.b   Obj_Control_Var_04(A0)                           ; $0034
                 bne.s   Offset_0x027664
                 moveq   #Balloon_Pop_Sfx, D0                              ; -$7A
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.b  #$01, Obj_Control_Var_04(A0)                     ; $0034
 Offset_0x027664:
                 rts
@@ -78,7 +78,7 @@ Offset_0x027666:
                 bne.s   Offset_0x0276A0
                 move.l  #Obj_0x54_Oxygen_Bubbles, (A1)         ; Offset_0x025500
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  D0, D1
                 andi.w  #$000F, D0
                 subq.w  #$08, D0

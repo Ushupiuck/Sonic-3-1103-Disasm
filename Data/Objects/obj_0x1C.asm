@@ -62,7 +62,7 @@ Offset_0x01E788:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 bsr     Hurt_Player_A1                         ; Offset_0x01A71C
 Offset_0x01E796:
-                lea     (LBz_Unknow_Animate_Data), A1          ; Offset_0x01E7B6
+                lea     (LBz_Unknow_Animate_Data).l, A1          ; Offset_0x01E7B6
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x01E7A8:

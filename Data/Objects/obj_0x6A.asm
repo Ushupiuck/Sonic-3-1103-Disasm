@@ -74,7 +74,7 @@ Offset_0x014C20:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 bsr     Solid_Object_2                         ; Offset_0x0135B6
-                swap.w  D6
+                swap	D6
                 andi.w  #$0003, D6
                 beq.s   Offset_0x014C62
                 move.b  D6, D0
@@ -109,7 +109,7 @@ Offset_0x014C84:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 bsr     Solid_Object_2                         ; Offset_0x0135B6
-                swap.w  D6
+                swap	D6
                 andi.w  #$000C, D6
                 beq.s   Offset_0x014CC6
                 move.b  D6, D0

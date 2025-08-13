@@ -67,14 +67,14 @@ Offset_0x01D5C4:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x01D5DE
+                bhi.w   Offset_0x01D5DE
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01D5DE:
                 move.w  Obj_Control_Var_08(A0), D0                       ; $0038
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x01D5F8
+                bhi.w   Offset_0x01D5F8
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01D5F8:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -123,9 +123,9 @@ Offset_0x01D66A:
                 bmi.s   Offset_0x01D684
                 move.w  #$0000, Obj_Speed_X(A0)                          ; $0018
 Offset_0x01D684:
-                bsr     Offset_0x01D7F6
-                bsr     Offset_0x01D6D0
-                bra     Offset_0x01D5C4
+                bsr.w   Offset_0x01D7F6
+                bsr.w   Offset_0x01D6D0
+                bra.w   Offset_0x01D5C4
 Offset_0x01D690:
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 bmi.s   Offset_0x01D6C8
@@ -160,18 +160,18 @@ Offset_0x01D6D0:
                 move.w  (Control_Ports_Buffer_Data).w, D0            ; $FFFFF604
 Offset_0x01D6EC:
                 tst.b   (A2)
-                beq     Offset_0x01D776
+                beq.w   Offset_0x01D776
                 tst.b   Obj_Flags(A1)                                    ; $0004
                 bpl.s   Offset_0x01D736
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
                 bcc.s   Offset_0x01D736
                 andi.b  #$70, D0
-                beq     Offset_0x01D744
+                beq.w   Offset_0x01D744
                 clr.b   Obj_Timer(A1)                                    ; $002E
                 clr.b   (A2)
                 move.b  #$12, $0002(A2)
                 andi.w  #$0F00, D0
-                beq     Offset_0x01D722
+                beq.w   Offset_0x01D722
                 move.b  #$3C, $0002(A2)
 Offset_0x01D722:
                 move.w  Obj_Speed_X(A0), Obj_Speed_X(A1)          ; $0018, $0018
@@ -201,18 +201,18 @@ Offset_0x01D776:
                 tst.b   $0002(A2)
                 beq.s   Offset_0x01D784
                 subq.b  #$01, $0002(A2)
-                bne     Offset_0x01D7F4
+                bne.w   Offset_0x01D7F4
 Offset_0x01D784:
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$0010, D0
                 cmpi.w  #$0020, D0
-                bcc     Offset_0x01D7F4
+                bcc.w   Offset_0x01D7F4
                 move.w  Obj_Y(A1), D1                                    ; $0014
                 sub.w   Obj_Y(A0), D1                                    ; $0014
                 subi.w  #$0018, D1
                 cmpi.w  #$0018, D1
-                bcc     Offset_0x01D7F4
+                bcc.w   Offset_0x01D7F4
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bne.s   Offset_0x01D7F4
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
@@ -297,7 +297,7 @@ Offset_0x01D8AE:
                 move.w  #$0000, Obj_Control_Var_0E(A0)                   ; $003E
 Offset_0x01D8B4:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  D2, D0
                 muls.w  D2, D1
                 move.l  Obj_X(A0), D2                                    ; $0010
@@ -306,13 +306,13 @@ Offset_0x01D8B4:
                 moveq   #$05, D4
                 lea     Obj_Speed_X(A1), A2                              ; $0018
 Offset_0x01D8D4:
-                swap.w  D2
-                swap.w  D3
+                swap	D2
+                swap	D3
                 move.w  D2, (A2)+
                 move.w  D3, (A2)+
                 addq.w  #$02, A2
-                swap.w  D2
-                swap.w  D3
+                swap	D2
+                swap	D3
                 add.l   D0, D2
                 add.l   D1, D3
                 dbra    D4, Offset_0x01D8D4

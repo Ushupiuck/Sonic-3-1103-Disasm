@@ -45,11 +45,11 @@ Offset_0x020F64:
                 move.w  (Level_Frame_Count).w, D0                    ; $FFFFFE04
                 add.w   Obj_Control_Var_04(A0), D0                       ; $0034
                 and.w   Obj_Control_Var_02(A0), D0                       ; $0032
-                bne     Offset_0x020F80
+                bne.w   Offset_0x020F80
                 move.w  #$0100, Obj_Ani_Number(A0)                       ; $0020
                 move.b  #$00, Obj_Control_Var_06(A0)                     ; $0036
 Offset_0x020F80:
-                lea     (AIz_Disappearing_Platform_Animate_Data), A1 ; Offset_0x021030
+                lea     (AIz_Disappearing_Platform_Animate_Data).l, A1 ; Offset_0x021030
                 jsr     (AnimateSprite_2)                      ; Offset_0x0111FE
                 cmpi.b  #$05, Obj_Map_Id(A0)                             ; $0022
                 bne.s   Offset_0x020FE6
@@ -57,7 +57,7 @@ Offset_0x020F80:
                 bne.s   Offset_0x020FE6
                 move.b  #$01, Obj_Control_Var_06(A0)                     ; $0036
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x020FE6
+                bne.w   Offset_0x020FE6
                 move.l  #Offset_0x020FEC, (A1)
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014

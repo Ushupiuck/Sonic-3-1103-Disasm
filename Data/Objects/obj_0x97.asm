@@ -40,7 +40,7 @@ Offset_0x049EA4:
 Offset_0x049EB4:
                 cmpi.b  #$07, Obj_Map_Id(A0)                             ; $0022
                 bcs.s   Offset_0x049EC0
-                bsr     Offset_0x049F12
+                bsr.w   Offset_0x049F12
 Offset_0x049EC0:
                 lea     Offset_0x049F96(PC), A1
                 jmp     (Animate_Raw_Multi_Delay_A1)           ; Offset_0x042160  
@@ -81,12 +81,12 @@ Offset_0x049F12:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 cmpi.b  #$08, Obj_Ani_Number(A1)                         ; $0020
                 beq.s   Offset_0x049F22
-                bsr     Offset_0x049F34
+                bsr.w   Offset_0x049F34
 Offset_0x049F22:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 cmpi.b  #$08, Obj_Ani_Number(A1)                         ; $0020
                 beq.s   Offset_0x049F32
-                bsr     Offset_0x049F34
+                bsr.w   Offset_0x049F34
 Offset_0x049F32:
                 rts
 Offset_0x049F34:

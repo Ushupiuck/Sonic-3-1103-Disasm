@@ -25,7 +25,7 @@ Offset_0x044692:
                 beq.s   Offset_0x0446B6
                 cmpi.b  #$09, Obj_Ani_Number(A1)                         ; $0020
                 beq.s   Offset_0x0446B6
-                lea     (Offset_0x0397A8), A2
+                lea     (Offset_0x0397A8).l, A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 jmp     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E
 Offset_0x0446B6:

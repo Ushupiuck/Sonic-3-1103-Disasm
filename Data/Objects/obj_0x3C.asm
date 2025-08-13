@@ -11,7 +11,7 @@ Offset_0x026EC8:
 Obj_0x3C_Automatic_Door:                                       ; Offset_0x026ED0
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
-                bmi     Offset_0x027032
+                bmi.w   Offset_0x027032
                 move.b  D0, Obj_Map_Id(A0)                               ; $0022
                 add.w   D0, D0
                 add.w   D0, D0
@@ -88,14 +88,14 @@ Offset_0x026FB0:
 Offset_0x026FD4:
                 move.w  Obj_X(A1), D0                                    ; $0010
                 cmp.w   D2, D0
-                blt     Offset_0x027000
+                blt.w   Offset_0x027000
                 cmp.w   D3, D0
-                bcc     Offset_0x027000
+                bcc.w   Offset_0x027000
                 move.w  Obj_Y(A1), D0                                    ; $0014
                 cmp.w   D4, D0
-                bcs     Offset_0x027000
+                bcs.w   Offset_0x027000
                 cmp.w   D5, D0
-                bcc     Offset_0x027000
+                bcc.w   Offset_0x027000
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bmi.s   Offset_0x027000
                 move.b  #$01, Obj_Control_Var_08(A0)                     ; $0038
@@ -202,14 +202,14 @@ Offset_0x027116:
 Offset_0x02713A:
                 move.w  Obj_Y(A1), D0                                    ; $0014
                 cmp.w   D2, D0
-                blt     Offset_0x027166
+                blt.w   Offset_0x027166
                 cmp.w   D3, D0
-                bcc     Offset_0x027166
+                bcc.w   Offset_0x027166
                 move.w  Obj_X(A1), D0                                    ; $0010
                 cmp.w   D4, D0
-                bcs     Offset_0x027166
+                bcs.w   Offset_0x027166
                 cmp.w   D5, D0
-                bcc     Offset_0x027166
+                bcc.w   Offset_0x027166
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bmi.s   Offset_0x027166
                 move.b  #$01, Obj_Control_Var_08(A0)                     ; $0038

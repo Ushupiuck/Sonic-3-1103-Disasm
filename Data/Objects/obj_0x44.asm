@@ -19,7 +19,7 @@ Offset_0x027F3A:
                 move.w  #$0009, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 jsr     (Platform_Object)                      ; Offset_0x013AF6
-                lea     (Trapdoor_Animate_Data), A1            ; Offset_0x027F9E
+                lea     (Trapdoor_Animate_Data).l, A1            ; Offset_0x027F9E
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x027F6A:
@@ -35,7 +35,7 @@ Offset_0x027F6A:
                 bcc.s   Offset_0x027F9C
                 move.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Trapdoor_Sfx, D0                                 ; -$7B
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x027F9C:
                 rts
 ;-------------------------------------------------------------------------------

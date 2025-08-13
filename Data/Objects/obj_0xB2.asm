@@ -8,7 +8,7 @@
                 move.l  #Offset_0x03E4EE, (A0)
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.b  #$19, Obj_Angle(A0)                              ; $0026
                 move.w  (Level_Limits_Max_Y).w, (Target_Camera_Max_Y).w ; $FFFFEE12, $FFFFFA98
@@ -17,7 +17,7 @@
                 move.w  #$4390, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
                 move.l  #Offset_0x03E4F2, Obj_Child(A0)                  ; $0034
                 moveq   #$70, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Freezer_Mobile_Palette(PC), A1         ; Offset_0x03EBE2
                 jmp     Pal_Load_Line_1(PC)                    ; Offset_0x04314C
 ;-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ Offset_0x03E4FA:
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x03E510(PC, D0), D1
                 jsr     Offset_0x03E510(PC, D1)
-                bsr     Offset_0x03EA9C
+                bsr.w   Offset_0x03EA9C
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450   
 ;-------------------------------------------------------------------------------
 Offset_0x03E510:
@@ -67,7 +67,7 @@ Offset_0x03E554:
 ;-------------------------------------------------------------------------------
 Offset_0x03E55E:
                 move.w  #$7FFF, Obj_Height_3(A0)                         ; $0044
-                bsr     Offset_0x03E960
+                bsr.w   Offset_0x03E960
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03E5A2, Obj_Child(A0)                  ; $0034
@@ -99,9 +99,9 @@ Offset_0x03E5B8:
 ;-------------------------------------------------------------------------------
 Offset_0x03E5D4:
                 move.l  #Offset_0x03E5F2, Obj_Child(A0)                  ; $0034
-                bsr     Offset_0x03E97A
+                bsr.w   Offset_0x03E97A
                 cmpi.w  #$0002, Obj_Angle(A0)                            ; $0026
-                bne     Offset_0x03E4F8
+                bne.w   Offset_0x03E4F8
                 lea     Offset_0x03EB84(PC), A2
                 jmp     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A  
 ;-------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ Offset_0x03E628:
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03E652, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x03EB9E(PC), A2
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ Offset_0x03E678:
                 bne.s   Offset_0x03E68C
                 move.w  (Camera_X).w, (Sonic_Level_Limits_Min_X).w ; $FFFFEE78, $FFFFEE14
                 tst.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                bne     Offset_0x03E4F8
+                bne.w   Offset_0x03E4F8
 Offset_0x03E68C:
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
                 jsr     Restore_PlayerControl(PC)             ; Offset_0x0432EE
@@ -206,7 +206,7 @@ Offset_0x03E718:
                 moveq   #$00, D0
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 tst.b   Obj_Control_Var_0B(A1)                           ; $003B
-                bne     Run_Flicker_Move                       ; Offset_0x0424F4
+                bne.w   Run_Flicker_Move                       ; Offset_0x0424F4
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------
 Offset_0x03E73E:
@@ -328,7 +328,7 @@ Offset_0x03E876:
                 jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Run_Object_Wait_Timer_A0, (A0)        ; Offset_0x0423D2
                 move.l  #Offset_0x03E890, Obj_Child(A0)                  ; $0034
-                bra     Offset_0x03E9A8   
+                bra.w   Offset_0x03E9A8   
 ;-------------------------------------------------------------------------------
 Offset_0x03E890:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -503,7 +503,7 @@ Offset_0x03EA9C:
 Offset_0x03EAC4:
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03EAD2:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 moveq   #$00, D0
@@ -511,7 +511,7 @@ Offset_0x03EAD2:
                 bne.s   Offset_0x03EAE6
                 addi.w  #$0004, D0
 Offset_0x03EAE6:
-                bsr     Offset_0x03EB20
+                bsr.w   Offset_0x03EB20
                 subq.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 bne.s   Offset_0x03EB04
                 bclr    #$06, Obj_Status(A0)                             ; $002A

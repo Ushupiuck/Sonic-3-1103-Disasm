@@ -13,7 +13,7 @@
                 move.w  Obj_Y(A0), Obj_Control_Var_02(A0)         ; $0014, $0032
                 move.b  #$02, Obj_Map_Id(A0)                             ; $0022
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02A2BC
+                bne.w   Offset_0x02A2BC
                 move.l  #Offset_0x02A30E, (A1)
                 move.l  #Swinging_Platform_Mappings, Obj_Map(A1) ; Offset_0x02A36C, $000C
                 move.w  #$435F, Obj_Art_VRAM(A1)                         ; $000A
@@ -43,7 +43,7 @@ Offset_0x02A2C8:
 Offset_0x02A2DA:                
                 move.w  Obj_X(A0), -(A7)                                 ; $0010
                 move.w  Obj_Control_Var_0C(A0), A1                       ; $003C
-                bsr     Offset_0x02A314
+                bsr.w   Offset_0x02A314
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 add.b   D0, Obj_Control_Var_04(A0)                       ; $0034
                 moveq   #$00, D1
@@ -61,11 +61,11 @@ Offset_0x02A30E:
 ;-------------------------------------------------------------------------------  
 Offset_0x02A314:
                 move.b  Obj_Control_Var_04(A0), D0                       ; $0034
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  Obj_Control_Var_02(A0), D2                       ; $0032
                 move.w  Obj_Control_Var_00(A0), D3                       ; $0030
-                swap.w  D0
-                swap.w  D1
+                swap	D0
+                swap	D1
                 asr.l   #$04, D0
                 asr.l   #$04, D1
                 move.l  D0, D4
@@ -75,8 +75,8 @@ Offset_0x02A314:
                 subq.w  #$01, D6
 Offset_0x02A33C:
                 movem.l D4/D5, -(A7)
-                swap.w  D4
-                swap.w  D5
+                swap	D4
+                swap	D5
                 add.w   D2, D4
                 add.w   D3, D5
                 move.w  D5, (A2)+
@@ -86,8 +86,8 @@ Offset_0x02A33C:
                 add.l   D1, D5
                 addq.w  #$02, A2
                 dbra    D6, Offset_0x02A33C
-                swap.w  D4
-                swap.w  D5
+                swap	D4
+                swap	D5
                 add.w   D2, D4
                 add.w   D3, D5
                 move.w  D5, Obj_X(A0)                                    ; $0010

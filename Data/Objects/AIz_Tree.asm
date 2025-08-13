@@ -19,7 +19,7 @@
                 move.b  (A1)+, Obj_Height(A0)                            ; $0006
                 move.l  #Offset_0x0234E4, (A0)
 Offset_0x0234E4:                
-                jmp     (MarkObjGone)                          ; Offset_0x011AF2
+                jmp     (MarkObjGone).l                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x0234EA:
                 dc.b    $44, $3F, $03, $00

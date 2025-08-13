@@ -25,11 +25,11 @@
                 move.w  D0, Obj_Control_Var_04(A0)                       ; $0034
                 move.b  #$01, Obj_Control_Var_0A(A0)                     ; $003A
                 move.l  #Offset_0x02C20E, (A0)
-                bra     Offset_0x02C20E
+                bra.w   Offset_0x02C20E
 Offset_0x02C1B0:
                 move.l  #Offset_0x02C1B6, (A0)
 Offset_0x02C1B6:                
-                bsr     Offset_0x02C266
+                bsr.w   Offset_0x02C266
                 lea     Obj_Speed_X(A0), A2                              ; $0018
                 move.w  Obj_Control_Var_00(A0), D0                       ; $0030
                 move.b  Obj_Control_Var_04(A0), D1                       ; $0034
@@ -56,7 +56,7 @@ Offset_0x02C1F0:
                 jsr     (Solid_Object)                         ; Offset_0x013556
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02C20E:
-                bsr     Offset_0x02C266
+                bsr.w   Offset_0x02C266
                 lea     Obj_Speed_X(A0), A2                              ; $0018
                 move.w  Obj_Control_Var_00(A0), D0                       ; $0030
                 move.b  Obj_Control_Var_04(A0), D1                       ; $0034

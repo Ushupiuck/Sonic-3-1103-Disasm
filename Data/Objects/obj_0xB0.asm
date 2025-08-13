@@ -38,11 +38,11 @@ Offset_0x039CB8:
                 move.b  #$1C, Obj_Height_2(A0)                           ; $001E
                 move.w  #$000C, Obj_Angle(A0)                            ; $0026
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x039D2A, Obj_Child(A0)                  ; $0034
                 moveq   #$6D, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Pal_MGz_Boss(PC), A1                   ; Offset_0x03AFFA
                 jsr     (Pal_Load_Line_1)                      ; Offset_0x04314C
                 lea     (MGz_Robotnik_Ship_Data), A2           ; Offset_0x036586
@@ -57,7 +57,7 @@ Offset_0x039D24:
 Offset_0x039D2A:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 moveq   #Boss_Snd, D0                                      ; $19
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  #$0080, Obj_Speed_Y(A0)                          ; $001A
                 move.w  #$00BF, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x039D5A, Obj_Child(A0)                  ; $0034

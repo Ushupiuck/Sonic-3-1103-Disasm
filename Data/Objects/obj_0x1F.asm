@@ -60,26 +60,26 @@ Offset_0x01F940:
                 lea     Obj_Control_Var_00(A0), A2                       ; $0030
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 move.w  (Control_Ports_Buffer_Data).w, D0            ; $FFFFF604
-                bsr     Offset_0x01F964
+                bsr.w   Offset_0x01F964
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 addq.w  #$01, A2
                 move.w  (Control_Ports_Buffer_Data+$02).w, D0        ; $FFFFF606
-                bsr     Offset_0x01F964
+                bsr.w   Offset_0x01F964
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x01F964:
                 tst.b   (A2)
-                beq     Offset_0x01F9DC
+                beq.w   Offset_0x01F9DC
                 tst.b   Obj_Flags(A1)                                    ; $0004
                 bpl.s   Offset_0x01F9C0
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
                 bcc.s   Offset_0x01F9C0
                 andi.b  #$70, D0
-                beq     Offset_0x01F9CE
+                beq.w   Offset_0x01F9CE
                 clr.b   Obj_Timer(A1)                                    ; $002E
                 clr.b   (A2)
                 move.b  #$12, $0002(A2)
                 andi.w  #$0F00, D0
-                beq     Offset_0x01F99A
+                beq.w   Offset_0x01F99A
                 move.b  #$3C, $0002(A2)
 Offset_0x01F99A:
                 btst    #$0A, D0
@@ -106,18 +106,18 @@ Offset_0x01F9DC:
                 tst.b   $0002(A2)
                 beq.s   Offset_0x01F9EA
                 subq.b  #$01, $0002(A2)
-                bne     Offset_0x01FA5C
+                bne.w   Offset_0x01FA5C
 Offset_0x01F9EA:
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$0010, D0
                 cmpi.w  #$0020, D0
-                bcc     Offset_0x01FA5C
+                bcc.w   Offset_0x01FA5C
                 move.w  Obj_Y(A1), D1                                    ; $0014
                 sub.w   Obj_Y(A0), D1                                    ; $0014
                 subi.w  #$0088, D1
                 cmpi.w  #$0018, D1
-                bcc     Offset_0x01FA5C
+                bcc.w   Offset_0x01FA5C
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bmi.s   Offset_0x01FA5C
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
@@ -134,7 +134,7 @@ Offset_0x01F9EA:
                 move.b  #$01, Obj_Timer(A1)                              ; $002E
                 move.b  #$01, (A2)
                 moveq   #Switch_Blip_Sfx, D0                               ; $64
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01FA5C:
                 rts  
 ;-------------------------------------------------------------------------------

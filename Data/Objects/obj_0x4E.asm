@@ -39,7 +39,7 @@ Offset_0x029B86:
                 cmp.w   D1, D0
                 bcc.s   Offset_0x029BD6
                 moveq   #Wave_Hover_Sfx, D0                               ; -$7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x029BD6:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ Offset_0x029BD6:
 ;------------------------------------------------------------------------------- 
 Offset_0x029BF2:
                 btst    D6, Obj_Status(A0)                               ; $002A
-                bne     Offset_0x029CA0
+                bne.w   Offset_0x029CA0
                 tst.b   $0001(A2)
                 beq.s   Offset_0x029C06
                 subq.b  #$01, $0001(A2)
@@ -82,11 +82,11 @@ Offset_0x029C06:
                 sub.w   D0, Obj_Y(A1)                                    ; $0014
 Offset_0x029C48:
                 btst    #$01, Obj_Status(A1)                             ; $002A
-                beq     Offset_0x029C5E
+                beq.w   Offset_0x029C5E
                 move.b  #$01, $0001(A2)
                 bset    #$00, Obj_Timer(A1)                              ; $002E
 Offset_0x029C5E:
-                bsr     Offset_0x029F2E
+                bsr.w   Offset_0x029F2E
                 move.b  #$80, (A2)
                 move.b  #$C0, Obj_Angle(A1)                              ; $0026
                 move.w  Obj_X(A1), D0                                    ; $0010
@@ -104,7 +104,7 @@ Offset_0x029C9E:
                 rts
 Offset_0x029CA0:
                 tst.b   $0001(A2)
-                bne     Offset_0x029DDE
+                bne.w   Offset_0x029DDE
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
                 bne.s   Offset_0x029D0E
                 move.w  Obj_Inertia(A1), D0                              ; $001C
@@ -115,7 +115,7 @@ Offset_0x029CB6:
                 bcc.s   Offset_0x029CCC
                 move.b  #$01, $0001(A2)
                 bset    #$00, Obj_Timer(A1)                              ; $002E
-                bra     Offset_0x029DDE
+                bra.w   Offset_0x029DDE
 Offset_0x029CCC:
                 btst    #$01, Obj_Status(A1)                             ; $002A
                 beq.s   Offset_0x029CFC
@@ -162,7 +162,7 @@ Offset_0x029D6A:
                 moveq   #$00, D0
                 move.b  (A2), D0
                 addq.b  #$04, (A2)
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, D3
                 asr.w   #$02, D1
                 add.w   Obj_X(A0), D1                                    ; $0010
@@ -257,7 +257,7 @@ Offset_0x029EBA:
                 moveq   #$00, D0
                 move.b  (A2), D0
                 addq.b  #$04, (A2)
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, D3
                 asr.w   #$02, D1
                 add.w   Obj_X(A0), D1                                    ; $0010

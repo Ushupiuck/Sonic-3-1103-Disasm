@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x01C228:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01C27E
+                bne.w   Offset_0x01C27E
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
                 move.b  Obj_Status(A0), Obj_Status(A1)            ; $002A, $002A
@@ -39,18 +39,18 @@ Offset_0x01C2A2:
                 move.w  (Control_Ports_Buffer_Data).w, D0            ; $FFFFF604
 Offset_0x01C2BA:
                 tst.b   (A2)
-                beq     Offset_0x01C336
+                beq.w   Offset_0x01C336
                 tst.b   Obj_Flags(A1)                                    ; $0004
                 bpl.s   Offset_0x01C316
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
                 bcc.s   Offset_0x01C316
                 andi.b  #$70, D0
-                beq     Offset_0x01C324
+                beq.w   Offset_0x01C324
                 clr.b   Obj_Timer(A1)                                    ; $002E
                 clr.b   (A2)
                 move.b  #$12, $0002(A2)
                 andi.w  #$0F00, D0
-                beq     Offset_0x01C2F0
+                beq.w   Offset_0x01C2F0
                 move.b  #$3C, $0002(A2)
 Offset_0x01C2F0:
                 btst    #$0A, D0
@@ -78,18 +78,18 @@ Offset_0x01C336:
                 tst.b   $0002(A2)
                 beq.s   Offset_0x01C344
                 subq.b  #$01, $0002(A2)
-                bne     Offset_0x01C3A8
+                bne.w   Offset_0x01C3A8
 Offset_0x01C344:
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$001C, D0
                 cmpi.w  #$0038, D0
-                bcc     Offset_0x01C3A8
+                bcc.w   Offset_0x01C3A8
                 move.w  Obj_Y(A1), D1                                    ; $0014
                 sub.w   Obj_Y(A0), D1                                    ; $0014
                 subi.w  #$0018, D1
                 cmpi.w  #$0018, D1
-                bcc     Offset_0x01C3A8
+                bcc.w   Offset_0x01C3A8
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bne.s   Offset_0x01C3A8
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005

@@ -1,7 +1,7 @@
 ; Constantes
 Compiler_Place_Holder equ $00000000    
 Check_Interrupt       equ $0020800C   
-Size_of_SoundDriver_guess		equ $E88
+Size_of_Snd_driver_guess		equ $1852
 
 ; ---------------------------------------------------------------------------
 ; Game Constants
@@ -369,10 +369,14 @@ Z80_Reset                      equ $00A11200
 VDP_Data_Port                  equ $00C00000
 VDP_Control_Port               equ $00C00004
 
-; RAM
-M68K_Dev_RAM_Start           equ $FFFE0000  
+; sign-extends a 32-bit integer to 64-bit
+; all RAM addresses are run through this function to allow them to work in both 16-bit and 32-bit addressing modes
+ramaddr function x,(-(x&$80000000)<<1)|x
 
-M68K_RAM_Start               equ $FFFF0000  
+; RAM
+M68K_Dev_RAM_Start           equ ramaddr($FFFE0000)
+
+M68K_RAM_Start               equ ramaddr($FFFF0000)
 
 
 Sprite_Table_Buffer_2            equ M68K_RAM_Start+$7880
@@ -707,50 +711,48 @@ Level_Frame_Count                equ M68K_RAM_Start+$FE04		; *
 Debug_Mode_Flag_Index            equ M68K_RAM_Start+$FE08		; *
 
 ; Gonna eventually do the whole thing like this, but for now only a few variables
-		pusho						; save options
-		opt	ae+					; enable auto evens
 
-		rsset M68K_RAM_Start+$FE00
-System_Stack:			equ	__rs
+		phase M68K_RAM_Start+$FE00
+System_Stack:
 
 ; RAM from now will not be cleared after a soft reset.
-CrossResetRAM:			equ	__rs
-				rs.b	2					; unused
-Level_inactive_flag:		rs.w	1					; 2 bytes
-Level_frame_counter:		rs.w	1					; 2 bytes
+CrossResetRAM:
+				ds.b	2					; unused
+Level_inactive_flag:		ds.w	1					; 2 bytes
+Level_frame_counter:		ds.w	1					; 2 bytes
 
 ; Some Debug Mode related flags and variables
-Debug_object:			rs.b	1					; current object in Edit Mode
-				rs.b	1					; unused
-Debug_placement_mode:		rs.w	1					; 2 bytes, although only the first is used; checks if the player should enter Edit Mode
-Debug_Accel_Timer:		rs.b	1					; time it takes to reach max speed
-Debug_Speed:			rs.b	1					; current speed of the camera
+Debug_object:			ds.b	1					; current object in Edit Mode
+				ds.b	1					; unused
+Debug_placement_mode:		ds.w	1					; 2 bytes, although only the first is used; checks if the player should enter Edit Mode
+Debug_Accel_Timer:		ds.b	1					; time it takes to reach max speed
+Debug_Speed:			ds.b	1					; current speed of the camera
 
-Vint_runcount:			rs.l	1					; 4 bytes
+Vint_runcount:			ds.l	1					; 4 bytes
 
-Current_ZoneAndAct:		rs.w	1					; 2 bytes; not to be confused with Apparent_ZoneAndAct, this holds the real zone the player is in
-Current_Zone:			equ	__rs-2
-Current_Act:			equ	__rs-1
-Life_count:			rs.b	1					; current lives; not the lives displayed on the screen
-				rs.b	3					; unused
-Current_SpecialStage:		rs.w	1					; 2 bytes, although only the first is used
-Continue_count:			rs.b	1					; current continues
-Super_Sonic_flag:		rs.b	1					; whether or not Sonic is in his Super transformation
-Time_Over_flag:			rs.b	1					; determines if the player got a Game or Time over
-Extra_life_flags:		rs.b	1					; flag for giving the player a 1UP at 100 or 200 rings
+Current_ZoneAndAct:		ds.w	1					; 2 bytes; not to be confused with Apparent_ZoneAndAct, this holds the real zone the player is in
+Current_Zone:			equ *-2
+Current_Act:			equ *-1
+Life_count:			ds.b	1					; current lives; not the lives displayed on the screen
+				ds.b	3					; unused
+Current_SpecialStage:		ds.w	1					; 2 bytes, although only the first is used
+Continue_count:			ds.b	1					; current continues
+Super_Sonic_flag:		ds.b	1					; whether or not Sonic is in his Super transformation
+Time_Over_flag:			ds.b	1					; determines if the player got a Game or Time over
+Extra_life_flags:		ds.b	1					; flag for giving the player a 1UP at 100 or 200 rings
 
 ; If set, the respective HUD element will be updated.
-Update_HUD_lives:		rs.b	1
-Update_HUD_rings:		rs.b	1
-Update_HUD_timer:		rs.b	1
-Update_HUD_score:		rs.b	1
+Update_HUD_lives:		ds.b	1
+Update_HUD_rings:		ds.b	1
+Update_HUD_timer:		ds.b	1
+Update_HUD_score:		ds.b	1
 
-Ring_count:			rs.w	1					; 2 bytes
-Timer:				rs.l	1					; 4 bytes
-Timer_minute:			equ	__rs-3
-Timer_second:			equ	__rs-2
-Timer_frame:			equ	__rs-1
-		popo						; restore options
+Ring_count:			ds.w	1					; 2 bytes
+Timer:				ds.l	1					; 4 bytes
+Timer_minute:			equ	*-3
+Timer_second:			equ	*-2
+Timer_frame:			equ	*-1
+		dephase						; restore options
 
 Score_Count_Address              equ M68K_RAM_Start+$FE26
 Saved_Level_Flag                 equ M68K_RAM_Start+$FE30
@@ -822,29 +824,27 @@ Player_Selected_Flag             equ M68K_RAM_Start+$FF08
 Player_Select_Flag               equ M68K_RAM_Start+$FF0A 
 Two_Player_Items_Mode            equ M68K_RAM_Start+$FF0C
 
-		pusho						; save options
-		opt	ae+					; enable auto evens
+		phase M68K_RAM_Start+$FF0E
+Kos_decomp_queue_count:		ds.w	1
+Kos_decomp_stored_registers:	ds.w	20
+Kos_decomp_stored_SR:		ds.w	1
+Kos_decomp_bookmark:		ds.l	1
+Kos_description_field:		ds.w	1
 
-		rsset M68K_RAM_Start+$FF0E
-Kos_decomp_queue_count:		rs.w	1
-Kos_decomp_stored_registers:	rs.w	20
-Kos_decomp_stored_SR:		rs.w	1
-Kos_decomp_bookmark:		rs.l	1
-Kos_description_field:		rs.w	1
+Kos_decomp_queue:		ds.l	2*4
+Kos_decomp_queue_End:		equ	*
 
-Kos_decomp_queue:		rs.l	2*4
-Kos_decomp_queue_End:		equ	__rs
+Kos_decomp_destination:		equ	*-28
+Kos_modules_left:		ds.b	1
+				ds.b	1	; unused
+Kos_last_module_size:		ds.w	1
 
-Kos_decomp_destination:		equ	__rs-28
-Kos_modules_left:		rs.b	1
-				rs.b	1	; unused
-Kos_last_module_size:		rs.w	1
+Kos_module_queue:		ds.w	3*4
+Kos_module_queue_End:		equ	*
 
-Kos_module_queue:		rs.w	3*4
-Kos_module_queue_End:		equ	__rs
-
-Kos_module_destination:		equ	__rs-20
-		popo						; restore options
+Kos_module_destination:		equ	*-20
+		dephase						; restore options
+		!org 0
 
 Tmp_FF7C                         equ M68K_RAM_Start+$FF7C
 Tmp_FF7E                         equ M68K_RAM_Start+$FF7E

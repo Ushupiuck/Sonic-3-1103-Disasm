@@ -8,7 +8,7 @@
                 move.l  #Offset_0x03DD18, (A0)
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.b  #$18, Obj_Angle(A0)                              ; $0026
                 move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
@@ -18,7 +18,7 @@
                 move.w  #$0720, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
                 move.l  #Offset_0x03DD1E, Obj_Child(A0)                  ; $0034
                 moveq   #$5F, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Big_Icedus_Palette(PC), A1             ; Offset_0x03E46C
                 jmp     Pal_Load_Line_1(PC)                    ; Offset_0x04314C
 ;-------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ Offset_0x03DDB2:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03DDE0, Obj_Child(A0)                  ; $0034
-                lea     (Big_Icedus_Palette_Rotation_Script), A1 ; Offset_0x1101A4
+                lea     (Big_Icedus_Palette_Rotation_Script).l, A1 ; Offset_0x1101A4
 Offset_0x03DDCC:                
                 lea     (Palette_Rotation_Data).w, A2                ; $FFFFFADE
                 move.l  (A1)+, (A2)+
@@ -157,7 +157,7 @@ Offset_0x03DEA0:
                 move.b  #$10, Obj_Routine(A0)                            ; $0005
                 bclr    #$02, Obj_Control_Var_08(A0)                     ; $0038
                 move.l  #Offset_0x03DEC2, (Palette_Rotation_Custom).w ; $FFFFFADA
-                lea     (Big_Icedus_Palette_Rotation_Script_2), A1 ; Offset_0x110210
+                lea     (Big_Icedus_Palette_Rotation_Script_2).l, A1 ; Offset_0x110210
                 bra     Offset_0x03DDCC        
 ;-------------------------------------------------------------------------------
 Offset_0x03DEBE:
@@ -318,7 +318,7 @@ Offset_0x03E05A:
 ;-------------------------------------------------------------------------------
 Offset_0x03E062:
                 addq.b  #$04, Obj_Control_Var_0C(A0)                     ; $003C
-                lea     (Big_Icedus_Angle_Lookup), A2          ; Offset_0x11027C
+                lea     (Big_Icedus_Angle_Lookup).l, A2          ; Offset_0x11027C
                 jsr     Move_Sprite_At_Angle_Lookup(PC)        ; Offset_0x042742
                 moveq   #$00, D0
                 bsr     Offset_0x03E24A
@@ -419,13 +419,13 @@ Offset_0x03E196:
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 move.w  Offset_0x03E1C6(PC, D0), D2
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$0007, D0
                 subq.w  #$03, D0
                 add.w   D0, D2
                 move.w  #$0720, Obj_X(A0)                                ; $0010
                 add.w   D2, Obj_X(A0)                                    ; $0010
-                swap.w  D0
+                swap	D0
                 andi.w  #$0007, D0
                 subq.w  #$03, D0
                 add.w   D0, Obj_Y(A0)                                    ; $0014
@@ -442,7 +442,7 @@ Offset_0x03E1D6:
                 move.w  Obj_X(A0), D0                                    ; $0010
                 move.w  Obj_Y(A0), D1                                    ; $0014
                 movem.w D0/D1, -(A7)
-                lea     (Big_Icedus_Angle_Lookup), A2          ; Offset_0x11027C
+                lea     (Big_Icedus_Angle_Lookup).l, A2          ; Offset_0x11027C
                 jsr     Move_Sprite_At_Angle_Lookup(PC)        ; Offset_0x042742
                 moveq   #$00, D0
                 moveq   #$00, D1
@@ -453,28 +453,28 @@ Offset_0x03E1D6:
                 move.w  Obj_Y(A0), D3                                    ; $0014
                 move.w  D0, Obj_X(A0)                                    ; $0010
                 move.w  D1, Obj_Y(A0)                                    ; $0014
-                swap.w  D0
-                swap.w  D1
-                swap.w  D2
-                swap.w  D3
+                swap	D0
+                swap	D1
+                swap	D2
+                swap	D3
                 sub.l   D0, D2
                 sub.l   D1, D3
                 lsl.l   #$03, D2
                 lsl.l   #$03, D3
-                swap.w  D2
-                swap.w  D3
+                swap	D2
+                swap	D3
                 move.w  D2, Obj_Speed_X(A0)                              ; $0018
                 move.w  D3, Obj_Speed_Y(A0)                              ; $001A
                 rts
 Offset_0x03E232:
                 addq.b  #$04, Obj_Control_Var_0C(A0)                     ; $003C
-                lea     (Big_Icedus_Angle_Lookup), A2          ; Offset_0x11027C
+                lea     (Big_Icedus_Angle_Lookup).l, A2          ; Offset_0x11027C
                 jsr     Move_Sprite_At_Angle_Lookup(PC)        ; Offset_0x042742
                 move.b  Obj_Control_Var_0D(A0), D0                       ; $003D
                 addq.b  #$01, D0
                 move.b  D0, Obj_Control_Var_0D(A0)                       ; $003D
 Offset_0x03E24A:
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 tst.w   D1
                 bpl.s   Offset_0x03E256
                 neg.w   D1
@@ -580,7 +580,7 @@ Offset_0x03E366:
                 bne.s   Offset_0x03E386
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03E386:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 moveq   #$00, D0
@@ -588,7 +588,7 @@ Offset_0x03E386:
                 bne.s   Offset_0x03E39A
                 addi.w  #$0004, D0
 Offset_0x03E39A:
-                bsr     Offset_0x03E3D4
+                bsr.w   Offset_0x03E3D4
                 subq.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 bne.s   Offset_0x03E3B0
                 bclr    #$06, Obj_Status(A0)                             ; $002A
@@ -600,7 +600,7 @@ Offset_0x03E3B2:
                 clr.b   (Update_HUD_timer).w                   ; $FFFFFE1E
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03DEFE, Obj_Child(A0)                  ; $0034
-                lea     (Offset_0x041D62), A2
+                lea     (Offset_0x041D62).l, A2
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 Offset_0x03E3D4:
                 lea     Offset_0x03E3E6(PC), A1

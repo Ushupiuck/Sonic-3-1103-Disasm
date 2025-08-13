@@ -68,9 +68,9 @@ Offset_0x045D2A:
                 lea     Offset_0x045E37(PC), A1
                 jsr     Animate_Raw_Multi_Delay_A1(PC)         ; Offset_0x042160
                 tst.w   D2
-                beq     Offset_0x045D12
+                beq.w   Offset_0x045D12
                 cmpi.b  #$08, Obj_Map_Id(A0)                             ; $0022
-                bne     Offset_0x045D12
+                bne.w   Offset_0x045D12
                 lea     Offset_0x045E02(PC), A2
                 jmp     Load_Child_Object_Complex_Adjusted_A2(PC) ; Offset_0x041EE0  
 ;-------------------------------------------------------------------------------   
@@ -87,7 +87,7 @@ Offset_0x045D68:
                 bsr     Check_Player_Collision                 ; Offset_0x0430D4
                 beq.s   Offset_0x045D78
                 move.l  #Offset_0x045D7C, (A0)
-                bsr     Offset_0x045D8C
+                bsr.w   Offset_0x045D8C
 Offset_0x045D78:
                 jmp     Child_Display_Touch_Or_Delete(PC)      ; Offset_0x042472   
 ;-------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ Offset_0x045DA6:
                 move.b  #$02, Obj_Routine(A1)                            ; $0005
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 moveq   #Spring_Sfx, D0                                   ; -$2E
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (Play_Music).l                           ; Offset_0x001176
 ;-------------------------------------------------------------------------------  
 Clamer_Setup_Data:                                             ; Offset_0x045DD6
                 dc.w    $0001, $A500, $0012, $0000

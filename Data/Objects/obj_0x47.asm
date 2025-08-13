@@ -165,7 +165,7 @@ Offset_0x028612:
 ;-------------------------------------------------------------------------------
 Offset_0x028614:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$03, D0
                 add.w   Obj_Timer(A0), D0                                ; $002E
                 move.w  D0, Obj_X(A0)                                    ; $0010
@@ -175,7 +175,7 @@ Offset_0x028614:
 ;-------------------------------------------------------------------------------
 Offset_0x028632:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D0
                 add.w   Obj_Timer(A0), D0                                ; $002E
                 move.w  D0, Obj_X(A0)                                    ; $0010
@@ -185,7 +185,7 @@ Offset_0x028632:
 ;-------------------------------------------------------------------------------
 Offset_0x028650:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D0
                 move.w  D0, D1
                 asr.w   #$01, D0
@@ -198,7 +198,7 @@ Offset_0x028650:
 ;-------------------------------------------------------------------------------
 Offset_0x028674:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 add.w   Obj_Timer(A0), D0                                ; $002E
                 move.w  D0, Obj_X(A0)                                    ; $0010
@@ -208,7 +208,7 @@ Offset_0x028674:
 ;-------------------------------------------------------------------------------
 Offset_0x028692:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$03, D0
                 add.w   Obj_Control_Var_00(A0), D0                       ; $0030
                 move.w  D0, Obj_Y(A0)                                    ; $0014
@@ -218,7 +218,7 @@ Offset_0x028692:
 ;-------------------------------------------------------------------------------
 Offset_0x0286B0:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D0
                 add.w   Obj_Control_Var_00(A0), D0                       ; $0030
                 move.w  D0, Obj_Y(A0)                                    ; $0014
@@ -228,7 +228,7 @@ Offset_0x0286B0:
 ;-------------------------------------------------------------------------------
 Offset_0x0286CE:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D0
                 move.w  D0, D1
                 asr.w   #$01, D0
@@ -241,7 +241,7 @@ Offset_0x0286CE:
 ;-------------------------------------------------------------------------------
 Offset_0x0286F2:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 add.w   Obj_Control_Var_00(A0), D0                       ; $0030
                 move.w  D0, Obj_Y(A0)                                    ; $0014
@@ -283,7 +283,7 @@ Offset_0x028752:
 Offset_0x028776:
                 move.w  #$0020, D2
 Offset_0x02877A:
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$03, D1
                 move.b  Obj_Height_3(A0), D3                             ; $0044
                 andi.b  #$03, D3
@@ -344,14 +344,14 @@ Offset_0x028828:
                 beq     Offset_0x0288E2
                 moveq   #$00, D0
                 move.b  $0001(A2), D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 addi.w  #$0100, D0
                 asr.w   #$02, D0
                 move.b  D0, $0003(A2)
                 moveq   #$00, D2
                 move.w  $0002(A2), D2
                 muls.w  D2, D1
-                swap.w  D1
+                swap	D1
                 add.w   Obj_X(A0), D1                                    ; $0010
                 move.w  D1, Obj_X(A1)                                    ; $0010
                 addq.b  #$02, $0001(A2)

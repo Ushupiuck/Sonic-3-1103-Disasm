@@ -12,7 +12,7 @@
                 move.b  #$80, Obj_Control_Var_12(A0)                     ; $0042
                 move.b  #$01, Obj_Map_Id(A0)                             ; $0022
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01E058
+                bne.w   Offset_0x01E058
                 move.l  #Offset_0x01E0A8, (A1)
                 move.l  #Unknow_Controled_By_P2_Mappings, Obj_Map(A1) ; Offset_0x01E2AC, $000C
                 move.w  #$43C3, Obj_Art_VRAM(A1)                         ; $000A
@@ -48,21 +48,21 @@ Offset_0x01E08E:
                 move.w  D2, D3
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
-                bsr     Offset_0x01E138
+                bsr.w   Offset_0x01E138
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x01E0A8:
                 move.w  Obj_Control_Var_0C(A0), A1                       ; $003C
                 move.b  Obj_Control_Var_12(A1), Obj_Control_Var_12(A0) ; $0042, $0042
-                bsr     Offset_0x01E0BC
+                bsr.w   Offset_0x01E0BC
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 Offset_0x01E0BC:
                 move.b  Obj_Control_Var_12(A0), D0                       ; $0042
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  Obj_Y(A0), D2                                    ; $0014
                 move.w  Obj_X(A0), D3                                    ; $0010
-                swap.w  D0
-                swap.w  D1
+                swap	D0
+                swap	D1
                 asr.l   #$05, D0
                 asr.l   #$05, D1
                 move.l  D0, D4
@@ -76,8 +76,8 @@ Offset_0x01E0BC:
                 moveq   #$02, D6
 Offset_0x01E0EC:
                 movem.l D4/D5, -(A7)
-                swap.w  D4
-                swap.w  D5
+                swap	D4
+                swap	D5
                 add.w   D2, D4
                 add.w   D3, D5
                 move.w  D5, (A2)+
@@ -95,8 +95,8 @@ Offset_0x01E0EC:
                 moveq   #$02, D6
 Offset_0x01E118:
                 movem.l D4/D5, -(A7)
-                swap.w  D4
-                swap.w  D5
+                swap	D4
+                swap	D5
                 add.w   D2, D4
                 add.w   D3, D5
                 move.w  D5, (A2)+
@@ -130,7 +130,7 @@ Offset_0x01E16E:
                 btst    #$01, Obj_Status(A1)                             ; $002A
                 bne.s   Offset_0x01E19C
                 move.b  Obj_Control_Var_12(A0), D0                       ; $0042
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 tst.w   D1
                 bmi.s   Offset_0x01E188
                 neg.w   D1
@@ -150,20 +150,20 @@ Offset_0x01E19C:
                 moveq   #$00, D4
                 rts
 Offset_0x01E1B0:
-                bsr     Offset_0x01E1B8
+                bsr.w   Offset_0x01E1B8
                 moveq   #$00, D4
                 rts
 Offset_0x01E1B8:
                 move.w  D3, D5
                 move.b  Obj_Control_Var_12(A0), D0                       ; $0042
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  Obj_Y(A0), D2                                    ; $0014
                 move.w  Obj_X(A0), D3                                    ; $0010
                 move.w  (A2), D4
                 muls.w  D4, D0
                 muls.w  D4, D1
-                swap.w  D0
-                swap.w  D1
+                swap	D0
+                swap	D1
                 add.w   D0, D2
                 add.w   D1, D3
                 move.b  Obj_Control_Var_12(A0), D0                       ; $0042
@@ -177,11 +177,11 @@ Offset_0x01E1EA:
                 move.b  Obj_Height_2(A1), D1                             ; $001E
                 add.w   D1, D5
                 lsl.w   #$08, D5
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  D5, D0
                 muls.w  D5, D1
-                swap.w  D0
-                swap.w  D1
+                swap	D0
+                swap	D1
                 add.w   D0, D3
                 sub.w   D1, D2
                 move.w  D2, Obj_Y(A1)                                    ; $0014
@@ -191,7 +191,7 @@ Offset_0x01E214:
                 tst.w   Obj_Speed_Y(A1)                                  ; $001A
                 bmi     Offset_0x01E2AA
                 move.b  Obj_Control_Var_12(A0), D0                       ; $0042
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D0, D4
                 move.w  D1, D2
                 tst.w   D1
@@ -206,12 +206,12 @@ Offset_0x01E230:
                 neg.w   D1
                 cmp.w   D1, D0
                 bge.s   Offset_0x01E2AA
-                swap.w  D0
+                swap	D0
                 divs.w  D2, D0
                 move.w  D0, (A2)
                 neg.w   D4
                 muls.w  D4, D0
-                swap.w  D0
+                swap	D0
                 move.w  D3, D5
                 add.w   D0, D3
                 move.w  Obj_Y(A0), D0                                    ; $0014
@@ -235,9 +235,9 @@ Offset_0x01E230:
                 bpl.s   Offset_0x01E290
                 addi.b  #$80, D0
 Offset_0x01E290:
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$1B00, D0
-                swap.w  D0
+                swap	D0
                 sub.w   D0, (A2)
                 move.w  D5, D3
                 bsr     Offset_0x01E1B8

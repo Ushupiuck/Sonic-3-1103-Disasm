@@ -152,7 +152,7 @@ Offset_0x0474D6:
                 jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x0474E4, (A0)
 Offset_0x0474E4:                
-                bsr     Offset_0x0476B2
+                bsr.w   Offset_0x0476B2
                 jmp     Child_Display_Or_Delete_2(PC)          ; Offset_0x0424A8 
 ;-------------------------------------------------------------------------------
 Offset_0x0474EC:
@@ -161,7 +161,7 @@ Offset_0x0474EC:
                 bne.s   Offset_0x0474FE
                 move.l  #Offset_0x0474E4, (A0)
 Offset_0x0474FE:
-                bsr     Offset_0x047686
+                bsr.w   Offset_0x047686
                 jmp     Child_Display_Or_Delete_2(PC)          ; Offset_0x0424A8    
 ;-------------------------------------------------------------------------------
 Offset_0x047506:
@@ -169,7 +169,7 @@ Offset_0x047506:
                 jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x047514, (A0)
 Offset_0x047514:                
-                bsr     Offset_0x04769C
+                bsr.w   Offset_0x04769C
                 jmp     Child_Display_Or_Delete_2(PC)          ; Offset_0x0424A8  
 ;-------------------------------------------------------------------------------
 Offset_0x04751C:
@@ -189,11 +189,11 @@ Offset_0x047542:
 Offset_0x047554:
                 move.w  #$0008, (A1)
                 addq.w  #$06, A1
-                dbra    D6, Offset_0x047554
+                dbra.w  D6, Offset_0x047554
                 move.b  #$08, Obj_Map_Id(A0)                             ; $0022
 Offset_0x047564:                
-                bsr     Offset_0x047746
-                bsr     Offset_0x0475D4
+                bsr.w   Offset_0x047746
+                bsr.w   Offset_0x0475D4
                 jmp     Child_Display_Or_Delete_2(PC)          ; Offset_0x0424A8      
 ;-------------------------------------------------------------------------------
 Offset_0x047570:
@@ -233,8 +233,8 @@ Offset_0x0475D4:
                 move.w  Obj_X(A0), D0                                    ; $0010
                 move.w  Obj_X(A1), D1                                    ; $0010
                 sub.w   D0, D1
-                swap.w  D0
-                swap.w  D1
+                swap	D0
+                swap	D1
                 move.w  Obj_Y(A0), D0                                    ; $0014
                 move.w  Obj_Y(A1), D1                                    ; $0014
                 sub.w   D0, D1
@@ -245,11 +245,11 @@ Offset_0x0475F8:
                 move.w  Offset_0x047612(PC, D5), D4
                 jsr     Offset_0x047612(PC, D4)
                 move.l  D0, (A2)
-                swap.w  D2
+                swap	D2
                 add.l   D2, (A2)+
                 addq.w  #$02, A2
                 addq.w  #$02, D5
-                dbra    D6, Offset_0x0475F8
+                dbra.w  D6, Offset_0x0475F8
                 rts     
 ;-------------------------------------------------------------------------------
 Offset_0x047612:
@@ -264,13 +264,13 @@ Offset_0x047612:
 ;-------------------------------------------------------------------------------
 Offset_0x047622:
                 asr.w   #$03, D2
-                swap.w  D2
+                swap	D2
                 asr.w   #$03, D2
                 rts
 ;-------------------------------------------------------------------------------
 Offset_0x04762A:
                 asr.w   #$02, D2
-                swap.w  D2
+                swap	D2
                 asr.w   #$02, D2
                 rts   
 ;-------------------------------------------------------------------------------
@@ -279,7 +279,7 @@ Offset_0x047632:
                 move.w  D2, D3
                 asr.w   #$01, D2
                 add.w   D3, D2
-                swap.w  D2
+                swap	D2
                 asr.w   #$02, D2
                 move.w  D2, D3
                 asr.w   #$01, D2
@@ -288,7 +288,7 @@ Offset_0x047632:
 ;-------------------------------------------------------------------------------
 Offset_0x047646:
                 asr.w   #$01, D2
-                swap.w  D2
+                swap	D2
                 asr.w   #$01, D2
                 rts   
 ;-------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ Offset_0x04764E:
                 move.w  D2, D3
                 asr.w   #$02, D2
                 add.w   D3, D2
-                swap.w  D2
+                swap	D2
                 asr.w   #$01, D2
                 move.w  D2, D3
                 asr.w   #$02, D2
@@ -309,7 +309,7 @@ Offset_0x047662:
                 move.w  D2, D3
                 asr.w   #$01, D2
                 add.w   D3, D2
-                swap.w  D2
+                swap	D2
                 asr.w   #$01, D2
                 move.w  D2, D3
                 asr.w   #$01, D2
@@ -320,7 +320,7 @@ Offset_0x047676:
                 move.w  D2, D3
                 asr.w   #$03, D3
                 sub.w   D3, D2
-                swap.w  D2
+                swap	D2
                 move.w  D2, D3
                 asr.w   #$03, D3
                 sub.w   D3, D2  
@@ -356,10 +356,10 @@ Offset_0x0476B2:
                 move.w  Obj_Child_Ref(A0), A2                            ; $0046
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 moveq   #$03, D2
-                bsr     Offset_0x0476E2
+                bsr.w   Offset_0x0476E2
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 moveq   #$04, D2
-                bsr     Offset_0x0476E2
+                bsr.w   Offset_0x0476E2
 Offset_0x0476E0:
                 rts
 Offset_0x0476E2:
@@ -389,7 +389,7 @@ Offset_0x047708:
                 cmpi.w  #$0400, D3
                 ble.s   Offset_0x047734
                 move.w  #$0400, D3
-                bra     Offset_0x047734
+                bra.w   Offset_0x047734
 Offset_0x04772A:
                 cmpi.w  #$FC00, D3
                 bge.s   Offset_0x047734

@@ -18,7 +18,7 @@ Offset_0x027DEE:
                 move.w  #$0011, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 jsr     (Platform_Object)                      ; Offset_0x013AF6
-                lea     (CNz_Platform_Animate_Data), A1        ; Offset_0x027E12
+                lea     (CNz_Platform_Animate_Data).l, A1        ; Offset_0x027E12
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------    
@@ -74,7 +74,7 @@ Offset_0x027EA2:
                 subi.w  #$0080, Obj_Speed_Y(A0)                          ; $001A
                 move.b  #$00, Obj_Control_Var_00(A0)                     ; $0030
                 moveq   #Rising_Platform_Sfx, D0                          ; -$7D
-                jmp     (Play_Music)                           ; Offset_0x001176   
+                jmp     (Play_Music).l                           ; Offset_0x001176   
 ;-------------------------------------------------------------------------------
 CNz_Platform_Mappings:                                         ; Offset_0x027EBA
                 dc.w    Offset_0x027EC0-CNz_Platform_Mappings

@@ -185,7 +185,7 @@ Offset_0x0481C8:
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 move.w  D0, Obj_Timer(A0)                                ; $002E
-                move.l  #OffseT_0x047FD0, Obj_Child(A0)                  ; $0034
+                move.l  #Offset_0x047FD0, Obj_Child(A0)                  ; $0034
                 bchg    #00, Obj_Flags(A0)                               ; $0004
                 rts    
 ;-------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ Offset_0x048234:
                 ext.l   D3
                 lsl.l   #$08, D3
                 add.l   Obj_X(A0), D3                                    ; $0010
-                swap.w  D3
+                swap	D3
                 jmp     (ObjHitFloor_D3)                       ; Offset_0x009D88
 Offset_0x048248:
                 moveq   #$04, D0

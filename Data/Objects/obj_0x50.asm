@@ -165,7 +165,7 @@ Offset_0x02A18C:
                 lsr.l   #$08, D0
                 move.w  D0, D2
                 add.b   Obj_Routine(A2), D0                              ; $0005
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, D3
                 asr.w   #$03, D1
                 add.w   Obj_X(A0), D1                                    ; $0010

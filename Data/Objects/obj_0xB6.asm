@@ -7,7 +7,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x03CEAC(PC, D0), D1
                 jsr     Offset_0x03CEAC(PC, D1)
-                bsr     Offset_0x03D3D6
+                bsr.w   Offset_0x03D3D6
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x03CEAC:
@@ -28,10 +28,10 @@ Offset_0x03CEB8:
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03CF2A, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #$6A, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Barrier_Eggman_Palette(PC), A1         ; Offset_0x03D4BE
                 jsr     Pal_Load_Line_1(PC)                    ; Offset_0x04314C
                 lea     Offset_0x03D46C(PC), A2
@@ -44,7 +44,7 @@ Offset_0x03CF14:
                 jsr     Find_Other_Object(PC)                  ; Offset_0x04269E
                 cmpi.w  #$0018, D2
                 bcc.s   Offset_0x03CF26
-                bsr     Offset_0x03CF70
+                bsr.w   Offset_0x03CF70
 Offset_0x03CF26:
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2  
 ;-------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ Offset_0x03CF2A:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 move.w  #$003F, Obj_Timer(A0)                            ; $002E
                 moveq   #Mini_Boss_Snd, D0                                 ; $18
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03CF3E:
                 rts     
 ;-------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ Offset_0x03CF56:
                 move.l  #Offset_0x03CF8C, Obj_Child(A0)                  ; $0034
 Offset_0x03CF70:
                 bset    #$07, Obj_Control_Var_08(A0)                     ; $0038
-                bne     Offset_0x03CF3E
+                bne.w   Offset_0x03CF3E
                 lea     Offset_0x03D482(PC), A2
                 jmp     SetupChildObject_Repeat(PC)        ; Offset_0x041E4E  
 ;-------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ Offset_0x03D08C:
                 lea     Barrier_Eggman_Setup_Data_2(PC), A1    ; Offset_0x03D446
                 jsr     SetupObjectAttributes3(PC)                  ; Offset_0x041D7A
                 move.l  #Offset_0x03D09E, (A0)
-                bra     Offset_0x03D390   
+                bra.w   Offset_0x03D390   
 ;-------------------------------------------------------------------------------
 Offset_0x03D09E:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -411,7 +411,7 @@ Offset_0x03D3D6:
                 bne.s   Offset_0x03D3F0
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03D3F0:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 moveq   #$00, D0

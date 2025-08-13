@@ -25,7 +25,7 @@ Offset_0x043B74:
 ;-------------------------------------------------------------------------------
 Offset_0x043B76:
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x043B74
+                bpl.w   Offset_0x043B74
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2    
 ;-------------------------------------------------------------------------------
 Offset_0x043B82:
@@ -43,7 +43,7 @@ Offset_0x043B9A:
                 bne.s   Offset_0x043B74
 Offset_0x043BAC:
                 moveq   #$51, D0
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x043BFE(PC), A2
                 jsr     SetupChildObject_Complex(PC)       ; Offset_0x041DEA
                 bne.s   Offset_0x043BCE

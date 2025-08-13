@@ -43,7 +43,7 @@ Offset_0x0279E2:
                 bne.s   Offset_0x027A12
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 addq.b  #$02, Obj_Angle(A0)                              ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 addi.w  #$0120, D0
                 lsr.w   #$06, D0
                 move.b  D0, $001D(A0)
@@ -51,7 +51,7 @@ Offset_0x0279E2:
                 andi.b  #$1F, D0
                 bne.s   Offset_0x027A10
                 moveq   #Cannon_Turn_Sfx, D0                              ; -$79
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x027A10:
                 rts
 Offset_0x027A12:
@@ -65,7 +65,7 @@ Offset_0x027A22:
                 andi.b  #$03, D0
                 bne.s   Offset_0x027A6A
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x027A6A
+                bne.w   Offset_0x027A6A
                 move.l  #Obj_FireShield_Dissipate, (A1)       ; Offset_0x013E28
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
@@ -73,7 +73,7 @@ Offset_0x027A22:
                 move.b  $001D(A0), D0
                 lsl.b   #$04, D0
                 addi.b  #$80, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$03, D1
                 asl.w   #$03, D0
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
@@ -83,7 +83,7 @@ Offset_0x027A6A:
 Offset_0x027A6C:
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 addq.b  #$02, Obj_Angle(A0)                              ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 addi.w  #$0120, D0
                 lsr.w   #$06, D0
                 move.b  D0, $001D(A0)
@@ -146,7 +146,7 @@ Offset_0x027B44:
                 move.b  $001D(A0), D0
                 lsl.b   #$04, D0
                 addi.b  #$80, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asl.w   #$04, D1
                 asl.w   #$04, D0
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
@@ -180,7 +180,7 @@ Offset_0x027BB6:
                 cmp.b   Obj_Timer(A0), D0                                ; $002E
                 beq.s   Offset_0x027C0E
                 move.b  D0, Obj_Timer(A0)                                ; $002E
-                lea     (CNz_Cannon_Dyn_Script), A2            ; Offset_0x027D8E
+                lea     (CNz_Cannon_Dyn_Script).l, A2            ; Offset_0x027D8E
                 add.w   D0, D0
                 adda.w  $00(A2, D0), A2
                 move.w  (A2)+, D5
@@ -200,7 +200,7 @@ Offset_0x027BE2:
                 move.w  D4, D2
                 add.w   D3, D4
                 add.w   D3, D4
-                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer).l                        ; Offset_0x0012FC
                 dbra    D5, Offset_0x027BE2
 Offset_0x027C0E:
                 rts  

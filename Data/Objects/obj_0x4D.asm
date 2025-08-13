@@ -6,7 +6,7 @@
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 beq.s   Offset_0x0296B0
                 move.l  #Offset_0x0298DC, (A0)
-                bra     Offset_0x0298DC
+                bra.w   Offset_0x0298DC
 Offset_0x0296B0:
                 move.l  #Offset_0x0296B6, (A0)
 Offset_0x0296B6:                
@@ -21,9 +21,9 @@ Offset_0x0296B6:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x0296D2:
                 btst    D6, Obj_Status(A0)                               ; $002A
-                bne     Offset_0x0297EA
+                bne.w   Offset_0x0297EA
                 btst    #$03, Obj_Status(A1)                             ; $002A
-                bne     Offset_0x029764
+                bne.w   Offset_0x029764
                 moveq   #$00, D0
                 move.b  Obj_Width_2(A1), D0                              ; $001F
                 neg.w   D0
@@ -60,7 +60,7 @@ Offset_0x029732:
                 bcc.s   Offset_0x029758
                 move.w  #$0001, Obj_Flags(A2)                            ; $0004
 Offset_0x029758:
-                bsr     Offset_0x029B00
+                bsr.w   Offset_0x029B00
                 move.b  #$20, Obj_Angle(A1)                              ; $0026
 Offset_0x029762:
                 rts
@@ -102,7 +102,7 @@ Offset_0x0297AC:
                 bcc.s   Offset_0x0297DE
                 move.w  #$0001, Obj_Flags(A2)                            ; $0004
 Offset_0x0297DE:
-                bsr     Offset_0x029B00
+                bsr.w   Offset_0x029B00
                 move.b  #$20, Obj_Angle(A1)                              ; $0026
 Offset_0x0297E8:
                 rts
@@ -142,7 +142,7 @@ Offset_0x02982E:
                 rts
 Offset_0x02984C:
                 btst    #$03, Obj_Status(A1)                             ; $002A
-                beq     Offset_0x0298DA
+                beq.w   Offset_0x0298DA
                 move.w  D0, D2
                 subi.b  #$10, D0
                 bcc.s   Offset_0x029866
@@ -165,7 +165,7 @@ Offset_0x029888:
 Offset_0x029890:
                 add.w   D0, D0
                 move.b  D0, Obj_Flip_Angle(A1)                           ; $0027
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, D4
                 asr.w   #$04, D1
                 move.w  D1, D3
@@ -203,9 +203,9 @@ Offset_0x0298DC:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x0298F8:
                 btst    D6, Obj_Status(A0)                               ; $002A
-                bne     Offset_0x029A0C
+                bne.w   Offset_0x029A0C
                 btst    #$03, Obj_Status(A1)                             ; $002A
-                bne     Offset_0x029988
+                bne.w   Offset_0x029988
                 moveq   #$00, D0
                 move.b  Obj_Width_2(A1), D0                              ; $001F
                 add.w   Obj_X(A1), D0                                    ; $0010
@@ -282,7 +282,7 @@ Offset_0x0299CE:
                 bcc.s   Offset_0x029A00
                 move.w  #$0001, Obj_Flags(A2)                            ; $0004
 Offset_0x029A00:
-                bsr     Offset_0x029B00
+                bsr.w   Offset_0x029B00
                 move.b  #$E0, Obj_Angle(A1)                              ; $0026
 Offset_0x029A0A:
                 rts
@@ -321,7 +321,7 @@ Offset_0x029A4E:
                 rts
 Offset_0x029A6C:
                 btst    #$03, Obj_Status(A1)                             ; $002A
-                beq     Offset_0x029AFE
+                beq.w   Offset_0x029AFE
                 move.w  D0, D2
                 subi.b  #$10, D0
                 bcc.s   Offset_0x029A86
@@ -345,7 +345,7 @@ Offset_0x029AB0:
                 neg.b   D0
                 add.w   D0, D0
                 move.b  D0, Obj_Flip_Angle(A1)                           ; $0027
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, D4
                 asr.w   #$04, D1
                 move.w  D1, D3

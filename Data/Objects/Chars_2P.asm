@@ -151,7 +151,7 @@ Offset_0x00A770:
                 move.b  Obj_Player_Control(A0), D0                       ; $002E
                 andi.b  #$A0, D0
                 bne.s   Offset_0x00A780
-                jsr     (Touch_Response_2P)                    ; Offset_0x00A168
+                jsr     (Touch_Response_2P).l                    ; Offset_0x00A168
 Offset_0x00A780:
                 rts
 ;-------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ Offset_0x00A8AC:
                 move.b  #$02, Obj_Ani_Number(A0)                         ; $0020
                 addq.w  #$04, Obj_Y(A0)                                  ; $0014
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 tst.w   Obj_Inertia(A0)                                  ; $001C
                 bne.s   Offset_0x00A8DE
                 move.w  #$0200, Obj_Inertia(A0)                          ; $001C
@@ -276,10 +276,10 @@ Offset_0x00A8E0:
                 bne.s   Offset_0x00A92A
                 move.b  (Control_Ports_Logical_Data+$001).w, D0      ; $FFFFF603
                 andi.b  #$70, D0
-                beq     Offset_0x00A92A
+                beq.w   Offset_0x00A92A
                 move.b  #$09, Obj_Ani_Number(A0)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 addq.l  #$04, A7
                 move.b  #$01, Obj_Player_Spdsh_Flag(A0)                  ; $003D
                 move.w  #$0000, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
@@ -326,7 +326,7 @@ Offset_0x00A99E:
                 bset    #$02, Obj_Status(A0)                             ; $002A
                 move.b  #$00, Obj_Ani_Number(A6)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 bra.s   Offset_0x00AA22     
 ;-------------------------------------------------------------------------------                                                          
 Sonic_Spindash_Speed_2P:                                       ; Offset_0x00A9B6
@@ -348,10 +348,10 @@ Offset_0x00A9DA:
 Offset_0x00A9F2:
                 move.b  (Control_Ports_Logical_Data+$001).w, D0      ; $FFFFF603
                 andi.b  #$70, D0
-                beq     Offset_0x00AA22
+                beq.w   Offset_0x00AA22
                 move.w  #$0900, Obj_Ani_Number(A0)                       ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 addi.w  #$0200, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 cmpi.w  #$0800, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 bcs.s   Offset_0x00AA22

@@ -50,9 +50,9 @@ Offset_0x014EF8:
                 addq.b  #$01, D6
 Offset_0x014F10:
                 btst    D6, Obj_Status(A0)                               ; $002A
-                bne     Offset_0x014F92
+                bne.w   Offset_0x014F92
                 btst    #$01, Obj_Status(A1)                             ; $002A
-                bne     Offset_0x014F90
+                bne.w   Offset_0x014F90
                 move.w  Obj_X(A1), D0                                    ; $0010
                 addi.w  #$0010, D0
                 sub.w   Obj_X(A0), D0                                    ; $0010
@@ -74,7 +74,7 @@ Offset_0x014F10:
                 bset    #$06, Obj_Player_Control(A1)                     ; $002E
                 bset    #$01, Obj_Player_Control(A1)                     ; $002E
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x014F7E
+                bne.w   Offset_0x014F7E
                 move.l  #Obj_AIz_Tree_Reveal_Control, (A1)     ; Offset_0x03064C
 Offset_0x014F7E:
                 move.w  #$2C60, (Sonic_Level_Limits_Min_X).w         ; $FFFFEE14
@@ -135,9 +135,9 @@ Offset_0x015038:
                 move.w  Obj_X(A1), D2                                    ; $0010
                 move.w  (A2), D0
                 lsr.w   #$01, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$7000, D0
-                swap.w  D0
+                swap	D0
                 add.w   Obj_X(A0), D0                                    ; $0010
                 move.w  D0, Obj_X(A1)                                    ; $0010
                 sub.w   D2, D0

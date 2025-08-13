@@ -89,7 +89,7 @@ Offset_0x021334:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 bsr.s   Offset_0x021364
-                bra     Offset_0x0213B4
+                bra.w   Offset_0x0213B4
 Offset_0x02134C:
                 move.b  D0, D1
                 andi.b  #$08, D1
@@ -131,7 +131,7 @@ Offset_0x0213D4:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 addi.w  #$0018, Obj_Speed_Y(A0)                          ; $001A
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x0213EE
+                bpl.w   Offset_0x0213EE
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x0213EE:
                 jmp     (DeleteObject)                         ; Offset_0x011138
@@ -147,7 +147,7 @@ Offset_0x0213F4:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                swap.w  D6
+                swap	D6
                 andi.w  #$000C, D6
                 bne.s   Offset_0x02142C
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2
@@ -187,12 +187,12 @@ Offset_0x021498:
                 addq.b  #$01, Obj_Map_Id(A0)                             ; $0022
                 move.l  #Offset_0x0213D4, (A0)
                 jsr     (Offset_0x017372)
-                bra     Offset_0x0213D4
+                bra.w   Offset_0x0213D4
 Offset_0x0214B0:
                 move.w  (Enemy_Hit_Chain_Count).w, Obj_Control_Var_08(A0) ; $FFFFF7D0, $0038
                 move.b  (Obj_Player_One+Obj_Ani_Number).w, Obj_Control_Var_04(A0) ; $FFFFB020, $0034
                 move.b  (Obj_Player_Two+Obj_Ani_Number).w, Obj_Control_Var_06(A0) ; $FFFFB06A, $0036
-                lea     (Offset_0x021670), A2
+                lea     (Offset_0x021670).l, A2
                 moveq   #$00, D1
                 move.b  Obj_Width(A0), D1                                ; $0007
                 addi.w  #$000B, D1
@@ -234,7 +234,7 @@ Offset_0x02153E:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 bsr.s   Offset_0x02158C
-                bra     Offset_0x0215F2
+                bra.w   Offset_0x0215F2
 Offset_0x021556:
                 move.b  D0, D1
                 andi.b  #$08, D1
@@ -248,7 +248,7 @@ Offset_0x021556:
 Offset_0x021574:
                 move.b  #$0C, (Obj_Player_One+Obj_Player_Top_Solid).w ; $FFFFB046
                 move.b  #$0D, (Obj_Player_One+Obj_Player_LRB_Solid).w ; $FFFFB047
-                bra     Offset_0x0214EC
+                bra.w   Offset_0x0214EC
 Offset_0x021584:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 bsr.s   Offset_0x021592
@@ -295,7 +295,7 @@ Offset_0x0215F2:
                 lea     $00(A4, D0), A4
                 move.l  #Offset_0x0213D4, (A0)
                 jsr     (Offset_0x017372)
-                bra     Offset_0x0213D4        
+                bra.w   Offset_0x0213D4        
 ;-------------------------------------------------------------------------------
 Offset_0x021628:
                 dc.w    $FEC0, $F600, $0140, $F600, $FEE0, $F700, $0120, $F700

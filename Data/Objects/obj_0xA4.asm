@@ -8,7 +8,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x045178(PC, D0), D1
                 jsr     Offset_0x045178(PC, D1)
-                bsr     Offset_0x04573C
+                bsr.w   Offset_0x04573C
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x045178:
@@ -32,7 +32,7 @@ Offset_0x0451A4:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 jsr     Find_Player(PC)                        ; Offset_0x042634
                 cmpi.w  #$0060, D2
-                bcc     Offset_0x0451D2
+                bcc.w   Offset_0x0451D2
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 move.l  #Offset_0x045841, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x0451E4, Obj_Child(A0)                  ; $0034
@@ -79,7 +79,7 @@ Offset_0x045242:
                 add.w   D0, Obj_Y(A0)                                    ; $0014
                 andi.b  #$07, D1
                 bne.s   Offset_0x045250
-                bsr     Offset_0x04570C
+                bsr.w   Offset_0x04570C
 Offset_0x045250:
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2     
 ;-------------------------------------------------------------------------------

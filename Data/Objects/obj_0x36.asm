@@ -163,8 +163,8 @@ Offset_0x014590:
                 move.b  #$03, Obj_Map_Id(A0)                             ; $0022
                 move.w  #$0400, Obj_Speed_X(A0)                          ; $0018
                 move.w  #$0000, Obj_Speed_Y(A0)                          ; $001A
-                lea     (Offset_0x014794), A4
-                lea     (Offset_0x01477C), A2
+                lea     (Offset_0x014794).l, A4
+                lea     (Offset_0x01477C).l, A2
                 moveq   #$00, D1
                 move.b  Obj_Height(A0), D1                               ; $0006
                 lsr.w   #$02, D1
@@ -299,8 +299,8 @@ Offset_0x01473E:
                 move.b  #$07, Obj_Map_Id(A0)                             ; $0022
                 move.w  #$0000, Obj_Speed_X(A0)                          ; $0018
                 move.w  #$FC00, Obj_Speed_Y(A0)                          ; $001A
-                lea     (Offset_0x0147D4), A4
-                lea     (Offset_0x01477C), A2
+                lea     (Offset_0x0147D4).l, A4
+                lea     (Offset_0x01477C).l, A2
                 moveq   #$00, D1
                 move.b  Obj_Width(A0), D1                                ; $0007
                 lsr.w   #$02, D1
@@ -358,7 +358,7 @@ Offset_0x01482C:
                 dbra    D1, Offset_0x014824
 Offset_0x014886:
                 moveq   #Smash_Sfx, D0                                     ; $62
-                jmp     (PlaySound)                           ; Offset_0x001176   
+                jmp     (PlaySound).l                           ; Offset_0x001176   
 ;-------------------------------------------------------------------------------
 Hz_Breakable_Bar_Mappings:                                     ; Offset_0x01488E
                 dc.w    Offset_0x01489E-Hz_Breakable_Bar_Mappings

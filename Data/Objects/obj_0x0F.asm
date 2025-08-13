@@ -357,7 +357,7 @@ Offset_0x015DA4:
 Offset_0x015DDA:
                 jsr     (DisplaySprite)                        ; Offset_0x011148
                 moveq   #Smash_Sfx, D0                                     ; $62
-                jmp     (Play_Music)                           ; Offset_0x001176  
+                jmp     (Play_Music).l                           ; Offset_0x001176  
 ;-------------------------------------------------------------------------------  
 Offset_0x015DE8:
                 dc.b    $30, $2C, $28, $24, $20, $1C, $2E, $2A

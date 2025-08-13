@@ -28,7 +28,7 @@ Offset_0x01423E:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x014266
+                bhi.w   Offset_0x014266
 Offset_0x014258:
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
                 beq.s   Offset_0x014264

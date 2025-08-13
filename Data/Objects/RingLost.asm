@@ -33,8 +33,8 @@ Offset_0x010B08:
                 bra.s   Offset_0x010B18
 ;-------------------------------------------------------------------------------
 Offset_0x010B10:
-                bsr     AllocateObjectAfterCurrent                    ; Offset_0x011DE0
-                bne     Offset_0x010B9E
+                bsr.w   AllocateObjectAfterCurrent                    ; Offset_0x011DE0
+                bne.w   Offset_0x010B9E
 Offset_0x010B18:
                 move.l  #Rings_Lost, (A1)                      ; Offset_0x010AD6
                 addq.b  #$02, Obj_Routine(A1)                            ; $0005
@@ -52,7 +52,7 @@ Offset_0x010B18:
                 tst.w   D4
                 bmi.s   Offset_0x010B8E
                 move.w  D4, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D4, D2
                 lsr.w   #$08, D2
                 asl.w   D2, D0
@@ -72,7 +72,7 @@ Offset_0x010B8E:
                 dbra    D5, Offset_0x010B10
 Offset_0x010B9E:
                 move.w  #Ring_Lost_Sfx, D0                               ; $0034
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 tst.b   Obj_Player_One_Or_Two(A0)                        ; $003F
                 bne.s   Offset_0x010BC2
                 move.w  #$0000, (Ring_count).w               ; $FFFFFE20
@@ -86,7 +86,7 @@ Offset_0x010BC2:
 ;-------------------------------------------------------------------------------                
 Offset_0x010BD4:
                 move.b  (Object_Frame_Anim_Frame).w, Obj_Map_Id(A0) ; $FFFFFEA7, $0022
-                bsr     SpeedToPos                             ; Offset_0x01111E
+                bsr.w   SpeedToPos                             ; Offset_0x01111E
                 addi.w  #$0018, Obj_Speed_Y(A0)                          ; $001A
                 bmi.s   Offset_0x010C14
                 move.b  (Vint_runcount+$03).w, D0         ; $FFFFFE0F
@@ -95,7 +95,7 @@ Offset_0x010BD4:
                 bne.s   Offset_0x010C14
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x010C30
-                jsr     (Ring_FindFloor)                       ; Offset_0x009DE0
+                jsr     (Ring_FindFloor).l                       ; Offset_0x009DE0
                 tst.w   D1
                 bpl.s   Offset_0x010C14
                 add.w   D1, Obj_Y(A0)                                    ; $0014
@@ -110,26 +110,26 @@ Offset_0x010C14:
                 addi.w  #$00E0, D0
                 cmp.w   Obj_Y(A0), D0                                    ; $0014
                 bcs.s   Offset_0x010C5C
-                bsr     Add_SpriteToCollisionResponseList         ; Offset_0x00A540
-                bra     DisplaySprite                          ; Offset_0x011148
+                bsr.w   Add_SpriteToCollisionResponseList         ; Offset_0x00A540
+                bra.w   DisplaySprite                          ; Offset_0x011148
 Offset_0x010C30:
                 tst.w   (Two_Player_Flag).w                          ; $FFFFFFD8
-                bne     Offset_0x010C5C
+                bne.w   Offset_0x010C5C
                 bra.s   Offset_0x010C14
 ;-------------------------------------------------------------------------------                
 Offset_0x010C3A:
                 addq.b  #$02, Obj_Routine(A0)                            ; $0005
                 move.b  #$00, Obj_Col_Flags(A0)                          ; $0028
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
-                bsr     CollectRing            ; Offset_0x010A20
+                bsr.w   CollectRing            ; Offset_0x010A20
 ;-------------------------------------------------------------------------------                
 Offset_0x010C4E:
-                lea     (Rings_Animate_Data), A1               ; Offset_0x010DDA
-                bsr     AnimateSprite                          ; Offset_0x01115E
-                bra     DisplaySprite                          ; Offset_0x011148
+                lea     (Rings_Animate_Data).l, A1               ; Offset_0x010DDA
+                bsr.w   AnimateSprite                          ; Offset_0x01115E
+                bra.w   DisplaySprite                          ; Offset_0x011148
 ;-------------------------------------------------------------------------------                
 Offset_0x010C5C:
-                bra     DeleteObject                           ; Offset_0x011138                                                                                                                                                                                                                                                                                                                                                                           
+                bra.w   DeleteObject                           ; Offset_0x011138                                                                                                                                                                                                                                                                                                                                                                           
 ;===============================================================================
 ; Perdendo anéis após sofrer algum dano
 ; <<<-       

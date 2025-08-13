@@ -23,7 +23,7 @@ Offset_0x0365C6:
                 move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #$5A, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Pal_Fire_Breath(PC), A1                ; Offset_0x0371DA
                 jmp     (Pal_Load_Line_1)                      ; Offset_0x04314C
 Offset_0x0365F4:
@@ -43,7 +43,7 @@ Offset_0x036614:
                 move.w  D5, (Sonic_Level_Limits_Min_X).w             ; $FFFFEE14
                 move.w  D5, (Sonic_Level_Limits_Max_X).w             ; $FFFFEE16
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x036630:                
                 rts
 Offset_0x036632:
@@ -61,7 +61,7 @@ Offset_0x03665A:
                 move.w  #$0100, Obj_Speed_Y(A0)                          ; $001A
                 move.w  #$00AF, Obj_Timer(A0)                            ; $002E
                 moveq   #Mini_Boss_Snd, D0                                 ; $18
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 rts
 Offset_0x036670:
                 jmp     (SpeedToPos_Touch_Wait)                ; Offset_0x042F98
@@ -95,7 +95,7 @@ Offset_0x0366C0:
 Offset_0x0366CE:
                 move.w  #$0040, Obj_Timer(A0)                            ; $002E
                 moveq   #Flame_Sfx, D0                                     ; $53
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 lea     Offset_0x037114(PC), A2
                 jmp     (SetupChildObject)                 ; Offset_0x041D9A 
 ;-------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ Offset_0x0366E6:
 Offset_0x0366FE:
                 move.l  #Offset_0x036738, (A0)
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #$0400, Obj_Speed_X(A0)                          ; $0018
                 clr.w   Obj_Speed_Y(A0)                                  ; $001A
                 move.w  #$0040, Obj_Timer(A0)                            ; $002E
@@ -268,7 +268,7 @@ Offset_0x0368F0:
                 lea     Offset_0x037088(PC), A1
                 jsr     (SetupObjectAttributes2)                    ; Offset_0x041D76
                 moveq   #Sfx_61, D0                                        ; $61
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.l  #Offset_0x0371AA, Obj_Child_Data(A0)             ; $0030
                 move.l  #Offset_0x036930, Obj_Child(A0)                  ; $0034
                 move.w  #$FC00, Obj_Speed_Y(A0)                          ; $001A
@@ -288,7 +288,7 @@ Offset_0x036930:
 Offset_0x036946:
                 move.b  #$06, Obj_Routine(A0)                            ; $0005
                 moveq   #Missile_Throw_Sfx, D0                             ; $56
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 bset    #$01, Obj_Flags(A0)                              ; $0004
                 move.l  #Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034

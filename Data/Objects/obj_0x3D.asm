@@ -20,37 +20,37 @@ Offset_0x019EB8:
 Offset_0x019EC2:
                 move.l  #Offset_0x019EC8, (A0)
 Offset_0x019EC8:                
-                bsr     Offset_0x019F76
+                bsr.w   Offset_0x019F76
                 moveq   #$00, D0
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 add.w   Obj_Control_Var_04(A0), D0                       ; $0034
                 move.w  D0, Obj_Y(A0)                                    ; $0014
-                bra     Offset_0x0193E8 
+                bra.w   Offset_0x0193E8 
 ;-------------------------------------------------------------------------------
 Offset_0x019EDE:
                 move.l  #Offset_0x019EE4, (A0)
 Offset_0x019EE4:                
-                bsr     Offset_0x019F76
+                bsr.w   Offset_0x019F76
                 moveq   #$00, D0
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 add.w   Obj_Control_Var_02(A0), D0                       ; $0032
                 move.w  D0, Obj_X(A0)                                    ; $0010
-                bra     Offset_0x019534 
+                bra.w   Offset_0x019534 
 ;-------------------------------------------------------------------------------
 Offset_0x019EFA:
                 move.l  #Offset_0x019F00, (A0)
 Offset_0x019F00:                
-                bsr     Offset_0x019F76
+                bsr.w   Offset_0x019F76
                 moveq   #$00, D0
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 add.w   Obj_Control_Var_04(A0), D0                       ; $0034
                 move.w  D0, Obj_Y(A0)                                    ; $0014
-                bra     Offset_0x019804       
+                bra.w   Offset_0x019804       
 ;-------------------------------------------------------------------------------
 Offset_0x019F16:
                 move.l  #Offset_0x019F1C, (A0)
 Offset_0x019F1C:                
-                bsr     Offset_0x019F76
+                bsr.w   Offset_0x019F76
                 moveq   #$00, D0
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 move.w  D0, D1
@@ -62,12 +62,12 @@ Offset_0x019F32:
                 move.w  D0, Obj_X(A0)                                    ; $0010
                 add.w   Obj_Control_Var_04(A0), D1                       ; $0034
                 move.w  D1, Obj_Y(A0)                                    ; $0014
-                bra     Offset_0x01994E   
+                bra.w   Offset_0x01994E   
 ;-------------------------------------------------------------------------------
 Offset_0x019F46:
                 move.l  #Offset_0x019F4C, (A0)
 Offset_0x019F4C:                
-                bsr     Offset_0x019F76
+                bsr.w   Offset_0x019F76
                 moveq   #$00, D0
                 move.b  Obj_Control_Var_06(A0), D0                       ; $0036
                 move.w  D0, D1
@@ -79,7 +79,7 @@ Offset_0x019F62:
                 move.w  D0, Obj_X(A0)                                    ; $0010
                 add.w   Obj_Control_Var_04(A0), D1                       ; $0034
                 move.w  D1, Obj_Y(A0)                                    ; $0014
-                bra     Offset_0x019A90
+                bra.w   Offset_0x019A90
 Offset_0x019F76:
                 tst.w   Obj_Control_Var_0A(A0)                           ; $003A
                 beq.s   Offset_0x019F92
@@ -88,7 +88,7 @@ Offset_0x019F76:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x019FD4
                 moveq   #Spike_Move_Sfx, D0                                ; $58
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 bra.s   Offset_0x019FD4
 Offset_0x019F92:
                 tst.w   Obj_Control_Var_08(A0)                           ; $0038

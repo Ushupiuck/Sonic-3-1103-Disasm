@@ -23,16 +23,16 @@ Offset_0x02B1F6:
                 lea     Obj_Control_Var_10(A0), A4                       ; $0040
                 move.w  (Control_Ports_Logical_Data).w, D5           ; $FFFFF602
                 moveq   #$03, D6
-                bsr     Offset_0x02B488
+                bsr.w   Offset_0x02B488
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 lea     Obj_Control_Var_12(A0), A4                       ; $0042
                 move.w  (Control_Ports_Logical_Data_2).w, D5         ; $FFFFF66A
                 moveq   #$04, D6
-                bsr     Offset_0x02B488
+                bsr.w   Offset_0x02B488
                 tst.b   Obj_Subtype(A0)                                  ; $002C
-                bne     Offset_0x02B2FE
+                bne.w   Offset_0x02B2FE
                 btst    #$01, Obj_Status(A0)                             ; $002A
-                beq     Offset_0x02B2AA
+                beq.w   Offset_0x02B2AA
                 cmpi.w  #$0200, Obj_Speed_Y(A0)                          ; $001A
                 bge.s   Offset_0x02B23A
                 addi.w  #$0008, Obj_Speed_Y(A0)                          ; $001A
@@ -40,17 +40,17 @@ Offset_0x02B23A:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 subi.w  #$0013, Obj_Y(A0)                                ; $0014
                 move.l  A1, -(A7)
-                jsr     (Offset_0x02B7AE)
+                jsr     (Offset_0x02B7AE).l
                 move.l  (A7)+, A1
                 addi.w  #$0013, Obj_Y(A0)                                ; $0014
                 tst.b   Obj_Flags_2(A0)                                  ; $002D
                 beq.s   Offset_0x02B26C
                 move.w  #$0000, Obj_Speed_Y(A0)                          ; $001A
                 bclr    #$01, Obj_Status(A0)                             ; $002A
-                bra     Offset_0x02B2FE
+                bra.w   Offset_0x02B2FE
 Offset_0x02B26C:
                 btst    #$01, Obj_Status(A0)                             ; $002A
-                bne     Offset_0x02B2FE
+                bne.w   Offset_0x02B2FE
                 move.w  Obj_Speed_X(A0), D0                              ; $0018
                 bpl.s   Offset_0x02B27E
                 neg.w   D0
@@ -73,12 +73,12 @@ Offset_0x02B29A:
 Offset_0x02B2AA:
                 tst.b   Obj_Control_Var_05(A0)                           ; $0035
                 beq.s   Offset_0x02B2BA
-                bsr     Offset_0x02BDAC
+                bsr.w   Offset_0x02BDAC
                 addq.w  #$04, Obj_Ani_Time(A0)                           ; $0024
                 bra.s   Offset_0x02B2FE
 Offset_0x02B2BA:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  Obj_Inertia(A0), D1                              ; $001C
                 asr.l   #$08, D1
                 move.w  D1, Obj_Speed_X(A0)                              ; $0018
@@ -89,23 +89,23 @@ Offset_0x02B2BA:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 tst.b   Obj_Flags_2(A0)                                  ; $002D
                 bne.s   Offset_0x02B2EA
-                bsr     Offset_0x02B40A
+                bsr.w   Offset_0x02B40A
 Offset_0x02B2EA:
                 addq.w  #$04, Obj_Ani_Time(A0)                           ; $0024
                 tst.w   Obj_Inertia(A0)                                  ; $001C
                 bne.s   Offset_0x02B2FA
                 move.b  #$00, Obj_Control_Var_04(A0)                     ; $0034
 Offset_0x02B2FA:
-                bsr     Offset_0x02BBAA
+                bsr.w   Offset_0x02BBAA
 Offset_0x02B2FE:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 lea     Obj_Control_Var_10(A0), A4                       ; $0040
                 moveq   #$03, D6
-                bsr     Offset_0x02B746
+                bsr.w   Offset_0x02B746
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 lea     Obj_Control_Var_12(A0), A4                       ; $0042
                 moveq   #$04, D6
-                bsr     Offset_0x02B746
+                bsr.w   Offset_0x02B746
                 move.w  Obj_Ani_Time(A0), D0                             ; $0024
                 asr.w   #$03, D0
                 andi.w  #$0001, D0
@@ -301,12 +301,12 @@ Offset_0x02B550:
 ;-------------------------------------------------------------------------------
 Offset_0x02B552:
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
-                bcc     Offset_0x02B6FA
+                bcc.w   Offset_0x02B6FA
                 tst.w   (Debug_Mode_Flag_Index).w                    ; $FFFFFE08
                 bne.s   Offset_0x02B59A
                 move.w  D5, D0
                 andi.w  #$0070, D0
-                beq     Offset_0x02B5B0
+                beq.w   Offset_0x02B5B0
                 move.w  #$F980, Obj_Speed_Y(A1)                          ; $001A
                 move.b  #$01, Obj_Control_Var_10(A1)                     ; $0040
                 move.b  #$0E, Obj_Height_2(A1)                           ; $001E
@@ -314,7 +314,7 @@ Offset_0x02B552:
                 move.b  #$02, Obj_Ani_Number(A1)                         ; $0020
                 bset    #$02, Obj_Status(A1)                             ; $002A
                 move.w  #Jump_Sfx, D0                                    ; $0070
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x02B59A:
                 bclr    #$00, Obj_Timer(A1)                              ; $002E
                 move.b  #$00, Obj_Control_Var_07(A1)                     ; $0037
@@ -331,7 +331,7 @@ Offset_0x02B5B0:
                 move.w  D5, D3
                 cmpi.b  #$10, Obj_Ani_Number(A0)                         ; $0020
                 beq.s   Offset_0x02B5D0
-                jsr     (Offset_0x02BA48)
+                jsr     (Offset_0x02BA48).l
 Offset_0x02B5D0:
                 jsr     (Sonic_LevelBoundaries)                ; Offset_0x00B560
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
@@ -358,11 +358,11 @@ Offset_0x02B628:
                 move.w  Obj_Speed_Y(A0), Obj_Speed_Y(A1)          ; $001A, $001A
                 move.w  Obj_Player_Top_Solid(A1), Obj_Player_Top_Solid(A0) ; $0046, $0046
                 tst.b   Obj_Control_Var_04(A0)                           ; $0034
-                bne     Offset_0x02B5AE
+                bne.w   Offset_0x02B5AE
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
-                beq     Offset_0x02B6D0
-                bcc     Offset_0x02B690
+                beq.w   Offset_0x02B6D0
+                bcc.w   Offset_0x02B690
                 cmpi.w  #$FE00, Obj_Speed_X(A0)                          ; $0018
                 ble.s   Offset_0x02B66A
                 add.w   D0, Obj_Speed_X(A0)                              ; $0018
@@ -462,7 +462,7 @@ Offset_0x02B776:
                 move.w  Obj_Control_Var_12(A1), A2                       ; $0042
                 cmpi.l  #Offset_0x028E48, (A2)
                 bne.s   Offset_0x02B78C
-                bsr     Offset_0x02B6FA
+                bsr.w   Offset_0x02B6FA
 Offset_0x02B78C:
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A1), D0                                    ; $0014
@@ -484,15 +484,15 @@ Offset_0x02B7C2:
                 move.b  Obj_Player_LRB_Solid(A0), D5                     ; $0047
                 move.w  Obj_Speed_X(A0), D1                              ; $0018
                 move.w  Obj_Speed_Y(A0), D2                              ; $001A
-                jsr     (CalcAngle)                            ; Offset_0x001DB8
+                jsr     (CalcAngle).l                            ; Offset_0x001DB8
                 subi.b  #$20, D0
                 andi.b  #$C0, D0
                 cmpi.b  #$40, D0
-                beq     Offset_0x02B8B2
+                beq.w   Offset_0x02B8B2
                 cmpi.b  #$80, D0
-                beq     Offset_0x02B93C
+                beq.w   Offset_0x02B93C
                 cmpi.b  #$C0, D0
-                beq     Offset_0x02B9BE
+                beq.w   Offset_0x02B9BE
                 move.b  #$0C, Obj_Height_2(A0)                           ; $001E
                 move.b  #$18, Obj_Width_2(A0)                            ; $001F
                 jsr     (Offset_0x00A054)
@@ -670,11 +670,11 @@ Offset_0x02BA48:
                 move.w  (Sonic_Deceleration).w, D4                   ; $FFFFF764
                 btst    #$0A, D3
                 beq.s   Offset_0x02BA5E
-                bsr     Offset_0x02BAA0
+                bsr.w   Offset_0x02BAA0
 Offset_0x02BA5E:
                 btst    #$0B, D3
                 beq.s   Offset_0x02BA68
-                bsr     Offset_0x02BB28
+                bsr.w   Offset_0x02BB28
 Offset_0x02BA68:
                 move.w  D3, D0
                 andi.w  #$0C00, D0
@@ -736,7 +736,7 @@ Offset_0x02BAE2:
                 move.b  #$0D, Obj_Ani_Number(A0)                         ; $0020
                 bclr    #$00, Obj_Status(A0)                             ; $002A
                 move.w  #Skidding_Sfx, D0                                ; $0036
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.l  A0, A2
                 suba.w  #Obj_Player_One, A2                              ; $B000
                 adda.w  #Obj_P1_Dust_Water_Splash, A2                    ; $CC54
@@ -778,7 +778,7 @@ Offset_0x02BB64:
                 move.b  #$0D, Obj_Ani_Number(A0)                         ; $0020
                 bset    #$00, Obj_Status(A0)                             ; $002A
                 move.w  #Skidding_Sfx, D0                                ; $0036
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.l  A0, A2
                 suba.w  #Obj_Player_One, A2                              ; $B000
                 adda.w  #Obj_P1_Dust_Water_Splash, A2                    ; $CC54
@@ -791,10 +791,10 @@ Offset_0x02BBAA:
                 bne.s   Offset_0x02BC0C
                 tst.b   Obj_Control_Var_04(A0)                           ; $0034
                 beq.s   Offset_0x02BC0C
-                lea     (Offset_0x02BCC8), A1
+                lea     (Offset_0x02BCC8).l, A1
                 tst.b   (Current_Act).w                                   ; $FFFFFE11
                 beq.s   Offset_0x02BBC8
-                lea     (Offset_0x02BD3A), A1
+                lea     (Offset_0x02BD3A).l, A1
 Offset_0x02BBC8:
                 move.w  (A1)+, D6
                 move.w  Obj_X(A0), D2                                    ; $0010
@@ -866,13 +866,13 @@ Offset_0x02BC68:
                 moveq   #$00, D1
                 move.w  D5, D1
                 sub.w   Obj_Y(A0), D1                                    ; $0014
-                swap.w  D1
+                swap	D1
                 divs.w  D3, D1
                 moveq   #$00, D0
                 move.w  D4, D0
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 beq.s   Offset_0x02BC86
-                swap.w  D0
+                swap	D0
                 divs.w  D1, D0
 Offset_0x02BC86:
                 move.w  D0, Obj_Speed_X(A0)                              ; $0018
@@ -887,13 +887,13 @@ Offset_0x02BC9A:
                 moveq   #$00, D0
                 move.w  D4, D0
                 sub.w   Obj_X(A0), D0                                    ; $0010
-                swap.w  D0
+                swap	D0
                 divs.w  D2, D0
                 moveq   #$00, D1
                 move.w  D5, D1
                 sub.w   Obj_Y(A0), D1                                    ; $0014
                 beq.s   Offset_0x02BCB4
-                swap.w  D1
+                swap	D1
                 divs.w  D0, D1
 Offset_0x02BCB4:
                 move.w  D1, Obj_Speed_Y(A0)                              ; $001A
@@ -972,9 +972,9 @@ Offset_0x02BE24:
                 bpl.s   Offset_0x02BE32
                 neg.w   D0
 Offset_0x02BE32:
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$5800, D0
-                swap.w  D0
+                swap	D0
                 add.w   Obj_Control_Var_00(A0), D0                       ; $0030
                 move.w  D0, Obj_X(A0)                                    ; $0010
                 move.w  Obj_Control_Var_02(A0), D0                       ; $0032
@@ -1013,7 +1013,7 @@ Offset_0x02BE9A:
                 bne.s   Offset_0x02BEA2
                 move.w  #$0800, D2
 Offset_0x02BEA2:
-                bra     Offset_0x02BC4A
+                bra.w   Offset_0x02BC4A
 Offset_0x02BEA6:
                 rts
 ;-------------------------------------------------------------------------------

@@ -1,11 +1,7 @@
-@echo OFF
-
-REM // build the ROM
-call build
-
-REM // compare built ROM with dumped ROM
-echo ----
-if exist s3built.bin ( fc /b s3built.bin s3original.bin )
-
-REM // if someone ran this from Windows Explorer, prevent the window from disappearing immediately
+call tool/md5 s3built.bin md5
+if "%md5%" equ "05ae03e1049dcfe417d38b031dc696fb" (
+      echo MD5 identical!
+) else (
+      echo MD5 does not match.
+)
 pause

@@ -7,7 +7,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x03D4F4(PC, D0), D1
                 jsr     Offset_0x03D4F4(PC, D1)
-                bsr     Offset_0x03DB30
+                bsr.w   Offset_0x03DB30
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x03D4F4:
@@ -25,14 +25,14 @@ Offset_0x03D4FE:
                 move.w  (Sonic_Level_Limits_Max_X).w, (Target_Camera_Max_X).w ; $FFFFEE16, $FFFFFA92
                 move.w  #$3090, (Sonic_Level_Limits_Max_X).w         ; $FFFFEE16
                 moveq   #$6F, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Pal_Hang_Mobile(PC), A1                ; Offset_0x03DC90
                 jsr     (Pal_Load_Line_1)                      ; Offset_0x04314C
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03D56E, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
-                lea     (FBz_Robotnik_Ship_Data), A2           ; Offset_0x036596
+                jsr     (Play_Music).l                           ; Offset_0x001176
+                lea     (FBz_Robotnik_Ship_Data).l, A2           ; Offset_0x036596
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x03D55C
                 move.b  #$0B, Obj_Subtype(A1)                            ; $002C
@@ -48,7 +48,7 @@ Offset_0x03D564:
 Offset_0x03D56E:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
                 moveq   #Boss_Snd, D0                                      ; $19
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03D57C:                
                 rts                  
 ;-------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ Offset_0x03D594:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x03D5A8:
-                bsr     Offset_0x03DACC
+                bsr.w   Offset_0x03DACC
                 jsr     Find_Player(PC)                        ; Offset_0x042634
                 btst    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 bne.s   Offset_0x03D5F4
@@ -102,12 +102,12 @@ Offset_0x03D618:
                 add.b   D0, Obj_Control_Var_0C(A0)                       ; $003C
                 lea     (Hang_Mobile_Angle_Y_Lookup_Data), A2  ; Offset_0x10F8D8
                 jsr     Move_Sprite_Angle_Y_Lookup(PC)         ; Offset_0x0427CE
-                bsr     Offset_0x03DAE8
+                bsr.w   Offset_0x03DAE8
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03D632:
                 bclr    #$02, Obj_Control_Var_08(A0)                     ; $0038
-                bra     Offset_0x03D594   
+                bra.w   Offset_0x03D594   
 ;-------------------------------------------------------------------------------   
 Offset_0x03D63C:
                 tst.b   Obj_Control_Var_0C(A0)                           ; $003C
@@ -116,7 +116,7 @@ Offset_0x03D63C:
                 add.b   D0, Obj_Control_Var_0C(A0)                       ; $003C
                 lea     (Hang_Mobile_Angle_Y_Lookup_Data), A2  ; Offset_0x10F8D8
                 jsr     Move_Sprite_Angle_Y_Lookup(PC)         ; Offset_0x0427CE
-                bsr     Offset_0x03DAE8
+                bsr.w   Offset_0x03DAE8
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x03D65E:
                 move.l  #Display_Sprite_Wait, (A0)             ; Offset_0x042F8E
@@ -131,7 +131,7 @@ Offset_0x03D67A:
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03D6A4, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x03DC1C(PC), A2
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A  
 ;-------------------------------------------------------------------------------  
@@ -154,7 +154,7 @@ Offset_0x03D6DE:
                 bne.s   Offset_0x03D6F2
                 move.w  (Camera_X).w, (Sonic_Level_Limits_Min_X).w ; $FFFFEE78, $FFFFEE14
                 tst.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
-                bne     Offset_0x03D57C
+                bne.w   Offset_0x03D57C
 Offset_0x03D6F2:
                 clr.b   (Player_Control_Lock_Flag).w                 ; $FFFFFAA8
                 jsr     Restore_PlayerControl(PC)             ; Offset_0x0432EE
@@ -281,7 +281,7 @@ Offset_0x03D856:
                 move.b  Obj_Control_Var_0C(A1), Obj_Control_Var_0C(A0) ; $003C, $003C
                 lea     (Hang_Mobile_Angle_Y_Lookup_Data_2), A2 ; Offset_0x10F918
                 jsr     Move_Sprite_Angle_Y_Lookup(PC)         ; Offset_0x0427CE
-                bsr     Offset_0x03DB1A
+                bsr.w   Offset_0x03DB1A
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2     
 ;-------------------------------------------------------------------------------
 Offset_0x03D872:
@@ -318,7 +318,7 @@ Offset_0x03D8B0:
 ;-------------------------------------------------------------------------------
 Offset_0x03D8C6:
                 jsr     Child_Get_Priority(PC)                 ; Offset_0x043230
-                bra     Offset_0x03D9B8
+                bra.w   Offset_0x03D9B8
 ;-------------------------------------------------------------------------------
 Offset_0x03D8CE:
                 lea     Hang_Mobile_Setup_Data_4(PC), A1       ; Offset_0x03DBC2
@@ -355,7 +355,7 @@ Offset_0x03D93C:
                 jmp     Child_Display_Or_Delete_2(PC)          ; Offset_0x0424A8  
 ;-------------------------------------------------------------------------------
 Offset_0x03D944:
-                bsr     Offset_0x03DA3A
+                bsr.w   Offset_0x03DA3A
                 move.l  #Run_Object_Wait_Timer_A0, (A0)        ; Offset_0x0423D2
                 move.l  #Offset_0x03D958, Obj_Child(A0)                  ; $0034
                 rts                                  
@@ -403,7 +403,7 @@ Offset_0x03D9B8:
                 moveq   #$10, D3
                 moveq   #$00, D4
                 move.b  Obj_Subtype(A0), D4                              ; $002C
-                bsr     Offset_0x03DA0E
+                bsr.w   Offset_0x03DA0E
                 move.w  Obj_Y(A1), D0                                    ; $0014
                 move.b  Obj_Control_Var_13(A0), D1                       ; $0043
                 ext.w   D1
@@ -411,7 +411,7 @@ Offset_0x03D9B8:
                 move.w  Obj_Y(A2), D2                                    ; $0014
                 sub.w   D2, D1
                 moveq   #$14, D3
-                bsr     Offset_0x03DA0E
+                bsr.w   Offset_0x03DA0E
                 tst.b   Obj_Control_Var_0C(A2)                           ; $003C
                 beq.s   Offset_0x03DA04
                 bmi.s   Offset_0x03DA04
@@ -434,11 +434,11 @@ Offset_0x03DA16:
 ;-------------------------------------------------------------------------------
 Offset_0x03DA1E:
                 asr.w   #$02, D1
-                bra     Offset_0x03DA32     
+                bra.w   Offset_0x03DA32     
 ;-------------------------------------------------------------------------------
 Offset_0x03DA24:
                 asr.w   #$01, D1
-                bra     Offset_0x03DA32    
+                bra.w   Offset_0x03DA32    
 ;-------------------------------------------------------------------------------
 Offset_0x03DA2A:
                 asr.w   #$01, D1
@@ -536,7 +536,7 @@ Offset_0x03DB30:
                 bne.s   Offset_0x03DB54
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03DB54:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 moveq   #$00, D0

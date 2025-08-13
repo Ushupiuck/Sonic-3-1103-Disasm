@@ -135,7 +135,7 @@ Offset_0x0488A0:
                 bcc.s   Offset_0x0488D4
                 jsr     (ObjectFall)                           ; Offset_0x0110FE
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
-                bmi     Offset_0x0488EC
+                bmi.w   Offset_0x0488EC
                 jmp     Run_Object_Hit_Floor_A0(PC)            ; Offset_0x0423E0 
 ;-------------------------------------------------------------------------------
 Offset_0x0488C0:

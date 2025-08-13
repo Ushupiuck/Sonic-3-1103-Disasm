@@ -67,7 +67,7 @@ Offset_0x032B10:
                 move.l  Obj_Control_Var_04(A0), D1                       ; $0034
                 add.l   Obj_Control_Var_00(A0), D1                       ; $0030
                 move.l  D1, Obj_Control_Var_04(A0)                       ; $0034
-                swap.w  D1
+                swap	D1
 Offset_0x032B1E:
                 move.w  D1, (Background_Events+$02).w                ; $FFFFEED4
                 sub.w   D0, D1

@@ -16,7 +16,7 @@ Offset_0x010FD0:
 Offset_0x010FD6:
                 moveq   #$00, D1
                 move.w  Obj_Control_Var_0C(A0), D1                       ; $003C
-                swap.w  D1
+                swap	D1
                 move.l  Obj_Control_Var_04(A0), D0                       ; $0034
                 sub.l   D1, D0
                 asr.l   #$04, D0
@@ -24,7 +24,7 @@ Offset_0x010FD6:
                 move.w  Obj_Control_Var_04(A0), Obj_X(A0)         ; $0034, $0010
                 moveq   #$00, D1
                 move.w  Obj_Control_Var_0E(A0), D1                       ; $003E
-                swap.w  D1
+                swap	D1
                 move.l  Obj_Control_Var_08(A0), D0                       ; $0038
                 sub.l   D1, D0
                 asr.l   #$04, D0

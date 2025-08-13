@@ -32,7 +32,7 @@ Offset_0x02C854:
                 tst.b   (A3)
                 bne.s   Offset_0x02C866
                 moveq   #Switch_Blip_Sfx, D0                               ; $64
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.b  #$00, Obj_Ani_Time(A0)                           ; $0024
 Offset_0x02C866:
                 bset    D3, (A3)

@@ -8,14 +8,14 @@
                 add.b   D0, D0
                 move.b  D0, Obj_Control_Var_04(A0)                       ; $0034
                 move.l  #Offset_0x02833C, (A0)
-                bra     Offset_0x02833C
+                bra.w   Offset_0x02833C
 Offset_0x02828E:
                 move.l  #Offset_0x028294, (A0)
 Offset_0x028294:                
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x0282AA
+                bsr.w   Offset_0x0282AA
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x0282AA
+                bsr.w   Offset_0x0282AA
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x0282AA:
                 move.w  Obj_X(A1), D0                                    ; $0010
@@ -60,7 +60,7 @@ Offset_0x02831A:
                 move.w  Obj_Control_Var_06(A0), D0                       ; $0036
                 bne.s   Offset_0x028330
                 moveq   #Tunnel_Booster_Sfx, D0                           ; -$7E
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x028330:
                 addq.w  #$01, Obj_Control_Var_06(A0)                     ; $0036
                 andi.w  #$001F, Obj_Control_Var_06(A0)                   ; $0036
@@ -69,14 +69,14 @@ Offset_0x02833A:
 Offset_0x02833C:
                 lea     Obj_Control_Var_00(A0), A2                       ; $0030
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x028358
+                bsr.w   Offset_0x028358
                 addq.w  #$01, A2
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x028358
+                bsr.w   Offset_0x028358
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x028358:
                 move.b  (A2), D0
-                bne     Offset_0x0283DA
+                bne.w   Offset_0x0283DA
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$0018, D0
@@ -99,7 +99,7 @@ Offset_0x028358:
                 move.b  Obj_Control_Var_04(A0), $0002(A2)                ; $0034
                 move.w  D0, -(A7)
                 moveq   #Transporter_Sfx, D0                              ; -$7F
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  (A7)+, D0
 Offset_0x0283B2:
                 asr.w   #$03, D1

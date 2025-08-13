@@ -22,7 +22,7 @@ Offset_0x023528:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x023546:
                 btst    D6, Obj_Status(A0)                               ; $002A
-                bne     Offset_0x0235BC
+                bne.w   Offset_0x0235BC
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 cmp.w   Obj_Control_Var_00(A0), D0                       ; $0030
@@ -89,13 +89,13 @@ Offset_0x023610:
                 btst    #$03, Obj_Status(A1)                             ; $002A
                 beq.s   Offset_0x0235BA
                 move.b  (A2), D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 moveq   #$00, D2
                 move.b  Obj_Height_2(A1), D2                             ; $001E
                 lsl.w   #$08, D2
                 addi.w  #$4000, D2
                 muls.w  D2, D1
-                swap.w  D1
+                swap	D1
                 add.w   Obj_Y(A0), D1                                    ; $0014
                 move.w  D1, Obj_Y(A1)                                    ; $0014
                 move.b  (A2), D0

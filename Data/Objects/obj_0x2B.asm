@@ -70,12 +70,12 @@ Offset_0x021C20:
                 move.l  #Offset_0x021C26, (A0)
 Offset_0x021C26:                
                 move.w  Obj_Control_Var_0C(A0), A3                       ; $003C
-                bsr     Offset_0x021C4E
+                bsr.w   Offset_0x021C4E
                 moveq   #$00, D1
                 move.b  Obj_Width(A0), D1                                ; $0007
                 move.l  Obj_Control_Var_02(A0), A2                       ; $0032
                 move.w  Obj_X(A0), D4                                    ; $0010
-                jsr     (Offset_0x021D8E)
+                jsr     (Offset_0x021D8E).l
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E  
 ;-------------------------------------------------------------------------------
 Offset_0x021C48:

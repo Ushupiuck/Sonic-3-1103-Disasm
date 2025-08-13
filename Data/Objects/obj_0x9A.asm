@@ -8,7 +8,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x0446EC(PC, D0), D1
                 jsr     Offset_0x0446EC(PC, D1)
-                bsr     Offset_0x044746
+                bsr.w   Offset_0x044746
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x0446EC:
@@ -49,7 +49,7 @@ Offset_0x04473E:
 ;-------------------------------------------------------------------------------
 Offset_0x044746:
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
-                bne     Offset_0x044722
+                bne.w   Offset_0x044722
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 andi.w  #$000F, D0
                 lea     (Level_Trigger_Array).w, A3                  ; $FFFFF7E0

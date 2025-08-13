@@ -35,14 +35,14 @@ Offset_0x00F3C6:
                 addq.b  #$08, Obj_Routine(A0)                            ; $0005
                 andi.w  #$007F, D0
                 move.b  D0, Obj_Player_Hit_Flag(A0)                      ; $0037
-                bra     Offset_0x00F68E
+                bra.w   Offset_0x00F68E
 Offset_0x00F3F4:
                 move.b  D0, Obj_Ani_Number(A0)                           ; $0020
                 move.w  Obj_X(A0), Obj_P_Invunerblt_Time(A0)      ; $0010, $0034
                 move.w  #$FF00, Obj_Speed_Y(A0)                          ; $001A
 Offset_0x00F404:
-                lea     (Bubbles_Animate_Data), A1             ; Offset_0x00F8E0
-                jsr     (AnimateSprite)                        ; Offset_0x01115E
+                lea     (Bubbles_Animate_Data).l, A1             ; Offset_0x00F8E0
+                jsr     (AnimateSprite).l                        ; Offset_0x01115E
 Offset_0x00F410:
                 move.w  (Water_Level_Move).w, D0                     ; $FFFFF646
                 cmp.w   Obj_Y(A0), D0                                    ; $0014
@@ -62,7 +62,7 @@ Offset_0x00F440:
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 addq.b  #$01, Obj_Angle(A0)                              ; $0026
                 andi.w  #$007F, D0
-                lea     (Offset_0x00F546), A1
+                lea     (Offset_0x00F546).l, A1
                 move.b  $00(A1, D0), D0
                 ext.w   D0
                 add.w   Obj_P_Invunerblt_Time(A0), D0                    ; $0034
@@ -71,16 +71,16 @@ Offset_0x00F440:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x00F476
-                jmp     (DisplaySprite)                        ; Offset_0x011148
+                jmp     (DisplaySprite).l                        ; Offset_0x011148
 Offset_0x00F476:
-                jmp     (DeleteObject)                         ; Offset_0x011138
+                jmp     (DeleteObject).l                         ; Offset_0x011138
 Offset_0x00F47C:
                 bsr.s   Offset_0x00F4FA
-                lea     (Bubbles_Animate_Data), A1             ; Offset_0x00F8E0
-                jsr     (AnimateSprite)                        ; Offset_0x01115E
-                jmp     (DisplaySprite)                        ; Offset_0x011148
+                lea     (Bubbles_Animate_Data).l, A1             ; Offset_0x00F8E0
+                jsr     (AnimateSprite).l                        ; Offset_0x01115E
+                jmp     (DisplaySprite).l                        ; Offset_0x011148
 Offset_0x00F490:
-                jmp     (DeleteObject)                         ; Offset_0x011138
+                jmp     (DeleteObject).l                         ; Offset_0x011138
 Offset_0x00F496:
                 move.l  Obj_Player_Jump(A0), A2                          ; $0040
                 cmpi.b  #$0C, Obj_Subtype(A2)                            ; $002C
@@ -91,23 +91,23 @@ Offset_0x00F496:
                 addq.b  #$07, Obj_Ani_Number(A0)                         ; $0020
                 bra.s   Offset_0x00F47C
 Offset_0x00F4B4:
-                lea     (Bubbles_Animate_Data), A1             ; Offset_0x00F8E0
-                jsr     (AnimateSprite)                        ; Offset_0x01115E
-                bsr     Offset_0x00F646
+                lea     (Bubbles_Animate_Data).l, A1             ; Offset_0x00F8E0
+                jsr     (AnimateSprite).l                        ; Offset_0x01115E
+                bsr.w   Offset_0x00F646
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x00F4D0
-                jmp     (DisplaySprite)                        ; Offset_0x011148
+                jmp     (DisplaySprite).l                        ; Offset_0x011148
 Offset_0x00F4D0:
-                jmp     (DeleteObject)                         ; Offset_0x011138
+                jmp     (DeleteObject).l                         ; Offset_0x011138
 Offset_0x00F4D6:
                 move.l  Obj_Player_Jump(A0), A2                          ; $0040
                 cmpi.b  #$0C, Obj_Subtype(A2)                            ; $002C
                 bhi.s   Offset_0x00F490
                 bsr.s   Offset_0x00F4FA
-                lea     (Bubbles_Animate_Data), A1             ; Offset_0x00F8E0
-                jsr     (AnimateSprite)                        ; Offset_0x01115E
-                bsr     Offset_0x00F646
-                jmp     (DisplaySprite)                        ; Offset_0x011148
+                lea     (Bubbles_Animate_Data).l, A1             ; Offset_0x00F8E0
+                jsr     (AnimateSprite).l                        ; Offset_0x01115E
+                bsr.w   Offset_0x00F646
+                jmp     (DisplaySprite).l                        ; Offset_0x011148
 Offset_0x00F4FA:
                 tst.w   Obj_Player_St_Convex(A0)                         ; $003C
                 beq.s   Offset_0x00F544
@@ -186,23 +186,23 @@ Offset_0x00F646:
                 move.w  #$FE00, D2
 Offset_0x00F682:
                 move.w  #$0060, D3
-                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer).l                        ; Offset_0x0012FC
 Offset_0x00F68C:
                 rts      
 ;-------------------------------------------------------------------------------
 Offset_0x00F68E:
                 move.l  Obj_Player_Jump(A0), A2                          ; $0040
                 tst.w   Obj_P_Flips_Remaining(A0)                        ; $0030
-                bne     Offset_0x00F78C
+                bne.w   Offset_0x00F78C
                 cmpi.b  #$06, Obj_Routine(A2)                            ; $0005
-                bcc     Offset_0x00F89C
+                bcc.w   Offset_0x00F89C
                 btst    #$06, Obj_Status(A2)                             ; $002A
-                beq     Offset_0x00F89C
+                beq.w   Offset_0x00F89C
                 subq.w  #$01, Obj_Player_St_Convex(A0)                   ; $003C
-                bpl     Offset_0x00F7B0
+                bpl.w   Offset_0x00F7B0
                 move.w  #$003B, Obj_Player_St_Convex(A0)                 ; $003C
                 move.w  #$0001, Obj_Player_Next_Tilt(A0)                 ; $003A
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$0001, D0
                 move.b  D0, Obj_Player_Selected(A0)                      ; $0038
                 moveq   #$00, D0
@@ -219,7 +219,7 @@ Offset_0x00F68E:
                 tst.b   Obj_Player_One_Or_Two_2(A0)                      ; $0043
                 bne.s   Offset_0x00F6FE
                 moveq   #Panic_Snd, D0                                     ; $31
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x00F6FE:
                 subq.b  #$01, Obj_P_Spd_Shoes_Time(A0)                   ; $0036
                 bpl.s   Offset_0x00F720
@@ -230,13 +230,13 @@ Offset_0x00F712:
                 tst.b   Obj_Player_One_Or_Two_2(A0)                      ; $0043
                 bne.s   Offset_0x00F720
                 moveq   #Underwater_Sfx, D0                                ; $79
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x00F720:
                 subq.b  #$01, Obj_Subtype(A2)                            ; $002C
                 bcc     Offset_0x00F7AE
                 move.b  #$81, Obj_Player_Control(A2)                     ; $002E
                 move.w  #Drowning_Sfx, D0                                ; $003B
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.b  #$0A, Obj_Player_Selected(A0)                    ; $0038
                 move.w  #$0001, Obj_Player_Next_Tilt(A0)                 ; $003A
                 move.w  #$0078, Obj_P_Flips_Remaining(A0)                ; $0030
@@ -273,16 +273,16 @@ Offset_0x00F7AE:
                 bra.s   Offset_0x00F7C0
 Offset_0x00F7B0:
                 tst.w   Obj_Player_Next_Tilt(A0)                         ; $003A
-                beq     Offset_0x00F89C
+                beq.w   Offset_0x00F89C
                 subq.w  #$01, Obj_Player_Spdsh_Cnt(A0)                   ; $003E
-                bpl     Offset_0x00F89C
+                bpl.w   Offset_0x00F89C
 Offset_0x00F7C0:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$000F, D0
                 addq.w  #$08, D0
                 move.w  D0, Obj_Player_Spdsh_Cnt(A0)                     ; $003E
-                jsr     (AllocateObject)                     ; Offset_0x011DD8
-                bne     Offset_0x00F89C
+                jsr     (AllocateObject).l                     ; Offset_0x011DD8
+                bne.w   Offset_0x00F89C
                 move.l  (A0), (A1)
                 move.w  Obj_X(A2), Obj_X(A1)                      ; $0010, $0010
                 moveq   #$06, D0
@@ -296,13 +296,13 @@ Offset_0x00F7F4:
                 move.l  Obj_Player_Jump(A0), Obj_Player_Jump(A1)  ; $0040, $0040
                 move.b  #$06, Obj_Subtype(A1)                            ; $002C
                 tst.w   Obj_P_Flips_Remaining(A0)                        ; $0030
-                beq     Offset_0x00F846
+                beq.w   Offset_0x00F846
                 andi.w  #$0007, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 addi.w  #$0000, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 move.w  Obj_Y(A2), D0                                    ; $0014
                 subi.w  #$000C, D0
                 move.w  D0, Obj_Y(A1)                                    ; $0014
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.b  D0, Obj_Angle(A1)                                ; $0026
                 move.w  (Level_Frame_Count).w, D0                    ; $FFFFFE04
                 andi.b  #$03, D0
@@ -317,7 +317,7 @@ Offset_0x00F846:
                 cmpi.b  #$0C, D2
                 bcc.s   Offset_0x00F892
                 lsr.w   #$01, D2
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$0003, D0
                 bne.s   Offset_0x00F87A
                 bset    #$06, Obj_Player_Next_Tilt(A0)                   ; $003A

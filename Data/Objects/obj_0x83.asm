@@ -28,7 +28,7 @@ Offset_0x043F38:
                 move.w  #$003B, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x043F88, Obj_Child(A0)                  ; $0034
                 btst    #$00, Obj_Flags(A0)                              ; $0004
-                bne     Offset_0x043F7A
+                bne.w   Offset_0x043F7A
                 lea     Offset_0x044446(PC), A2
                 jmp     Load_Child_Object_Link_List_Repeat_A2(PC) ; Offset_0x041EA0
 Offset_0x043F7A:
@@ -116,7 +116,7 @@ Offset_0x04406A:
                 jmp     Child_Display_Or_Delete(PC)            ; Offset_0x04245C 
 ;-------------------------------------------------------------------------------
 Offset_0x044092:
-                bsr     Offset_0x0442C6
+                bsr.w   Offset_0x0442C6
                 moveq   #$00, D0
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x0440A8(PC, D0), D1
@@ -149,39 +149,39 @@ Offset_0x0440CE:
 Offset_0x0440DC:
                 move.b  #$02, Obj_Routine(A0)                            ; $0005
 Offset_0x0440E2:                
-                bsr     Offset_0x0443FE
+                bsr.w   Offset_0x0443FE
                 move.l  #Offset_0x044136, Obj_Child(A0)                  ; $0034
 Offset_0x0440EE:                
                 rts        
 ;-------------------------------------------------------------------------------
 Offset_0x0440F0:
-                bsr     Offset_0x0442EA
+                bsr.w   Offset_0x0442EA
                 beq.s   Offset_0x04413A   
 ;-------------------------------------------------------------------------------
 Offset_0x0440F6:
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x044114
                 move.b  Obj_Control_Var_11(A0), D1                       ; $0041
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 subi.b  #$20, D0
                 cmpi.b  #$60, D0
                 bcc.s   Offset_0x044126
-                bra     Offset_0x044132
+                bra.w   Offset_0x044132
 Offset_0x044114:
                 move.b  Obj_Control_Var_11(A0), D1                       ; $0041
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 subi.b  #$80, D0
                 cmpi.b  #$60, D0
                 bcs.s   Offset_0x044132
 Offset_0x044126:
                 neg.w   Obj_Control_Var_10(A0)                           ; $0040
                 move.b  Obj_Control_Var_11(A0), D1                       ; $0041
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
 Offset_0x044132:
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x044136:
-                bra     Offset_0x0443FE      
+                bra.w   Offset_0x0443FE      
 ;-------------------------------------------------------------------------------
 Offset_0x04413A:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
@@ -192,13 +192,13 @@ Offset_0x044148:
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x04415E
                 moveq   #$04, D1
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 cmpi.b  #$C0, D0
                 bcc.s   Offset_0x04416C
                 rts
 Offset_0x04415E:
                 moveq   #-$04, D1
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 cmpi.b  #$40, D0
                 bls.s   Offset_0x04416C
                 rts
@@ -211,14 +211,14 @@ Offset_0x04417A:
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x044190
                 moveq   #-$08, D1
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 moveq   #$60, D1
                 cmp.b   D1, D0
                 bls.s   Offset_0x04419E
                 rts
 Offset_0x044190:
                 moveq   #$08, D1
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 moveq   #-$60, D1
                 cmp.b   D1, D0
                 bcc.s   Offset_0x04419E
@@ -233,14 +233,14 @@ Offset_0x0441B0:
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 bne.s   Offset_0x0441C6
                 moveq   #-$02, D1
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 moveq   #-$80, D1
                 cmp.b   D1, D0
                 bls.s   Offset_0x0441D4
                 rts
 Offset_0x0441C6:
                 moveq   #$02, D1
-                bsr     Offset_0x044306
+                bsr.w   Offset_0x044306
                 moveq   #-$80, D1
                 cmp.b   D1, D0
                 bcc.s   Offset_0x0441D4
@@ -248,10 +248,10 @@ Offset_0x0441C6:
 Offset_0x0441D4:
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
                 move.b  D1, Obj_Control_Var_0C(A0)                       ; $003C
-                bra     Offset_0x0440E2  
+                bra.w   Offset_0x0440E2  
 ;-------------------------------------------------------------------------------
 Offset_0x0441E2:
-                bsr     Offset_0x0442DE
+                bsr.w   Offset_0x0442DE
                 moveq   #$00, D0
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x0441F8(PC, D0), D1
@@ -265,18 +265,18 @@ Offset_0x0441F8:
 ;-------------------------------------------------------------------------------
 Offset_0x0441FE:
                 moveq   #$02, D1
-                bsr     Offset_0x044330   
+                bsr.w   Offset_0x044330   
 ;-------------------------------------------------------------------------------
 Offset_0x044204:
-                bra     Offset_0x044312  
+                bra.w   Offset_0x044312  
 ;-------------------------------------------------------------------------------
 Offset_0x044208:
                 moveq   #$04, D1
-                bsr     Offset_0x044358
-                bra     Offset_0x044312
+                bsr.w   Offset_0x044358
+                bra.w   Offset_0x044312
 ;-------------------------------------------------------------------------------
 Offset_0x044212:
-                bsr     Offset_0x0442DE
+                bsr.w   Offset_0x0442DE
                 moveq   #$00, D0
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x044228(PC, D0), D1
@@ -290,16 +290,16 @@ Offset_0x044228:
 ;-------------------------------------------------------------------------------
 Offset_0x04422E:
                 moveq   #$02, D1
-                bsr     Offset_0x044330     
+                bsr.w   Offset_0x044330     
 ;-------------------------------------------------------------------------------
 Offset_0x044234:
-                bra     Offset_0x044312    
+                bra.w   Offset_0x044312    
 ;-------------------------------------------------------------------------------
 Offset_0x044238:
-                bsr     Offset_0x04437A
+                bsr.w   Offset_0x04437A
                 moveq   #$04, D1
-                bsr     Offset_0x044358
-                bra     Offset_0x044312
+                bsr.w   Offset_0x044358
+                bra.w   Offset_0x044312
 ;-------------------------------------------------------------------------------
 Offset_0x044246:
                 lea     Offset_0x044432(PC), A1
@@ -415,7 +415,7 @@ Offset_0x04437A:
                 btst    #$03, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x0443A6
                 btst    #$00, Obj_Control_Var_08(A0)                     ; $0038
-                bne     Offset_0x0440EE
+                bne.w   Offset_0x0440EE
                 move.w  Obj_Height_3(A0), A1                             ; $0044
                 btst    #$02, Obj_Control_Var_08(A1)                     ; $0038
                 beq.s   Offset_0x0443A4
@@ -426,19 +426,19 @@ Offset_0x0443A4:
                 rts
 Offset_0x0443A6:
                 btst    #$00, Obj_Control_Var_08(A0)                     ; $0038
-                bne     Offset_0x0440EE
+                bne.w   Offset_0x0440EE
                 move.w  Obj_Height_3(A0), A1                             ; $0044
                 btst    #$02, Obj_Control_Var_08(A1)                     ; $0038
                 beq.s   Offset_0x0443A4
                 move.w  Obj_Control_Var_0E(A0), A1                       ; $003E
                 cmpi.b  #$7C, Obj_Control_Var_0C(A1)                     ; $003C
-                bcs     Offset_0x0440EE
+                bcs.w   Offset_0x0440EE
                 move.w  #$2548, Obj_Art_VRAM(A0)                         ; $000A
 Offset_0x0443D0:
                 bset    #$00, Obj_Control_Var_08(A0)                     ; $0038
                 move.b  #$04, Obj_Map_Id(A0)                             ; $0022
                 moveq   #Missile_Throw_Sfx, D0                             ; $56
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     (Offset_0x044462), A2
                 jsr     SetupChildObject_Complex(PC)       ; Offset_0x041DEA
                 bne.s   Offset_0x0443A4
@@ -448,7 +448,7 @@ Offset_0x0443D0:
                 rts   
 ;-------------------------------------------------------------------------------  
 Offset_0x0443FE:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  (Random_Seed).w, D0                          ; $FFFFF636
                 moveq   #$01, D1
                 btst    #$00, D0

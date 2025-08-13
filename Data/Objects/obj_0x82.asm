@@ -108,7 +108,7 @@ Offset_0x043D58:
                 move.l  #Offset_0x043D94, Obj_Child(A0)                  ; $0034
                 bset    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 moveq   #Grab_Sfx, D0                                      ; $4A
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x043EF0(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x043D92
@@ -156,7 +156,7 @@ Offset_0x043DE2:
                 cmpi.w  #$0080, Obj_Speed_X(A0)                          ; $0018
                 bgt.s   Offset_0x043E44
                 moveq   #$01, D1
-                bra     Offset_0x043E44
+                bra.w   Offset_0x043E44
 Offset_0x043E02:
                 moveq   #$01, D1
                 cmpi.w  #$0280, Obj_Speed_X(A0)                          ; $0018
@@ -164,14 +164,14 @@ Offset_0x043E02:
                 moveq   #$02, D1
                 bset    #$01, Obj_Control_Var_08(A0)                     ; $0038
                 beq.s   Offset_0x043E4A
-                bra     Offset_0x043E44
+                bra.w   Offset_0x043E44
 Offset_0x043E1A:
                 btst    #$02, Obj_Control_Var_08(A0)                     ; $0038
                 bne.s   Offset_0x043E30
                 cmpi.w  #$FF80, Obj_Speed_X(A0)                          ; $0018
                 ble.s   Offset_0x043E44
                 moveq   #$01, D1
-                bra     Offset_0x043E44
+                bra.w   Offset_0x043E44
 Offset_0x043E30:
                 moveq   #$01, D1
                 cmpi.w  #$FD80, Obj_Speed_X(A0)                          ; $0018
@@ -185,7 +185,7 @@ Offset_0x043E44:
 Offset_0x043E4A:
                 move.b  D1, Obj_Map_Id(A0)                               ; $0022
                 moveq   #Grab_Sfx, D0                                      ; $4A
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x043EE8(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x043E68

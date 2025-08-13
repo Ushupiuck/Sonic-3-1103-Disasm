@@ -14,7 +14,7 @@ Offset_0x01F628:
                 move.w  #$002B, D1
                 move.w  #$0010, D2
                 move.w  Obj_X(A0), D4                                    ; $0010
-                lea     (Offset_0x01F838), A2
+                lea     (Offset_0x01F838).l, A2
                 lea     Obj_Timer(A0), A4                                ; $002E
                 tst.b   (A4)
                 beq.s   Offset_0x01F646
@@ -24,7 +24,7 @@ Offset_0x01F646:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 moveq   #$03, D6
                 movem.l D1-D4, -(A7)
-                jsr     (Offset_0x013624)
+                jsr     (Offset_0x013624).l
                 cmpi.w  #$FFFE, D4
                 bne.s   Offset_0x01F65E
                 bsr.s   Offset_0x01F6BA
@@ -39,7 +39,7 @@ Offset_0x01F662:
 Offset_0x01F66C:
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 moveq   #$04, D6
-                jsr     (Offset_0x013624)
+                jsr     (Offset_0x013624).l
                 cmpi.w  #$FFFE, D4
                 bne.s   Offset_0x01F680
                 bsr.s   Offset_0x01F6BA

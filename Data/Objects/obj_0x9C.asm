@@ -177,9 +177,9 @@ Offset_0x044B3A:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 bne.s   Offset_0x044B5E
-                bsr     Offset_0x044B62
+                bsr.w   Offset_0x044B62
                 bchg    #00, Obj_Control_Var_08(A0)                      ; $0038
-                beq     Offset_0x044A0E
+                beq.w   Offset_0x044A0E
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x044B5E:
                 jmp     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E
@@ -190,11 +190,11 @@ Offset_0x044B62:
                 lea     Offset_0x044C68(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 bne.s   Offset_0x044B92
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$0007, D0
                 subq.w  #$03, D0
                 add.w   D0, Obj_X(A1)                                    ; $0010
-                swap.w  D0
+                swap	D0
                 andi.w  #$0007, D0
                 subq.w  #$03, D0
                 add.w   D0, Obj_Y(A1)                                    ; $0014

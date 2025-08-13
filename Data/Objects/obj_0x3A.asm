@@ -65,7 +65,7 @@ Offset_0x026B60:
                 subq.w  #$08, Obj_Control_Var_00(A0)                     ; $0030
                 bra.s   Offset_0x026B92
 Offset_0x026B80:
-                bsr     Offset_0x026C88
+                bsr.w   Offset_0x026C88
                 bra.s   Offset_0x026B92
 Offset_0x026B86:
                 cmpi.w  #$0050, Obj_Control_Var_00(A0)                   ; $0030
@@ -85,7 +85,7 @@ Offset_0x026BB6:
                 tst.w   Obj_Control_Var_06(A0)                           ; $0036
                 beq.s   Offset_0x026BC6
                 subq.w  #$01, Obj_Control_Var_06(A0)                     ; $0036
-                bsr     Offset_0x026C88
+                bsr.w   Offset_0x026C88
                 bra.s   Offset_0x026BF8
 Offset_0x026BC6:
                 cmpi.w  #$0050, Obj_Control_Var_00(A0)                   ; $0030
@@ -96,7 +96,7 @@ Offset_0x026BC6:
 Offset_0x026BDC:
                 cmpi.w  #$0018, Obj_Control_Var_00(A0)                   ; $0030
                 bne.s   Offset_0x026BF4
-                bsr     Offset_0x026C24
+                bsr.w   Offset_0x026C24
                 move.b  #$06, Obj_Map_Id(A0)                             ; $0022
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
 Offset_0x026BF4:
@@ -116,7 +116,7 @@ Offset_0x026C1E:
 Offset_0x026C24:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 moveq   #$03, D6
-                bsr     Offset_0x026C34
+                bsr.w   Offset_0x026C34
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 moveq   #$04, D6
 Offset_0x026C34:
@@ -146,7 +146,7 @@ Offset_0x026C88:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 moveq   #$03, D6
                 move.b  (Control_Ports_Logical_Data+$01).w, D0       ; $FFFFF603
-                bsr     Offset_0x026CA0
+                bsr.w   Offset_0x026CA0
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 moveq   #$04, D6
                 move.b  (Control_Ports_Logical_Data_2+$01).w, D0     ; $FFFFF66B

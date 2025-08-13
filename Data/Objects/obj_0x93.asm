@@ -186,7 +186,7 @@ Offset_0x0497C6:
                 bmi.s   Offset_0x0497F2
                 move.w  #$0018, D3
                 jsr     (Object_HitWall_Right)                 ; Offset_0x009EEE
-                bra     Offset_0x0497FC
+                bra.w   Offset_0x0497FC
 Offset_0x0497F2:
                 move.w  #$FFE8, D3
                 jsr     (Object_HitWall_Left)                  ; Offset_0x00A138
@@ -239,7 +239,7 @@ Offset_0x049886:
                 rts
 ;-------------------------------------------------------------------------------                
 Offset_0x049888:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 moveq   #$00, D2
                 tst.b   D0
                 bpl.s   Offset_0x0498A4
@@ -264,7 +264,7 @@ Offset_0x0498C8:
 ;-------------------------------------------------------------------------------
 Offset_0x0498D0:
                 move.b  Obj_Col_Prop(A0), D0                             ; $0029
-                beq     Offset_0x04991C
+                beq.w   Offset_0x04991C
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
                 andi.w  #$0003, D0
                 add.w   D0, D0
@@ -292,7 +292,7 @@ Offset_0x04991E:
 ;-------------------------------------------------------------------------------
 Offset_0x049924:
                 move.b  Obj_Col_Prop(A0), D0                             ; $0029
-                beq     Offset_0x049970
+                beq.w   Offset_0x049970
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
                 andi.w  #$0003, D0
                 add.w   D0, D0

@@ -54,7 +54,7 @@ Offset_0x048B18:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 tst.b   Obj_Subtype(A1)                                  ; $002C
                 bne.s   Offset_0x048B28
-                bsr     Offset_0x048B7A
+                bsr.w   Offset_0x048B7A
                 beq.s   Offset_0x048B30
 Offset_0x048B28:
                 move.b  Obj_Control_Var_10(A0), D0                       ; $0040

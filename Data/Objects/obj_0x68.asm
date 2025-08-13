@@ -30,12 +30,12 @@ Offset_0x028A18:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 moveq   #$03, D6
                 move.w  (Control_Ports_Logical_Data).w, D5           ; $FFFFF602
-                bsr     Offset_0x028AEE
+                bsr.w   Offset_0x028AEE
                 addq.w  #$04, A2
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 moveq   #$04, D6
                 move.w  (Control_Ports_Logical_Data_2).w, D5         ; $FFFFF66A
-                bsr     Offset_0x028AEE
+                bsr.w   Offset_0x028AEE
                 move.w  #$001B, D1
                 move.w  #$0020, D2
                 move.w  #$0021, D3
@@ -46,7 +46,7 @@ Offset_0x028A18:
                 move.b  #$07, Obj_Ani_Time(A0)                           ; $0024
                 addq.b  #$01, Obj_Map_Id(A0)                             ; $0022
                 cmpi.b  #$03, Obj_Map_Id(A0)                             ; $0022
-                bcs     Offset_0x028A72
+                bcs.w   Offset_0x028A72
                 move.b  #$00, Obj_Map_Id(A0)                             ; $0022
 Offset_0x028A72:
                 move.w  Obj_Timer(A0), D0                                ; $002E
@@ -123,21 +123,21 @@ Offset_0x028B30:
                 rts
 Offset_0x028B32:
                 btst    D6, Obj_Status(A0)                               ; $002A
-                beq     Offset_0x028BF6
+                beq.w   Offset_0x028BF6
                 tst.b   $0002(A2)
                 beq.s   Offset_0x028B44
                 subq.b  #$01, $0002(A2)
 Offset_0x028B44:
                 moveq   #$00, D0
                 move.b  $0001(A2), D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 addi.w  #$0100, D0
                 asr.w   #$02, D0
                 move.b  D0, $0003(A2)
                 moveq   #$00, D2
                 move.w  $0002(A2), D2
                 muls.w  D2, D1
-                swap.w  D1
+                swap	D1
                 add.w   Obj_X(A0), D1                                    ; $0010
                 move.w  D1, Obj_X(A1)                                    ; $0010
                 addq.b  #$02, $0001(A2)

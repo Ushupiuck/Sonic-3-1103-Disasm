@@ -4,12 +4,12 @@
 ;===============================================================================
 ; Offset_0x026408:
                 tst.w   (Two_Player_Flag).w                          ; $FFFFFFD8
-                bne     Obj_0x38_CGz_Fan_2P                    ; Offset_0x026960
+                bne.w   Obj_0x38_CGz_Fan_2P                    ; Offset_0x026960
                 move.l  A0, A1
                 tst.b   Obj_Subtype(A0)                                  ; $002C
                 bpl.s   Offset_0x02648A
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x0264D4
+                bne.w   Offset_0x0264D4
                 move.l  #Offset_0x02669C, (A0)
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_X(A0), Obj_Control_Var_10(A0)         ; $0010, $0040
@@ -53,7 +53,7 @@ Offset_0x0264D6:
                 btst    #$05, D0
                 beq.s   Offset_0x0264F4
                 tst.b   (Level_Trigger_Array).w                      ; $FFFFF7E0
-                beq     Offset_0x0265E2
+                beq.w   Offset_0x0265E2
                 bclr    #$05, Obj_Subtype(A0)                            ; $002C
                 bset    #$04, Obj_Subtype(A0)                            ; $002C
 Offset_0x0264F4:
@@ -70,22 +70,22 @@ Offset_0x0264F4:
                 move.w  #$00B4, Obj_Control_Var_00(A0)                   ; $0030
 Offset_0x026522:
                 tst.b   Obj_Control_Var_02(A0)                           ; $0032
-                beq     Offset_0x02654A
+                beq.w   Offset_0x02654A
 Offset_0x02652A:
                 subq.b  #$01, Obj_Ani_Time(A0)                           ; $0024
-                bpl     Offset_0x0265E2
+                bpl.w   Offset_0x0265E2
                 cmpi.w  #$0400, Obj_Control_Var_04(A0)                   ; $0034
-                bcc     Offset_0x0265E2
+                bcc.w   Offset_0x0265E2
                 addi.w  #$002A, Obj_Control_Var_04(A0)                   ; $0034
                 move.b  Obj_Control_Var_04(A0), Obj_Ani_Time(A0)  ; $0034, $0024
                 bra.s   Offset_0x026568
 Offset_0x02654A:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x0265EC
+                bsr.w   Offset_0x0265EC
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x0265EC
+                bsr.w   Offset_0x0265EC
                 subq.b  #$01, Obj_Ani_Time(A0)                           ; $0024
-                bpl     Offset_0x02657A
+                bpl.w   Offset_0x02657A
                 move.b  #$00, Obj_Ani_Time(A0)                           ; $0024
 Offset_0x026568:
                 addq.b  #$01, Obj_Map_Id(A0)                             ; $0022
@@ -108,7 +108,7 @@ Offset_0x02657A:
                 move.b  #$04, Obj_Width(A1)                              ; $0007
                 move.w  #$0300, Obj_Priority(A1)                         ; $0008
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$000F, D0
                 subq.w  #$08, D0
                 add.w   D0, Obj_X(A1)                                    ; $0010
@@ -119,7 +119,7 @@ Offset_0x0265E2:
                 jmp     (MarkObjGone_2)                        ; Offset_0x011B1A
 Offset_0x0265EC:
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
-                bcc     Offset_0x026676
+                bcc.w   Offset_0x026676
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bne.s   Offset_0x026676
                 move.w  Obj_X(A1), D0                                    ; $0010

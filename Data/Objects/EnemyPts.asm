@@ -12,7 +12,7 @@
                 move.l  #Offset_0x023E6E, (A0)
 Offset_0x023E6E:                
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
-                bpl     Flickies_DeleteObject                  ; Offset_0x023B3C
+                bpl.w   Flickies_DeleteObject                  ; Offset_0x023B3C
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 addi.w  #$0018, Obj_Speed_Y(A0)                          ; $001A
                 jmp     (DisplaySprite)                        ; Offset_0x011148                                                                                                                                                                                                                

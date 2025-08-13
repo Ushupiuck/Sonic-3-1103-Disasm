@@ -23,7 +23,7 @@ Offset_0x02E0E6:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl.s   Offset_0x02E122
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02E122
+                bne.w   Offset_0x02E122
                 moveq   #$2C, D0
 Offset_0x02E10A:
                 move.w  $00(A0, D0), $00(A1, D0)
@@ -50,7 +50,7 @@ Offset_0x02E128:
                 move.b  #$01, Obj_Ani_Time(A0)                           ; $0024
                 clr.b   Obj_Ani_Frame(A0)                                ; $0023
 Offset_0x02E162:
-                lea     (Waterfall_Animate_Data), A1           ; Offset_0x02E1D6
+                lea     (Waterfall_Animate_Data).l, A1           ; Offset_0x02E1D6
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 cmpi.b  #$04, Obj_Routine(A0)                            ; $0005
                 bne.s   Offset_0x02E17C

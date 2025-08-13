@@ -59,7 +59,7 @@ Offset_0x00CC6E:
                 move.w  (A1)+, $0002(A4)
                 move.w  (A1)+, Obj_Flags(A4)                             ; $0004
                 tst.b   (Saved_Level_Flag).w                         ; $FFFFFE30
-                bne     Offset_0x00CD58
+                bne.w   Offset_0x00CD58
                 move.b  #$0C, Obj_Player_Top_Solid(A0)                   ; $0046
                 move.b  #$0D, Obj_Player_LRB_Solid(A0)                   ; $0047
                 cmpa.w  #Obj_Player_One, A0                              ; $B000
@@ -120,7 +120,7 @@ Offset_0x00CDBC:
                 bne.s   Offset_0x00CDC8
                 move.w  (Control_Ports_Buffer_Data+$02).w, (Control_Ports_Logical_Data_2).w ; $FFFFF606, $FFFFF66A
 Offset_0x00CDC8:
-                bsr     Miles_Display                          ; Offset_0x00D304
+                bsr.w   Miles_Display                          ; Offset_0x00D304
                 btst    #$00, Obj_Player_Control(A0)                     ; $002E
                 bne.s   Offset_0x00CDE6
                 moveq   #$00, D0
@@ -137,18 +137,18 @@ Offset_0x00CDF6:
                 move.w  (Screen_Wrap_X).w, D0                        ; $FFFFEEA8
                 and.w   D0, Obj_X(A0)                                    ; $0010
                 addi.w  #$0400, Obj_X(A0)                                ; $0010
-                bsr     Sonic_RecordPos                 ; Offset_0x00ACA2
+                bsr.w   Sonic_RecordPos                 ; Offset_0x00ACA2
                 move.b  (Primary_Angle).w, Obj_Player_Next_Tilt(A0) ; $FFFFF768, $003A
                 move.b  (Secondary_Angle).w, Obj_Player_Tilt(A0) ; $FFFFF76A, $003B
                 btst    #$01, Obj_Player_Control(A0)                     ; $002E
                 bne.s   Offset_0x00CE24
-                bsr     Miles_Animate_Sprite_2P                ; Offset_0x00EDD0
-                bsr     Load_Miles_Dynamic_PLC_2P              ; Offset_0x00F150
+                bsr.w   Miles_Animate_Sprite_2P                ; Offset_0x00EDD0
+                bsr.w   Load_Miles_Dynamic_PLC_2P              ; Offset_0x00F150
 Offset_0x00CE24:
                 move.b  Obj_Player_Control(A0), D0                       ; $002E
                 andi.b  #$A0, D0
                 bne.s   Offset_0x00CE34
-                jsr     (Touch_Response_2P)                    ; Offset_0x00A168
+                jsr     (Touch_Response_2P).l                    ; Offset_0x00A168
 Offset_0x00CE34:
                 rts    
 ;-------------------------------------------------------------------------------
@@ -159,38 +159,38 @@ Offset_0x00CE36:
                 dc.w    Offset_0x00CF4E-Offset_0x00CE36   
 ;-------------------------------------------------------------------------------
 Offset_0x00CE3E:
-                bsr     Offset_0x00CFE2
-                bsr     Miles_Jump                             ; Offset_0x00E238
-                bsr     Miles_SlopeResist                      ; Offset_0x00E4DC
-                bsr     Miles_Move                             ; Offset_0x00DCD4
-                bsr     Offset_0x00CF7C
+                bsr.w   Offset_0x00CFE2
+                bsr.w   Miles_Jump                             ; Offset_0x00E238
+                bsr.w   Miles_SlopeResist                      ; Offset_0x00E4DC
+                bsr.w   Miles_Move                             ; Offset_0x00DCD4
+                bsr.w   Offset_0x00CF7C
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Player_AnglePos                        ; Offset_0x009144
-                bsr     Miles_SlopeRepel                       ; Offset_0x00E54E
+                bsr.w   Player_AnglePos                        ; Offset_0x009144
+                bsr.w   Miles_SlopeRepel                       ; Offset_0x00E54E
                 rts  
 ;-------------------------------------------------------------------------------
 Offset_0x00CE62:
                 tst.b   (Level_Boundaries_Flag).w                    ; $FFFFF668
                 bne.s   Offset_0x00CE96
-                bsr     Miles_JumpHeight                       ; Offset_0x00E2F8
-                bsr     Miles_ChgJumpDir                       ; Offset_0x00E0EC
+                bsr.w   Miles_JumpHeight                       ; Offset_0x00E2F8
+                bsr.w   Miles_ChgJumpDir                       ; Offset_0x00E0EC
                 jsr     (ObjectFall)                           ; Offset_0x0110FE
                 btst    #$06, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x00CE84
                 subi.w  #$0028, Obj_Speed_Y(A0)                          ; $001A
 Offset_0x00CE84:
-                bsr     Miles_JumpAngle                        ; Offset_0x00E590
+                bsr.w   Miles_JumpAngle                        ; Offset_0x00E590
                 movem.l A4-A6, -(A7)
-                bsr     Miles_Floor                            ; Offset_0x00E5F0
+                bsr.w   Miles_Floor                            ; Offset_0x00E5F0
                 movem.l (A7)+, A4-A6
                 rts
 Offset_0x00CE96:
-                bsr     Offset_0x00CEB6
-                bsr     Miles_ChgJumpDir                       ; Offset_0x00E0EC
+                bsr.w   Offset_0x00CEB6
+                bsr.w   Miles_ChgJumpDir                       ; Offset_0x00E0EC
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Miles_JumpAngle                        ; Offset_0x00E590
+                bsr.w   Miles_JumpAngle                        ; Offset_0x00E590
                 movem.l A4-A6, -(A7)
-                bsr     Miles_Floor                            ; Offset_0x00E5F0
+                bsr.w   Miles_Floor                            ; Offset_0x00E5F0
                 movem.l (A7)+, A4-A6
                 rts
 Offset_0x00CEB6:
@@ -235,26 +235,26 @@ Offset_0x00CF24:
 Offset_0x00CF2C:
                 tst.b   Obj_Player_Spdsh_Flag(A0)                        ; $003D
                 bne.s   Offset_0x00CF36
-                bsr     Miles_Jump                             ; Offset_0x00E238
+                bsr.w   Miles_Jump                             ; Offset_0x00E238
 Offset_0x00CF36:
-                bsr     Miles_RollRepel                        ; Offset_0x00E512
-                bsr     Miles_RollSpeed                        ; Offset_0x00DFC6
+                bsr.w   Miles_RollRepel                        ; Offset_0x00E512
+                bsr.w   Miles_RollSpeed                        ; Offset_0x00DFC6
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Player_AnglePos                        ; Offset_0x009144
-                bsr     Miles_SlopeRepel                       ; Offset_0x00E54E
+                bsr.w   Player_AnglePos                        ; Offset_0x009144
+                bsr.w   Miles_SlopeRepel                       ; Offset_0x00E54E
                 rts    
 ;-------------------------------------------------------------------------------
 Offset_0x00CF4E:
-                bsr     Miles_JumpHeight                       ; Offset_0x00E2F8
-                bsr     Miles_ChgJumpDir                       ; Offset_0x00E0EC
+                bsr.w   Miles_JumpHeight                       ; Offset_0x00E2F8
+                bsr.w   Miles_ChgJumpDir                       ; Offset_0x00E0EC
                 jsr     (ObjectFall)                           ; Offset_0x0110FE
                 btst    #$06, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x00CF6A
                 subi.w  #$0028, Obj_Speed_Y(A0)                          ; $001A
 Offset_0x00CF6A:
-                bsr     Miles_JumpAngle                        ; Offset_0x00E590
+                bsr.w   Miles_JumpAngle                        ; Offset_0x00E590
                 movem.l A4-A6, -(A7)
-                bsr     Miles_Floor                            ; Offset_0x00E5F0
+                bsr.w   Miles_Floor                            ; Offset_0x00E5F0
                 movem.l (A7)+, A4-A6
                 rts
 Offset_0x00CF7C:
@@ -284,7 +284,7 @@ Offset_0x00CFAE:
                 move.b  #$02, Obj_Ani_Number(A0)                         ; $0020
                 addq.w  #$04, Obj_Y(A0)                                  ; $0014
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 tst.w   Obj_Inertia(A0)                                  ; $001C
                 bne.s   Offset_0x00CFE0
                 move.w  #$0200, Obj_Inertia(A0)                          ; $001C
@@ -297,10 +297,10 @@ Offset_0x00CFE2:
                 bne.s   Offset_0x00D030
                 move.b  (Control_Ports_Logical_Data_2+$01).w, D0     ; $FFFFF66B
                 andi.b  #$70, D0
-                beq     Offset_0x00D030
+                beq.w   Offset_0x00D030
                 move.b  #$09, Obj_Ani_Number(A0)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 addq.l  #$04, A7
                 move.b  #$01, Obj_Player_Spdsh_Flag(A0)                  ; $003D
                 move.w  #$0000, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
@@ -308,14 +308,14 @@ Offset_0x00CFE2:
                 bcs.s   Offset_0x00D028
                 move.b  #$02, Obj_Ani_Number(A6)                         ; $0020
 Offset_0x00D028:
-                bsr     Miles_LevelBoundaries                  ; Offset_0x00E17C
-                bsr     Player_AnglePos                        ; Offset_0x009144
+                bsr.w   Miles_LevelBoundaries                  ; Offset_0x00E17C
+                bsr.w   Player_AnglePos                        ; Offset_0x009144
 Offset_0x00D030:
                 rts
 Offset_0x00D032:
                 move.b  (Control_Ports_Logical_Data_2).w, D0         ; $FFFFF66A
                 btst    #$01, D0
-                bne     Offset_0x00D0C2
+                bne.w   Offset_0x00D0C2
                 move.b  #$07, Obj_Height_2(A0)                           ; $001E
                 move.b  #$03, Obj_Width_2(A0)                            ; $001F
                 move.b  #$02, Obj_Ani_Number(A0)                         ; $0020
@@ -344,7 +344,7 @@ Offset_0x00D098:
                 bset    #$02, Obj_Status(A0)                             ; $002A
                 move.b  #$00, Obj_Ani_Number(A6)                         ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 bra.s   Offset_0x00D10A
 ;-------------------------------------------------------------------------------
 Miles_Spindash_Speed_2P:                                       ; Offset_0x00D0B0
@@ -362,10 +362,10 @@ Offset_0x00D0C2:
 Offset_0x00D0DA:
                 move.b  (Control_Ports_Logical_Data_2+$01).w, D0     ; $FFFFF66B
                 andi.b  #$70, D0
-                beq     Offset_0x00D10A
+                beq.w   Offset_0x00D10A
                 move.w  #$0900, Obj_Ani_Number(A0)                       ; $0020
                 move.w  #Rolling_Sfx, D0                                 ; $003C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 addi.w  #$0200, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 cmpi.w  #$0800, Obj_Player_Spdsh_Cnt(A0)                 ; $003E
                 bcs.s   Offset_0x00D10A
@@ -379,7 +379,7 @@ Offset_0x00D10A:
 Offset_0x00D116:
                 subq.w  #$02, (A5)
 Offset_0x00D118:
-                bsr     Player_AnglePos                        ; Offset_0x009144
+                bsr.w   Player_AnglePos                        ; Offset_0x009144
                 rts                                                                                                                                                                                                       
 ;===============================================================================
 ; Objeto Miles no modo 2 jogadores

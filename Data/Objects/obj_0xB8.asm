@@ -64,7 +64,7 @@ Offset_0x046BA0:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 jsr     Find_Other_Object(PC)                  ; Offset_0x04269E
                 cmpi.w  #$0028, D2
-                bcs     Offset_0x046B84
+                bcs.w   Offset_0x046B84
                 btst    #$00, Obj_Flags(A0)                              ; $0004
                 beq.s   Offset_0x046BBA
                 subq.w  #$02, D0
@@ -90,14 +90,14 @@ Offset_0x046BE0:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 jsr     (Object_HitCeiling)                    ; Offset_0x009FB4
                 tst.w   D1
-                bpl     Offset_0x046B84
+                bpl.w   Offset_0x046B84
 Offset_0x046BF2:
                 add.w   D1, Obj_Y(A0)                                    ; $0014
                 move.b  #$10, Obj_Routine(A0)                            ; $0005
                 move.w  #$001F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x046C4C, Obj_Child(A0)                  ; $0034
                 moveq   #Slide_Thunk_Sfx, D0                              ; -$50
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 rts     
 ;-------------------------------------------------------------------------------
 Offset_0x046C14:
@@ -141,7 +141,7 @@ Offset_0x046C5E:
                 rts
 Offset_0x046C70:
                 move.w  #$005F, Obj_Timer(A0)                            ; $002E
-                bra     Offset_0x046B7A   
+                bra.w   Offset_0x046B7A   
 ;-------------------------------------------------------------------------------
 Offset_0x046C7A:
                 move.w  Obj_Y(A0), D0                                    ; $0014
@@ -152,7 +152,7 @@ Offset_0x046C7A:
                 rts
 Offset_0x046C8C:
                 move.w  #$005F, Obj_Timer(A0)                            ; $002E
-                bra     Offset_0x046B7A     
+                bra.w   Offset_0x046B7A     
 ;-------------------------------------------------------------------------------
 Offset_0x046C96:
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
@@ -162,7 +162,7 @@ Offset_0x046C96:
                 subq.w  #$02, D0
 Offset_0x046CA8:
                 tst.w   D0
-                bne     Offset_0x046B84
+                bne.w   Offset_0x046B84
                 move.b  #$12, Obj_Routine(A0)                            ; $0005
                 rts
 ;-------------------------------------------------------------------------------  

@@ -25,7 +25,7 @@ Offset_0x02DF7E:
                 andi.b  #$7F, D0
                 bne.s   Offset_0x02DFB6
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02DFB6
+                bne.w   Offset_0x02DFB6
                 moveq   #$2C, D0
 Offset_0x02DF98:
                 move.w  $00(A0, D0), $00(A1, D0)
@@ -68,13 +68,13 @@ Offset_0x02E01A:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x02E020:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x02E060
+                bne.w   Offset_0x02E060
                 moveq   #$2C, D0
 Offset_0x02E02C:
                 move.w  $00(A0, D0), $00(A1, D0)
                 subq.w  #$02, D0
                 bcc.s   Offset_0x02E02C
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  D0, D1
                 andi.w  #$01FF, D0
                 subi.w  #$0100, D0

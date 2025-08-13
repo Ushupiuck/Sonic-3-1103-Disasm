@@ -112,7 +112,7 @@ Offset_0x023A04:
 ;-------------------------------------------------------------------------------   
 Offset_0x023A1A:
                 tst.b   Obj_Subtype(A0)                                  ; $002C
-                beq     Offset_0x023A86
+                beq.w   Offset_0x023A86
                 moveq   #$00, D0
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 add.w   D0, D0
@@ -135,7 +135,7 @@ Offset_0x023A1A:
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x023A86:
                 addq.b  #$02, Obj_Routine(A0)                            ; $0005
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 move.w  #$0580, Obj_Art_VRAM(A0)                         ; $000A
                 andi.w  #$0001, D0
                 beq.s   Offset_0x023AA2
@@ -269,7 +269,7 @@ Offset_0x023C64:
                 tst.b   Obj_Flags(A0)                                    ; $0004
                 bpl     Flickies_DeleteObject                  ; Offset_0x023B3C
                 subq.w  #$01, Obj_Control_Var_06(A0)                     ; $0036
-                bne     Offset_0x023C80
+                bne.w   Offset_0x023C80
                 move.b  #$02, Obj_Routine(A0)                            ; $0005
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
 Offset_0x023C80:
@@ -283,7 +283,7 @@ Offset_0x023C86:
                 move.b  #$0E, Obj_Routine(A0)                            ; $0005
                 bra     Offset_0x023BDE
 Offset_0x023CA2:
-                bra     Offset_0x023C46
+                bra.w   Offset_0x023C46
 ;-------------------------------------------------------------------------------                
 Offset_0x023CA6:
                 bsr     Offset_0x023E34

@@ -12,7 +12,7 @@
                 move.w  Obj_X(A0), Obj_Control_Var_00(A0)         ; $0010, $0030
                 move.w  Obj_Y(A0), Obj_Control_Var_02(A0)         ; $0014, $0032
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01DA02
+                bne.w   Offset_0x01DA02
                 move.l  #Offset_0x01DEA8, (A1)
                 move.l  #Cup_Elevator_Mappings, Obj_Map(A1) ; Offset_0x01DF66, $000C
                 move.w  #$440D, Obj_Art_VRAM(A1)                         ; $000A
@@ -26,7 +26,7 @@
                 move.w  A0, Obj_Control_Var_10(A1)                       ; $0040
                 move.w  A1, Obj_Control_Var_10(A0)                       ; $0040
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01DA02
+                bne.w   Offset_0x01DA02
                 move.l  #Offset_0x01DEB8, (A1)
                 move.l  #Cup_Elevator_Mappings, Obj_Map(A1) ; Offset_0x01DF66, $000C
                 move.w  #$440D, Obj_Art_VRAM(A1)                         ; $000A
@@ -73,10 +73,10 @@ Offset_0x01DA38:
 Offset_0x01DA5E:
                 move.l  #Offset_0x01DA64, (A0)
 Offset_0x01DA64:                
-                bsr     Offset_0x01DAC4
+                bsr.w   Offset_0x01DAC4
                 move.w  Obj_X(A0), D4                                    ; $0010
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D1
                 add.w   Obj_Control_Var_00(A0), D1                       ; $0030
                 move.w  D1, Obj_X(A0)                                    ; $0010
@@ -92,14 +92,14 @@ Offset_0x01DA64:
                 moveq   #$03, D6
                 move.w  (Control_Ports_Buffer_Data).w, D0            ; $FFFFF604
                 movem.l D1-D4, -(A7)
-                bsr     Offset_0x01DD7A
+                bsr.w   Offset_0x01DD7A
                 movem.l (A7)+, D1-D4
                 lea     Obj_Control_Var_0D(A0), A2                       ; $003D
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 moveq   #$04, D6
                 move.w  (Control_Ports_Buffer_Data+$02).w, D0        ; $FFFFF606
-                bsr     Offset_0x01DD7A
-                bra     Offset_0x01DD18
+                bsr.w   Offset_0x01DD7A
+                bra.w   Offset_0x01DD18
 Offset_0x01DAC4:
                 move.w  Obj_Control_Var_06(A0), D0                       ; $0036
                 move.w  Offset_0x01DAD0(PC, D0), D1
@@ -131,7 +131,7 @@ Offset_0x01DAF2:
                 bpl.s   Offset_0x01DB12
                 move.w  #$000C, Obj_Control_Var_06(A0)                   ; $0036
                 move.w  #$0600, Obj_Timer(A0)                            ; $002E
-                bra     Offset_0x01DC02
+                bra.w   Offset_0x01DC02
 Offset_0x01DB12:
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 move.w  #$0000, Obj_Control_Var_04(A0)                   ; $0034
@@ -154,7 +154,7 @@ Offset_0x01DB24:
                 bpl.s   Offset_0x01DB62
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01DB62:
                 rts
 Offset_0x01DB64:
@@ -162,7 +162,7 @@ Offset_0x01DB64:
                 bmi.s   Offset_0x01DB78
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01DB78:
                 rts   
 ;-------------------------------------------------------------------------------
@@ -197,7 +197,7 @@ Offset_0x01DB9E:
                 bpl.s   Offset_0x01DBDC
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01DBDC:
                 rts
 Offset_0x01DBDE:
@@ -205,7 +205,7 @@ Offset_0x01DBDE:
                 bmi.s   Offset_0x01DBF2
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01DBF2:
                 rts  
 ;-------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ Offset_0x01DC34:
                 bpl.s   Offset_0x01DC58
                 move.w  #$0080, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01DC58:
                 rts
 Offset_0x01DC5A:
@@ -247,7 +247,7 @@ Offset_0x01DC5A:
                 bmi.s   Offset_0x01DC6E
                 move.w  #$0200, Obj_Priority(A0)                         ; $0008
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01DC6E:
                 rts  
 ;-------------------------------------------------------------------------------
@@ -259,7 +259,7 @@ Offset_0x01DC70:
                 move.w  #$0000, Obj_Speed_Y(A0)                          ; $001A
                 move.l  #Offset_0x01DCF4, (A0)
                 moveq   #Hurt_Sfx, D0                                      ; $35   
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 lea     Obj_Control_Var_0C(A0), A2                       ; $003C
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 move.w  #$FD00, D0
@@ -302,7 +302,7 @@ Offset_0x01DD18:
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x01DD32
+                bhi.w   Offset_0x01DD32
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01DD32:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -319,7 +319,7 @@ Offset_0x01DD3E:
                 jmp     (DeleteObject)                         ; Offset_0x011138
 Offset_0x01DD54:
                 bclr    D6, Obj_Status(A0)                               ; $002A
-                beq     Offset_0x01DD78
+                beq.w   Offset_0x01DD78
                 move.w  #$0100, Obj_Priority(A1)                         ; $0008
                 clr.b   Obj_Timer(A1)                                    ; $002E
                 bclr    #$03, Obj_Status(A1)                             ; $002A
@@ -338,32 +338,32 @@ Offset_0x01DD8A:
                 move.b  Obj_Angle(A0), D0                                ; $0026
                 subi.b  #$20, D0
                 cmpi.b  #$40, D0
-                bcs     Offset_0x01DEA6
+                bcs.w   Offset_0x01DEA6
                 jsr     (Solid_Object_2_A1)                    ; Offset_0x0135CC
                 btst    D6, Obj_Status(A0)                               ; $002A
-                beq     Offset_0x01DEA6
+                beq.w   Offset_0x01DEA6
                 tst.w   Obj_Control_Var_04(A0)                           ; $0034
                 bne.s   Offset_0x01DDC6
                 move.w  Obj_X(A1), D0                                    ; $0010
                 sub.w   Obj_X(A0), D0                                    ; $0010
                 addi.w  #$0008, D0
-                bmi     Offset_0x01DEA6
+                bmi.w   Offset_0x01DEA6
                 cmpi.w  #$0010, D0
-                bcc     Offset_0x01DEA6
+                bcc.w   Offset_0x01DEA6
 Offset_0x01DDC6:
                 move.b  #$01, (A2)
                 move.b  #$01, Obj_Timer(A1)                              ; $002E
                 clr.w   Obj_Speed_X(A1)                                  ; $0018
                 clr.w   Obj_Speed_Y(A1)                                  ; $001A
                 clr.w   Obj_Inertia(A1)                                  ; $001C
-                bra     Offset_0x01DE7A
+                bra.w   Offset_0x01DE7A
 Offset_0x01DDE0:
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
                 bcc.s   Offset_0x01DE60
                 andi.b  #$70, D0
-                beq     Offset_0x01DE7A
+                beq.w   Offset_0x01DE7A
                 tst.b   (Knuckles_Control_Lock_Flag).w               ; $FFFFFAA9
-                bne     Offset_0x01DE7A
+                bne.w   Offset_0x01DE7A
                 move.w  #$0100, Obj_Priority(A1)                         ; $0008
                 clr.b   Obj_Timer(A1)                                    ; $002E
                 bclr    D6, Obj_Status(A0)                               ; $002A
@@ -428,7 +428,7 @@ Offset_0x01DEDA:
                 ori.b   #$01, Obj_Flags(A0)                              ; $0004
 Offset_0x01DEEC:
                 move.b  Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, D2
                 add.w   D1, D1
                 add.w   D2, D1

@@ -26,17 +26,17 @@ Offset_0x01FF76:
                 bpl.s   Offset_0x01FFBA
                 move.w  Obj_Control_Var_02(A0), Obj_Control_Var_00(A0) ; $0032, $0030
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01FFBA
+                bne.w   Offset_0x01FFBA
                 bsr.s   Offset_0x01FFC0
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01FFBA
+                bne.w   Offset_0x01FFBA
                 bsr.s   Offset_0x01FFC0
                 move.w  #$0080, Obj_Priority(A1)                         ; $0008
                 move.b  #$02, Obj_Map_Id(A1)                             ; $0022
                 move.b  #$98, Obj_Col_Flags(A1)                          ; $0028
                 move.l  #Offset_0x020006, (A1)
                 moveq   #Energy_Zap_Sfx, D0                               ; -$37
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x01FFBA:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x01FFC0:

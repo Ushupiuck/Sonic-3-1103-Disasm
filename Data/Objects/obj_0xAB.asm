@@ -65,7 +65,7 @@ Offset_0x04837C:
                 btst    #$00, Obj_Flags(A1)                              ; $0004
                 beq.s   Offset_0x048398
                 addq.b  #$01, Obj_Control_Var_0C(A0)                     ; $003C
-                bra     Offset_0x04839C
+                bra.w   Offset_0x04839C
 Offset_0x048398:
                 subq.b  #$01, Obj_Control_Var_0C(A0)                     ; $003C
 Offset_0x04839C:

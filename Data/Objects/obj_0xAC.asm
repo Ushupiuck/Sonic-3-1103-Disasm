@@ -25,7 +25,7 @@ Offset_0x036AD6:
                 move.b  #$06, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #$5A, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     Pal_Fire_Breath(PC), A1                ; Offset_0x0371DA
                 jmp     (Pal_Load_Line_1)                      ; Offset_0x04314C
 ;-------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ Offset_0x036B80:
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
                 move.b  #$08, Obj_Control_Var_09(A0)                     ; $0039
                 moveq   #Flame_Sfx, D0                                     ; $53
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x037114(PC), A2
                 jmp     (SetupChildObject)                 ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
@@ -250,7 +250,7 @@ Offset_0x036DC4:
 ;-------------------------------------------------------------------------------
 Offset_0x036DD6:
                 moveq   #Missile_Explosion_Sfx, D0                         ; $52
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x037136(PC), A2
                 jsr     (SetupChildObject)                 ; Offset_0x041D9A
                 jmp     (Go_Delete_Object_A0)                  ; Offset_0x042D3E                                                     
@@ -413,7 +413,7 @@ Boss_Hit_Check:                                                ; Offset_0x036FC0
                 bne.s   Offset_0x036FE6
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 bset    #$06, Obj_Status(A0)                             ; $002A
 Offset_0x036FE6:
                 moveq   #$00, D0
@@ -439,7 +439,7 @@ Offset_0x037014:
                 clr.b   Obj_Col_Flags(A0)                                ; $0028
                 clr.w   Obj_Speed_X(A0)                                  ; $0018
                 clr.w   Obj_Speed_Y(A0)                                  ; $001A
-                lea     (Offset_0x041D62), A2          
+                lea     (Offset_0x041D62).l, A2          
                 jmp     (SetupChildObject)                 ; Offset_0x041D9A                
 ;-------------------------------------------------------------------------------  
 Boss_Hit_Flash_Palette_RAM_List:                               ; Offset_0x037044 

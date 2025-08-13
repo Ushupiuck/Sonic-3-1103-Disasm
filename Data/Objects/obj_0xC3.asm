@@ -11,8 +11,8 @@
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x047D62:
-                bsr     Offset_0x047DFC
-                bsr     Offset_0x047EC8
+                bsr.w   Offset_0x047DFC
+                bsr.w   Offset_0x047EC8
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C 
 ;-------------------------------------------------------------------------------
 Offset_0x047D6E:
@@ -25,10 +25,10 @@ Offset_0x047D6E:
 Offset_0x047D88:
                 bset    #$06, Obj_Flags(A0)                              ; $0004
                 move.w  #$0002, Obj_Sub_Y(A0)                            ; $0016
-                bsr     Offset_0x047DA6
+                bsr.w   Offset_0x047DA6
                 move.b  #$08, Obj_Map_Id(A0)                             ; $0022
 Offset_0x047D9E:                
-                bsr     Offset_0x047DDC
+                bsr.w   Offset_0x047DDC
                 jmp     Child_Display_Or_Delete(PC)            ; Offset_0x04245C
 Offset_0x047DA6:
                 lea     Obj_Speed_X(A0), A1                              ; $0018
@@ -78,7 +78,7 @@ Offset_0x047DFC:
                 scs     Obj_Control_Var_09(A0)                           ; $0039
                 bcs.s   Offset_0x047E24
                 neg.w   D0
-                bra     Offset_0x047E26
+                bra.w   Offset_0x047E26
 Offset_0x047E24:
                 neg.w   D1
 Offset_0x047E26:
@@ -90,8 +90,8 @@ Offset_0x047E26:
                 bge.s   Offset_0x047E44
                 cmpi.w  #$FC00, D2
                 bgt.s   Offset_0x047E56
-                bsr     Offset_0x047E84
-                bra     Offset_0x047E56
+                bsr.w   Offset_0x047E84
+                bra.w   Offset_0x047E56
 Offset_0x047E44:
                 cmpi.w  #$0080, D2
                 bgt.s   Offset_0x047E56
@@ -103,7 +103,7 @@ Offset_0x047E56:
                 move.w  #$F700, D3
                 cmp.w   D3, D2
                 bge.s   Offset_0x047E64
-                bra     Offset_0x047E6A
+                bra.w   Offset_0x047E6A
 Offset_0x047E64:
                 neg.w   D3
                 cmp.w   D3, D2
@@ -125,7 +125,7 @@ Offset_0x047E84:
                 btst    #$03, D3
                 beq.s   Offset_0x047E9C
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x047EA6
+                bsr.w   Offset_0x047EA6
 Offset_0x047E9C:
                 btst    #$04, D3
                 beq.s   Offset_0x047EC6
@@ -155,21 +155,21 @@ Offset_0x047EC8:
                 eor.b   D1, D2
                 andi.b  #$18, D2
                 beq.s   Offset_0x047F28
-                bsr     Offset_0x047F4A
+                bsr.w   Offset_0x047F4A
                 bset    #$02, Obj_Control_Var_08(A0)                     ; $0038
                 clr.b   Obj_Control_Var_09(A0)                           ; $0039
                 moveq   #$03, D4
                 btst    D4, D2
                 beq.s   Offset_0x047F18
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x047F2A
+                bsr.w   Offset_0x047F2A
 Offset_0x047F18:
                 moveq   #$04, D4
                 btst    D4, D2
                 beq.s   Offset_0x047F28
-                swap.w  D0
+                swap	D0
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x047F2A
+                bsr.w   Offset_0x047F2A
 Offset_0x047F28:
                 rts
 Offset_0x047F2A:

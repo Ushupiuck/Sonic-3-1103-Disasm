@@ -22,7 +22,7 @@ Boss_Explosion_Control:                                        ; Offset_0x041BDE
                 move.l  #Offset_0x041C7A, Obj_Control_Var_04(A0)         ; $0034
 Offset_0x041BFE:
                 move.w  #$0002, Obj_Timer(A0)                            ; $002E
-                bra     Offset_0x041C9A 
+                bra.w   Offset_0x041C9A 
 ;-------------------------------------------------------------------------------
 Offset_0x041C08:
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2
@@ -30,9 +30,9 @@ Offset_0x041C08:
 Offset_0x041C0C:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 btst    #$05, Obj_Control_Var_08(A1)                     ; $0038
-                bne     Offset_0x041C76
+                bne.w   Offset_0x041C76
                 tst.l   (A1)
-                beq     Offset_0x041C76
+                beq.w   Offset_0x041C76
                 move.w  Obj_X(A1), Obj_X(A0)                      ; $0010, $0010
                 move.w  Obj_Y(A1), Obj_Y(A0)                      ; $0014, $0014
                 jmp     Run_Object_Wait_Timer_A0(PC)           ; Offset_0x0423D2                
@@ -42,12 +42,12 @@ Obj_Normal_Explode:                                            ; Offset_0x041C30
                 bmi.s   Offset_0x041C76
                 move.w  #$0002, Obj_Timer(A0)                            ; $002E
                 moveq   #Level_Projectile_Sfx, D0                          ; $75
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 lea     Offset_0x041D5A(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
-                bne     Offset_0x041D0E           
+                bne.w   Offset_0x041D0E           
 Offset_0x041C50:                
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 moveq   #$00, D1
                 move.b  Obj_Control_Var_0A(A0), D1                       ; $003A
                 move.w  D1, D2
@@ -56,7 +56,7 @@ Offset_0x041C50:
                 and.w   D2, D0
                 sub.w   D1, D0
                 add.w   D0, Obj_X(A1)                                    ; $0010
-                swap.w  D0
+                swap	D0
                 and.w   D2, D0
                 sub.w   D1, D0
                 add.w   D0, Obj_Y(A1)                                    ; $0014
@@ -70,7 +70,7 @@ Offset_0x041C7A:
                 move.w  #$0002, Obj_Timer(A0)                            ; $002E
                 lea     Offset_0x041D6A(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
-                bne     Offset_0x041D0E
+                bne.w   Offset_0x041D0E
                 move.b  #$02, Obj_Routine(A1)                            ; $0005
                 bra.s   Offset_0x041C50
 Offset_0x041C9A:
@@ -115,7 +115,7 @@ Offset_0x041CE2:
 ;-------------------------------------------------------------------------------
 Offset_0x041CE6:
                 move.b  #$02, Obj_Subtype(A0)                            ; $002C
-                bsr     Boss_Explosion_Control                 ; Offset_0x041BDE
+                bsr.w   Boss_Explosion_Control                 ; Offset_0x041BDE
                 move.w  #$0002, Obj_Timer(A0)                            ; $002E
                 move.w  (Camera_X).w, D0                             ; $FFFFEE78
                 addi.w  #$00A0, D0

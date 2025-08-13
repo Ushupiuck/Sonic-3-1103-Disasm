@@ -13,7 +13,7 @@
                 move.l  #Offset_0x02C2F6, (A0)
 Offset_0x02C2F6:                
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
-                beq     Offset_0x02C390
+                beq.w   Offset_0x02C390
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 bclr    #$00, Obj_Col_Prop(A0)                           ; $0029
                 beq.s   Offset_0x02C30C
@@ -25,13 +25,13 @@ Offset_0x02C30C:
                 bsr.s   Offset_0x02C322
 Offset_0x02C31A:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
-                bra     Offset_0x02C390
+                bra.w   Offset_0x02C390
 Offset_0x02C322:
                 move.w  Obj_X(A0), D1                                    ; $0010
                 move.w  Obj_Y(A0), D2                                    ; $0014
                 sub.w   Obj_X(A1), D1                                    ; $0010
                 sub.w   Obj_Y(A1), D2                                    ; $0014
-                jsr     (CalcAngle)                            ; Offset_0x001DB8
+                jsr     (CalcAngle).l                            ; Offset_0x001DB8
                 move.b  D0, D1
                 subi.b  #$20, D1
                 cmpi.b  #$40, D1
@@ -40,7 +40,7 @@ Offset_0x02C322:
                 move.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 bra.s   Offset_0x02C372
 Offset_0x02C352:
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$FB80, D1
                 asr.l   #$08, D1
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
@@ -54,9 +54,9 @@ Offset_0x02C372:
                 bclr    #$05, Obj_Status(A1)                             ; $002A
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 moveq   #Small_Bumper_Sfx, D0                             ; -$75
-                jmp     (Play_Music)                           ; Offset_0x001176
+                jmp     (Play_Music).l                           ; Offset_0x001176
 Offset_0x02C390:
-                lea     (BPz_Balloon_Animate_Data), A1         ; Offset_0x02C3B8
+                lea     (BPz_Balloon_Animate_Data).l, A1         ; Offset_0x02C3B8
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 cmpi.b  #$05, Obj_Map_Id(A0)                             ; $0022
                 bcs.s   Offset_0x02C3B2

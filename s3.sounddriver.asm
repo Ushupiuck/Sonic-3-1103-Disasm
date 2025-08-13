@@ -12,146 +12,147 @@
 ; and group functionality, and shadow registers are not indicated  with an apostrophe; e.g.,
 ; ex af,af' is simply written as ex af,af.
 
-	pushs
-	CPU z80
-	obj 0
+z80_SoundDriverStart:
 ; ---------------------------------------------------------------------------
 
 zTrack_Start:
-PlaybackControl:	equ 0
-VoiceControl:		equ 1
-TempoDivider:		equ 2
-DataPointerLow:		equ 3
-DataPointerHigh:	equ 4
-Transpose:		equ 5
-Volume:			equ 6
-ModulationCtrl:		equ 7
-VoiceIndex:		equ 8
-StackPointer:		equ 9
-AMSFMSPan:		equ $A
-DurationTimeout:	equ $B
-SavedDuration:		equ $C
-FreqLow:		equ $D
-FreqHigh:		equ $E
-VoiceSongID:		equ $F
-Detune:			equ $10
-Unk11h:			equ $11
+PlaybackControl:	= 0
+VoiceControl:		= 1
+TempoDivider:		= 2
+DataPointerLow:		= 3
+DataPointerHigh:	= 4
+Transpose:		= 5
+Volume:			= 6
+ModulationCtrl:		= 7
+VoiceIndex:		= 8
+StackPointer:		= 9
+AMSFMSPan:		= $0A
+DurationTimeout:	= $0B
+SavedDuration:		= $0C
+FreqLow:		= $0D
+FreqHigh:		= $0E
+VoiceSongID:		= $0F
+Detune:			= $10
+Unk11h:			= $11
 ; $12-$16 are unused!
-VolEnv:			equ $17
-FMVoLEnv:		equ $18
-FMVolEnvMask:		equ $19
-SSGEGPointerLow:	equ FMVolEnvMask
-PSGNoise:		equ $1A
-SSGEGPointerHigh:	equ PSGNoise
-FeedbackAlgo:		equ $1B
-TLPtrLow:		equ $1C
-TLPtrHigh:		equ $1D
-NoteFillTimeout:	equ $1E
-NoteFillMaster:		equ $1F
-ModulationPtrLow:	equ $20
-ModulationPtrHigh:	equ $21
-ModulationValLow:	equ $22
-ModEnvSens:		equ ModulationValLow
-ModulationValHigh:	equ $23
-ModulationWait:		equ $24
-ModulationSpeed:	equ $25
-ModEnvIndex:		equ ModulationSpeed
-ModulationDelta:	equ $26
-ModulationSteps:	equ $27
-LoopCounters:		equ $28		; and $29
-VoicesLow:		equ $2A
-VoicesHigh:		equ $2B
-Stack_top:		equ $2C		; and $2D and $2E and $2F
-zTrack_End:		equ Stack_top+4
+VolEnv:			= $17
+FMVolEnv:		= $18
+FMVolEnvMask:		= $19
+SSGEGPointerLow:	= FMVolEnvMask
+PSGNoise:		= $1A
+SSGEGPointerHigh:	= PSGNoise
+FeedbackAlgo:		= $1B
+TLPtrLow:		= $1C
+TLPtrHigh:		= $1D
+NoteFillTimeout:	= $1E
+NoteFillMaster:		= $1F
+ModulationPtrLow:	= $20
+ModulationPtrHigh:	= $21
+ModulationValLow:	= $22
+ModEnvSens:		= ModulationValLow
+ModulationValHigh:	= $23
+ModulationWait:		= $24
+ModulationSpeed:	= $25
+ModEnvIndex:		= ModulationSpeed
+ModulationDelta:	= $26
+ModulationSteps:	= $27
+LoopCounters:		= $28		; and $29
+VoicesLow:		= $2A
+VoicesHigh:		= $2B
+Stack_top:		= $2C		; and $2D and $2E and $2F
+zTrack_End:		= Stack_top+4
 
-zTrack			equ zTrack_End-zTrack_Start
+zTrack:			= zTrack_End
 
 ; ---------------------------------------------------------------------------
 z80_stack	=	$2000
 z80_stack_end	=	z80_stack-$60
 ; equates: standard (for Genesis games) addresses in the memory map
-zYM2612_A0:		equ $4000
-zYM2612_D0:		equ $4001
-zYM2612_A1:		equ $4002
-zYM2612_D1:		equ $4003
-zBankRegister:		equ $6000
-zPSG:			equ $7F11
-zROMWindow:		equ $8000
+zYM2612_A0:		= $4000
+zYM2612_D0:		= $4001
+zYM2612_A1:		= $4002
+zYM2612_D1:		= $4003
+zBankRegister:		= $6000
+zPSG:			= $7F11
+zROMWindow:		= $8000
 ; ---------------------------------------------------------------------------
 ; z80 RAM:
-zDataStart:		equ $1C00
+zDataStart:		= $1C00
 
-		pusho						; save options
-		opt	ae+					; enable auto evens
+		phase zDataStart
+			ds.b	2	; unused
+zPointerTable:		ds.w	1	; the 68000 SoundDriverLoad routine sets this to 1200h in Z80 memory
+zSongBank:		ds.b	1	; bits 15 to 22 of M68K bank address
+zCurrentTempo:		ds.b	1
+zDACIndex:		ds.b	1	; bit 7 = 1 if playing, 0 if not; remaining 7 bits are index into DAC tables (1-based)
+zPlaySegaPCMFlag:	ds.b	1
+zPalDblUpdCounter:	ds.b	1	; used to update the sound driver twice every five frames; not actually implemented yet
 
-		rsset zDataStart
-			rs.b	2	; unused
-zPointerTable:		rs.w	1	; the 68000 SoundDriverLoad routine sets this to $1200 in Z80 memory
-zSongBank:		rs.b	1	; bits 15 to 22 of M68K bank address
-zCurrentTempo:		rs.b	1
-zDACIndex:		rs.b	1	; bit 7 = 1 if playing, 0 if not; remaining 7 bits are index into DAC tables (1-based)
-zPlaySegaPCMFlag:	rs.b	1
-zPalDblUpdCounter:	rs.b	1	; used to update the sound driver twice every five frames; not actually implemented yet
-
-zTempVariablesStart:	rs.b	1
-zNextSound:		equ	zTempVariablesStart
+zTempVariablesStart:	ds.b	1
+zNextSound:		=	zTempVariablesStart
 ; the following three variables are used for 68000 input, although only the first is functional
-zMusicNumber:		rs.b	1
-zSFXNumber0:		rs.b	1
-zSFXNumber1:		rs.b	1
+zMusicNumber:		ds.b	1
+zSFXNumber0:		ds.b	1
+zSFXNumber1:		ds.b	1
 
-zFadeOutTimeout:	rs.b	1
-zFadeDelay:		rs.b	1
-zFadeDelayTimeout:	rs.b	1
-zPauseFlag:		rs.b	1
-zHaltFlag:		rs.b	1
-zFM3Settings:		rs.b	1	; set twice, never read (is read in Z80 Type 1 for YM timer-related purposes)
-zTempoAccumulator:	rs.b	1
-			rs.b	1	; unused
-unk_1C15:		rs.b	1	; set twice, unused read
-zFadeToPrevFlag:	rs.b	1
-unk_1C17:		rs.b	1	; set once, never read
-zSoundIndex:		rs.b	1	; effectively unused in the final
-zUpdatingSFX:		rs.b	1
-zSpecFM3FreqsSFX:	rs.b	1
-			rs.b	7	; unused
-unk_1C22:		rs.b	1
-			rs.b	7	; unused
-zSpecFM3Freqs:		rs.b	1
-			rs.b	7	; unused
-zSFXSaveIndex:		rs.b	1
-zSongPosition:		rs.b	2
-zTrackInitPos:		rs.b	2
-zVoiceTblPtr:		rs.b	2
-zSFXVoiceTblPtr:	rs.b	2
-zSFXTempoDivider:	rs.b	1
-			rs.b	4	; unused
+zFadeOutTimeout:	ds.b	1
+zFadeDelay:		ds.b	1
+zFadeDelayTimeout:	ds.b	1
+zPauseFlag:		ds.b	1
+zHaltFlag:		ds.b	1
+zFM3Settings:		ds.b	1	; set twice, never read (is read in Z80 Type 1 for YM timer-related purposes)
+zTempoAccumulator:	ds.b	1
+			ds.b	1	; unused
+unk_1C15:		ds.b	1	; set twice, unused read
+zFadeToPrevFlag:	ds.b	1
+unk_1C17:		ds.b	1	; set once, never read
+zSoundIndex:		ds.b	1	; effectively unused in the final
+zUpdatingSFX:		ds.b	1
+zSpecFM3FreqsSFX:	ds.b	1
+			ds.b	7	; unused
+unk_1C22:		ds.b	1
+			ds.b	7	; unused
+zSpecFM3Freqs:		ds.b	1
+			ds.b	7	; unused
+zSFXSaveIndex:		ds.b	1
+zSongPosition:		ds.b	2
+zTrackInitPos:		ds.b	2
+zVoiceTblPtr:		ds.b	2
+zSFXVoiceTblPtr:	ds.b	2
+zSFXTempoDivider:	ds.b	1
+			ds.b	4	; unused
 
-zTracksStart:		rs.b	zTrack
-zSongFM6_DAC:		equ	zTracksStart
-zSongFM1:		rs.b	zTrack
-zSongFM2:		rs.b	zTrack
-zSongFM3:		rs.b	zTrack
-zSongFM4:		rs.b	zTrack
-zSongFM5:		rs.b	zTrack
-zSongPSG1:		rs.b	zTrack
-zSongPSG2:		rs.b	zTrack
-zSongPSG3:		rs.b	zTrack
-zTracksEnd:		equ	zSongPSG3+zTrack
+zTracksStart:		ds.b	zTrack
+zSongFM6_DAC:		=	zTracksStart
+zSongFM1:		ds.b	zTrack
+zSongFM2:		ds.b	zTrack
+zSongFM3:		ds.b	zTrack
+zSongFM4:		ds.b	zTrack
+zSongFM5:		ds.b	zTrack
+zSongPSG1:		ds.b	zTrack
+zSongPSG2:		ds.b	zTrack
+zSongPSG3:		ds.b	zTrack
+zTracksEnd:		=	zSongPSG3+zTrack
 
-zTracksSFXStart:	rs.b	zTrack
-zSFX_FM3:		equ	zTracksSFXStart
-zSFX_FM4:		rs.b	zTrack
-zSFX_FM5:		rs.b	zTrack
-zSFX_FM6:		rs.b	zTrack
-zSFX_PSG1:		rs.b	zTrack
-zSFX_PSG2:		rs.b	zTrack
-zSFX_PSG3:		rs.b	zTrack
-zTracksSFXEnd:		equ	zSFX_PSG3+zTrack
+zTracksSFXStart:	ds.b	zTrack
+zSFX_FM3:		=	zTracksSFXStart
+zSFX_FM4:		ds.b	zTrack
+zSFX_FM5:		ds.b	zTrack
+zSFX_FM6:		ds.b	zTrack
+zSFX_PSG1:		ds.b	zTrack
+zSFX_PSG2:		ds.b	zTrack
+zSFX_PSG3:		ds.b	zTrack
+zTracksSFXEnd:		=	zSFX_PSG3+zTrack
 
 
-zTempVariablesEnd:	equ	zTracksSFXEnd
-		popo						; restore options
+zTempVariablesEnd:	=	zTracksSFXEnd
+		dephase
+		!org	z80_SoundDriverStart
+		
+		save
+		!org 0	; z80 Align, handled by the build process
+		CPU Z80
+		listing purecode
 
 bankswitchToMusic macro
 	; hardcoded to only accept 4-bit bank values
@@ -159,7 +160,7 @@ bankswitchToMusic macro
 	rept 3
 		rra
 		ld	(hl),a
-	endr
+	endm
 	xor	a
 	ld	d,1
 	ld	(hl),d
@@ -184,6 +185,12 @@ bankswitchToSFX macro
 	ld	(hl),a
 	ld	(hl),a
 	endm
+
+; function to turn a 68k address into a word the Z80 can use to access it
+zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
+
+; function to turn a 68k address into a bank byte
+zmake68kBank function addr,(((addr&3F8000h)/zROMWindow))
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -214,12 +221,12 @@ zGetPointerTable:
 						; really, you should just make this reference z80_SoundDriverPointers directly
 	ld	b,0
 	add	hl,bc				; add offset into pointer table
-	ex	af,af				; backup AF
+	ex	af,af'				; backup AF
 	ld	a,(hl)				; read low byte of pointer table
 	inc	hl
 	ld	h,(hl)				; read high byte of pointer table
 	ld	l,a				; combine both bytes together to get our address
-	ex	af,af				; restore AF
+	ex	af,af'				; restore AF
 	ret
 ; ---------------------------------------------------------------------------
 	nop
@@ -325,7 +332,7 @@ zInitAudioDriver:
 
 .loop:
 	ld	b,0
-	djnz	*
+	djnz	$
 	dec	c
 	jr	z,.loop
 
@@ -502,10 +509,10 @@ zFMSendFreq:
 	jp	nz,.specialMode			; if yes, branch
 
 .notFM3:
-	ld	a,$A4				; update frequency MSB
+	ld	a,0A4h				; update frequency MSB
 	ld	c,h
 	call	zWriteFMIorII
-	ld	a,$A0				; update frequency LSB
+	ld	a,0A0h				; update frequency LSB
 	ld	c,l
 	call	zWriteFMIorII
 	ret
@@ -549,10 +556,10 @@ zFMSendFreq:
 ; ===========================================================================
 ; zloc_1A5:
 zSpecialFreqCommands:
-	db	$AD
-	db	$AE
-	db	$AC
-	db	$A6
+	db	0ADh
+	db	0AEh
+	db	0ACh
+	db	0A6h
 zSpecialFreqCommands_End:
 
 ; ===========================================================================
@@ -578,16 +585,16 @@ zGetNextNote:
 zGetNextNote_cont:
     ld     a,(de)          ; 0001C7 1A
     inc    de              ; 0001C8 13
-    cp     $e0             ; 0001C9 FE E0
+    cp     0e0h             ; 0001C9 FE E0
 	jp	nc,zHandleFMorPSGCoordFlag
-    ex     af,af          ; 0001CE 08
+    ex     af,af'          ; 0001CE 08
 	call	zKeyOffIfActive
-    ex     af,af          ; 0001D2 08
+    ex     af,af'          ; 0001D2 08
     bit    3,(ix+PlaybackControl)      ; 0001D3 DD CB 00 5E
 	jp	nz,zAltFreqMode
     or     a               ; 0001DA B7
 	jp	p,zStoreDuration
-    sub    $81             ; 0001DE D6 81
+    sub    81h             ; 0001DE D6 81
 	jp	p,.gotNote
 	call	zRestTrack
 	jr	zGetNoteDuration
@@ -601,25 +608,25 @@ zGetNextNote_cont:
     bit    7,(ix+VoiceControl)      ; 0001F1 DD CB 01 7E
 	jr	nz,zGotNoteFreq
     push   de              ; 0001F7 D5
-    ld     d,$08           ; 0001F8 16 08
-    ld     e,$0c           ; 0001FA 1E 0C
-    ex     af,af          ; 0001FC 08
+    ld     d,8           ; 0001F8 16 08
+    ld     e,12           ; 0001FA 1E 0C
+    ex     af,af'          ; 0001FC 08
     xor    a               ; 0001FD AF
 
 .loop:
-    ex     af,af          ; 0001FE 08
+    ex     af,af'          ; 0001FE 08
     sub    e               ; 0001FF 93
 	jr	c,.gotDisplacement
-    ex     af,af          ; 000202 08
+    ex     af,af'          ; 000202 08
     add    a,d             ; 000203 82
 	jr	.loop
-    ex     af,af          ; 000206 08
+    ex     af,af'          ; 000206 08
 
 .gotDisplacement:
     add    a,e             ; 000207 83
 	ld	hl,zFMFrequencies
 	rst	zPointerTableOffset
-    ex     af,af          ; 00020C 08
+    ex     af,af'          ; 00020C 08
     or     h               ; 00020D B4
     ld     h,a             ; 00020E 67
     pop    de              ; 00020F D1
@@ -648,7 +655,7 @@ zAltFreqMode:
     or     h               ; 00022E B4
 	jr	z,.gotZero
     ld     a,(ix+Transpose)      ; 000231 DD 7E 05
-    ld     b,$00           ; 000234 06 00
+    ld     b,0           ; 000234 06 00
     or     a               ; 000236 B7
 	jp	p,.didSignExtend
     dec    b               ; 00023A 05
@@ -711,18 +718,18 @@ zFMNoteOn:
     or     (ix+FreqHigh)        ; 000287 DD B6 0E
     ret    z               ; 00028A C8
     ld     a,(ix+PlaybackControl)      ; 00028B DD 7E 00
-    and    $06             ; 00028E E6 06
+    and    6             ; 00028E E6 06
     ret    nz              ; 000290 C0
     ld     a,(ix+VoiceControl)      ; 000291 DD 7E 01
-    or     $f0             ; 000294 F6 F0
+    or     0f0h             ; 000294 F6 F0
     ld     c,a             ; 000296 4F
-    ld     a,$28           ; 000297 3E 28
+    ld     a,28h           ; 000297 3E 28
 	call	zWriteFMI
 	ret
 
 zKeyOffIfActive:
     ld     a,(ix+PlaybackControl)      ; 00029D DD 7E 00
-    and    $06             ; 0002A0 E6 06
+    and    6             ; 0002A0 E6 06
     ret    nz              ; 0002A2 C0
 
 zKeyOff:
@@ -731,7 +738,7 @@ zKeyOff:
     ret    nz              ; 0002A8 C0
 
 zKeyOnOff:
-    ld     a,$28           ; 0002A9 3E 28
+    ld     a,28h           ; 0002A9 3E 28
 	call	zWriteFMI
 	ret
 
@@ -741,7 +748,7 @@ zDoFMVolEnv:
     ret    z               ; 0002B3 C8
     ret    m               ; 0002B4 F8
     dec    a               ; 0002B5 3D
-    ld     c,$0a           ; 0002B6 0E 0A
+    ld     c,0ah           ; 0002B6 0E 0A
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	call	zDoVolEnv
@@ -757,7 +764,7 @@ zDoFMVolEnv:
     push   bc              ; 0002CE C5
 	jr	nc,.skipReg
     add    a,(hl)          ; 0002D1 86
-    and    $7f             ; 0002D2 E6 7F
+    and    7fh             ; 0002D2 E6 7F
     ld     c,a             ; 0002D4 4F
     ld     a,(de)          ; 0002D5 1A
 	call	zWriteFMIorII
@@ -779,7 +786,7 @@ zPrepareModulation:
     ld     d,(ix+ModulationPtrHigh)      ; 0002ED DD 56 21
     push   ix              ; 0002F0 DD E5
     pop    hl              ; 0002F2 E1
-    ld     b,$00           ; 0002F3 06 00
+    ld     b,0           ; 0002F3 06 00
     ld     c,ModulationWait           ; 0002F5 0E 24
     add    hl,bc           ; 0002F7 09
     ex     de,hl           ; 0002F8 EB
@@ -798,7 +805,7 @@ zDoModulation:
     ld     a,(ix+ModulationCtrl)      ; 00030B DD 7E 07
     or     a               ; 00030E B7
     ret    z               ; 00030F C8
-    cp     $80             ; 000310 FE 80
+    cp     80h             ; 000310 FE 80
 	jr	nz,zDoModEnvelope
     dec    (ix+ModulationWait)        ; 000314 DD 35 24
     ret    nz              ; 000317 C0
@@ -816,7 +823,7 @@ zDoModulation:
     ld     (ix+ModulationSpeed),a      ; 000333 DD 77 25
     ld     a,(ix+ModulationDelta)      ; 000336 DD 7E 26
     ld     c,a             ; 000339 4F
-    and    $80             ; 00033A E6 80
+    and    80h             ; 00033A E6 80
     rlca                   ; 00033C 07
     neg                    ; 00033D ED 44
     ld     b,a             ; 00033F 47
@@ -839,7 +846,7 @@ zDoModulation:
 zDoModEnvelope:
     dec    a               ; 00035C 3D
     ex     de,hl           ; 00035D EB
-    ld     c,$08           ; 00035E 0E 08
+    ld     c,8           ; 00035E 0E 08
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	jr	zDoModEnvelope_cont
@@ -850,19 +857,19 @@ zModEnvSetIndex:
 zDoModEnvelope_cont:
     push   hl              ; 000367 E5
     ld     c,(ix+ModEnvIndex)      ; 000368 DD 4E 25
-    ld     b,$00           ; 00036B 06 00
+    ld     b,0           ; 00036B 06 00
     add    hl,bc           ; 00036D 09
     ld     a,(hl)          ; 00036E 7E
     pop    hl              ; 00036F E1
     bit    7,a             ; 000370 CB 7F
 	jp	z,zPositiveModEnvMod
-    cp     $82             ; 000375 FE 82
+    cp     82h             ; 000375 FE 82
 	jr	z,zChangeModEnvIndex
-    cp     $80             ; 000379 FE 80
+    cp     80h             ; 000379 FE 80
 	jr	z,zResetModEnvMod
-    cp     $84             ; 00037D FE 84
+    cp     84h             ; 00037D FE 84
 	jr	z,zModEnvIncMultiplier
-    ld     h,$ff           ; 000381 26 FF
+    ld     h,0ffh           ; 000381 26 FF
 	jr	nc,zApplyModEnvMod
     set    6,(ix+PlaybackControl)      ; 000385 DD CB 00 F6
     pop    hl              ; 000389 E1
@@ -887,7 +894,7 @@ zModEnvIncMultiplier:
 	jr	zDoModEnvelope_cont
 
 zPositiveModEnvMod:
-    ld     h,$00           ; 0003A2 26 00
+    ld     h,0           ; 0003A2 26 00
 
 zApplyModEnvMod:
     ld     l,a             ; 0003A4 6F
@@ -904,11 +911,11 @@ zApplyModEnvMod:
 zUpdateFreq:
     ld     h,(ix+FreqHigh)      ; 0003B1 DD 66 0E
     ld     l,(ix+FreqLow)      ; 0003B4 DD 6E 0D
-    ld     b,$00           ; 0003B7 06 00
+    ld     b,0           ; 0003B7 06 00
     ld     a,(ix+Detune)      ; 0003B9 DD 7E 10
     or     a               ; 0003BC B7
 	jp	p,.didSignExtend
-    ld     b,$ff           ; 0003C0 06 FF
+    ld     b,0ffh           ; 0003C0 06 FF
 
 .didSignExtend:
     ld     c,a             ; 0003C2 4F
@@ -927,7 +934,7 @@ zGetFMInstrumentOffset:
     xor    a               ; 0003D4 AF
     or     b               ; 0003D5 B0
     ret    z               ; 0003D6 C8
-    ld     de,$0019        ; 0003D7 11 19 00
+    ld     de,25        ; 0003D7 11 19 00
 
 .loop:
     add    hl,de           ; 0003DA 19
@@ -935,58 +942,58 @@ zGetFMInstrumentOffset:
 	ret
 
 zFMInstrumentRegTable:
-	db	$B0
+	db	0B0h
 
 zFMInstrumentOperatorTable:
-	db	$30
-	db	$38
-	db	$34
-	db	$3C
+	db	30h
+	db	38h
+	db	34h
+	db	3Ch
 
 zFMInstrumentRSARTable:
-	db	$50
-	db	$58
-	db	$54
-	db	$5C
+	db	50h
+	db	58h
+	db	54h
+	db	5Ch
 
 zFMInstrumentAMD1RTable:
-	db	$60
-	db	$68
-	db	$64
-	db	$6C
+	db	60h
+	db	68h
+	db	64h
+	db	6Ch
 
 zFMInstrumentD2RTable:
-	db	$70
-	db	$78
-	db	$74
-	db	$7C
+	db	70h
+	db	78h
+	db	74h
+	db	7Ch
 
 zFMInstrumentD1LRRTable:
-	db	$80
-	db	$88
-	db	$84
-	db	$8C
+	db	80h
+	db	88h
+	db	84h
+	db	8Ch
 zFMInstrumentOperatorTable_End:
 
 zFMInstrumentTLTable:
-	db	$40
-	db	$48
-	db	$44
-	db	$4C
+	db	40h
+	db	48h
+	db	44h
+	db	4Ch
 zFMInstrumentTLTable_End:
 
 zFMInstrumentSSGEGTable:
-	db	$90
-	db	$98
-	db	$94
-	db	$9C
+	db	90h
+	db	98h
+	db	94h
+	db	9Ch
 zFMInstrumentSSGEGTable_End:
 
 
 zSendFMInstrument:
 	ld	de,zFMInstrumentRegTable
     ld     c,(ix+AMSFMSPan)      ; 0003FE DD 4E 0A
-    ld     a,$b4           ; 000401 3E B4
+    ld     a,0b4h           ; 000401 3E B4
 	call	zWriteFMIorII
 	call	zSendFMInstrData
     ld     (ix+FeedbackAlgo),a      ; 000409 DD 77 1B
@@ -1016,17 +1023,17 @@ zCycleSoundQueue:
 	ld	a,(zNextSound)			; get the first (and only) item in the queue
 
 zPlaySoundByIndex:
-	cp	$FF
+	cp	0FFh
 	jp	z,zPlaySegaSound
-	cp	$32
+	cp	32h
 	jp	c,zPlayMusic
-	cp	$DA
+	cp	0DAh
 	jp	c,zPlaySound
-	cp	$E0
+	cp	0E0h
 	jp	c,zStopAllSound
-	cp	$F0
+	cp	0F0h
 	jp	nc,zStopAllSound
-	sub	$E0
+	sub	0E0h
 	ld	hl,zFadeEffects
 	rst	zPointerTableOffset
 	xor	a
@@ -1044,7 +1051,7 @@ zFadeEffects:
 zStopSFX:
     ld     ix,zTracksSFXStart        ; 000453 DD 21 F0 1D
     ld     b,(zTracksSFXEnd-zTracksSFXStart)/zTrack           ; 000457 06 07
-    ld     a,$01           ; 000459 3E 01
+    ld     a,1           ; 000459 3E 01
     ld     (zUpdatingSFX),a       ; 00045B 32 19 1C
 
 .loop:
@@ -1064,7 +1071,7 @@ zSilenceStopTrack:
 	jp	cfSilenceStopTrack
 
 zPlayMusic:
-    sub    $01             ; 000477 D6 01
+    sub    1             ; 000477 D6 01
     ret    m               ; 000479 F8
     push   af              ; 00047A F5
 	call	zStopAllSound
@@ -1085,13 +1092,13 @@ zloc_48B:
 	; music bankswitch
     ld     hl,zBankRegister        ; 000491 21 00 60
 	bankswitchToMusic
-    ld     a,$b6           ; 0004A3 3E B6
+    ld     a,0b6h           ; 0004A3 3E B6
     ld     (zYM2612_A1),a       ; 0004A5 32 02 40
     nop                    ; 0004A8 00
-    ld     a,$c0           ; 0004A9 3E C0
+    ld     a,0c0h           ; 0004A9 3E C0
     ld     (zYM2612_D1),a       ; 0004AB 32 03 40
     pop    af              ; 0004AE F1
-    ld     c,$04           ; 0004AF 0E 04
+    ld     c,4           ; 0004AF 0E 04
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
     push   hl              ; 0004B3 E5
@@ -1103,7 +1110,7 @@ zloc_48B:
     ld     a,(iy+5)      ; 0004BC FD 7E 05
     ld     (zTempoAccumulator),a       ; 0004BF 32 13 1C
     ld     (zCurrentTempo),a       ; 0004C2 32 05 1C
-    ld     de,$0006        ; 0004C5 11 06 00
+    ld     de,6        ; 0004C5 11 06 00
     add    hl,de           ; 0004C8 19
     ld     (zSongPosition),hl      ; 0004C9 22 33 1C
 	ld	hl,zFMDACInitBytes
@@ -1147,7 +1154,7 @@ zloc_48B:
     inc    de              ; 000519 13
     ld     (zTrackInitPos),hl      ; 00051A 22 35 1C
     ld     hl,(zSongPosition)      ; 00051D 2A 33 1C
-    ld     bc,$0006        ; 000520 01 06 00
+    ld     bc,6        ; 000520 01 06 00
     ldir                   ; 000523 ED B0
     ld     (zSongPosition),hl      ; 000525 22 33 1C
 	call	zZeroFillTrackRAM
@@ -1160,48 +1167,38 @@ zClearNextSound:
 	ret
 
 zFMDACInitBytes:
-	db	$80
-	db	$06
-	db	$80
-	db	$00
-	db	$80
-	db	$01
-	db	$80
-	db	$02
-	db	$80
-	db	$04
-	db	$80
-	db	$05
-	db	$80
-	db	$06
+	db	80h,6
+	db	80h,0
+	db	80h,1
+	db	80h,2
+	db	80h,4
+	db	80h,5
+	db	80h,6
 
 zPSGInitBytes:
-	db	$80
-	db	$80
-	db	$80
-	db	$A0
-	db	$80
-	db	$C0
+	db	80h,80h
+	db	80h,0A0h
+	db	80h,0C0h
 
 zPlaySound:
-    sub    $32             ; 000547 D6 32
+    sub    32h             ; 000547 D6 32
 ; Ring SFX patch below provided by ValleyBell.
 ; Originally used zSpecFM3FreqsSFX to make the rings alternate between speakers, a better method would be to use unused RAM as long as it's a byte in size.
-;	or     a ; is it equal to $32?
+;	or     a ; is it equal to 32h?
 ;	jr     nz,.notequ ; if not, branch
 ;	ld     a,(zRingSpeaker) ; load zRingSpeaker into a
 ;	xor    1 ; set a to 1
 ;	ld     (zRingSpeaker),a ; load a back into zRingSpeaker
 ;.notequ:
-    ex     af,af          ; 000549 08
+    ex     af,af'          ; 000549 08
 
 	; sound bankswitch
 	bankswitchToSFX
 
     xor    a               ; 000559 AF
-    ld     c,$06           ; 00055A 0E 06
+    ld     c,6           ; 00055A 0E 06
     ld     (zUpdatingSFX),a       ; 00055C 32 19 1C
-    ex     af,af          ; 00055F 08
+    ex     af,af'          ; 00055F 08
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
     push   hl              ; 000562 E5
@@ -1214,7 +1211,7 @@ zPlaySound:
     pop    iy              ; 00056D FD E1
     ld     a,(iy+TempoDivider)      ; 00056F FD 7E 02
     ld     (zSFXTempoDivider),a       ; 000572 32 3B 1C
-    ld     de,$0004        ; 000575 11 04 00
+    ld     de,4        ; 000575 11 04 00
     add    hl,de           ; 000578 19
     ld     b,(iy+DataPointerLow)      ; 000579 FD 46 03
 
@@ -1237,7 +1234,7 @@ zSFXTrackInitLoop:
     pop    hl              ; 000591 E1
     ldi                    ; 000592 ED A0
     ld     a,(de)          ; 000594 1A
-    cp     $02             ; 000595 FE 02
+    cp     2             ; 000595 FE 02
 	call	z,zFM3NormalMode
     ldi                    ; 00059A ED A0
     ld     a,(zSFXTempoDivider)       ; 00059C 3A 3B 1C
@@ -1284,9 +1281,9 @@ zGetSFXChannelPointers:
 	jr	.getPtrs
 
 .isPSG:
-    ld     a,$1f           ; 0005EB 3E 1F
+    ld     a,1fh           ; 0005EB 3E 1F
 	call	zSilencePSGChannel
-    ld     a,$ff           ; 0005F0 3E FF
+    ld     a,0ffh           ; 0005F0 3E FF
     ld     (zPSG),a       ; 0005F2 32 11 7F
     ld     a,c             ; 0005F5 79
     srl    a               ; 0005F6 CB 3F
@@ -1294,10 +1291,10 @@ zGetSFXChannelPointers:
     srl    a               ; 0005FA CB 3F
     srl    a               ; 0005FC CB 3F
     srl    a               ; 0005FE CB 3F
-    add    a,$02           ; 000600 C6 02
+    add    a,2           ; 000600 C6 02
 
 .getPtrs:
-    sub    $02             ; 000602 D6 02
+    sub    2             ; 000602 D6 02
     ld     (zSFXSaveIndex),a       ; 000604 32 32 1C
     push   af              ; 000607 F5
 	ld	hl,zSFXChannelData
@@ -1310,26 +1307,26 @@ zGetSFXChannelPointers:
 	ret
 
 zInitFMDACTrack:
-    ex     af,af          ; 000615 08
+    ex     af,af'          ; 000615 08
     xor    a               ; 000616 AF
     ld     (de),a          ; 000617 12
     inc    de              ; 000618 13
     ld     (de),a          ; 000619 12
     inc    de              ; 00061A 13
-    ex     af,af          ; 00061B 08
+    ex     af,af'          ; 00061B 08
 
 zZeroFillTrackRAM:
     ex     de,hl           ; 00061C EB
     ld     (hl),zTrack       ; 00061D 36 30
     inc    hl              ; 00061F 23
-    ld     (hl),$c0        ; 000620 36 C0
+    ld     (hl),0c0h        ; 000620 36 C0
     inc    hl              ; 000622 23
-    ld     (hl),$01        ; 000623 36 01
-    ld     b,$24           ; 000625 06 24
+    ld     (hl),1        ; 000623 36 01
+    ld     b,24h           ; 000625 06 24
 
 .loop:
     inc    hl              ; 000627 23
-    ld     (hl),$00        ; 000628 36 00
+    ld     (hl),0        ; 000628 36 00
 	djnz	.loop
     inc    hl              ; 00062C 23
     ex     de,hl           ; 00062D EB
@@ -1364,7 +1361,7 @@ zPauseUnpause:
     pop    de              ; 000658 D1
     dec    a               ; 000659 3D
     ret    nz              ; 00065A C0
-    ld     (hl),$02        ; 00065B 36 02
+    ld     (hl),2        ; 00065B 36 02
 	jp	zPauseAudio
 
 .unpause:
@@ -1385,7 +1382,7 @@ zPauseUnpause:
 
 .setPan:
     ld     c,(ix+AMSFMSPan)      ; 00067B DD 4E 0A
-    ld     a,$b4           ; 00067E 3E B4
+    ld     a,0b4h           ; 00067E 3E B4
 	call	zWriteFMIorII
 
 .skipFMTrack:
@@ -1393,7 +1390,7 @@ zPauseUnpause:
     add    ix,de           ; 000686 DD 19
 	djnz	.FMLoop
     ld     ix,zTracksSFXEnd        ; 00068A DD 21 40 1F
-    ld     b,$07           ; 00068E 06 07
+    ld     b,7           ; 00068E 06 07
 
 .PSGLoop:
     bit    7,(ix+PlaybackControl)      ; 000690 DD CB 00 7E
@@ -1401,7 +1398,7 @@ zPauseUnpause:
     bit    7,(ix+VoiceControl)      ; 000696 DD CB 01 7E
 	jr	nz,.skipPSG
     ld     c,(ix+AMSFMSPan)      ; 00069C DD 4E 0A
-    ld     a,$b4           ; 00069F 3E B4
+    ld     a,0b4h           ; 00069F 3E B4
 	call	zWriteFMIorII
 
 .skipPSG:
@@ -1411,9 +1408,9 @@ zPauseUnpause:
 	ret
 
 zFadeOutMusic:
-    ld     a,$28           ; 0006AC 3E 28
+    ld     a,28h           ; 0006AC 3E 28
     ld     (zFadeOutTimeout),a       ; 0006AE 32 0D 1C
-    ld     a,$06           ; 0006B1 3E 06
+    ld     a,6           ; 0006B1 3E 06
     ld     (zFadeDelayTimeout),a       ; 0006B3 32 0F 1C
     ld     (zFadeDelay),a       ; 0006B6 32 0E 1C
 
@@ -1478,10 +1475,10 @@ zStopAllSound:
 	ld	hl,zTempVariablesStart
 	ld	de,zTempVariablesStart+1
 	ld	bc,zTempVariablesEnd-zTempVariablesStart-1
-    ld     (hl),$00        ; 000735 36 00
+    ld     (hl),0        ; 000735 36 00
     ldir                   ; 000737 ED B0
 	ld	ix,zFMDACInitBytes
-    ld     b,$06           ; 00073D 06 06
+    ld     b,6           ; 00073D 06 06
 
 .loop:
     push   bc              ; 00073F C5
@@ -1491,25 +1488,25 @@ zStopAllSound:
     inc    ix              ; 000748 DD 23
     pop    bc              ; 00074A C1
 	djnz	.loop
-    ld     b,$07           ; 00074D 06 07
+    ld     b,7           ; 00074D 06 07
     xor    a               ; 00074F AF
     ld     (zFadeOutTimeout),a       ; 000750 32 0D 1C
 	call	zPSGSilenceAll
-    ld     c,$00           ; 000756 0E 00
-    ld     a,$2b           ; 000758 3E 2B
+    ld     c,0           ; 000756 0E 00
+    ld     a,2bh           ; 000758 3E 2B
 	call	zWriteFMI
 
 zFM3NormalMode:
     xor    a               ; 00075D AF
     ld     (zFM3Settings),a       ; 00075E 32 12 1C
     ld     c,a             ; 000761 4F
-    ld     a,$27           ; 000762 3E 27
+    ld     a,27h           ; 000762 3E 27
 	call	zWriteFMI
 	jp	zClearNextSound
 
 zFMClearSSGEGOps:
-    ld     a,$90           ; 00076A 3E 90
-    ld     c,$00           ; 00076C 0E 00
+    ld     a,90h           ; 00076A 3E 90
+    ld     c,0           ; 00076C 0E 00
 	jp	zFMOperatorWriteLoop
 
 zPauseAudio:
@@ -1517,8 +1514,8 @@ zPauseAudio:
     push   bc              ; 000774 C5
     push   af              ; 000775 F5
     ld     b,(zSongFM4-zSongFM1)/zTrack           ; 000776 06 03
-    ld     a,$b4           ; 000778 3E B4
-    ld     c,$00           ; 00077A 0E 00
+    ld     a,0b4h           ; 000778 3E B4
+    ld     c,0           ; 00077A 0E 00
 
 .loop1:
     push   af              ; 00077C F5
@@ -1527,7 +1524,7 @@ zPauseAudio:
     inc    a               ; 000781 3C
 	djnz	.loop1
     ld     b,(zSongPSG1-zSongFM4)/zTrack          ; 000784 06 02
-    ld     a,$b4           ; 000786 3E B4
+    ld     a,0b4h           ; 000786 3E B4
 
 .loop2:
     push   af              ; 000788 F5
@@ -1535,9 +1532,9 @@ zPauseAudio:
     pop    af              ; 00078C F1
     inc    a               ; 00078D 3C
 	djnz	.loop2
-    ld     c,$00           ; 000790 0E 00
+    ld     c,0           ; 000790 0E 00
     ld     b,(zSongPSG1-zSongFM1)/zTrack+1           ; 000792 06 06
-    ld     a,$28           ; 000794 3E 28
+    ld     a,28h           ; 000794 3E 28
 
 .loop3:
     push   af              ; 000796 F5
@@ -1550,12 +1547,12 @@ zPauseAudio:
 
 zPSGSilenceAll:
     push   bc              ; 0007A0 C5
-    ld     b,$04           ; 0007A1 06 04
-    ld     a,$9f           ; 0007A3 3E 9F
+    ld     b,4           ; 0007A1 06 04
+    ld     a,9fh           ; 0007A3 3E 9F
 
 .loop:
     ld     (zPSG),a       ; 0007A5 32 11 7F
-    add    a,$20           ; 0007A8 C6 20
+    add    a,20h           ; 0007A8 C6 20
 	djnz	.loop
     pop    bc              ; 0007AC C1
 	jp	zClearNextSound
@@ -1587,11 +1584,11 @@ zloc_7D4:
     ld     a,(de)          ; 0007D4 1A
     or     a               ; 0007D5 B7
     ret    z               ; 0007D6 C8
-    sub    $01             ; 0007D7 D6 01
-    ld     c,$00           ; 0007D9 0E 00
+    sub    1             ; 0007D7 D6 01
+    ld     c,0           ; 0007D9 0E 00
 	rst	zGetPointerTable
     ld     c,a             ; 0007DC 4F
-    ld     b,$00           ; 0007DD 06 00
+    ld     b,0           ; 0007DD 06 00
     add    hl,bc           ; 0007DF 09
     ld     a,(zSoundIndex)       ; 0007E0 3A 18 1C
     cp     (hl)            ; 0007E3 BE
@@ -1602,7 +1599,7 @@ zloc_7D4:
     ld     a,(de)          ; 0007E8 1A
     ld     (zNextSound),a       ; 0007E9 32 09 1C
     ld     a,(hl)          ; 0007EC 7E
-    and    $7f             ; 0007ED E6 7F
+    and    7fh             ; 0007ED E6 7F
     ld     (zSoundIndex),a       ; 0007EF 32 18 1C
 
 .skip2:
@@ -1613,192 +1610,196 @@ zloc_7D4:
 
 zFMSilenceChannel:
 	call	zSetMaxRelRate
-    ld     a,$40           ; 0007F9 3E 40
-    ld     c,$7f           ; 0007FB 0E 7F
+    ld     a,40h           ; 0007F9 3E 40
+    ld     c,7fh           ; 0007FB 0E 7F
 	call	zFMOperatorWriteLoop
     ld     c,(ix+VoiceControl)      ; 000800 DD 4E 01
 	jp	zKeyOnOff
 
 zSetMaxRelRate:
-    ld     a,$80           ; 000806 3E 80
-    ld     c,$ff           ; 000808 0E FF
+    ld     a,80h           ; 000806 3E 80
+    ld     c,0ffh           ; 000808 0E FF
 
 zFMOperatorWriteLoop:
-    ld     b,$04           ; 00080A 06 04
+    ld     b,4           ; 00080A 06 04
 
 .loop:
     push   af              ; 00080C F5
 	call	zWriteFMIorII
     pop    af              ; 000810 F1
-    add    a,$04           ; 000811 C6 04
+    add    a,4           ; 000811 C6 04
 	djnz	.loop
 	ret
 
 zPlaySegaSound:
-    ld     a,$01           ; 000816 3E 01
+    ld     a,1           ; 000816 3E 01
     ld     (zPlaySegaPCMFlag),a       ; 000818 32 07 1C
     pop    hl              ; 00081B E1
 	ret
 
 zPSGFrequencies:
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03FF
-	dw	$03F7
-	dw	$03BE
-	dw	$0388
-	dw	$0356
-	dw	$0326
-	dw	$02F9
-	dw	$02CE
-	dw	$02A5
-	dw	$0280
-	dw	$025C
-	dw	$023A
-	dw	$021A
-	dw	$01FB
-	dw	$01DF
-	dw	$01C4
-	dw	$01AB
-	dw	$0193
-	dw	$017D
-	dw	$0167
-	dw	$0153
-	dw	$0140
-	dw	$012E
-	dw	$011D
-	dw	$010D
-	dw	$00FE
-	dw	$00EF
-	dw	$00E2
-	dw	$00D6
-	dw	$00C9
-	dw	$00BE
-	dw	$00B4
-	dw	$00A9
-	dw	$00A0
-	dw	$0097
-	dw	$008F
-	dw	$0087
-	dw	$007F
-	dw	$0078
-	dw	$0071
-	dw	$006B
-	dw	$0065
-	dw	$005F
-	dw	$005A
-	dw	$0055
-	dw	$0050
-	dw	$004B
-	dw	$0047
-	dw	$0043
-	dw	$0040
-	dw	$003C
-	dw	$0039
-	dw	$0036
-	dw	$0033
-	dw	$0030
-	dw	$002D
-	dw	$002B
-	dw	$0028
-	dw	$0026
-	dw	$0024
-	dw	$0022
-	dw	$0020
-	dw	$001F
-	dw	$001D
-	dw	$001B
-	dw	$001A
-	dw	$0018
-	dw	$0017
-	dw	$0016
-	dw	$0015
-	dw	$0013
-	dw	$0012
-	dw	$0011
-	dw	$0010
-	dw	$0000
-	dw	$0000
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3FFh
+	dw	3F7h
+	dw	3BEh
+	dw	388h
+	dw	356h
+	dw	326h
+	dw	2F9h
+	dw	2CEh
+	dw	2A5h
+	dw	280h
+	dw	25Ch
+	dw	23Ah
+	dw	21Ah
+	dw	1FBh
+	dw	1DFh
+	dw	1C4h
+	dw	1ABh
+	dw	193h
+	dw	17Dh
+	dw	167h
+	dw	153h
+	dw	140h
+	dw	12Eh
+	dw	11Dh
+	dw	10Dh
+	dw	0FEh
+	dw	0EFh
+	dw	0E2h
+	dw	0D6h
+	dw	0C9h
+	dw	0BEh
+	dw	0B4h
+	dw	0A9h
+	dw	0A0h
+	dw	97h
+	dw	8Fh
+	dw	87h
+	dw	7Fh
+	dw	78h
+	dw	71h
+	dw	6Bh
+	dw	65h
+	dw	5Fh
+	dw	5Ah
+	dw	55h
+	dw	50h
+	dw	4Bh
+	dw	47h
+	dw	43h
+	dw	40h
+	dw	3Ch
+	dw	39h
+	dw	36h
+	dw	33h
+	dw	30h
+	dw	2Dh
+	dw	2Bh
+	dw	28h
+	dw	26h
+	dw	24h
+	dw	22h
+	dw	20h
+	dw	1Fh
+	dw	1Dh
+	dw	1Bh
+	dw	1Ah
+	dw	18h
+	dw	17h
+	dw	16h
+	dw	15h
+	dw	13h
+	dw	12h
+	dw	11h
+	dw	10h
+	dw	0
+	dw	0
 
 zFMFrequencies:
-	dw	$0284
-	dw	$02AB
-	dw	$02D3
-	dw	$02FE
-	dw	$032D
-	dw	$035C
-	dw	$038F
-	dw	$03C5
-	dw	$03FF
-	dw	$043C
-	dw	$047C
-	dw	$04C0
+	dw	284h
+	dw	2ABh
+	dw	2D3h
+	dw	2FEh
+	dw	32Dh
+	dw	35Ch
+	dw	38Fh
+	dw	3C5h
+	dw	3FFh
+	dw	43Ch
+	dw	47Ch
+	dw	4C0h
 
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; MUSIC BANKS
 ; ===========================================================================
 
-zmakeSongBank macro addr
-	db	(((addr&3F8000h)/zROMWindow))&0Fh	; see bankswitchToMusicS3
+zmakeSongBank function addr,zmake68kBank(addr)&0Fh ; See bankswitchToMusicS3
+
+zmakeSongBanks macro
+		irp op,ALLARGS
+			db zmakeSongBank(op)
+		endm
 	endm
 
 z80_MusicBanks:
-	zmakeSongBank	Angel_Island_1_Snd_Data
-	zmakeSongBank	Angel_Island_2_Snd_Data
-	zmakeSongBank	Hydrocity_1_Snd_Data
-	zmakeSongBank	Hydrocity_2_Snd_Data
-	zmakeSongBank	Marble_Garden_1_Snd_Data
-	zmakeSongBank	Marble_Garden_2_Snd_Data
-	zmakeSongBank	Carnival_Night_1_Snd_Data
-	zmakeSongBank	Carnival_Night_2_Snd_Data
-	zmakeSongBank	Flying_Battery_1_Snd_Data
-	zmakeSongBank	Flying_Battery_2_Snd_Data
-	zmakeSongBank	Icecap_1_Snd_Data
-	zmakeSongBank	Icecap_2_Snd_Data
-	zmakeSongBank	Launch_Base_1_Snd_Data
-	zmakeSongBank	Launch_Base_2_Snd_Data
-	zmakeSongBank	Mushroom_Valley_1_Snd_Data
-	zmakeSongBank	Mushroom_Valley_2_Snd_Data
-	zmakeSongBank	Sandopolis_1_Snd_Data
-	zmakeSongBank	Sandopolis_2_Snd_Data
-	zmakeSongBank	Lava_Reef_1_Snd_Data
-	zmakeSongBank	Lava_Reef_2_Snd_Data
-	zmakeSongBank	Sky_Sanctuary_Snd_Data
-	zmakeSongBank	Death_Egg_1_Snd_Data
-	zmakeSongBank	Death_Egg_2_Snd_Data
-	zmakeSongBank	Mini_Boss_Snd_Data
-	zmakeSongBank	Boss_Snd_Data
-	zmakeSongBank	The_Doomsday_Snd_Data
-	zmakeSongBank	Glowing_Spheres_Bonus_Stage_Snd_Data
-	zmakeSongBank	Special_Stage_Snd_Data
-	zmakeSongBank	Slot_Machine_Bonus_Stage_Snd_Data
-	zmakeSongBank	Gumball_Machine_Bonus_Stage_Snd_Data
-	zmakeSongBank	Knuckles_Theme_Snd_Data
-	zmakeSongBank	Azure_Lake_Snd_Data
-	zmakeSongBank	Balloon_Park_Snd_Data
-	zmakeSongBank	Desert_Palace_Snd_Data
-	zmakeSongBank	Chrome_Gadget_Snd_Data
-	zmakeSongBank	Endless_Mine_Snd_Data
-	zmakeSongBank	Title_Screen_Snd_Data
-	zmakeSongBank	Credits_Snd_Data
-	zmakeSongBank	Time_Game_Over_Snd_Data
-	zmakeSongBank	Continue_Snd_Data
-	zmakeSongBank	Level_Results_Snd_Data
-	zmakeSongBank	Extra_Life_Snd_Data
-	zmakeSongBank	Got_Emerald_Snd_Data
-	zmakeSongBank	Invincibility_Snd_Data
-	zmakeSongBank	Competition_Menu_Snd_Data
-	zmakeSongBank	Super_Sonic_Theme_Snd_Data
-	zmakeSongBank	Data_Select_Menu_Snd_Data
-	zmakeSongBank	Final_Boss_Snd_Data
-	zmakeSongBank	Panic_Snd_Data
+	zmakeSongBanks	Angel_Island_1_Snd_Data
+	zmakeSongBanks	Angel_Island_2_Snd_Data
+	zmakeSongBanks	Hydrocity_1_Snd_Data
+	zmakeSongBanks	Hydrocity_2_Snd_Data
+	zmakeSongBanks	Marble_Garden_1_Snd_Data
+	zmakeSongBanks	Marble_Garden_2_Snd_Data
+	zmakeSongBanks	Carnival_Night_1_Snd_Data
+	zmakeSongBanks	Carnival_Night_2_Snd_Data
+	zmakeSongBanks	Flying_Battery_1_Snd_Data
+	zmakeSongBanks	Flying_Battery_2_Snd_Data
+	zmakeSongBanks	Icecap_1_Snd_Data
+	zmakeSongBanks	Icecap_2_Snd_Data
+	zmakeSongBanks	Launch_Base_1_Snd_Data
+	zmakeSongBanks	Launch_Base_2_Snd_Data
+	zmakeSongBanks	Mushroom_Valley_1_Snd_Data
+	zmakeSongBanks	Mushroom_Valley_2_Snd_Data
+	zmakeSongBanks	Sandopolis_1_Snd_Data
+	zmakeSongBanks	Sandopolis_2_Snd_Data
+	zmakeSongBanks	Lava_Reef_1_Snd_Data
+	zmakeSongBanks	Lava_Reef_2_Snd_Data
+	zmakeSongBanks	Sky_Sanctuary_Snd_Data
+	zmakeSongBanks	Death_Egg_1_Snd_Data
+	zmakeSongBanks	Death_Egg_2_Snd_Data
+	zmakeSongBanks	Mini_Boss_Snd_Data
+	zmakeSongBanks	Boss_Snd_Data
+	zmakeSongBanks	The_Doomsday_Snd_Data
+	zmakeSongBanks	Glowing_Spheres_Bonus_Stage_Snd_Data
+	zmakeSongBanks	Special_Stage_Snd_Data
+	zmakeSongBanks	Slot_Machine_Bonus_Stage_Snd_Data
+	zmakeSongBanks	Gumball_Machine_Bonus_Stage_Snd_Data
+	zmakeSongBanks	Knuckles_Theme_Snd_Data
+	zmakeSongBanks	Azure_Lake_Snd_Data
+	zmakeSongBanks	Balloon_Park_Snd_Data
+	zmakeSongBanks	Desert_Palace_Snd_Data
+	zmakeSongBanks	Chrome_Gadget_Snd_Data
+	zmakeSongBanks	Endless_Mine_Snd_Data
+	zmakeSongBanks	Title_Screen_Snd_Data
+	zmakeSongBanks	Credits_Snd_Data
+	zmakeSongBanks	Time_Game_Over_Snd_Data
+	zmakeSongBanks	Continue_Snd_Data
+	zmakeSongBanks	Level_Results_Snd_Data
+	zmakeSongBanks	Extra_Life_Snd_Data
+	zmakeSongBanks	Got_Emerald_Snd_Data
+	zmakeSongBanks	Invincibility_Snd_Data
+	zmakeSongBanks	Competition_Menu_Snd_Data
+	zmakeSongBanks	Super_Sonic_Theme_Snd_Data
+	zmakeSongBanks	Data_Select_Menu_Snd_Data
+	zmakeSongBanks	Final_Boss_Snd_Data
+	zmakeSongBanks	Panic_Snd_Data
 
 zUpdateDACTrack:
 	call	zTrackRunTimer
@@ -1809,7 +1810,7 @@ zUpdateDACTrack:
 zUpdateDACTrack_cont:
     ld     a,(de)          ; 000918 1A
     inc    de              ; 000919 13
-    cp     $e0             ; 00091A FE E0
+    cp     0e0h             ; 00091A FE E0
 	jp	nc,zHandleDACCoordFlag
     or     a               ; 00091F B7
 	jp	m,.gotSample
@@ -1818,14 +1819,14 @@ zUpdateDACTrack_cont:
 
 .gotSample:
     ld     (ix+FreqLow),a      ; 000927 DD 77 0D
-    cp     $80             ; 00092A FE 80
+    cp     80h             ; 00092A FE 80
 	jp	z,zUpdateDACTrack_GetDuration
     res    7,a             ; 00092F CB BF
     push   de              ; 000931 D5
-    ex     af,af          ; 000932 08
+    ex     af,af'          ; 000932 08
 	call	zKeyOffIfActive
 	call	zFM3NormalMode
-    ex     af,af          ; 000939 08
+    ex     af,af'          ; 000939 08
     ld     (zDACIndex),a       ; 00093A 32 06 1C
     pop    de              ; 00093D D1
 
@@ -1852,7 +1853,7 @@ zHandleFMorPSGCoordFlag:
 
 zHandleCoordFlag:
     push   hl              ; 00095B E5
-    sub    $e0             ; 00095C D6 E0
+    sub    0e0h             ; 00095C D6 E0
 	ld	hl,zCoordFlagSwitchTable
 	rst	zPointerTableOffset
     ld     a,(de)          ; 000962 1A
@@ -1910,7 +1911,7 @@ cfPlayDACSample:
 	ret
 
 cfPanningAMSFMS:
-    ld     c,$3f           ; 0009BA 0E 3F
+    ld     c,3fh           ; 0009BA 0E 3F
 
 zDoChangePan:
     ld     a,(ix+AMSFMSPan)      ; 0009BC DD 7E 0A
@@ -1920,7 +1921,7 @@ zDoChangePan:
     or     (hl)            ; 0009C2 B6
     ld     (ix+AMSFMSPan),a      ; 0009C3 DD 77 0A
     ld     c,a             ; 0009C6 4F
-    ld     a,$b4           ; 0009C7 3E B4
+    ld     a,0b4h           ; 0009C7 3E B4
 	call	zWriteFMIorII
     pop    de              ; 0009CC D1
 	ret
@@ -1951,13 +1952,13 @@ cfSetVolume:
     srl    a               ; 0009ED CB 3F
     srl    a               ; 0009EF CB 3F
     srl    a               ; 0009F1 CB 3F
-    xor    $0f             ; 0009F3 EE 0F
-    and    $0f             ; 0009F5 E6 0F
+    xor    0fh             ; 0009F3 EE 0F
+    and    0fh             ; 0009F5 E6 0F
 	jp	zStoreTrackVolume
 
 .notPSG:
-    xor    $7f             ; 0009FA EE 7F
-    and    $7f             ; 0009FC E6 7F
+    xor    7fh             ; 0009FA EE 7F
+    and    7fh             ; 0009FC E6 7F
     ld     (ix+Volume),a      ; 0009FE DD 77 06
 	jr	zSendTL
 
@@ -1975,7 +1976,7 @@ cfChangeVolume:
 	jp	.setVol
 
 .underflow:
-    ld     a,$7f           ; 000A17 3E 7F
+    ld     a,7fh           ; 000A17 3E 7F
 
 .setVol:
     ld     (ix+Volume),a      ; 000A19 DD 77 06
@@ -1994,7 +1995,7 @@ zSendTL:
     add    a,(ix+Volume)      ; 000A2D DD 86 06
 
 .skipTrackVol:
-    and    $7f             ; 000A30 E6 7F
+    and    7fh             ; 000A30 E6 7F
     ld     c,a             ; 000A32 4F
     ld     a,(de)          ; 000A33 1A
 	call	zWriteFMIorII
@@ -2019,7 +2020,7 @@ cfConditionalJump:
     inc    de              ; 000A4D 13
     add    a,LoopCounters           ; 000A4E C6 28
     ld     c,a             ; 000A50 4F
-    ld     b,$00           ; 000A51 06 00
+    ld     b,0           ; 000A51 06 00
     push   ix              ; 000A53 DD E5
     pop    hl              ; 000A55 E1
     add    hl,bc           ; 000A56 09
@@ -2040,16 +2041,16 @@ cfChangePSGVolume:
     res    4,(ix+PlaybackControl)      ; 000A68 DD CB 00 A6
     dec    (ix+VolEnv)        ; 000A6C DD 35 17
     add    a,(ix+Volume)      ; 000A6F DD 86 06
-    cp     $0f             ; 000A72 FE 0F
+    cp     0fh             ; 000A72 FE 0F
 	jp	c,zStoreTrackVolume
-    ld     a,$0f           ; 000A77 3E 0F
+    ld     a,0fh           ; 000A77 3E 0F
 
 zStoreTrackVolume:
     ld     (ix+Volume),a      ; 000A79 DD 77 06
 	ret
 
 cfSetKey:
-    sub    $40             ; 000A7D D6 40
+    sub    40h             ; 000A7D D6 40
     ld     (ix+Transpose),a      ; 000A7F DD 77 05
 	ret
 
@@ -2081,13 +2082,13 @@ cfSetVoice:
 zSetVoiceUploadAlter:
     push   de              ; 000AA6 D5
     ld     a,(ix+VoiceSongID)      ; 000AA7 DD 7E 0F
-    sub    $81             ; 000AAA D6 81
-    ld     c,$04           ; 000AAC 0E 04
+    sub    81h             ; 000AAA D6 81
+    ld     c,4           ; 000AAC 0E 04
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	rst	zReadPointer
     ld     a,(ix+VoiceIndex)      ; 000AB1 DD 7E 08
-    and    $7f             ; 000AB4 E6 7F
+    and    7fh             ; 000AB4 E6 7F
     ld     b,a             ; 000AB6 47
 	call	zGetFMInstrumentOffset
 	jr	zSetVoiceDoUpload
@@ -2112,7 +2113,7 @@ zSetVoicePSG:
 cfModulation:
     ld     (ix+ModulationPtrLow),e      ; 000ACF DD 73 20
     ld     (ix+ModulationPtrHigh),d      ; 000AD2 DD 72 21
-    ld     (ix+ModulationCtrl),$80    ; 000AD5 DD 36 07 80
+    ld     (ix+ModulationCtrl),80h    ; 000AD5 DD 36 07 80
     inc    de              ; 000AD9 13
     inc    de              ; 000ADA 13
     inc    de              ; 000ADB 13
@@ -2131,7 +2132,7 @@ cfSetModulation:
 
 cfStopTrack:
     res    7,(ix+PlaybackControl)      ; 000AEA DD CB 00 BE
-    ld     a,$1f           ; 000AEE 3E 1F
+    ld     a,1fh           ; 000AEE 3E 1F
     ld     (unk_1C15),a       ; 000AF0 32 15 1C
 	call	zKeyOffIfActive
     ld     c,(ix+VoiceControl)      ; 000AF6 DD 4E 01
@@ -2150,13 +2151,13 @@ cfStopTrack:
 	jr	nz,zStopPSGTrack
     bit    7,(ix+PlaybackControl)      ; 000B18 DD CB 00 7E
 	jr	z,zStopCleanExit
-    ld     a,$02           ; 000B1E 3E 02
+    ld     a,2           ; 000B1E 3E 02
     cp     (ix+VoiceControl)        ; 000B20 DD BE 01
 	jr	nz,.notFM3
-    ld     a,$4f           ; 000B25 3E 4F
+    ld     a,4fh           ; 000B25 3E 4F
     bit    0,(ix+PlaybackControl)      ; 000B27 DD CB 00 46
 	jr	nz,.doFM3Settings
-    and    $0f             ; 000B2D E6 0F
+    and    0fh             ; 000B2D E6 0F
 
 .doFM3Settings:
 	call	zWriteFM3Settings
@@ -2211,7 +2212,7 @@ zStopPSGTrack:
 cfSetPSGNoise:
     bit    2,(ix+VoiceControl)      ; 000B83 DD CB 01 56
     ret    nz              ; 000B87 C0
-    ld     a,$df           ; 000B88 3E DF
+    ld     a,0dfh           ; 000B88 3E DF
     ld     (zPSG),a       ; 000B8A 32 11 7F
     ld     a,(de)          ; 000B8D 1A
     ld     (ix+PSGNoise),a      ; 000B8E DD 77 1A
@@ -2219,7 +2220,7 @@ cfSetPSGNoise:
     or     a               ; 000B95 B7
 	jr	nz,.skipNoiseSilence
     res    0,(ix+PlaybackControl)      ; 000B98 DD CB 00 86
-    ld     a,$ff           ; 000B9C 3E FF
+    ld     a,0ffh           ; 000B9C 3E FF
 
 .skipNoiseSilence:
     ld     (zPSG),a       ; 000B9E 32 11 7F
@@ -2245,7 +2246,7 @@ cfRepeatAtPos:
     inc    de              ; 000BB1 13
     add    a,LoopCounters           ; 000BB2 C6 28
     ld     c,a             ; 000BB4 4F
-    ld     b,$00           ; 000BB5 06 00
+    ld     b,0           ; 000BB5 06 00
     push   ix              ; 000BB7 DD E5
     pop    hl              ; 000BB9 E1
     add    hl,bc           ; 000BBA 09
@@ -2273,7 +2274,7 @@ cfJumpToGosub:
     dec    (ix+StackPointer)        ; 000BD0 DD 35 09
     ld     c,(ix+StackPointer)      ; 000BD3 DD 4E 09
     dec    (ix+StackPointer)        ; 000BD6 DD 35 09
-    ld     b,$00           ; 000BD9 06 00
+    ld     b,0           ; 000BD9 06 00
     add    hl,bc           ; 000BDB 09
     ld     (hl),d          ; 000BDC 72
     dec    hl              ; 000BDD 2B
@@ -2286,7 +2287,7 @@ cfJumpReturn:
     push   ix              ; 000BE2 DD E5
     pop    hl              ; 000BE4 E1
     ld     c,(ix+StackPointer)      ; 000BE5 DD 4E 09
-    ld     b,$00           ; 000BE8 06 00
+    ld     b,0           ; 000BE8 06 00
     add    hl,bc           ; 000BEA 09
     ld     e,(hl)          ; 000BEB 5E
     inc    hl              ; 000BEC 23
@@ -2309,7 +2310,7 @@ cfSpecialSFX:
 	ret
 
 cfToggleAltFreqMode:
-    cp     $01             ; 000C03 FE 01
+    cp     1             ; 000C03 FE 01
 	jr	nz,.stopAltFreqMode
     set    3,(ix+PlaybackControl)      ; 000C07 DD CB 00 DE
 	ret
@@ -2320,12 +2321,12 @@ cfToggleAltFreqMode:
 
 cfFM3SpecialMode:
     ld     a,(ix+VoiceControl)      ; 000C11 DD 7E 01
-    cp     $02             ; 000C14 FE 02
+    cp     2             ; 000C14 FE 02
 	jr	nz,zTrackSkip3bytes
     set    0,(ix+PlaybackControl)      ; 000C18 DD CB 00 C6
     ex     de,hl           ; 000C1C EB
 	call	zGetSpecialFM3DataPointer
-    ld     b,$04           ; 000C20 06 04
+    ld     b,4           ; 000C20 06 04
 
 .loop:
     push   bc              ; 000C22 C5
@@ -2335,7 +2336,7 @@ cfFM3SpecialMode:
 	ld	hl,zFM3FreqShiftTable
     add    a,a             ; 000C29 87
     ld     c,a             ; 000C2A 4F
-    ld     b,$00           ; 000C2B 06 00
+    ld     b,0           ; 000C2B 06 00
     add    hl,bc           ; 000C2D 09
     ldi                    ; 000C2E ED A0
     ldi                    ; 000C30 ED A0
@@ -2344,12 +2345,12 @@ cfFM3SpecialMode:
 	djnz	.loop
     ex     de,hl           ; 000C36 EB
     dec    de              ; 000C37 1B
-    ld     a,$4f           ; 000C38 3E 4F
+    ld     a,4fh           ; 000C38 3E 4F
 
 zWriteFM3Settings:
     ld     (zFM3Settings),a       ; 000C3A 32 12 1C
     ld     c,a             ; 000C3D 4F
-    ld     a,$27           ; 000C3E 3E 27
+    ld     a,27h           ; 000C3E 3E 27
 	call	zWriteFMI
 	ret
 
@@ -2360,14 +2361,14 @@ zTrackSkip3bytes:
 	ret
 
 zFM3FreqShiftTable:
-	dw	$0000
-	dw	$0132
-	dw	$018E
-	dw	$01E4
-	dw	$0234
-	dw	$027E
-	dw	$02C2
-	dw	$02F0
+	dw	0
+	dw	132h
+	dw	18Eh
+	dw	1E4h
+	dw	234h
+	dw	27Eh
+	dw	2C2h
+	dw	2F0h
 
 cfMetaCF:
 	ld	hl,zExtraCoordFlagSwitchTable
@@ -2427,7 +2428,7 @@ cfCopyData:
     ld     d,(hl)          ; 000CA9 56
     inc    hl              ; 000CAA 23
     ld     c,(hl)          ; 000CAB 4E
-    ld     b,$00           ; 000CAC 06 00
+    ld     b,0           ; 000CAC 06 00
     inc    hl              ; 000CAE 23
     ex     de,hl           ; 000CAF EB
     ldir                   ; 000CB0 ED B0
@@ -2448,7 +2449,7 @@ cfSetTempoDivider:
 	ret
 
 cfSetSSGEG:
-    ld     (ix+FMVolEnv),$80    ; 000CC3 DD 36 18 80
+    ld     (ix+FMVolEnv),80h    ; 000CC3 DD 36 18 80
     ld     (ix+SSGEGPointerLow),e      ; 000CC7 DD 73 19
     ld     (ix+SSGEGPointerHigh),d      ; 000CCA DD 72 1A
 
@@ -2497,11 +2498,11 @@ zUpdatePSGTrack:
     ret    nz              ; 000D0F C0
     ld     c,(ix+VoiceControl)      ; 000D10 DD 4E 01
     ld     a,l             ; 000D13 7D
-    and    $0f             ; 000D14 E6 0F
+    and    0fh             ; 000D14 E6 0F
     or     c               ; 000D16 B1
     ld     (zPSG),a       ; 000D17 32 11 7F
     ld     a,l             ; 000D1A 7D
-    and    $f0             ; 000D1B E6 F0
+    and    0f0h             ; 000D1B E6 F0
     or     h               ; 000D1D B4
     rrca                   ; 000D1E 0F
     rrca                   ; 000D1F 0F
@@ -2510,10 +2511,10 @@ zUpdatePSGTrack:
     ld     (zPSG),a       ; 000D22 32 11 7F
     ld     a,(ix+VoiceIndex)      ; 000D25 DD 7E 08
     or     a               ; 000D28 B7
-    ld     c,$00           ; 000D29 0E 00
+    ld     c,0           ; 000D29 0E 00
 	jr	z,.noVolEnv
     dec    a               ; 000D2D 3D
-    ld     c,$0a           ; 000D2E 0E 0A
+    ld     c,0ah           ; 000D2E 0E 0A
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	call	zDoVolEnv
@@ -2526,18 +2527,18 @@ zUpdatePSGTrack:
     add    a,c             ; 000D3E 81
     bit    4,a             ; 000D3F CB 67
 	jr	z,.noUnderflow
-    ld     a,$0f           ; 000D43 3E 0F
+    ld     a,0fh           ; 000D43 3E 0F
 
 .noUnderflow:
     or     (ix+VoiceControl)        ; 000D45 DD B6 01
-    add    a,$10           ; 000D48 C6 10
+    add    a,10h           ; 000D48 C6 10
     bit    0,(ix+PlaybackControl)      ; 000D4A DD CB 00 46
 	jr	nz,.setNoise
     ld     (zPSG),a       ; 000D50 32 11 7F
 	ret
 
 .setNoise:
-    add    a,$20           ; 000D54 C6 20
+    add    a,20h           ; 000D54 C6 20
     ld     (zPSG),a       ; 000D56 32 11 7F
 	ret
 
@@ -2547,17 +2548,17 @@ zDoVolEnvSetValue:
 zDoVolEnv:
     push   hl              ; 000D5D E5
     ld     c,(ix+VolEnv)      ; 000D5E DD 4E 17
-    ld     b,$00           ; 000D61 06 00
+    ld     b,0           ; 000D61 06 00
     add    hl,bc           ; 000D63 09
     ld     a,(hl)          ; 000D64 7E
     pop    hl              ; 000D65 E1
     bit    7,a             ; 000D66 CB 7F
 	jr	z,zDoVolEnvAdvance
-    cp     $83             ; 000D6A FE 83
+    cp     83h             ; 000D6A FE 83
 	jr	z,zDoVolEnvFullRest
-    cp     $81             ; 000D6E FE 81
+    cp     81h             ; 000D6E FE 81
 	jr	z,zDoVolEnvRest
-    cp     $80             ; 000D72 FE 80
+    cp     80h             ; 000D72 FE 80
 	jr	z,zDoVolEnvReset
     inc    bc              ; 000D76 03
     ld     a,(bc)          ; 000D77 0A
@@ -2587,21 +2588,21 @@ zRestTrack:
     ret    nz              ; 000D97 C0
 
 zSilencePSGChannel:
-    ld     a,$1f           ; 000D98 3E 1F
+    ld     a,1fh           ; 000D98 3E 1F
     add    a,(ix+VoiceControl)      ; 000D9A DD 86 01
     or     a               ; 000D9D B7
     ret    p               ; 000D9E F0
     ld     (zPSG),a       ; 000D9F 32 11 7F
     bit    0,(ix+PlaybackControl)      ; 000DA2 DD CB 00 46
     ret    z               ; 000DA6 C8
-    ld     a,$ff           ; 000DA7 3E FF
+    ld     a,0ffh           ; 000DA7 3E FF
     ld     (zPSG),a       ; 000DA9 32 11 7F
     ret                    ; 000DAC C9
 
 zPlayDigitalAudio:
     di                     ; 000DAD F3
-    ld     a,$2b           ; 000DAE 3E 2B
-    ld     c,$00           ; 000DB0 0E 00
+    ld     a,2bh           ; 000DAE 3E 2B
+    ld     c,0           ; 000DB0 0E 00
 	call	zWriteFMI
 
 .DACIdleLoop:
@@ -2612,8 +2613,8 @@ zPlayDigitalAudio:
     ld     a,(zDACIndex)       ; 000DBD 3A 06 1C
     or     a               ; 000DC0 B7
 	jr	z,.DACIdleLoop
-    ld     a,$2b           ; 000DC3 3E 2B
-    ld     c,$80           ; 000DC5 0E 80
+    ld     a,2bh           ; 000DC3 3E 2B
+    ld     c,80h           ; 000DC5 0E 80
     di                     ; 000DC7 F3
 	call	zWriteFMI
     ei                     ; 000DCB FB
@@ -2624,7 +2625,7 @@ zPlayDigitalAudio:
     set    7,(hl)          ; 000DD5 CB FE
     ld     hl,zROMWindow        ; 000DD7 21 00 80
 	rst	zPointerTableOffset
-    ld     c,$80           ; 000DDB 0E 80
+    ld     c,80h           ; 000DDB 0E 80
     ld     a,(hl)          ; 000DDD 7E
 	ld	(.sample1Rate+1),a
 	ld	(.sample2Rate+1),a
@@ -2640,18 +2641,18 @@ zPlayDigitalAudio:
 
 .DACPlaybackLoop:
 .sample1Rate:
-    ld     b,$0a           ; 000DED 06 0A
+    ld     b,0ah           ; 000DED 06 0A
     ei                     ; 000DEF FB
-	djnz	*
+	djnz	$
     di                     ; 000DF2 F3
-    ld     a,$2a           ; 000DF3 3E 2A
+    ld     a,2ah           ; 000DF3 3E 2A
     ld     (zYM2612_A0),a       ; 000DF5 32 00 40
     ld     a,(hl)          ; 000DF8 7E
     rlca                   ; 000DF9 07
     rlca                   ; 000DFA 07
     rlca                   ; 000DFB 07
     rlca                   ; 000DFC 07
-    and    $0f             ; 000DFD E6 0F
+    and    0fh             ; 000DFD E6 0F
 	ld	(.sample1Index+2),a
     ld     a,c             ; 000E02 79
 
@@ -2661,14 +2662,14 @@ zPlayDigitalAudio:
     ld     c,a             ; 000E09 4F
 
 .sample2Rate:
-    ld     b,$0a           ; 000E0A 06 0A
+    ld     b,0ah           ; 000E0A 06 0A
     ei                     ; 000E0C FB
-	djnz	*
+	djnz	$
     di                     ; 000E0F F3
-    ld     a,$2a           ; 000E10 3E 2A
+    ld     a,2ah           ; 000E10 3E 2A
     ld     (zYM2612_A0),a       ; 000E12 32 00 40
     ld     a,(hl)          ; 000E15 7E
-    and    $0f             ; 000E16 E6 0F
+    and    0fh             ; 000E16 E6 0F
 	ld	(.sample2Index+2),a
     ld     a,c             ; 000E1B 79
 
@@ -2690,35 +2691,35 @@ zPlayDigitalAudio:
 	jp	zPlayDigitalAudio
 
 DecTable:
-	db	$00
-	db	$01
-	db	$02
-	db	$04
-	db	$08
-	db	$10
-	db	$20
-	db	$40
-	db	$80
-	db	-$01
-	db	-$02
-	db	-$04
-	db	-$08
-	db	-$10
-	db	-$20
-	db	-$40
+	db	0
+	db	1
+	db	2
+	db	4
+	db	8
+	db	10h
+	db	20h
+	db	40h
+	db	80h
+	db	-1
+	db	-2
+	db	-4
+	db	-8
+	db	-10h
+	db	-20h
+	db	-40h
 
 zPlaySEGAPCM:
     di                     ; 000E49 F3
-    ld     a,$2b           ; 000E4A 3E 2B
+    ld     a,2bh           ; 000E4A 3E 2B
     ld     (zYM2612_A0),a       ; 000E4C 32 00 40
     nop                    ; 000E4F 00
-    ld     a,$80           ; 000E50 3E 80
+    ld     a,80h           ; 000E50 3E 80
     ld     (zYM2612_D0),a       ; 000E52 32 01 40
 
 	; Sega PCM bankswitch
     ld     hl,zBankRegister        ; 000E55 21 00 60
     xor    a               ; 000E58 AF
-    ld     e,$01           ; 000E59 1E 01
+    ld     e,1           ; 000E59 1E 01
     ld     (hl),e          ; 000E5B 73
     ld     (hl),e          ; 000E5C 73
     ld     (hl),e          ; 000E5D 73
@@ -2729,15 +2730,15 @@ zPlaySEGAPCM:
     ld     (hl),a          ; 000E62 77
     ld     (hl),a          ; 000E63 77
     ld     hl,zROMWindow        ; 000E64 21 00 80
-    ld     de,$6caa        ; 000E67 11 AA 6C
-    ld     a,$2a           ; 000E6A 3E 2A
+    ld     de,6caah        ; 000E67 11 AA 6C
+    ld     a,2ah           ; 000E6A 3E 2A
     ld     (zYM2612_A0),a       ; 000E6C 32 00 40
 
 .loop:
     ld     a,(hl)          ; 000E6F 7E
     ld     (zYM2612_D0),a       ; 000E70 32 01 40
-    ld     b,$0d           ; 000E73 06 0D
-	djnz	*
+    ld     b,0dh           ; 000E73 06 0D
+	djnz	$
     inc    hl              ; 000E77 23
     dec    de              ; 000E78 1B
     ld     a,d             ; 000E79 7A
@@ -2747,711 +2748,24 @@ zPlaySEGAPCM:
     ld     (zPlaySegaPCMFlag),a       ; 000E7F 32 07 1C
 	call	zStopAllSound
 	jp	zPlayDigitalAudio
-EndOf_SoundDriver:
 
-	if *>Size_of_SoundDriver_Guess
-		inform 3,"Size_of_SoundDriver_Guess is too small by $%h bytes.",*-Size_of_SoundDriver_Guess
-	else
-		inform 0,"Z80 sound driver has $%h bytes free at the end.",*>Size_of_SoundDriver_Guess
-	endc
+	binclude	"z80_unknown.bin"
 
-; end of code!
-    rst    28h             ; 000E88 EF
-    inc    d               ; 000E89 14
-    adc    a,e             ; 000E8A 8B
-    inc    sp              ; 000E8B 33
-    jp     nz,$d4d3        ; 000E8C C2 D3 D4
-    push   de              ; 000E8F D5
-    add    a,h             ; 000E90 84
-    sub    $c1             ; 000E91 D6 C1
-    add    a,b             ; 000E93 80
-    add    a,a             ; 000E94 87
-    add    a,b             ; 000E95 80
-    adc    a,a             ; 000E96 8F
-    add    a,$a0           ; 000E97 C6 A0
-    and    e               ; 000E99 A3
-    and    l               ; 000E9A A5
-    and    a               ; 000E9B A7
-    xor    c               ; 000E9C A9
-    xor    e               ; 000E9D AB
-    xor    l               ; 000E9E AD
-    adc    a,c             ; 000E9F 89
-    xor    a               ; 000EA0 AF
-    pop    bc              ; 000EA1 C1
-    out    ($d4),a         ; 000EA2 D3 D4
-    add    a,b             ; 000EA4 80
-    push   de              ; 000EA5 D5
-    add    a,h             ; 000EA6 84
-    sub    $c9             ; 000EA7 D6 C9
-    add    a,b             ; 000EA9 80
-    add    a,a             ; 000EAA 87
-    sub    b               ; 000EAB 90
-    sbc    a,c             ; 000EAC 99
-    adc    a,a             ; 000EAD 8F
-    and    h               ; 000EAE A4
-    and    (hl)            ; 000EAF A6
-    xor    b               ; 000EB0 A8
-    xor    d               ; 000EB1 AA
-    xor    h               ; 000EB2 AC
-    add    a,d             ; 000EB3 82
-    xor    (hl)            ; 000EB4 AE
-    ret                    ; 000EB5 C9
-    or     b               ; 000EB6 B0
-    or     c               ; 000EB7 B1
-    or     d               ; 000EB8 B2
-    or     e               ; 000EB9 B3
-    or     l               ; 000EBA B5
-    or     a               ; 000EBB B7
-    ret    nz              ; 000EBC C0
-    call   z,$d4d3         ; 000EBD CC D3 D4
-    add    a,b             ; 000EC0 80
-    push   de              ; 000EC1 D5
-    add    a,h             ; 000EC2 84
-    sub    $c4             ; 000EC3 D6 C4
-    add    a,b             ; 000EC5 80
-    add    a,a             ; 000EC6 87
-    sub    c               ; 000EC7 91
-    sbc    a,d             ; 000EC8 9A
-    and    c               ; 000EC9 A1
-    adc    a,d             ; 000ECA 8A
-    and    d               ; 000ECB A2
-    add    a,$b4           ; 000ECC C6 B4
-    or     (hl)            ; 000ECE B6
-    cp     b               ; 000ECF B8
-    pop    bc              ; 000ED0 C1
-    call   $d4d3           ; 000ED1 CD D3 D4
-    add    a,b             ; 000ED4 80
-    push   de              ; 000ED5 D5
-    add    a,h             ; 000ED6 84
-    sub    $c3             ; 000ED7 D6 C3
-    add    a,b             ; 000ED9 80
-    adc    a,b             ; 000EDA 88
-    sub    d               ; 000EDB 92
-    sbc    a,d             ; 000EDC 9A
-    adc    a,l             ; 000EDD 8D
-    and    d               ; 000EDE A2
-    call   nz,$c2b9        ; 000EDF C4 B9 C2
-    adc    a,$d3           ; 000EE2 CE D3
-    call   nc,$d580        ; 000EE4 D4 80 D5
-    add    a,h             ; 000EE7 84
-    sub    $c3             ; 000EE8 D6 C3
-    add    a,c             ; 000EEA 81
-    adc    a,c             ; 000EEB 89
-    sub    e               ; 000EEC 93
-    sbc    a,e             ; 000EED 9B
-    adc    a,l             ; 000EEE 8D
-    and    d               ; 000EEF A2
-    ret    nz              ; 000EF0 C0
-    cp     d               ; 000EF1 BA
-    add    a,b             ; 000EF2 80
-    jp     $d3c1           ; 000EF3 C3 C1 D3
-    call   nc,$d580        ; 000EF6 D4 80 D5
-    add    a,h             ; 000EF9 84
-    sub    $c3             ; 000EFA D6 C3
-    add    a,c             ; 000EFC 81
-    adc    a,c             ; 000EFD 89
-    sub    h               ; 000EFE 94
-    sbc    a,h             ; 000EFF 9C
-    adc    a,(hl)          ; 000F00 8E
-    and    d               ; 000F01 A2
-    jp     $c4c3           ; 000F02 C3 C3 C4
-    out    ($d4),a         ; 000F05 D3 D4
-    add    a,b             ; 000F07 80
-    push   de              ; 000F08 D5
-    add    a,h             ; 000F09 84
-    sub    $c3             ; 000F0A D6 C3
-    add    a,c             ; 000F0C 81
-    adc    a,c             ; 000F0D 89
-    sub    l               ; 000F0E 95
-    sbc    a,l             ; 000F0F 9D
-    adc    a,(hl)          ; 000F10 8E
-    and    d               ; 000F11 A2
-    add    a,b             ; 000F12 80
-    call   nz,$d3c1        ; 000F13 C4 C1 D3
-    call   nc,$d580        ; 000F16 D4 80 D5
-    add    a,h             ; 000F19 84
-    sub    $c3             ; 000F1A D6 C3
-    add    a,c             ; 000F1C 81
-    adc    a,c             ; 000F1D 89
-    sub    (hl)            ; 000F1E 96
-    sbc    a,(hl)          ; 000F1F 9E
-    adc    a,(hl)          ; 000F20 8E
-    and    d               ; 000F21 A2
-    add    a,b             ; 000F22 80
-    call   nz,$d3c1        ; 000F23 C4 C1 D3
-    call   nc,$d580        ; 000F26 D4 80 D5
-    add    a,h             ; 000F29 84
-    sub    $c3             ; 000F2A D6 C3
-    add    a,c             ; 000F2C 81
-    adc    a,c             ; 000F2D 89
-    sub    a               ; 000F2E 97
-    sbc    a,(hl)          ; 000F2F 9E
-    adc    a,l             ; 000F30 8D
-    and    d               ; 000F31 A2
-    call   nz,$c5bb        ; 000F32 C4 BB C5
-    call   nz,$d4d3        ; 000F35 C4 D3 D4
-    add    a,b             ; 000F38 80
-    push   de              ; 000F39 D5
-    add    a,h             ; 000F3A 84
-    sub    $c3             ; 000F3B D6 C3
-    add    a,c             ; 000F3D 81
-    adc    a,c             ; 000F3E 89
-    sbc    a,b             ; 000F3F 98
-    sbc    a,a             ; 000F40 9F
-    adc    a,l             ; 000F41 8D
-    and    d               ; 000F42 A2
-    call   nz,$c6bb        ; 000F43 C4 BB C6
-    rst    08h             ; 000F46 CF
-    out    ($d4),a         ; 000F47 D3 D4
-    add    a,b             ; 000F49 80
-    push   de              ; 000F4A D5
-    add    a,h             ; 000F4B 84
-    sub    $c3             ; 000F4C D6 C3
-    add    a,c             ; 000F4E 81
-    adc    a,c             ; 000F4F 89
-    sbc    a,b             ; 000F50 98
-    sbc    a,a             ; 000F51 9F
-    adc    a,l             ; 000F52 8D
-    and    d               ; 000F53 A2
-    call   nz,$c7bb        ; 000F54 C4 BB C7
-    ret    nc              ; 000F57 D0
-    out    ($d4),a         ; 000F58 D3 D4
-    add    a,b             ; 000F5A 80
-    push   de              ; 000F5B D5
-    add    a,h             ; 000F5C 84
-    sub    $c3             ; 000F5D D6 C3
-    add    a,d             ; 000F5F 82
-    adc    a,c             ; 000F60 89
-    sbc    a,b             ; 000F61 98
-    sbc    a,a             ; 000F62 9F
-    adc    a,l             ; 000F63 8D
-    and    d               ; 000F64 A2
-    call   nz,$c8bb        ; 000F65 C4 BB C8
-    ret    nc              ; 000F68 D0
-    out    ($d4),a         ; 000F69 D3 D4
-    add    a,b             ; 000F6B 80
-    push   de              ; 000F6C D5
-    add    a,h             ; 000F6D 84
-    sub    $c3             ; 000F6E D6 C3
-    add    a,e             ; 000F70 83
-    adc    a,d             ; 000F71 8A
-    sbc    a,b             ; 000F72 98
-    sbc    a,a             ; 000F73 9F
-    adc    a,l             ; 000F74 8D
-    and    d               ; 000F75 A2
-    call   nz,$c9bc        ; 000F76 C4 BC C9
-    pop    de              ; 000F79 D1
-    out    ($d4),a         ; 000F7A D3 D4
-    add    a,b             ; 000F7C 80
-    push   de              ; 000F7D D5
-    add    a,h             ; 000F7E 84
-    sub    $c3             ; 000F7F D6 C3
-    add    a,h             ; 000F81 84
-    adc    a,e             ; 000F82 8B
-    sbc    a,b             ; 000F83 98
-    sbc    a,a             ; 000F84 9F
-    adc    a,l             ; 000F85 8D
-    and    d               ; 000F86 A2
-    call   nz,$c7bd        ; 000F87 C4 BD C7
-    jp     nc,$d4d3        ; 000F8A D2 D3 D4
-    add    a,b             ; 000F8D 80
-    push   de              ; 000F8E D5
-    add    a,h             ; 000F8F 84
-    sub    $c3             ; 000F90 D6 C3
-    add    a,l             ; 000F92 85
-    adc    a,h             ; 000F93 8C
-    sbc    a,b             ; 000F94 98
-    sbc    a,a             ; 000F95 9F
-    adc    a,l             ; 000F96 8D
-    and    d               ; 000F97 A2
-    call   nz,$cabe        ; 000F98 C4 BE CA
-    jp     nc,$d4d3        ; 000F9B D2 D3 D4
-    add    a,b             ; 000F9E 80
-    push   de              ; 000F9F D5
-    add    a,h             ; 000FA0 84
-    sub    $c3             ; 000FA1 D6 C3
-    add    a,(hl)          ; 000FA3 86
-    adc    a,l             ; 000FA4 8D
-    sbc    a,b             ; 000FA5 98
-    sbc    a,a             ; 000FA6 9F
-    adc    a,l             ; 000FA7 8D
-    and    d               ; 000FA8 A2
-    call   nz,$cbbe        ; 000FA9 C4 BE CB
-    jp     nc,$d4d3        ; 000FAC D2 D3 D4
-    add    a,b             ; 000FAF 80
-    push   de              ; 000FB0 D5
-    add    a,h             ; 000FB1 84
-    sub    $c3             ; 000FB2 D6 C3
-    add    a,(hl)          ; 000FB4 86
-    adc    a,(hl)          ; 000FB5 8E
-    sbc    a,b             ; 000FB6 98
-    sbc    a,a             ; 000FB7 9F
-    adc    a,l             ; 000FB8 8D
-    and    d               ; 000FB9 A2
-    call   nz,$c7bf        ; 000FBA C4 BF C7
-    jp     nc,$d4d3        ; 000FBD D2 D3 D4
-    add    a,b             ; 000FC0 80
-    push   de              ; 000FC1 D5
-    add    a,h             ; 000FC2 84
-    sub    $c3             ; 000FC3 D6 C3
-    add    a,(hl)          ; 000FC5 86
-    adc    a,l             ; 000FC6 8D
-    sbc    a,b             ; 000FC7 98
-    sbc    a,a             ; 000FC8 9F
-    adc    a,l             ; 000FC9 8D
-    and    d               ; 000FCA A2
-    call   nz,$cbbe        ; 000FCB C4 BE CB
-    jp     nc,$d4d3        ; 000FCE D2 D3 D4
-    add    a,b             ; 000FD1 80
-    push   de              ; 000FD2 D5
-    add    a,h             ; 000FD3 84
-    sub    $c3             ; 000FD4 D6 C3
-    add    a,l             ; 000FD6 85
-    adc    a,h             ; 000FD7 8C
-    sbc    a,b             ; 000FD8 98
-    sbc    a,a             ; 000FD9 9F
-    adc    a,l             ; 000FDA 8D
-    and    d               ; 000FDB A2
-    call   nz,$cabe        ; 000FDC C4 BE CA
-    jp     nc,$d4d3        ; 000FDF D2 D3 D4
-    add    a,b             ; 000FE2 80
-    push   de              ; 000FE3 D5
-    add    a,h             ; 000FE4 84
-    sub    $c3             ; 000FE5 D6 C3
-    add    a,h             ; 000FE7 84
-    adc    a,e             ; 000FE8 8B
-    sbc    a,b             ; 000FE9 98
-    sbc    a,a             ; 000FEA 9F
-    adc    a,l             ; 000FEB 8D
-    and    d               ; 000FEC A2
-    call   nz,$c7bd        ; 000FED C4 BD C7
-    jp     nc,$d4d3        ; 000FF0 D2 D3 D4
-    add    a,b             ; 000FF3 80
-    push   de              ; 000FF4 D5
-    add    a,h             ; 000FF5 84
-    sub    $c3             ; 000FF6 D6 C3
-    add    a,e             ; 000FF8 83
-    adc    a,d             ; 000FF9 8A
-    sbc    a,b             ; 000FFA 98
-    sbc    a,a             ; 000FFB 9F
-    adc    a,l             ; 000FFC 8D
-    and    d               ; 000FFD A2
-    call   nz,$c9bc        ; 000FFE C4 BC C9
-    pop    de              ; 001001 D1
-    out    ($d4),a         ; 001002 D3 D4
-    add    a,b             ; 001004 80
-    push   de              ; 001005 D5
-    add    a,h             ; 001006 84
-    sub    $c3             ; 001007 D6 C3
-    add    a,d             ; 001009 82
-    adc    a,c             ; 00100A 89
-    sbc    a,b             ; 00100B 98
-    sbc    a,a             ; 00100C 9F
-    adc    a,l             ; 00100D 8D
-    and    d               ; 00100E A2
-    call   nz,$c8bb        ; 00100F C4 BB C8
-    ret    nc              ; 001012 D0
-    out    ($d4),a         ; 001013 D3 D4
-    add    a,b             ; 001015 80
-    push   de              ; 001016 D5
-    add    a,h             ; 001017 84
-    sub    $c3             ; 001018 D6 C3
-    add    a,c             ; 00101A 81
-    adc    a,c             ; 00101B 89
-    sbc    a,b             ; 00101C 98
-    sbc    a,a             ; 00101D 9F
-    adc    a,l             ; 00101E 8D
-    and    d               ; 00101F A2
-    call   nz,$c7bb        ; 001020 C4 BB C7
-    ret    nc              ; 001023 D0
-    out    ($d4),a         ; 001024 D3 D4
-    add    a,b             ; 001026 80
-    push   de              ; 001027 D5
-    add    a,h             ; 001028 84
-    sub    $c3             ; 001029 D6 C3
-    add    a,c             ; 00102B 81
-    adc    a,c             ; 00102C 89
-    sbc    a,b             ; 00102D 98
-    sbc    a,a             ; 00102E 9F
-    adc    a,l             ; 00102F 8D
-    and    d               ; 001030 A2
-    call   nz,$c6bb        ; 001031 C4 BB C6
-    rst    08h             ; 001034 CF
-    out    ($d4),a         ; 001035 D3 D4
-    add    a,b             ; 001037 80
-    push   de              ; 001038 D5
-    add    a,h             ; 001039 84
-    sub    $c3             ; 00103A D6 C3
-    add    a,c             ; 00103C 81
-    adc    a,c             ; 00103D 89
-    sub    a               ; 00103E 97
-    sbc    a,(hl)          ; 00103F 9E
-    adc    a,l             ; 001040 8D
-    and    d               ; 001041 A2
-    call   nz,$c5bb        ; 001042 C4 BB C5
-    call   nz,$d4d3        ; 001045 C4 D3 D4
-    add    a,b             ; 001048 80
-    push   de              ; 001049 D5
-    add    a,h             ; 00104A 84
-    sub    $c3             ; 00104B D6 C3
-    add    a,c             ; 00104D 81
-    adc    a,c             ; 00104E 89
-    sub    (hl)            ; 00104F 96
-    sbc    a,(hl)          ; 001050 9E
-    adc    a,(hl)          ; 001051 8E
-    and    d               ; 001052 A2
-    add    a,b             ; 001053 80
-    call   nz,$d3c1        ; 001054 C4 C1 D3
-    call   nc,$d580        ; 001057 D4 80 D5
-    add    a,h             ; 00105A 84
-    sub    $c3             ; 00105B D6 C3
-    add    a,c             ; 00105D 81
-    adc    a,c             ; 00105E 89
-    sub    l               ; 00105F 95
-    sbc    a,l             ; 001060 9D
-    adc    a,(hl)          ; 001061 8E
-    and    d               ; 001062 A2
-    add    a,b             ; 001063 80
-    call   nz,$d3c1        ; 001064 C4 C1 D3
-    call   nc,$d580        ; 001067 D4 80 D5
-    add    a,h             ; 00106A 84
-    sub    $c3             ; 00106B D6 C3
-    add    a,c             ; 00106D 81
-    adc    a,c             ; 00106E 89
-    sub    h               ; 00106F 94
-    sbc    a,h             ; 001070 9C
-    adc    a,(hl)          ; 001071 8E
-    and    d               ; 001072 A2
-    jp     $c4c3           ; 001073 C3 C3 C4
-    out    ($d4),a         ; 001076 D3 D4
-    add    a,b             ; 001078 80
-    push   de              ; 001079 D5
-    add    a,h             ; 00107A 84
-    sub    $c3             ; 00107B D6 C3
-    add    a,c             ; 00107D 81
-    adc    a,c             ; 00107E 89
-    sub    e               ; 00107F 93
-    sbc    a,e             ; 001080 9B
-    adc    a,l             ; 001081 8D
-    and    d               ; 001082 A2
-    ret    nz              ; 001083 C0
-    cp     d               ; 001084 BA
-    add    a,b             ; 001085 80
-    jp     $d3c1           ; 001086 C3 C1 D3
-    call   nc,$d580        ; 001089 D4 80 D5
-    add    a,h             ; 00108C 84
-    sub    $c3             ; 00108D D6 C3
-    add    a,b             ; 00108F 80
-    adc    a,b             ; 001090 88
-    sub    d               ; 001091 92
-    sbc    a,d             ; 001092 9A
-    adc    a,l             ; 001093 8D
-    and    d               ; 001094 A2
-    call   nz,$c2b9        ; 001095 C4 B9 C2
-    adc    a,$d3           ; 001098 CE D3
-    call   nc,$d580        ; 00109A D4 80 D5
-    add    a,h             ; 00109D 84
-    sub    $c4             ; 00109E D6 C4
-    add    a,b             ; 0010A0 80
-    add    a,a             ; 0010A1 87
-    sub    c               ; 0010A2 91
-    sbc    a,d             ; 0010A3 9A
-    and    c               ; 0010A4 A1
-    adc    a,d             ; 0010A5 8A
-    and    d               ; 0010A6 A2
-    add    a,$b4           ; 0010A7 C6 B4
-    or     (hl)            ; 0010A9 B6
-    cp     b               ; 0010AA B8
-    pop    bc              ; 0010AB C1
-    call   $d4d3           ; 0010AC CD D3 D4
-    add    a,b             ; 0010AF 80
-    push   de              ; 0010B0 D5
-    add    a,h             ; 0010B1 84
-    sub    $c9             ; 0010B2 D6 C9
-    add    a,b             ; 0010B4 80
-    add    a,a             ; 0010B5 87
-    sub    b               ; 0010B6 90
-    sbc    a,c             ; 0010B7 99
-    adc    a,a             ; 0010B8 8F
-    and    h               ; 0010B9 A4
-    and    (hl)            ; 0010BA A6
-    xor    b               ; 0010BB A8
-    xor    d               ; 0010BC AA
-    xor    h               ; 0010BD AC
-    add    a,d             ; 0010BE 82
-    xor    (hl)            ; 0010BF AE
-    ret                    ; 0010C0 C9
-    or     b               ; 0010C1 B0
-    or     c               ; 0010C2 B1
-    or     d               ; 0010C3 B2
-    or     e               ; 0010C4 B3
-    or     l               ; 0010C5 B5
-    or     a               ; 0010C6 B7
-    ret    nz              ; 0010C7 C0
-    call   z,$d4d3         ; 0010C8 CC D3 D4
-    add    a,b             ; 0010CB 80
-    push   de              ; 0010CC D5
-    add    a,h             ; 0010CD 84
-    sub    $c1             ; 0010CE D6 C1
-    add    a,b             ; 0010D0 80
-    add    a,a             ; 0010D1 87
-    add    a,b             ; 0010D2 80
-    adc    a,a             ; 0010D3 8F
-    add    a,$a0           ; 0010D4 C6 A0
-    and    e               ; 0010D6 A3
-    and    l               ; 0010D7 A5
-    and    a               ; 0010D8 A7
-    xor    c               ; 0010D9 A9
-    xor    e               ; 0010DA AB
-    xor    l               ; 0010DB AD
-    adc    a,c             ; 0010DC 89
-    xor    a               ; 0010DD AF
-    pop    bc              ; 0010DE C1
-    out    ($d4),a         ; 0010DF D3 D4
-    add    a,b             ; 0010E1 80
-    push   de              ; 0010E2 D5
-    add    a,h             ; 0010E3 84
-    sub    $c9             ; 0010E4 D6 C9
-    add    a,b             ; 0010E6 80
-    add    a,a             ; 0010E7 87
-    adc    a,a             ; 0010E8 8F
-    ld     l,b             ; 0010E9 68
-    add    a,b             ; 0010EA 80
-    adc    a,d             ; 0010EB 8A
-    sub    a               ; 0010EC 97
-    jp     $14ef           ; 0010ED C3 EF 14
-    adc    a,e             ; 0010F0 8B
-    inc    sp              ; 0010F1 33
-    jp     nz,$d4d3        ; 0010F2 C2 D3 D4
-    push   de              ; 0010F5 D5
-    add    a,h             ; 0010F6 84
-    sub    $c9             ; 0010F7 D6 C9
-    add    a,b             ; 0010F9 80
-    add    a,a             ; 0010FA 87
-    adc    a,a             ; 0010FB 8F
-    ld     l,b             ; 0010FC 68
-    add    a,b             ; 0010FD 80
-    adc    a,d             ; 0010FE 8A
-    sub    a               ; 0010FF 97
-    jp     $14ef           ; 001100 C3 EF 14
-    adc    a,e             ; 001103 8B
-    inc    sp              ; 001104 33
-    jp     nz,$d4d3        ; 001105 C2 D3 D4
-    push   de              ; 001108 D5
-    add    a,h             ; 001109 84
-    sub    $c9             ; 00110A D6 C9
-    add    a,b             ; 00110C 80
-    add    a,a             ; 00110D 87
-    adc    a,a             ; 00110E 8F
-    ld     l,b             ; 00110F 68
-    add    a,b             ; 001110 80
-    adc    a,d             ; 001111 8A
-    sub    a               ; 001112 97
-    jp     $14ef           ; 001113 C3 EF 14
-    adc    a,e             ; 001116 8B
-    inc    sp              ; 001117 33
-    jp     nz,$d4d3        ; 001118 C2 D3 D4
-    push   de              ; 00111B D5
-    add    a,h             ; 00111C 84
-    sub    $c9             ; 00111D D6 C9
-    add    a,b             ; 00111F 80
-    add    a,a             ; 001120 87
-    adc    a,a             ; 001121 8F
-    ld     l,b             ; 001122 68
-    add    a,b             ; 001123 80
-    adc    a,d             ; 001124 8A
-    sub    a               ; 001125 97
-    jp     $14ef           ; 001126 C3 EF 14
-    adc    a,e             ; 001129 8B
-    inc    sp              ; 00112A 33
-    jp     nz,$d4d3        ; 00112B C2 D3 D4
-    push   de              ; 00112E D5
-    add    a,h             ; 00112F 84
-    sub    $c1             ; 001130 D6 C1
-    add    a,b             ; 001132 80
-    add    a,a             ; 001133 87
-    add    a,b             ; 001134 80
-    adc    a,a             ; 001135 8F
-    add    a,$a0           ; 001136 C6 A0
-    and    e               ; 001138 A3
-    and    l               ; 001139 A5
-    and    a               ; 00113A A7
-    xor    c               ; 00113B A9
-    xor    e               ; 00113C AB
-    xor    l               ; 00113D AD
-    adc    a,c             ; 00113E 89
-    xor    a               ; 00113F AF
-    pop    bc              ; 001140 C1
-    out    ($d4),a         ; 001141 D3 D4
-    add    a,b             ; 001143 80
-    push   de              ; 001144 D5
-    add    a,h             ; 001145 84
-    sub    $c1             ; 001146 D6 C1
-    add    a,b             ; 001148 80
-    add    a,a             ; 001149 87
-    add    a,b             ; 00114A 80
-    adc    a,a             ; 00114B 8F
-    ret    nz              ; 00114C C0
-    ld     a,(hl)          ; 00114D 7E
-    add    a,b             ; 00114E 80
-    ld     (hl),h          ; 00114F 74
-    rst    08h             ; 001150 CF
-    cp     a               ; 001151 BF
-    halt                   ; 001152 76
-    ld     a,b             ; 001153 78
-    xor    d               ; 001154 AA
-    inc    a               ; 001155 3C
-    ld     l,l             ; 001156 6D
-    ld     a,(hl)          ; 001157 7E
-    sbc    a,d             ; 001158 9A
-    ld     (hl),d          ; 001159 72
-    and    (hl)            ; 00115A A6
-    cp     h               ; 00115B BC
-    rst    00h             ; 00115C C7
-    ret    nc              ; 00115D D0
-    push   de              ; 00115E D5
-    out    ($d4),a         ; 00115F D3 D4
-    add    a,c             ; 001161 81
-    push   de              ; 001162 D5
-    add    a,h             ; 001163 84
-    sub    $c1             ; 001164 D6 C1
-    add    a,b             ; 001166 80
-    add    a,a             ; 001167 87
-    add    a,b             ; 001168 80
-    adc    a,a             ; 001169 8F
-    add    a,c             ; 00116A 81
-    ld     (hl),h          ; 00116B 74
-    jp     nc,$d3c0        ; 00116C D2 C0 D3
-    ld     l,d             ; 00116F 6A
-    dec    de              ; 001170 1B
-    dec    a               ; 001171 3D
-    ld     l,(hl)          ; 001172 6E
-    ld     a,a             ; 001173 7F
-    sbc    a,e             ; 001174 9B
-    ld     (hl),e          ; 001175 73
-    and    a               ; 001176 A7
-    ret    nc              ; 001177 D0
-    ret    m               ; 001178 F8
-    ld     l,$d5           ; 001179 2E D5
-    out    ($d4),a         ; 00117B D3 D4
-    push   de              ; 00117D D5
-    db     $dd             ; 00117E DD
-    ret    po              ; 00117F E0
-    add    a,h             ; 001180 84
-    sub    $c1             ; 001181 D6 C1
-    add    a,b             ; 001183 80
-    add    a,a             ; 001184 87
-    add    a,b             ; 001185 80
-    adc    a,a             ; 001186 8F
-    add    a,b             ; 001187 80
-    ld     (hl),h          ; 001188 74
-    jp     nc,$c175        ; 001189 D2 75 C1
-    call   nc,$1cfb        ; 00118C D4 FB 1C
-    ld     a,$6f           ; 00118F 3E 6F
-    add    a,b             ; 001191 80
-    sbc    a,h             ; 001192 9C
-    add    a,l             ; 001193 85
-    xor    b               ; 001194 A8
-    pop    de              ; 001195 D1
-    ld     sp,hl           ; 001196 F9
-    cpl                    ; 001197 2F
-    push   de              ; 001198 D5
-    out    ($d4),a         ; 001199 D3 D4
-    push   de              ; 00119B D5
-    sbc    a,$85           ; 00119C DE 85
-    sub    $c1             ; 00119E D6 C1
-    add    a,b             ; 0011A0 80
-    add    a,a             ; 0011A1 87
-    add    a,b             ; 0011A2 80
-    adc    a,a             ; 0011A3 8F
-    call   nc,$7574        ; 0011A4 D4 74 75
-    halt                   ; 0011A7 76
-    jp     nz,$11ed        ; 0011A8 C2 ED 11
-    dec    hl              ; 0011AB 2B
-    ld     c,e             ; 0011AC 4B
-    ld     (hl),e          ; 0011AD 73
-    adc    a,(hl)          ; 0011AE 8E
-    and    e               ; 0011AF A3
-    xor    l               ; 0011B0 AD
-    or     (hl)            ; 0011B1 B6
-    ret    nz              ; 0011B2 C0
-    ret    z               ; 0011B3 C8
-    jp     nc,$d3d5        ; 0011B4 D2 D5 D3
-    call   nc,$dfd5        ; 0011B7 D4 D5 DF
-    add    a,l             ; 0011BA 85
-    sub    $c1             ; 0011BB D6 C1
-    add    a,b             ; 0011BD 80
-    add    a,a             ; 0011BE 87
-    add    a,b             ; 0011BF 80
-    adc    a,a             ; 0011C0 8F
-    push   bc              ; 0011C1 C5
-    ld     (hl),l          ; 0011C2 75
-    halt                   ; 0011C3 76
-    ld     (hl),a          ; 0011C4 77
-    xor    d               ; 0011C5 AA
-    xor    h               ; 0011C6 AC
-    ld     (de),a          ; 0011C7 12
-    adc    a,c             ; 0011C8 89
-    inc    l               ; 0011C9 2C
-    jp     nz,$d4d3        ; 0011CA C2 D3 D4
-    exx                    ; 0011CD D9
-    add    a,(hl)          ; 0011CE 86
-    sub    $c1             ; 0011CF D6 C1
-    add    a,b             ; 0011D1 80
-    add    a,a             ; 0011D2 87
-    add    a,b             ; 0011D3 80
-    adc    a,a             ; 0011D4 8F
-    push   bc              ; 0011D5 C5
-    halt                   ; 0011D6 76
-    ld     (hl),a          ; 0011D7 77
-    ld     a,b             ; 0011D8 78
-    xor    d               ; 0011D9 AA
-    xor    h               ; 0011DA AC
-    push   af              ; 0011DB F5
-    adc    a,c             ; 0011DC 89
-    xor    h               ; 0011DD AC
-    jp     nz,$d4d3        ; 0011DE C2 D3 D4
-    jp     c,$d686         ; 0011E1 DA 86 D6
-    pop    bc              ; 0011E4 C1
-    add    a,b             ; 0011E5 80
-    add    a,a             ; 0011E6 87
-    add    a,b             ; 0011E7 80
-    adc    a,a             ; 0011E8 8F
-    push   bc              ; 0011E9 C5
-    ld     (hl),a          ; 0011EA 77
-    ld     a,b             ; 0011EB 78
-    ld     l,d             ; 0011EC 6A
-    xor    e               ; 0011ED AB
-    xor    h               ; 0011EE AC
-    push   af              ; 0011EF F5
-    adc    a,c             ; 0011F0 89
-    xor    h               ; 0011F1 AC
-    jp     nz,$d4d3        ; 0011F2 C2 D3 D4
-    in     a,($86)         ; 0011F5 DB 86
-    sub    $c1             ; 0011F7 D6 C1
-    add    a,b             ; 0011F9 80
-    add    a,a             ; 0011FA 87
-    add    a,b             ; 0011FB 80
-    adc    a,a             ; 0011FC 8F
-    push   bc              ; 0011FD C5
-    ld     a,b             ; 0011FE 78
-    ld     l,d             ; 0011FF 6A
-
-	if *>$1200
-		inform 3,"Too much data before Z80 sound driver pointers at $1200 in the memory!",*-$1200
-	elseif *<$1200
-		align $1200	; align data to ensure it remains functional
-	endc
+	if $ > 1200h
+		fatal "Your Z80 code won't fit before its tables. It's \{$-1200h}h bytes past the start of music data \{1200h}h"
+	elseif $ < 1200h
+		align 1200h	; align data to ensure it remains functional
+	endif
 
 ; zloc_1200:
 z80_SoundDriverPointers:
 	dw	z80_SoundPriority		; in the final, this is a duplicate of z80_MusicPointers
-	dw	Offset_0x0E1852			; in the final, this is used by the Universal Voice Bank
+	dw	1852h			; in the final, this is used by the Universal Voice Bank
 	dw	z80_MusicPointers
 	dw	z80_SFXPointers
 	dw	z80_ModEnvPointers
 	dw	z80_VolEnvPointers
-	dw	$0032				; song limit, not actually used
+	dw	32h				; song limit, not actually used
 
 z80_ModEnvPointers:
 	dw	ModEnv_00
@@ -3465,192 +2779,29 @@ z80_ModEnvPointers:
 	dw	ModEnv_08
 	dw	ModEnv_09
 
-ModEnv_00:	db	$40, $60, $70, $60, $50, $30, $10,-$10,-$30,-$50,-$70, $83
-ModEnv_01:	db	$00, $02, $04, $06, $08, $0A, $0C, $0E, $10, $12, $14, $18, $81
-ModEnv_02:	db	$00, $00, $01, $03, $01, $00,-$01,-$03,-$01, $00, $82, $02
-ModEnv_03:	db	$00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-		db	$00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-		db	$00, $00, $00, $00, $00, $00, $00, $00, $02, $04, $06, $08, $0A, $0C, $0A, $08
-		db	$06, $04, $02, $00,-$02,-$04,-$06,-$08,-$0A,-$0C,-$0A,-$08,-$06,-$04,-$02, $00
-		db	$82, $29
-
-ModEnv_04:
-    nop                    ; 001289 00
-    nop                    ; 00128A 00
-    nop                    ; 00128B 00
-    nop                    ; 00128C 00
-    nop                    ; 00128D 00
-    nop                    ; 00128E 00
-    nop                    ; 00128F 00
-    nop                    ; 001290 00
-    nop                    ; 001291 00
-    nop                    ; 001292 00
-    nop                    ; 001293 00
-    nop                    ; 001294 00
-    nop                    ; 001295 00
-    nop                    ; 001296 00
-    nop                    ; 001297 00
-    nop                    ; 001298 00
-    nop                    ; 001299 00
-    nop                    ; 00129A 00
-    nop                    ; 00129B 00
-    nop                    ; 00129C 00
-    nop                    ; 00129D 00
-    nop                    ; 00129E 00
-    nop                    ; 00129F 00
-    nop                    ; 0012A0 00
-    nop                    ; 0012A1 00
-    nop                    ; 0012A2 00
-    nop                    ; 0012A3 00
-    nop                    ; 0012A4 00
-    ld     (bc),a          ; 0012A5 02
-    inc    b               ; 0012A6 04
-    ld     b,$08           ; 0012A7 06 08
-    ld     a,(bc)          ; 0012A9 0A
-    inc    c               ; 0012AA 0C
-    ld     a,(bc)          ; 0012AB 0A
-    ex     af,af          ; 0012AC 08
-    ld     b,$04           ; 0012AD 06 04
-    ld     (bc),a          ; 0012AF 02
-    nop                    ; 0012B0 00
-    cp     $fc             ; 0012B1 FE FC
-    jp     m,$f6f8         ; 0012B3 FA F8 F6
-    call   p,$f8f6         ; 0012B6 F4 F6 F8
-    jp     m,$fefc         ; 0012B9 FA FC FE
-    add    a,d             ; 0012BC 82
-    dec    de              ; 0012BD 1B
-
-ModEnv_05:
-    nop                    ; 0012BE 00
-    nop                    ; 0012BF 00
-    nop                    ; 0012C0 00
-    nop                    ; 0012C1 00
-    nop                    ; 0012C2 00
-    nop                    ; 0012C3 00
-    nop                    ; 0012C4 00
-    nop                    ; 0012C5 00
-    nop                    ; 0012C6 00
-    nop                    ; 0012C7 00
-    nop                    ; 0012C8 00
-    nop                    ; 0012C9 00
-    nop                    ; 0012CA 00
-    nop                    ; 0012CB 00
-    nop                    ; 0012CC 00
-    nop                    ; 0012CD 00
-    nop                    ; 0012CE 00
-    nop                    ; 0012CF 00
-    nop                    ; 0012D0 00
-    nop                    ; 0012D1 00
-    nop                    ; 0012D2 00
-    nop                    ; 0012D3 00
-    nop                    ; 0012D4 00
-    nop                    ; 0012D5 00
-    nop                    ; 0012D6 00
-    nop                    ; 0012D7 00
-    nop                    ; 0012D8 00
-    nop                    ; 0012D9 00
-    nop                    ; 0012DA 00
-    nop                    ; 0012DB 00
-    nop                    ; 0012DC 00
-    nop                    ; 0012DD 00
-    nop                    ; 0012DE 00
-    nop                    ; 0012DF 00
-    nop                    ; 0012E0 00
-    nop                    ; 0012E1 00
-    nop                    ; 0012E2 00
-    nop                    ; 0012E3 00
-    nop                    ; 0012E4 00
-    nop                    ; 0012E5 00
-    nop                    ; 0012E6 00
-    nop                    ; 0012E7 00
-    nop                    ; 0012E8 00
-    nop                    ; 0012E9 00
-    nop                    ; 0012EA 00
-    nop                    ; 0012EB 00
-    nop                    ; 0012EC 00
-    nop                    ; 0012ED 00
-    nop                    ; 0012EE 00
-    nop                    ; 0012EF 00
-    inc    bc              ; 0012F0 03
-    ld     b,$03           ; 0012F1 06 03
-    nop                    ; 0012F3 00
-    db     $fd             ; 0012F4 FD
-    jp     m,$fdfa         ; 0012F5 FA FA FD
-    nop                    ; 0012F8 00
-    add    a,d             ; 0012F9 82
-    inc    sp              ; 0012FA 33
-
-ModEnv_06:
-    nop                    ; 0012FB 00
-    nop                    ; 0012FC 00
-    nop                    ; 0012FD 00
-    nop                    ; 0012FE 00
-    nop                    ; 0012FF 00
-    nop                    ; 001300 00
-    nop                    ; 001301 00
-    nop                    ; 001302 00
-    nop                    ; 001303 00
-    nop                    ; 001304 00
-    nop                    ; 001305 00
-    nop                    ; 001306 00
-    nop                    ; 001307 00
-    nop                    ; 001308 00
-    nop                    ; 001309 00
-    nop                    ; 00130A 00
-    ld     (bc),a          ; 00130B 02
-    inc    b               ; 00130C 04
-    ld     (bc),a          ; 00130D 02
-    nop                    ; 00130E 00
-    cp     $fc             ; 00130F FE FC
-    cp     $00             ; 001311 FE 00
-    add    a,d             ; 001313 82
-	db	$11
-
-ModEnv_07:
-	dw	$FFFE
-    nop                    ; 001317 00
-    nop                    ; 001318 00
-    nop                    ; 001319 00
-    nop                    ; 00131A 00
-    nop                    ; 00131B 00
-    nop                    ; 00131C 00
-    nop                    ; 00131D 00
-    nop                    ; 00131E 00
-    nop                    ; 00131F 00
-    nop                    ; 001320 00
-    nop                    ; 001321 00
-    nop                    ; 001322 00
-    nop                    ; 001323 00
-    nop                    ; 001324 00
-    nop                    ; 001325 00
-    nop                    ; 001326 00
-    ld     bc,$0001        ; 001327 01 01 00
-    nop                    ; 00132A 00
-    rst    38h             ; 00132B FF
-    rst    38h             ; 00132C FF
-    add    a,d             ; 00132D 82
-	db	$11
-
-ModEnv_08:
-	dw	$0203
-    ld     bc,$0000        ; 001331 01 00 00
-    nop                    ; 001334 00
-	dw	$8101
-
-ModEnv_09:
-	db	$00
-    nop                    ; 001338 00
-    nop                    ; 001339 00
-    nop                    ; 00133A 00
-    ld     bc,$0101        ; 00133B 01 01 01
-    ld     bc,$0202        ; 00133E 01 02 02
-    ld     bc,$0101        ; 001341 01 01 01
-    nop                    ; 001344 00
-    nop                    ; 001345 00
-    nop                    ; 001346 00
-    add    a,h             ; 001347 84
-    ld     bc,$0482        ; 001348 01 82 04
-
+ModEnv_00:	db	40h, 60h, 70h, 60h, 50h, 30h, 10h,-10h,-30h,-50h,-70h, 83h
+ModEnv_01:	db	0, 2, 4, 6, 8, 0Ah, 0Ch, 0Eh, 10h, 12h, 14h, 18h, 81h
+ModEnv_02:	db	0, 0, 1, 3, 1, 0,-1,-3,-1, 0, 82h, 2
+ModEnv_03:	db	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+		db	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+		db	0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 6, 8, 0Ah, 0Ch, 0Ah, 8
+		db	6, 4, 2, 0,-2,-4,-6,-8,-0Ah,-0Ch,-0Ah,-8,-6,-4,-2, 0
+		db	82h, 29h
+ModEnv_04:	db    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+		db    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   2,   4,   6,   8
+		db  0Ah, 0Ch, 0Ah,   8,   6,   4,   2,   0,-2,-4,-6,-8,-0Ah,-0Ch,-0Ah,-8
+		db -6,-4,-2, 82h, 1Bh
+ModEnv_05:	db    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+		db    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+		db    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+		db    0,   0,   3,   6,   3,   0,-3,-6,-6,-3,   0, 82h, 33h
+ModEnv_06:	db    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+		db    2,   4,   2,   0,-2,-4,-2,   0, 82h, 11h
+ModEnv_07:	db -2,-1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+		db    0,   0,   1,   1,   0,   0,-1,-1, 82h, 11h
+ModEnv_08:	db    3,   2,   1,   0,   0,   0,   1, 81h
+ModEnv_09:	db    0,   0,   0,   0,   1,   1,   1,   1,   2,   2,   1,   1,   1,   0,   0,   0
+		db  84h,   1, 82h,   4
 z80_VolEnvPointers:
 	dw	VolEnv_00
 	dw	VolEnv_01
@@ -3689,276 +2840,308 @@ z80_VolEnvPointers:
 	dw	VolEnv_22
 	dw	VolEnv_23
 	dw	VolEnv_24
-	dw	$00F5
-	dw	$0026
+	dw	0F5h
+	dw	26h
 
-VolEnv_00:	db	$02, $83
-VolEnv_01:	db	$00, $02, $04, $06, $08, $10, $83
-VolEnv_02:	db	$02, $01, $00, $00, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02
-		db	$02, $03, $03, $03, $04, $04, $04, $05, $81
-VolEnv_03:	db	$00, $00, $02, $03, $04, $04, $05, $05, $05, $06, $06, $81
-VolEnv_04:	db	$03, $00, $01, $01, $01, $02, $03, $04, $04, $05, $81
-VolEnv_05:	db	$00, $00, $01, $01, $02, $03, $04, $05, $05, $06, $08, $07, $07, $06, $81
-VolEnv_06:	db	$01, $0C, $03, $0F, $02, $07, $03, $0F, $80
-VolEnv_07:	db	$00, $00, $00, $02, $03, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0E, $0F
-		db	$83
-VolEnv_08:	db	$03, $02, $01, $01, $00, $00, $01, $02, $03, $04, $81
-VolEnv_09:	db	$01, $00, $00, $00, $00, $01, $01, $01, $02, $02, $02, $03, $03, $03, $03, $04
-		db	$04, $04, $05, $05, $81
-VolEnv_0A:	db	$10, $20, $30, $40, $30, $20, $10, $00,-$10, $80
-VolEnv_0B:	db	$00, $00, $01, $01, $03, $03, $04, $05, $83
-VolEnv_0C:	db	$00, $81
-VolEnv_0D:	db	$02, $83
-VolEnv_0E:	db	$00, $02, $04, $06, $08, $10, $83
-VolEnv_0F:	db	$09, $09, $09, $08, $08, $08, $07, $07, $07, $06, $06, $06, $05, $05, $05, $04
-		db	$04, $04, $03, $03, $03, $02, $02, $02, $01, $01, $01, $00, $00, $00, $81
-VolEnv_10:	db	$01, $01, $01, $00, $00, $00, $81
-VolEnv_11:	db	$03, $00, $01, $01, $01, $02, $03, $04, $04, $05, $81
-VolEnv_12:	db	$00, $00, $01, $01, $02, $03, $04, $05, $05, $06, $08, $07, $07, $06, $81
-VolEnv_13:	db	$0A, $05, $00, $04, $08, $83
-VolEnv_14:	db	$00, $00, $00, $02, $03, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0E, $0F
-		db	$83
-VolEnv_15:	db	$03, $02, $01, $01, $00, $00, $01, $02, $03, $04, $81
-VolEnv_16:	db	$01, $00, $00, $00, $00, $01, $01, $01, $02, $02, $02, $03, $03, $03, $03, $04
-		db	$04, $04, $05, $05, $81
-VolEnv_17:	db	$10, $20, $30, $40, $30, $20, $10, $00, $10, $20, $30, $40, $30, $20, $10, $00
-		db	$10, $20, $30, $40, $30, $20, $10, $00, $80
-VolEnv_18:	db	$00, $00, $01, $01, $03, $03, $04, $05, $83
-VolEnv_19:	db	$00, $02, $04, $06, $08, $16, $83
-VolEnv_1A:	db	$00, $00, $01, $01, $03, $03, $04, $05, $83
-VolEnv_1B:	db	$04, $04, $04, $04, $03, $03, $03, $03, $02, $02, $02, $02, $01, $01, $01, $01
-		db	$83
-VolEnv_1C:	db	$00, $00, $00, $00, $01, $01, $01, $01, $02, $02, $02, $02, $03, $03, $03, $03
-		db	$04, $04, $04, $04, $05, $05, $05, $05, $06, $06, $06, $06, $07, $07, $07, $07
-		db	$08, $08, $08, $08, $09, $09, $09, $09, $0A, $0A, $0A, $0A, $81
-VolEnv_1D:	db	$00, $0A, $83
-VolEnv_1E:	db	$00, $02, $04, $81
-VolEnv_1F:	db	$30, $20, $10, $00, $00, $00, $00, $00, $08, $10, $20, $30, $81
-VolEnv_20:	db	$00, $04, $04, $04, $04, $04, $04, $04, $04, $04, $04, $06, $06, $06, $08, $08
-		db	$0A, $83
-VolEnv_21:	db	$00, $02, $03, $04, $06, $07, $81
-VolEnv_22:	db	$02, $01, $00, $00, $00, $02, $04, $07, $81
-VolEnv_23:	db	$0F, $01, $05, $83
-VolEnv_24:	db	$08, $06, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
-		db	$10, $83
-VolEnv_25:	db	$00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01
-		db	$01, $01, $01, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $03, $03
-		db	$03, $03, $03, $03, $03, $03, $03, $03, $04, $04, $04, $04, $04, $04, $04, $04
-		db	$04, $04, $05, $05, $05, $05, $05, $05, $05, $05, $05, $05, $06, $06, $06, $06
-		db	$06, $06, $06, $06, $06, $06, $07, $07, $07, $07, $07, $07, $07, $07, $07, $07
-		db	$08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $09, $09, $09, $09, $09, $09
-		db	$09, $09, $09, $09, $83
+VolEnv_00:	db	2, 83h
+VolEnv_01:	db	0, 2, 4, 6, 8, 10h, 83h
+VolEnv_02:	db	2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+		db	2, 3, 3, 3, 4, 4, 4, 5, 81h
+VolEnv_03:	db	0, 0, 2, 3, 4, 4, 5, 5, 5, 6, 6, 81h
+VolEnv_04:	db	3, 0, 1, 1, 1, 2, 3, 4, 4, 5, 81h
+VolEnv_05:	db	0, 0, 1, 1, 2, 3, 4, 5, 5, 6, 8, 7, 7, 6, 81h
+VolEnv_06:	db	1, 0Ch, 3, 0Fh, 2, 7, 3, 0Fh, 80h
+VolEnv_07:	db	0, 0, 0, 2, 3, 3, 4, 5, 6, 7, 8, 9, 0Ah, 0Bh, 0Eh, 0Fh
+		db	83h
+VolEnv_08:	db	3, 2, 1, 1, 0, 0, 1, 2, 3, 4, 81h
+VolEnv_09:	db	1, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4
+		db	4, 4, 5, 5, 81h
+VolEnv_0A:	db	10h, 20h, 30h, 40h, 30h, 20h, 10h, 0,-10h, 80h
+VolEnv_0B:	db	0, 0, 1, 1, 3, 3, 4, 5, 83h
+VolEnv_0C:	db	0, 81h
+VolEnv_0D:	db	2, 83h
+VolEnv_0E:	db	0, 2, 4, 6, 8, 10h, 83h
+VolEnv_0F:	db	9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 5, 5, 5, 4
+		db	4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 81h
+VolEnv_10:	db	1, 1, 1, 0, 0, 0, 81h
+VolEnv_11:	db	3, 0, 1, 1, 1, 2, 3, 4, 4, 5, 81h
+VolEnv_12:	db	0, 0, 1, 1, 2, 3, 4, 5, 5, 6, 8, 7, 7, 6, 81h
+VolEnv_13:	db	0Ah, 5, 0, 4, 8, 83h
+VolEnv_14:	db	0, 0, 0, 2, 3, 3, 4, 5, 6, 7, 8, 9, 0Ah, 0Bh, 0Eh, 0Fh
+		db	83h
+VolEnv_15:	db	3, 2, 1, 1, 0, 0, 1, 2, 3, 4, 81h
+VolEnv_16:	db	1, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4
+		db	4, 4, 5, 5, 81h
+VolEnv_17:	db	10h, 20h, 30h, 40h, 30h, 20h, 10h, 0, 10h, 20h, 30h, 40h, 30h, 20h, 10h, 0
+		db	10h, 20h, 30h, 40h, 30h, 20h, 10h, 0, 80h
+VolEnv_18:	db	0, 0, 1, 1, 3, 3, 4, 5, 83h
+VolEnv_19:	db	0, 2, 4, 6, 8, 16h, 83h
+VolEnv_1A:	db	0, 0, 1, 1, 3, 3, 4, 5, 83h
+VolEnv_1B:	db	4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1
+		db	83h
+VolEnv_1C:	db	0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
+		db	4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7
+		db	8, 8, 8, 8, 9, 9, 9, 9, 0Ah, 0Ah, 0Ah, 0Ah, 81h
+VolEnv_1D:	db	0, 0Ah, 83h
+VolEnv_1E:	db	0, 2, 4, 81h
+VolEnv_1F:	db	30h, 20h, 10h, 0, 0, 0, 0, 0, 8, 10h, 20h, 30h, 81h
+VolEnv_20:	db	0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 8, 8
+		db	0Ah, 83h
+VolEnv_21:	db	0, 2, 3, 4, 6, 7, 81h
+VolEnv_22:	db	2, 1, 0, 0, 0, 2, 4, 7, 81h
+VolEnv_23:	db	0Fh, 1, 5, 83h
+VolEnv_24:	db	8, 6, 2, 3, 4, 5, 6, 7, 8, 9, 0Ah, 0Bh, 0Ch, 0Dh, 0Eh, 0Fh
+		db	10h, 83h
+VolEnv_25:	db	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+		db	1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3
+		db	3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4
+		db	4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6
+		db	6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7
+		db	8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9
+		db	9, 9, 9, 9, 83h
 
 z80_SoundPriority:
-    add    a,b             ; 0015D1 80
-    add    a,b             ; 0015D2 80
-    add    a,b             ; 0015D3 80
-    add    a,b             ; 0015D4 80
-    add    a,b             ; 0015D5 80
-    add    a,b             ; 0015D6 80
-    add    a,b             ; 0015D7 80
-    add    a,b             ; 0015D8 80
-    add    a,b             ; 0015D9 80
-    add    a,b             ; 0015DA 80
-    add    a,b             ; 0015DB 80
-    add    a,b             ; 0015DC 80
-    add    a,b             ; 0015DD 80
-    add    a,b             ; 0015DE 80
-    add    a,b             ; 0015DF 80
-    ld     a,a             ; 0015E0 7F
-    ld     a,a             ; 0015E1 7F
-    ld     a,a             ; 0015E2 7F
-    ld     a,a             ; 0015E3 7F
-    ld     a,a             ; 0015E4 7F
-    ld     a,a             ; 0015E5 7F
-    ld     a,a             ; 0015E6 7F
-    ld     a,a             ; 0015E7 7F
-    ld     a,a             ; 0015E8 7F
-    ld     a,a             ; 0015E9 7F
-    ld     a,a             ; 0015EA 7F
-    ld     a,a             ; 0015EB 7F
-    ld     a,a             ; 0015EC 7F
-    ld     a,a             ; 0015ED 7F
-    ld     a,a             ; 0015EE 7F
-    ld     a,a             ; 0015EF 7F
-    ld     a,a             ; 0015F0 7F
-    ld     a,a             ; 0015F1 7F
-    ld     a,a             ; 0015F2 7F
-    ld     a,a             ; 0015F3 7F
-    ld     a,a             ; 0015F4 7F
-    ld     a,a             ; 0015F5 7F
-    ld     a,a             ; 0015F6 7F
-    ld     a,a             ; 0015F7 7F
-    ld     a,a             ; 0015F8 7F
-    ld     a,a             ; 0015F9 7F
-    ld     a,a             ; 0015FA 7F
-    ld     a,a             ; 0015FB 7F
-    ld     a,a             ; 0015FC 7F
-    ld     a,a             ; 0015FD 7F
-    ld     a,a             ; 0015FE 7F
-    ld     a,a             ; 0015FF 7F
-    ld     a,a             ; 001600 7F
-    ld     a,a             ; 001601 7F
-    ld     a,a             ; 001602 7F
-    ld     a,a             ; 001603 7F
-    ld     a,a             ; 001604 7F
-    ld     a,a             ; 001605 7F
-    ld     a,a             ; 001606 7F
-    ld     a,a             ; 001607 7F
-    ld     a,a             ; 001608 7F
-    ld     a,a             ; 001609 7F
-    ld     a,a             ; 00160A 7F
-    ld     a,a             ; 00160B 7F
-    ld     a,a             ; 00160C 7F
-    ld     a,a             ; 00160D 7F
-    ld     a,a             ; 00160E 7F
-    ld     a,a             ; 00160F 7F
-    ld     a,a             ; 001610 7F
-    ld     a,a             ; 001611 7F
-    ld     a,a             ; 001612 7F
-    ld     a,a             ; 001613 7F
-    ld     a,a             ; 001614 7F
-    ld     a,a             ; 001615 7F
-    ld     a,a             ; 001616 7F
-    ld     a,a             ; 001617 7F
-    ld     a,a             ; 001618 7F
-    ld     a,a             ; 001619 7F
-    ld     a,a             ; 00161A 7F
-    ld     a,a             ; 00161B 7F
-    ld     a,a             ; 00161C 7F
-    ld     a,a             ; 00161D 7F
-    ld     a,a             ; 00161E 7F
-    ld     a,a             ; 00161F 7F
-    ld     a,a             ; 001620 7F
-    ld     a,a             ; 001621 7F
-    ld     a,a             ; 001622 7F
-    ld     a,a             ; 001623 7F
-    ld     a,a             ; 001624 7F
-    ld     a,a             ; 001625 7F
-    ld     a,a             ; 001626 7F
-    ld     a,a             ; 001627 7F
-    ld     a,a             ; 001628 7F
-    ld     a,a             ; 001629 7F
-    ld     a,a             ; 00162A 7F
-    ld     a,a             ; 00162B 7F
-    ld     a,a             ; 00162C 7F
-    ld     a,a             ; 00162D 7F
-    ld     a,a             ; 00162E 7F
-    ld     a,a             ; 00162F 7F
-    ld     a,a             ; 001630 7F
-    ld     a,a             ; 001631 7F
-    ld     a,a             ; 001632 7F
-    ld     a,a             ; 001633 7F
-    ld     a,a             ; 001634 7F
-    ld     a,a             ; 001635 7F
-    ld     a,a             ; 001636 7F
-    ld     a,a             ; 001637 7F
-    ld     a,a             ; 001638 7F
-    ld     a,a             ; 001639 7F
-    ld     a,a             ; 00163A 7F
-    ld     a,a             ; 00163B 7F
-    ld     a,a             ; 00163C 7F
-    ld     a,a             ; 00163D 7F
-    ld     a,a             ; 00163E 7F
-    ld     a,a             ; 00163F 7F
-    ld     a,a             ; 001640 7F
-    ld     a,a             ; 001641 7F
-    ld     a,a             ; 001642 7F
-    ld     a,a             ; 001643 7F
-    ld     a,a             ; 001644 7F
-    ld     a,a             ; 001645 7F
-    ld     a,a             ; 001646 7F
-    ld     a,a             ; 001647 7F
-    ld     a,a             ; 001648 7F
-    ld     a,a             ; 001649 7F
-    ld     a,a             ; 00164A 7F
-    ld     a,a             ; 00164B 7F
-    ld     a,a             ; 00164C 7F
-    ld     a,a             ; 00164D 7F
-    ld     a,a             ; 00164E 7F
-    ld     a,a             ; 00164F 7F
-    ld     a,a             ; 001650 7F
-    ld     a,a             ; 001651 7F
-    ld     a,a             ; 001652 7F
-    ld     a,a             ; 001653 7F
-    ld     a,a             ; 001654 7F
-    ld     a,a             ; 001655 7F
-    ld     a,a             ; 001656 7F
-    ld     a,a             ; 001657 7F
-    ld     a,a             ; 001658 7F
-    ld     a,a             ; 001659 7F
-    ld     a,a             ; 00165A 7F
-    ld     a,a             ; 00165B 7F
-    ld     a,a             ; 00165C 7F
-    ld     a,a             ; 00165D 7F
-    ld     a,a             ; 00165E 7F
-    ld     a,a             ; 00165F 7F
-    ld     a,a             ; 001660 7F
-    ld     a,a             ; 001661 7F
-    ld     a,a             ; 001662 7F
-    ld     a,a             ; 001663 7F
-    ld     a,a             ; 001664 7F
-    ld     a,a             ; 001665 7F
-    ld     a,a             ; 001666 7F
-    ld     a,a             ; 001667 7F
-    ld     a,a             ; 001668 7F
-    ld     a,a             ; 001669 7F
-    ld     a,a             ; 00166A 7F
-    ld     a,a             ; 00166B 7F
-    ld     a,a             ; 00166C 7F
-    ld     a,a             ; 00166D 7F
-    ld     a,a             ; 00166E 7F
-    ld     a,a             ; 00166F 7F
-    ld     a,a             ; 001670 7F
-    ld     a,a             ; 001671 7F
-    ld     a,a             ; 001672 7F
-    ld     a,a             ; 001673 7F
-    ld     a,a             ; 001674 7F
-    ld     a,a             ; 001675 7F
-    ld     a,a             ; 001676 7F
-    ld     a,a             ; 001677 7F
-    ld     a,a             ; 001678 7F
-    ld     a,a             ; 001679 7F
-    ld     a,a             ; 00167A 7F
-    ld     a,a             ; 00167B 7F
-    ld     a,a             ; 00167C 7F
-    ld     a,a             ; 00167D 7F
-    ld     a,a             ; 00167E 7F
-    ld     a,a             ; 00167F 7F
-    ld     a,a             ; 001680 7F
-    ld     a,a             ; 001681 7F
-    ld     a,a             ; 001682 7F
-    ld     a,a             ; 001683 7F
-    ld     a,a             ; 001684 7F
-    ld     a,a             ; 001685 7F
-    ld     a,a             ; 001686 7F
-    ld     a,a             ; 001687 7F
-    ld     a,a             ; 001688 7F
-    ld     a,a             ; 001689 7F
-    ld     a,a             ; 00168A 7F
-    ld     a,a             ; 00168B 7F
-    ld     a,a             ; 00168C 7F
-    ld     a,a             ; 00168D 7F
-    ld     a,a             ; 00168E 7F
-    ld     a,a             ; 00168F 7F
-    ld     a,a             ; 001690 7F
-    ld     a,a             ; 001691 7F
-    ld     a,a             ; 001692 7F
-    ld     a,a             ; 001693 7F
-    ld     a,a             ; 001694 7F
-    ld     a,a             ; 001695 7F
-    ld     a,a             ; 001696 7F
-    ld     a,a             ; 001697 7F
-    ld     a,a             ; 001698 7F
-    ld     a,a             ; 001699 7F
-    ld     a,a             ; 00169A 7F
-    ld     a,a             ; 00169B 7F
-    ld     a,a             ; 00169C 7F
-    ld     a,a             ; 00169D 7F
-    ld     a,a             ; 00169E 7F
-    ld     a,a             ; 00169F 7F
+		db  80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h, 80h	; $01 - $0F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $10 - $1F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $20 - $2F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $30 - $3F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $40 - $4F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $50 - $5F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $60 - $6F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $70 - $7F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $80 - $8F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $90 - $9F
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $A0 - $AF
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $B0 - $BF
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $C0 - $CF
 
-	CPU 68000
-	pops
-	pushs
-	objend
+zmake68kPtrs macro
+		irp op,ALLARGS
+			dw zmake68kPtr(op)
+		endm
+	endm
+
+z80_MusicPointers:
+		zmake68kPtrs Angel_Island_1_Snd_Data	; $01
+		zmake68kPtrs Angel_Island_2_Snd_Data	; $02
+		zmake68kPtrs Hydrocity_1_Snd_Data	; $03
+		zmake68kPtrs Hydrocity_2_Snd_Data	; $04
+		zmake68kPtrs Marble_Garden_1_Snd_Data	; $05
+		zmake68kPtrs Marble_Garden_2_Snd_Data	; $06
+		zmake68kPtrs Carnival_Night_1_Snd_Data	; $07
+		zmake68kPtrs Carnival_Night_2_Snd_Data	; $08
+		zmake68kPtrs Flying_Battery_1_Snd_Data	; $09
+		zmake68kPtrs Flying_Battery_2_Snd_Data	; $0A
+		zmake68kPtrs Icecap_1_Snd_Data	; $0B
+		zmake68kPtrs Icecap_2_Snd_Data	; $0C
+		zmake68kPtrs Launch_Base_1_Snd_Data	; $0D
+		zmake68kPtrs Launch_Base_2_Snd_Data	; $0E
+		zmake68kPtrs Mushroom_Valley_1_Snd_Data	; $0F
+		zmake68kPtrs Mushroom_Valley_2_Snd_Data	; $10
+		zmake68kPtrs Sandopolis_1_Snd_Data	; $11
+		zmake68kPtrs Sandopolis_2_Snd_Data	; $12
+		zmake68kPtrs Lava_Reef_1_Snd_Data	; $13
+		zmake68kPtrs Lava_Reef_2_Snd_Data	; $14
+		zmake68kPtrs Sky_Sanctuary_Snd_Data	; $15
+		zmake68kPtrs Death_Egg_1_Snd_Data	; $16
+		zmake68kPtrs Death_Egg_2_Snd_Data	; $17
+		zmake68kPtrs Mini_Boss_Snd_Data	; $18
+		zmake68kPtrs Boss_Snd_Data	; $19
+		zmake68kPtrs The_Doomsday_Snd_Data	; $1A
+		zmake68kPtrs Glowing_Spheres_Bonus_Stage_Snd_Data	; $1B
+		zmake68kPtrs Special_Stage_Snd_Data	; $1C
+		zmake68kPtrs Slot_Machine_Bonus_Stage_Snd_Data	; $1D
+		zmake68kPtrs Gumball_Machine_Bonus_Stage_Snd_Data	; $1E
+		zmake68kPtrs Knuckles_Theme_Snd_Data	; $1F
+		zmake68kPtrs Azure_Lake_Snd_Data	; $20
+		zmake68kPtrs Balloon_Park_Snd_Data	; $21
+		zmake68kPtrs Desert_Palace_Snd_Data	; $22
+		zmake68kPtrs Chrome_Gadget_Snd_Data	; $23
+		zmake68kPtrs Endless_Mine_Snd_Data	; $24
+		zmake68kPtrs Title_Screen_Snd_Data	; $25
+		zmake68kPtrs Credits_Snd_Data	; $26
+		zmake68kPtrs Time_Game_Over_Snd_Data	; $27
+		zmake68kPtrs Continue_Snd_Data	; $28
+		zmake68kPtrs Level_Results_Snd_Data	; $29
+		zmake68kPtrs Extra_Life_Snd_Data	; $2A
+		zmake68kPtrs Got_Emerald_Snd_Data	; $2B
+		zmake68kPtrs Invincibility_Snd_Data	; $2C
+		zmake68kPtrs Competition_Menu_Snd_Data	; $2D
+		zmake68kPtrs Super_Sonic_Theme_Snd_Data	; $2E
+		zmake68kPtrs Data_Select_Menu_Snd_Data	; $2F
+		zmake68kPtrs Final_Boss_Snd_Data	; $30
+		zmake68kPtrs Panic_Snd_Data	; $31
+
+z80_SFXPointers:
+		zmake68kPtrs Ring_Sfx_Data    ; $32
+		zmake68kPtrs Ring_Left_Speaker_Sfx_Data    ; $33
+		zmake68kPtrs Ring_Lost_Sfx_Data    ; $34
+		zmake68kPtrs Hurt_Sfx_Data    ; $35
+		zmake68kPtrs Skidding_Sfx_Data    ; $36
+		zmake68kPtrs Spike_Hurt_Sfx_Data    ; $37
+		zmake68kPtrs Collect_Oxygen_Sfx_Data    ; $38
+		zmake68kPtrs Water_Splash_Sfx_Data    ; $39
+		zmake68kPtrs Got_Classic_Shield_Sfx_Data    ; $3A
+		zmake68kPtrs Drowning_Sfx_Data    ; $3B
+		zmake68kPtrs Rolling_Sfx_Data    ; $3C
+		zmake68kPtrs Object_Hit_Sfx_Data    ; $3D
+		zmake68kPtrs Got_Fire_Shield_Sfx_Data    ; $3E
+		zmake68kPtrs Got_Water_Shield_Sfx_Data    ; $3F
+		zmake68kPtrs Offset_0x0EC2D1    ; $40
+		zmake68kPtrs Got_Lightning_Shield_Sfx_Data    ; $41
+		zmake68kPtrs Offset_0x0EC317    ; $42
+		zmake68kPtrs Fire_Shield_Sfx_Data    ; $43
+		zmake68kPtrs Offset_0x0EC34A    ; $44
+		zmake68kPtrs Offset_0x0EC377    ; $45
+		zmake68kPtrs Hyper_Form_Change_Sfx_Data    ; $46
+		zmake68kPtrs Offset_0x0EC3CC    ; $47
+		zmake68kPtrs Offset_0x0EC3EC    ; $48
+		zmake68kPtrs Offset_0x0EC414    ; $49
+		zmake68kPtrs Grab_Sfx_Data    ; $4A
+		zmake68kPtrs Offset_0x0EC438    ; $4B
+		zmake68kPtrs Offset_0x0EC460    ; $4C
+		zmake68kPtrs Offset_0x0EC483    ; $4D
+		zmake68kPtrs Offset_0x0EC498    ; $4E
+		zmake68kPtrs Waterfall_Splash_Sfx_Data    ; $4F
+		zmake68kPtrs Offset_0x0EC4F1    ; $50
+		zmake68kPtrs Projectile_Sfx_Data    ; $51
+		zmake68kPtrs Missile_Explosion_Sfx_Data    ; $52
+		zmake68kPtrs Flame_Sfx_Data    ; $53
+		zmake68kPtrs Flying_Battery_Move_Sfx_Data    ; $54
+		zmake68kPtrs Offset_0x0EC5D1    ; $55
+		zmake68kPtrs Missile_Throw_Sfx_Data    ; $56
+		zmake68kPtrs Robotnik_Buzzer_Sfx_Data    ; $57
+		zmake68kPtrs Spike_Move_Sfx_Data    ; $58
+		zmake68kPtrs Offset_0x0EC68E    ; $59
+		zmake68kPtrs Offset_0x0EC6CE    ; $5A
+		zmake68kPtrs Offset_0x0EC711    ; $5B
+		zmake68kPtrs Draw_Bridge_Move_Sfx_Data    ; $5C
+		zmake68kPtrs Geyser_Sfx_Data    ; $5D
+		zmake68kPtrs Fan_Big_Sfx_Data    ; $5E
+		zmake68kPtrs Offset_0x0EC794    ; $5F
+		zmake68kPtrs Offset_0x0EC7C5    ; $60
+		zmake68kPtrs Offset_0x0EC7DD    ; $61
+		zmake68kPtrs Smash_Sfx_Data    ; $62
+		zmake68kPtrs Offset_0x0EC852    ; $63
+		zmake68kPtrs Switch_Blip_Sfx_Data    ; $64
+		zmake68kPtrs Offset_0x0EC88C    ; $65
+		zmake68kPtrs Offset_0x0EC89B    ; $66
+		zmake68kPtrs Offset_0x0EC8C3    ; $67
+		zmake68kPtrs Floor_Thump_Sfx_Data    ; $68
+		zmake68kPtrs Offset_0x0EC922    ; $69
+		zmake68kPtrs Offset_0x0EC94A    ; $6A
+		zmake68kPtrs Offset_0x0EC97C    ; $6B
+		zmake68kPtrs Crash_Sfx_Data    ; $6C
+		zmake68kPtrs Offset_0x0EC9BF    ; $6D
+		zmake68kPtrs Offset_0x0ECA00    ; $6E
+		zmake68kPtrs Offset_0x0ECA00    ; $6F
+		zmake68kPtrs Jump_Sfx_Data    ; $70
+		zmake68kPtrs Offset_0x0ECA47    ; $71
+		zmake68kPtrs Offset_0x0ECA71    ; $72
+		zmake68kPtrs Offset_0x0ECA90    ; $73
+		zmake68kPtrs Offset_0x0ECAC2    ; $74
+		zmake68kPtrs Level_Projectile_Sfx_Data    ; $75
+		zmake68kPtrs Offset_0x0ECB23    ; $76
+		zmake68kPtrs Offset_0x0ECB52    ; $77
+		zmake68kPtrs Offset_0x0ECB7F    ; $78
+		zmake68kPtrs Underwater_Sfx_Data    ; $79
+		zmake68kPtrs Offset_0x0ECBC4    ; $7A
+		zmake68kPtrs Offset_0x0ECC05    ; $7B
+		zmake68kPtrs Boss_Hit_Sfx_Data    ; $7C
+		zmake68kPtrs Offset_0x0ECC58    ; $7D
+		zmake68kPtrs Offset_0x0ECC8E    ; $7E
+		zmake68kPtrs Offset_0x0ECCD8    ; $7F
+		zmake68kPtrs Hoverpad_Sfx_Data    ; $80
+		zmake68kPtrs Transporter_Sfx_Data    ; $81
+		zmake68kPtrs Tunnel_Booster_Sfx_Data    ; $82
+		zmake68kPtrs Rising_Platform_Sfx_Data    ; $83
+		zmake68kPtrs Wave_Hover_Sfx_Data    ; $84
+		zmake68kPtrs Trapdoor_Sfx_Data    ; $85
+		zmake68kPtrs Balloon_Pop_Sfx_Data    ; $86
+		zmake68kPtrs Cannon_Turn_Sfx_Data    ; $87
+		zmake68kPtrs Offset_0x0ECE99    ; $88
+		zmake68kPtrs Offset_0x0ECEC6    ; $89
+		zmake68kPtrs Offset_0x0ECF11    ; $8A
+		zmake68kPtrs Small_Bumper_Sfx_Data    ; $8B
+		zmake68kPtrs Offset_0x0ECF75    ; $8C
+		zmake68kPtrs Offset_0x0ECFA6    ; $8D
+		zmake68kPtrs Offset_0x0ECFD3    ; $8E
+		zmake68kPtrs Offset_0x0ECFE4    ; $8F
+		zmake68kPtrs Offset_0x0ECFFC    ; $90
+		zmake68kPtrs Frost_Puff_Sfx_Data    ; $91
+		zmake68kPtrs Ice_Spike_Sfx_Data    ; $92
+		zmake68kPtrs Offset_0x0ED07F    ; $93
+		zmake68kPtrs Offset_0x0ED0B2    ; $94
+		zmake68kPtrs Tube_Launcher_Sfx_Data    ; $95
+		zmake68kPtrs Offset_0x0ED12F    ; $96
+		zmake68kPtrs Bridge_Collapse_Sfx_Data    ; $97
+		zmake68kPtrs Offset_0x0ED199    ; $98
+		zmake68kPtrs Offset_0x0ED1D1    ; $99
+		zmake68kPtrs Offset_0x0ED1FE    ; $9A
+		zmake68kPtrs Buzzer_Sfx_Data    ; $9B
+		zmake68kPtrs Offset_0x0ED258    ; $9C
+		zmake68kPtrs Offset_0x0ED288    ; $9D
+		zmake68kPtrs Offset_0x0ED2AE    ; $9E
+		zmake68kPtrs Offset_0x0ED2D4    ; $9F
+		zmake68kPtrs Offset_0x0ED30A    ; $A0
+		zmake68kPtrs Offset_0x0ED337    ; $A1
+		zmake68kPtrs Offset_0x0ED344    ; $A2
+		zmake68kPtrs Offset_0x0ED378    ; $A3
+		zmake68kPtrs Offset_0x0ED3AE    ; $A4
+		zmake68kPtrs Offset_0x0ED3E2    ; $A5
+		zmake68kPtrs Offset_0x0ED413    ; $A6
+		zmake68kPtrs Offset_0x0ED42D    ; $A7
+		zmake68kPtrs Offset_0x0ED45E    ; $A8
+		zmake68kPtrs Offset_0x0ED494    ; $A9
+		zmake68kPtrs Door_Close_Sfx_Data    ; $AA
+		zmake68kPtrs Offset_0x0ED4FC    ; $AB
+		zmake68kPtrs Offset_0x0ED530    ; $AC
+		zmake68kPtrs Offset_0x0ED57A    ; $AD
+		zmake68kPtrs Offset_0x0ED5A9    ; $AE
+		zmake68kPtrs Offset_0x0ED5DC    ; $AF
+		zmake68kPtrs Slide_Thunk_Sfx_Data    ; $B0
+		zmake68kPtrs Offset_0x0ED63F    ; $B1
+		zmake68kPtrs Offset_0x0ED652    ; $B2
+		zmake68kPtrs Offset_0x0ED688    ; $B3
+		zmake68kPtrs Offset_0x0ED6D4    ; $B4
+		zmake68kPtrs Offset_0x0ED6EA    ; $B5
+		zmake68kPtrs Offset_0x0ED720    ; $B6
+		zmake68kPtrs Offset_0x0ED73F    ; $B7
+		zmake68kPtrs Offset_0x0ED7A4    ; $B8
+		zmake68kPtrs Offset_0x0ED7DB    ; $B9
+		zmake68kPtrs Offset_0x0ED80F    ; $BA
+		zmake68kPtrs Super_Form_Change_Sfx_Data    ; $BB
+		zmake68kPtrs Offset_0x0ED88C    ; $BC
+		zmake68kPtrs Offset_0x0ED8BA    ; $BD
+		zmake68kPtrs Offset_0x0ED8D2    ; $BE
+		zmake68kPtrs Offset_0x0ED8FA    ; $BF
+		zmake68kPtrs Offset_0x0ED927    ; $C0
+		zmake68kPtrs Offset_0x0ED956    ; $C1
+		zmake68kPtrs Offset_0x0ED98E    ; $C2
+		zmake68kPtrs Offset_0x0ED9BB    ; $C3
+		zmake68kPtrs Offset_0x0ED9E8    ; $C4
+		zmake68kPtrs Offset_0x0EDA15    ; $C5
+		zmake68kPtrs Offset_0x0EDA42    ; $C6
+		zmake68kPtrs Offset_0x0EDA6F    ; $C7
+		zmake68kPtrs Offset_0x0EDA87    ; $C8
+		zmake68kPtrs Energy_Zap_Sfx_Data    ; $C9
+		zmake68kPtrs Offset_0x0EDAE1    ; $CA
+		zmake68kPtrs Offset_0x0EDAF7    ; $CB
+		zmake68kPtrs Offset_0x0EDB52    ; $CC
+		zmake68kPtrs Offset_0x0EDBA3    ; $CD
+		zmake68kPtrs Check_Point_Sfx_Data    ; $CE
+		zmake68kPtrs Offset_0x0EDC3F    ; $CF
+		zmake68kPtrs Special_Stage_Entry_Sfx_Data    ; $D0
+		zmake68kPtrs Offset_0x0EDCA1    ; $D1
+		zmake68kPtrs Spring_Sfx_Data    ; $D2
+		zmake68kPtrs Error_Sfx_Data    ; $D3
+		zmake68kPtrs Offset_0x0EDD9D    ; $D4
+		zmake68kPtrs Offset_0x0EDE17    ; $D5
+		zmake68kPtrs Offset_0x0EDE4B    ; $D6
+		zmake68kPtrs Offset_0x0EDE73    ; $D7
+		zmake68kPtrs Offset_0x0EDEB4    ; $D8
+		zmake68kPtrs Offset_0x0EDEDC    ; $D9
+
+		restore
+		padding off
+		!org Z80_Driver+Size_of_Snd_driver_guess	; The assembler still thinks we're in Z80 memory, so use an 'org' to switch back to the cartridge

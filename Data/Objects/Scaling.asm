@@ -67,17 +67,17 @@ Offset_0x01AADA:
                 tst.w   Obj_Control_Var_02(A0)                           ; $0032
                 bne.s   Offset_0x01AB32
                 move.l  A0, -(A7)
-                bsr     Init_Art_Scaling                       ; Offset_0x01AB3C
+                bsr.w   Init_Art_Scaling                       ; Offset_0x01AB3C
                 move.l  (A7)+, A0
                 move.l  A0, -(A7)
                 move.w  #$6500, D0
-                bsr     Perform_Scaling                        ; Offset_0x01ABE2
+                bsr.w   Perform_Scaling                        ; Offset_0x01ABE2
                 move.l  (A7)+, A0
                 move.w  (Art_Scaling_Data_Buffer).w, D3              ; $FFFFF740
                 lsl.w   #$04, D3
                 move.l  #(M68K_Dev_RAM_Start+$8000), D1              ; $FFFE8000
                 move.w  #$A000, D2
-                jsr     (QueueDMATransfer)                        ; Offset_0x0012FC
+                jsr     (QueueDMATransfer).l                        ; Offset_0x0012FC
 Offset_0x01AB32:
                 move.w  Obj_Control_Var_04(A0), D0                       ; $0034
                 jmp     (MarkObjGone_2)                        ; Offset_0x011B1A
@@ -180,9 +180,9 @@ Offset_0x01AC4E:
                 ror.w   #$03, D5
                 andi.w  #$E000, D5
                 move.w  #$00F0, D6
-                swap.w  D6
+                swap	D6
                 move.w  #$000F, D7
-                swap.w  D7
+                swap	D7
                 tst.w   D4
                 beq     Offset_0x01AF8A
                 cmpi.w  #$0001, D4
@@ -193,7 +193,7 @@ Offset_0x01AC4E:
                 beq     Offset_0x01AE88
 Offset_0x01AC9E:
                 move.w  D4, D2
-                swap.w  D2
+                swap	D2
                 move.w  D5, D2
                 lsr.l   #$08, D2
                 move.l  #$00400000, D0
@@ -208,26 +208,26 @@ Offset_0x01AC9E:
 Offset_0x01ACBE:
                 move.w  #$001F, D7
 Offset_0x01ACC2:
-                swap.w  D7
-                swap.w  D3
+                swap	D7
+                swap	D3
                 move.w  #$0000, D2
                 move.w  #$0000, D3
                 move.l  A2, A4
                 move.w  A5, D6
                 bmi.s   Offset_0x01ACE4
 Offset_0x01ACD4:
-                swap.w  D6
+                swap	D6
                 jsr     (A6)
-                swap.w  D6
+                swap	D6
                 dbra    D6, Offset_0x01ACD4
                 cmpi.w  #$0040, D2
                 bcc.s   Offset_0x01ACEC
 Offset_0x01ACE4:
-                swap.w  D6
+                swap	D6
                 jsr     Offset_0x01AD76(PC)
-                swap.w  D6
+                swap	D6
 Offset_0x01ACEC:
-                swap.w  D3
+                swap	D3
                 add.w   D5, D3
                 bcc.s   Offset_0x01ACF6
                 adda.w  #$0040, A1
@@ -238,7 +238,7 @@ Offset_0x01ACF6:
                 cmpa.l  A0, A1
                 bcc.s   Offset_0x01AD0E
                 addq.w  #$04, A2
-                swap.w  D7
+                swap	D7
                 dbra    D7, Offset_0x01ACC2
                 lea     $0380(A2), A2
                 bra.s   Offset_0x01ACBE
@@ -402,10 +402,10 @@ Offset_0x01AE88:
                 lea     Offset_0x01AED6(PC), A6
                 move.w  #$0001, D7
 Offset_0x01AE94:
-                swap.w  D7
+                swap	D7
                 move.w  #$001F, D6
 Offset_0x01AE9A:
-                swap.w  D6
+                swap	D6
                 move.l  A1, A3
                 move.l  A2, A4
                 jsr     (A6)
@@ -426,10 +426,10 @@ Offset_0x01AEBC:
                 cmpa.l  A0, A1
                 bcc.s   Offset_0x01AED4
                 addq.w  #$04, A2
-                swap.w  D6
+                swap	D6
                 dbra    D6, Offset_0x01AE9A
                 lea     $0380(A2), A2
-                swap.w  D7
+                swap	D7
                 dbra    D7, Offset_0x01AE94
 Offset_0x01AED4:
                 rts
@@ -468,10 +468,10 @@ Offset_0x01AF0E:
                 lea     Offset_0x01AF54(PC), A6
                 move.w  #$0001, D7
 Offset_0x01AF1A:
-                swap.w  D7
+                swap	D7
                 move.w  #$001F, D6
 Offset_0x01AF20:
-                swap.w  D6
+                swap	D6
                 move.l  A1, A3
                 move.l  A2, A4
                 jsr     (A6)
@@ -488,10 +488,10 @@ Offset_0x01AF20:
 Offset_0x01AF3E:
                 adda.w  D4, A1
                 addq.w  #$04, A2
-                swap.w  D6
+                swap	D6
                 dbra    D6, Offset_0x01AF20
                 lea     $0380(A2), A2
-                swap.w  D7
+                swap	D7
                 dbra    D7, Offset_0x01AF1A
                 rts     
 ;-------------------------------------------------------------------------------
@@ -524,16 +524,16 @@ Offset_0x01AF54:
                 rts
 Offset_0x01AF8A:
                 cmpi.w  #$E000, D5
-                bne     Offset_0x01B00C
+                bne.w   Offset_0x01B00C
                 lea     Offset_0x01AFE0(PC), A6
                 moveq   #$00, D3
                 lsl.w   #$06, D4
                 move.w  #$0002, D7
 Offset_0x01AF9E:
-                swap.w  D7
+                swap	D7
                 move.w  #$001F, D6
 Offset_0x01AFA4:
-                swap.w  D6
+                swap	D6
                 move.l  A1, A3
                 move.l  A2, A4
                 jsr     (A6)
@@ -554,10 +554,10 @@ Offset_0x01AFC6:
                 cmpa.l  A0, A1
                 bcc.s   Offset_0x01AFDE
                 addq.w  #$04, A2
-                swap.w  D6
+                swap	D6
                 dbra    D6, Offset_0x01AFA4
                 lea     $0580(A2), A2
-                swap.w  D7
+                swap	D7
                 dbra    D7, Offset_0x01AF9E
 Offset_0x01AFDE:
                 rts   
@@ -592,10 +592,10 @@ Offset_0x01B00C:
                 lea     Offset_0x01B074(PC), A6
                 move.w  #$0003, D7
 Offset_0x01B020:
-                swap.w  D7
+                swap	D7
                 move.w  #$001F, D6
 Offset_0x01B026:
-                swap.w  D6
+                swap	D6
                 move.l  A1, A3
                 move.l  A2, A4
                 jsr     (A6)
@@ -625,10 +625,10 @@ Offset_0x01B05A:
                 cmpa.l  A0, A1
                 bcc.s   Offset_0x01B072
                 addq.w  #$04, A2
-                swap.w  D6
+                swap	D6
                 dbra    D6, Offset_0x01B026
                 lea     $0580(A2), A2
-                swap.w  D7
+                swap	D7
                 dbra    D7, Offset_0x01B020
 Offset_0x01B072:
                 rts   
@@ -659,10 +659,10 @@ Offset_0x01B096:
                 lea     Offset_0x01B102(PC), A6
                 move.w  #$0003, D7
 Offset_0x01B0AE:
-                swap.w  D7
+                swap	D7
                 move.w  #$001F, D6
 Offset_0x01B0B4:
-                swap.w  D6
+                swap	D6
                 move.l  A1, A3
                 move.l  A2, A4
                 jsr     (A5)
@@ -692,10 +692,10 @@ Offset_0x01B0E8:
                 cmpa.l  A0, A1
                 bcc.s   Offset_0x01B100
                 addq.w  #$04, A2
-                swap.w  D6
+                swap	D6
                 dbra    D6, Offset_0x01B0B4
                 lea     $0780(A2), A2
-                swap.w  D7
+                swap	D7
                 dbra    D7, Offset_0x01B0AE
 Offset_0x01B100:
                 rts  

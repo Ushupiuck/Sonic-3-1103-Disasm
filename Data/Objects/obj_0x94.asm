@@ -58,7 +58,7 @@ Offset_0x049A4C:
                 bmi.s   Offset_0x049A64
                 moveq   #$08, D3
                 jsr     (Object_HitWall_Right)                 ; Offset_0x009EEE
-                bra     Offset_0x049A6C
+                bra.w   Offset_0x049A6C
 Offset_0x049A64:
                 moveq   #-$08, D3
                 jsr     (Object_HitWall_Left)                  ; Offset_0x00A138
@@ -70,7 +70,7 @@ Offset_0x049A6C:
                 bchg    #00, Obj_Flags(A0)                               ; $0004
 Offset_0x049A7E:
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
-                bmi     Offset_0x049A1C
+                bmi.w   Offset_0x049A1C
                 jmp     (Run_Object_Hit_Floor_A0)              ; Offset_0x0423E0   
 ;-------------------------------------------------------------------------------
 Offset_0x049A8C:

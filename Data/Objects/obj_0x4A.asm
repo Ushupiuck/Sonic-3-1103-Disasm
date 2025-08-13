@@ -17,7 +17,7 @@
                 move.l  #Bumper_Mappings_2P, Obj_Map(A0) ; Offset_0x00293F4, $000C
                 move.w  #$2300, Obj_Art_VRAM(A0)                         ; $000A
                 move.l  #Offset_0x029322, (A0)
-                bra     Offset_0x029322
+                bra.w   Offset_0x029322
 Offset_0x0291DE:
                 move.l  #Offset_0x029220, (A0)
                 move.b  Obj_Subtype(A0), D0                              ; $002C
@@ -31,7 +31,7 @@ Offset_0x0291F4:
                 neg.b   D0
 Offset_0x029202:
                 add.b   Obj_Angle(A0), D0                                ; $0026
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$02, D1
                 asr.w   #$02, D0
                 add.w   Obj_Control_Var_00(A0), D1                       ; $0030
@@ -40,7 +40,7 @@ Offset_0x029202:
                 move.w  D0, Obj_Y(A0)                                    ; $0014
 Offset_0x029220:
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
-                beq     Offset_0x0292E6
+                beq.w   Offset_0x0292E6
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 bclr    #$00, Obj_Col_Prop(A0)                           ; $0029
                 beq.s   Offset_0x029236
@@ -52,17 +52,17 @@ Offset_0x029236:
                 bsr.s   Offset_0x02924C
 Offset_0x029244:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
-                bra     Offset_0x0292E6
+                bra.w   Offset_0x0292E6
 Offset_0x02924C:
                 move.w  Obj_X(A0), D1                                    ; $0010
                 move.w  Obj_Y(A0), D2                                    ; $0014
                 sub.w   Obj_X(A1), D1                                    ; $0010
                 sub.w   Obj_Y(A1), D2                                    ; $0014
-                jsr     (CalcAngle)                            ; Offset_0x001DB8
+                jsr     (CalcAngle).l                            ; Offset_0x001DB8
                 move.b  (Level_Frame_Count).w, D1                    ; $FFFFFE04
                 andi.w  #$0003, D1
                 add.w   D1, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$F900, D1
                 asr.l   #$08, D1
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
@@ -75,7 +75,7 @@ Offset_0x02924C:
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 move.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Small_Bumper_Sfx, D0                             ; -$75
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
                 beq.s   Offset_0x0292BA
                 move.w  D0, A2
@@ -85,7 +85,7 @@ Offset_0x02924C:
 Offset_0x0292BA:
                 moveq   #$01, D0
                 move.w  A1, A3
-                jsr     (Add_Points)                           ; Offset_0x007AEC
+                jsr     (Add_Points).l                           ; Offset_0x007AEC
                 jsr     (AllocateObject)                     ; Offset_0x011DD8
                 bne.s   Offset_0x0292E4
                 move.l  #Obj_Enemy_Points, (A1)                ; Offset_0x023E42
@@ -95,7 +95,7 @@ Offset_0x0292BA:
 Offset_0x0292E4:
                 rts
 Offset_0x0292E6:
-                lea     (Bumper_Animate_Data), A1              ; Offset_0x0293C6
+                lea     (Bumper_Animate_Data).l, A1              ; Offset_0x0293C6
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 move.w  Obj_Control_Var_00(A0), D0                       ; $0030
                 andi.w  #$FF80, D0
@@ -113,7 +113,7 @@ Offset_0x02931C:
                 jmp     (DeleteObject)                         ; Offset_0x011138
 Offset_0x029322:
                 tst.b   Obj_Col_Prop(A0)                                 ; $0029
-                beq     Offset_0x0293AE
+                beq.w   Offset_0x0293AE
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 bclr    #$00, Obj_Col_Prop(A0)                           ; $0029
                 beq.s   Offset_0x029338
@@ -125,17 +125,17 @@ Offset_0x029338:
                 bsr.s   Offset_0x02934E
 Offset_0x029346:
                 clr.b   Obj_Col_Prop(A0)                                 ; $0029
-                bra     Offset_0x0293AE
+                bra.w   Offset_0x0293AE
 Offset_0x02934E:
                 move.w  Obj_X(A0), D1                                    ; $0010
                 move.w  Obj_Y(A0), D2                                    ; $0014
                 sub.w   Obj_X(A1), D1                                    ; $0010
                 sub.w   Obj_Y(A1), D2                                    ; $0014
-                jsr     (CalcAngle)                            ; Offset_0x001DB8
+                jsr     (CalcAngle).l                            ; Offset_0x001DB8
                 move.b  (Level_Frame_Count).w, D1                    ; $FFFFFE04
                 andi.w  #$0003, D1
                 add.w   D1, D0
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 muls.w  #$F900, D1
                 asr.l   #$08, D1
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
@@ -148,10 +148,10 @@ Offset_0x02934E:
                 clr.b   Obj_Control_Var_10(A1)                           ; $0040
                 move.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Small_Bumper_Sfx, D0                             ; -$75
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 rts
 Offset_0x0293AE:
-                lea     (Bumper_Animate_Data), A1              ; Offset_0x0293C6
+                lea     (Bumper_Animate_Data).l, A1              ; Offset_0x0293C6
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jsr     (Add_SpriteToCollisionResponseList)       ; Offset_0x00A540
                 jmp     (DisplaySprite)                        ; Offset_0x011148  

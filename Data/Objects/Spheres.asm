@@ -3,7 +3,7 @@
 ; ->>>
 ;------------------------------------------------------------------------------- 
 ; Offset_0x006874:
-                lea     (Offset_0x006C98), A6
+                lea     (Offset_0x006C98).l, A6
                 move.l  A0, A1
                 move.l  #SS_Obj_Sphere_Test_Main, (A1)         ; Offset_0x006A40
                 moveq   #$00, D2                     
@@ -22,16 +22,16 @@
                 bra.s   Offset_0x0068D2  
 ;-------------------------------------------------------------------------------
 Offset_0x0068C2:
-                jsr     (SS_AllocateObject)                  ; Offset_0x0067D0
-                bne     Offset_0x0069C6
+                jsr     (SS_AllocateObject).l                  ; Offset_0x0067D0
+                bne.w   Offset_0x0069C6
 Offset_0x0068CC:
                 move.l  #SS_Obj_Eosian_Sphere, (A1)            ; Offset_0x006C1E
 Offset_0x0068D2:
-                bsr     Offset_0x0069CA
-                bsr     Offset_0x006A0A
+                bsr.w   Offset_0x0069CA
+                bsr.w   Offset_0x006A0A
                 move.w  D2, D0
                 addi.w  #$0008, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, Obj_Control_Var_04(A1)                       ; $0034
                 move.w  D0, Obj_Control_Var_06(A1)                       ; $0036
                 move.w  #$FFC0, Obj_Control_Var_08(A1)                   ; $0038
@@ -41,14 +41,14 @@ Offset_0x0068D2:
                 moveq   #$00, D2
                 moveq   #$19, D3
 Offset_0x006904:
-                jsr     (SS_AllocateObject)                  ; Offset_0x0067D0
-                bne     Offset_0x0069C6
+                jsr     (SS_AllocateObject).l                  ; Offset_0x0067D0
+                bne.w   Offset_0x0069C6
                 move.l  #SS_Obj_Eosian_Sphere, (A1)            ; Offset_0x006C1E
-                bsr     Offset_0x0069CA
-                bsr     Offset_0x006A0A
+                bsr.w   Offset_0x0069CA
+                bsr.w   Offset_0x006A0A
                 move.w  D2, D0
                 addi.w  #$0008, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  D1, Obj_Control_Var_04(A1)                       ; $0034
                 move.w  D0, Obj_Control_Var_06(A1)                       ; $0036
                 move.w  #$0040, Obj_Control_Var_08(A1)                   ; $0038
@@ -58,14 +58,14 @@ Offset_0x006904:
                 moveq   #$00, D2
                 moveq   #$19, D3
 Offset_0x006946:
-                jsr     (SS_AllocateObject)                  ; Offset_0x0067D0
-                bne     Offset_0x0069C6
+                jsr     (SS_AllocateObject).l                  ; Offset_0x0067D0
+                bne.w   Offset_0x0069C6
                 move.l  #SS_Obj_Eosian_Sphere, (A1)            ; Offset_0x006C1E
-                bsr     Offset_0x0069CA
-                bsr     Offset_0x006A0A
+                bsr.w   Offset_0x0069CA
+                bsr.w   Offset_0x006A0A
                 move.w  D2, D0
                 addi.w  #$0008, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  #$0040, Obj_Control_Var_04(A1)                   ; $0034
                 move.w  D0, Obj_Control_Var_06(A1)                       ; $0036
                 move.w  D1, Obj_Control_Var_08(A1)                       ; $0038
@@ -75,14 +75,14 @@ Offset_0x006946:
                 moveq   #$00, D2
                 moveq   #$19, D3
 Offset_0x006988:
-                jsr     (SS_AllocateObject)                  ; Offset_0x0067D0
-                bne     Offset_0x0069C6
+                jsr     (SS_AllocateObject).l                  ; Offset_0x0067D0
+                bne.w   Offset_0x0069C6
                 move.l  #SS_Obj_Eosian_Sphere, (A1)            ; Offset_0x006C1E
-                bsr     Offset_0x0069CA
-                bsr     Offset_0x006A0A
+                bsr.w   Offset_0x0069CA
+                bsr.w   Offset_0x006A0A
                 move.w  D2, D0
                 addi.w  #$0008, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 move.w  #$FFC0, Obj_Control_Var_04(A1)                   ; $0034
                 move.w  D0, Obj_Control_Var_06(A1)                       ; $0036
                 move.w  D1, Obj_Control_Var_08(A1)                       ; $0038
@@ -90,7 +90,7 @@ Offset_0x006988:
                 adda.w  #$0010, A6
                 dbra    D3, Offset_0x006988
 Offset_0x0069C6:
-                bra     SS_Obj_Sphere_Test_Main                ; Offset_0x006A40
+                bra.w   SS_Obj_Sphere_Test_Main                ; Offset_0x006A40
 ;-------------------------------------------------------------------------------                
 Offset_0x0069CA:
                 move.b  #$04, Obj_Flags(A1)                              ; $0004
@@ -260,22 +260,22 @@ Offset_0x006BF0:
 Offset_0x006BFA:
                 move.w  (Art_Scaling_Index_2).w, D0                  ; $FFFFF748
                 lea     (Art_Scaling_Result_2).w, A1                 ; $FFFFF752
-                bsr     SS_Get_Scalars                         ; Offset_0x006E24
+                bsr.w   SS_Get_Scalars                         ; Offset_0x006E24
                 move.w  (Art_Scaling_Index_1).w, D0                  ; $FFFFF746
                 lea     (Art_Scaling_Result_1).w, A1                 ; $FFFFF74E
-                bsr     SS_Get_Scalars                         ; Offset_0x006E24
+                bsr.w   SS_Get_Scalars                         ; Offset_0x006E24
                 move.w  (Art_Scaling_Index_0).w, D0                  ; $FFFFF744
                 lea     (Art_Scaling_Result_0).w, A1                 ; $FFFFF74A
-                bsr     SS_Get_Scalars                         ; Offset_0x006E24
+                bsr.w   SS_Get_Scalars                         ; Offset_0x006E24
 ;-------------------------------------------------------------------------------                
 SS_Obj_Eosian_Sphere:                                          ; Offset_0x006C1E                
                 move.l  Obj_Control_Var_0A(A0), A6                       ; $003A
                 move.w  Obj_Control_Var_04(A0), D1                       ; $0034
                 move.w  Obj_Control_Var_06(A0), D2                       ; $0036
                 move.w  Obj_Control_Var_08(A0), D0                       ; $0038
-                bsr     Offset_0x006DD0
-                bsr     Offset_0x006DA6
-                bsr     Offset_0x006DFA
+                bsr.w   Offset_0x006DD0
+                bsr.w   Offset_0x006DA6
+                bsr.w   Offset_0x006DFA
                 bclr    #$07, Obj_Art_VRAM(A0)                           ; $000A
                 cmpi.w  #$0080, D0
                 bge.s   Offset_0x006C4C
@@ -285,7 +285,7 @@ Offset_0x006C4C:
                 cmpi.w  #$0080, D0
                 blt.s   Offset_0x006C96
                 add.w   (Art_Scaling_Data_Buffer+$18).w, D2          ; $FFFFF758
-                bsr     Offset_0x006D98
+                bsr.w   Offset_0x006D98
                 add.w   Obj_Control_Var_00(A0), D1                       ; $0030
                 move.w  D1, Obj_X(A0)                                    ; $0010
                 add.w   Obj_Control_Var_02(A0), D2                       ; $0032
@@ -332,7 +332,7 @@ Offset_0x006D98:
                 divs.w  D0, D2
                 rts
 Offset_0x006DA6:
-                swap.w  D0
+                swap	D0
                 move.w  D1, D3
                 move.w  D2, D4
                 move.w  (Art_Scaling_Result_2).w, D0                 ; $FFFFF752
@@ -344,15 +344,15 @@ Offset_0x006DA6:
                 sub.l   D4, D1
                 add.l   D1, D1
                 add.l   D1, D1
-                swap.w  D1
+                swap	D1
                 add.l   D3, D2
                 add.l   D2, D2
                 add.l   D2, D2
-                swap.w  D2
-                swap.w  D0
+                swap	D2
+                swap	D0
                 rts
 Offset_0x006DD0:
-                swap.w  D2
+                swap	D2
                 move.w  D0, D3
                 move.w  D1, D4
                 move.w  (Art_Scaling_Result_1).w, D2                 ; $FFFFF74E
@@ -364,15 +364,15 @@ Offset_0x006DD0:
                 sub.l   D4, D0
                 add.l   D0, D0
                 add.l   D0, D0
-                swap.w  D0
+                swap	D0
                 add.l   D3, D1
                 add.l   D1, D1
                 add.l   D1, D1
-                swap.w  D1
-                swap.w  D2
+                swap	D1
+                swap	D2
                 rts
 Offset_0x006DFA:
-                swap.w  D1
+                swap	D1
                 move.w  D0, D3
                 move.w  D2, D4
                 move.w  (Art_Scaling_Result_0).w, D1                 ; $FFFFF74A
@@ -384,12 +384,12 @@ Offset_0x006DFA:
                 sub.l   D4, D0
                 add.l   D0, D0
                 add.l   D0, D0
-                swap.w  D0
+                swap	D0
                 add.l   D3, D2
                 add.l   D2, D2
                 add.l   D2, D2
-                swap.w  D2
-                swap.w  D1
+                swap	D2
+                swap	D1
                 rts
 ;-------------------------------------------------------------------------------  
 SS_Get_Scalars:                                                ; Offset_0x006E24

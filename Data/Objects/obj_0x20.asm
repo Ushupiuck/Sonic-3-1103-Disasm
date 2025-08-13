@@ -45,7 +45,7 @@ Offset_0x01FE1C:
                 beq.s   Offset_0x01FE60
                 moveq   #Slide_Thunk_Sfx, D0                              ; -$50
 Offset_0x01FE60:
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 bra.s   Offset_0x01FE7C
 Offset_0x01FE68:
                 move.w  Obj_Control_Var_04(A0), D2                       ; $0034
@@ -68,7 +68,7 @@ Offset_0x01FE7C:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 jsr     (Solid_Object)                         ; Offset_0x013556
-                swap.w  D6
+                swap	D6
                 andi.w  #$000C, D6
                 bne.s   Offset_0x01FEB4
                 jmp     (MarkObjGone)                          ; Offset_0x011AF2

@@ -3,11 +3,11 @@
 ; ->>>  
 ;===============================================================================
 ; Offset_0x01B338:
-                lea     (Offset_0x01B7F6), A6
+                lea     (Offset_0x01B7F6).l, A6
                 move.l  A0, A1
                 move.l  #Obj_Sphere_Test_Main, (A1)            ; Offset_0x01B696
                 cmpi.b  #$01, Obj_Subtype(A0)                            ; $002C
-                beq     Offset_0x01B362
+                beq.w   Offset_0x01B362
                 cmpi.b  #$02, Obj_Subtype(A0)                            ; $002C
                 beq     Offset_0x01B520
                 tst.b   (Control_Ports_Buffer_Data+$02).w            ; $FFFFF606
@@ -28,15 +28,15 @@ Offset_0x01B362:
 ;-------------------------------------------------------------------------------
 Offset_0x01B396:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B4AA
+                bne.w   Offset_0x01B4AA
 Offset_0x01B3A0:
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A
 Offset_0x01B3A6:
-                bsr     Offset_0x01B4CA
-                bsr     Offset_0x01B50A
+                bsr.w   Offset_0x01B4CA
+                bsr.w   Offset_0x01B50A
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  D1, Obj_Control_Var_04(A1)                       ; $0034
@@ -49,13 +49,13 @@ Offset_0x01B3A6:
                 moveq   #$0D, D3
 Offset_0x01B3DC:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B4AA
+                bne.w   Offset_0x01B4AA
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A
-                bsr     Offset_0x01B4CA
-                bsr     Offset_0x01B50A
+                bsr.w   Offset_0x01B4CA
+                bsr.w   Offset_0x01B50A
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  D1, Obj_Control_Var_04(A1)                       ; $0034
@@ -68,13 +68,13 @@ Offset_0x01B3DC:
                 moveq   #$0D, D3
 Offset_0x01B422:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B4AA
+                bne.w   Offset_0x01B4AA
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A
-                bsr     Offset_0x01B4CA
-                bsr     Offset_0x01B50A
+                bsr.w   Offset_0x01B4CA
+                bsr.w   Offset_0x01B50A
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  #$0020, Obj_Control_Var_04(A1)                   ; $0034
@@ -87,13 +87,13 @@ Offset_0x01B422:
                 moveq   #$0D, D3
 Offset_0x01B468:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B4AA
+                bne.w   Offset_0x01B4AA
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A
-                bsr     Offset_0x01B4CA
-                bsr     Offset_0x01B50A
+                bsr.w   Offset_0x01B4CA
+                bsr.w   Offset_0x01B50A
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  #$FFE0, Obj_Control_Var_04(A1)                   ; $0034
@@ -103,14 +103,14 @@ Offset_0x01B468:
                 adda.w  #$0010, A6
                 dbra    D3, Offset_0x01B468
 Offset_0x01B4AA:
-                lea     (Pal_Sphere_Test), A1                  ; Offset_0x01B676
+                lea     (Pal_Sphere_Test).l, A1                  ; Offset_0x01B676
                 lea     (Palette_Row_1_Offset).w, A2                 ; $FFFFED20
                 move.w  #$000F, D0
 Offset_0x01B4B8:
                 move.w  (A1)+, (A2)+
                 dbra    D0, Offset_0x01B4B8
                 moveq   #$09, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 bra     Obj_Sphere_Test_Main                   ; Offset_0x01B696
 ;-------------------------------------------------------------------------------                
 Offset_0x01B4CA:
@@ -151,14 +151,14 @@ Offset_0x01B520:
 ;-------------------------------------------------------------------------------
 Offset_0x01B554:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B616
+                bne.w   Offset_0x01B616
 Offset_0x01B55E:                
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A
 Offset_0x01B564:                
-                bsr     Offset_0x01B636
+                bsr.w   Offset_0x01B636
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  D1, Obj_Control_Var_04(A1)                       ; $0034
@@ -171,12 +171,12 @@ Offset_0x01B564:
                 moveq   #$0F, D3
 Offset_0x01B596:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B616
+                bne.w   Offset_0x01B616
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A
-                bsr     Offset_0x01B636
+                bsr.w   Offset_0x01B636
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  #$0000, Obj_Control_Var_04(A1)                   ; $0034
@@ -189,12 +189,12 @@ Offset_0x01B596:
                 moveq   #$0F, D3
 Offset_0x01B5D8:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01B616
+                bne.w   Offset_0x01B616
                 move.l  #Obj_Eosian_Sphere, (A1)               ; Offset_0x01B75A  
-                bsr     Offset_0x01B636
+                bsr.w   Offset_0x01B636
                 move.w  D2, D0
                 addi.w  #$0010, D2
-                jsr     (CalcSine)                             ; Offset_0x001B20
+                jsr     (CalcSine).l                             ; Offset_0x001B20
                 asr.w   #$01, D0
                 asr.w   #$01, D1
                 move.w  D0, Obj_Control_Var_04(A1)                       ; $0034
@@ -204,15 +204,15 @@ Offset_0x01B5D8:
                 adda.w  #$0010, A6
                 dbra    D3, Offset_0x01B5D8
 Offset_0x01B616:
-                lea     (Pal_Sphere_Test), A1                  ; Offset_0x01B676
+                lea     (Pal_Sphere_Test).l, A1                  ; Offset_0x01B676
                 lea     (Palette_Row_1_Offset).w, A2                 ; $FFFFED20
                 move.w  #$000F, D0
 Offset_0x01B624:
                 move.w  (A1)+, (A2)+
                 dbra    D0, Offset_0x01B624
                 moveq   #$09, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
-                bra     Obj_Sphere_Test_Main                   ; Offset_0x01B696
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
+                bra.w   Obj_Sphere_Test_Main                   ; Offset_0x01B696
 ;-------------------------------------------------------------------------------                
 Offset_0x01B636:
                 move.b  #$04, Obj_Flags(A1)                              ; $0004
@@ -228,7 +228,7 @@ Offset_0x01B636:
                 rts    
 ;-------------------------------------------------------------------------------                                                         
 Pal_Sphere_Test:                                               ; Offset_0x01B676   
-                incbin  'data\ss_test\sphrtest.pal'       
+                binclude  "data\ss_test\sphrtest.pal"
 ;-------------------------------------------------------------------------------
 Obj_Sphere_Test_Main:                                          ; Offset_0x01B696
                 move.b  (Control_Ports_Buffer_Data+$02).w, D1        ; $FFFFF606
@@ -289,20 +289,20 @@ Offset_0x01B72C:
 Offset_0x01B736:
                 move.w  (Art_Scaling_Index_2).w, D0                  ; $FFFFF748
                 lea     (Art_Scaling_Result_2).w, A1                 ; $FFFFF752
-                bsr     Get_Scalars                            ; Offset_0x01B982
+                bsr.w   Get_Scalars                            ; Offset_0x01B982
                 move.w  (Art_Scaling_Index_1).w, D0                  ; $FFFFF746
                 lea     (Art_Scaling_Result_1).w, A1                 ; $FFFFF74E
-                bsr     Get_Scalars                            ; Offset_0x01B982
+                bsr.w   Get_Scalars                            ; Offset_0x01B982
                 move.w  (Art_Scaling_Index_0).w, D0                  ; $FFFFF744
                 lea     (Art_Scaling_Result_0).w, A1                 ; $FFFFF74A
-                bsr     Get_Scalars                            ; Offset_0x01B982
+                bsr.w   Get_Scalars                            ; Offset_0x01B982
 ;-------------------------------------------------------------------------------                
 Obj_Eosian_Sphere:                                             ; Offset_0x01B75A                
                 move.w  Obj_X(A0), D0                                    ; $0010
                 andi.w  #$FF80, D0
                 sub.w   (Camera_X_Left).w, D0                        ; $FFFFF7DA
                 cmpi.w  #$0280, D0
-                bhi     Offset_0x01B770
+                bhi.w   Offset_0x01B770
                 bra.s   Offset_0x01B78E
 Offset_0x01B770:
                 move.w  Obj_Respaw_Ref(A0), D0                           ; $0048
@@ -320,14 +320,14 @@ Offset_0x01B78E:
                 move.w  Obj_Control_Var_04(A0), D1                       ; $0034
                 move.w  Obj_Control_Var_06(A0), D2                       ; $0036
                 move.w  Obj_Control_Var_08(A0), D0                       ; $0038
-                bsr     Offset_0x01B958
-                bsr     Offset_0x01B92E
+                bsr.w   Offset_0x01B958
+                bsr.w   Offset_0x01B92E
                 add.w   (Art_Scaling_Data_Buffer+$1A).w, D0          ; $FFFFF75A
                 cmpi.w  #$0080, D0
                 blt.s   Offset_0x01B7F4
-                bsr     Offset_0x01B904
+                bsr.w   Offset_0x01B904
                 add.w   (Art_Scaling_Data_Buffer+$18).w, D2          ; $FFFFF758
-                bsr     Offset_0x01B8F6
+                bsr.w   Offset_0x01B8F6
                 add.w   Obj_Control_Var_00(A0), D1                       ; $0030
                 move.w  D1, Obj_X(A0)                                    ; $0010
                 add.w   Obj_Control_Var_02(A0), D2                       ; $0032
@@ -375,7 +375,7 @@ Offset_0x01B8F6:
                 rts                
 ;-------------------------------------------------------------------------------
 Offset_0x01B904:
-                swap.w  D0
+                swap	D0
                 move.w  D1, D3
                 move.w  D2, D4
                 move.w  (Art_Scaling_Result_2).w, D0                 ; $FFFFF752
@@ -387,16 +387,16 @@ Offset_0x01B904:
                 sub.l   D4, D1
                 add.l   D1, D1
                 add.l   D1, D1
-                swap.w  D1
+                swap	D1
                 add.l   D3, D2
                 add.l   D2, D2
                 add.l   D2, D2
-                swap.w  D2
-                swap.w  D0
+                swap	D2
+                swap	D0
                 rts    
 ;-------------------------------------------------------------------------------
 Offset_0x01B92E:
-                swap.w  D2
+                swap	D2
                 move.w  D0, D3
                 move.w  D1, D4
                 move.w  (Art_Scaling_Result_1).w, D2                 ; $FFFFF74E
@@ -408,16 +408,16 @@ Offset_0x01B92E:
                 sub.l   D4, D0
                 add.l   D0, D0
                 add.l   D0, D0
-                swap.w  D0
+                swap	D0
                 add.l   D3, D1
                 add.l   D1, D1
                 add.l   D1, D1
-                swap.w  D1
-                swap.w  D2
+                swap	D1
+                swap	D2
                 rts       
 ;-------------------------------------------------------------------------------
 Offset_0x01B958:
-                swap.w  D1
+                swap	D1
                 move.w  D0, D3
                 move.w  D2, D4
                 move.w  (Art_Scaling_Result_0).w, D1                 ; $FFFFF74A
@@ -429,12 +429,12 @@ Offset_0x01B958:
                 sub.l   D4, D0
                 add.l   D0, D0
                 add.l   D0, D0
-                swap.w  D0
+                swap	D0
                 add.l   D3, D2
                 add.l   D2, D2
                 add.l   D2, D2
-                swap.w  D2
-                swap.w  D1
+                swap	D2
+                swap	D1
                 rts   
 ;-------------------------------------------------------------------------------  
 Get_Scalars:                                                   ; Offset_0x01B982

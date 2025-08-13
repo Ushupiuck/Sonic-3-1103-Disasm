@@ -82,7 +82,7 @@ Offset_0x02728E:
                 addq.w  #$01, Obj_X(A1)                                  ; $0010
 Offset_0x027298:
                 andi.w  #$0070, D1
-                bne     Offset_0x0272C2
+                bne.w   Offset_0x0272C2
                 moveq   #$02, D0
                 btst    #$00, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x0272AC

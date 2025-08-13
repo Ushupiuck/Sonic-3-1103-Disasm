@@ -60,7 +60,7 @@ Offset_0x01E384:
                 neg.w   D0
 Offset_0x01E3A2:
                 cmpi.w  #$0480, D0
-                bcs     Offset_0x01E332
+                bcs.w   Offset_0x01E332
                 bclr    #$06, Obj_Status(A0)                             ; $002A
                 beq.s   Offset_0x01E3B8
                 bclr    #$05, (Obj_Player_Two+Obj_Status).w          ; $FFFFB074
@@ -71,12 +71,12 @@ Offset_0x01E3B8:
 Offset_0x01E3C6:
                 move.w  D1, Obj_Speed_X(A1)                              ; $0018
                 addq.w  #$04, Obj_X(A1)                                  ; $0010
-                lea     (Offset_0x01E59C), A4
+                lea     (Offset_0x01E59C).l, A4
                 move.w  Obj_X(A0), D0                                    ; $0010
                 cmp.w   Obj_X(A1), D0                                    ; $0010
                 bcs.s   Offset_0x01E3EA
                 subi.w  #$0008, Obj_X(A1)                                ; $0010
-                lea     (Offset_0x01E5DC), A4
+                lea     (Offset_0x01E5DC).l, A4
 Offset_0x01E3EA:
                 move.w  Obj_Speed_X(A1), Obj_Inertia(A1)          ; $0018, $001C
                 move.b  Obj_Subtype(A0), D1                              ; $002C
@@ -84,7 +84,7 @@ Offset_0x01E3EA:
                 cmpi.b  #$1F, D1
                 beq.s   Offset_0x01E422
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01E44E
+                bne.w   Offset_0x01E44E
                 move.l  #Obj_Automatic_Tunnel_Delayed, (A1)    ; Offset_0x0201B8
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
@@ -92,7 +92,7 @@ Offset_0x01E3EA:
                 move.b  D1, Obj_Subtype(A1)                              ; $002C
 Offset_0x01E422:
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
-                bne     Offset_0x01E44E
+                bne.w   Offset_0x01E44E
                 move.l  #Obj_Tunnel_Exhaust_Control, (A1)      ; Offset_0x02044E
                 move.w  Obj_X(A0), Obj_X(A1)                      ; $0010, $0010
                 move.w  Obj_Y(A0), Obj_Y(A1)                      ; $0014, $0014
@@ -106,7 +106,7 @@ Offset_0x01E456:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 addi.w  #$0018, Obj_Speed_Y(A0)                          ; $001A
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x01E470
+                bpl.w   Offset_0x01E470
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x01E470:
                 jmp     (DeleteObject)                         ; Offset_0x011138
@@ -122,7 +122,7 @@ Offset_0x01E490:
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 addi.w  #$0018, Obj_Speed_Y(A0)                          ; $001A
                 tst.b   Obj_Flags(A0)                                    ; $0004
-                bpl     Offset_0x01E470
+                bpl.w   Offset_0x01E470
                 jmp     (DisplaySprite)                        ; Offset_0x011148  
 ;-------------------------------------------------------------------------------  
 Offset_0x01E4AA:
@@ -130,7 +130,7 @@ Offset_0x01E4AA:
                 dc.b    $00, $01, $02, $03, $05, $00 
 ;-------------------------------------------------------------------------------
 Offset_0x01E4B6:
-                lea     (Offset_0x01E4AA), A5
+                lea     (Offset_0x01E4AA).l, A5
                 moveq   #$00, D0
                 move.b  Obj_Map_Id(A0), D0                               ; $0022
                 add.w   D0, D0
@@ -194,7 +194,7 @@ Offset_0x01E560:
                 dbra    D1, Offset_0x01E556
 Offset_0x01E594:
                 moveq   #Smash_Sfx, D0                                     ; $62
-                jmp     (PlaySound)                           ; Offset_0x001176   
+                jmp     (PlaySound).l                           ; Offset_0x001176   
 ;-------------------------------------------------------------------------------  
 Offset_0x01E59C:
                 dc.w    $FC80, $FDC0, $FD00, $FDB0, $FD80, $FDA0, $FE00, $FDA0

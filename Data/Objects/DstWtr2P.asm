@@ -67,7 +67,7 @@ Offset_0x010192:
                 cmpi.b  #$0C, Obj_Subtype(A2)                            ; $002C
                 bcs.s   Offset_0x0101AC
 Offset_0x01019A:
-                lea     (Dust_Water_Splash_2P_Animate_Data), A1 ; Offset_0x010246
+                lea     (Dust_Water_Splash_2P_Animate_Data).l, A1 ; Offset_0x010246
                 jsr     (AnimateSprite)                        ; Offset_0x01115E
                 jmp     (DisplaySprite)                        ; Offset_0x011148
 Offset_0x0101AC:

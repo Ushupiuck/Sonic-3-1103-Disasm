@@ -65,7 +65,7 @@ Offset_0x01C760:
                 rts   
 ;-------------------------------------------------------------------------------
 Offset_0x01C762:
-                bsr     Offset_0x01C7D8
+                bsr.w   Offset_0x01C7D8
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bne.s   Offset_0x01C78C
                 addq.w  #$02, Obj_Control_Var_06(A0)                     ; $0036
@@ -92,7 +92,7 @@ Offset_0x01C7AA:
                 rts  
 ;-------------------------------------------------------------------------------
 Offset_0x01C7AC:
-                bsr     Offset_0x01C7D8
+                bsr.w   Offset_0x01C7D8
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bne.s   Offset_0x01C7D6
                 clr.w   Obj_Control_Var_06(A0)                           ; $0036

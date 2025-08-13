@@ -33,7 +33,7 @@ Offset_0x0244A0:
 ;-------------------------------------------------------------------------------
 Offset_0x0244AE:
                 btst    #$00, Obj_Map_Id(A0)                             ; $0022
-                bne     Offset_0x024540
+                bne.w   Offset_0x024540
                 move.b  (Control_Ports_Buffer_Data+$01).w, D0        ; $FFFFF605
                 or.b    (Control_Ports_Buffer_Data+$03).w, D0        ; $FFFFF607
                 andi.b  #$70, D0

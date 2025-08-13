@@ -32,7 +32,7 @@ Offset_0x00F210:
                 move.b  D0, Obj_P_Invunerblt_Time(A0)                    ; $0034
                 move.b  Offset_0x00F234(PC, D0), Obj_Ani_Number(A0)      ; $0020
 Offset_0x00F220:
-                lea     (Miles_Tails_Animate_Data), A1         ; Offset_0x00F256
+                lea     (Miles_Tails_Animate_Data).l, A1         ; Offset_0x00F256
                 bsr     Miles_Animate_Sprite                   ; Offset_0x00E96C
                 bsr     Load_Miles_Tails_Dynamic_PLC           ; Offset_0x00ED54
                 jmp     (DisplaySprite)                        ; Offset_0x011148

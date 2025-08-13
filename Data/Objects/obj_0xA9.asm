@@ -14,20 +14,20 @@ Offset_0x037206:
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x037252, Obj_Child(A0)                  ; $0034
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #$6B, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     (Art_Flame_Mobile), A1                 ; Offset_0x1114FC
                 move.w  #$3000, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 lea     Pal_Flame_Mobile(PC), A1               ; Offset_0x037E0C
                 jmp     (Pal_Load_Line_1)                      ; Offset_0x04314C
 ;-------------------------------------------------------------------------------
 Offset_0x037252:
                 move.l  #Offset_0x037262, (A0)
                 moveq   #Boss_Snd, D0                                      ; $19
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 rts         
 ;-------------------------------------------------------------------------------
 Offset_0x037262:
@@ -54,7 +54,7 @@ Offset_0x037290:
                 jsr     (SetupObjectAttributes)                      ; Offset_0x041D72
                 move.b  #$08, Obj_Boss_Hit(A0)                           ; $0029
                 bset    #$00, Obj_Flags(A0)                              ; $0004
-                lea     (AIz_Robotnik_Ship_Data), A2           ; Offset_0x036576
+                lea     (AIz_Robotnik_Ship_Data).l, A2           ; Offset_0x036576
                 jsr     (SetupChildObject)                 ; Offset_0x041D9A
                 bne.s   Offset_0x0372BA
                 move.b  #$08, Obj_Subtype(A1)                            ; $002C
@@ -64,7 +64,7 @@ Offset_0x0372BA:
 Offset_0x0372C4:                
                 move.b  #$02, Obj_Routine(A0)                            ; $0005
                 moveq   #Waterfall_Splash_Sfx, D0                          ; $4F
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 ori.b   #$48, Obj_Control_Var_08(A0)                     ; $0038
                 move.l  #Offset_0x037326, Obj_Child(A0)                  ; $0034
                 clr.b   Obj_Col_Flags(A0)                                ; $0028
@@ -151,7 +151,7 @@ Offset_0x037406:
 Offset_0x037410:
                 move.b  #$0A, Obj_Routine(A0)                            ; $0005
                 moveq   #Waterfall_Splash_Sfx, D0                          ; $4F
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.l  #Offset_0x037440, Obj_Child(A0)                  ; $0034
                 clr.b   Obj_Col_Flags(A0)                                ; $0028
                 bsr     Offset_0x037C20
@@ -200,7 +200,7 @@ Offset_0x0374A4:
                 bset    #$04, Obj_Control_Var_08(A0)                     ; $0038
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 lea     Offset_0x037CF2(PC), A2
                 jmp     (SetupChildObject)                 ; Offset_0x041D9A    
 ;-------------------------------------------------------------------------------  
@@ -213,8 +213,8 @@ Drill_Mobile_Defeated:                                         ; Offset_0x0374DA
                 lea     AIz_MGz_Boss_Load_Egg_Prison(PC), A2   ; Offset_0x037D18
                 jsr     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A
                 bset    #$01, Obj_Flags(A1)                              ; $0004
-                lea     (PLC_AIz_MGz_Boss_Defeated), A1        ; Offset_0x041BA6
-                jmp     (LoadPLC_Direct)                           ; Offset_0x001502    
+                lea     (PLC_AIz_MGz_Boss_Defeated).l, A1        ; Offset_0x041BA6
+                jmp     (LoadPLC_Direct).l                           ; Offset_0x001502    
 ;-------------------------------------------------------------------------------    
 Offset_0x037504:
                 tst.b   (Control_Ports_Buffer_Data+$03).w            ; $FFFFF607
@@ -244,8 +244,8 @@ Offset_0x03754C:
                 lea     Offset_0x037D1E(PC), A2
                 jsr     (Load_Child_Object_Simple_A2)          ; Offset_0x041F5A
                 move.b  #$04, Obj_Subtype(A1)                            ; $002C
-                lea     (PLC_Flame_Mobile_Explosion), A1       ; Offset_0x041BC2
-                jmp     (LoadPLC_Direct)                           ; Offset_0x001502   
+                lea     (PLC_Flame_Mobile_Explosion).l, A1       ; Offset_0x041BC2
+                jmp     (LoadPLC_Direct).l                           ; Offset_0x001502   
 ;-------------------------------------------------------------------------------
 Offset_0x03757A:
                 tst.b   (Control_Locked_Flag_P1).w                   ; $FFFFF7CC
@@ -479,7 +479,7 @@ Offset_0x03784A:
                 lea     Offset_0x037C7E(PC), A1
                 jsr     (SetupObjectAttributes3)                    ; Offset_0x041D7A
                 moveq   #Projectile_Sfx, D0                                ; $51
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
                 move.b  #$0C, Obj_Height_2(A0)                           ; $001E
                 move.w  #$009F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x03787A, (A0)
@@ -585,7 +585,7 @@ Offset_0x0379AC:
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
 ;-------------------------------------------------------------------------------    
 Offset_0x0379D8:
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$000C, D0
                 move.w  Obj_Angle(A0), D1                                ; $0026
                 move.w  D0, Obj_Angle(A0)                                ; $0026
@@ -594,17 +594,17 @@ Offset_0x0379D8:
                 lea     Offset_0x037A32(PC, D0), A1
                 moveq   #$00, D2
                 move.w  (A1)+, D2
-                swap.w  D2
+                swap	D2
                 sub.l   Obj_X(A0), D2                                    ; $0010
                 add.l   D2, D2
-                swap.w  D2
+                swap	D2
                 move.w  D2, Obj_Speed_X(A0)                              ; $0018
                 moveq   #$00, D3
                 move.w  (A1)+, D3
-                swap.w  D3
+                swap	D3
                 sub.l   Obj_Y(A0), D3                                    ; $0014
                 add.l   D3, D3
-                swap.w  D3
+                swap	D3
                 move.w  D3, Obj_Speed_Y(A0)                              ; $001A
                 move.w  #$007F, Obj_Timer(A0)                            ; $002E
                 tst.w   D2
@@ -712,7 +712,7 @@ Offset_0x037B4C:
                 bne.s   Offset_0x037B6C
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (PlaySound)                           ; Offset_0x001176
+                jsr     (PlaySound).l                           ; Offset_0x001176
 Offset_0x037B6C:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 moveq   #$00, D0
@@ -720,7 +720,7 @@ Offset_0x037B6C:
                 bne.s   Offset_0x037B80
                 addi.w  #$000E, D0
 Offset_0x037B80:
-                bsr     Offset_0x037BD0
+                bsr.w   Offset_0x037BD0
                 subq.b  #$01, Obj_Ani_Number(A0)                         ; $0020
                 bne.s   Offset_0x037B9E
                 bclr    #$06, Obj_Status(A0)                             ; $002A

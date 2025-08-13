@@ -111,7 +111,7 @@ Offset_0x02916C:
                 bclr    #$06, Obj_Status(A0)                             ; $002A
                 bclr    #$05, Obj_Status(A1)                             ; $002A
                 move.w  #Small_Bumper_Sfx, D0                            ; $FF8B
-                jmp     (Play_Music)                           ; Offset_0x001176             
+                jmp     (Play_Music).l                           ; Offset_0x001176             
 ;===============================================================================
 ; Objeto 0x5D - Molas triangulares na Chrome Gadget
 ; <<<-  

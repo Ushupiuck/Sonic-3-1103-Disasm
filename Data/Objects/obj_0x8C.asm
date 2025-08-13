@@ -9,7 +9,7 @@
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x03FEA8(PC, D0), D1
                 jsr     Offset_0x03FEA8(PC, D1)
-                bsr     Offset_0x0404E2
+                bsr.w   Offset_0x0404E2
                 jmp     Add_To_Response_List_And_Display(PC)   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x03FEA8:
@@ -30,7 +30,7 @@ Offset_0x03FEBE:
                 move.b  #$01, Obj_Boss_Hit(A0)                           ; $0029
                 move.b  #$01, (Boss_Flag).w                          ; $FFFFF7AA
                 moveq   #Volume_Down, D0                                  ; -$20
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
                 move.w  #$0078, Obj_Timer(A0)                            ; $002E
                 move.b  #$19, Obj_Angle(A0)                              ; $0026
                 move.w  (Level_Limits_Max_Y).w, (Target_Camera_Max_Y).w ; $FFFFEE12, $FFFFFA98
@@ -42,10 +42,10 @@ Offset_0x03FEBE:
                 lea     Offset_0x040632(PC), A2
                 jsr     SetupChildObject(PC)               ; Offset_0x041D9A
                 moveq   #$77, D0
-                jsr     (LoadPLC)                              ; Offset_0x0014D0
+                jsr     (LoadPLC).l                              ; Offset_0x0014D0
                 lea     (Art_Ball_Shooter), A1                 ; Offset_0x1224EC
                 move.w  #$84A0, D2
-                jsr     (Queue_Kos_Module)                 ; Offset_0x0018A8
+                jsr     (Queue_Kos_Module).l                 ; Offset_0x0018A8
                 lea     Ball_Shooter_Palette(PC), A1           ; Offset_0x0406E4
                 jmp     Pal_Load_Line_1(PC)                    ; Offset_0x04314C    
 ;-------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ Offset_0x03FFC4:
 ;-------------------------------------------------------------------------------  
 Offset_0x03FFDA:
                 move.b  #$0C, Obj_Routine(A0)                            ; $0005
-                bra     Offset_0x04041E         
+                bra.w   Offset_0x04041E         
 ;-------------------------------------------------------------------------------  
 Offset_0x03FFE4:
                 btst    #$01, Obj_Control_Var_08(A0)                     ; $0038
@@ -138,7 +138,7 @@ Offset_0x04001A:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
                 btst    #$07, Obj_Status(A1)                             ; $002A
                 beq.s   Offset_0x040044
-                bsr     Offset_0x0400F0
+                bsr.w   Offset_0x0400F0
 Offset_0x040044:
                 jmp     Child_Display_Touch_Or_Delete(PC)      ; Offset_0x042472 
 ;-------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ Offset_0x040050:
                 move.b  #$10, Obj_Height_2(A0)                           ; $001E
                 move.w  #$000F, Obj_Timer(A0)                            ; $002E
                 move.l  #Offset_0x040078, Obj_Child(A0)                  ; $0034
-                bra     Offset_0x040442     
+                bra.w   Offset_0x040442     
 ;-------------------------------------------------------------------------------
 Offset_0x040078:
                 move.b  #$04, Obj_Routine(A0)                            ; $0005
@@ -186,10 +186,10 @@ Offset_0x0400C6:
                 move.w  Obj_Speed_X(A0), D0                              ; $0018
                 addi.w  #$0200, D0
                 cmpi.w  #$0400, D0
-                bcs     Offset_0x03FF60
+                bcs.w   Offset_0x03FF60
                 move.w  (Vint_runcount+$02).w, D0         ; $FFFFFE0E
                 andi.w  #$0003, D0
-                bne     Offset_0x03FF60
+                bne.w   Offset_0x03FF60
                 lea     Offset_0x04067E(PC), A2
                 jmp     SetupChildObject(PC)               ; Offset_0x041D9A   
 ;-------------------------------------------------------------------------------
@@ -217,7 +217,7 @@ Offset_0x040132:
                 move.w  D0, Obj_Timer(A0)                                ; $002E
 Offset_0x04013E:                
                 addq.w  #$01, Obj_Timer(A0)                              ; $002E
-                bmi     Offset_0x03FF60
+                bmi.w   Offset_0x03FF60
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
                 jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 jmp     (DisplaySprite)                        ; Offset_0x011148   
@@ -226,7 +226,7 @@ Offset_0x040156:
                 lea     Ball_Shooter_Setup_Data_9(PC), A1      ; Offset_0x04061E
                 jsr     SetupObjectAttributes2(PC)                  ; Offset_0x041D76
                 move.l  #Obj_Flicker_Move, (A0)                ; Offset_0x042AFE
-                bra     Offset_0x04047C              
+                bra.w   Offset_0x04047C              
 ;-------------------------------------------------------------------------------
 Offset_0x040168:
                 jsr     Refresh_Child_Position_Adjusted(PC)    ; Offset_0x04203C
@@ -293,8 +293,8 @@ Offset_0x040204:
                 move.w  Offset_0x040222(PC, D0), D1
                 jsr     Offset_0x040222(PC, D1)
                 lea     Offset_0x03FF60(PC), A2
-                bsr     Offset_0x0404CE
-                bra     Offset_0x04058A    
+                bsr.w   Offset_0x0404CE
+                bra.w   Offset_0x04058A    
 ;-------------------------------------------------------------------------------
 Offset_0x040222:
                 dc.w    Offset_0x04022C-Offset_0x040222
@@ -353,8 +353,8 @@ Offset_0x0402A4:
 ;-------------------------------------------------------------------------------
 Offset_0x0402B2:
                 lea     Offset_0x0402BE(PC), A2
-                bsr     Offset_0x0404CE
-                bra     Offset_0x04058A      
+                bsr.w   Offset_0x0404CE
+                bra.w   Offset_0x04058A      
 ;-------------------------------------------------------------------------------
 Offset_0x0402BE:
                 move.w  Obj_Child_Ref(A0), A1                            ; $0046
@@ -548,7 +548,7 @@ Offset_0x0404E2:
                 bne.s   Offset_0x040506
                 move.b  #$20, Obj_Ani_Number(A0)                         ; $0020
                 moveq   #Boss_Hit_Sfx, D0                                  ; $7C
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x040506:
                 bset    #$06, Obj_Status(A0)                             ; $002A
                 lea     (Palette_Row_1_Offset+$16).w, A1             ; $FFFFED36

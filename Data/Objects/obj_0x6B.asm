@@ -74,7 +74,7 @@ Offset_0x014DAE:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 bsr     Solid_Object_2                         ; Offset_0x0135B6
-                swap.w  D6
+                swap	D6
                 andi.w  #$0003, D6
                 beq.s   Offset_0x014DF0
                 move.b  D6, D0
@@ -109,19 +109,19 @@ Offset_0x014E12:
                 addq.w  #$01, D3
                 move.w  Obj_X(A0), D4                                    ; $0010
                 bsr     Solid_Object_2                         ; Offset_0x0135B6
-                swap.w  D6
+                swap	D6
                 andi.w  #$000C, D6
                 beq.s   Offset_0x014E54
                 move.b  D6, D0
                 andi.b  #$04, D0
                 beq.s   Offset_0x014E46
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x014E76
+                bsr.w   Offset_0x014E76
 Offset_0x014E46:
                 andi.b  #$08, D6
                 beq.s   Offset_0x014E54
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x014E76
+                bsr.w   Offset_0x014E76
 Offset_0x014E54:
                 move.w  Obj_X(A0), D0                                    ; $0010
                 andi.w  #$FF80, D0

@@ -8,7 +8,7 @@
                 move.l  #Offset_0x0354AA, (A0)
                 addq.w  #$04, Obj_Y(A0)                                  ; $0014
                 lea     Knuckles_Switch_PLC_Data(PC), A1       ; Offset_0x0354A2
-                jmp     (LoadPLC_Direct)                           ; Offset_0x001502    
+                jmp     (LoadPLC_Direct).l                           ; Offset_0x001502    
 ;-------------------------------------------------------------------------------
 Knuckles_Switch_PLC_Data:                                      ; Offset_0x0354A2 
                 dc.w    $0000
@@ -74,7 +74,7 @@ Offset_0x035538:
                 subq.w  #$01, Obj_Height_3(A0)                           ; $0044
                 bne.s   Offset_0x035546
                 moveq   #Knuckles_Theme_Snd, D0                            ; $1F
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x035546:
                 rts             
 ;-------------------------------------------------------------------------------    

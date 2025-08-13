@@ -26,7 +26,7 @@
                 move.b  Obj_Subtype(A0), D0                              ; $002C
                 bmi.s   Offset_0x0280C4
                 move.l  #Offset_0x028134, (A0)
-                bra     Offset_0x028134
+                bra.w   Offset_0x028134
 Offset_0x0280C4:
                 andi.w  #$0070, D0
                 move.w  D0, D1
@@ -37,7 +37,7 @@ Offset_0x0280C4:
                 btst    #$00, Obj_Status(A0)                             ; $002A
                 bne.s   Offset_0x0280EA
                 move.l  #Offset_0x028102, (A0)
-                bra     Offset_0x028102
+                bra.w   Offset_0x028102
 Offset_0x0280EA:
                 move.l  #Offset_0x0280F0, (A0)
 Offset_0x0280F0:                
@@ -49,16 +49,16 @@ Offset_0x0280F0:
 Offset_0x028102:
                 moveq   #$00, D6
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x028162
+                bsr.w   Offset_0x028162
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x028162
+                bsr.w   Offset_0x028162
                 tst.w   D6
                 beq.s   Offset_0x02812A
                 move.b  (Level_Frame_Count+$01).w, D0                ; $FFFFFE05
                 andi.b  #$1F, D0
                 bne.s   Offset_0x02812A
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x02812A:
                 move.w  Obj_Control_Var_00(A0), D0                       ; $0030
                 jmp     (MarkObjGone_2)                        ; Offset_0x011B1A
@@ -66,16 +66,16 @@ Offset_0x02812A:
 Offset_0x028134:
                 moveq   #$00, D6
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
-                bsr     Offset_0x028162
+                bsr.w   Offset_0x028162
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
-                bsr     Offset_0x028162
+                bsr.w   Offset_0x028162
                 tst.w   D6
                 beq.s   Offset_0x02815C
                 move.b  (Level_Frame_Count+$01).w, D0                ; $FFFFFE05
                 andi.b  #$1F, D0
                 bne.s   Offset_0x02815C
                 moveq   #Hoverpad_Sfx, D0                                 ; -$80
-                jsr     (Play_Music)                           ; Offset_0x001176
+                jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x02815C:
                 jmp     (MarkObjGone_3)                        ; Offset_0x011B3E
 Offset_0x028162:
@@ -93,7 +93,7 @@ Offset_0x028162:
                 cmp.w   Obj_Control_Var_08(A0), D1                       ; $0038
                 bcc.s   Offset_0x0281E6
                 cmpi.b  #$04, Obj_Routine(A1)                            ; $0005
-                bcc     Offset_0x0281E6
+                bcc.w   Offset_0x0281E6
                 tst.b   Obj_Timer(A1)                                    ; $002E
                 bne.s   Offset_0x0281E6
                 sub.w   Obj_Control_Var_06(A0), D1                       ; $0036

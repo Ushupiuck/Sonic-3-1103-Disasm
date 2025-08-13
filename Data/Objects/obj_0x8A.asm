@@ -32,7 +32,7 @@ Offset_0x048C02:
                 lea     Offset_0x048DA0(PC), A2
                 jsr     (SetupChildObject)                 ; Offset_0x041D9A
 Offset_0x048C26:                
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$003F, D0
                 move.w  D0, D1
                 andi.w  #$0030, D1

@@ -42,10 +42,10 @@ Offset_0x04187A:
                 lea     Offset_0x041A9E(PC), A2
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
 Offset_0x04188C:
-                bsr     Offset_0x0419C0
+                bsr.w   Offset_0x0419C0
                 addi.w  #$000C, Obj_Speed_Y(A0)                          ; $001A
                 jsr     (SpeedToPos)                           ; Offset_0x01111E
-                bsr     Offset_0x041A2E
+                bsr.w   Offset_0x041A2E
                 jsr     AnimateRaw(PC)                        ; Offset_0x04208E
                 tst.w   Obj_Speed_Y(A0)                                  ; $001A
                 bmi.s   Offset_0x0418CA
@@ -87,22 +87,22 @@ Offset_0x041906:
                 rts
 Offset_0x04191A:
                 lea     PLC_Spikes_Springs(PC), A1             ; Offset_0x04192C
-                jsr     (LoadPLC_Direct)                           ; Offset_0x001502
+                jsr     (LoadPLC_Direct).l                           ; Offset_0x001502
                 jsr     Remove_From_Tracking_Slot(PC)          ; Offset_0x042BFA
                 jmp     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E   
 ;-------------------------------------------------------------------------------
 PLC_Spikes_Springs:                                            ; Offset_0x04192C 
                 dc.w    (((PLC_SpSp_End-PLC_SpSp)/$06)-$01) ; Auto Detecção do número de itens na lista por Esrael Neto
-PLC_SpSP:
+PLC_SpSp:
                 dc.l    Art_Spikes_Springs                     ; Offset_0x108E64
                 dc.w    $9280
-PLC_SpSP_End:
+PLC_SpSp_End:
 ;-------------------------------------------------------------------------------
 Offset_0x041934:
                 lea     Offset_0x041A8A(PC), A1
                 jsr     SetupObjectAttributes(PC)                    ; Offset_0x041D72
                 move.l  #Offset_0x04196E, (A0)
-                jsr     (PseudoRandomNumber)                   ; Offset_0x001AFA
+                jsr     (PseudoRandomNumber).l                   ; Offset_0x001AFA
                 andi.w  #$001F, D0
                 subi.w  #$0010, D0
                 add.w   D0, Obj_Y(A0)                                    ; $0014
@@ -147,9 +147,9 @@ Offset_0x0419C0:
                 beq.s   Offset_0x041A24
                 tst.w   D0
                 beq.s   Offset_0x0419DA
-                bsr     Offset_0x0419E0
+                bsr.w   Offset_0x0419E0
 Offset_0x0419DA:
-                swap.w  D0
+                swap	D0
                 tst.w   D0
                 beq.s   Offset_0x041A24
 Offset_0x0419E0:
@@ -171,7 +171,7 @@ Offset_0x041A02:
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 moveq   #$0A, D0
                 move.l  A1, A3
-                jmp     (Add_Points)                           ; Offset_0x007AEC
+                jmp     (Add_Points).l                           ; Offset_0x007AEC
 Offset_0x041A20:
                 subq.b  #$01, Obj_Ani_Number(A0)                         ; $0020
 Offset_0x041A24:
