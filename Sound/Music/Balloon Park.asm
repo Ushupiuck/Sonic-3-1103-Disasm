@@ -289,6 +289,37 @@ s3p33_PSG2:
 ; PSG3 Data
 s3p33_PSG3:
 	smpsStop
+	
+; Unreachable
+	smpsPSGform         $E7
+	dc.b	nRst, $30
+
+s3p33_Jump06:
+	dc.b	nRst, $30, nRst, nRst, nRst, nRst, nRst, nRst, nRst, nBb4, $05, nRst
+	dc.b	$13, nBb4, $04, nRst, $02, nBb4, $04, nRst, $0E, nBb4, $05, nRst
+	dc.b	$13, nBb4, $06, $01, nRst, $11, nBb4, $07, nRst, $11, nBb4, $04
+	dc.b	nRst, $02, nBb4, $04, nRst, $0E, nBb4, $07, nRst, $11, nBb4, $06
+	dc.b	$01, nRst, $11, nRst, $30, nRst, nRst, nRst, nRst, nRst, nRst, nRst
+	dc.b	nRst, nRst, nRst, nRst, nA4, $05, nRst, $13, nA4, $04, nRst, $02
+	dc.b	nA4, $04, nRst, $0E, nA4, $05, nRst, $13, nA4, $06, $01, nRst
+	dc.b	$11, nA4, $07, nRst, $11, nA4, $04, nRst, $02, nA4, $04, nRst
+	dc.b	$0E, nA4, $07, nRst, $11, nA4, $06, $01, nRst, $11, nRst, $30
+	dc.b	nRst, nRst, nRst, nRst, nRst, nRst, nRst, nRst, nRst, nRst, nRst, nRst
+	dc.b	nRst, nRst, nRst, nRst, nRst, nRst, nRst, nRst, $0C, nA4, $06, nA4
+	dc.b	nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C
+	dc.b	nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06
+	dc.b	nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst
+	dc.b	$0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4
+	dc.b	$06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4
+	dc.b	nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C
+	dc.b	nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06
+	dc.b	nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst
+	dc.b	$0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4
+	dc.b	$06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4
+	dc.b	nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C
+	dc.b	nA4, $06, nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06
+	dc.b	nA4, nRst, $0C, nA4, $06, nA4, nRst, $0C, nA4, $06, nA4
+	smpsJump            s3p33_Jump06
 
 ; DAC Data
 s3p33_DAC:

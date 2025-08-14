@@ -36,6 +36,9 @@ s3p28_Jump03:
 	smpsFMAlterVol      $FA
 	smpsJump            s3p28_Jump03
 
+; Unreachable
+	smpsStop
+
 s3p28_Call00:
 	dc.b	nA5, $0C, nE5, $06, nA5, nRst, nB5, nRst, nC6, $02, smpsNoAttack, nCs6
 	dc.b	smpsNoAttack, nD6, $08, nCs6, $06, nB5, nRst, nA5, $0C, nB5, nA5, $0C
@@ -122,6 +125,9 @@ s3p28_Loop11:
 	dc.b	nA2, $12, nE3, nA2, $0C, nG2, $06, $0C, nG3, $12, nA3, $0C
 	smpsJump            s3p28_Loop0D
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p28_FM3:
 	smpsSetvoice        $01
@@ -173,6 +179,9 @@ s3p28_Loop0C:
 	dc.b	nG4, $0C, $12, nA4, $0C
 	smpsFMAlterVol      $05
 	smpsJump            s3p28_Jump02
+
+; Unreachable
+	smpsStop
 
 ; FM4 Data
 s3p28_FM4:
@@ -226,6 +235,9 @@ s3p28_Loop08:
 	smpsFMAlterVol      $05
 	smpsJump            s3p28_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p28_FM5:
 	smpsSetvoice        $02
@@ -250,6 +262,9 @@ s3p28_Jump00:
 	smpsCall            s3p28_Call03
 	smpsFMAlterVol      $FB
 	smpsJump            s3p28_Jump00
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p28_PSG1:
@@ -291,6 +306,9 @@ s3p28_Loop21:
 	dc.b	$12, nA2, $0C
 	smpsJump            s3p28_Loop1E
 
+; Unreachable
+	smpsStop
+
 ; PSG2 Data
 s3p28_PSG2:
 	dc.b	nRst, $12, nA1, $06, nE1, nRst, nA1, nRst, nB1, nRst, nCs2, nRst
@@ -331,6 +349,9 @@ s3p28_Loop1D:
 	dc.b	nCs2, $0C, nA1, $06, nE1, nRst, nA1, nRst, nB1, $0C, nD2, $0C
 	dc.b	$12, nCs2, $0C
 	smpsJump            s3p28_Loop1A
+
+; Unreachable
+	smpsStop
 
 s3p28_Call04:
 	dc.b	nD2, $24, $06, $06, $12, nCs2, nB1, $0C, nCs2, $60, nA1, $24
@@ -445,6 +466,9 @@ s3p28_Loop19:
 	smpsLoop            $01, $08, s3p28_Loop19
 	smpsJump            s3p28_Loop14
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p28_DAC:
 	dc.b	dSnareS3, $06, dKickS3, $0C, dSnareS3, $06, dKickS3, $0C, dKickS3, dKickS3, dKickS3, dSnareS3
@@ -486,6 +510,9 @@ s3p28_Loop04:
 	dc.b	dKickS3, $06, dKickS3, dSnareS3, dKickS3, dKickS3, dSnareS3, $0C, dSnareS3, $06, dKickS3, dHighTom
 	dc.b	$03, dHighTom, dHighTom, $06, dHighTom, dMidTomS3, dMidTomS3, dLowTomS3, dLowTomS3
 	smpsJump            s3p28_Loop00
+
+; Unreachable
+	smpsStop
 
 s3p28_Voices:
 ;	Voice $00

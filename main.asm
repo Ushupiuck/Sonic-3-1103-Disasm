@@ -43778,29 +43778,30 @@ Death_Egg_1_Snd_Data:                                          ; Offset_0x0C7954
 ; Z80 Bank $19
 Snd_Bank4_Start:	startBank
 Death_Egg_2_Snd_Data:                                          ; Offset_0x0C8000
-                binclude  "sound\dez_2.snd"
+                include  "sound\music\dez2.asm"
 Mini_Boss_Snd_Data:                                            ; Offset_0x0C8412
-                binclude  "sound\miniboss.snd"
+                include  "sound\music\miniboss.asm"
 Boss_Snd_Data:                                                 ; Offset_0x0C8742
-                binclude  "sound\boss.snd"
+                include  "sound\music\zone boss.asm"
 The_Doomsday_Snd_Data:                                         ; Offset_0x0C8C3E
-                binclude  "sound\tdz.snd"
+                include  "sound\music\ddz.asm"
 Glowing_Spheres_Bonus_Stage_Snd_Data:                          ; Offset_0x0C9521
-                binclude  "sound\gs_bs.snd"
+                include  "sound\music\pachinko.asm"
 Special_Stage_Snd_Data:                                        ; Offset_0x0C9A84
-                binclude  "sound\ss.snd"
+                include  "sound\music\special stage.asm"
 Slot_Machine_Bonus_Stage_Snd_Data:                             ; Offset_0x0CA31C
-                binclude  "sound\sm_bs.snd"
+                include  "sound\music\slots.asm"
 Gumball_Machine_Bonus_Stage_Snd_Data:                          ; Offset_0x0CAE04
-                binclude  "sound\gm_bs.snd"
+                include  "sound\music\gum ball machine.asm"
 Knuckles_Theme_Snd_Data:                                       ; Offset_0x0CBB19
-                binclude  "sound\knuckles.snd"
+                include  "sound\music\knuckles.asm"
 Azure_Lake_Snd_Data:                                           ; Offset_0x0CBE82
-                binclude  "sound\alz.snd"
+                include  "sound\music\azure lake.asm"
 Balloon_Park_Snd_Data:                                         ; Offset_0x0CC988
-                binclude  "sound\bpz.snd"
+                include  "sound\music\balloon park.asm"
 Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
-                binclude  "sound\dpz.snd"
+                include  "sound\music\desert palace.asm"
+				binclude "data\leftoverbank4.bin"
 ;-------------------------------------------------------------------------------                
 Asm_Code_3:                                                    ; Offset_0x0CF962
 		dc.b	$0A

@@ -50,6 +50,9 @@ s3p26_Jump03:
 	dc.b	nCs6, $06, nD6, nE6, $7F, smpsNoAttack, nE6, $47
 	smpsJump            s3p26_Jump03
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p26_FM2:
 	smpsSetvoice        $01
@@ -89,6 +92,9 @@ s3p26_Loop04:
 	dc.b	$06, nA3, nA3, nA3, nE3, nA3, nA3
 	smpsJump            s3p26_Loop03
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p26_FM3:
 	smpsSetvoice        $00
@@ -127,6 +133,9 @@ s3p26_Jump02:
 	dc.b	$0C, nCs6, $03, nRst, nCs6, nRst, nCs6, nRst, nCs6, $06, nRst, nCs6
 	dc.b	$03, nRst, nCs6, nRst
 	smpsJump            s3p26_Jump02
+
+; Unreachable
+	smpsStop
 
 ; FM4 Data
 s3p26_FM4:
@@ -170,6 +179,9 @@ s3p26_Jump01:
 	dc.b	$03, nRst, nG5, nRst
 	smpsJump            s3p26_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p26_FM5:
 	dc.b	nRst, $0D
@@ -206,6 +218,9 @@ s3p26_Jump00:
 	dc.b	nB5, $06, nBb5, nA5, $30, nE5, $0C, nG5, $06, nBb5, nD6, $0C
 	dc.b	nCs6, $06, nD6, nE6, $7F, smpsNoAttack, nE6, $47
 	smpsJump            s3p26_Jump00
+
+; Unreachable
+	smpsStop
 
 ; DAC Data
 s3p26_DAC:
@@ -247,6 +262,9 @@ s3p26_Loop02:
 	dc.b	$0C, dSnareS3, $06, dSnareS3, dSnareS3, dSnareS3, dSnareS3, dSnareS3, dSnareS3
 	smpsJump            s3p26_Loop00
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p26_PSG1:
 	smpsModSet          $0D, $01, $02, $06
@@ -277,6 +295,9 @@ s3p26_Loop09:
 	dc.b	nA5, nA6, nA5, nA5, nA6
 	smpsJump            s3p26_Loop09
 
+; Unreachable
+	smpsStop
+
 ; PSG2 Data
 s3p26_PSG2:
 	smpsModSet          $0D, $01, $02, $06
@@ -289,6 +310,10 @@ s3p26_Loop05:
 	smpsLoop            $00, $1C, s3p26_Loop05
 	dc.b	nRst, $60, nRst, $30
 	smpsJump            s3p26_Loop05
+
+; Unreachable
+	smpsStop
+	smpsStop
 
 ; PSG3 Data
 s3p26_PSG3:
