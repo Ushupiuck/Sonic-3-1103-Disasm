@@ -14,7 +14,7 @@ s3p49_Header:
 ; FM1 Data
 s3p49_FM1:
 	smpsSetvoice        $00
-	smpsFade            $01
+	smpsNop             $01
 	smpsNoteFill        $03
 	smpsCall            s3p49_Call01
 	smpsSetTempoMod     $40
@@ -26,7 +26,7 @@ s3p49_FM1:
 	smpsSetTempoMod     $08
 	smpsCall            s3p49_Call01
 	dc.b	nC5, $0C
-	smpsFade            $01
+	smpsNop             $01
 	smpsStop
 
 ; FM2 Data

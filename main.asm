@@ -43756,23 +43756,24 @@ Asm_Code_2:                                                    ; Offset_0x0BFBA4
 ; Z80 Bank $18
 Snd_Bank3_Start:	startBank
 Launch_Base_2_Snd_Data:                                        ; Offset_0x0C0000
-                binclude  "sound\lbz_2.snd"                                              
+                include  "sound\music\lbz2.asm"                                              
 Mushroom_Valley_1_Snd_Data:                                    ; Offset_0x0C252A
-                binclude  "sound\mvz_1.snd" 
+                include  "sound\music\mvz1.asm" 
 Mushroom_Valley_2_Snd_Data:                                    ; Offset_0x0C2A9C
-                binclude  "sound\mvz_2.snd" 
+                include  "sound\music\mvz2.asm" 
 Sandopolis_1_Snd_Data:                                         ; Offset_0x0C3005
-                binclude  "sound\sz_1.snd" 
+                include  "sound\music\soz1.asm" 
 Sandopolis_2_Snd_Data:                                         ; Offset_0x0C366F
-                binclude  "sound\sz_2.snd" 
+                include  "sound\music\soz2.asm" 
 Lava_Reef_1_Snd_Data:                                          ; Offset_0x0C3C62
-                binclude  "sound\lrz_1.snd" 
+                include  "sound\music\lrz1.asm" 
 Lava_Reef_2_Snd_Data:                                          ; Offset_0x0C504F
-                binclude  "sound\lrz_2.snd" 
+                include  "sound\music\lrz2.asm" 
 Sky_Sanctuary_Snd_Data:                                        ; Offset_0x0C6642
-                binclude  "sound\ssz.snd" 
+                include  "sound\music\ssz.asm" 
 Death_Egg_1_Snd_Data:                                          ; Offset_0x0C7954
-                binclude  "sound\dez_1.snd" 
+                include  "sound\music\dez1.asm"
+				binclude "data\leftoverbank3.bin"
 	finishBank
 ; Z80 Bank $19
 Snd_Bank4_Start:	startBank
@@ -43847,11 +43848,11 @@ Time_Game_Over_Snd_Data:                                       ; Offset_0x0D383C
 Continue_Snd_Data:                                             ; Offset_0x0D3A99
                 binclude  "sound\continue.snd"
 Level_Results_Snd_Data:                                        ; Offset_0x0D427A
-                binclude  "sound\results.snd"
+                include  "sound\music\level outro.asm"
 Extra_Life_Snd_Data:                                           ; Offset_0x0D476A
-                binclude  "sound\1up.snd"
+                include  "sound\music\1up.asm"
 Got_Emerald_Snd_Data:                                          ; Offset_0x0D496A
-                binclude  "sound\emerald.snd"
+                include  "sound\music\chaos emerald.asm"
 Invincibility_Snd_Data:                                        ; Offset_0x0D4A38
                 binclude  "sound\invcblty.snd"
 Competition_Menu_Snd_Data:                                     ; Offset_0x0D4CB8
@@ -43866,7 +43867,7 @@ Snd_Bank6_Start:	startBank
 Final_Boss_Snd_Data:                                           ; Offset_0x0D8000
                 binclude  "sound\f_boss.snd"
 Panic_Snd_Data:                                                ; Offset_0x0D8592
-                binclude  "sound\panic.snd"
+                include  "sound\music\countdown.asm"
 ;-------------------------------------------------------------------------------
 ; Offset_0x0D86C0:
                 binclude  "data\unknown\dummy3.dat"

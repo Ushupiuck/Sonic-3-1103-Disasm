@@ -66,6 +66,9 @@ s3p42_FM5:
 	dc.b	nRst, $04
 	smpsJump            s3p42_FM1
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p42_PSG1:
 	smpsPSGvoice        sTone_0A

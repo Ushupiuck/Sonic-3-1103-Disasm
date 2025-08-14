@@ -14,6 +14,10 @@ s3p20_Header:
 	smpsHeaderPSG       s3p20_PSG2,	$F4, $04, $00, sTone_0C
 	smpsHeaderPSG       s3p20_PSG3,	$00, $02, $00, sTone_0C
 
+; Unreachable
+	smpsStop
+	smpsStop
+
 ; DAC Data
 s3p20_DAC:
 	dc.b	nRst, $18, nRst, $0C
@@ -178,6 +182,9 @@ s3p20_Jump00:
 	dc.b	nRst, $0C, dSnareS3, $06, nRst, $06
 	smpsJump            s3p20_Jump00
 
+; Unreachable
+	smpsStop
+
 ; FM1 Data
 s3p20_FM1:
 	smpsDetune          $01
@@ -249,6 +256,9 @@ s3p20_Jump05:
 	dc.b	nG3, $06, nD3, $06, nA3, $06, nE3, $06, nG3, $06, nE3, $06
 	dc.b	nD3, $06, nE3, $06
 	smpsJump            s3p20_Jump05
+
+; Unreachable
+	smpsStop
 
 ; FM2 Data
 s3p20_FM2:
@@ -341,6 +351,9 @@ s3p20_Jump04:
 	dc.b	nD4, $04, nRst, $02, nG4, $04, nRst, $08, nE4, $04, nRst, $08
 	smpsJump            s3p20_Jump04
 
+; Unreachable
+	smpsStop
+
 ; FM3 Data
 s3p20_FM3:
 	smpsPan             panRight, $00
@@ -368,6 +381,9 @@ s3p20_Jump03:
 	dc.b	smpsNoAttack, $0C, nA4, $0C, smpsNoAttack, $18, nC5, $18, nB4, $18, smpsNoAttack, $18
 	dc.b	smpsNoAttack, $18, smpsNoAttack, $18
 	smpsJump            s3p20_Jump03
+
+; Unreachable
+	smpsStop
 
 ; FM4 Data
 s3p20_FM4:
@@ -418,6 +434,9 @@ s3p20_Jump02:
 	smpsFMAlterVol      $04
 	smpsJump            s3p20_Jump02
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p20_FM5:
 	dc.b	nRst, $01
@@ -446,6 +465,9 @@ s3p20_Jump01:
 	dc.b	smpsNoAttack, $0C, nA4, $0C, smpsNoAttack, $18, nC5, $18, nB4, $18, smpsNoAttack, $18
 	dc.b	smpsNoAttack, $18, smpsNoAttack, $18
 	smpsJump            s3p20_Jump01
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p20_PSG1:
@@ -528,6 +550,9 @@ s3p20_Jump08:
 	dc.b	nE4, $04, nRst, $08
 	smpsJump            s3p20_Jump08
 
+; Unreachable
+	smpsStop
+
 ; PSG2 Data
 s3p20_PSG2:
 	smpsPSGvoice        sTone_08
@@ -588,6 +613,9 @@ s3p20_Jump07:
 	dc.b	nA4, $04, nRst, $02, nA5, $04, nRst, $02, nA5, $04, nRst, $02
 	dc.b	nRst, $18, nRst, $18
 	smpsJump            s3p20_Jump07
+
+; Unreachable
+	smpsStop
 
 ; PSG3 Data
 s3p20_PSG3:
@@ -703,6 +731,9 @@ s3p20_Jump06:
 	smpsPSGvoice        sTone_08
 	dc.b	nMaxPSG1, $0C
 	smpsJump            s3p20_Jump06
+
+; Unreachable
+	smpsStop
 
 s3p20_Voices:
 ;	Voice $00
@@ -1281,3 +1312,38 @@ s3p20_Voices:
 	smpsVcReleaseRate   $07, $02, $08, $03
 	smpsVcTotalLevel    $8A, $1D, $85, $15
 
+;	Voice $20
+;	$3E
+;	$77, $71, $32, $31, 	$1F, $1F, $1F, $1F, 	$0D, $06, $00, $00
+;	$08, $06, $00, $00, 	$15, $0A, $0A, $0A, 	$1B, $8F, $8F, $8F
+	smpsVcAlgorithm     $06
+	smpsVcFeedback      $07
+	smpsVcUnusedBits    $00
+	smpsVcDetune        $03, $03, $07, $07
+	smpsVcCoarseFreq    $01, $02, $01, $07
+	smpsVcRateScale     $00, $00, $00, $00
+	smpsVcAttackRate    $1F, $1F, $1F, $1F
+	smpsVcAmpMod        $00, $00, $00, $00
+	smpsVcDecayRate1    $00, $00, $06, $0D
+	smpsVcDecayRate2    $00, $00, $06, $08
+	smpsVcDecayLevel    $00, $00, $00, $01
+	smpsVcReleaseRate   $0A, $0A, $0A, $05
+	smpsVcTotalLevel    $8F, $8F, $8F, $1B
+
+;	Voice $21
+;	$07
+;	$34, $74, $32, $71, 	$1F, $1F, $1F, $1F, 	$0A, $0A, $05, $03
+;	$00, $00, $00, $00, 	$3F, $3F, $2F, $2F, 	$8A, $8A, $8A, $8A
+	smpsVcAlgorithm     $07
+	smpsVcFeedback      $00
+	smpsVcUnusedBits    $00
+	smpsVcDetune        $07, $03, $07, $03
+	smpsVcCoarseFreq    $01, $02, $04, $04
+	smpsVcRateScale     $00, $00, $00, $00
+	smpsVcAttackRate    $1F, $1F, $1F, $1F
+	smpsVcAmpMod        $00, $00, $00, $00
+	smpsVcDecayRate1    $03, $05, $0A, $0A
+	smpsVcDecayRate2    $00, $00, $00, $00
+	smpsVcDecayLevel    $02, $02, $03, $03
+	smpsVcReleaseRate   $0F, $0F, $0F, $0F
+	smpsVcTotalLevel    $8A, $8A, $8A, $8A

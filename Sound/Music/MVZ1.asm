@@ -42,6 +42,9 @@ s3p15_Loop09:
 	dc.b	nC5, $06, nRst, nBb4, $04, nRst, $60
 	smpsJump            s3p15_FM1
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p15_FM2:
 	smpsSetvoice        $01
@@ -69,6 +72,9 @@ s3p15_Loop08:
 	dc.b	nRst, nAb2, $08, nAb2, $04, nRst, $08, nBb2, $10, nBb2, $06, nRst
 	dc.b	$12, nBb2, $08, nAb2, $04, nA2, $08, nBb2, $06, nRst, $16
 	smpsJump            s3p15_FM2
+
+; Unreachable
+	smpsStop
 
 ; FM3 Data
 s3p15_FM3:
@@ -103,6 +109,9 @@ s3p15_Loop06:
 	dc.b	nRst, nF4, $04, nRst, $60
 	smpsJump            s3p15_FM3
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p15_FM4:
 	smpsSetvoice        $03
@@ -136,6 +145,9 @@ s3p15_Loop04:
 	dc.b	nRst, nD4, $04, nRst, $60
 	smpsJump            s3p15_FM4
 
+; Unreachable
+	smpsStop
+
 ; FM5 Data
 s3p15_FM5:
 	dc.b	nRst, $07
@@ -167,6 +179,9 @@ s3p15_Loop02:
 	dc.b	nC5, $06, nRst, nBb4, $04, nRst, $60
 	smpsJump            s3p15_Jump00
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p15_DAC:
 	dc.b	nRst, $60, dSnareS3, $08, dKickS3, $0C, dKickS3, $10, dSnareS3, $08, dKickS3, $0C
@@ -191,12 +206,18 @@ s3p15_Loop01:
 	dc.b	$18, dLowTomS3, $08, dLowTomS3, $04, dLowTomS3, $08, dSnareS3, $10, dKickS3, $0C
 	smpsJump            s3p15_DAC
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p15_PSG1:
 	smpsStop
 
 ; PSG2 Data
 s3p15_PSG2:
+	smpsStop
+
+; Unreachable
 	smpsStop
 
 ; PSG3 Data

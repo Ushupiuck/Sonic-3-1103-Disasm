@@ -51,6 +51,9 @@ s3p22_Loop17:
 	dc.b	nG4, nRst, nC5, nRst, nBb4, nRst, nG4
 	smpsJump            s3p22_FM1
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p22_FM2:
 	smpsSetvoice        $01
@@ -78,6 +81,9 @@ s3p22_Loop12:
 	dc.b	nRst, nC2, $06, nRst, nC2, nRst, nC2, nC2, $0C, nC2, nRst, $48
 	smpsLoop            $00, $02, s3p22_Loop12
 	smpsJump            s3p22_FM2
+
+; Unreachable
+	smpsStop
 
 ; FM3 Data
 s3p22_FM3:
@@ -117,6 +123,9 @@ s3p22_Loop10:
 	smpsLoop            $00, $08, s3p22_Loop10
 	smpsJump            s3p22_FM3
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p22_FM4:
 	smpsModSet          $0D, $01, $02, $06
@@ -154,6 +163,9 @@ s3p22_Loop0E:
 	dc.b	nRst, $60, nRst, $06, nG4, $12, nF4, $06, nRst, nE4, nRst, nG4
 	dc.b	nE4, nRst, nA4, nRst, nG4, nRst, nE4
 	smpsJump            s3p22_FM4
+
+; Unreachable
+	smpsStop
 
 ; FM5 Data
 s3p22_FM5:
@@ -194,6 +206,9 @@ s3p22_Loop09:
 	dc.b	nRst, $60, nRst, $06, nBb4, $12, nA4, $06, nRst, nG4, nRst, nBb4
 	dc.b	nG4, nRst, nC5, nRst, nBb4, nRst, nG4
 	smpsJump            s3p22_Jump00
+
+; Unreachable
+	smpsStop
 
 ; DAC Data
 s3p22_DAC:
@@ -238,12 +253,18 @@ s3p22_Loop04:
 	dc.b	dSnareS3, $0C, dSnareS3, dSnareS3, $06, dSnareS3, $0C, dSnareS3, nRst, $48
 	smpsJump            s3p22_DAC
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p22_PSG1:
 	smpsStop
 
 ; PSG2 Data
 s3p22_PSG2:
+	smpsStop
+
+; Unreachable
 	smpsStop
 
 ; PSG3 Data
@@ -323,3 +344,21 @@ s3p22_Voices:
 	smpsVcReleaseRate   $08, $09, $08, $09
 	smpsVcTotalLevel    $88, $88, $88, $82
 
+; Unused voice:
+;	Voice $04
+;	$03
+;	$61, $51, $23, $41, 	$10, $10, $0F, $15, 	$1C, $01, $06, $05
+;	$05, $01, $05, $01, 	$C9, $0C, $D9, $C9, 	$18, $17, $17, $83
+	smpsVcAlgorithm     $03
+	smpsVcFeedback      $00
+	smpsVcUnusedBits    $00
+	smpsVcDetune        $04, $02, $05, $06
+	smpsVcCoarseFreq    $01, $03, $01, $01
+	smpsVcRateScale     $00, $00, $00, $00
+	smpsVcAttackRate    $15, $0F, $10, $10
+	smpsVcAmpMod        $00, $00, $00, $00
+	smpsVcDecayRate1    $05, $06, $01, $1C
+	smpsVcDecayRate2    $01, $05, $01, $05
+	smpsVcDecayLevel    $0C, $0D, $00, $0C
+	smpsVcReleaseRate   $09, $09, $0C, $09
+	smpsVcTotalLevel    $83, $17, $17, $18

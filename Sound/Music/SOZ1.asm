@@ -53,6 +53,9 @@ s3p17_Jump02:
 	dc.b	nF5, $0C, nE5, $07, nRst, $05
 	smpsJump            s3p17_Jump02
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p17_FM2:
 	smpsSetvoice        $01
@@ -82,6 +85,9 @@ s3p17_Loop07:
 	dc.b	nC2, nB1
 	smpsLoop            $00, $04, s3p17_Loop07
 	smpsJump            s3p17_Loop05
+
+; Unreachable
+	smpsStop
 
 ; FM3 Data
 s3p17_FM3:
@@ -114,6 +120,9 @@ s3p17_Jump01:
 	dc.b	$08, nRst, $10, nAb4, $08, nRst, $10, nE4, $08, nRst, $10
 	smpsJump            s3p17_Jump01
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p17_FM4:
 	smpsSetvoice        $02
@@ -136,6 +145,9 @@ s3p17_Loop04:
 	smpsSetvoice        $06
 	dc.b	nA4, $60, nB4, nC5, nB4, nA4, nB4, nC5, nE5, $30, nAb5
 	smpsJump            s3p17_Loop04
+
+; Unreachable
+	smpsStop
 
 ; FM5 Data
 s3p17_FM5:
@@ -177,6 +189,9 @@ s3p17_Jump00:
 	dc.b	nF5, $0C, nE5, $07, nRst, $05
 	smpsJump            s3p17_Jump00
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p17_DAC:
 	dc.b	dKickS3, $0C, dKickS3, dKickS3, dSnareS3, $30, dKickS3, $0C
@@ -211,6 +226,9 @@ s3p17_Loop03:
 	dc.b	dSnareS3, dSnareS3, dSnareS3, dSnareS3, dSnareS3
 	smpsJump            s3p17_Loop00
 
+; Unreachable
+	smpsStop
+
 ; PSG1 Data
 s3p17_PSG1:
 	smpsModSet          $0D, $01, $02, $06
@@ -221,9 +239,15 @@ s3p17_Jump03:
 	dc.b	nRst, nRst, nRst, nRst, nRst, nC5, nD5, nE5, nD5, nC5, nD5, nE5
 	dc.b	nAb5, $30, nB5
 	smpsJump            s3p17_Jump03
+	
+; Unreachable
+	smpsStop
 
 ; PSG2 Data
 s3p17_PSG2:
+	smpsStop
+
+; Unreachable
 	smpsStop
 
 ; PSG3 Data
