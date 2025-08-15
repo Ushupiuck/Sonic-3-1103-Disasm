@@ -154,6 +154,37 @@ zTempVariablesEnd:	=	zTracksSFXEnd
 		CPU Z80
 		listing purecode
 
+; Macro to perform a bank switch... after using this,
+; the start of zROMWindow points to the start of the given 68k address,
+; rounded down to the nearest $8000 byte boundary
+bankswitch macro addr68k
+	ld	hl,zBankRegister
+	xor	a	; a = 0
+	ld	e,1	; e = 1
+.cnt	:= 0
+	rept 9
+		; this is either ld (hl),a or ld (hl),e
+		db 73h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)
+.cnt		:= .cnt+1
+	endm
+    endm
+	
+; Macro to perform a bank switch... after using this,
+; the start of zROMWindow points to the start of the given 68k address,
+; rounded down to the nearest $8000 byte boundary
+; this is currently inaccurate, do not use until fixed
+bankswitch2 macro addr68k
+	ld	hl,zBankRegister
+	ld	d,1	; d = 1
+	xor	a	; a = 0
+.cnt	:= 0
+	rept 9
+		; this is either ld (hl),a or ld (hl),d
+		db 72h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)
+.cnt		:= .cnt+1
+	endm
+    endm
+
 bankswitchToMusic macro
 	; hardcoded to only accept 4-bit bank values
 	ld	(hl),a
@@ -186,11 +217,29 @@ bankswitchToSFX macro
 	ld	(hl),a
 	endm
 
+; macro to make a certain error message clearer should you happen to get it...
+rsttarget macro {INTLABEL}
+	if ($&7)||($>38h)
+		fatal "Function __LABEL__ is at 0\{$}h, but must be at a multiple of 8 bytes <= 38h to be used with the rst instruction."
+	endif
+	if "__LABEL__"<>""
+__LABEL__ label $
+	endif
+    endm
+
 ; function to turn a 68k address into a word the Z80 can use to access it
 zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
 
 ; function to turn a 68k address into a bank byte
 zmake68kBank function addr,(((addr&3F8000h)/zROMWindow))
+
+zID_PriorityList	= 0	; Earlier drivers had this; unused
+zID_UniVoiceBank	= 2
+zID_MusicPointers	= 4
+zID_SFXPointers		= 6
+zID_ModEnvPointers	= 8
+zID_VolEnvPointers	= 0Ah
+zID_SongLimit		= 0Ch		; Earlier drivers had this; unused
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -202,9 +251,6 @@ zEntryPoint:
 	di					; twice
 	im	1				; set interrupt mode 1
 	jp	zInitAudioDriver
-; ---------------------------------------------------------------------------
-	nop
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Gets the correct pointer to pointer table for the data type in question
@@ -215,8 +261,8 @@ zEntryPoint:
 ;         af   trashed
 ;         b    trashed
 ; ---------------------------------------------------------------------------
-
-zGetPointerTable:
+	align 8
+zGetPointerTable:	rsttarget
 	ld	hl,(zPointerTable)		; read pointer to pointer table (yes, really)
 						; really, you should just make this reference z80_SoundDriverPointers directly
 	ld	b,0
@@ -228,11 +274,6 @@ zGetPointerTable:
 	ld	l,a				; combine both bytes together to get our address
 	ex	af,af'				; restore AF
 	ret
-; ---------------------------------------------------------------------------
-	nop
-	nop
-	nop
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Reads	an offset into a pointer table and returns dereferenced pointer.
@@ -242,8 +283,8 @@ zGetPointerTable:
 ; output: hl   selected	pointer	in pointer table
 ;         bc   trashed
 ; ---------------------------------------------------------------------------
-
-zPointerTableOffset:
+	align 8
+zPointerTableOffset:	rsttarget
 	ld	c,a				; get index for pointer table
 	; then load the pointer in the index
 	ld	b,0
@@ -252,42 +293,21 @@ zPointerTableOffset:
 	nop
 	nop
 	nop
-
 ; ----------------------------------------------------------------------------
 ; Dereferences a pointer.
 ;
 ; input:  hl	pointer
 ; output: hl	equal to what that was being pointed to by hl
-
-zReadPointer:
+	align 8
+zReadPointer:	rsttarget
 	ld	a,(hl)				; read low byte of pointer table
 	inc	hl
 	ld	h,(hl)				; read high byte of pointer table
 	ld	l,a				; combine both bytes together to get our address
 	ret
-
 ; ----------------------------------------------------------------------------
 ; Possible to fit two more rsttargets into here
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-
+	align 38h
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; This subroutine is called every V-Int. After it is processed, the z80
@@ -297,7 +317,7 @@ zReadPointer:
 ; this procedure will NOT be called while the SEGA PCM is playing.
 ; ---------------------------------------------------------------------------
 
-zVInt:
+zVInt:	rsttarget
 	di					; disable interrupts
 	push	af
 	push	iy
@@ -307,18 +327,7 @@ zVInt:
 	call	zUpdateEverything
 
 	; DAC bankswitch
-	ld	hl,zBankRegister		; get the DAC table
-	xor	a
-	ld	e,1
-	ld	(hl),a
-	ld	(hl),e
-	ld	(hl),e
-	ld	(hl),e
-	ld	(hl),e
-	ld	(hl),a
-	ld	(hl),a
-	ld	(hl),a
-	ld	(hl),a
+	bankswitch DACBank
 	exx
 	pop	iy
 	pop	af
@@ -345,19 +354,20 @@ zInitAudioDriver:
 	ld	a,5				; set PAL double-update timer to 5
 	ld	(zPalDblUpdCounter),a		; (that is, do not double-update for 5 frames)
 
-	; ...second DAC bankswitch?
+	; unknown bankswitch
+;	bankswitch2 50000h
 	ld	hl,zBankRegister
 	ld	d,1
 	xor	a
-	ld	(hl),a
-	ld	(hl),d
-	ld	(hl),d
-	ld	(hl),d
-	ld	(hl),d
-	ld	(hl),a
-	ld	(hl),a
-	ld	(hl),a
-	ld	(hl),a
+	ld	(hl),a	; 77
+	ld	(hl),d	; 72
+	ld	(hl),d	; 72
+	ld	(hl),d	; 72
+	ld	(hl),d	; 72
+	ld	(hl),a	; 77
+	ld	(hl),a	; 77
+	ld	(hl),a	; 77
+	ld	(hl),a	; 77
 	ei
 	jp	zPlayDigitalAudio
 
@@ -743,12 +753,12 @@ zKeyOnOff:
 	ret
 
 zDoFMVolEnv:
-    ld     a,(ix+FMVolEnv)      ; 0002AF DD 7E 18
-    or     a               ; 0002B2 B7
-    ret    z               ; 0002B3 C8
-    ret    m               ; 0002B4 F8
-    dec    a               ; 0002B5 3D
-    ld     c,0ah           ; 0002B6 0E 0A
+    ld     a,(ix+FMVolEnv)
+    or     a
+    ret    z
+    ret    m
+    dec    a
+    ld     c,zID_VolEnvPointers
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	call	zDoVolEnv
@@ -846,7 +856,7 @@ zDoModulation:
 zDoModEnvelope:
     dec    a               ; 00035C 3D
     ex     de,hl           ; 00035D EB
-    ld     c,8           ; 00035E 0E 08
+    ld     c,zID_ModEnvPointers
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	jr	zDoModEnvelope_cont
@@ -1098,7 +1108,7 @@ zloc_48B:
     ld     a,0c0h           ; 0004A9 3E C0
     ld     (zYM2612_D1),a       ; 0004AB 32 03 40
     pop    af              ; 0004AE F1
-    ld     c,4           ; 0004AF 0E 04
+    ld     c,zID_MusicPointers
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
     push   hl              ; 0004B3 E5
@@ -1196,7 +1206,7 @@ zPlaySound:
 	bankswitchToSFX
 
     xor    a               ; 000559 AF
-    ld     c,6           ; 00055A 0E 06
+    ld     c,zID_SFXPointers
     ld     (zUpdatingSFX),a       ; 00055C 32 19 1C
     ex     af,af'          ; 00055F 08
 	rst	zGetPointerTable
@@ -1585,7 +1595,7 @@ zloc_7D4:
     or     a               ; 0007D5 B7
     ret    z               ; 0007D6 C8
     sub    1             ; 0007D7 D6 01
-    ld     c,0           ; 0007D9 0E 00
+    ld     c,zID_PriorityList
 	rst	zGetPointerTable
     ld     c,a             ; 0007DC 4F
     ld     b,0           ; 0007DD 06 00
@@ -2083,7 +2093,7 @@ zSetVoiceUploadAlter:
     push   de              ; 000AA6 D5
     ld     a,(ix+VoiceSongID)      ; 000AA7 DD 7E 0F
     sub    81h             ; 000AAA D6 81
-    ld     c,4           ; 000AAC 0E 04
+    ld     c,zID_MusicPointers
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	rst	zReadPointer
@@ -2514,7 +2524,7 @@ zUpdatePSGTrack:
     ld     c,0           ; 000D29 0E 00
 	jr	z,.noVolEnv
     dec    a               ; 000D2D 3D
-    ld     c,0ah           ; 000D2E 0E 0A
+    ld     c,zID_VolEnvPointers
 	rst	zGetPointerTable
 	rst	zPointerTableOffset
 	call	zDoVolEnv

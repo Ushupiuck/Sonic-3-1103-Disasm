@@ -44223,11 +44223,9 @@ Offset_0x0EDE73:
 Offset_0x0EDEB4:  
                 binclude  "sound\0xD8.sfx"
 Offset_0x0EDEDC:  
-                binclude  "sound\0xD9.sfx"                               
-;-------------------------------------------------------------------------------
+                binclude  "sound\0xD9.sfx"
 Offset_0x0EDF30:
-                binclude  "data\unknown\dummy5.dat"   
-;-------------------------------------------------------------------------------
+                binclude  "data\unknown\dummy5.dat"
 Left_Over_Code:                                                ; Offset_0x0EF1DD
                 binclude "data/leftover.bin"
 SndBank_End
@@ -44324,8 +44322,7 @@ DACBank:	startBank
 		dc.w	(((DAC_98_Ptr>>$08)|(DAC_98_Ptr<<$08))&$FFFF)    ; $80A9
 		dc.w	(((DAC_99_Ptr>>$08)|(DAC_99_Ptr<<$08))&$FFFF)    ; $80AE
 		dc.w	(((DAC_9A_Ptr>>$08)|(DAC_9A_Ptr<<$08))&$FFFF)    ; $80B3
-		dc.w	(((DAC_9B_Ptr>>$08)|(DAC_9B_Ptr<<$08))&$FFFF)    ; $80B8                    
-                         
+		dc.w	(((DAC_9B_Ptr>>$08)|(DAC_9B_Ptr<<$08))&$FFFF)    ; $80B8
 DAC_81_Setup:                                                  ; Offset_0x0F0036
 		dc.b	$04
 		dc.w	(((DAC_81_Size>>$08)|(DAC_81_Size<<$08))&$FFFF)         ; $0790
@@ -44434,7 +44431,6 @@ DAC_9B_Setup:                                                  ; Offset_0x0F00B8
 		dc.b	$12
 		dc.w	(((DAC_9B_Size>>$08)|(DAC_9B_Size<<$08))&$FFFF)         ; $169D  
 		dc.w	(((DAC_9B_Data_Ptr>>$08)|(DAC_9B_Data_Ptr<<$08))&$FFFF) ; $DC67
-                
 ;-------------------------------------------------------------------------------
 DAC_86_Data:                                                   ; Offset_0x0F00BD
                 binclude  "sound\dacs\dac_86.bin" 
