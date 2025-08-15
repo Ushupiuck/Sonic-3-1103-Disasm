@@ -2727,18 +2727,7 @@ zPlaySEGAPCM:
     ld     (zYM2612_D0),a       ; 000E52 32 01 40
 
 	; Sega PCM bankswitch
-    ld     hl,zBankRegister        ; 000E55 21 00 60
-    xor    a               ; 000E58 AF
-    ld     e,1           ; 000E59 1E 01
-    ld     (hl),e          ; 000E5B 73
-    ld     (hl),e          ; 000E5C 73
-    ld     (hl),e          ; 000E5D 73
-    ld     (hl),e          ; 000E5E 73
-    ld     (hl),e          ; 000E5F 73
-    ld     (hl),a          ; 000E60 77
-    ld     (hl),a          ; 000E61 77
-    ld     (hl),a          ; 000E62 77
-    ld     (hl),a          ; 000E63 77
+	bankswitch SEGABank
     ld     hl,zmake68kPtr(SEGA_PCM_Data)        ; 000E64 21 00 80
     ld     de,SEGA_PCM_Data_End-SEGA_PCM_Data        ; 000E67 11 AA 6C
     ld     a,2ah           ; 000E6A 3E 2A
