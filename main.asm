@@ -43867,7 +43867,7 @@ Data_Select_Menu_Snd_Data:                                     ; Offset_0x0D695E
 ; Z80 Bank $1B
 Snd_Bank6_Start:	startBank
 Final_Boss_Snd_Data:                                           ; Offset_0x0D8000
-                binclude  "sound\f_boss.snd"
+                include  "sound\music\final boss.asm"
 Panic_Snd_Data:                                                ; Offset_0x0D8592
                 include  "sound\music\countdown.asm"
 ;-------------------------------------------------------------------------------
