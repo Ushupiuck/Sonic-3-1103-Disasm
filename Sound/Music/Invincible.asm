@@ -42,6 +42,9 @@ s3p44_Loop10:
 	smpsFMAlterVol      $02
 	smpsJump            s3p44_FM1
 
+; Unreachable
+	smpsStop
+
 ; FM2 Data
 s3p44_FM2:
 	smpsSetvoice        $01
@@ -64,6 +67,9 @@ s3p44_Loop0E:
 	dc.b	nA2, $03, nRst, $05
 	smpsLoop            $00, $08, s3p44_Loop0E
 	smpsJump            s3p44_FM2
+
+; Unreachable
+	smpsStop
 
 ; FM3 Data
 s3p44_FM3:
@@ -97,6 +103,9 @@ s3p44_Loop0B:
 	smpsFMAlterVol      $02
 	smpsJump            s3p44_Jump00
 
+; Unreachable
+	smpsStop
+
 ; FM4 Data
 s3p44_FM4:
 	smpsSetvoice        $02
@@ -122,6 +131,9 @@ s3p44_Loop09:
 	dc.b	nC6, $04, nF5
 	smpsLoop            $00, $08, s3p44_Loop09
 	smpsJump            s3p44_Loop05
+
+; Unreachable
+	smpsStop
 
 ; FM5 Data
 s3p44_FM5:
@@ -149,10 +161,16 @@ s3p44_Loop04:
 	smpsLoop            $00, $08, s3p44_Loop04
 	smpsJump            s3p44_Loop00
 
+; Unreachable
+	smpsStop
+
 ; DAC Data
 s3p44_DAC:
 	dc.b	dKickS3, $10, dKickS3, dKickS3, dKickS3
 	smpsJump            s3p44_DAC
+
+; Unreachable
+	smpsStop
 
 ; PSG1 Data
 s3p44_PSG1:
@@ -160,11 +178,17 @@ s3p44_PSG1:
 	dc.b	nRst, $02
 	smpsJump            s3p44_Loop05
 
+; Unreachable
+	smpsStop
+
 ; PSG2 Data
 s3p44_PSG2:
 	smpsPSGvoice        sTone_0A
 	dc.b	nRst, $02
 	smpsJump            s3p44_Loop00
+
+; Unreachable
+	smpsStop
 
 ; PSG3 Data
 s3p44_PSG3:

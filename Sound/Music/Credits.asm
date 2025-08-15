@@ -195,6 +195,10 @@ s3p38_FM5:
 	smpsDetune          $01
 	smpsJump            s3p38_Jump01
 
+; Unreachable
+	smpsStop
+	smpsStop
+
 ; PSG1 Data
 s3p38_PSG1:
 	smpsModSet          $03, $01, $01, $04

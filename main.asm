@@ -43837,17 +43837,17 @@ Asm_Code_3:                                                    ; Offset_0x0CF962
 ; Z80 Bank $1A
 Snd_Bank5_Start:	startBank
 Chrome_Gadget_Snd_Data:                                        ; Offset_0x0D0000
-                binclude  "sound\cgz.snd"
+                include  "sound\music\chrome gadget.asm"
 Endless_Mine_Snd_Data:                                         ; Offset_0x0D224B
-                binclude  "sound\emz.snd"
+                include  "sound\music\endless mine.asm"
 Title_Screen_Snd_Data:                                         ; Offset_0x0D2993
-                binclude  "sound\ts.snd"
+                include  "sound\music\title.asm"
 Credits_Snd_Data:                                              ; Offset_0x0D2DCC
-                binclude  "sound\credits.snd"
+                include  "sound\music\credits.asm"
 Time_Game_Over_Snd_Data:                                       ; Offset_0x0D383C
-                binclude  "sound\tgovr.snd"
+                include  "sound\music\game over.asm"
 Continue_Snd_Data:                                             ; Offset_0x0D3A99
-                binclude  "sound\continue.snd"
+                include  "sound\music\continue.asm"
 Level_Results_Snd_Data:                                        ; Offset_0x0D427A
                 include  "sound\music\level outro.asm"
 Extra_Life_Snd_Data:                                           ; Offset_0x0D476A
@@ -43855,13 +43855,14 @@ Extra_Life_Snd_Data:                                           ; Offset_0x0D476A
 Got_Emerald_Snd_Data:                                          ; Offset_0x0D496A
                 include  "sound\music\chaos emerald.asm"
 Invincibility_Snd_Data:                                        ; Offset_0x0D4A38
-                binclude  "sound\invcblty.snd"
+                include  "sound\music\invincible.asm"
 Competition_Menu_Snd_Data:                                     ; Offset_0x0D4CB8
-                binclude  "sound\2p_menu.snd"
+                include  "sound\music\competition menu.asm"
 Super_Sonic_Theme_Snd_Data:                                    ; Offset_0x0D5EAA
-                binclude  "sound\s_sonic.snd"
+                include  "sound\music\unused.asm"
 Data_Select_Menu_Snd_Data:                                     ; Offset_0x0D695E
-                binclude  "sound\menu.snd"
+                include  "sound\music\menu.asm"
+				binclude "data\leftoverbank5.bin"
 	finishBank
 ; Z80 Bank $1B
 Snd_Bank6_Start:	startBank
