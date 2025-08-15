@@ -43891,11 +43891,11 @@ Offset_0x0E1852:
 
 SndBank:
 Ring_Sfx_Data:                                           ; $32 ; Offset_0x0EC000
-                binclude  "sound\0x32.sfx"                
+                include  "sound\sfx\32 - ring (right).asm"                
 Ring_Left_Speaker_Sfx_Data:                                    ; Offset_0x0EC02E
-                binclude  "sound\0x33.sfx"
+                include  "sound\sfx\33 - ring (left).asm"
 Ring_Lost_Sfx_Data:                                            ; Offset_0x0EC05C
-                binclude  "sound\0x34.sfx"
+                include  "sound\sfx\34 - ring loss.asm"
 Hurt_Sfx_Data:                                                 ; Offset_0x0EC084
                 binclude  "sound\0x35.sfx"
 Skidding_Sfx_Data:                                             ; Offset_0x0EC0B6
@@ -44197,7 +44197,7 @@ Offset_0x0EDAE1:
 Offset_0x0EDAF7:  
                 binclude  "sound\0xCB.sfx"
 Offset_0x0EDB52:  
-                binclude  "sound\0xCC.sfx"
+                include  "sound\sfx\cc - spin dash.asm"
 Offset_0x0EDBA3:  
                 binclude  "sound\0xCD.sfx"
 Check_Point_Sfx_Data:                                          ; Offset_0x0EDC15  
