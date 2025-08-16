@@ -335,7 +335,7 @@ zInitAudioDriver:
 		xor	a
 		ld	(zDACIndex),a			; clear the DAC index
 		ld	(zPlaySegaPCMFlag),a		; clear the Sega sound flag
-			call	zStopAllSound			; stop all music
+		call	zStopAllSound			; stop all music
 		ld	a,5				; set PAL double-update timer to 5
 		ld	(zPalDblUpdCounter),a		; (that is, do not double-update for 5 frames)
 
