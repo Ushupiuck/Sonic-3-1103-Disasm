@@ -172,23 +172,19 @@ bankswitch macro addr68k
 ; Macro to perform a bank switch... after using this,
 ; the start of zROMWindow points to the start of the given 68k address,
 ; rounded down to the nearest $8000 byte boundary
-; Currently, I haven't figured out how to make this macro use 68k addresses without throwing errors
 bankswitch2 macro addr68k
 	ld	hl,zBankRegister
 	ld	d,1	; d = 1
 	xor	a	; a = 0
 .cnt	:= 0
 	rept 9
-		if ((addr68k)&(1<<(15+.cnt)))=0
-			ld	(hl),a
-		else
-			ld	(hl),d
-		endif
+		; this is either ld (hl),a or ld (hl),d
+		db 72h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)|(((addr68k)&(1<<(15+.cnt)))=0)
 .cnt		:= .cnt+1
 	endm
 	endm
 
-bankswitchToMusic macro
+bankswitchToMusic macro addr68k
 	; hardcoded to only accept 4-bit bank values
 	ld	(hl),a
 	rept 3
@@ -197,11 +193,12 @@ bankswitchToMusic macro
 	endm
 	xor	a
 	ld	d,1
-	ld	(hl),d
-	ld	(hl),a
-	ld	(hl),a
-	ld	(hl),a
-	ld	(hl),a
+.cnt	:= 4
+	rept 5
+		; this is either ld (hl),a or ld (hl),d
+		db 72h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)|(((addr68k)&(1<<(15+.cnt)))=0)
+.cnt		:= .cnt+1
+	endm
 	endm
 
 ; macro to make a certain error message clearer should you happen to get it...
@@ -343,7 +340,7 @@ zInitAudioDriver:
 		ld	(zPalDblUpdCounter),a		; (that is, do not double-update for 5 frames)
 
 		; duplicate DAC bankswitch
-		bankswitch2 0F0000h
+		bankswitch2 DACBank
 		ei
 		jp	zPlayDigitalAudio
 ; ===========================================================================
@@ -414,7 +411,7 @@ zUpdateEverything:
 ; zUpdateMusicTracks:
 		ld	hl,zBankRegister
 		ld	a,(zSongBank)			; get bank ID for music
-		bankswitchToMusic
+		bankswitchToMusic Snd_Bank1_Start
 		xor	a
 		ld	(zUpdatingSFX),a		; update music
 		ld	ix,zSongFM6_DAC
@@ -1078,7 +1075,7 @@ zloc_48B:
 
 		; music bankswitch
 		ld     hl,zBankRegister        ; 000491 21 00 60
-		bankswitchToMusic
+		bankswitchToMusic Snd_Bank1_Start
 		ld     a,0b6h           ; 0004A3 3E B6
 		ld     (zYM2612_A1),a       ; 0004A5 32 02 40
  		nop                    ; 0004A8 00
@@ -1433,7 +1430,7 @@ zDoMusicFadeOut:
 
 		; music bankswitch
 		ld     hl,zBankRegister        ; 0006F0 21 00 60
-		bankswitchToMusic
+		bankswitchToMusic Snd_Bank1_Start
 		ld     ix,zTracksStart        ; 000702 DD 21 40 1C
 		ld     b,(zSongPSG1-zTracksStart)/zTrack           ; 000706 06 06
 
@@ -2164,7 +2161,7 @@ cfStopTrack:
 		; music bankswitch
 		ld     hl,zBankRegister        ; 000B40 21 00 60
 		ld     a,(zSongBank)       ; 000B43 3A 04 1C
-		bankswitchToMusic
+		bankswitchToMusic Snd_Bank1_Start
  		pop    hl              ; 000B55 E1
 		call	zGetFMInstrumentOffset
 		call	zSendFMInstrument
