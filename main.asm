@@ -43676,10 +43676,10 @@ Asm_Code_1:                                                    ; Offset_0x0AFF0F
 ;-------------------------------------------------------------------------------
 
 	if *>$B0000
-		inform 3,"Data before the sound driver is too big by $%h bytes.",*-$B0000
+		message "Data before the sound driver is too big by $%h bytes.",*-$B0000
 	elseif $B0000>*
 		align $B0000
-	endc
+	endif
 
 ; Z80 Bank $16
 Snd_Bank1_Start:	startBank
@@ -43880,41 +43880,41 @@ Ring_Left_Speaker_Sfx_Data:                                    ; Offset_0x0EC02E
 Ring_Lost_Sfx_Data:                                            ; Offset_0x0EC05C
 		include  "sound\sfx\34 - ring loss.asm"
 Hurt_Sfx_Data:                                                 ; Offset_0x0EC084
-		binclude  "sound\0x35.sfx"
+		include  "sound\sfx\35 - death.asm"
 Skidding_Sfx_Data:                                             ; Offset_0x0EC0B6
-		binclude  "sound\0x36.sfx"
+		include  "sound\sfx\36 - skid.asm"
 Spike_Hurt_Sfx_Data:                                           ; Offset_0x0EC0EB
-		binclude  "sound\0x37.sfx"
+		include  "sound\sfx\37 - spike hit.asm"
 Collect_Oxygen_Sfx_Data:                                       ; Offset_0x0EC11A
-		binclude  "sound\0x38.sfx"
+		include  "sound\sfx\38 - bubble.asm"
 Water_Splash_Sfx_Data:                                         ; Offset_0x0EC150
-		binclude  "sound\0x39.sfx"
+		include  "sound\sfx\39 - splash.asm"
 Got_Classic_Shield_Sfx_Data:                                   ; Offset_0x0EC191
-		binclude  "sound\0x3A.sfx"
+		include  "sound\sfx\3A - shield.asm"
 Drowning_Sfx_Data:                                             ; Offset_0x0EC1BC
-		binclude  "sound\0x3B.sfx"
+		include  "sound\sfx\3B - drown.asm"
 Rolling_Sfx_Data:                                              ; Offset_0x0EC20B
-		binclude  "sound\0x3C.sfx"
+		include  "sound\sfx\3C - roll.asm"
 Object_Hit_Sfx_Data:                                           ; Offset_0x0EC249
-		binclude  "sound\0x3D.sfx"
+		include  "sound\sfx\3D - break.asm"
 Got_Fire_Shield_Sfx_Data:                                      ; Offset_0x0EC283
-		binclude  "sound\0x3E.sfx"
+		include  "sound\sfx\3E - fire shield.asm"
 Got_Water_Shield_Sfx_Data:                                     ; Offset_0x0EC2AE
-		binclude  "sound\0x3F.sfx"
+		include  "sound\sfx\3F - bubble shield.asm"
 Offset_0x0EC2D1:
-		binclude  "sound\0x40.sfx"
+		include  "sound\sfx\40 - unknown shield.asm"
 Got_Lightning_Shield_Sfx_Data:                                 ; Offset_0x0EC2F4
-		binclude  "sound\0x41.sfx"
+		include  "sound\sfx\41 - lightning shield.asm"
 Offset_0x0EC317:
-		binclude  "sound\0x42.sfx"
+		include  "sound\sfx\42 - insta shield attack.asm"
 Fire_Shield_Sfx_Data:                                          ; Offset_0x0EC32F
-		binclude  "sound\0x43.sfx"
+		include  "sound\sfx\43 - fire shield attack.asm"
 Offset_0x0EC34A:
-		binclude  "sound\0x44.sfx"
+		include  "sound\sfx\44 - bubble shield attack.asm"
 Offset_0x0EC377:
-		binclude  "sound\0x45.sfx"
+		include  "sound\sfx\45 - lightning shield attack.asm"
 Hyper_Form_Change_Sfx_Data:                                    ; Offset_0x0EC39F
-		binclude  "sound\0x46.sfx"
+		include  "sound\sfx\46 - whistle.asm"
 Offset_0x0EC3CC:
 		binclude  "sound\0x47.sfx"
 Offset_0x0EC3EC:
