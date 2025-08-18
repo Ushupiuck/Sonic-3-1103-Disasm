@@ -172,15 +172,18 @@ bankswitch macro addr68k
 ; Macro to perform a bank switch... after using this,
 ; the start of zROMWindow points to the start of the given 68k address,
 ; rounded down to the nearest $8000 byte boundary
-; this is currently inaccurate, do not use until fixed
+; Currently, I haven't figured out how to make this macro use 68k addresses without throwing errors
 bankswitch2 macro addr68k
 	ld	hl,zBankRegister
 	ld	d,1	; d = 1
 	xor	a	; a = 0
 .cnt	:= 0
 	rept 9
-		; this is either ld (hl),a or ld (hl),d
-		db 72h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)
+		if ((addr68k)&(1<<(15+.cnt)))=0
+			ld	(hl),a
+		else
+			ld	(hl),d
+		endif
 .cnt		:= .cnt+1
 	endm
 	endm
@@ -339,20 +342,8 @@ zInitAudioDriver:
 		ld	a,5				; set PAL double-update timer to 5
 		ld	(zPalDblUpdCounter),a		; (that is, do not double-update for 5 frames)
 
-		; unknown bankswitch
-;		bankswitch2 50000h
-		ld	hl,zBankRegister
-		ld	d,1
-		xor	a
-		ld	(hl),a	; 77
-		ld	(hl),d	; 72
-		ld	(hl),d	; 72
-		ld	(hl),d	; 72
-		ld	(hl),d	; 72
-		ld	(hl),a	; 77
-		ld	(hl),a	; 77
-		ld	(hl),a	; 77
-		ld	(hl),a	; 77
+		; duplicate DAC bankswitch
+		bankswitch2 0F0000h
 		ei
 		jp	zPlayDigitalAudio
 ; ===========================================================================

@@ -37,17 +37,17 @@ clearRAM macro startaddr,endaddr
 		elseif startaddr=endaddr
 			inform 1,"clearRAM is clearing zero bytes. Turning this into a nop instead."
 		mexit
-  		endc
+  		endif
 
 		if ((startaddr)&$8000)=0
 			lea	(startaddr).l,a1		; if start address is greater than $FFFF8000
    		else
 			lea	(startaddr).w,a1		; if start address is less than $FFFF8000
-	   	endc
+	   	endif
 			moveq	#0,d0
     	if (startaddr&1)
 			move.b	d0,(a1)+			; clear the first byte if start address is odd
-	    endc
+	    endif
 		move.w	#bytesToLcnt((endaddr-startaddr)-(startaddr&1)),d1
 
 	.loop:
@@ -55,10 +55,10 @@ clearRAM macro startaddr,endaddr
 		dbf	d1,.loop
 	    if (((endaddr-startaddr)-((startaddr)&1))&2)
 			move.w	d0,(a1)+			; if amount to clear is not divisible by longword, clear the last whole word
-    	endc
+    	endif
     	if (((endaddr-startaddr)-((startaddr)&1))&1)
 			move.b	d0,(a1)+			; if amount to clear is not divisible by word, clear the last byte
-    	endc
+    	endif
     	endm
 
 ; macros to create an entry for object data

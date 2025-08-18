@@ -40660,17 +40660,17 @@ PLCptr_GameOver:	dc.w PLC_Game_Over_Time_Over-ArtLoadCues
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4A
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4B
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4C
-		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4D 
-		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4E 
+		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4D
+		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4E
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $4F
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $50
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $51
-		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $52 
-		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $53 
+		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $52
+		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $53
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $54
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $55
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $56
-		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $57 
+		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $57
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $58
 		dc.w	PLC_48_To_59-ArtLoadCues               ; Offset_0x04B030 ; $59
 		dc.w	PLC_AIz_Mini_Boss-ArtLoadCues          ; Offset_0x04B030 ; $5A
@@ -40690,7 +40690,7 @@ PLCptr_GameOver:	dc.w PLC_Game_Over_Time_Over-ArtLoadCues
 		dc.w	PLC_61_To_69-ArtLoadCues               ; Offset_0x04B0AE ; $68
 		dc.w	PLC_61_To_69-ArtLoadCues               ; Offset_0x04B0AE ; $69
 		dc.w	PLC_FBz_Barrier_Eggman-ArtLoadCues     ; Offset_0x04B0AE ; $6A
-		dc.w	PLC_AIz_Final_Boss-ArtLoadCues         ; Offset_0x04B0C8 ; $6B    
+		dc.w	PLC_AIz_Final_Boss-ArtLoadCues         ; Offset_0x04B0C8 ; $6B
 		dc.w	PLC_Hz_Final_Boss-ArtLoadCues          ; Offset_0x04B0DC ; $6C
 		dc.w	PLC_MGz_Final_Boss-ArtLoadCues         ; Offset_0x04B102 ; $6D
 		dc.w	PLC_CNz_Final_Boss-ArtLoadCues         ; Offset_0x04B11C ; $6E
@@ -41343,16 +41343,15 @@ PLC_78:
 PLC_78_End: 
 		dc.l	Art_Boss_Explosion                     ; Offset_0x124504
 		dc.w	$9520
-                
 ;===============================================================================
-; Carga dos gr�ficos das fases       
+; Carga dos gr�ficos das fases
 ; <<<-
-;=============================================================================== 
-                
 ;===============================================================================
-; Rotina usada para depurar o jogo       
+
+;===============================================================================
+; Rotina usada para depurar o jogo
 ; ->>>
-;===============================================================================                 
+;===============================================================================
 Debug_Mode:                                                    ; Offset_0x04B1B2
 		moveq	#$00, D0
 		move.b	(Debug_placement_mode).w, D0                ; $FFFFFE08
@@ -41361,8 +41360,8 @@ Debug_Mode:                                                    ; Offset_0x04B1B2
 ;-------------------------------------------------------------------------------
 Offset_0x04B1C0:
 		dc.w	Offset_0x04B1C4-Offset_0x04B1C0
-		dc.w	Offset_0x04B24C-Offset_0x04B1C0    
-;-------------------------------------------------------------------------------   
+		dc.w	Offset_0x04B24C-Offset_0x04B1C0
+;-------------------------------------------------------------------------------
 Offset_0x04B1C4:
 		addq.b	#$02, (Debug_placement_mode).w              ; $FFFFFE08
 		move.l	Obj_Map(A0), (Debug_Player_Obj_Map).w ; $000C, $FFFFFFCA
@@ -41397,8 +41396,8 @@ Offset_0x04B23C:
 		bsr.w	Offset_0x04B3F6
 		move.b	#$0C, (Debug_Accel_Timer).w            ; $FFFFFE0A
 		move.b	#$01, (Debug_Speed).w            ; $FFFFFE0B
-;-------------------------------------------------------------------------------                
-Offset_0x04B24C:                
+;-------------------------------------------------------------------------------
+Offset_0x04B24C:
 		moveq	#$00, D0
 		move.w	(Current_ZoneAndAct).w, D0                             ; $FFFFFE10
 		ror.b	#$01, D0
@@ -41543,8 +41542,8 @@ Offset_0x04B3F6:
 		add.w	D1, D0
 		move.l	$04(A2, D0), Obj_Map(A0)                         ; $000C
 		move.w	$08(A2, D0), Obj_Art_VRAM(A0)                    ; $000A
-		move.b	$00(A2, D0), Obj_Map_Id(A0)                      ; $0022
-		rts   
+		move.b	(A2, D0), Obj_Map_Id(A0)                      ; $0022
+		rts
 ; ===========================================================================
 ; Offset_0x04B418:
 Debug_Index:	dc.w DebugList_AIZ1-Debug_Index
@@ -43259,14 +43258,14 @@ DOL_16: ; DOL - Debug Object List
 		dc.w	$049C
 DOL_16_End:
 ;===============================================================================
-; Rotina usada para depurar o jogo       
+; Rotina usada para depurar o jogo
 ; <<<-
-;===============================================================================   
+;===============================================================================
 
 ;===============================================================================
-; Lista de objetos das fases       
+; Lista de objetos das fases
 ; ->>>
-;=============================================================================== 
+;===============================================================================
 Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj00_Rings
 		dc.l	Obj01_Monitors
@@ -43299,7 +43298,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x1C_LBz_Unknow                    ; Offset_0x01E6C6
 		dc.l	Obj_0x1D_LBz_Platform                  ; Offset_0x01C228
 		dc.l	Obj_0x1E_LBz_Spin_Launcher             ; Offset_0x01F5FC
-		dc.l	Obj_0x1F_LBz_Hook                      ; Offset_0x01F892 
+		dc.l	Obj_0x1F_LBz_Hook                      ; Offset_0x01F892
 		dc.l	Obj_0x20_Smashing_Pillar_Spikes        ; Offset_0x01FDB6 ; $20
 		dc.l	Obj_0x21_LBz_Gate_Laser                ; Offset_0x01FF28
 		dc.l	Obj_0x22_LBz_Buzzer                    ; Offset_0x02005A
@@ -43331,7 +43330,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x3C_Automatic_Door                ; Offset_0x026ED0
 		dc.l	Obj_0x3D_Retracting_Spring             ; Offset_0x019EA2
 		dc.l	Obj_0x3E_Conveyor_Belt_Attributes      ; Offset_0x0271C4
-		dc.l	Obj_0x3F_Hz_Spikes_On_Conveyor_Belt    ; Offset_0x027346 
+		dc.l	Obj_0x3F_Hz_Spikes_On_Conveyor_Belt    ; Offset_0x027346
 		dc.l	Obj_0x40_Hz_Block                      ; Offset_0x014AB6 ; $40
 		dc.l	Obj_0x41_CNz_Balloon                   ; Offset_0x027552
 		dc.l	Obj_0x42_CNz_Cannon                    ; Offset_0x02794E
@@ -43339,7 +43338,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x44_CNz_Trapdoor                  ; Offset_0x027F0E
 		dc.l	Obj_0x45_CNz_Light_Bulb                ; Offset_0x027FDA
 		dc.l	Obj_0x46_CNz_Fan                       ; Offset_0x02805C
-		dc.l	Obj_0x47_CNz_Barrel                    ; Offset_0x028430 
+		dc.l	Obj_0x47_CNz_Barrel                    ; Offset_0x028430
 		dc.l	Obj_0x48_CNz_Vacuum_Tubes              ; Offset_0x028278 ; $48
 		dc.l	Obj_0x49_CNz_Wheel                     ; Offset_0x028C62
 		dc.l	Obj_0x4A_Bumper                        ; Offset_0x029188
@@ -43347,7 +43346,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x4C_Corkscrew                     ; Offset_0x029408
 		dc.l	Obj_0x4D_CNz_Barber_Pole               ; Offset_0x0296A0
 		dc.l	Obj_0x4E_CNz_Rotating_Mesh             ; Offset_0x029B5E
-		dc.l	Obj_0x4F_Mud_Quicksand_Attributes      ; Offset_0x028E12 
+		dc.l	Obj_0x4F_Mud_Quicksand_Attributes      ; Offset_0x028E12
 		dc.l	Obj_0x50_MGz_Vertical_Pole             ; Offset_0x029F86 ; $50
 		dc.l	Obj_0x51_Floating_Platform             ; Offset_0x01C3C2
 		dc.l	Obj_0x20_Smashing_Pillar_Spikes        ; Offset_0x01FDB6
@@ -43355,7 +43354,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x54_Oxygen_Bubbles                ; Offset_0x025500
 		dc.l	Obj_0x55_MGz_Head_Trigger              ; Offset_0x02A5BC
 		dc.l	Obj_0x56_MGz_Moving_Spike_Platform     ; Offset_0x02AA8A
-		dc.l	Obj_0x57_MGz_Trigger_Platform          ; Offset_0x02A884 
+		dc.l	Obj_0x57_MGz_Trigger_Platform          ; Offset_0x02A884
 		dc.l	Obj_0x58_MGz_Swinging_Spiked_Ball      ; Offset_0x02A390 ; $58
 		dc.l	Obj_0x59_MGz_Dash_Trigger              ; Offset_0x01C930
 		dc.l	Obj_0x5A_MGz_Pulley                    ; Offset_0x02ACD8
@@ -43363,7 +43362,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x5C_MGz_Blue_Platform_Launcher    ; Offset_0x02BED2
 		dc.l	Obj_0x5D_CGz_Triangular_Springs        ; Offset_0x029004
 		dc.l	Obj_0x5E_CGz_Blade_Platform            ; Offset_0x02BFBE
-		dc.l	Obj_0x5F_Retracting_Spring             ; Offset_0x019FF6 
+		dc.l	Obj_0x5F_Retracting_Spring             ; Offset_0x019FF6
 		dc.l	Obj_0x60_BPz_Elephant_Block            ; Offset_0x02C13C ; $60 
 		dc.l	Obj_0x61_BPz_Balloon                   ; Offset_0x02C2C4
 		dc.l	Obj_0x62_DPz_Dissolving_Sand_Bar       ; Offset_0x02C47E
@@ -43371,7 +43370,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x64_Bubble_Container              ; Offset_0x02C8A8
 		dc.l	Obj_0x65_Goal_Marker                   ; Offset_0x02D124
 		dc.l	Obj_0x66_EMz_Dripper                   ; Offset_0x02DF26
-		dc.l	Obj_0x67_Hz_Snake_Platform             ; Offset_0x01C532 
+		dc.l	Obj_0x67_Hz_Snake_Platform             ; Offset_0x01C532
 		dc.l	Obj_0x68_Hz_Spinning_Column            ; Offset_0x0289B8 ; $68
 		dc.l	Obj_0x69_Hz_Curved_Twisting_Pipe       ; Offset_0x02EEEA
 		dc.l	Obj_0x6A_Hz_Horizontal_Spikes          ; Offset_0x014B5A
@@ -43403,7 +43402,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj84_HeyHo
 		dc.l	Obj_0x85_LBz_Twin_Hammer               ; Offset_0x03EC12
 		dc.l	Obj_0x86_LBz_Beam_Rocket               ; Offset_0x03F11A
-		dc.l	Obj_0x87_LBz_Snale_Blaster             ; Offset_0x048436 
+		dc.l	Obj_0x87_LBz_Snale_Blaster             ; Offset_0x048436
 		dc.l	Obj_0x88_LBz_Ribot                     ; Offset_0x048756 ; $88 
 		dc.l	Obj_0x89_LBz_Orbinaut                  ; Offset_0x048A94
 		dc.l	Obj_0x8A_LBz_Corkey                    ; Offset_0x048BCE
@@ -43411,7 +43410,7 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0x8C_LBz_Ball_Shooter              ; Offset_0x03FE88
 		dc.l	Obj_0x8D_CNz_Graviton_Mobile           ; Offset_0x03B9A0
 		dc.l	Obj_0x8E_CNz_Bowling_Spin              ; Offset_0x03B01A
-		dc.l	Obj_0x8F_FBz_Gapsule                   ; Offset_0x03C27C 
+		dc.l	Obj_0x8F_FBz_Gapsule                   ; Offset_0x03C27C
 		dc.l	Obj90_Fireworm
 		dc.l	Obj_0x91_LRz_Iwamodock                 ; Offset_0x04A29C
 		dc.l	Obj_0x92_LRz_Toxomister                ; Offset_0x04A400
@@ -43471,8 +43470,6 @@ Object_List:                                                   ; Offset_0x04C964
 		dc.l	Obj_0xC8_Iz_Trampoline_Support         ; Offset_0x046A00 ; $C8
 		dc.l	Obj_0xC9_Knuckles_Switch               ; Offset_0x035484
 		dc.l	ObjCA_AIZPlaneIntro
-                
-                
 ;-------------------------------------------------------------------------------
 ; Left over - Parte de ponteiros de objetos de uma compila��o anterior
 ; ->>>
@@ -43510,36 +43507,36 @@ Offset_0x04CC90:
 		dc.l	(Obj_0xC8_Iz_Trampoline_Support+$7E)   ; Offset_0x046A7E
 		dc.l	(Obj_0xC9_Knuckles_Switch+$7E)         ; Offset_0x035502
 		dc.l	ObjCA_AIZPlaneIntro+$7E
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 Offset_0x04CD0E:
 		dc.w	((Obj_0xC8_Iz_Trampoline_Support+$88)&$FFFF) ; Offset_0x046A88
 		dc.l	(Obj_0xC9_Knuckles_Switch+$88)         ; Offset_0x03550C
-		dc.l	(ObjCA_AIZPlaneIntro+$88)   ; Offset_0x035B5A                
+		dc.l	(ObjCA_AIZPlaneIntro+$88)   ; Offset_0x035B5A
 ;-------------------------------------------------------------------------------
 ; Left over - Parte de ponteiros de objetos de uma compila��o anterior
 ; <<<-
 ;-------------------------------------------------------------------------------
-Offset_0x04CD18:  
+Offset_0x04CD18:
 		binclude  "data\unknown\dummy.dat"
 ;===============================================================================
-; Lista de objetos das fases       
+; Lista de objetos das fases
 ; <<<-
-;===============================================================================                
+;===============================================================================
 Art_Sonic:                                                     ; Offset_0x050000
 		binclude  "data\art\sonic.dat"
 Art_Miles:                                                     ; Offset_0x0676A0
 		binclude  "data\art\miles.dat"
 Art_Knuckles:                                                  ; Offset_0x072F60
 		binclude  "data\art\knuckles.dat"
-Art_Sonic_Surfboard:                                           ; Offset_0x075200    
+Art_Sonic_Surfboard:                                           ; Offset_0x075200
 		binclude  "data\art\sonicsrf.dat"
-Art_Sonic_2P:                                                  ; Offset_0x077560                 
+Art_Sonic_2P:                                                  ; Offset_0x077560
 		binclude  "data\art\sonic_2p.dat"
-Art_Miles_2P:                                                  ; Offset_0x07A620   
+Art_Miles_2P:                                                  ; Offset_0x07A620
 		binclude  "data\art\miles_2p.dat"
-Art_Miles_Tails_2P:                                            ; Offset_0x07D3C0                
+Art_Miles_Tails_2P:                                            ; Offset_0x07D3C0
 		binclude  "data\art\milest_2p.dat"
-Art_Knuckles_2P:                                               ; Offset_0x07D960                
+Art_Knuckles_2P:                                               ; Offset_0x07D960
 		binclude  "data\art\kte_2p.dat"
 Art_Invincibility: ; N�o usado - Left Over ???                 ; Offset_0x080DE0
 		binclude  "data\art\invcblty.dat"
@@ -43556,7 +43553,7 @@ Art_Dust_2P:                                                   ; Offset_0x0858E0
 		dc.w	$0000 
 Art_CNz_Cannon:                                                ; Offset_0x0859A0
 		binclude  "data\cnz\cannon.dat"
-Art_Angel_Island_Stalk:                                        ; Offset_0x0864C0   
+Art_Angel_Island_Stalk:                                        ; Offset_0x0864C0
 		binclude  "data\aiz\stalk.dat"
 Art_Angel_Island_Stalk_with_Fruits:                            ; Offset_0x086DC0
 		binclude  "data\aiz\stkfruit.dat"
@@ -43566,17 +43563,17 @@ Art_Angel_Island_Leaves_Burning:                               ; Offset_0x087A80
 		binclude  "data\aiz\leavesbn.dat"
 Art_Angel_Island_Burning_Background:                           ; Offset_0x088600
 		binclude  "data\aiz\brngbg.dat"
-Art_Angel_Island_Leaves_Burning_Background:                    ; Offset_0x089200  
+Art_Angel_Island_Leaves_Burning_Background:                    ; Offset_0x089200
 		binclude  "data\aiz\leavesb2.dat"
 Art_Angel_Island_Leaves:                                       ; Offset_0x089400
 		binclude  "data\aiz\leaves.dat"
 Art_Hydrocity_Conveyor_Belt:                                   ; Offset_0x089860
 		binclude  "data\hz\convbelt.dat"
-Art_Hydrocity_Water_Surface:                                   ; Offset_0x08A5E0   
+Art_Hydrocity_Water_Surface:                                   ; Offset_0x08A5E0
 		binclude  "data\hz\wtrsurfc.dat"
 Art_Hydrocity_Background:                                      ; Offset_0x08A9E0
 		binclude  "data\hz\backgnd.dat"
-Art_Hydrocity_Water_Surface_2:                                 ; Offset_0x08ADE0   
+Art_Hydrocity_Water_Surface_2:                                 ; Offset_0x08ADE0
 		binclude  "data\hz\wtrsurf2.dat"
 Art_Hydrocity_Background_2:                                    ; Offset_0x08B1E0
 		binclude  "data\hz\backgnd2.dat"
@@ -43586,7 +43583,7 @@ Art_Hydrocity_Background_3:                                    ; Offset_0x08C060
 		binclude  "data\hz\backgnd3.dat"
 Art_Hydrocity_Background_4:                                    ; Offset_0x08C460
 		binclude  "data\hz\backgnd4.dat"
-Art_Hydrocity_Background_5:                                    ; Offset_0x08CC60 
+Art_Hydrocity_Background_5:                                    ; Offset_0x08CC60
 		binclude  "data\hz\backgnd5.dat"
 Art_Hydrocity_Background_6:                                    ; Offset_0x08DC60
 		binclude  "data\hz\backgnd6.dat"
@@ -43618,19 +43615,19 @@ Art_Iz_Background_4:                                           ; Offset_0x09D140
 		binclude  "data\iz\backgnd4.dat"
 Art_Iz_Background_5:                                           ; Offset_0x09D1C0
 		binclude  "data\iz\backgnd5.dat"
-Art_Iz_Crystal:                                                ; Offset_0x09D200 
+Art_Iz_Crystal:                                                ; Offset_0x09D200
 		binclude  "data\iz\crystal.dat"
 Art_LBz_Foreground_Buzzer:                                     ; Offset_0x09D600
 		binclude  "data\lbz\buzzer.dat"
 Art_LBz_Background_Mountains:                                  ; Offset_0x09DB00
 		binclude  "data\lbz\mountain.dat"
-Art_LBz_Ocean:                                                 ; Offset_0x09EF00 
+Art_LBz_Ocean:                                                 ; Offset_0x09EF00
 		binclude  "data\lbz\ocean.dat"
 Art_LBz_Background_Bricks:                                     ; Offset_0x09F000
 		binclude  "data\lbz\bgbricks.dat"
 Art_LBz_Water_Surface:                                         ; Offset_0x09F400
 		binclude  "data\lbz\watersrf.dat"
-Art_LBz_Background_Above_Water:                                ; Offset_0x09F600  
+Art_LBz_Background_Above_Water:                                ; Offset_0x09F600
 		binclude  "data\lbz\backgnd.dat"
 Art_LBz_Water_Surface_Above:                                   ; Offset_0x09F800
 		binclude  "data\lbz\watersf2.dat"
@@ -43658,7 +43655,7 @@ Art_BPz_Background_Flags:                                      ; Offset_0x0A5E80
 		binclude  "data\bpz\bg_flags.dat"
 Art_DPz_Quicksand:                                             ; Offset_0x0A5EC0
 		binclude  "data\dpz\quicksnd.dat"
-Art_DPz_Background_Sand_Dunes:                                 ; Offset_0x0A6640           
+Art_DPz_Background_Sand_Dunes:                                 ; Offset_0x0A6640
 		binclude  "data\dpz\sanddune.dat"
 Art_Oxygen_Numbers:                                            ; Offset_0x0A8640
 		binclude  "data\art\oxygnumb.dat"
@@ -43666,8 +43663,8 @@ Art_Menu_Sonic_Miles:                                          ; Offset_0x0A8DC0
 		binclude  "data\menus\soncmils.dat"
 Offset_0x0A92C0:                
 		binclude  "data\unknown\dummy2.dat"
-;-------------------------------------------------------------------------------                
-Asm_Code_1:                                                    ; Offset_0x0AFF0F                
+;-------------------------------------------------------------------------------
+Asm_Code_1:                                                    ; Offset_0x0AFF0F
 		dc.b	"WhichMessage", $0D, $0A
 		dc.b	"                Bra     @DoneInput", $0D, $0A, $0D, $0A
 		dc.b	"@InComingHail:", $0D, $0A
@@ -43738,7 +43735,7 @@ Asm_Code_2:                                                    ; Offset_0x0BFBA4
 		dc.b	"                Lea     DownArrowBuffer,A0                      ; Source.", $0D, $0A
 		dc.b	"                Lea     ScrollBBase+(27*2)+(26*64),A1           ; Destination.", $0D, $0A
 		dc.b	"                Move.w  #1,D0                 "
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 ; Z80 Bank $18
 Snd_Bank3_Start:	startBank
 Launch_Base_2_Snd_Data:                                        ; Offset_0x0C0000
@@ -43788,7 +43785,7 @@ Balloon_Park_Snd_Data:                                         ; Offset_0x0CC988
 Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
 		include  "sound\music\desert palace.asm"
 		binclude "data\leftoverbank4.bin"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 Asm_Code_3:                                                    ; Offset_0x0CF962
 		dc.b	$0A
 		dc.b	"                Lea     ScrollBBase+($b*64)+(27*2),A1", $0D, $0A
@@ -43819,7 +43816,7 @@ Asm_Code_3:                                                    ; Offset_0x0CF962
 		dc.b	"                Moveq   #2,D6                                   ; Two digits.", $0D, $0A
 		dc.b	"                Move.w  #'0'"
 	finishBank
-;-------------------------------------------------------------------------------                                
+;-------------------------------------------------------------------------------
 ; Z80 Bank $1A
 Snd_Bank5_Start:	startBank
 Chrome_Gadget_Snd_Data:                                        ; Offset_0x0D0000
@@ -43904,311 +43901,311 @@ Got_Fire_Shield_Sfx_Data:                                      ; Offset_0x0EC283
 		binclude  "sound\0x3E.sfx"
 Got_Water_Shield_Sfx_Data:                                     ; Offset_0x0EC2AE
 		binclude  "sound\0x3F.sfx"
-Offset_0x0EC2D1: 
+Offset_0x0EC2D1:
 		binclude  "sound\0x40.sfx"
-Got_Lightning_Shield_Sfx_Data:                                 ; Offset_0x0EC2F4  
+Got_Lightning_Shield_Sfx_Data:                                 ; Offset_0x0EC2F4
 		binclude  "sound\0x41.sfx"
-Offset_0x0EC317:    
+Offset_0x0EC317:
 		binclude  "sound\0x42.sfx"
-Fire_Shield_Sfx_Data:                                          ; Offset_0x0EC32F  
+Fire_Shield_Sfx_Data:                                          ; Offset_0x0EC32F
 		binclude  "sound\0x43.sfx"
-Offset_0x0EC34A:   
+Offset_0x0EC34A:
 		binclude  "sound\0x44.sfx"
-Offset_0x0EC377:  
+Offset_0x0EC377:
 		binclude  "sound\0x45.sfx"
-Hyper_Form_Change_Sfx_Data:                                    ; Offset_0x0EC39F   
+Hyper_Form_Change_Sfx_Data:                                    ; Offset_0x0EC39F
 		binclude  "sound\0x46.sfx"
-Offset_0x0EC3CC:  
+Offset_0x0EC3CC:
 		binclude  "sound\0x47.sfx"
-Offset_0x0EC3EC:  
+Offset_0x0EC3EC:
 		binclude  "sound\0x48.sfx"
-Offset_0x0EC414:     
+Offset_0x0EC414:
 		binclude  "sound\0x49.sfx"
-Grab_Sfx_Data:                                                 ; Offset_0x0EC41E   
+Grab_Sfx_Data:                                                 ; Offset_0x0EC41E
 		binclude  "sound\0x4A.sfx"
-Offset_0x0EC438: 
+Offset_0x0EC438:
 		binclude  "sound\0x4B.sfx"
-Offset_0x0EC460:  
+Offset_0x0EC460:
 		binclude  "sound\0x4C.sfx"
-Offset_0x0EC483:  
+Offset_0x0EC483:
 		binclude  "sound\0x4D.sfx"
-Offset_0x0EC498:  
+Offset_0x0EC498:
 		binclude  "sound\0x4E.sfx"
-Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0  
+Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0
 		binclude  "sound\0x4F.sfx"
-Offset_0x0EC4F1:  
+Offset_0x0EC4F1:
 		binclude  "sound\0x50.sfx"
-Projectile_Sfx_Data:                                           ; Offset_0x0EC51B  
+Projectile_Sfx_Data:                                           ; Offset_0x0EC51B
 		binclude  "sound\0x51.sfx"
-Missile_Explosion_Sfx_Data:                                    ; Offset_0x0EC548  
+Missile_Explosion_Sfx_Data:                                    ; Offset_0x0EC548
 		binclude  "sound\0x52.sfx"
-Flame_Sfx_Data:                                                ; Offset_0x0EC58C  
+Flame_Sfx_Data:                                                ; Offset_0x0EC58C
 		binclude  "sound\0x53.sfx"
-Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D  
+Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D
 		binclude  "sound\0x54.sfx"
-Offset_0x0EC5D1:  
+Offset_0x0EC5D1:
 		binclude  "sound\0x55.sfx"
-Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609  
+Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609
 		binclude  "sound\0x56.sfx"
-Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A  
+Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A
 		binclude  "sound\0x57.sfx"
-Spike_Move_Sfx_Data:                                           ; Offset_0x0EC671  
+Spike_Move_Sfx_Data:                                           ; Offset_0x0EC671
 		binclude  "sound\0x58.sfx"
-Offset_0x0EC68E:  
+Offset_0x0EC68E:
 		binclude  "sound\0x59.sfx"
-Offset_0x0EC6CE:  
+Offset_0x0EC6CE:
 		binclude  "sound\0x5A.sfx"
-Offset_0x0EC711:  
+Offset_0x0EC711:
 		binclude  "sound\0x5B.sfx"
-Draw_Bridge_Move_Sfx_Data:                                     ; Offset_0x0EC739  
+Draw_Bridge_Move_Sfx_Data:                                     ; Offset_0x0EC739
 		binclude  "sound\0x5C.sfx"
-Geyser_Sfx_Data:                                               ; Offset_0x0EC749  
+Geyser_Sfx_Data:                                               ; Offset_0x0EC749
 		binclude  "sound\0x5D.sfx"
-Fan_Big_Sfx_Data:                                              ; Offset_0x0EC762  
+Fan_Big_Sfx_Data:                                              ; Offset_0x0EC762
 		binclude  "sound\0x5E.sfx"
-Offset_0x0EC794:  
+Offset_0x0EC794:
 		binclude  "sound\0x5F.sfx"
-Offset_0x0EC7C5:  
+Offset_0x0EC7C5:
 		binclude  "sound\0x60.sfx"
-Offset_0x0EC7DD:  
+Offset_0x0EC7DD:
 		binclude  "sound\0x61.sfx"
-Smash_Sfx_Data:                                                ; Offset_0x0EC7F6  
+Smash_Sfx_Data:                                                ; Offset_0x0EC7F6
 		binclude  "sound\0x62.sfx"
-Offset_0x0EC852:  
+Offset_0x0EC852:
 		binclude  "sound\0x63.sfx"
-Switch_Blip_Sfx_Data:                                          ; Offset_0x0EC87F  
+Switch_Blip_Sfx_Data:                                          ; Offset_0x0EC87F
 		binclude  "sound\0x64.sfx"
-Offset_0x0EC88C:                        
+Offset_0x0EC88C:
 		binclude  "sound\0x65.sfx"
-Offset_0x0EC89B:  
+Offset_0x0EC89B:
 		binclude  "sound\0x66.sfx"
-Offset_0x0EC8C3:  
+Offset_0x0EC8C3:
 		binclude  "sound\0x67.sfx"
-Floor_Thump_Sfx_Data:                                          ; Offset_0x0EC8F9  
+Floor_Thump_Sfx_Data:                                          ; Offset_0x0EC8F9
 		binclude  "sound\0x68.sfx"
-Offset_0x0EC922:  
+Offset_0x0EC922:
 		binclude  "sound\0x69.sfx"
-Offset_0x0EC94A:  
+Offset_0x0EC94A:
 		binclude  "sound\0x6A.sfx"
-Offset_0x0EC97C:  
+Offset_0x0EC97C:
 		binclude  "sound\0x6B.sfx"
-Crash_Sfx_Data:                                                ; Offset_0x0EC997  
+Crash_Sfx_Data:                                                ; Offset_0x0EC997
 		binclude  "sound\0x6C.sfx"
-Offset_0x0EC9BF:  
+Offset_0x0EC9BF:
 		binclude  "sound\0x6D.sfx"
-Offset_0x0ECA00:  
+Offset_0x0ECA00:
 		binclude  "sound\0x6E_6F.sfx"
-Jump_Sfx_Data:                                                 ; Offset_0x0ECA31  
+Jump_Sfx_Data:                                                 ; Offset_0x0ECA31
 		binclude  "sound\0x70.sfx"
-Offset_0x0ECA47:  
+Offset_0x0ECA47:
 		binclude  "sound\0x71.sfx"
-Offset_0x0ECA71:  
+Offset_0x0ECA71:
 		binclude  "sound\0x72.sfx"
-Offset_0x0ECA90:  
+Offset_0x0ECA90:
 		binclude  "sound\0x73.sfx"
-Offset_0x0ECAC2:  
+Offset_0x0ECAC2:
 		binclude  "sound\0x74.sfx"
-Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7  
+Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7
 		binclude  "sound\0x75.sfx"
-Offset_0x0ECB23:  
+Offset_0x0ECB23:
 		binclude  "sound\0x76.sfx"
-Offset_0x0ECB52:  
+Offset_0x0ECB52:
 		binclude  "sound\0x77.sfx"
-Offset_0x0ECB7F:  
+Offset_0x0ECB7F:
 		binclude  "sound\0x78.sfx"
-Underwater_Sfx_Data:                                           ; Offset_0x0ECBB2  
+Underwater_Sfx_Data:                                           ; Offset_0x0ECBB2
 		binclude  "sound\0x79.sfx"
-Offset_0x0ECBC4:  
+Offset_0x0ECBC4:
 		binclude  "sound\0x7A.sfx"
-Offset_0x0ECC05:  
+Offset_0x0ECC05:
 		binclude  "sound\0x7B.sfx"
-Boss_Hit_Sfx_Data:                                             ; Offset_0x0ECC24  
+Boss_Hit_Sfx_Data:                                             ; Offset_0x0ECC24
 		binclude  "sound\0x7C.sfx"
-Offset_0x0ECC58:  
+Offset_0x0ECC58:
 		binclude  "sound\0x7D.sfx"
-Offset_0x0ECC8E:  
+Offset_0x0ECC8E:
 		binclude  "sound\0x7E.sfx"
-Offset_0x0ECCD8:  
+Offset_0x0ECCD8:
 		binclude  "sound\0x7F.sfx"
-Hoverpad_Sfx_Data:                                             ; Offset_0x0ECD05  
+Hoverpad_Sfx_Data:                                             ; Offset_0x0ECD05
 		binclude  "sound\0x80.sfx"
-Transporter_Sfx_Data:                                          ; Offset_0x0ECD32  
+Transporter_Sfx_Data:                                          ; Offset_0x0ECD32
 		binclude  "sound\0x81.sfx"
-Tunnel_Booster_Sfx_Data:                                       ; Offset_0x0ECD66  
+Tunnel_Booster_Sfx_Data:                                       ; Offset_0x0ECD66
 		binclude  "sound\0x82.sfx"
-Rising_Platform_Sfx_Data:                                      ; Offset_0x0ECD96  
+Rising_Platform_Sfx_Data:                                      ; Offset_0x0ECD96
 		binclude  "sound\0x83.sfx"
-Wave_Hover_Sfx_Data:                                           ; Offset_0x0ECDC5  
+Wave_Hover_Sfx_Data:                                           ; Offset_0x0ECDC5
 		binclude  "sound\0x84.sfx"
-Trapdoor_Sfx_Data:                                             ; Offset_0x0ECDF6  
+Trapdoor_Sfx_Data:                                             ; Offset_0x0ECDF6
 		binclude  "sound\0x85.sfx"
-Balloon_Pop_Sfx_Data:                                          ; Offset_0x0ECE20  
+Balloon_Pop_Sfx_Data:                                          ; Offset_0x0ECE20
 		binclude  "sound\0x86.sfx"
-Cannon_Turn_Sfx_Data:                                          ; Offset_0x0ECE6A  
+Cannon_Turn_Sfx_Data:                                          ; Offset_0x0ECE6A
 		binclude  "sound\0x87.sfx"
-Offset_0x0ECE99:  
+Offset_0x0ECE99:
 		binclude  "sound\0x88.sfx"
-Offset_0x0ECEC6:  
+Offset_0x0ECEC6:
 		binclude  "sound\0x89.sfx"
-Offset_0x0ECF11:  
+Offset_0x0ECF11:
 		binclude  "sound\0x8A.sfx"
-Small_Bumper_Sfx_Data:                                         ; Offset_0x0ECF45  
+Small_Bumper_Sfx_Data:                                         ; Offset_0x0ECF45
 		binclude  "sound\0x8B.sfx"
-Offset_0x0ECF75:  
+Offset_0x0ECF75:
 		binclude  "sound\0x8C.sfx"
-Offset_0x0ECFA6:  
+Offset_0x0ECFA6:
 		binclude  "sound\0x8D.sfx"
-Offset_0x0ECFD3:  
+Offset_0x0ECFD3:
 		binclude  "sound\0x8E.sfx"
-Offset_0x0ECFE4:  
+Offset_0x0ECFE4:
 		binclude  "sound\0x8F.sfx"
-Offset_0x0ECFFC:  
+Offset_0x0ECFFC:
 		binclude  "sound\0x90.sfx"
-Frost_Puff_Sfx_Data:                                           ; Offset_0x0ED032  
+Frost_Puff_Sfx_Data:                                           ; Offset_0x0ED032
 		binclude  "sound\0x91.sfx"
-Ice_Spike_Sfx_Data:                                            ; Offset_0x0ED050  
+Ice_Spike_Sfx_Data:                                            ; Offset_0x0ED050
 		binclude  "sound\0x92.sfx"
-Offset_0x0ED07F:  
+Offset_0x0ED07F:
 		binclude  "sound\0x93.sfx"
-Offset_0x0ED0B2:  
+Offset_0x0ED0B2:
 		binclude  "sound\0x94.sfx"
-Tube_Launcher_Sfx_Data:                                        ; Offset_0x0ED0E4  
+Tube_Launcher_Sfx_Data:                                        ; Offset_0x0ED0E4
 		binclude  "sound\0x95.sfx"
-Offset_0x0ED12F:  
+Offset_0x0ED12F:
 		binclude  "sound\0x96.sfx"
-Bridge_Collapse_Sfx_Data:                                      ; Offset_0x0ED14D  
+Bridge_Collapse_Sfx_Data:                                      ; Offset_0x0ED14D
 		binclude  "sound\0x97.sfx"
-Offset_0x0ED199:  
+Offset_0x0ED199:
 		binclude  "sound\0x98.sfx"
-Offset_0x0ED1D1:  
+Offset_0x0ED1D1:
 		binclude  "sound\0x99.sfx"
-Offset_0x0ED1FE:  
+Offset_0x0ED1FE:
 		binclude  "sound\0x9A.sfx"
-Buzzer_Sfx_Data:                                               ; Offset_0x0ED22B  
+Buzzer_Sfx_Data:                                               ; Offset_0x0ED22B
 		binclude  "sound\0x9B.sfx"
-Offset_0x0ED258:  
+Offset_0x0ED258:
 		binclude  "sound\0x9C.sfx"
-Offset_0x0ED288:  
+Offset_0x0ED288:
 		binclude  "sound\0x9D.sfx"
-Offset_0x0ED2AE:  
+Offset_0x0ED2AE:
 		binclude  "sound\0x9E.sfx"
-Offset_0x0ED2D4:  
+Offset_0x0ED2D4:
 		binclude  "sound\0x9F.sfx"
-Offset_0x0ED30A:  
+Offset_0x0ED30A:
 		binclude  "sound\0xA0.sfx"
-Offset_0x0ED337:  
+Offset_0x0ED337:
 		binclude  "sound\0xA1.sfx"
-Offset_0x0ED344:  
+Offset_0x0ED344:
 		binclude  "sound\0xA2.sfx"
-Offset_0x0ED378:  
+Offset_0x0ED378:
 		binclude  "sound\0xA3.sfx"
-Offset_0x0ED3AE:  
+Offset_0x0ED3AE:
 		binclude  "sound\0xA4.sfx"
-Offset_0x0ED3E2:  
+Offset_0x0ED3E2:
 		binclude  "sound\0xA5.sfx"
-Offset_0x0ED413:  
+Offset_0x0ED413:
 		binclude  "sound\0xA6.sfx"
-Offset_0x0ED42D:  
+Offset_0x0ED42D:
 		binclude  "sound\0xA7.sfx"
-Offset_0x0ED45E:  
+Offset_0x0ED45E:
 		binclude  "sound\0xA8.sfx"
-Offset_0x0ED494:  
+Offset_0x0ED494:
 		binclude  "sound\0xA9.sfx"
-Door_Close_Sfx_Data:                                           ; Offset_0x0ED4C6  
+Door_Close_Sfx_Data:                                           ; Offset_0x0ED4C6
 		binclude  "sound\0xAA.sfx"
-Offset_0x0ED4FC:  
+Offset_0x0ED4FC:
 		binclude  "sound\0xAB.sfx"
-Offset_0x0ED530:  
+Offset_0x0ED530:
 		binclude  "sound\0xAC.sfx"
-Offset_0x0ED57A:  
+Offset_0x0ED57A:
 		binclude  "sound\0xAD.sfx"
-Offset_0x0ED5A9:  
+Offset_0x0ED5A9:
 		binclude  "sound\0xAE.sfx"
-Offset_0x0ED5DC:  
+Offset_0x0ED5DC:
 		binclude  "sound\0xAF.sfx"
-Slide_Thunk_Sfx_Data:                                          ; Offset_0x0ED60B  
+Slide_Thunk_Sfx_Data:                                          ; Offset_0x0ED60B
 		binclude  "sound\0xB0.sfx"
-Offset_0x0ED63F:  
+Offset_0x0ED63F:
 		binclude  "sound\0xB1.sfx"
-Offset_0x0ED652:  
+Offset_0x0ED652:
 		binclude  "sound\0xB2.sfx"
-Offset_0x0ED688:  
+Offset_0x0ED688:
 		binclude  "sound\0xB3.sfx"
-Offset_0x0ED6D4:  
+Offset_0x0ED6D4:
 		binclude  "sound\0xB4.sfx"
-Offset_0x0ED6EA:  
+Offset_0x0ED6EA:
 		binclude  "sound\0xB5.sfx"
-Offset_0x0ED720:  
+Offset_0x0ED720:
 		binclude  "sound\0xB6.sfx"
-Offset_0x0ED73F:  
+Offset_0x0ED73F:
 		binclude  "sound\0xB7.sfx"
-Offset_0x0ED7A4:  
+Offset_0x0ED7A4:
 		binclude  "sound\0xB8.sfx"
-Offset_0x0ED7DB:  
+Offset_0x0ED7DB:
 		binclude  "sound\0xB9.sfx"
-Offset_0x0ED80F:  
+Offset_0x0ED80F:
 		binclude  "sound\0xBA.sfx"
-Super_Form_Change_Sfx_Data:                                    ; Offset_0x0ED850  
+Super_Form_Change_Sfx_Data:                                    ; Offset_0x0ED850
 		binclude  "sound\0xBB.sfx"
-Offset_0x0ED88C:  
+Offset_0x0ED88C:
 		binclude  "sound\0xBC.sfx"
-Offset_0x0ED8BA:  
+Offset_0x0ED8BA:
 		binclude  "sound\0xBD.sfx"
-Offset_0x0ED8D2:  
+Offset_0x0ED8D2:
 		binclude  "sound\0xBE.sfx"
-Offset_0x0ED8FA:  
+Offset_0x0ED8FA:
 		binclude  "sound\0xBF.sfx"
-Offset_0x0ED927:  
+Offset_0x0ED927:
 		binclude  "sound\0xC0.sfx"
-Offset_0x0ED956:  
+Offset_0x0ED956:
 		binclude  "sound\0xC1.sfx"
-Offset_0x0ED98E:  
+Offset_0x0ED98E:
 		binclude  "sound\0xC2.sfx"
-Offset_0x0ED9BB:  
+Offset_0x0ED9BB:
 		binclude  "sound\0xC3.sfx"
-Offset_0x0ED9E8:  
+Offset_0x0ED9E8:
 		binclude  "sound\0xC4.sfx"
-Offset_0x0EDA15:  
+Offset_0x0EDA15:
 		binclude  "sound\0xC5.sfx"
-Offset_0x0EDA42:  
+Offset_0x0EDA42:
 		binclude  "sound\0xC6.sfx"
-Offset_0x0EDA6F:  
+Offset_0x0EDA6F:
 		binclude  "sound\0xC7.sfx"
-Offset_0x0EDA87:  
+Offset_0x0EDA87:
 		binclude  "sound\0xC8.sfx"
-Energy_Zap_Sfx_Data:                                           ; Offset_0x0EDAB7  
+Energy_Zap_Sfx_Data:                                           ; Offset_0x0EDAB7
 		binclude  "sound\0xC9.sfx"
-Offset_0x0EDAE1:  
+Offset_0x0EDAE1:
 		binclude  "sound\0xCA.sfx"
-Offset_0x0EDAF7:  
+Offset_0x0EDAF7:
 		binclude  "sound\0xCB.sfx"
-Offset_0x0EDB52:  
+Offset_0x0EDB52:
 		include  "sound\sfx\cc - spin dash.asm"
-Offset_0x0EDBA3:  
+Offset_0x0EDBA3:
 		binclude  "sound\0xCD.sfx"
-Check_Point_Sfx_Data:                                          ; Offset_0x0EDC15  
+Check_Point_Sfx_Data:                                          ; Offset_0x0EDC15
 		binclude  "sound\0xCE.sfx"
-Offset_0x0EDC3F:  
+Offset_0x0EDC3F:
 		binclude  "sound\0xCF.sfx"
-Special_Stage_Entry_Sfx_Data:                                  ; Offset_0x0EDC74  
+Special_Stage_Entry_Sfx_Data:                                  ; Offset_0x0EDC74
 		binclude  "sound\0xD0.sfx"
-Offset_0x0EDCA1:  
+Offset_0x0EDCA1:
 		binclude  "sound\0xD1.sfx"
-Spring_Sfx_Data:                                               ; Offset_0x0EDD1C  
+Spring_Sfx_Data:                                               ; Offset_0x0EDD1C
 		binclude  "sound\0xD2.sfx"
-Error_Sfx_Data:                                                ; Offset_0x0EDD71  
+Error_Sfx_Data:                                                ; Offset_0x0EDD71
 		binclude  "sound\0xD3.sfx"
-Offset_0x0EDD9D:  
+Offset_0x0EDD9D:
 		binclude  "sound\0xD4.sfx"
-Offset_0x0EDE17:  
+Offset_0x0EDE17:
 		binclude  "sound\0xD5.sfx"
-Offset_0x0EDE4B:  
+Offset_0x0EDE4B:
 		binclude  "sound\0xD6.sfx"
-Offset_0x0EDE73:  
+Offset_0x0EDE73:
 		binclude  "sound\0xD7.sfx"
-Offset_0x0EDEB4:  
+Offset_0x0EDEB4:
 		binclude  "sound\0xD8.sfx"
-Offset_0x0EDEDC:  
+Offset_0x0EDEDC:
 		binclude  "sound\0xD9.sfx"
 Offset_0x0EDF30:
 		binclude  "data\unknown\dummy5.dat"
@@ -44251,33 +44248,33 @@ DAC_99_Ptr      equ (DAC_99_Setup&$FFFF)|$8000
 DAC_9A_Ptr      equ (DAC_9A_Setup&$FFFF)|$8000
 DAC_9B_Ptr      equ (DAC_9B_Setup&$FFFF)|$8000
 
-DAC_81_Size           equ (DAC_81_Data_End-DAC_81_Data)  
-DAC_81_Data_Ptr       equ (DAC_81_Data&$FFFF)|$8000 
-DAC_82_To_85_Size     equ (DAC_82_To_85_Data_End-DAC_82_To_85_Data)  
-DAC_82_To_85_Data_Ptr equ (DAC_82_To_85_Data&$FFFF)|$8000 
-DAC_86_Size           equ (DAC_86_Data_End-DAC_86_Data)   
+DAC_81_Size           equ (DAC_81_Data_End-DAC_81_Data)
+DAC_81_Data_Ptr       equ (DAC_81_Data&$FFFF)|$8000
+DAC_82_To_85_Size     equ (DAC_82_To_85_Data_End-DAC_82_To_85_Data)
+DAC_82_To_85_Data_Ptr equ (DAC_82_To_85_Data&$FFFF)|$8000
+DAC_86_Size           equ (DAC_86_Data_End-DAC_86_Data)
 DAC_86_Data_Ptr       equ (DAC_86_Data&$FFFF)|$8000
-DAC_87_Size           equ (DAC_87_Data_End-DAC_87_Data)   
+DAC_87_Size           equ (DAC_87_Data_End-DAC_87_Data)
 DAC_87_Data_Ptr       equ (DAC_87_Data&$FFFF)|$8000
-DAC_88_Size           equ (DAC_88_Data_End-DAC_88_Data)   
+DAC_88_Size           equ (DAC_88_Data_End-DAC_88_Data)
 DAC_88_Data_Ptr       equ (DAC_88_Data&$FFFF)|$8000
-DAC_89_Size           equ (DAC_89_Data_End-DAC_89_Data)   
+DAC_89_Size           equ (DAC_89_Data_End-DAC_89_Data)
 DAC_89_Data_Ptr       equ (DAC_89_Data&$FFFF)|$8000
-DAC_8A_To_8B_Size     equ (DAC_8A_To_8B_Data_End-DAC_8A_To_8B_Data)  
-DAC_8A_To_8B_Data_Ptr equ (DAC_8A_To_8B_Data&$FFFF)|$8000 
-DAC_8C_Size           equ (DAC_8C_Data_End-DAC_8C_Data)   
+DAC_8A_To_8B_Size     equ (DAC_8A_To_8B_Data_End-DAC_8A_To_8B_Data)
+DAC_8A_To_8B_Data_Ptr equ (DAC_8A_To_8B_Data&$FFFF)|$8000
+DAC_8C_Size           equ (DAC_8C_Data_End-DAC_8C_Data)
 DAC_8C_Data_Ptr       equ (DAC_8C_Data&$FFFF)|$8000
-DAC_8D_To_8E_Size     equ (DAC_8D_To_8E_Data_End-DAC_8D_To_8E_Data)  
-DAC_8D_To_8E_Data_Ptr equ (DAC_8D_To_8E_Data&$FFFF)|$8000 
-DAC_8F_Size           equ (DAC_8F_Data_End-DAC_8F_Data)   
+DAC_8D_To_8E_Size     equ (DAC_8D_To_8E_Data_End-DAC_8D_To_8E_Data)
+DAC_8D_To_8E_Data_Ptr equ (DAC_8D_To_8E_Data&$FFFF)|$8000
+DAC_8F_Size           equ (DAC_8F_Data_End-DAC_8F_Data)
 DAC_8F_Data_Ptr       equ (DAC_8F_Data&$FFFF)|$8000
-DAC_90_To_93_Size     equ (DAC_90_To_93_Data_End-DAC_90_To_93_Data)  
-DAC_90_To_93_Data_Ptr equ (DAC_90_To_93_Data&$FFFF)|$8000 
-DAC_94_To_97_Size     equ (DAC_94_To_97_Data_End-DAC_94_To_97_Data)  
-DAC_94_To_97_Data_Ptr equ (DAC_94_To_97_Data&$FFFF)|$8000 
-DAC_98_To_9A_Size     equ (DAC_98_To_9A_Data_End-DAC_98_To_9A_Data)  
-DAC_98_To_9A_Data_Ptr equ (DAC_98_To_9A_Data&$FFFF)|$8000 
-DAC_9B_Size           equ (DAC_9B_Data_End-DAC_9B_Data)   
+DAC_90_To_93_Size     equ (DAC_90_To_93_Data_End-DAC_90_To_93_Data)
+DAC_90_To_93_Data_Ptr equ (DAC_90_To_93_Data&$FFFF)|$8000
+DAC_94_To_97_Size     equ (DAC_94_To_97_Data_End-DAC_94_To_97_Data)
+DAC_94_To_97_Data_Ptr equ (DAC_94_To_97_Data&$FFFF)|$8000
+DAC_98_To_9A_Size     equ (DAC_98_To_9A_Data_End-DAC_98_To_9A_Data)
+DAC_98_To_9A_Data_Ptr equ (DAC_98_To_9A_Data&$FFFF)|$8000
+DAC_9B_Size           equ (DAC_9B_Data_End-DAC_9B_Data)
 DAC_9B_Data_Ptr       equ (DAC_9B_Data&$FFFF)|$8000
 
 DAC_Table:                                                     ; Offset_0x0F0000
@@ -44312,7 +44309,7 @@ DACBank:	startBank
 DAC_81_Setup:                                                  ; Offset_0x0F0036
 		dc.b	$04
 		dc.w	(((DAC_81_Size>>$08)|(DAC_81_Size<<$08))&$FFFF)         ; $0790
-		dc.w	(((DAC_81_Data_Ptr>>$08)|(DAC_81_Data_Ptr<<$08))&$FFFF) ; $83BD                
+		dc.w	(((DAC_81_Data_Ptr>>$08)|(DAC_81_Data_Ptr<<$08))&$FFFF) ; $83BD
 DAC_82_Setup:                                                  ; Offset_0x0F003B
 		dc.b	$0E
 		dc.w	(((DAC_82_To_85_Size>>$08)|(DAC_82_To_85_Size<<$08))&$FFFF)         ; $04C0
@@ -44332,10 +44329,10 @@ DAC_85_Setup:                                                  ; Offset_0x0F004A
 DAC_86_Setup:                                                  ; Offset_0x0F004F
 		dc.b	$04
 		dc.w	(((DAC_86_Size>>$08)|(DAC_86_Size<<$08))&$FFFF)         ; $0300
-		dc.w	(((DAC_86_Data_Ptr>>$08)|(DAC_86_Data_Ptr<<$08))&$FFFF) ; $80BD 
+		dc.w	(((DAC_86_Data_Ptr>>$08)|(DAC_86_Data_Ptr<<$08))&$FFFF) ; $80BD
 DAC_87_Setup:                                                  ; Offset_0x0F0054
 		dc.b	$04
-		dc.w	(((DAC_87_Size>>$08)|(DAC_87_Size<<$08))&$FFFF)         ; $0740 
+		dc.w	(((DAC_87_Size>>$08)|(DAC_87_Size<<$08))&$FFFF)         ; $0740
 		dc.w	(((DAC_87_Data_Ptr>>$08)|(DAC_87_Data_Ptr<<$08))&$FFFF) ; $B8D8
 DAC_88_Setup:                                                  ; Offset_0x0F0059
 		dc.b	$06
@@ -44343,7 +44340,7 @@ DAC_88_Setup:                                                  ; Offset_0x0F0059
 		dc.w	(((DAC_88_Data_Ptr>>$08)|(DAC_88_Data_Ptr<<$08))&$FFFF) ; $9FED
 DAC_89_Setup:                                                  ; Offset_0x0F005E
 		dc.b	$0A
-		dc.w	(((DAC_89_Size>>$08)|(DAC_89_Size<<$08))&$FFFF)         ; $0A20 
+		dc.w	(((DAC_89_Size>>$08)|(DAC_89_Size<<$08))&$FFFF)         ; $0A20
 		dc.w	(((DAC_89_Data_Ptr>>$08)|(DAC_89_Data_Ptr<<$08))&$FFFF) ; $C528
 DAC_8A_Setup:                                                  ; Offset_0x0F0063
 		dc.b	$14
@@ -44367,7 +44364,7 @@ DAC_8E_Setup:                                                  ; Offset_0x0F0077
 		dc.w	(((DAC_8D_To_8E_Data_Ptr>>$08)|(DAC_8D_To_8E_Data_Ptr<<$08))&$FFFF) ; $B408
 DAC_8F_Setup:                                                  ; Offset_0x0F007C
 		dc.b	$08
-		dc.w	(((DAC_8F_Size>>$08)|(DAC_8F_Size<<$08))&$FFFF)         ; $0510 
+		dc.w	(((DAC_8F_Size>>$08)|(DAC_8F_Size<<$08))&$FFFF)         ; $0510
 		dc.w	(((DAC_8F_Data_Ptr>>$08)|(DAC_8F_Data_Ptr<<$08))&$FFFF) ; $C018
 DAC_90_Setup:                                                  ; Offset_0x0F0081
 		dc.b	$03
@@ -44415,48 +44412,48 @@ DAC_9A_Setup:                                                  ; Offset_0x0F00B3
 		dc.w	(((DAC_98_To_9A_Data_Ptr>>$08)|(DAC_98_To_9A_Data_Ptr<<$08))&$FFFF) ; $CF48
 DAC_9B_Setup:                                                  ; Offset_0x0F00B8
 		dc.b	$12
-		dc.w	(((DAC_9B_Size>>$08)|(DAC_9B_Size<<$08))&$FFFF)         ; $169D  
+		dc.w	(((DAC_9B_Size>>$08)|(DAC_9B_Size<<$08))&$FFFF)         ; $169D
 		dc.w	(((DAC_9B_Data_Ptr>>$08)|(DAC_9B_Data_Ptr<<$08))&$FFFF) ; $DC67
 ;-------------------------------------------------------------------------------
 DAC_86_Data:                                                   ; Offset_0x0F00BD
 		binclude  "sound\dacs\dac_86.bin"
-DAC_86_Data_End:                  
-;-------------------------------------------------------------------------------                          
+DAC_86_Data_End:
+;-------------------------------------------------------------------------------
 DAC_81_Data:                                                   ; Offset_0x0F03BD
 		binclude  "sound\dacs\dac_81.bin"
-DAC_81_Data_End:  
+DAC_81_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_82_To_85_Data:                                             ; Offset_0x0F0B4D
 		binclude  "sound\dacs\dac82-85.bin"
-DAC_82_To_85_Data_End:  
+DAC_82_To_85_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_94_To_97_Data:                                             ; Offset_0x0F100D
 		binclude  "sound\dacs\dac94-97.bin"
-DAC_94_To_97_Data_End: 
+DAC_94_To_97_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_90_To_93_Data:                                             ; Offset_0x0F199D
 		binclude  "sound\dacs\dac90-93.bin"
-DAC_90_To_93_Data_End:       
+DAC_90_To_93_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_88_Data:                                                   ; Offset_0x0F1FED
 		binclude  "sound\dacs\dac_88.bin"
-DAC_88_Data_End:  
+DAC_88_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8A_To_8B_Data:                                             ; Offset_0x0F323D
 		binclude  "sound\dacs\dac8A-8B.bin"
-DAC_8A_To_8B_Data_End:     
+DAC_8A_To_8B_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8C_Data:                                                   ; Offset_0x0F339D
 		binclude  "sound\dacs\dac_8C.bin"
-DAC_8C_Data_End:   
+DAC_8C_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8D_To_8E_Data:                                             ; Offset_0x0F3408
 		binclude  "sound\dacs\dac8D-8E.bin"
-DAC_8D_To_8E_Data_End:                    
+DAC_8D_To_8E_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_87_Data:                                                   ; Offset_0x0F38D8
 		binclude  "sound\dacs\dac_87.bin"
-DAC_87_Data_End:   
+DAC_87_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8F_Data:                                                   ; Offset_0x0F4018
 		binclude  "sound\dacs\dac_8F.bin"
@@ -44468,7 +44465,7 @@ DAC_89_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_98_To_9A_Data:                                             ; Offset_0x0F4F48
 		binclude  "sound\dacs\dac98-9A.bin"
-DAC_98_To_9A_Data_End:  
+DAC_98_To_9A_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_9B_Data:                                                   ; Offset_0x0F5C67
 		binclude  "sound\dacs\dac_9B.bin"
@@ -44485,9 +44482,9 @@ SEGA_PCM_Data_End:
 		binclude  "data\leftover2.bin"
 	finishBank
 ;===============================================================================
-; Mapeamento dos Sprites do Sonic      
+; Mapeamento dos Sprites do Sonic
 ; ->>>
-;===============================================================================                
+;===============================================================================
 ; Offset_100000:
 Sonic_Mappings:		include	"data/mappings/Sonic.asm"
 
@@ -44495,7 +44492,7 @@ Sonic_Mappings:		include	"data/mappings/Sonic.asm"
 Sonic_Dyn_Script:	include	"data/mappings/Sonic DPLC.asm"
 
 ;===============================================================================
-; Script para carga dos Sprites do Sonic      
+; Script para carga dos Sprites do Sonic
 ; <<<-
 ;===============================================================================
 Miles_Mappings:                                                ; Offset_0x101FF4
@@ -45183,7 +45180,7 @@ Offset_0x10285E:
 		dc.w	$0001
 		dc.w	$FD09, $0000, $FFE3
 ;===============================================================================
-; Script para carga dos Sprites do Miles      
+; Script para carga dos Sprites do Miles
 ; ->>>
 ;===============================================================================
 Miles_Dyn_Script:                                              ; Offset_0x102866
@@ -45704,7 +45701,7 @@ Offset_0x102C6A:
 		dc.w	$0002
 		dc.w	$55A8, $75B6
 ;===============================================================================
-; Script para carga dos Sprites do Miles      
+; Script para carga dos Sprites do Miles
 ; <<<-
 ;===============================================================================
 Sonic_Mappings_2P:                                             ; Offset_0x102C70
@@ -45880,7 +45877,7 @@ Offset_0x102E0A:
 Offset_0x102E12:
 		dc.w	$0001
 		dc.w	$FC09, $0000, $FFF4
-;-------------------------------------------------------------------------------               
+;-------------------------------------------------------------------------------
 Sonic_Dyn_Script_2P:                                           ; Offset_0x102E1A
 		dc.w	Offset_0x102E72-Sonic_Dyn_Script_2P
 		dc.w	Offset_0x102E74-Sonic_Dyn_Script_2P
@@ -46053,9 +46050,9 @@ Offset_0x102F14:
 		dc.w	$8177
 Offset_0x102F18:
 		dc.w	$0001
-		dc.w	$5180                
+		dc.w	$5180
 ;-------------------------------------------------------------------------------
-Miles_2P_Mappings:                                             ; Offset_0x102F1C  
+Miles_2P_Mappings:                                             ; Offset_0x102F1C
 		dc.w	Offset_0x102F78-Miles_2P_Mappings
 		dc.w	Offset_0x102F7A-Miles_2P_Mappings
 		dc.w	Offset_0x102F82-Miles_2P_Mappings
@@ -46235,7 +46232,7 @@ Offset_0x1030CA:
 		dc.w	$F40A, $0000, $FFF4
 Offset_0x1030D2:
 		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4   
+		dc.w	$F40A, $0000, $FFF4
 ;-------------------------------------------------------------------------------
 Miles_Tails_2P_Mappings:                                       ; Offset_0x1030DA
 		dc.w	Offset_0x1030FA-Miles_Tails_2P_Mappings
@@ -46300,9 +46297,9 @@ Offset_0x103164:
 		dc.w	$0405, $0000, $0004
 Offset_0x10316C:
 		dc.w	$0001
-		dc.w	$0401, $0000, $0008                            
+		dc.w	$0401, $0000, $0008
 ;-------------------------------------------------------------------------------
-Miles_Dyn_Script_2P:                                           ; Offset_0x103174 
+Miles_Dyn_Script_2P:                                           ; Offset_0x103174
 		dc.w	Offset_0x1031D0-Miles_Dyn_Script_2P
 		dc.w	Offset_0x1031D2-Miles_Dyn_Script_2P
 		dc.w	Offset_0x1031D6-Miles_Dyn_Script_2P
@@ -46482,7 +46479,7 @@ Offset_0x10327A:
 		dc.w	$8157
 Offset_0x10327E:
 		dc.w	$0001
-		dc.w	$8160  
+		dc.w	$8160
 ;-------------------------------------------------------------------------------
 Miles_Tails_2P_Dyn_Script:                                     ; Offset_0x103282
 		dc.w	Offset_0x1032A2-Miles_Tails_2P_Dyn_Script
@@ -46749,7 +46746,7 @@ Offset_0x1034BE:
 Offset_0x1034C6:
 		dc.w	$0001
 		dc.w	$F00B, $0000, $FFF4
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 Knuckles_Dyn_Script_2P:                                        ; Offset_0x1034CE
 		dc.w	Offset_0x103532-Knuckles_Dyn_Script_2P
 		dc.w	Offset_0x103534-Knuckles_Dyn_Script_2P
@@ -46950,7 +46947,7 @@ Offset_0x1035F0:
 Offset_0x1035F4:
 		dc.w	$0001
 		dc.w	$B194
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Art_Intro_Water_Waves:                                         ; Offset_0x1035F8
 		binclude  "data\aiz\wtrwaves.nem"
 Art_Intro_Small_Water_Waves:                                   ; Offset_0x103B38
@@ -47053,8 +47050,8 @@ Special_Stage_Globe_Mappings:                                  ; Offset_0x10BFEE
 		binclude  "data\ss_test\globe.dat"
 Art_Special_Stage_Globe:                                       ; Offset_0x10C8AE
 		binclude  "data\ss_test\globe.nem"
-;-------------------------------------------------------------------------------   
-Robotnik_Ship_Mappings:                                        ; Offset_0x10D020  
+;-------------------------------------------------------------------------------
+Robotnik_Ship_Mappings:                                        ; Offset_0x10D020
 		dc.w	Offset_0x10D03A-Robotnik_Ship_Mappings
 		dc.w	Offset_0x10D042-Robotnik_Ship_Mappings
 		dc.w	Offset_0x10D04A-Robotnik_Ship_Mappings
@@ -47146,8 +47143,8 @@ Offset_0x10D16C:
 		dc.w	$D405, $0843, $0000
 		dc.w	$DC01, $0847, $0010
 		dc.w	$DA00, $004B, $FFFE
-		dc.w	$E404, $0049, $FFEC 
-;-------------------------------------------------------------------------------   
+		dc.w	$E404, $0049, $FFEC
+;-------------------------------------------------------------------------------
 Ball_Shooter_Mappings:                                         ; Offset_0x10D192
 		dc.w	Offset_0x10D1A0-Ball_Shooter_Mappings
 		dc.w	Offset_0x10D1C0-Ball_Shooter_Mappings
@@ -47201,7 +47198,7 @@ Offset_0x10D248:
 		dc.w	$1005, $002B, $FFE8
 		dc.w	$0005, $002F, $FFF0
 		dc.w	$0007, $0033, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 FBz_Robotnik_Head_Mappings:                                    ; Offset_0x10D268
 		dc.w	Offset_0x10D270-FBz_Robotnik_Head_Mappings
 		dc.w	Offset_0x10D278-FBz_Robotnik_Head_Mappings
@@ -47218,8 +47215,8 @@ Offset_0x10D280:
 		dc.w	$F80D, $0010, $FFF0
 Offset_0x10D288:
 		dc.w	$0001
-		dc.w	$F80D, $0018, $FFF0  
-;------------------------------------------------------------------------------- 
+		dc.w	$F80D, $0018, $FFF0
+;-------------------------------------------------------------------------------
 Twin_Hammer_Mappings:                                          ; Offset_0x10D290
 		dc.w	Offset_0x10D2A2-Twin_Hammer_Mappings
 		dc.w	Offset_0x10D2B0-Twin_Hammer_Mappings
@@ -47268,8 +47265,8 @@ Offset_0x10D322:
 		dc.w	$F805, $0022, $FFF8
 Offset_0x10D32A:
 		dc.w	$0001
-		dc.w	$F805, $0026, $FFF8 
-;-------------------------------------------------------------------------------   
+		dc.w	$F805, $0026, $FFF8
+;-------------------------------------------------------------------------------
 Twin_Hammer_Box_Mappings:                                      ; Offset_0x10D332
 		dc.w	Offset_0x10D34A-Twin_Hammer_Box_Mappings
 		dc.w	Offset_0x10D358-Twin_Hammer_Box_Mappings
@@ -47323,8 +47320,8 @@ Offset_0x10D3B8:
 		dc.w	$FC00, $004B, $FFF8
 Offset_0x10D3C0:
 		dc.w	$0001
-		dc.w	$FC00, $004D, $FFF8                
-;-------------------------------------------------------------------------------  
+		dc.w	$FC00, $004D, $FFF8
+;-------------------------------------------------------------------------------
 Snale_Blaster_Mappings:                                        ; Offset_0x10D3C8
 		dc.w	Offset_0x10D3DE-Snale_Blaster_Mappings
 		dc.w	Offset_0x10D3F2-Snale_Blaster_Mappings
@@ -47379,8 +47376,8 @@ Offset_0x10D462:
 		dc.w	$FC00, $0020, $FFFC
 Offset_0x10D46A:
 		dc.w	$0001
-		dc.w	$0000, $FADC, $0000 
-;------------------------------------------------------------------------------- 
+		dc.w	$0000, $FADC, $0000
+;-------------------------------------------------------------------------------
 Orbinaut_Mappings:                                             ; Offset_0x10D472
 		dc.w	Offset_0x10D476-Orbinaut_Mappings
 		dc.w	Offset_0x10D47E-Orbinaut_Mappings
@@ -47389,8 +47386,8 @@ Offset_0x10D476:
 		dc.w	$F805, $0000, $FFF8
 Offset_0x10D47E:
 		dc.w	$0001
-		dc.w	$F805, $0004, $FFF8 
-;-------------------------------------------------------------------------------  
+		dc.w	$F805, $0004, $FFF8
+;-------------------------------------------------------------------------------
 Ribot_Mappings:                                                ; Offset_0x10D486
 		dc.w	Offset_0x10D496-Ribot_Mappings
 		dc.w	Offset_0x10D4BC-Ribot_Mappings
@@ -47455,7 +47452,7 @@ Offset_0x10D582:
 		dc.w	$0002
 		dc.w	$F801, $000D, $FFF8
 		dc.w	$F801, $080D, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Corkey_Mappings:                                               ; Offset_0x10D590
 		dc.w	Offset_0x10D5A0-Corkey_Mappings
 		dc.w	Offset_0x10D5AE-Corkey_Mappings
@@ -47502,7 +47499,7 @@ Offset_0x10D606:
 Offset_0x10D626:
 		dc.w	$0001
 		dc.w	$0000, $FAA8, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Flybot_767_Mappings:                                           ; Offset_0x10D62E
 		dc.w	Offset_0x10D658-Flybot_767_Mappings
 		dc.w	Offset_0x10D66C-Flybot_767_Mappings
@@ -47620,7 +47617,7 @@ Offset_0x10D7AC:
 		dc.w	$F800, $0000, $FFF0
 		dc.w	$F80A, $0001, $FFF8
 		dc.w	$1000, $000A, $0008
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Flybot_767_Dyn_Script:                                         ; Offset_0x10D7C0
 		dc.w	Offset_0x10D7EA-Flybot_767_Dyn_Script
 		dc.w	Offset_0x10D7F0-Flybot_767_Dyn_Script
@@ -47706,7 +47703,7 @@ Offset_0x10D85C:
 Offset_0x10D862:
 		dc.w	$0002
 		dc.w	$08E0, $08F8, $0980
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Knuckles_LBz_Pillar_Mappings:                                  ; Offset_0x10D86A
 		dc.w	Offset_0x10D888-Knuckles_LBz_Pillar_Mappings
 		dc.w	Offset_0x10D8AE-Knuckles_LBz_Pillar_Mappings
@@ -47788,8 +47785,8 @@ Offset_0x10D968:
 Offset_0x10D970:
 		dc.w	$0002
 		dc.w	$F801, $0031, $FFF8
-		dc.w	$F801, $0831, $0000                 
-;-------------------------------------------------------------------------------  
+		dc.w	$F801, $0831, $0000
+;-------------------------------------------------------------------------------
 Graviton_Mobile_Mappings:                                      ; Offset_0x10D97E
 		dc.w	Offset_0x10D998-Graviton_Mobile_Mappings
 		dc.w	Offset_0x10D9BE-Graviton_Mobile_Mappings
@@ -47870,7 +47867,7 @@ Offset_0x10DA8E:
 		dc.w	$EC0F, $0800, $FFEC
 		dc.w	$F402, $0810, $000C
 		dc.w	$0C08, $0813, $FFEC
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Graviton_Mobile_Magnetic_Angle_X_Lookup_Data:                  ; Offset_0x10DAA2
 		dc.b	$00, $01, $02, $03, $04, $05, $06, $08
 		dc.b	$09, $0A, $0B, $0C, $0D, $0E, $0F, $10
@@ -47879,8 +47876,8 @@ Graviton_Mobile_Magnetic_Angle_X_Lookup_Data:                  ; Offset_0x10DAA2
 		dc.b	$1F, $20, $21, $21, $22, $23, $23, $24
 		dc.b	$25, $25, $26, $26, $27, $27, $28, $28
 		dc.b	$29, $29, $29, $2A, $2A, $2A, $2B, $2B
-		dc.b	$2B, $2B, $2C, $2C, $2C, $2C, $2C, $2C 
-;-------------------------------------------------------------------------------  
+		dc.b	$2B, $2B, $2C, $2C, $2C, $2C, $2C, $2C
+;-------------------------------------------------------------------------------
 Gapsule_Mappings:                                              ; Offset_0x10DAE2
 		dc.w	Offset_0x10DB06-Gapsule_Mappings
 		dc.w	Offset_0x10DB20-Gapsule_Mappings
@@ -48010,7 +48007,7 @@ Offset_0x10DCD8:
 		dc.w	$0002
 		dc.w	$F805, $004C, $FFF0
 		dc.w	$F805, $084C, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Unreferenced_Mappings:                                         ; Offset_0x10DCE6
 		dc.w	Offset_0x10DCF6-Unreferenced_Mappings
 		dc.w	Offset_0x10DD1C-Unreferenced_Mappings
@@ -48051,7 +48048,7 @@ Offset_0x10DD5A:
 Offset_0x10DD62:
 		dc.w	$0001
 		dc.w	$F801, $0004, $FFFC
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Blastoid_Mappings:                                             ; Offset_0x10DD6A
 		dc.w	Offset_0x10DD72-Blastoid_Mappings
 		dc.w	Offset_0x10DD86-Blastoid_Mappings
@@ -48073,7 +48070,7 @@ Offset_0x10DD9A:
 Offset_0x10DDA2:
 		dc.w	$0001
 		dc.w	$FC00, $0013, $FFFC
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Toxomister_Mappings:                                           ; Offset_0x10DDAA
 		dc.w	Offset_0x10DDBA-Toxomister_Mappings
 		dc.w	Offset_0x10DDC2-Toxomister_Mappings
@@ -48110,7 +48107,7 @@ Offset_0x10DDFC:
 Offset_0x10DE04:
 		dc.w	$0001
 		dc.w	$F805, $0014, $FFF8
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Pointdexter_Mappings:                                          ; Offset_0x10DE0C
 		dc.w	Offset_0x10DE12-Pointdexter_Mappings
 		dc.w	Offset_0x10DE26-Pointdexter_Mappings
@@ -48130,7 +48127,7 @@ Offset_0x10DE3A:
 		dc.w	$F801, $0000, $FFEC
 		dc.w	$F00B, $0013, $FFF4
 		dc.w	$F801, $0008, $000C
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Buggernaut_Mappings:                                           ; Offset_0x10DE4E
 		dc.w	Offset_0x10DE5A-Buggernaut_Mappings
 		dc.w	Offset_0x10DE62-Buggernaut_Mappings
@@ -48163,8 +48160,8 @@ Offset_0x10DEA6:
 		dc.w	$0003
 		dc.w	$FC04, $0006, $FFF8
 		dc.w	$FD00, $0008, $0000
-		dc.w	$FD00, $0008, $FFF4  
-;-------------------------------------------------------------------------------  
+		dc.w	$FD00, $0008, $FFF4
+;-------------------------------------------------------------------------------
 Mega_Chopper_Mappings:                                         ; Offset_0x10DEBA
 		dc.w	Offset_0x10DEC2-Mega_Chopper_Mappings
 		dc.w	Offset_0x10DED0-Mega_Chopper_Mappings
@@ -48186,7 +48183,7 @@ Offset_0x10DEEC:
 		dc.w	$0002
 		dc.w	$F805, $0004, $FFF4
 		dc.w	$F801, $000A, $0004
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Dragonfly_Mappings:                                            ; Offset_0x10DEFA
 		dc.w	Offset_0x10DF0E-Dragonfly_Mappings
 		dc.w	Offset_0x10DF28-Dragonfly_Mappings
@@ -48245,7 +48242,7 @@ Offset_0x10DFAE:
 Offset_0x10DFBC:
 		dc.w	$0001
 		dc.w	$0000, $FA93, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Cluckoid_Dyn_Script:                                           ; Offset_0x10DFC4
 		dc.w	Offset_0x10DFE0-Cluckoid_Dyn_Script
 		dc.w	Offset_0x10DFE8-Cluckoid_Dyn_Script
@@ -48303,14 +48300,14 @@ Offset_0x10E034:
 Offset_0x10E03A:
 		dc.w	$0002
 		dc.w	$0A98, $00B1, $0091
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Cluckoid_Arrow_Mappings:                                       ; Offset_0x10E042
 		dc.w	Offset_0x10E044-Cluckoid_Arrow_Mappings
 Offset_0x10E044:
 		dc.w	$0002
 		dc.w	$F40C, $0000, $FFF0
 		dc.w	$FC01, $0004, $FFF8
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Cluckoid_Mappings:                                             ; Offset_0x10E052
 		dc.w	Offset_0x10E06E-Cluckoid_Mappings
 		dc.w	Offset_0x10E082-Cluckoid_Mappings
@@ -48388,8 +48385,8 @@ Offset_0x10E148:
 		dc.w	$0003
 		dc.w	$F00A, $0000, $FFF0
 		dc.w	$0804, $0009, $FFF8
-		dc.w	$F801, $000B, $0008 
-;------------------------------------------------------------------------------- 
+		dc.w	$F801, $000B, $0008
+;-------------------------------------------------------------------------------
 Butterdroid_Mappings:                                          ; Offset_0x10E15C
 		dc.w	Offset_0x10E166-Butterdroid_Mappings
 		dc.w	Offset_0x10E16E-Butterdroid_Mappings
@@ -48432,7 +48429,7 @@ Offset_0x10E1A4:
 		dc.w	$01A7
 Offset_0x10E1A8:
 		dc.w	$0000
-		dc.w	$0228                                                                            
+		dc.w	$0228
 ;-------------------------------------------------------------------------------
 Turbo_Spiker_Mappings:                                         ; Offset_0x10E1AC
 		dc.w	Offset_0x10E1C8-Turbo_Spiker_Mappings
@@ -48500,8 +48497,8 @@ Offset_0x10E264:
 		dc.w	$FC04, $0037, $FFF8
 Offset_0x10E26C:
 		dc.w	$0001
-		dc.w	$FC04, $0837, $FFF8  
-;-------------------------------------------------------------------------------   
+		dc.w	$FC04, $0837, $FFF8
+;-------------------------------------------------------------------------------
 Fireworm_Segments_Mappings:                                    ; Offset_0x10E274
 		dc.w	Offset_0x10E2B4-Fireworm_Segments_Mappings
 		dc.w	Offset_0x10E284-Fireworm_Segments_Mappings
@@ -48552,8 +48549,8 @@ Offset_0x10E2D4:
 		dc.w	$00A8
 Offset_0x10E2D8:
 		dc.w	$0000
-		dc.w	$0138  
-;------------------------------------------------------------------------------- 
+		dc.w	$0138
+;-------------------------------------------------------------------------------
 Fireworm_Mappings:                                             ; Offset_0x10E2DC
 		dc.w	Offset_0x10E2E4-Fireworm_Mappings
 		dc.w	Offset_0x10E2EC-Fireworm_Mappings
@@ -48571,7 +48568,7 @@ Offset_0x10E2F4:
 Offset_0x10E2FC:
 		dc.w	$0001
 		dc.w	$F40A, $0000, $FFF4
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Jawz_Mappings:                                                 ; Offset_0x10E304
 		dc.w	Offset_0x10E308-Jawz_Mappings
 		dc.w	Offset_0x10E31C-Jawz_Mappings
@@ -48585,7 +48582,7 @@ Offset_0x10E31C:
 		dc.w	$FC0D, $0000, $FFE8
 		dc.w	$F406, $0008, $0008
 		dc.w	$F402, $0011, $0018
-;-------------------------------------------------------------------------------   
+;-------------------------------------------------------------------------------
 Mushmeanie_Mappings:                                           ; Offset_0x10E330
 		dc.w	Offset_0x10E338-Mushmeanie_Mappings
 		dc.w	Offset_0x10E340-Mushmeanie_Mappings
@@ -48606,7 +48603,7 @@ Offset_0x10E35C:
 		dc.w	$0002
 		dc.w	$F805, $0006, $FFF8
 		dc.w	$0501, $000D, $FFFC
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Madmole_Mappings:                                              ; Offset_0x10E36A
 		dc.w	Offset_0x10E386-Madmole_Mappings
 		dc.w	Offset_0x10E3A6-Madmole_Mappings
@@ -48684,7 +48681,7 @@ Offset_0x10E460:
 		dc.w	$0002
 		dc.w	$FC08, $2025, $FFE8
 		dc.w	$FC08, $2825, $0000
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Iwamodock_Mappings:                                            ; Offset_0x10E46E
 		dc.w	Offset_0x10E482-Iwamodock_Mappings
 		dc.w	Offset_0x10E48A-Iwamodock_Mappings
@@ -48770,7 +48767,7 @@ Offset_0x10E540:
 Offset_0x10E544:
 		dc.w	$0000
 		dc.w	$0522
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Rhinobot_Mappings:                                             ; Offset_0x10E548
 		dc.w	Offset_0x10E558-Rhinobot_Mappings
 		dc.w	Offset_0x10E56C-Rhinobot_Mappings
@@ -48816,7 +48813,7 @@ Offset_0x10E5AE:
 		dc.w	Offset_0x10E5E4-Boss_Explosion_Mappings
 		dc.w	Offset_0x10E5EC-Boss_Explosion_Mappings
 		dc.w	Offset_0x10E5F4-Boss_Explosion_Mappings
-Boss_Explosion_Mappings:                                       ; Offset_0x10E5C0  
+Boss_Explosion_Mappings:                                       ; Offset_0x10E5C0
 		dc.w	Offset_0x10E5CC-Boss_Explosion_Mappings
 		dc.w	Offset_0x10E5D4-Boss_Explosion_Mappings
 		dc.w	Offset_0x10E5DC-Boss_Explosion_Mappings
@@ -48840,9 +48837,9 @@ Offset_0x10E5EC:
 		dc.w	$F30A, $001F, $FFF4
 Offset_0x10E5F4:
 		dc.w	$0001
-		dc.w	$F609, $0028, $FFF4        
+		dc.w	$F609, $0028, $FFF4
 ;-------------------------------------------------------------------------------
-Fire_Breath_Flame_Mappings:                                    ; Offset_0x10E5FC      
+Fire_Breath_Flame_Mappings:                                    ; Offset_0x10E5FC
 		dc.w	Offset_0x10E606-Fire_Breath_Flame_Mappings
 		dc.w	Offset_0x10E60E-Fire_Breath_Flame_Mappings
 		dc.w	Offset_0x10E616-Fire_Breath_Flame_Mappings
@@ -48862,8 +48859,8 @@ Offset_0x10E61E:
 		dc.w	$F00F, $0030, $FFF0
 Offset_0x10E626:
 		dc.w	$0001
-		dc.w	$EB0F, $0040, $FFF0     
-;------------------------------------------------------------------------------- 
+		dc.w	$EB0F, $0040, $FFF0
+;-------------------------------------------------------------------------------
 Hang_Mobile_Flame_Mappings:                                    ; Offset_0x10E62E
 		dc.w	Offset_0x10E638-Hang_Mobile_Flame_Mappings
 		dc.w	Offset_0x10E640-Hang_Mobile_Flame_Mappings
@@ -48884,8 +48881,8 @@ Offset_0x10E650:
 		dc.w	$EC0E, $002C, $FFF0
 Offset_0x10E658:
 		dc.w	$0001
-		dc.w	$EC0E, $0038, $FFF0                  
-;-------------------------------------------------------------------------------  
+		dc.w	$EC0E, $0038, $FFF0
+;-------------------------------------------------------------------------------
 Bloominator_Mappings:                                          ; Offset_0x10E660
 		dc.w	Offset_0x10E66A-Bloominator_Mappings
 		dc.w	Offset_0x10E690-Bloominator_Mappings
@@ -48928,8 +48925,8 @@ Offset_0x10E6E8:
 		dc.w	$0800, $0800, $0010
 Offset_0x10E70E:
 		dc.w	$0001
-		dc.w	$F805, $001A, $FFF8  
-;-------------------------------------------------------------------------------  
+		dc.w	$F805, $001A, $FFF8
+;-------------------------------------------------------------------------------
 Monkey_Dude_Mappings:                                          ; Offset_0x10E716
 		dc.w	Offset_0x10E724-Monkey_Dude_Mappings
 		dc.w	Offset_0x10E73E-Monkey_Dude_Mappings
@@ -48967,8 +48964,8 @@ Offset_0x10E782:
 		dc.w	$FC00, $0012, $FFFC
 Offset_0x10E78A:
 		dc.w	$0001
-		dc.w	$F805, $0013, $FFF8 
-;-------------------------------------------------------------------------------  
+		dc.w	$F805, $0013, $FFF8
+;-------------------------------------------------------------------------------
 Guardian_Mappings:                                             ; Offset_0x10E792
 		dc.w	Offset_0x10E7C8-Guardian_Mappings
 		dc.w	Offset_0x10E7E2-Guardian_Mappings
@@ -49098,7 +49095,7 @@ Offset_0x10E8F6:
 Offset_0x10E910:
 		dc.w	$0001
 		dc.w	$0000, $FC00, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Tunnelbot_Mappings:                                            ; Offset_0x10E918
 		dc.w	Offset_0x10E926-Tunnelbot_Mappings
 		dc.w	Offset_0x10E94C-Tunnelbot_Mappings
@@ -49143,8 +49140,8 @@ Offset_0x10E9AE:
 		dc.w	$F40A, $0800, $FFF4
 Offset_0x10E9B6:
 		dc.w	$0001
-		dc.w	$F406, $000F, $FFF8                
-;-------------------------------------------------------------------------------   
+		dc.w	$F406, $000F, $FFF8
+;-------------------------------------------------------------------------------
 Catakiller_Jr_Mappings:                                        ; Offset_0x10E9BE
 		dc.w	Offset_0x10E9CA-Catakiller_Jr_Mappings
 		dc.w	Offset_0x10E9D2-Catakiller_Jr_Mappings
@@ -49176,7 +49173,7 @@ Offset_0x10EA0A:
 		dc.w	$F400, $0016, $0008
 		dc.w	$FC00, $001C, $0010
 		dc.w	$0400, $1016, $0008
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Clamer_Dyn_Script:                                             ; Offset_0x10EA1E
 		dc.w	Offset_0x10EA34-Clamer_Dyn_Script
 		dc.w	Offset_0x10EA38-Clamer_Dyn_Script
@@ -49222,7 +49219,7 @@ Offset_0x10EA5A:
 Offset_0x10EA5E:
 		dc.w	$0000
 		dc.w	$000F
-;-------------------------------------------------------------------------------   
+;-------------------------------------------------------------------------------
 Clamer_Mappings:                                               ; Offset_0x10EA62
 		dc.w	Offset_0x10EA7A-Clamer_Mappings
 		dc.w	Offset_0x10EA82-Clamer_Mappings
@@ -49272,8 +49269,8 @@ Offset_0x10EAD0:
 		dc.w	$EF0F, $0000, $FFF0
 Offset_0x10EAD8:
 		dc.w	$0001
-		dc.w	$0000, $0000, $0000   
-;-------------------------------------------------------------------------------  
+		dc.w	$0000, $0000, $0000
+;-------------------------------------------------------------------------------
 Sparkle_Mappings:                                              ; Offset_0x10EAE0
 		dc.w	Offset_0x10EAF2-Sparkle_Mappings
 		dc.w	Offset_0x10EAFA-Sparkle_Mappings
@@ -49322,8 +49319,8 @@ Offset_0x10EB72:
 		dc.w	$F805, $002A, $FFF8
 Offset_0x10EB7A:
 		dc.w	$0001
-		dc.w	$0000, $FADC, $0000 
-;-------------------------------------------------------------------------------  
+		dc.w	$0000, $FADC, $0000
+;-------------------------------------------------------------------------------
 Batbot_Mappings:                                               ; Offset_0x10EB82
 		dc.w	Offset_0x10EB90-Batbot_Mappings
 		dc.w	Offset_0x10EB9E-Batbot_Mappings
@@ -49359,8 +49356,8 @@ Offset_0x10EBE2:
 		dc.w	$FC00, $001C, $FFFC
 Offset_0x10EBEA:
 		dc.w	$0001
-		dc.w	$FC00, $001D, $FFFC                 
-;-------------------------------------------------------------------------------  
+		dc.w	$FC00, $001D, $FFFC
+;-------------------------------------------------------------------------------
 Bubbles_Dyn_Script:                                            ; Offset_0x10EBF2
 		dc.w	Offset_0x10EBFC-Bubbles_Dyn_Script
 		dc.w	Offset_0x10EC02-Bubbles_Dyn_Script
@@ -49382,7 +49379,7 @@ Offset_0x10EC0A:
 Offset_0x10EC10:
 		dc.w	$0003
 		dc.w	$0391, $03BF, $04B3, $04F1
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Bubbles_Mappings:                                              ; Offset_0x10EC1A
 		dc.w	Offset_0x10EC24-Bubbles_Mappings
 		dc.w	Offset_0x10EC32-Bubbles_Mappings
@@ -49408,8 +49405,8 @@ Offset_0x10EC50:
 		dc.w	$E804, $0000, $FFFC
 		dc.w	$F00F, $0002, $FFEC
 		dc.w	$F003, $0012, $000C
-		dc.w	$1004, $0016, $FFFC 
-;------------------------------------------------------------------------------- 
+		dc.w	$1004, $0016, $FFFC
+;-------------------------------------------------------------------------------
 Spiker_Mappings:                                               ; Offset_0x10EC6A
 		dc.w	Offset_0x10EC7A-Spiker_Mappings
 		dc.w	Offset_0x10EC8E-Spiker_Mappings
@@ -49449,7 +49446,7 @@ Offset_0x10ECCE:
 Offset_0x10ECD6:
 		dc.w	$0001
 		dc.w	$0000, $FAD0, $0000
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Mantis_Mappings:                                               ; Offset_0x10ECDE
 		dc.w	Offset_0x10ECEA-Mantis_Mappings
 		dc.w	Offset_0x10ECFE-Mantis_Mappings
@@ -49487,7 +49484,7 @@ Offset_0x10ED52:
 Offset_0x10ED5A:
 		dc.w	$0001
 		dc.w	$FC00, $0024, $FFFC
-;-------------------------------------------------------------------------------   
+;-------------------------------------------------------------------------------
 Blaster_Mappings:                                              ; Offset_0x10ED62
 		dc.w	Offset_0x10ED78-Blaster_Mappings
 		dc.w	Offset_0x10ED92-Blaster_Mappings
@@ -49541,8 +49538,8 @@ Offset_0x10EDF6:
 		dc.w	$FC00, $1827, $FFFC
 Offset_0x10EDFE:
 		dc.w	$0001
-		dc.w	$FC00, $1027, $FFFC 
-;-------------------------------------------------------------------------------  
+		dc.w	$FC00, $1027, $FFFC
+;-------------------------------------------------------------------------------
 Penguinator_Dyn_Script:                                        ; Offset_0x10EE06
 		dc.w	Offset_0x10EE18-Penguinator_Dyn_Script
 		dc.w	Offset_0x10EE1C-Penguinator_Dyn_Script
@@ -49580,7 +49577,7 @@ Offset_0x10EE3C:
 Offset_0x10EE42:
 		dc.w	$0001
 		dc.w	$070B, $07C2
-;-------------------------------------------------------------------------------   
+;-------------------------------------------------------------------------------
 Penguinator_Mappings:                                          ; Offset_0x10EE48
 		dc.w	Offset_0x10EE5A-Penguinator_Mappings
 		dc.w	Offset_0x10EE62-Penguinator_Mappings
@@ -49624,7 +49621,7 @@ Offset_0x10EEB8:
 		dc.w	$0002
 		dc.w	$EC0B, $0000, $FFF4
 		dc.w	$0C08, $000C, $FFF4
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Snow_Dust_Mappings:                                            ; Offset_0x10EEC6
 		dc.w	Offset_0x10EED2-Snow_Dust_Mappings
 		dc.w	Offset_0x10EEDA-Snow_Dust_Mappings
@@ -49649,7 +49646,7 @@ Offset_0x10EEF2:
 		dc.w	$E802, $0003, $FFFC
 Offset_0x10EEFA:
 		dc.w	$0001
-		dc.w	$E802, $0803, $FFFC  
+		dc.w	$E802, $0803, $FFFC
 ;-------------------------------------------------------------------------------
 Techno_Squeek_Mappings:                                        ; Offset_0x10EF02
 		dc.w	Offset_0x10EF16-Techno_Squeek_Mappings
@@ -49692,7 +49689,7 @@ Offset_0x10EF56:
 Offset_0x10EF5E:
 		dc.w	$0001
 		dc.w	$F801, $0022, $FFFC
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Star_Pointer_Mappings:                                         ; Offset_0x10EF66
 		dc.w	Offset_0x10EF6E-Star_Pointer_Mappings
 		dc.w	Offset_0x10EF76-Star_Pointer_Mappings
@@ -49710,7 +49707,7 @@ Offset_0x10EF7E:
 Offset_0x10EF86:
 		dc.w	$0001
 		dc.w	$F805, $000C, $FFF8
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Flame_Mobile_Mappings:                                         ; Offset_0x10EF8E
 		dc.w	Offset_0x10EFFE-Flame_Mobile_Mappings
 		dc.w	Offset_0x10F030-Flame_Mobile_Mappings
@@ -50049,8 +50046,8 @@ Offset_0x10F478:
 		dc.w	$F809, $001B, $FFF4
 Offset_0x10F480:
 		dc.w	$0001
-		dc.w	$F809, $081B, $FFF4 
-;-------------------------------------------------------------------------------    
+		dc.w	$F809, $081B, $FFF4
+;-------------------------------------------------------------------------------
 Fire_Breath_Mappings:                                          ; Offset_0x10F488
 		dc.w	Offset_0x10F4AC-Fire_Breath_Mappings
 		dc.w	Offset_0x10F4D2-Fire_Breath_Mappings
@@ -50140,9 +50137,9 @@ Offset_0x10F58C:
 Offset_0x10F594:
 		dc.w	$0002
 		dc.w	$EC0F, $0024, $FFF0
-		dc.w	$0C0C, $0034, $FFF0    
-;-------------------------------------------------------------------------------    
-Small_Fire_Breath_Mappings:                                    ; Offset_0x10F5A2  
+		dc.w	$0C0C, $0034, $FFF0
+;-------------------------------------------------------------------------------
+Small_Fire_Breath_Mappings:                                    ; Offset_0x10F5A2
 		dc.w	Offset_0x10F5A8-Small_Fire_Breath_Mappings
 		dc.w	Offset_0x10F5B0-Small_Fire_Breath_Mappings
 		dc.w	Offset_0x10F5B8-Small_Fire_Breath_Mappings
@@ -50155,7 +50152,7 @@ Offset_0x10F5B0:
 Offset_0x10F5B8:
 		dc.w	$0001
 		dc.w	$FC00, $000D, $FFFC
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Drill_Mobile_Mappings:                                         ; Offset_0x10F5C0
 		dc.w	Offset_0x10F622-Drill_Mobile_Mappings
 		dc.w	Offset_0x10F642-Drill_Mobile_Mappings
@@ -50381,8 +50378,8 @@ Offset_0x10F842:
 		dc.w	$F00F, $000E, $FFF4
 Offset_0x10F850:
 		dc.w	$0001
-		dc.w	$F00F, $001E, $FFF0 
-;------------------------------------------------------------------------------- 
+		dc.w	$F00F, $001E, $FFF0
+;-------------------------------------------------------------------------------
 Big_Shaker_Rocket_Twist_Lookup:                                ; Offset_0x10F858
 		dc.b	$18, $18, $18, $18, $18, $18, $18, $18
 		dc.b	$18, $17, $17, $17, $17, $17, $17, $16
@@ -50399,8 +50396,8 @@ Big_Shaker_Rocket_Twist_Lookup:                                ; Offset_0x10F858
 		dc.b	$EF, $EF, $EE, $EE, $ED, $ED, $ED, $EC
 		dc.b	$EC, $EC, $EB, $EB, $EB, $EB, $EA, $EA
 		dc.b	$EA, $EA, $E9, $E9, $E9, $E9, $E9, $E9
-		dc.b	$E8, $E8, $E8, $E8, $E8, $E8, $E8, $E8  
-;-------------------------------------------------------------------------------  
+		dc.b	$E8, $E8, $E8, $E8, $E8, $E8, $E8, $E8
+;-------------------------------------------------------------------------------
 Hang_Mobile_Angle_Y_Lookup_Data:                               ; Offset_0x10F8D8
 		dc.b	$00, $02, $04, $05, $07, $09, $0B, $0C
 		dc.b	$0E, $10, $11, $13, $15, $17, $18, $1A
@@ -50409,8 +50406,8 @@ Hang_Mobile_Angle_Y_Lookup_Data:                               ; Offset_0x10F8D8
 		dc.b	$33, $34, $35, $37, $38, $39, $3A, $3B
 		dc.b	$3C, $3D, $3E, $3F, $3F, $40, $41, $42
 		dc.b	$43, $43, $44, $44, $45, $45, $46, $46
-		dc.b	$47, $47, $47, $47, $48, $48, $48, $48  
-;-------------------------------------------------------------------------------   
+		dc.b	$47, $47, $47, $47, $48, $48, $48, $48
+;-------------------------------------------------------------------------------
 Hang_Mobile_Angle_Y_Lookup_Data_2:                             ; Offset_0x10F918
 		dc.b	$00, $01, $02, $02, $03, $04, $05, $05
 		dc.b	$06, $07, $08, $09, $09, $0A, $0B, $0C
@@ -50419,8 +50416,8 @@ Hang_Mobile_Angle_Y_Lookup_Data_2:                             ; Offset_0x10F918
 		dc.b	$17, $17, $18, $18, $19, $19, $1A, $1A
 		dc.b	$1B, $1B, $1B, $1C, $1C, $1D, $1D, $1D
 		dc.b	$1E, $1E, $1E, $1E, $1F, $1F, $1F, $1F
-		dc.b	$1F, $20, $20, $20, $20, $20, $20, $20  
-;-------------------------------------------------------------------------------   
+		dc.b	$1F, $20, $20, $20, $20, $20, $20, $20
+;-------------------------------------------------------------------------------
 Big_Shaker_Mappings:                                           ; Offset_0x10F958
 		dc.w	Offset_0x10F9A0-Big_Shaker_Mappings
 		dc.w	Offset_0x10F9BA-Big_Shaker_Mappings
@@ -50601,7 +50598,7 @@ Offset_0x10FB8E:
 		dc.w	$0002
 		dc.w	$F804, $08EE, $FFF4
 		dc.w	$0008, $08F0, $FFF4
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Big_Shaker_Splash_Mappings:                                    ; Offset_0x10FB9C
 		dc.w	Offset_0x10FBAE-Big_Shaker_Splash_Mappings
 		dc.w	Offset_0x10FBB6-Big_Shaker_Splash_Mappings
@@ -50639,7 +50636,7 @@ Offset_0x10FBE6:
 Offset_0x10FBEE:
 		dc.w	$0001
 		dc.w	$FA0C, $0000, $FFF0
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Big_Shaker_Splash_Dyn_Script:                                  ; Offset_0x10FBF6
 		dc.w	Offset_0x10FC08-Big_Shaker_Splash_Dyn_Script
 		dc.w	Offset_0x10FC0C-Big_Shaker_Splash_Dyn_Script
@@ -50677,7 +50674,7 @@ Offset_0x10FC24:
 Offset_0x10FC28:
 		dc.w	$0000
 		dc.w	$05E3
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Freezer_Mobile_Mappings:                                       ; Offset_0x10FC2C
 		dc.w	Offset_0x10FC5E-Freezer_Mobile_Mappings
 		dc.w	Offset_0x10FC7E-Freezer_Mobile_Mappings
@@ -50790,65 +50787,65 @@ Offset_0x10FD5A:
 		dc.w	$0003
 		dc.w	$F80C, $0020, $FFEC
 		dc.w	$F800, $0024, $000C
-		dc.w	$0000, $0025, $FFFC  
-;-------------------------------------------------------------------------------  
+		dc.w	$0000, $0025, $FFFC
+;-------------------------------------------------------------------------------
 Bowling_Spin_Palette_Rotation_Script:                          ; Offset_0x10FD6E
 		dc.w	$0004, $0000
 		dc.l	Offset_0x10FD78
 		dc.w	$0000
-Offset_0x10FD78:                
+Offset_0x10FD78:
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0002, $0EEE 
+		dc.w	$0002, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0005, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0002, $0EEE 
+		dc.w	$0002, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0003, $FFF8, $0014 
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0002, $0EEE 
+		dc.w	$0002, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0001, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$000A, $0EEE
 		dc.w	$0000, $0A22
-		dc.w	$0000, $0020 
-		dc.w	$0000, $FFF4    
+		dc.w	$0000, $0020
+		dc.w	$0000, $FFF4
 ;-------------------------------------------------------------------------------
 Bowling_Spin_Sparks_Palette_Rotation_Script:                   ; Offset_0x10FDC6
 		dc.w	$0004, $0000
 		dc.l	Offset_0x10FDD0
 		dc.w	$0000
-Offset_0x10FDD0:                
+Offset_0x10FDD0:
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0030, $0EEE 
+		dc.w	$0030, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0000, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0002, $0EEE 
+		dc.w	$0002, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0001, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0003, $0EEE 
+		dc.w	$0003, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0003, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0001, $0020                      
-		dc.w	$005F, $FFF8, $FF94  
+		dc.w	$0001, $0020
+		dc.w	$005F, $FFF8, $FF94
 ;-------------------------------------------------------------------------------
 Bowling_Spin_Open_Palette_Rotation_Script:                     ; Offset_0x10FE18
 		dc.w	$0004, $0000
 		dc.l	Offset_0x10FE22
 		dc.w	$0000
-Offset_0x10FE22:                
+Offset_0x10FE22:
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
-		dc.w	$0000, $0EEE 
+		dc.w	$0000, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
 		dc.w	$0001, $0EEE
@@ -50857,8 +50854,8 @@ Offset_0x10FE22:
 		dc.w	$0007, $0EEE
 		dc.w	$0000, $0A22
 		dc.w	$0000, $0020
-		dc.w	$0002, $FFFC    
-;-------------------------------------------------------------------------------  
+		dc.w	$0002, $FFFC
+;-------------------------------------------------------------------------------
 Bowling_Spin_Mappings:                                         ; Offset_0x10FE4C
 		dc.w	Offset_0x10FE78-Bowling_Spin_Mappings
 		dc.w	Offset_0x10FE9E-Bowling_Spin_Mappings
@@ -51053,13 +51050,13 @@ Offset_0x110188:
 Offset_0x110196:
 		dc.w	$0002
 		dc.w	$F805, $0014, $FFF0
-		dc.w	$F805, $0814, $0000 
-;------------------------------------------------------------------------------- 
+		dc.w	$F805, $0814, $0000
+;-------------------------------------------------------------------------------
 Big_Icedus_Palette_Rotation_Script:                            ; Offset_0x1101A4
 		dc.w	$0004, $0000
 		dc.l	Offset_0x1101AE
 		dc.w	$0000
-Offset_0x1101AE:                
+Offset_0x1101AE:
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0002, $0222
 		dc.w	$0007, $0C22
@@ -51069,33 +51066,33 @@ Offset_0x1101AE:
 		dc.w	$0002, $0222
 		dc.w	$0005, $0C22
 		dc.w	$0000, $0EE0
-		dc.w	$0000, $FFF8, $0014 
+		dc.w	$0000, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0002, $0222
 		dc.w	$0003, $0C22
 		dc.w	$0000, $0EE0
-		dc.w	$0000, $FFF8, $0014 
+		dc.w	$0000, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0002, $0222
 		dc.w	$0001, $0C22
 		dc.w	$0000, $0EE0
-		dc.w	$0000, $FFF8, $0014 
+		dc.w	$0000, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0000, $0222
 		dc.w	$0000, $0C22
 		dc.w	$0000, $0EE0
 		dc.w	$0000, $FFFC
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Big_Icedus_Palette_Rotation_Script_2:                          ; Offset_0x110210
 		dc.w	$0004, $0000
 		dc.l	Offset_0x11021A
 		dc.w	$0000
-Offset_0x11021A:                
+Offset_0x11021A:
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0002, $0222
 		dc.w	$0001, $0C22
 		dc.w	$0000, $0EE0
-		dc.w	$0000, $FFF8, $0014 
+		dc.w	$0000, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0002, $0222
 		dc.w	$0003, $0C22
@@ -51110,13 +51107,13 @@ Offset_0x11021A:
 		dc.w	$0002, $0222
 		dc.w	$0007, $0C22
 		dc.w	$0000, $0EE0
-		dc.w	$0000, $FFF8, $0014 
+		dc.w	$0000, $FFF8, $0014
 		dc.w	(Palette_Row_1_Offset+$14)                       ; $ED34
 		dc.w	$0004, $0222
 		dc.w	$0009, $0C22
 		dc.w	$0000, $0EE0
-		dc.w	$0000, $FFF4                
-;-------------------------------------------------------------------------------  
+		dc.w	$0000, $FFF4
+;-------------------------------------------------------------------------------
 Big_Icedus_Angle_Lookup:                                       ; Offset_0x11027C
 		dc.b	$00, $01, $02, $04, $05, $06, $07, $08
 		dc.b	$09, $0B, $0C, $0D, $0E, $0F, $10, $11
@@ -51125,7 +51122,7 @@ Big_Icedus_Angle_Lookup:                                       ; Offset_0x11027C
 		dc.b	$22, $23, $24, $24, $25, $26, $27, $27
 		dc.b	$28, $29, $29, $2A, $2A, $2B, $2B, $2C
 		dc.b	$2C, $2D, $2D, $2E, $2E, $2E, $2F, $2F
-		dc.b	$2F, $2F, $2F, $30, $30, $30, $30, $30   
+		dc.b	$2F, $2F, $2F, $30, $30, $30, $30, $30
 ;-------------------------------------------------------------------------------
 Big_Icedus_Mappings:                                           ; Offset_0x1102BC
 		dc.w	Offset_0x1102DA-Big_Icedus_Mappings
@@ -51192,8 +51189,8 @@ Offset_0x110360:
 		dc.w	$F40A, $0009, $FFF4
 Offset_0x110368:
 		dc.w	$0001
-		dc.w	$F40A, $0809, $FFF4  
-;------------------------------------------------------------------------------- 
+		dc.w	$F40A, $0809, $FFF4
+;-------------------------------------------------------------------------------
 Hang_Mobile_Mappings:                                          ; Offset_0x110370
 		dc.w	Offset_0x110390-Hang_Mobile_Mappings
 		dc.w	Offset_0x1103B6-Hang_Mobile_Mappings
@@ -51268,8 +51265,8 @@ Offset_0x11043C:
 		dc.w	$F007, $101A, $FFF8
 Offset_0x110444:
 		dc.w	$0001
-		dc.w	$F007, $181A, $FFF8 
-;-------------------------------------------------------------------------------   
+		dc.w	$F007, $181A, $FFF8
+;-------------------------------------------------------------------------------
 Screw_Mobile_Mappings:                                         ; Offset_0x11044C
 		dc.w	Offset_0x1104B0-Screw_Mobile_Mappings
 		dc.w	Offset_0x1104CA-Screw_Mobile_Mappings
@@ -51516,7 +51513,7 @@ Offset_0x110744:
 		dc.w	$F409, $0834, $FFF4
 Offset_0x11074C:
 		dc.w	$0000
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Drill_Mobile_Debris_Mappings:                                  ; Offset_0x11074E
 		dc.w	Offset_0x110756-Drill_Mobile_Debris_Mappings
 		dc.w	Offset_0x11075E-Drill_Mobile_Debris_Mappings
@@ -51534,7 +51531,7 @@ Offset_0x110766:
 Offset_0x11076E:
 		dc.w	$0001
 		dc.w	$F809, $0800, $FFF4
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Barrier_Eggman_Mappings:                                       ; Offset_0x110776
 		dc.w	Offset_0x11078C-Barrier_Eggman_Mappings
 		dc.w	Offset_0x11079A-Barrier_Eggman_Mappings
@@ -51618,7 +51615,7 @@ Offset_0x1108BE:
 		dc.w	$FC04, $0048, $FFF8
 Offset_0x1108C6:
 		dc.w	$0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 Robotnik_Stand_Mappings:                                       ; Offset_0x1108C8
 		dc.w	Offset_0x1108D0-Robotnik_Stand_Mappings
 		dc.w	Offset_0x1108EA-Robotnik_Stand_Mappings
@@ -51647,8 +51644,8 @@ Offset_0x11091E:
 		dc.w	$E40D, $003B, $FFF0
 		dc.w	$F40E, $0008, $FFF0
 		dc.w	$0C04, $0014, $FFF8
-		dc.w	$140C, $0016, $FFF0   
-;-------------------------------------------------------------------------------  
+		dc.w	$140C, $0016, $FFF0
+;-------------------------------------------------------------------------------
 Crushing_Column_Mappings:                                      ; Offset_0x110938
 		dc.w	Offset_0x110954-Crushing_Column_Mappings
 		dc.w	Offset_0x1109B6-Crushing_Column_Mappings
@@ -51789,8 +51786,8 @@ Offset_0x110B8A:
 		dc.w	$000F, $186C, $FFE0
 		dc.w	$000F, $185C, $0000
 		dc.w	$200F, $104C, $FFE0
-		dc.w	$200F, $184C, $0000  
-;------------------------------------------------------------------------------- 
+		dc.w	$200F, $184C, $0000
+;-------------------------------------------------------------------------------
 Iz_Platform_Mappings:                                          ; Offset_0x110BBC
 		dc.w	Offset_0x110C0C-Iz_Platform_Mappings
 		dc.w	Offset_0x110C26-Iz_Platform_Mappings
@@ -51979,8 +51976,8 @@ Offset_0x110DEA:
 		dc.w	$0001
 		dc.w	$F40A, $1066, $FFF5
 Offset_0x110DF2:
-		dc.w	$0000  
-;------------------------------------------------------------------------------- 
+		dc.w	$0000
+;-------------------------------------------------------------------------------
 End_Panel_Dyn_Script:                                          ; Offset_0x110DF4
 		dc.w	Offset_0x110E02-End_Panel_Dyn_Script
 		dc.w	Offset_0x110E08-End_Panel_Dyn_Script
@@ -52010,8 +52007,8 @@ Offset_0x110E1E:
 Offset_0x110E22:
 		dc.w	$0000
 		dc.w	$00CF
-;------------------------------------------------------------------------------- 
-End_Panel_Mappings:                                            ; Offset_0x110E26   
+;-------------------------------------------------------------------------------
+End_Panel_Mappings:                                            ; Offset_0x110E26
 		dc.w	Offset_0x110E34-End_Panel_Mappings
 		dc.w	Offset_0x110E42-End_Panel_Mappings
 		dc.w	Offset_0x110E50-End_Panel_Mappings
@@ -52044,13 +52041,13 @@ Offset_0x110E74:
 Offset_0x110E7C:
 		dc.w	$0001
 		dc.w	$F00F, $0800, $FFF0
-;-------------------------------------------------------------------------------   
+;-------------------------------------------------------------------------------
 End_Panel_Stars_Mappings:                                      ; Offset_0x110E84
 		dc.w	Offset_0x110E86-End_Panel_Stars_Mappings
 Offset_0x110E86:
 		dc.w	$0001
 		dc.w	$F801, $0000, $FFFC
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 Art_Fire_Breath:                                               ; Offset_0x110E8E
 		binclude  "data\aiz\firebrth.nem"
 Art_Flame_Mobile:                                              ; Offset_0x1114FC
@@ -52127,7 +52124,7 @@ Art_Balloon:                                                   ; Offset_0x11C852
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Gapsule:                                                   ; Offset_0x11C8F4
 		binclude  "data\fbz\gapsule.nem"
-Art_Laser_Beam:                                                ; Offset_0x11CEBA  
+Art_Laser_Beam:                                                ; Offset_0x11CEBA
 		binclude  "data\fbz\lasrbeam.nem"
 Art_Hang_Mobile:                                               ; Offset_0x11D3BC
 		binclude  "data\fbz\hangmobl.nem"
@@ -52147,7 +52144,7 @@ Art_Freezer_Mobile:                                            ; Offset_0x11F1B8
 		binclude  "data\iz\fzrmobil.nem"
 Art_Big_Icedus:                                                ; Offset_0x11FF66
 		binclude  "data\iz\bigicdus.nem"
-Art_Penguinator:                                               ; Offset_0x1203EE  
+Art_Penguinator:                                               ; Offset_0x1203EE
 		binclude  "data\iz\pengntor.dat"
 Art_Ice_Block:                                                 ; Offset_0x1213CE
 		binclude  "data\iz\iceblock.kmd"
@@ -52162,13 +52159,13 @@ Art_Beam_Rocket:                                               ; Offset_0x121946
 Art_Ball_Shooter:                                              ; Offset_0x1224EC
 		binclude  "data\lbz\ballshtr.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-Art_Snale_Blaster:                                             ; Offset_0x12281E                
+Art_Snale_Blaster:                                             ; Offset_0x12281E
 		binclude  "data\lbz\snalebst.kmd"
 		dc.w	$0000, $0000, $0000
-Art_Ribot:                                                     ; Offset_0x122A70    
+Art_Ribot:                                                     ; Offset_0x122A70
 		binclude  "data\lbz\ribot.kmd"
 		dc.w	$0000, $0000, $0000
-Art_Orbinaut_2:                                                ; Offset_0x122BA2  
+Art_Orbinaut_2:                                                ; Offset_0x122BA2
 		binclude  "data\lbz\orbinaut.kmd"
 		dc.w	$0000
 Art_Corkey:                                                    ; Offset_0x122C84
@@ -52233,7 +52230,7 @@ Art_Hz_Large_Fan:                                              ; Offset_0x12F9EE
 Art_Hz_Geyser_Horizontal:                                      ; Offset_0x12FCF0
 		binclude  "data\hz\geyser_h.kmd"
 		dc.w	$0000, $0000
-Art_Hz_Geyser_Vertical:                                        ; Offset_0x130482  
+Art_Hz_Geyser_Vertical:                                        ; Offset_0x130482
 		binclude  "data\hz\geyser_v.kmd"
 		dc.w	$0000, $0000, $0000, $0000
 Art_Hz_Sliding_Tube:                                           ; Offset_0x130C24
@@ -52242,7 +52239,7 @@ Art_Hz_Bridge_And_Blocks:                                      ; Offset_0x13113A
 		binclude  "data\hz\bridgebk.nem"
 Art_Water_Splash:                                              ; Offset_0x131482
 		binclude  "data\art\waterspl.dat"
-Art_Water_Splash_2:                                            ; Offset_0x131C02 
+Art_Water_Splash_2:                                            ; Offset_0x131C02
 		binclude  "data\art\watersp2.dat"
 Art_Hz_Enemies:         ; N�o usado ; Left over ???            ; Offset_0x132802
 		binclude  "data\hz\enemies.nem"
@@ -52250,7 +52247,7 @@ Art_Hz_Block_Wall:                                             ; Offset_0x1330E4
 		binclude  "data\hz\blckwall.nem"
 Art_MGz_Wheel_And_Miscellaneous:                               ; Offset_0x1331FE
 		binclude  "data\mgz\wheelmsc.nem"
-Art_MGz_Spiked_Platform_And_Miscellaneous:                     ; Offset_0x133C3C    
+Art_MGz_Spiked_Platform_And_Miscellaneous:                     ; Offset_0x133C3C
 		binclude  "data\mgz\spkptmsc.nem"
 Art_MGz_Direction_Indicators:                                  ; Offset_0x13424C
 		binclude  "data\mgz\dirindic.nem"
@@ -52340,12 +52337,12 @@ TC_Sandopolis:                                                 ; Offset_0x13B6DE
 TC_Lava_Reef:                                                  ; Offset_0x13B6DE
 TC_Sky_Sanctuary:                                              ; Offset_0x13B6DE
 TC_Death_Egg:                                                  ; Offset_0x13B6DE
-TC_The_Doomsday:                                               ; Offset_0x13B6DE 
+TC_The_Doomsday:                                               ; Offset_0x13B6DE
 		binclude  "data\art\tc_lbz.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_1_Blocks:                                         ; Offset_0x13B830
 		binclude  "data\aiz\bl_act1.kos"
-Angel_Island_1_Blocks_2:                                       ; Offset_0x13BA30  
+Angel_Island_1_Blocks_2:                                       ; Offset_0x13BA30
 		binclude  "data\aiz\bl2_act1.kos"
 Angel_Island_1_Blocks_3:                                       ; Offset_0x13C680
 		binclude  "data\aiz\bl3_act1.kos"
@@ -52385,7 +52382,7 @@ Hydrocity_2_Tiles:                                             ; Offset_0x152F7E
 Hydrocity_1_Chunks:                                            ; Offset_0x153B70
 Hydrocity_2_Chunks:                                            ; Offset_0x153B70
 		binclude  "data\hz\chunks.kos"
-Hydrocity_1_Blocks_2:                                          ; Offset_0x153E60  
+Hydrocity_1_Blocks_2:                                          ; Offset_0x153E60
 		binclude  "data\hz\bl2_act1.kos"
 Hydrocity_1_Tiles_2:                                           ; Offset_0x1546F0
 		binclude  "data\hz\tl2_act1.kmd"
@@ -52395,9 +52392,9 @@ Hydrocity_2_Blocks_2:                                          ; Offset_0x158562
 		binclude  "data\hz\bl2_act2.kos"
 Hydrocity_2_Tiles_2:                                           ; Offset_0x158DF2
 		binclude  "data\hz\tl2_act2.kmd"
-Hydrocity_2_Chunks_2:                                          ; Offset_0x15AC74  
+Hydrocity_2_Chunks_2:                                          ; Offset_0x15AC74
 		binclude  "data\hz\ck2_act2.kos"
-Marble_Garden_1_Blocks:                                        ; Offset_0x15C744 
+Marble_Garden_1_Blocks:                                        ; Offset_0x15C744
 Marble_Garden_2_Blocks:                                        ; Offset_0x15C744
 		binclude  "data\mgz\blocks.kos"
 Marble_Garden_1_Tiles:                                         ; Offset_0x15D0A4
@@ -52414,16 +52411,16 @@ Marble_Garden_1_Chunks_2:                                      ; Offset_0x162628
 		binclude  "data\mgz\ck2_act1.kos"
 Marble_Garden_2_Blocks_2:                                      ; Offset_0x162E58
 		binclude  "data\mgz\bl2_act2.kos"
-Marble_Garden_2_Tiles_2:                                       ; Offset_0x1632A8                                                                                                                
+Marble_Garden_2_Tiles_2:                                       ; Offset_0x1632A8
 		binclude  "data\mgz\tl2_act2.kmd"
-Marble_Garden_2_Chunks_2:                                      ; Offset_0x16403A  
+Marble_Garden_2_Chunks_2:                                      ; Offset_0x16403A
 		binclude  "data\mgz\ck2_act2.kos"
 Marble_Garden_2_Dynamic_Chunks:                                ; Offset_0x1649DA
 		binclude  "data\mgz\dynchunk.dat"
 Carnival_Night_1_Blocks:                                       ; Offset_0x165A5A
-Carnival_Night_1_Blocks_2:                                     ; Offset_0x165A5A  
+Carnival_Night_1_Blocks_2:                                     ; Offset_0x165A5A
 Carnival_Night_2_Blocks:                                       ; Offset_0x165A5A
-Carnival_Night_2_Blocks_2:                                     ; Offset_0x165A5A 
+Carnival_Night_2_Blocks_2:                                     ; Offset_0x165A5A
 		binclude  "data\cnz\blocks.kos"
 Carnival_Night_1_Tiles:                                        ; Offset_0x166A9A
 Carnival_Night_1_Tiles_2:                                      ; Offset_0x166A9A
@@ -52433,10 +52430,10 @@ Carnival_Night_2_Tiles_2:                                      ; Offset_0x166A9A
 Carnival_Night_1_Chunks:                                       ; Offset_0x169CBC
 Carnival_Night_1_Chunks_2:                                     ; Offset_0x169CBC
 Carnival_Night_2_Chunks:                                       ; Offset_0x169CBC
-Carnival_Night_2_Chunks_2:                                     ; Offset_0x169CBC  
+Carnival_Night_2_Chunks_2:                                     ; Offset_0x169CBC
 		binclude  "data\cnz\chunks.kos"
-Flying_Battery_1_Blocks:                                       ; Offset_0x16CDCC                   
-Flying_Battery_1_Blocks_2:                                     ; Offset_0x16CDCC 
+Flying_Battery_1_Blocks:                                       ; Offset_0x16CDCC
+Flying_Battery_1_Blocks_2:                                     ; Offset_0x16CDCC
 		binclude  "data\fbz\bl_act1.kos"
 Flying_Battery_1_Tiles:                                        ; Offset_0x16DB1C
 Flying_Battery_1_Tiles_2:                                      ; Offset_0x16DB1C
@@ -52451,7 +52448,7 @@ Flying_Battery_2_Tiles:                                        ; Offset_0x173E9E
 Flying_Battery_2_Tiles_2:                                      ; Offset_0x173E9E
 		binclude  "data\fbz\tl_act2.kmd"
 Flying_Battery_2_Chunks:                                       ; Offset_0x176ED0
-Flying_Battery_2_Chunks_2:                                     ; Offset_0x176ED0  
+Flying_Battery_2_Chunks_2:                                     ; Offset_0x176ED0
 		binclude  "data\fbz\ck_act2.kos"
 Icecap_1_Blocks:                                               ; Offset_0x179A00
 Icecap_2_Blocks:                                               ; Offset_0x179A00
@@ -52468,29 +52465,29 @@ Icecap_1_Tiles_2:                                              ; Offset_0x17BF62
 		binclude  "data\iz\tl2_act1.kmd"
 Icecap_1_Chunks_2:                                             ; Offset_0x17DEF4
 		binclude  "data\iz\ck2_act1.kos"
-Icecap_2_Blocks_2:                                             ; Offset_0x17FB24                
+Icecap_2_Blocks_2:                                             ; Offset_0x17FB24
 		binclude  "data\iz\bl2_act2.kos"
 Icecap_2_Tiles_2:                                              ; Offset_0x180734
 		binclude  "data\iz\tl2_act2.kmd"
-Icecap_2_Chunks_2:                                             ; Offset_0x182746 
+Icecap_2_Chunks_2:                                             ; Offset_0x182746
 		binclude  "data\iz\ck2_act2.kos"
 Launch_Base_1_Blocks:                                          ; Offset_0x184196
 Launch_Base_2_Blocks:                                          ; Offset_0x184196
 		binclude  "data\lbz\blocks.kos"
-Launch_Base_1_Blocks_2:                                        ; Offset_0x184646   
+Launch_Base_1_Blocks_2:                                        ; Offset_0x184646
 		binclude  "data\lbz\bl2_act1.kos"
 Launch_Base_1_Tiles:                                           ; Offset_0x185206
 Launch_Base_2_Tiles:                                           ; Offset_0x185206
 		binclude  "data\lbz\tiles.kmd"
-Launch_Base_1_Tiles_2:                                         ; Offset_0x186688                                       
+Launch_Base_1_Tiles_2:                                         ; Offset_0x186688
 		binclude  "data\lbz\tl2_act1.kmd"
 Launch_Base_Unreferenced_Chunks: ; N�o usado ; Left over ???   ; Offset_0x1885CA
 		binclude  "data\lbz\cnkunref.kos"
 		dc.w	 $0000, $0000
 Launch_Base_1_Chunks:                                          ; Offset_0x18872A
-Launch_Base_1_Chunks_2:                                        ; Offset_0x18872A  
+Launch_Base_1_Chunks_2:                                        ; Offset_0x18872A
 		binclude  "data\lbz\ck_act1.kos"
-Launch_Base_2_Blocks_2:                                        ; Offset_0x18B6DA         
+Launch_Base_2_Blocks_2:                                        ; Offset_0x18B6DA
 		binclude  "data\lbz\bl2_act2.kos"
 Launch_Base_2_Blocks_3:                                        ; Offset_0x18C21A
 		binclude  "data\lbz\bl3_act2.kos"
@@ -52501,12 +52498,12 @@ Launch_Base_2_Tiles_3:                                         ; Offset_0x18EB6C
 Launch_Base_2_Chunks:                                          ; Offset_0x190A3E
 Launch_Base_2_Chunks_2:                                        ; Offset_0x190A3E
 		binclude  "data\lbz\ck_act2.kos"
-Launch_Base_2_Chunks_3:                                        ; Offset_0x192F2E  
+Launch_Base_2_Chunks_3:                                        ; Offset_0x192F2E
 		binclude  "data\lbz\ck3_act2.kos"
 Mushroom_Valley_1_Blocks:                                      ; Offset_0x193C2E
-Mushroom_Valley_1_Blocks_2:                                    ; Offset_0x193C2E 
+Mushroom_Valley_1_Blocks_2:                                    ; Offset_0x193C2E
 Mushroom_Valley_2_Blocks:                                      ; Offset_0x193C2E
-Mushroom_Valley_2_Blocks_2:                                    ; Offset_0x193C2E               
+Mushroom_Valley_2_Blocks_2:                                    ; Offset_0x193C2E
 Mushroom_Valley_1_Tiles:                                       ; Offset_0x193C2E
 Mushroom_Valley_1_Tiles_2:                                     ; Offset_0x193C2E
 Mushroom_Valley_2_Tiles:                                       ; Offset_0x193C2E
@@ -52515,27 +52512,25 @@ Mushroom_Valley_1_Chunks:                                      ; Offset_0x193C2E
 Mushroom_Valley_1_Chunks_2:                                    ; Offset_0x193C2E
 Mushroom_Valley_2_Chunks:                                      ; Offset_0x193C2E
 Mushroom_Valley_2_Chunks_2:                                    ; Offset_0x193C2E
-                     
 Lava_Reef_1_Blocks:                                            ; Offset_0x193C2E
-Lava_Reef_1_Blocks_2:                                          ; Offset_0x193C2E                     
+Lava_Reef_1_Blocks_2:                                          ; Offset_0x193C2E
 Lava_Reef_1_Tiles:                                             ; Offset_0x193C2E
 Lava_Reef_1_Tiles_2:                                           ; Offset_0x193C2E
 Lava_Reef_1_Chunks:                                            ; Offset_0x193C2E
 Lava_Reef_1_Chunks_2:                                          ; Offset_0x193C2E
 Lava_Reef_2_Blocks:                                            ; Offset_0x193C2E
-Lava_Reef_2_Blocks_2:                                          ; Offset_0x193C2E                
+Lava_Reef_2_Blocks_2:                                          ; Offset_0x193C2E
 Lava_Reef_2_Tiles:                                             ; Offset_0x193C2E
 Lava_Reef_2_Tiles_2:                                           ; Offset_0x193C2E
 Lava_Reef_2_Chunks:                                            ; Offset_0x193C2E
 Lava_Reef_2_Chunks_2:                                          ; Offset_0x193C2E
-   
 Azure_Lake_Blocks:                                             ; Offset_0x193C2E
 		binclude  "data\alz\blocks.kos"
 Azure_Lake_Tiles:                                              ; Offset_0x1946EE
 		binclude  "data\alz\tiles.kmd"
 Azure_Lake_Chunks:                                             ; Offset_0x1974A0
 		binclude  "data\alz\chunks.kos"
-Balloon_Park_Blocks:                                           ; Offset_0x197B30 
+Balloon_Park_Blocks:                                           ; Offset_0x197B30
 		binclude  "data\bpz\blocks.kos"
 Balloon_Park_Tiles:                                            ; Offset_0x198400
 		binclude  "data\bpz\tiles.kmd"
@@ -52543,28 +52538,28 @@ Balloon_Park_Tiles:                                            ; Offset_0x198400
 Balloon_Park_Chunks:                                           ; Offset_0x19A3E2
 		binclude  "data\bpz\chunks.kos"
 		dc.w	$0000
-Desert_Palace_Blocks:                                          ; Offset_0x19AAD2 
+Desert_Palace_Blocks:                                          ; Offset_0x19AAD2
 		binclude  "data\dpz\blocks.kos"
 Desert_Palace_Tiles:                                           ; Offset_0x19B4B2
 		binclude  "data\dpz\tiles.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000
-Desert_Palace_Chunks:                                          ; Offset_0x19CFA4 
+Desert_Palace_Chunks:                                          ; Offset_0x19CFA4
 		binclude  "data\dpz\chunks.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000
-Chrome_Gadget_Blocks:                                          ; Offset_0x19D5D4 
+Chrome_Gadget_Blocks:                                          ; Offset_0x19D5D4
 		binclude  "data\cgz\blocks.kos"
 		dc.w	$0000, $0000, $0000, $0000
 Chrome_Gadget_Tiles:                                           ; Offset_0x19DD24
 		binclude  "data\cgz\tiles.kmd"
 		dc.w	$0000, $0000
-Chrome_Gadget_Chunks:                                          ; Offset_0x1A02C6  
+Chrome_Gadget_Chunks:                                          ; Offset_0x1A02C6
 		binclude  "data\cgz\chunks.kos"
-Endless_Mine_Blocks:                                           ; Offset_0x1A0786 
+Endless_Mine_Blocks:                                           ; Offset_0x1A0786
 		binclude  "data\emz\blocks.kos"
 Endless_Mine_Tiles:                                            ; Offset_0x1A1236
 		binclude  "data\emz\tiles.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-Endless_Mine_Chunks:                                           ; Offset_0x1A3E68  
+Endless_Mine_Chunks:                                           ; Offset_0x1A3E68
 		binclude  "data\emz\chunks.kos"
 		dc.w	$0000, $0000
 BS_Gumball_Machine_Blocks:                                     ; Offset_0x1A4578
@@ -52572,7 +52567,7 @@ BS_Gumball_Machine_Blocks:                                     ; Offset_0x1A4578
 		dc.w	$0000, $0000, $0000
 BS_Gumball_Machine_Tiles:                                      ; Offset_0x1A4938
 		binclude  "data\bs_gm\tiles.kmd"
-BS_Gumball_Machine_Chunks:                                     ; Offset_0x1A52AA 
+BS_Gumball_Machine_Chunks:                                     ; Offset_0x1A52AA
 		binclude  "data\bs_gm\chunks.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 BS_Glowing_Spheres_Blocks:                                     ; Offset_0x1A55FA
@@ -52580,19 +52575,19 @@ BS_Glowing_Spheres_Blocks:                                     ; Offset_0x1A55FA
 		dc.w	$0000
 BS_Glowing_Spheres_Tiles:                                      ; Offset_0x1A589A
 		binclude  "data\bs_gs\tiles.kmd"
-BS_Glowing_Spheres_Chunks:                                     ; Offset_0x1A680C  
+BS_Glowing_Spheres_Chunks:                                     ; Offset_0x1A680C
 		binclude  "data\bs_gs\chunks.kos"
 		dc.w	$0000, $0000
-BS_Slot_Machine_Blocks:                                        ; Offset_0x1A6B0C  
+BS_Slot_Machine_Blocks:                                        ; Offset_0x1A6B0C
 		binclude  "data\bs_sm\blocks.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 BS_Slot_Machine_Tiles:                                         ; Offset_0x1A77CC
 		binclude  "data\bs_sm\tiles.kmd"
 		dc.w	$0000, $0000, $0000, $0000
-BS_Slot_Machine_Chunks:                                        ; Offset_0x1AA46E  
+BS_Slot_Machine_Chunks:                                        ; Offset_0x1AA46E
 		binclude  "data\bs_sm\chunks.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
-;-------------------------------------------------------------------------------  
+;-------------------------------------------------------------------------------
 ; Offset_0x1AACAE:
 		binclude  "data\unknown\unkdata.bin"
 		dc.w	$0000, $0000, $0000, $0000
@@ -52615,13 +52610,13 @@ Left_Over_Lava_Reef_Blocks:
 Left_Over_Lava_Reef_Tiles:                                     ; Offset_0x1AEF34
 		binclude  "data\lrz\tiles_1.kmd"
 		dc.w	$0000, $0000, $0000
-Left_Over_Lava_Reef_Chunks_2:                                  ; Offset_0x1B2ED6  
+Left_Over_Lava_Reef_Chunks_2:                                  ; Offset_0x1B2ED6
 		binclude  "data\lrz\chunks_2.kos"
 Left_Over_Azure_Lake_Blocks:                                   ; Offset_0x1B5DB6
 		binclude  "data\alz\blocks_1.kos"
 Left_Over_Azure_Lake_Tiles:                                    ; Offset_0x1B66D6
 		binclude  "data\alz\tiles_1.kmd"
-Left_Over_Azure_Lake_Chunks:                                   ; Offset_0x1B8EE8                
+Left_Over_Azure_Lake_Chunks:                                   ; Offset_0x1B8EE8
 		binclude  "data\alz\chunks_1.kos"
 ; Offset_0x1B9568:
 		binclude  "data\unknown\blocks.kos"
@@ -52659,7 +52654,7 @@ Left_Over_Azure_Lake_Chunks:                                   ; Offset_0x1B8EE8
 Left_Over_BS_Gumball_Machine_Blocks:                           ; Offset_0x1BAF10
 		binclude  "data\bs_gm\blocks_1.kos"
 		dc.w	$0000, $0000, $0000
-Left_Over_BS_Gumball_Machine_Tiles:                            ; Offset_0x1BB2D0 
+Left_Over_BS_Gumball_Machine_Tiles:                            ; Offset_0x1BB2D0
 		binclude  "data\bs_gm\tiles_1.kmd"
 Left_Over_BS_Gumball_Machine_Chunks:                           ; Offset_0x1BBC42
 		binclude  "data\bs_gm\chunks_1.kos"
@@ -52675,22 +52670,22 @@ Left_Over_BS_Gumball_Machine_Chunks:                           ; Offset_0x1BBC42
 ; Offset_0x1BD43C:
 		binclude  "data\unknown\chunks_5.kos"
 		dc.w	$0000, $0000, $0000
-Left_Over_Balloon_Park_Blocks:                                 ; Offset_0x1BDABC   
+Left_Over_Balloon_Park_Blocks:                                 ; Offset_0x1BDABC
 		binclude  "data\bpz\blocks_1.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
-Left_Over_Balloon_Park_Tiles:                                  ; Offset_0x1BE39C                 
+Left_Over_Balloon_Park_Tiles:                                  ; Offset_0x1BE39C
 		binclude  "data\bpz\tiles.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-Left_Over_Balloon_Park_Chunks:                                 ; Offset_0x1C037E     
+Left_Over_Balloon_Park_Chunks:                                 ; Offset_0x1C037E
 		binclude  "data\bpz\chunks_1.kos"
 		dc.w	$0000
-Left_Over_Desert_Palace_Blocks:                                ; Offset_0x1C0A6E     
+Left_Over_Desert_Palace_Blocks:                                ; Offset_0x1C0A6E
 		binclude  "data\dpz\blocks_1.kos"
 		dc.w	$0000, $0000, $0000
 Left_Over_Desert_Palace_Tiles:                                 ; Offset_0x1C142E
 		binclude  "data\dpz\tiles_1.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000
-Left_Over_Desert_Palace_Chunks:                                ; Offset_0x1C2E20 
+Left_Over_Desert_Palace_Chunks:                                ; Offset_0x1C2E20
 		binclude  "data\dpz\chunks_1.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1C3430:
@@ -52706,10 +52701,10 @@ Left_Over_Collision_Array_1:                                   ; Offset_0x1C5240
 		binclude  "data\all\c_array1.dat"
 Left_Over_Collision_Array_2_Incomplete:                        ; Offset_0x1C7240
 		binclude  "data\all\carray2i.dat"
-;-------------------------------------------------------------------------------                  
+;-------------------------------------------------------------------------------
 Water_Surface_Scroll_Data:                                     ; Offset_0x1C8000
 		binclude  "data\hz\wsurfscr.dat"
-AngleMap:                                                      ; Offset_0x1C9040 
+AngleMap:                                                      ; Offset_0x1C9040
 		binclude  "data\all\anglemap.dat"
 Collision_Array_1:                                             ; Offset_0x1C9240
 		binclude  "data\all\c_array1.dat"
@@ -53095,7 +53090,7 @@ Pal_Level_Sonic_Miles:                                         ; Offset_0x1E97F4
 		binclude  "data\all\sonic.pal"
 Pal_Level_Select_Menu:                                         ; Offset_0x1E9834
 		binclude  "data\menus\menu.pal"
-Pal_Knuckles:                                                  ; Offset_0x1E98B4   
+Pal_Knuckles:                                                  ; Offset_0x1E98B4
 		binclude  "data\all\knuckles.pal"
 
 ; Offset_0x1E98D4:
@@ -53132,24 +53127,24 @@ Palette_ICZIndoors:	binclude	"Levels/IceCap/Palettes/Indoors.bin"
 ; Offset_0x1E9E94: See "Iz_1_Set_Intro_Pal" as well
 Palette_ICZOutdoors:	binclude	"Levels/IceCap/Palettes/Outdoors.bin"
 
-Pal_Launch_Base_Act_1:                                         ; Offset_0x1E9EF4   
+Pal_Launch_Base_Act_1:                                         ; Offset_0x1E9EF4
 		binclude  "data\lbz\lbz_1.pal"
 Pal_Launch_Base_Act_1_Underwater:                              ; Offset_0x1E9F54
 		binclude  "data\lbz\lbz_1_uw.pal"
-Pal_Launch_Base_Act_2:                                         ; Offset_0x1E9FD4                
+Pal_Launch_Base_Act_2:                                         ; Offset_0x1E9FD4
 		binclude  "data\lbz\lbz_2.pal"
-Pal_Launch_Base_Act_2_Underwater:                              ; Offset_0x1EA034   
+Pal_Launch_Base_Act_2_Underwater:                              ; Offset_0x1EA034
 		binclude  "data\lbz\lbz_2_uw.pal"
-Pal_Launch_Base_Act_2_Underwater_2:                            ; Offset_0x1EA0B4   
+Pal_Launch_Base_Act_2_Underwater_2:                            ; Offset_0x1EA0B4
 		binclude  "data\lbz\lbz2_uw2.pal"
 Pal_Mushroom_Valley_Act_1:                                     ; Offset_0x1EA114
-Pal_Mushroom_Valley_Act_2:                                     ; Offset_0x1EA114                    
-Pal_Sandopolis_Act_1:                                          ; Offset_0x1EA114 
-Pal_Sandopolis_Act_2:                                          ; Offset_0x1EA114 
+Pal_Mushroom_Valley_Act_2:                                     ; Offset_0x1EA114
+Pal_Sandopolis_Act_1:                                          ; Offset_0x1EA114
+Pal_Sandopolis_Act_2:                                          ; Offset_0x1EA114
 Pal_Lava_Reef_Act_1:                                           ; Offset_0x1EA114
-Pal_Lava_Reef_Act_2:                                           ; Offset_0x1EA114 
-Pal_Sky_Sanctuary_Act_1:                                       ; Offset_0x1EA114 
-Pal_Sky_Sanctuary_Act_2:                                       ; Offset_0x1EA114 
+Pal_Lava_Reef_Act_2:                                           ; Offset_0x1EA114
+Pal_Sky_Sanctuary_Act_1:                                       ; Offset_0x1EA114
+Pal_Sky_Sanctuary_Act_2:                                       ; Offset_0x1EA114
 Pal_Death_Egg_Act_1:                                           ; Offset_0x1EA114
 Pal_Death_Egg_Act_2:                                           ; Offset_0x1EA114
 Pal_The_Doomsday_Act_1:                                        ; Offset_0x1EA114
@@ -53173,13 +53168,13 @@ Pal_Bonus_Stage_Glowing_Spheres:                               ; Offset_0x1EA354
 Pal_Bonus_Stage_Slot_Machine:                                  ; Offset_0x1EA3B4
 		binclude  "data\bs_sm\bs_sm.pal"
 ;-------------------------------------------------------------------------------
-LRz_Rocks_Layout:                                              ; Offset_0x1EA414                                      
+LRz_Rocks_Layout:                                              ; Offset_0x1EA414
 		binclude  "data\lrz\rockspos.dat"
-LRz_Incomplete_Map_Part_1:                                     ; Offset_0x1EAF4A  
+LRz_Incomplete_Map_Part_1:                                     ; Offset_0x1EAF4A
 		binclude  "data\lrz\incm1_p1.dat"
-LRz_Incomplete_Map_Part_2:                                     ; Offset_0x1EB2CC  
+LRz_Incomplete_Map_Part_2:                                     ; Offset_0x1EB2CC
 		binclude  "data\lrz\incm1_p2.dat"
-Unknown_Map:                                                   ; Offset_0x1EB85E  
+Unknown_Map:                                                   ; Offset_0x1EB85E
 		binclude  "data\unknown\unkmap_1.dat"
 LRz_Map_Act_1:                                                 ; Offset_0x1EC4CE
 		binclude  "data\lrz\lrz_map1.dat"
@@ -53578,7 +53573,7 @@ Left_Over_PalPointers:                                         ; Offset_0x1F21CE
 		dc.w	$0007
 		dc.l	Offset_0x1F338E
 		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007         
+		dc.w	$0007
 Left_Over_Pal_S2_Sega_Bg:                                      ; Offset_0x1F25AE
 		binclude  "data\all\sega_bg.pal"
 Left_Over_Pal_S2_Title_Screen_Miles:                           ; Offset_0x1F262E
@@ -53589,7 +53584,7 @@ Left_Over_Pal_Level_Sonic_Miles:                               ; Offset_0x1F26CE
 		binclude  "data\all\sonic.pal"
 Left_Over_Pal_Level_Select_Menu:                               ; Offset_0x1F270E
 		binclude  "data\menus\menu.pal"
-Left_Over_Pal_Knuckles:                                        ; Offset_0x1F278E   
+Left_Over_Pal_Knuckles:                                        ; Offset_0x1F278E
 		binclude  "data\all\knuckles.pal"
 
 ; Offset_0x1F27AE:
@@ -53626,30 +53621,30 @@ Left_Over_Pal_Carnival_Night_Act_2:                            ; Offset_0x1F2BCE
 Left_Over_Pal_Flying_Battery_Act_1:                            ; Offset_0x1F2C2E
 Left_Over_Pal_Flying_Battery_Act_2:                            ; Offset_0x1F2C2E
 		binclude  "data\fbz\fbz.pal"
-Left_Over_Pal_Icecap_Act_1:                                    ; Offset_0x1F2C8E 
-Left_Over_Pal_Icecap_Act_2:                                    ; Offset_0x1F2C8E  
+Left_Over_Pal_Icecap_Act_1:                                    ; Offset_0x1F2C8E
+Left_Over_Pal_Icecap_Act_2:                                    ; Offset_0x1F2C8E
 		binclude  "data\iz\iz_lo.pal"
-Left_Over_Pal_Launch_Base_Act_1:                               ; Offset_0x1F2CEE   
+Left_Over_Pal_Launch_Base_Act_1:                               ; Offset_0x1F2CEE
 		binclude  "data\lbz\lbz_1_lo.pal"
 LO_Pal_Launch_Base_Act_1_Underwater:                           ; Offset_0x1F2D4E
 		binclude  "data\lbz\lbz_1_uw.pal"
-Left_Over_Pal_Launch_Base_Act_2:                               ; Offset_0x1F2DCE                
+Left_Over_Pal_Launch_Base_Act_2:                               ; Offset_0x1F2DCE
 		binclude  "data\lbz\lbz_2_lo.pal"
-LO_Pal_Launch_Base_Act_2_Underwater:                           ; Offset_0x1F2E2E    
+LO_Pal_Launch_Base_Act_2_Underwater:                           ; Offset_0x1F2E2E
 		binclude  "data\lbz\lbz_2_uw.pal"
-LO_Pal_Launch_Base_Act_2_Underwater_2:                         ; Offset_0x1F2EAE   
+LO_Pal_Launch_Base_Act_2_Underwater_2:                         ; Offset_0x1F2EAE
 		binclude  "data\lbz\lbz2_uw2.pal"
 Left_Over_Pal_Mushroom_Valley_Act_1:                           ; Offset_0x1F2F0E
 Left_Over_Pal_Mushroom_Valley_Act_2:                           ; Offset_0x1F2F0E
 		binclude  "data\mvz\mvz.pal"
-Left_Over_Pal_Sandopolis_Act_1:                                ; Offset_0x1F2F6E 
-Left_Over_Pal_Sandopolis_Act_2:                                ; Offset_0x1F2F6E 
+Left_Over_Pal_Sandopolis_Act_1:                                ; Offset_0x1F2F6E
+Left_Over_Pal_Sandopolis_Act_2:                                ; Offset_0x1F2F6E
 		binclude  "data\sz\sz.pal"
 Left_Over_Pal_Lava_Reef_Act_1:                                 ; Offset_0x1F2FCE
 		binclude  "data\lrz\lrz_1.pal"
-Left_Over_Pal_Lava_Reef_Act_2:                                 ; Offset_0x1F302E 
+Left_Over_Pal_Lava_Reef_Act_2:                                 ; Offset_0x1F302E
 		binclude  "data\lrz\lrz_2.pal"
-Left_Over_Pal_Sky_Sanctuary_Act_1:                             ; Offset_0x1F308E 
+Left_Over_Pal_Sky_Sanctuary_Act_1:                             ; Offset_0x1F308E
 Left_Over_Pal_Sky_Sanctuary_Act_2:                             ; Offset_0x1F308E
 		binclude  "data\ssz\ssz.pal"
 Left_Over_Pal_Death_Egg_Act_1:                                 ; Offset_0x1F30EE
@@ -53689,9 +53684,9 @@ Offset_0x1F336E:
 		dc.w	$00AE, $008E, $024A, $0222, $0EAA, $0A64, $0642, $0000
 Offset_0x1F338E:
 ;-------------------------------------------------------------------------------
-Left_Over_LRz_Rocks_Layout:                                    ; Offset_0x1F338E                                      
+Left_Over_LRz_Rocks_Layout:                                    ; Offset_0x1F338E
 		binclude  "data\lrz\rockspos.dat"
-LRz_Incomplete_Map_Part_2_2:                                   ; Offset_0x1F3EC4  
+LRz_Incomplete_Map_Part_2_2:                                   ; Offset_0x1F3EC4
 		binclude  "data\lrz\incm1_p2.dat"
 Left_Over_ALz_Map_2:                                           ; Offset_0x1F4456
 		binclude  "data\alz\lo_map.dat"
@@ -53886,7 +53881,7 @@ Left_Over_PalPointers_2:                                       ; Offset_0x1F4C8A
 		dc.w	$0017
 		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
 		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017                
+		dc.w	$0017
 
 Left_Over_Pal_S2_Sega_Bg_2:                                    ; Offset_0x1F4E6A
 		binclude  "data\all\sega_bg.pal"
@@ -53898,7 +53893,7 @@ Left_Over_Pal_Level_Sonic_Miles_2:                             ; Offset_0x1F4F8A
 		binclude  "data\all\sonic.pal"
 Left_Over_Pal_Level_Select_Menu_2:                             ; Offset_0x1F4FCA
 		binclude  "data\menus\menu.pal"
-Left_Over_Pal_Knuckles_2:                                      ; Offset_0x1F504A   
+Left_Over_Pal_Knuckles_2:                                      ; Offset_0x1F504A
 		binclude  "data\all\knuckles.pal"
 
 ; Offset_0x1F50CA:
@@ -53935,31 +53930,31 @@ Left_Over_Pal_Carnival_Night_Act_2_2:                          ; Offset_0x1F548A
 Left_Over_Pal_Flying_Battery_Act_1_2:                          ; Offset_0x1F54EA
 Left_Over_Pal_Flying_Battery_Act_2_2:                          ; Offset_0x1F54EA
 		binclude  "data\fbz\fbz.pal"
-Left_Over_Pal_Icecap_Act_1_2:                                  ; Offset_0x1F554A   
+Left_Over_Pal_Icecap_Act_1_2:                                  ; Offset_0x1F554A
 		binclude  "data\iz\iz_1_lo.pal"
 Left_Over_Pal_Icecap_Act_2_2:                                  ; Offset_0x1F55AA
 		binclude  "data\iz\iz_2_lo.pal"
-Left_Over_Pal_Launch_Base_Act_1_2:                             ; Offset_0x1F560A   
+Left_Over_Pal_Launch_Base_Act_1_2:                             ; Offset_0x1F560A
 		binclude  "data\lbz\lbz_1_lo.pal"
 LO_Pal_Launch_Base_Act_1_Underwater_2:                         ; Offset_0x1F566A
 		binclude  "data\lbz\lbz_1_uw.pal"
-Left_Over_Pal_Launch_Base_Act_2_2:                             ; Offset_0x1F56EA                
+Left_Over_Pal_Launch_Base_Act_2_2:                             ; Offset_0x1F56EA
 		binclude  "data\lbz\lbz2_lo2.pal"
-LO_Pal_Launch_Base_Act_2_Underwater_2_2a:                      ; Offset_0x1F574A   
+LO_Pal_Launch_Base_Act_2_Underwater_2_2a:                      ; Offset_0x1F574A
 		binclude  "data\lbz\lbz_2_uw.pal"
-LO_Pal_Launch_Base_Act_2_Underwater_2_2_2:                     ; Offset_0x1F57CA   
+LO_Pal_Launch_Base_Act_2_Underwater_2_2_2:                     ; Offset_0x1F57CA
 		binclude  "data\lbz\lbz2_uw2.pal"
 Left_Over_Pal_Mushroom_Valley_Act_1_2:                         ; Offset_0x1F582A
 Left_Over_Pal_Mushroom_Valley_Act_2_2:                         ; Offset_0x1F582A
 		binclude  "data\mvz\mvz.pal"
-Left_Over_Pal_Sandopolis_Act_1_2:                              ; Offset_0x1F588A 
-Left_Over_Pal_Sandopolis_Act_2_2:                              ; Offset_0x1F588A 
+Left_Over_Pal_Sandopolis_Act_1_2:                              ; Offset_0x1F588A
+Left_Over_Pal_Sandopolis_Act_2_2:                              ; Offset_0x1F588A
 		binclude  "data\sz\sz.pal"
 Left_Over_Pal_Lava_Reef_Act_1_2:                               ; Offset_0x1F58EA
 		binclude  "data\lrz\lrz_1.pal"
-Left_Over_Pal_Lava_Reef_Act_2_2:                               ; Offset_0x1F594A 
+Left_Over_Pal_Lava_Reef_Act_2_2:                               ; Offset_0x1F594A
 		binclude  "data\lrz\lrz_2.pal"
-Left_Over_Pal_Sky_Sanctuary_Act_1_2:                           ; Offset_0x1F59AA 
+Left_Over_Pal_Sky_Sanctuary_Act_1_2:                           ; Offset_0x1F59AA
 Left_Over_Pal_Sky_Sanctuary_Act_2_2:                           ; Offset_0x1F59AA
 		binclude  "data\ssz\ssz.pal"
 Left_Over_Pal_Death_Egg_Act_1_2:                               ; Offset_0x1F5A0A
@@ -53983,20 +53978,20 @@ LO_Pal_Angel_Island_Act_1_Before_Knuckles_2:	binclude	"Levels/Angel Island/Palet
 
 Left_Over_Pal_Bonus_Stage_Gumball_Machine_2:                   ; Offset_0x1F5CAA
 		binclude  "data\bs_gm\bs_gm.pal"
-Left_Over_LRz_Rocks_Layout_2:                                  ; Offset_0x1F5D0A                                      
+Left_Over_LRz_Rocks_Layout_2:                                  ; Offset_0x1F5D0A
 		binclude  "data\lrz\rockspos.dat"
 Left_Over_Incomplete_LRz_Rocks_Layout_2:                       ; Offset_0x1F6840
 		binclude  "data\lrz\incrockp.dat"
-Left_Over_LRz_Rocks_Layout_2a:                                ; Offset_0x1F5D0A                                      
+Left_Over_LRz_Rocks_Layout_2a:                                ; Offset_0x1F5D0A
 		binclude  "data\lrz\rockpos2.dat"
-;-------------------------------------------------------------------------------                                                                                                                                                         
+;-------------------------------------------------------------------------------
 		align    $1F7000  ; $FF Fill
 ;-------------------------------------------------------------------------------
 Player_Start_Speed_Array:                                      ; Offset_0x1F7000
 		dc.w	$0600, $0010, $0020, $0000
 		dc.w	$04C0, $001C, $0070, $0000
 		dc.w	$0580, $0010, $0200, $0000
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 Player_Start_Position_Array:                                   ; Offset_0x1F7018
 		binclude	"Levels/Angel Island/Starting Position - Act 1.bin"
 		binclude	"Levels/Angel Island/Starting Position - Act 2.bin"
@@ -54079,13 +54074,13 @@ Objects_Layout:                                                ; Offset_0x1F70D8
 ;===============================================================================
 ; Array do posicionamento dos objetos das fases
 ; <<<-
-;===============================================================================  
+;===============================================================================
 
 ;===============================================================================
 ; Array do posicionamento dos an�is das fases
 ; ->>>
-;===============================================================================                  
-Rings_Layout:                                                  ; Offset_0x1F7198                  
+;===============================================================================
+Rings_Layout:                                                  ; Offset_0x1F7198
 		dc.l	AIz_Rng_Act1                           ; Offset_0x1F7A4C
 		dc.l	AIz_Rng_Act2                           ; Offset_0x1F7BE4
 		dc.l	Hz_Rng_Act1                            ; Offset_0x1F8FA8
@@ -54137,13 +54132,13 @@ Rings_Layout:                                                  ; Offset_0x1F7198
 ;===============================================================================
 ; Array do posicionamento dos an�is das fases
 ; <<<-
-;===============================================================================   
-                
+;===============================================================================
+
 ;===============================================================================
 ; Ponteiro para origem e destino dos tuneis trasportadores usados na LBz de
 ; ->>>     acordo com o sub-tipo do objeto
 ;===============================================================================
-LBz_Automatic_Tunnel_From_To_Data:                             ; Offset_0x1F7258                
+LBz_Automatic_Tunnel_From_To_Data:                             ; Offset_0x1F7258
 		dc.l	Teleport_Data_0x00                     ; Offset_0x1FF0C8
 		dc.l	Teleport_Data_0x01                     ; Offset_0x1FF0F2
 		dc.l	Teleport_Data_0x02                     ; Offset_0x1FF11C
@@ -54168,7 +54163,7 @@ LBz_Automatic_Tunnel_From_To_Data:                             ; Offset_0x1F7258
 ;===============================================================================
 ; Ponteiro para origem e destino dos tuneis trasportadores usados na LBz de
 ; <<<-     acordo com o sub-tipo do objeto
-;===============================================================================                
+;===============================================================================
 		dc.l	Offset_0x1FF61A
 		dc.l	Offset_0x1FF61A
 		dc.l	Offset_0x1FF61A
@@ -54194,7 +54189,7 @@ AIz_Rng_Act1:	binclude	"Levels/Angel Island/Ring Layout - Act 1.bin"
 ; Offset_0x1F7BE4:
 AIz_Rng_Act2:	binclude	"Levels/Angel Island/Ring Layout - Act 2.bin"
 
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 Hz_Obj_Act1:                                                   ; Offset_0x1F7F46
 		binclude  "data\hz\obj_act1.dat"
@@ -54204,19 +54199,19 @@ Hz_Rng_Act1:                                                   ; Offset_0x1F8FA8
 		binclude  "data\hz\rng_act1.dat"
 Hz_Rng_Act2:                                                   ; Offset_0x1F93F0
 		binclude  "data\hz\rng_act2.dat"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 MGz_Obj_Act1:                                                  ; Offset_0x1F970E
 		binclude  "data\mgz\obj_act1.dat"
 MGz_Rng_Act1:                                                  ; Offset_0x1F9F18
 		binclude  "data\mgz\rng_act1.dat"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
-MGz_Obj_Act2:                                                  ; Offset_0x1FA4A2    
+MGz_Obj_Act2:                                                  ; Offset_0x1FA4A2
 		binclude  "data\mgz\obj_act2.dat"
 MGz_Rng_Act2:                                                  ; Offset_0x1FABD4
 		binclude  "data\mgz\rng_act2.dat"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 CNz_Obj_Act1:                                                  ; Offset_0x1FB0FE
 		binclude  "data\cnz\obj_act1.dat"
@@ -54224,17 +54219,17 @@ CNz_Obj_Act2:                                                  ; Offset_0x1FB9FE
 		binclude  "data\cnz\obj_act2.dat"
 CNz_Rng_Act1:                                                  ; Offset_0x1FC4A2
 		binclude  "data\cnz\rng_act1.dat"
-CNz_Rng_Act2:                                                  ; Offset_0x1FC7DA                                
+CNz_Rng_Act2:                                                  ; Offset_0x1FC7DA
 		binclude  "data\cnz\rng_act2.dat"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 FBz_Obj_Act1:                                                  ; Offset_0x1FC970
 		binclude  "data\fbz\obj_act1.dat"
-FBz_Obj_Act2:                                                  ; Offset_0x1FC982 
+FBz_Obj_Act2:                                                  ; Offset_0x1FC982
 		binclude  "data\fbz\obj_act2.dat"
 FBz_Rng_Act1:                                                  ; Offset_0x1FC99A
 		binclude  "data\fbz\rng_act1.dat"
-FBz_Rng_Act2:                                                  ; Offset_0x1FC9C2  
+FBz_Rng_Act2:                                                  ; Offset_0x1FC9C2
 		binclude  "data\fbz\rng_act2.dat"
 ; Offset_0x1FC9EA:
 		dc.w	$23B0, $8608, $2A00
@@ -54243,7 +54238,7 @@ FBz_Rng_Act2:                                                  ; Offset_0x1FC9C2
 		dc.w	$23B0, $8620, $2A06
 		dc.w	$23B0, $8628, $2A08
 		dc.w	$FFFF, $0000, $0000
-;-------------------------------------------------------------------------------                                              
+;-------------------------------------------------------------------------------
 Iz_Obj_Act1:                                                   ; Offset_0x1FCA0E
 		binclude  "data\iz\obj_act1.dat"
 Iz_Obj_Act2:                                                   ; Offset_0x1FCDF8
@@ -54252,17 +54247,17 @@ Iz_Rng_Act1:                                                   ; Offset_0x1FD344
 		binclude  "data\iz\rng_act1.dat"
 Iz_Rng_Act2:                                                   ; Offset_0x1FD550
 		binclude  "data\iz\rng_act2.dat"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 LBz_Obj_Act1:                                                  ; Offset_0x1FD896
 		binclude  "data\lbz\obj_act1.dat"
-LBz_Obj_Act2:                                                  ; Offset_0x1FE100  
+LBz_Obj_Act2:                                                  ; Offset_0x1FE100
 		binclude  "data\lbz\obj_act2.dat"
 LBz_Rng_Act1:                                                  ; Offset_0x1FE8F8
 		binclude  "data\lbz\rng_act1.dat"
-LBz_Rng_Act2:                                                  ; Offset_0x1FEC88  
+LBz_Rng_Act2:                                                  ; Offset_0x1FEC88
 		binclude  "data\lbz\rng_act2.dat"
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 Teleport_Data_0x00: ; $2400                                    ; Offset_0x1FF0C8
 		dc.w	$0028
 		dc.w	$3E40, $0250
@@ -54622,7 +54617,7 @@ Teleport_Data_0x13: ; $2413                                    ; Offset_0x1FF5C6
 		dc.w	$1C08, $06DB
 		dc.w	$1C28, $06F0
 		dc.w	$1CA8, $06F0
-Teleport_Data_0x14:                                            ; Offset_0x1FF5F0    
+Teleport_Data_0x14:                                            ; Offset_0x1FF5F0
 		dc.w	$0028
 		dc.w	$3670, $0830
 		dc.w	$3670, $07C0
@@ -54633,30 +54628,30 @@ Teleport_Data_0x14:                                            ; Offset_0x1FF5F0
 		dc.w	$3600, $07BB
 		dc.w	$3608, $07DB
 		dc.w	$3628, $07F0
-		dc.w	$36A8, $07F0     
-;-------------------------------------------------------------------------------                        
+		dc.w	$36A8, $07F0
+;-------------------------------------------------------------------------------
 Offset_0x1FF61A:
 		dc.w	$FFFF, $0000, $0000
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 MVz_Obj_Act1:                                                  ; Offset_0x1FF620
 		binclude  "data\mvz\obj_act1.dat"
-MVz_Obj_Act2:                                                  ; Offset_0x1FF722 
+MVz_Obj_Act2:                                                  ; Offset_0x1FF722
 		binclude  "data\mvz\obj_act2.dat"
 MVz_Rng_Act1:                                                  ; Offset_0x1FF7E2
 		binclude  "data\mvz\rng_act1.dat"
 MVz_Rng_Act2:                                                  ; Offset_0x1FF7E8
 		binclude  "data\mvz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 Sz_Obj_Act1:                                                   ; Offset_0x1FF7F4
 		binclude  "data\sz\obj_act1.dat"
-Sz_Obj_Act2:                                                   ; Offset_0x1FF800 
+Sz_Obj_Act2:                                                   ; Offset_0x1FF800
 		binclude  "data\sz\obj_act2.dat"
 Sz_Rng_Act1:                                                   ; Offset_0x1FF80C
 		binclude  "data\sz\rng_act1.dat"
 Sz_Rng_Act2:                                                   ; Offset_0x1FF812
 		binclude  "data\sz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 LRz_Obj_Act1:                                                  ; Offset_0x1FF81E
 		binclude  "data\lrz\obj_act1.dat"
@@ -54666,17 +54661,17 @@ LRz_Rng_Act1:                                                  ; Offset_0x1FF836
 		binclude  "data\lrz\rng_act1.dat"
 LRz_Rng_Act2:                                                  ; Offset_0x1FF83C
 		binclude  "data\lrz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 SSz_Obj_Act1:                                                  ; Offset_0x1FF848
 		binclude  "data\ssz\obj_act1.dat"
-SSz_Obj_Act2:                                                  ; Offset_0x1FF854 
+SSz_Obj_Act2:                                                  ; Offset_0x1FF854
 		binclude  "data\ssz\obj_act2.dat"
 SSz_Rng_Act1:                                                  ; Offset_0x1FF860
 		binclude  "data\ssz\rng_act1.dat"
 SSz_Rng_Act2:                                                  ; Offset_0x1FF866
 		binclude  "data\ssz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 DEz_Obj_Act1:                                                  ; Offset_0x1FF872
 		binclude  "data\dez\obj_act1.dat"
@@ -54686,7 +54681,7 @@ DEz_Rng_Act1:                                                  ; Offset_0x1FF88A
 		binclude  "data\dez\rng_act1.dat"
 DEz_Rng_Act2:                                                  ; Offset_0x1FF890
 		binclude  "data\dez\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 TDz_Obj_Act1:                                                  ; Offset_0x1FF89C
 		binclude  "data\tdz\obj_act1.dat"
@@ -54696,77 +54691,77 @@ TDz_Rng_Act1:                                                  ; Offset_0x1FF8B4
 		binclude  "data\tdz\rng_act1.dat"
 TDz_Rng_Act2:                                                  ; Offset_0x1FF8BA
 		binclude  "data\tdz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 SSz_KTe_Boss_Obj_Act1:                                         ; Offset_0x1FF8C6
 		binclude  "data\ssz\obj_act3.dat"
-SSz_KTe_Boss_Obj_Act2:                                         ; Offset_0x1FF8D2  
+SSz_KTe_Boss_Obj_Act2:                                         ; Offset_0x1FF8D2
 		binclude  "data\ssz\obj_act4.dat"
 SSz_KTe_Boss_Rng_Act1:                                         ; Offset_0x1FF8DE
 		binclude  "data\ssz\rng_act3.dat"
 SSz_KTe_Boss_Rng_Act2:                                         ; Offset_0x1FF8E4
 		binclude  "data\ssz\rng_act4.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 ALz_Obj_Act1:                                                  ; Offset_0x1FF8F0
 		binclude  "data\alz\obj_act1.dat"
-ALz_Obj_Act2:                                                  ; Offset_0x1FF92C  
+ALz_Obj_Act2:                                                  ; Offset_0x1FF92C
 		binclude  "data\alz\obj_act2.dat"
 ALz_Rng_Act1:                                                  ; Offset_0x1FF938
 		binclude  "data\alz\rng_act1.dat"
 ALz_Rng_Act2:                                                  ; Offset_0x1FF93E
 		binclude  "data\alz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 BPz_Obj_Act1:                                                  ; Offset_0x1FF94A
 		binclude  "data\bpz\obj_act1.dat"
-BPz_Obj_Act2:                                                  ; Offset_0x1FF99E 
+BPz_Obj_Act2:                                                  ; Offset_0x1FF99E
 		binclude  "data\bpz\obj_act2.dat"
 BPz_Rng_Act1:                                                  ; Offset_0x1FF9AA
 		binclude  "data\bpz\rng_act1.dat"
 BPz_Rng_Act2:                                                  ; Offset_0x1FF9B0
 		binclude  "data\bpz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 DPz_Obj_Act1:                                                  ; Offset_0x1FF9BC
 		binclude  "data\dpz\obj_act1.dat"
-DPz_Obj_Act2:                                                  ; Offset_0x1FFA28 
+DPz_Obj_Act2:                                                  ; Offset_0x1FFA28
 		binclude  "data\dpz\obj_act2.dat"
 DPz_Rng_Act1:                                                  ; Offset_0x1FFA34
 		binclude  "data\dpz\rng_act1.dat"
 DPz_Rng_Act2:                                                  ; Offset_0x1FFA3A
 		binclude  "data\dpz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 CGZ_Obj_Act1:                                                  ; Offset_0x1FFA46
 		binclude  "data\cgz\obj_act1.dat"
-CGZ_Obj_Act2:                                                  ; Offset_0x1FFAA6 
+CGZ_Obj_Act2:                                                  ; Offset_0x1FFAA6
 		binclude  "data\cgz\obj_act2.dat"
 CGZ_Rng_Act1:                                                  ; Offset_0x1FFAB2
 		binclude  "data\cgz\rng_act1.dat"
 CGZ_Rng_Act2:                                                  ; Offset_0x1FFAB8
 		binclude  "data\cgz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 EMz_Obj_Act1:                                                  ; Offset_0x1FFAC4
 		binclude  "data\emz\obj_act1.dat"
-EMz_Obj_Act2:                                                  ; Offset_0x1FFAEE 
+EMz_Obj_Act2:                                                  ; Offset_0x1FFAEE
 		binclude  "data\emz\obj_act2.dat"
 EMz_Rng_Act1:                                                  ; Offset_0x1FFAFA
 		binclude  "data\emz\rng_act1.dat"
 EMz_Rng_Act2:                                                  ; Offset_0x1FFB00
 		binclude  "data\emz\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 BS_GM_Obj_Act1:                                                ; Offset_0x1FFB0C
 		binclude  "data\bs_gm\obj_act1.dat"
-BS_GM_Obj_Act2:                                                ; Offset_0x1FFB18  
+BS_GM_Obj_Act2:                                                ; Offset_0x1FFB18
 		binclude  "data\bs_gm\obj_act2.dat"
 BS_GM_Rng_Act1:                                                ; Offset_0x1FFB24
 		binclude  "data\bs_gm\rng_act1.dat"
 BS_GM_Rng_Act2:                                                ; Offset_0x1FFB2A
 		binclude  "data\bs_gm\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 BS_GS_Obj_Act1:                                                ; Offset_0x1FFB36
 		binclude  "data\bs_gs\obj_act1.dat"
@@ -54776,19 +54771,19 @@ BS_GS_Rng_Act1:                                                ; Offset_0x1FFB4E
 		binclude  "data\bs_gs\rng_act1.dat"
 BS_GS_Rng_Act2:                                                ; Offset_0x1FFB54
 		binclude  "data\bs_gs\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 BS_SM_Obj_Act1:                                                ; Offset_0x1FFB60
 		binclude  "data\bs_sm\obj_act1.dat"
-BS_SM_Obj_Act2:                                                ; Offset_0x1FFB6C 
+BS_SM_Obj_Act2:                                                ; Offset_0x1FFB6C
 		binclude  "data\bs_sm\obj_act2.dat"
 BS_SM_Rng_Act1:                                                ; Offset_0x1FFB78
 		binclude  "data\bs_sm\rng_act1.dat"
 BS_SM_Rng_Act2:                                                ; Offset_0x1FFB7E
 		binclude  "data\bs_sm\rng_act2.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
-LRz_Act2_Boss_Obj:                                             ; Offset_0x1FFB8A  
+LRz_Act2_Boss_Obj:                                             ; Offset_0x1FFB8A
 		binclude  "data\lrz\obj_act3.dat"
 HPz_Obj:                                                       ; Offset_0x1FFB96
 		binclude  "data\hpz\obj_act1.dat"
@@ -54796,11 +54791,11 @@ LRz_Act2_Boss_Rng:                                             ; Offset_0x1FFBA2
 		binclude  "data\lrz\rng_act3.dat"
 HPz_Rng:                                                       ; Offset_0x1FFBA8
 		binclude  "data\hpz\rng_act1.dat"
-;------------------------------------------------------------------------------- 
+;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 DEz_Final_Boss_Obj:                                            ; Offset_0x1FFBB4
 		binclude  "data\dez\obj_act3.dat"
-HPz_Obj_2:                                                     ; Offset_0x1FFBC0 
+HPz_Obj_2:                                                     ; Offset_0x1FFBC0
 		binclude  "data\hpz\obj_act2.dat"
 DEz_Final_Boss_Rng:                                            ; Offset_0x1FFBCC
 		binclude  "data\dez\rng_act3.dat"
@@ -55076,6 +55071,4 @@ HPz_Rng_2:                                                     ; Offset_0x1FFBD2
 		dc.w	$3F40, $0250
 		dc.w	$3F40, $0260
 		dc.w	$3F30, $0270
-
 EndOfRom:
-		END
