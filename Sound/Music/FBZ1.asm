@@ -162,7 +162,13 @@ s3p9_Jump00:
 	dc.b	nRst, $0C, nA6, $7F, smpsNoAttack, nA6, $0B, nG6, $06, nE6, nD6, nE6
 	dc.b	nD6, nC6, nA5, nD6, $02, nEb6, $0A, nA5, $0C, nRst, $48, nRst
 	dc.b	$30, nD6, $06, nEb6, nD6, nEb6, nG6, nA6, nC7, nA6, nRst, $0C
-	dc.b	nA6, nA0, $7F, smpsNoAttack, nA6, $0B, nG6, $06, nE6, nD6, nE6, nD6
+	dc.b	nA6
+    if  ~~FixMusicAndSFXDataBugs
+	; This stray note causes the FM5 channel to slowly desync with the rest of the song.
+	; This was fixed Sonic & Knuckles' version of the song.
+	dc.b	nA0
+    endif
+	dc.b	$7F, smpsNoAttack, nA6, $0B, nG6, $06, nE6, nD6, nE6, nD6
 	dc.b	nC6, nA5, nD6, $02, nEb6, $0A, nA5, $0C, nRst, $48, nE5, $06
 	dc.b	nG5, nE5, nG5, nA5, nG5, nA5, nC6, nEb6, nE6, nD6, nC6, nA6
 	dc.b	nG6, nE6, nC6
