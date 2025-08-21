@@ -118,7 +118,7 @@ Offset_0x024CC2:
 ;-------------------------------------------------------------------------------		  
 Offset_0x024CC4:
 		lea     (Emerald_Collected_Flag_List).w, A1          ; $FFFFFFB2
-		tst.b   $00(A1, D6)
+		tst.b   (A1, D6)
 		beq.w   Offset_0x024BC4
 		btst    #$00, (Vint_runcount+$03).w       ; $FFFFFE0F
 		beq.s   Offset_0x024CDE
@@ -140,7 +140,7 @@ Offset_0x024CF8:
 ;-------------------------------------------------------------------------------		  
 Offset_0x024CFE:
 		bne.s   Offset_0x024D24
-		move.w  #$1388, (Level_Results_Time_Bonus).w         ; $FFFFF7D2
+		move.w  #5000, (Level_Results_Time_Bonus).w         ; $FFFFF7D2
 		move.b  #$2A, Obj_Routine(A0)		            ; $0005
 		move.w  #$0120, Obj_Y(A0)				; $0014
 		st      (HUD_Results_Refresh_Flag).w		 ; $FFFFF7D6
@@ -191,18 +191,18 @@ Offset_0x024D74:
 		moveq   #$00, D0
 		tst.w   (Level_Results_Time_Bonus).w		 ; $FFFFF7D2
 		beq.s   Offset_0x024D90
-		addi.w  #$000A, D0
+		addi.w  #10, D0
 		subq.w  #$01, (Level_Results_Time_Bonus).w           ; $FFFFF7D2
 Offset_0x024D90:
 		tst.w   (Level_Results_Ring_Bonus).w		 ; $FFFFF7D4
 		beq.s   Offset_0x024D9E
-		addi.w  #$000A, D0
+		addi.w  #10, D0
 		subq.w  #$01, (Level_Results_Ring_Bonus).w           ; $FFFFF7D4
 Offset_0x024D9E:
 		tst.w   (Level_Results_Total_Bonus).w		; $FFFFFF8E
 		beq.s   Offset_0x024DAE
-		addi.w  #$000A, D0
-		subi.w  #$000A, (Level_Results_Total_Bonus).w        ; $FFFFFF8E
+		addi.w  #10, D0
+		subi.w  #10, (Level_Results_Total_Bonus).w        ; $FFFFFF8E
 Offset_0x024DAE:
 		tst.w   D0
 		bne.s   Offset_0x024DF8

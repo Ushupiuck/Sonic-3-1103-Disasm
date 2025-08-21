@@ -476,6 +476,7 @@ sfx__End =			*		; next ID after the last sound effect
 	dephase
 	!org 0				; make sure we reset the ROM position to 0
 
+sfx_BigRingUnk = $32
 sfx_S2Smash =	$B9
 sfx_S2LargeBumper = $D9
 sfx_S2Error	=	$ED

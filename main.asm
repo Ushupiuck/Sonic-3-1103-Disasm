@@ -2025,7 +2025,7 @@ LoadPLC2:
 ; Offset_0x001548:
 ClearPLC:
 		lea	(PLC_Data_Buffer).w,a2
-		moveq	#(PLC_Data_Buffer_End>>2-PLC_Data_Buffer>>2)-1,d0
+		moveq	#bytesToLcnt(PLC_Data_Buffer_End-PLC_Data_Buffer),d0
 
 Offset_0x00154E:
 		clr.l	(a2)+
@@ -44412,59 +44412,59 @@ DAC_9B_Setup:                                                  ; Offset_0x0F00B8
 		dc.w	(((DAC_9B_Data_Ptr>>$08)|(DAC_9B_Data_Ptr<<$08))&$FFFF) ; $DC67
 ;-------------------------------------------------------------------------------
 DAC_86_Data:                                                   ; Offset_0x0F00BD
-		binclude  "sound\dacs\dac_86.bin"
+		binclude  "sound\DAC\dac_86.bin"
 DAC_86_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_81_Data:                                                   ; Offset_0x0F03BD
-		binclude  "sound\dacs\dac_81.bin"
+		binclude  "sound\DAC\dac_81.bin"
 DAC_81_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_82_To_85_Data:                                             ; Offset_0x0F0B4D
-		binclude  "sound\dacs\dac82-85.bin"
+		binclude  "sound\DAC\dac82-85.bin"
 DAC_82_To_85_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_94_To_97_Data:                                             ; Offset_0x0F100D
-		binclude  "sound\dacs\dac94-97.bin"
+		binclude  "sound\DAC\dac94-97.bin"
 DAC_94_To_97_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_90_To_93_Data:                                             ; Offset_0x0F199D
-		binclude  "sound\dacs\dac90-93.bin"
+		binclude  "sound\DAC\dac90-93.bin"
 DAC_90_To_93_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_88_Data:                                                   ; Offset_0x0F1FED
-		binclude  "sound\dacs\dac_88.bin"
+		binclude  "sound\DAC\dac_88.bin"
 DAC_88_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8A_To_8B_Data:                                             ; Offset_0x0F323D
-		binclude  "sound\dacs\dac8A-8B.bin"
+		binclude  "sound\DAC\dac8A-8B.bin"
 DAC_8A_To_8B_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8C_Data:                                                   ; Offset_0x0F339D
-		binclude  "sound\dacs\dac_8C.bin"
+		binclude  "sound\DAC\dac_8C.bin"
 DAC_8C_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8D_To_8E_Data:                                             ; Offset_0x0F3408
-		binclude  "sound\dacs\dac8D-8E.bin"
+		binclude  "sound\DAC\dac8D-8E.bin"
 DAC_8D_To_8E_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_87_Data:                                                   ; Offset_0x0F38D8
-		binclude  "sound\dacs\dac_87.bin"
+		binclude  "sound\DAC\dac_87.bin"
 DAC_87_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8F_Data:                                                   ; Offset_0x0F4018
-		binclude  "sound\dacs\dac_8F.bin"
+		binclude  "sound\DAC\dac_8F.bin"
 DAC_8F_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_89_Data:                                                   ; Offset_0x0F4528
-		binclude  "sound\dacs\dac_89.bin"
+		binclude  "sound\DAC\dac_89.bin"
 DAC_89_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_98_To_9A_Data:                                             ; Offset_0x0F4F48
-		binclude  "sound\dacs\dac98-9A.bin"
+		binclude  "sound\DAC\dac98-9A.bin"
 DAC_98_To_9A_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_9B_Data:                                                   ; Offset_0x0F5C67
-		binclude  "sound\dacs\dac_9B.bin"
+		binclude  "sound\DAC\dac_9B.bin"
 DAC_9B_Data_End:
 ;-------------------------------------------------------------------------------
 Offset_0x0F7304:
@@ -52479,7 +52479,6 @@ Launch_Base_1_Tiles_2:                                         ; Offset_0x186688
 		binclude  "data\lbz\tl2_act1.kmd"
 Launch_Base_Unreferenced_Chunks: ; N�o usado ; Left over ???   ; Offset_0x1885CA
 		binclude  "data\lbz\cnkunref.kos"
-		dc.w	 $0000, $0000
 Launch_Base_1_Chunks:                                          ; Offset_0x18872A
 Launch_Base_1_Chunks_2:                                        ; Offset_0x18872A
 		binclude  "data\lbz\ck_act1.kos"
@@ -52585,27 +52584,21 @@ BS_Slot_Machine_Chunks:                                        ; Offset_0x1AA46E
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 ;-------------------------------------------------------------------------------
 ; Offset_0x1AACAE:
-		binclude  "data\unknown\unkdata.bin"
-		dc.w	$0000, $0000, $0000, $0000
+		binclude  "data\unknown\unkdata.kos"
 ; Offset_0x1AAE0E:
 		binclude  "data\unknown\chunks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 ; Offset_0x1AB64E:
-		binclude  "data\unknown\unkdata2.bin"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
+		binclude  "data\unknown\unkdata2.kos"
 ; Offset_0x1ABC6C:
-		binclude  "data\unknown\unkdata3.bin"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
+		binclude  "data\unknown\unkdata3.kos"
 ; Offset_0x1ABD5C:
-		binclude  "data\unknown\unkdata4.bin"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
+		binclude  "data\unknown\unkdata4.kos"
 ; Offset_0x1ABDDC:
-		binclude  "data\unknown\unkdata5.bin"
+		binclude  "data\unknown\unkdata5.kos"
 Left_Over_Lava_Reef_Blocks:
 		binclude	"data\lrz\Blocks.kos"
 Left_Over_Lava_Reef_Tiles:                                     ; Offset_0x1AEF34
 		binclude  "data\lrz\tiles_1.kmd"
-		dc.w	$0000, $0000, $0000
 Left_Over_Lava_Reef_Chunks_2:                                  ; Offset_0x1B2ED6
 		binclude  "data\lrz\chunks_2.kos"
 Left_Over_Azure_Lake_Blocks:                                   ; Offset_0x1B5DB6

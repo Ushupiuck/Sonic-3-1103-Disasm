@@ -22,7 +22,7 @@ Offset_0x0311F0:
 Offset_0x0311FA:
                 move.l  (A5)+, (A1)+
                 dbra    D0, Offset_0x0311FA
-                moveq   #Flying_Battery_Move_Sfx, D0                       ; $54
+                moveq   #sfx_LargeShip, D0                       ; $54
                 jsr     (Play_Music).l                           ; Offset_0x001176
 ;-------------------------------------------------------------------------------                
 Obj_AIz_FBz_Battleship_Main:                                   ; Offset_0x031208                
@@ -119,7 +119,7 @@ AIz_FBz_Ship_Bomb_Delay:                                       ; Offset_0x03133C
                 subq.w  #$01, Obj_Control_Var_02(A0)                     ; $0032
                 bne.s   Offset_0x03134E
                 addq.b  #$04, Obj_Routine(A0)                            ; $0005
-                moveq   #Missile_Throw_Sfx, D0                             ; $56
+                moveq   #sfx_MissileThrow, D0                             ; $56
                 jsr     (Play_Music).l                           ; Offset_0x001176
 Offset_0x03134E:
                 jsr     Offset_0x0313D8(PC)
@@ -137,7 +137,7 @@ AIz_FBz_Ship_Bomb_Drop:                                        ; Offset_0x031358
                 cmpi.w  #$FFF8, D1
                 bgt.s   Offset_0x0313D6
                 move.w  #$0010, (Earthquake_Flag).w                  ; $FFFFEECC
-                moveq   #Missile_Explosion_Sfx, D0                         ; $52
+                moveq   #sfx_MissileExplode, D0                         ; $52
                 jsr     (Play_Music).l                           ; Offset_0x001176
                 jsr     (AllocateObjectAfterCurrent)                  ; Offset_0x011DE0
                 bne.s   Offset_0x0313D0
