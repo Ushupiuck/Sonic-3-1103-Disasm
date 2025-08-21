@@ -330,7 +330,7 @@ zInitAudioDriver:
 		dec	c
 		jr	z,.loop
 
-		ld	a,zmake68kBank(Snd_Bank1_Start)&0Fh ; See bankswitchToMusicS3
+		ld	a,zmake68kBank(Snd_Bank1_Start)&0Fh ; See bankswitchToMusic
 		ld	(zSongBank),a			; store the music bank
 		xor	a
 		ld	(zDACIndex),a			; clear the DAC index
@@ -1720,7 +1720,7 @@ zFMFrequencies:
 ; MUSIC BANKS
 ; ===========================================================================
 
-zmakeSongBank function addr,zmake68kBank(addr)&0Fh ; See bankswitchToMusicS3
+zmakeSongBank function addr,zmake68kBank(addr)&0Fh ; See bankswitchToMusic
 
 zmakeSongBanks macro
 		irp op,ALLARGS
