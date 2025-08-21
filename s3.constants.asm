@@ -221,6 +221,265 @@ GM_BS_Act_1           equ $1300
 GS_BS_Act_1           equ $1400
 SM_BS_Act_1           equ $1500
 
+; ---------------------------------------------------------------------------
+; Sound commands list.
+
+	phase $E0
+cmd__First =			*		; ID of the first sound command
+cmd_FadeOut			ds.b 1		; $E0 - fade out music
+cmd_Stop			ds.b 1		; $E1 - stop music and sound effects
+cmd_MutePSG			ds.b 1		; $E2 - mute all PSG channels
+cmd_StopSFX			ds.b 1		; $E3 - stop all sound effects
+cmd__End =			*		; next ID after last sound command
+
+cmd_S2SlowDown =		$FC	; $FC - slow down music ID in Sonic 2
+cmd_S2SEGA =			$FA		; $FA - SEGA sound ID in Sonic 2
+cmd_StopSEGA =			$FE		; $FE - Stop SEGA sound
+cmd_SEGA =			$FF		; $FF - Play SEGA sound
+	dephase
+; ---------------------------------------------------------------------------
+; Music ID's list. These do not affect the sound driver, be careful.
+
+	phase $01
+mus__First =			*		; ID of the first music
+mus_AIZ1			ds.b 1		; $01
+mus_AIZ2			ds.b 1		; $02
+mus_HCZ1			ds.b 1		; $03
+mus_HCZ2			ds.b 1		; $04
+mus_MGZ1			ds.b 1		; $05
+mus_MGZ2			ds.b 1		; $06
+mus_CNZ1			ds.b 1		; $07
+mus_CNZ2			ds.b 1		; $08
+mus_FBZ1			ds.b 1		; $09
+mus_FBZ2			ds.b 1		; $0A
+mus_ICZ1			ds.b 1		; $0B
+mus_ICZ2			ds.b 1		; $0C
+mus_LBZ1			ds.b 1		; $0D
+mus_LBZ2			ds.b 1		; $0E
+mus_MVZ1			ds.b 1		; $0F
+mus_MVZ2			ds.b 1		; $10
+mus_SOZ1			ds.b 1		; $11
+mus_SOZ2			ds.b 1		; $12
+mus_LRZ1			ds.b 1		; $13
+mus_LRZ2			ds.b 1		; $14
+mus_SSZ				ds.b 1		; $15
+mus_DEZ1			ds.b 1		; $16
+mus_DEZ2			ds.b 1		; $17
+mus_Miniboss		ds.b 1		; $18
+mus_EndBoss			ds.b 1		; $19
+mus_DDZ				ds.b 1		; $1A
+mus_Pachinko		ds.b 1		; $1B
+mus_SpecialStage	ds.b 1		; $1C
+mus_Slots			ds.b 1		; $1D
+mus_Gumball			ds.b 1		; $1E
+mus_Knuckles		ds.b 1		; $1F
+mus_ALZ				ds.b 1		; $20
+mus_BPZ				ds.b 1		; $21
+mus_DPZ				ds.b 1		; $22
+mus_CGZ				ds.b 1		; $23
+mus_EMZ				ds.b 1		; $24
+mus_TitleScreen		ds.b 1		; $25
+mus_Credits			ds.b 1		; $26
+mus_GameOver		ds.b 1		; $27
+mus_Continue		ds.b 1		; $28
+mus_GotThroughAct	ds.b 1		; $29
+mus_ExtraLife		ds.b 1		; $2A
+mus_Emerald			ds.b 1		; $2B
+mus_Invincibility	ds.b 1		; $2C
+mus_CompetitionMenu		ds.b 1		; $2D
+mus_Unused			ds.b 1		; $2E
+mus_DataSelect		ds.b 1		; $2F
+mus_FinalBoss		ds.b 1		; $30
+mus_Drowning		ds.b 1		; $31
+mus__End =			*		; next ID after last music
+	dephase
+
+mus_SuperSonicUnk =	$0A
+mus_S2ExtraLife =	$98
+mus_S2Drowning =	$9F
+
+; ---------------------------------------------------------------------------
+; Sound effect ID's list. These do not affect the sound driver, be careful.
+
+	phase $32
+sfx__First =			*		; ID of the first sound effect
+sfx_RingRight			ds.b 1		; $32
+sfx_RingLeft			ds.b 1		; $33
+sfx_RingLoss			ds.b 1		; $34
+sfx_Death			ds.b 1		; $35
+sfx_Skid			ds.b 1		; $36
+sfx_SpikeHit			ds.b 1		; $37
+sfx_Bubble			ds.b 1		; $38
+sfx_Splash			ds.b 1		; $39
+sfx_Shield			ds.b 1		; $3A
+sfx_Drown			ds.b 1		; $3B
+sfx_Roll			ds.b 1		; $3C
+sfx_Break			ds.b 1		; $3D
+sfx_FireShield			ds.b 1		; $3E
+sfx_BubbleShield		ds.b 1		; $3F
+sfx_UnknownShield		ds.b 1		; $40
+sfx_LightningShield		ds.b 1		; $41
+sfx_InstaAttack			ds.b 1		; $42
+sfx_FireAttack			ds.b 1		; $43
+sfx_BubbleAttack		ds.b 1		; $44
+sfx_ElectricAttack		ds.b 1		; $45
+sfx_Whistle			ds.b 1		; $46
+sfx_SandwallRise		ds.b 1		; $47
+sfx_Flying			ds.b 1		; $48
+sfx_FlyTired			ds.b 1		; $49
+sfx_Blast			ds.b 1		; $4A
+sfx_Thump			ds.b 1		; $4B
+sfx_Grab			ds.b 1		; $4C
+sfx_Waterfall		ds.b 1		; $4D
+sfx_SlideSkidLoud		ds.b 1		; $4E
+sfx_WaterfallSplash		ds.b 1		; $4F
+sfx_GlideLand			ds.b 1		; $50
+sfx_Projectile			ds.b 1		; $51
+sfx_MissileExplode		ds.b 1		; $52
+sfx_FlamethrowerQuiet		ds.b 1		; $53
+sfx_LargeShip		ds.b 1		; $54
+sfx_BossActivate		ds.b 1		; $55
+sfx_MissileThrow		ds.b 1		; $56
+		ds.b 1		; $57
+sfx_SpikeMove		ds.b 1		; $58
+sfx_Charging		ds.b 1		; $59
+sfx_BossLaser		ds.b 1		; $5A
+sfx_BlockConveyor		ds.b 1		; $5B
+sfx_FlipBridge		ds.b 1		; $5C
+sfx_Geyser		ds.b 1		; $5D
+sfx_BossRotate		ds.b 1		; $5E
+sfx_FanBig		ds.b 1		; $5F
+sfx_FanSmall		ds.b 1		; $60
+sfx_FanLatch		ds.b 1		; $61
+sfx_Collapse		ds.b 1		; $62
+sfx_UnknownCharge		ds.b 1		; $63
+sfx_Switch		ds.b 1		; $64
+sfx_FlamethrowerLoud		ds.b 1		; $65
+sfx_MechaSpark		ds.b 1		; $66
+		ds.b 1		; $67
+sfx_FloorThump		ds.b 1		; $68
+sfx_Laser		ds.b 1		; $69
+sfx_BossPanic		ds.b 1		; $6A
+sfx_UnknownSpin		ds.b 1		; $6B
+sfx_Crash		ds.b 1		; $6C
+sfx_BossZoom		ds.b 1		; $6D
+sfx_BossHitFloor		ds.b 1		; $6E
+sfx_BossHitFloor2		ds.b 1		; $6F
+sfx_Jump		ds.b 1		; $70
+sfx_Starpost	ds.b 1		; $71
+sfx_PulleyGrab	ds.b 1		; $72
+sfx_Death2		ds.b 1		; $73
+sfx_Skid2		ds.b 1		; $74
+sfx_LevelProjectile	ds.b 1		; $75
+sfx_SpikeHit2	ds.b 1		; $76
+sfx_PushBlock	ds.b 1		; $77
+sfx_Goal		ds.b 1		; $78
+sfx_ActionBlock	ds.b 1		; $79
+sfx_Splash2		ds.b 1		; $7A
+sfx_UnknownShift	ds.b 1		; $7B
+sfx_BossHit		ds.b 1		; $7C
+sfx_Bubble2		ds.b 1		; $7D
+sfx_LavaBall	ds.b 1		; $7E
+sfx_Shield2		ds.b 1		; $7F
+sfx_Hoverpad	ds.b 1		; $80
+sfx_Transporter	ds.b 1		; $81
+sfx_TunnelBooster	ds.b 1		; $82
+sfx_BalloonPlatform	ds.b 1		; $83
+	ds.b 1		; $84
+sfx_TrapDoor	ds.b 1		; $85
+sfx_Balloon		ds.b 1		; $86
+sfx_CannonTurn	ds.b 1		; $87
+sfx_GravityMachine	ds.b 1		; $88
+sfx_Lightning	ds.b 1		; $89
+sfx_BossMagma	ds.b 1		; $8A
+sfx_SmallBumpers	ds.b 1		; $8B
+sfx_ChainTension	ds.b 1		; $8C
+sfx_UnknownPump		ds.b 1		; $8D
+sfx_SlideSkidQuiet	ds.b 1		; $8E
+sfx_GroundSlide		ds.b 1		; $8F
+sfx_SpikeBalls	ds.b 1		; $90
+sfx_FrostPuff	ds.b 1		; $91
+sfx_IceSpikes	ds.b 1		; $92
+sfx_LightTunnel	ds.b 1		; $93
+sfx_Rumble	ds.b 1		; $94
+sfx_TubeLauncher	ds.b 1		; $95
+	ds.b 1		; $96
+sfx_BridgeCollapse	ds.b 1		; $97
+sfx_BigRumble	ds.b 1		; $98
+sfx_UnknownPowerUp	ds.b 1		; $99
+sfx_UnknownPowerDown	ds.b 1		; $9A
+sfx_Alarm	ds.b 1		; $9B
+sfx_DeathEggRiseLoud	ds.b 1		; $9C
+sfx_WindQuiet	ds.b 1		; $9D
+sfx_WindLoud	ds.b 1		; $9E
+sfx_MushroomBounce	ds.b 1		; $9F
+sfx_PulleyMove	ds.b 1		; $A0
+sfx_WeatherMachine	ds.b 1		; $A1
+sfx_Bouncy	ds.b 1		; $A2
+sfx_ChopTree	ds.b 1		; $A3
+sfx_Rising	ds.b 1		; $A4
+sfx_ChopStuck	ds.b 1		; $A5
+sfx_UnknownFlutter	ds.b 1		; $A6
+sfx_UnknownRevving	ds.b 1		; $A7
+sfx_DoorOpen	ds.b 1		; $A8
+sfx_DoorMove	ds.b 1		; $A9
+sfx_DoorClose	ds.b 1		; $AA
+sfx_GhostAppear	ds.b 1		; $AB
+sfx_BossRecovery	ds.b 1		; $AC
+sfx_ChainTick	ds.b 1		; $AD
+sfx_GumballTab	ds.b 1		; $AE
+sfx_BossHand	ds.b 1		; $AF
+sfx_MechaLand	ds.b 1		; $B0
+sfx_EnemyBreath	ds.b 1		; $B1
+sfx_DeathEggRiseQuiet	ds.b 1		; $B2
+sfx_BossProjectile	ds.b 1		; $B3
+	ds.b 1		; $B4
+sfx_LavaFall	ds.b 1		; $B5
+sfx_SpringLatch	ds.b 1		; $B6
+sfx_ThumpBoss	ds.b 1		; $B7
+sfx_SuperEmerald	ds.b 1		; $B8
+sfx_Targeting	ds.b 1		; $B9
+sfx_Clank	ds.b 1		; $BA
+sfx_SuperTransform	ds.b 1		; $BB
+sfx_UnknownZap	ds.b 1		; $BC
+sfx_MissileShoot	ds.b 1		; $BD
+sfx_UnknownOminous	ds.b 1		; $BE
+sfx_ConveyorPlatform	ds.b 1		; $BF
+sfx_UnknownSaw	ds.b 1		; $C0
+	ds.b 1		; $C1
+sfx_GravityLift	ds.b 1		; $C2
+sfx_MechaTransform	ds.b 1		; $C3
+sfx_UnknownRise	ds.b 1		; $C4
+sfx_MagneticSpike	ds.b 1		; $C5
+sfx_LeafBlower	ds.b 1		; $C6
+sfx_LaunchGrab	ds.b 1		; $C7
+sfx_LaunchReady	ds.b 1		; $C8
+sfx_EnergyZap	ds.b 1		; $C9
+sfx_Jump2		ds.b 1		; $CA
+sfx_Bumper		ds.b 1		; $CB
+sfx_Spindash	ds.b 1		; $CC
+sfx_Continue	ds.b 1		; $CD
+sfx_Starpost2	ds.b 1		; $CE
+sfx_Flipper		ds.b 1		; $CF
+sfx_EnterSS		ds.b 1		; $D0
+sfx_Register	ds.b 1		; $D1
+sfx_Spring		ds.b 1		; $D2
+sfx_Error		ds.b 1		; $D3
+sfx_BigRing		ds.b 1		; $D4
+sfx_BossHit2	ds.b 1		; $D5
+sfx_Diamonds	ds.b 1		; $D6
+sfx_Dash	ds.b 1		; $D7
+sfx_SlotMachine	ds.b 1		; $D8
+sfx_Signpost	ds.b 1		; $D9
+sfx__End =			*		; next ID after the last sound effect
+
+	dephase
+	!org 0				; make sure we reset the ROM position to 0
+
+sfx_S2Smash =	$B9
+sfx_S2LargeBumper = $D9
+sfx_S2Error	=	$ED
+
 ; Músicas 
 Angel_Island_1_Snd       equ $0001
 Angel_Island_2_Snd       equ $0002
@@ -268,7 +527,7 @@ Panic_Snd                equ $0031
 Super_Sonic_Snd          equ $000A 
 
 
-; Efeitos especiais     
+; Efeitos especiais
 Ring_Sfx                 equ $0032
 Ring_Left_Speaker_Sfx    equ $0033
 Ring_Lost_Sfx            equ $0034
@@ -345,10 +604,6 @@ Stop_Sound               equ -$1F ; $E1
 PSG_Mute                 equ -$1E ; $E2
 Stop_SFx                 equ -$1D ; $E3
 Music_Normal_Speed       equ $00FC
-
-; Outros
-Sega_PCM               equ -$01 ; $FF
-
 
 ; Z80  
 Z80_RAM_Start                  equ $00A00000 
@@ -892,7 +1147,7 @@ Vertical_Frequency               equ M68K_RAM_Start+$FFF6
 Hardware_Id                      equ M68K_RAM_Start+$FFF8 
 Debug_Mode_Active                equ M68K_RAM_Start+$FFFA
 Init_Flag                        equ M68K_RAM_Start+$FFFC
-CrossResetRAM_End:		equ	Init_Flag
+CrossResetRAM_End:		equ	0
 
 ; CRAM
 Color_RAM_Address              equ $C0000000

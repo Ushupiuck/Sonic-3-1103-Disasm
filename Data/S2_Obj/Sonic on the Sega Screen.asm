@@ -206,7 +206,7 @@ Offset_0x03469C:
 SegaSonic_PlayChant:
 		addq.b	#2,Obj_Routine(a0)
 		st	(PalCycle_Done_Flag).w
-		move.b	#$FA,d0
+		move.b	#cmd_S2SEGA,d0
 		jsr	(PlaySound).l
 ; Offset_0x0346BA:
 SegaSonic_End:
