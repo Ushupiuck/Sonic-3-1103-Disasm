@@ -10005,10 +10005,10 @@ Offset_0x009784:
 Offset_0x009792:
 		move.l	(Current_Collision_Ptr).w,a2                ; $FFFFF796
 		add.w	D0,d0
-		move.w	$00(A2,d0),d0
+		move.w	(A2,d0),d0
 		beq.s	Offset_0x009784
 		lea	(AngleMap),a2                         ; Offset_0x1C9040
-		move.b	$00(A2,d0),(A4)
+		move.b	(A2,d0),(A4)
 		lsl.w	#$04,d0
 		move.w	D3,d1
 		btst	#$0A,d4
@@ -10025,7 +10025,7 @@ Offset_0x0097C6:
 		andi.w	#$000F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1),a2                ; Offset_0x1C9240
-		move.b	$00(A2,d1),d0
+		move.b	(A2,d1),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$0B,d4
@@ -10071,10 +10071,10 @@ Offset_0x009828:
 Offset_0x009836:
 		move.l	(Current_Collision_Ptr).w,a2                ; $FFFFF796
 		add.w	D0,d0
-		move.w	$00(A2,d0),d0
+		move.w	(A2,d0),d0
 		beq.s	Offset_0x009828
 		lea	(AngleMap),a2                         ; Offset_0x1C9040
-		move.b	$00(A2,d0),(A4)
+		move.b	(A2,d0),(A4)
 		lsl.w	#$04,d0
 		move.w	D3,d1
 		btst	#$0A,d4
@@ -10091,7 +10091,7 @@ Offset_0x00986A:
 		andi.w	#$000F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1),a2                ; Offset_0x1C9240
-		move.b	$00(A2,d1),d0
+		move.b	(A2,d1),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$0B,d4
@@ -10157,10 +10157,10 @@ Offset_0x0098F6:
 Offset_0x0098FC:
 		move.l	(Current_Collision_Ptr).w,a2                ; $FFFFF796
 		add.w	D0,d0
-		move.w	$00(A2,d0),d0
+		move.w	(A2,d0),d0
 		beq.s	Offset_0x0098F6
 		lea	(AngleMap),a2                         ; Offset_0x1C9040
-		move.b	$00(A2,d0),(A4)
+		move.b	(A2,d0),(A4)
 		lsl.w	#$04,d0
 		move.w	D3,d1
 		btst	#$0A,d4
@@ -10177,7 +10177,7 @@ Offset_0x009930:
 		andi.w	#$000F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1),a2                ; Offset_0x1C9240
-		move.b	$00(A2,d1),d0
+		move.b	(A2,d1),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$0B,d4
@@ -10268,10 +10268,10 @@ Offset_0x0099F0:
 Offset_0x0099FE:
 		move.l	(Current_Collision_Ptr).w,a2                ; $FFFFF796
 		add.w	D0,d0
-		move.w	$00(A2,d0),d0
+		move.w	(A2,d0),d0
 		beq.s	Offset_0x0099F0
 		lea	(AngleMap),a2                         ; Offset_0x1C9040
-		move.b	$00(A2,d0),(A4)
+		move.b	(A2,d0),(A4)
 		lsl.w	#$04,d0
 		move.w	D2,d1
 		btst	#$0B,d4
@@ -10288,7 +10288,7 @@ Offset_0x009A32:
 		andi.w	#$000F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_2),a2                ; Offset_0x1CB240
-		move.b	$00(A2,d1),d0
+		move.b	(A2,d1),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$0A,d4
@@ -10335,10 +10335,10 @@ Offset_0x009A94:
 Offset_0x009AA2:
 		move.l	(Current_Collision_Ptr).w,a2                ; $FFFFF796
 		add.w	D0,d0
-		move.w	$00(A2,d0),d0
+		move.w	(A2,d0),d0
 		beq.s	Offset_0x009A94
 		lea	(AngleMap),a2                         ; Offset_0x1C9040
-		move.b	$00(A2,d0),(A4)
+		move.b	(A2,d0),(A4)
 		lsl.w	#$04,d0
 		move.w	D2,d1
 		btst	#$0B,d4
@@ -10355,7 +10355,7 @@ Offset_0x009AD6:
 		andi.w	#$000F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_2),a2                ; Offset_0x1CB240
-		move.b	$00(A2,d1),d0
+		move.b	(A2,d1),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$0A,d4
@@ -10509,7 +10509,7 @@ Offset_0x009C48:
 		cmp.w	D0,d1
 		ble.s	Offset_0x009C56
 		move.b	(Primary_Angle).w,d3                        ; $FFFFF768
-		exg.l	D0,d1
+		exg	D0,d1
 Offset_0x009C56:
 		btst	#$00,d3
 		beq.s	Offset_0x009C5E
@@ -14283,7 +14283,7 @@ Sonic_Or_Knuckles_Animate_Sprite_2P_A1:		        ; Offset_0x00C850
 		bclr    #$05, Obj_Status(A0)		             ; $002A
 Offset_0x00C872:
 		add.w   D0,d0
-		adda.w  $00(A1,d0),a1
+		adda.w  (A1,d0),a1
 		move.b  (A1),d0
 		bmi.s   Offset_0x00C8E2
 		move.b  Obj_Status(A0),d1		               ; $002A
@@ -16125,7 +16125,7 @@ Offset_0x011216:
 		moveq	#$00,d1
 		move.b	Obj_Ani_Frame(A0),d1                            ; $0023
 		add.w	D1,d1
-		move.b	$00(A1,d1),d0
+		move.b	(A1,d1),d0
 		bmi.s	Offset_0x011252
 Offset_0x011230:
 		move.b	$01(A1,d1), Obj_Ani_Time(A0)                    ; $0024
@@ -16949,7 +16949,7 @@ Offset_0x011A22:
 		beq.s	Offset_0x011AA0
 		add.w	D4,d4
 		lea	(A2),a1
-		adda.w	$00(A1,d4),a1
+		adda.w	(A1,d4),a1
 		move.w	(A1)+,d4
 		subq.w	#$01,d4
 		bmi.s	Offset_0x011AA0
@@ -16978,7 +16978,7 @@ Offset_0x011AAE:
 		move.b	(A0)+,d4
 		add.w	D4,d4
 		lea	(A2),a1
-		adda.w	$00(A1,d4),a1
+		adda.w	(A1,d4),a1
 		move.w	(A1)+,d4
 		subq.w	#$01,d4
 		bmi.s	Offset_0x011AE8
@@ -17680,7 +17680,7 @@ Scroll_Horizontal:                                             ; Offset_0x0121D6
 		addq.b	#$04,d1
 		move.w	$0002(A5),d0
 		sub.b	D1,d0
-		move.w	$00(A6,d0),d0
+		move.w	(A6,d0),d0
 		andi.w	#$7FFF,d0
 		bra.s	Offset_0x012204
 Offset_0x012200:
@@ -17860,7 +17860,7 @@ Offset_0x012366:
 		addq.b	#$04,d1
 		move.w	$0002(A5),d0
 		sub.b	D1,d0
-		move.w	$00(A6,d0),d0
+		move.w	(A6,d0),d0
 		andi.w	#$7FFF,d0
 		bra.s	Offset_0x012394
 Offset_0x012390:
@@ -18652,7 +18652,7 @@ Offset_0x012A56:
 		addi.w	#$0080,d0
 		move.w	(A0),d6
 		lsl.w	#$03,d6
-		lea	$00(A1,d6),a2
+		lea	(A1,d6),a2
 		add.w	(A2)+,d1
 		move.w	D1,(A6)+
 		move.w	(A2)+,d6
@@ -19751,7 +19751,7 @@ Offset_0x0137CE:
 		add.w	D3,d5
 Offset_0x0137F4:
 		lsr.w	#$01,d5
-		move.b	$00(A2,d5),d3
+		move.b	(A2,d5),d3
 		sub.b	(A2),d3
 		ext.w	D3
 		move.w	Obj_Y(A0),d5                                    ; $0014
@@ -19786,7 +19786,7 @@ Offset_0x013828:
 		add.w	D3,d5
 Offset_0x01384E:
 		andi.w	#$FFFE,d5
-		move.b	$00(A2,d5),d3
+		move.b	(A2,d5),d3
 		move.b	$01(A2,d5),d2
 		ext.w	D2
 		ext.w	D3
@@ -20035,7 +20035,7 @@ Solid_Object_Sloped_2:                                         ; Offset_0x013A90
 		not.w   D0
 		add.w	D1,d0
 Offset_0x013AB0:
-		move.b	$00(A2,d0),d1
+		move.b	(A2,d0),d1
 		ext.w	D1
 		move.w	Obj_Y(A0),d0                                    ; $0014
 		sub.w	D1,d0
@@ -20668,7 +20668,7 @@ Offset_0x015310:
 		bne.w	Offset_0x015338
 		moveq	#$48,d0
 Offset_0x01531C:
-		move.w	$00(A0,d0), $00(A1,d0)
+		move.w	(A0,d0),(A1,d0)
 		subq.w	#$02,d0
 		bcc.s	Offset_0x01531C
 		move.l	(A0), Obj_Height_3(A1)				 ; $0044
@@ -21277,7 +21277,7 @@ Offset_0x015C8E:
 		move.b	Obj_Control_Var_10(A0),d0				; $0040
 		andi.w	#$000F,d0
 		lea	(Level_Trigger_Array).w,a3			; $FFFFF7E0
-		lea	$00(A3,d0),a3
+		lea	(A3,d0),a3
 		tst.b	(A3)
 		beq.s	Offset_0x015CAC
 		move.b	#$01, Obj_Control_Var_0A(A0)			; $003A
@@ -21332,7 +21332,7 @@ Offset_0x015D06:
 Offset_0x015D34:
 		lsr.w	#$04,d0
 		move.b	(A2),d2
-		sub.b	$00(A2,d0),d2
+		sub.b	(A2,d0),d2
 		cmp.b	D2,d3
 		bhi.s	Offset_0x015D5C
 Offset_0x015D40:
@@ -26263,7 +26263,6 @@ Offset_0x024446:
 
 Obj_Time_Over_Game_Over:                                       ; Offset_0x02444C
 		include "data\objects\tmgmover.asm"
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object - Title Card
@@ -26405,7 +26404,6 @@ TitleCard_LoadAnimals:
 		moveq	#id_PLC_Main3,d0
 		jsr	(LoadPLC).l
 		jmp	(DeleteObject).l
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object - Title Card Red Bar
@@ -26437,7 +26435,6 @@ Offset_0x0246CC:
 Offset_0x0246E2:
 		move.b	#$70,Obj_Height(a0)
 		jmp	(DisplaySprite).l
-
 ; ---------------------------------------------------------------------------
 ; Object - Title Card Level Name
 ; ---------------------------------------------------------------------------
@@ -26446,7 +26443,6 @@ Obj_TtlCardName:
 		move.b	(Apparent_Zone).w,d0
 		add.b	d0,Obj_Map_Id(a0)
 		move.l	#Obj_TtlCardZone,(a0)
-
 ; ---------------------------------------------------------------------------
 ; Object - Title Card Zone
 ; ---------------------------------------------------------------------------
@@ -26477,7 +26473,6 @@ Offset_0x024724:
 
 Offset_0x02473A:
 		jmp	(DisplaySprite).l
-
 ; ---------------------------------------------------------------------------
 ; Object - Title Card Act
 ; ---------------------------------------------------------------------------
@@ -26710,7 +26705,6 @@ LevelResults_LoadAct2:
 		clr.b	Obj_Routine(A0)
 		st	Obj_Control_Var_0E(a0)
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object - Character Name on the Level Results
@@ -26742,7 +26736,6 @@ LevResultsCharName_Tails:
 
 Offset_0x0249E4:
 		move.l	#Obj_LevResultsGeneral,(a0)
-
 ; ---------------------------------------------------------------------------
 ; Object - General Level Results Object
 ; ---------------------------------------------------------------------------
@@ -26750,7 +26743,6 @@ Offset_0x0249E4:
 Obj_LevResultsGeneral:
 		jsr	LevelResults_MoveElement(pc)
 		jmp	(DisplaySprite).l
-
 ; ---------------------------------------------------------------------------
 ; Object - Act on the Level Results
 ; ---------------------------------------------------------------------------
@@ -26760,7 +26752,6 @@ Obj_LevResultsAct:
 		beq.s	Offset_0x0249E4				; if not, branch
 		addq.b	#1,Obj_Map_Id(a0)
 		bra.s	Offset_0x0249E4
-
 ; ---------------------------------------------------------------------------
 ; Object - Time Results on the Level Results
 ; ---------------------------------------------------------------------------
@@ -26769,7 +26760,6 @@ Obj_LevelResultsTimeBonus:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Level_Results_Time_Bonus).w,d0
 		bra.s	LevelResults_Display
-
 ; ---------------------------------------------------------------------------
 ; Object - Ring Results on the Level Results
 ; ---------------------------------------------------------------------------
@@ -26778,7 +26768,6 @@ Obj_LevelResultsRingBonus:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Level_Results_Ring_Bonus).w,d0
 		bra.s	LevelResults_Display
-
 ; ---------------------------------------------------------------------------
 ; Object - Total Results on the Level Results
 ; ---------------------------------------------------------------------------
@@ -26791,7 +26780,6 @@ Obj_LevelResultsTotal:
 LevelResults_Display:
 		bsr.s	LevelResults_DisplayScore
 		jmp	(DisplaySprite).l
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to convert the level results score to a viewable format
@@ -26949,19 +26937,16 @@ LevelResults_ObjArray:
 		ttlresObjData Obj_LevResultsGeneral,	 $D4, $554,$11C, $B,$30,9	; "TOTAL"
 		ttlresObjData Obj_LevelResultsTotal,	$178, $5F8,$11C,  1,$40,9	; Total Score Number
 LevelResults_ObjArray_End:
-
 ; ===========================================================================
 
 Offset_0x024BC4:
 		jmp	(DeleteObject).l
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object - Special Stage Results (leftover from Sonic 2)
 ; ---------------------------------------------------------------------------
 ; Offset_0x024BCA: Obj_S2_0x6F_Special_Stage_Results: S2Obj6F_SSResults:
 		include	"data\s2_obj\Special Stage Results.asm"
-
 ;-------------------------------------------------------------------------------
 ; Rotina para carregar os inimigos ap�s a exibi��o dos Title Cards
 ; ->>>
@@ -26969,9 +26954,9 @@ Offset_0x024BC4:
 Level_Load_Enemies_Art:                                        ; Offset_0x024F46
 		lea	ArtLoadCues_KM(PC),a6                 ; Offset_0x02540C
 		move.w	(Apparent_ZoneAndAct).w,d0                           ; $FFFFEE54
-		ror.b	#$01,d0
-		lsr.w	#$06,d0
-		adda.w	$00(A6,d0),a6
+		ror.b	#1,d0
+		lsr.w	#6,d0
+		adda.w	(A6,d0),a6
 		move.w	(A6)+,d6
 		bmi.s	Offset_0x024F68
 Offset_0x024F5A:
@@ -27650,7 +27635,6 @@ Obj_0x6C_Bridge:                                               ; Offset_0x02E504
 		include "data\objects\obj_0x6C.asm"
 ; Obj_0x69_Hz_Curved_Twisting_Pipe:                            ; Offset_0x02EEEA
 		include "data\objects\obj_0x69.asm"
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to setup level tile drawing routines
@@ -27817,62 +27801,62 @@ Load_Tiles_As_You_Move_Pointers:
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                   
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                  
+;--------------
 		dc.l	LRz_1_Events_Init                      ; Offset_0x033C70
 		dc.l	LRz_1_Events_Init_2                    ; Offset_0x033C84
 		dc.l	LRz_2_Events_Init                      ; Offset_0x033C70
 		dc.l	LRz_2_Events_Init_2                    ; Offset_0x033C84
-;--------------                  
+;--------------
 		dc.l	LRz_1_Events_Run                       ; Offset_0x033C78
 		dc.l	LRz_1_Events_Run_2                     ; Offset_0x033CB0
 		dc.l	LRz_2_Events_Run                       ; Offset_0x033C78
 		dc.l	LRz_2_Events_Run_2                     ; Offset_0x033CB0
-;--------------                  
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                   
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                   
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                  
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                 
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                   
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                   
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                    
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                    
+;--------------
 		dc.l	ALz_Events_Init                        ; Offset_0x033D60
 		dc.l	ALz_Events_Init_2                      ; Offset_0x033DF0
 		dc.l	ALz_Events_Init                        ; Offset_0x033D60
@@ -27922,57 +27906,56 @@ Load_Tiles_As_You_Move_Pointers:
 		dc.l	EMz_Events_Run_2                       ; Offset_0x033E84
 		dc.l	EMz_Events_Run                         ; Offset_0x033DAE
 		dc.l	EMz_Events_Run_2                       ; Offset_0x033E84 
-;--------------                
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                  
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                   
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                   
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                 
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                 
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                 
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-;--------------                 
+;--------------
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
 		dc.l	Level_RefreshScreen
 		dc.l	Level_RefreshBackground
-;--------------                 
+;--------------
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
 		dc.l	Level_RunScreen
 		dc.l	Level_RunBackground
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to draw level tiles in normal gameplay
@@ -28015,7 +27998,6 @@ DrawLevel_Done:
 		move.w	#$8F02,VDP_Control_Port-VDP_Data_Port(a6)
 		rts
 ; End of function DrawLevel
-
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -28065,7 +28047,6 @@ Offset_0x02F6A0:
 DrawLevelC_Done:
 		rts
 ; End of function DrawLevel_Competition
-
 
 ;===============================================================================
 Special_Vint:                                                  ; Offset_0x02F6BC
@@ -28171,7 +28152,7 @@ Setup_Tile_Column_Drawn:                                       ; Offset_0x02F780
 		move.w	D6,d5
 		subq.w	#$01,d6
 		move.w	D6,(A0)+
-		bset	#$07, -2(A0)
+		bset	#$07,-2(A0)
 		lea	(A0),a1
 		add.w	D5,d5
 		add.w	D5,d5
@@ -28180,7 +28161,7 @@ Setup_Tile_Column_Drawn:                                       ; Offset_0x02F780
 		bra.s	Offset_0x02F81C
 Offset_0x02F7CE:
 		neg.w   D5
-		move.w	D5, -(sp)
+		move.w	D5,-(sp)
 		move.w	D0,d5
 		asr.w	#$02,d5
 		andi.w	#$007C,d5
@@ -28190,7 +28171,7 @@ Offset_0x02F7CE:
 		move.w	D4,d6
 		subq.w	#$01,d6
 		move.w	D6,(A0)+
-		bset	#$07, -2(A0)
+		bset	#$07,-2(A0)
 		lea	(A0),a1
 		add.w	D4,d4
 		add.w	D4,d4
@@ -28214,11 +28195,11 @@ Offset_0x02F7CE:
 Offset_0x02F81C:
 		swap	D7
 Offset_0x02F81E:
-		move.w	$00(A5,d2),d3
+		move.w	(A5,d2),d3
 		move.w	D3,d4
 		andi.w	#$03FF,d3
 		lsl.w	#$03,d3
-		move.w	$00(A2,d3),d5
+		move.w	(A2,d3),d5
 		swap	D5
 		move.w	$04(A2,d3),d5
 		move.w	$06(A2,d3),d7
@@ -28254,7 +28235,7 @@ Offset_0x02F888:
 		rts
 ;-------------------------------------------------------------------------------
 Get_Level_Chunk_Column:                                        ; Offset_0x02F88A
-		move.w	$00(A3,d1),a4
+		move.w	(A3,d1),a4
 		move.w	D0,d3
 		asr.w	#$07,d3
 		adda.w	D3,a4
@@ -28388,11 +28369,11 @@ Offset_0x02F984:
 		add.w	D5,d5
 		adda.w	D5,a0
 Offset_0x02F9C4:
-		move.w	$00(A5,d2),d3
+		move.w	(A5,d2),d3
 		move.w	D3,d4
 		andi.w	#$03FF,d3
 		lsl.w	#$03,d3
-		move.l	$00(A2,d3),d5
+		move.l	(A2,d3),d5
 		move.l	$04(A2,d3),d3
 		btst	#$0B,d4
 		beq.s	Offset_0x02F9EC
@@ -28424,11 +28405,11 @@ Get_Chunk_Addr:                                                ; Offset_0x02FA1A
 		move.w	D0,d3
 		asr.w	#$05,d3
 		and.w	(Level_Layout_Wrap_Row).w,d3                ; $FFFFEEAE
-		move.w	$00(A3,d3),a4
+		move.w	(A3,d3),a4
 Offset_0x02FA26:
 		moveq	#-$01,d3
 		clr.w	D3
-		move.b	$00(A4,d1),d3
+		move.b	(A4,d1),d3
 		lsl.w	#$07,d3
 		move.w	D0,d4
 		andi.w	#$0070,d4
@@ -28521,7 +28502,6 @@ Offset_0x02FAEE:
 		dbf	D2, Offset_0x02FAEE
 		move	#$2300, SR
 		rts
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to load foreground tiles as the player moves
 ; ---------------------------------------------------------------------------
@@ -28537,7 +28517,6 @@ LoadTilesAsYouMove_Foreground:
 		move.w	(Screen_Pos_Buffer_X).w,d1
 		moveq	#$15,d6
 		jmp	DrawBlockRow(pc)
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to load background tiles as the player moves
 ; ---------------------------------------------------------------------------
@@ -28553,7 +28532,6 @@ LoadTilesAsYouMove_Background:
 		move.w	(Screen_Pos_Buffer_X_2).w,d1
 		moveq	#$15,d6
 		jmp	DrawBlockRow(pc)
-
 ;-------------------------------------------------------------------------------  
 ; Offset_0x02FB56:
 		movem.l	D5/A4/A5, -(sp)
@@ -29048,7 +29026,6 @@ Update_Vertical_Scroll_Value_P2:                               ; Offset_0x02FF3A
 		subi.w	#$0070,d0
 		move.w	D0,(Vertical_Scroll_Value_P2_3).w           ; $FFFFF620
 		rts
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to repeat level tile drawing in a level segment
 ; ---------------------------------------------------------------------------
@@ -29401,11 +29378,11 @@ Offset_0x0305CE:
 		lea	$0040(A0),a0
 		jsr	Get_Chunk_Addr(PC)                     ; Offset_0x02FA1A
 Offset_0x0305E6:
-		move.w	$00(A5,d2),d3
+		move.w	(A5,d2),d3
 		move.w	D3,d4
 		andi.w	#$03FF,d3
 		lsl.w	#$03,d3
-		move.l	$00(A2,d3),d5
+		move.l	(A2,d3),d5
 		move.l	$04(A2,d3),d3
 		btst	#$0B,d4
 		beq.s	Offset_0x03060E
@@ -29875,7 +29852,7 @@ AIz_Transition_Wavy_Flame:                                     ; Offset_0x030B98
 Offset_0x030BC6:
 		addq.w	#$02,d2
 		andi.w	#$000F,d2
-		move.b	$00(A5,d2),d0
+		move.b	(A5,d2),d0
 		ext.w	D0
 		add.w	D1,d0
 		move.l	D0,(A1)+
@@ -30220,7 +30197,7 @@ Offset_0x031044:
 		swap	D0
 Offset_0x03104C:
 		move.b	(A5)+,d2
-		move.w	D0, $00(A1,d2)
+		move.w	D0,(A1,d2)
 		dbf	D3, Offset_0x03104C
 		swap	D0
 		add.l	D1,d0
@@ -30717,7 +30694,6 @@ Hz_1_Deform:                                                   ; Offset_0x031C88
 		asr.w	#$01,d0
 		move.w	D0,(Screen_Pos_Buffer_X_2).w                ; $FFFFEE8C
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Hydrocity 2 screen routines
@@ -30876,7 +30852,7 @@ Offset_0x031E48:
 		swap	D0
 Offset_0x031E52:
 		move.b	(A5)+,d2
-		move.w	D0, $00(A1,d2)
+		move.w	D0,(A1,d2)
 		dbf	D3, Offset_0x031E52
 		swap	D0
 Offset_0x031E5E:
@@ -31111,7 +31087,7 @@ Offset_0x032162:
 ;-------------------------------------------------------------------------------
 MGz_2_Collapse_2:                                              ; Offset_0x03216C
 		cmpi.b	#$06,(Obj_Player_One+Obj_Routine).w         ; $FFFFB005
-		bcc.w	 Offset_0x0322AE
+		bcc.w	Offset_0x0322AE
 		tst.w	(Earthquake_Flag).w                          ; $FFFFEECC
 		bmi.w	Offset_0x032228
 		bne.w	Offset_0x0322AE
@@ -31287,7 +31263,7 @@ Offset_0x032380:
 ;-------------------------------------------------------------------------------
 MGz_Quake_2:                                                   ; Offset_0x032382
 		cmpi.w	#$3200,d0
-		bcc.w	 Offset_0x032414
+		bcc.w	Offset_0x032414
 		move.w	(Sonic_Level_Limits_Min_X).w,d0             ; $FFFFEE14
 		cmp.w	(Camera_X).w,d0                             ; $FFFFEE78
 		bcs.s	Offset_0x0323CA
@@ -31440,7 +31416,7 @@ Offset_0x03252A:
 		bcc.s	Offset_0x032588
 		move.w	(Background_Events+$0C).w,d0                ; $FFFFEEDE
 		lea	MGz_2_Screen_Redraw_Array(PC),a1      ; Offset_0x03264E
-		add.w	$00(A1,d2),d0
+		add.w	(A1,d2),d0
 		move.w	$02(A1,d2),d2
 Offset_0x03255E:
 		move.w	(Screen_Pos_Buffer_Y).w,d3                  ; $FFFFEE84
@@ -31472,12 +31448,12 @@ Offset_0x03259A:
 ;-------------------------------------------------------------------------------
 MGz_Change_Chunk:                                              ; Offset_0x03259C
 		lea	MGz_2_Chunk_Replace_Array(PC),a1      ; Offset_0x0326AA
-		lea	((M68K_RAM_Start+$5900)&$00FFFFFF),a5       ; $00FF5900
+		lea	((M68K_RAM_Start+$5900)&$FFFFFF),a5       ; $00FF5900
 		bsr.s	Offset_0x0325AE
-		lea	((M68K_RAM_Start+$7500)&$00FFFFFF),a5       ; $00FF7500
+		lea	((M68K_RAM_Start+$7500)&$FFFFFF),a5       ; $00FF7500
 Offset_0x0325AE:
 		lea	(Marble_Garden_2_Dynamic_Chunks),a4   ; Offset_0x1649DA
-		adda.w	$00(A1,d0),a4
+		adda.w	(A1,d0),a4
 		moveq	#$07,d1
 Offset_0x0325BA:
 		move.l	(A4)+,(A5)+
@@ -31717,7 +31693,7 @@ Offset_0x032946:
 		move.w	(A5)+,d4
 		add.l	D1,d0
 		swap	D0
-		move.w	D0, $00(A1,d4)
+		move.w	D0,(A1,d4)
 		swap	D0
 		add.l	D2,d0
 		dbf	D3, Offset_0x032946
@@ -31878,10 +31854,10 @@ Offset_0x032BCC:
 		move.w	D3,d5
 		asr.w	#$05,d3
 		and.w	(Level_Layout_Wrap_Row).w,d3                ; $FFFFEEAE
-		move.w	$00(A3,d3),a4
+		move.w	(A3,d3),a4
 		moveq	#-$01,d6
 		clr.w	D6
-		move.b	$00(A4,d2),d6
+		move.b	(A4,d2),d6
 		lsl.w	#$07,d6
 		andi.w	#$000C,d4
 		andi.w	#$0060,d5
@@ -32702,7 +32678,7 @@ Offset_0x033536:
 Offset_0x033558:
 		addq.w	#$02,d1
 		andi.w	#$000E,d1
-		move.w	$00(A5,d1),d4
+		move.w	(A5,d1),d4
 		ext.l	D4
 		lsl.l	#$04,d4
 		move.l	(A1),d5
@@ -33208,11 +33184,11 @@ Offset_0x033A52:
 Offset_0x033A90:
 		move.b	(A6)+,d3
 		add.w	D3,d3
-		move.w	$00(A5,d3),(A1)+
+		move.w	(A5,d3),(A1)+
 Offset_0x033A98:
 		move.b	(A6)+,d3
 		add.w	D3,d3
-		move.w	$00(A5,d3),(A1)+
+		move.w	(A5,d3),(A1)+
 		dbf	D1, Offset_0x033A90
 		bra.s	Offset_0x033ACE
 Offset_0x033AA6:
@@ -33228,11 +33204,11 @@ Offset_0x033AA6:
 Offset_0x033ABA:
 		move.b	(A6)+,d3
 		add.w	D3,d3
-		move.w	$00(A5,d3), -(A1)
+		move.w	(A5,d3), -(A1)
 Offset_0x033AC2:
 		move.b	(A6)+,d3
 		add.w	D3,d3
-		move.w	$00(A5,d3), -(A1)
+		move.w	(A5,d3), -(A1)
 		dbf	D1, Offset_0x033ABA
 Offset_0x033ACE:
 		lea	(Horizontal_Scroll_Table+$01E2).w,a1        ; $FFFFA9E2
@@ -33291,7 +33267,7 @@ Offset_0x033B44:
 		move.w	(A5)+,d6
 		add.l	D4,d1
 		swap	D1
-		move.w	D1, $00(A1,d6)
+		move.w	D1,(A1,d6)
 		swap	D1
 		add.l	D3,d1
 		dbf	D5, Offset_0x033B44
@@ -33730,7 +33706,7 @@ Offset_0x033F8C:
 		move.w	(Background_Events).w,d1                    ; $FFFFEED2
 		lsr.w	#$03,d1
 		andi.w	#$003E,d1
-		lea	$00(A4,d1),a6
+		lea	(A4,d1),a6
 		swap	D0
 		moveq	#$3E,d1
 Offset_0x033FAA:
@@ -36115,7 +36091,7 @@ Offset_0x03944E:
 		move.b	Obj_Control_Var_09(A1),d0				; $0039
 		lsl.w	#$02,d0
 		lea	Offset_0x039518(PC),a1
-		lea	$00(A1,d0),a1
+		lea	(A1,d0),a1
 		moveq	#$42,d4
 		lea	(Obj_Player_One).w,a2				; $FFFFB000
 		bsr.w	Offset_0x039472
@@ -36173,7 +36149,7 @@ Offset_0x0394F4:
 		rts
 Offset_0x039508:
 		jsr	(Displace_Player_Offset)			; Offset_0x04315A
-		clr.b	$00(A0,d4)
+		clr.b	(A0,d4)
 		clr.b	Obj_Timer(A2)					; $002E
 		rts
 ;-------------------------------------------------------------------------------
@@ -36182,7 +36158,7 @@ Offset_0x039518:
 		dc.w	$FFC8, $0088, $FFB8, $0088
 ;-------------------------------------------------------------------------------
 Offset_0x039530:
-		st	 $00(A0,d4)
+		st	 (A0,d4)
 		bset	#$01, Obj_Status(A2)					; $002A
 		move.b	#$01, Obj_Timer(A2)					; $002E
 		move.b	#$18, Obj_Ani_Number(A2)				; $0020
@@ -36193,7 +36169,7 @@ Offset_0x039530:
 Offset_0x039556:
 		rts
 Offset_0x039558:
-		clr.b	$00(A0,d4)
+		clr.b	(A0,d4)
 		bset	#$01, Obj_Status(A2)					; $002A
 		clr.b	Obj_Timer(A2)					; $002E
 		move.b	#$00, Obj_Routine(A2)					; $0005
@@ -38332,7 +38308,7 @@ At_Angle_0x40_To_0x7F:                                         ; Offset_0x042792
 ;-------------------------------------------------------------------------------
 At_Angle_0x80_To_0xBF:                                         ; Offset_0x0427A4
 		moveq	#$00,d1
-		move.b	$00(A2,d0),d1
+		move.b	(A2,d0),d1
 		neg.w   D1
 		add.w	D1,d2
 		moveq	#$00,d1
@@ -38343,7 +38319,7 @@ At_Angle_0x80_To_0xBF:                                         ; Offset_0x0427A4
 ;-------------------------------------------------------------------------------
 At_Angle_0xC0_To_0xFF:                                         ; Offset_0x0427BA
 		moveq	#$00,d1
-		move.b	$00(A3,d4),d1
+		move.b	(A3,d4),d1
 		neg.w   D1
 		add.w	D1,d2
 		moveq	#$00,d1
@@ -41388,7 +41364,7 @@ Offset_0x04B20A:
 		lsr.w	#$06,d0
 		andi.w	#$007E,d0
 		lea	(Debug_Index).l,a2                      ; Offset_0x04B418
-		adda.w	$00(A2,d0),a2
+		adda.w	(A2,d0),a2
 		move.w	(A2)+,d6
 		cmp.b	(Debug_object).w,d6              ; $FFFFFE06
 		bhi.s	Offset_0x04B23C
@@ -41405,7 +41381,7 @@ Offset_0x04B24C:
 		lsr.w	#$06,d0
 		andi.w	#$007E,d0
 		lea	(Debug_Index).l,a2                      ; Offset_0x04B418
-		adda.w	$00(A2,d0),a2
+		adda.w	(A2,d0),a2
 		move.w	(A2)+,d6
 		bsr.w	Offset_0x04B270
 		jmp	(DisplaySprite)                        ; Offset_0x011148
@@ -41506,7 +41482,7 @@ Offset_0x04B34E:
 		lsl.w	#$02,d0
 		add.w	D1,d0
 		move.b	$04(A2,d0), Obj_Subtype(A1)                     ; $002C
-		move.l	$00(A2,d0),(A1)
+		move.l	(A2,d0),(A1)
 		move.b	#$00,(A1)
 		rts
 Offset_0x04B39A:

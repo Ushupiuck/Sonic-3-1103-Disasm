@@ -71,7 +71,7 @@ Offset_0x010B8E:
                 neg.w   D4
                 dbra    D5, Offset_0x010B10
 Offset_0x010B9E:
-                move.w  #Ring_Lost_Sfx, D0                               ; $0034
+                move.w  #sfx_RingLoss, D0                               ; $0034
                 jsr     (PlaySound).l                           ; Offset_0x001176
                 tst.b   Obj_Player_One_Or_Two(A0)                        ; $003F
                 bne.s   Offset_0x010BC2
