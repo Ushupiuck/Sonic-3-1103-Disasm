@@ -108,13 +108,13 @@ Offset_0x01E118:
                 dbra    D6, Offset_0x01E118
                 rts
 Offset_0x01E138:
-                lea     (Interrupt_0C).w, A2                   ; Offset_0x000030
+                lea     $30, A2                   ; Offset_0x000030
                 lea     (Obj_Player_One).w, A1                       ; $FFFFB000
                 moveq   #$03, D6
                 movem.l D1-D3, -(A7)
                 bsr.s   Offset_0x01E156
                 movem.l (A7)+, D1-D3
-                lea     (Interrupt_0D).w, A2                   ; Offset_0x000034
+                lea     $34, A2                   ; Offset_0x000034
                 lea     (Obj_Player_Two).w, A1                       ; $FFFFB04A
                 addq.b  #$01, D6
 Offset_0x01E156:
