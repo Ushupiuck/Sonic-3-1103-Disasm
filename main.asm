@@ -44187,34 +44187,6 @@ SndBank_End
 	if SndBank_End - SndBank > Size_of_SndBank
 		fatal "Size_of_SndBank = $\{Size_of_SndBank}, but you have $\{SndBank_End-SndBank} bytes of sound effects."
 	endif
-;-------------------------------------------------------------------------------
-DAC_81_Ptr      equ (DAC_81_Setup&$FFFF)|$8000
-DAC_82_Ptr      equ (DAC_82_Setup&$FFFF)|$8000
-DAC_83_Ptr      equ (DAC_83_Setup&$FFFF)|$8000
-DAC_84_Ptr      equ (DAC_84_Setup&$FFFF)|$8000
-DAC_85_Ptr      equ (DAC_85_Setup&$FFFF)|$8000
-DAC_86_Ptr      equ (DAC_86_Setup&$FFFF)|$8000
-DAC_87_Ptr      equ (DAC_87_Setup&$FFFF)|$8000
-DAC_88_Ptr      equ (DAC_88_Setup&$FFFF)|$8000
-DAC_89_Ptr      equ (DAC_89_Setup&$FFFF)|$8000
-DAC_8A_Ptr      equ (DAC_8A_Setup&$FFFF)|$8000
-DAC_8B_Ptr      equ (DAC_8B_Setup&$FFFF)|$8000
-DAC_8C_Ptr      equ (DAC_8C_Setup&$FFFF)|$8000
-DAC_8D_Ptr      equ (DAC_8D_Setup&$FFFF)|$8000
-DAC_8E_Ptr      equ (DAC_8E_Setup&$FFFF)|$8000
-DAC_8F_Ptr      equ (DAC_8F_Setup&$FFFF)|$8000
-DAC_90_Ptr      equ (DAC_90_Setup&$FFFF)|$8000
-DAC_91_Ptr      equ (DAC_91_Setup&$FFFF)|$8000
-DAC_92_Ptr      equ (DAC_92_Setup&$FFFF)|$8000
-DAC_93_Ptr      equ (DAC_93_Setup&$FFFF)|$8000
-DAC_94_Ptr      equ (DAC_94_Setup&$FFFF)|$8000
-DAC_95_Ptr      equ (DAC_95_Setup&$FFFF)|$8000
-DAC_96_Ptr      equ (DAC_96_Setup&$FFFF)|$8000
-DAC_97_Ptr      equ (DAC_97_Setup&$FFFF)|$8000
-DAC_98_Ptr      equ (DAC_98_Setup&$FFFF)|$8000
-DAC_99_Ptr      equ (DAC_99_Setup&$FFFF)|$8000
-DAC_9A_Ptr      equ (DAC_9A_Setup&$FFFF)|$8000
-DAC_9B_Ptr      equ (DAC_9B_Setup&$FFFF)|$8000
 
 DAC_81_Size           equ (DAC_81_Data_End-DAC_81_Data)
 DAC_81_Data_Ptr       equ (DAC_81_Data&$FFFF)|$8000
@@ -44245,35 +44217,35 @@ DAC_98_To_9A_Data_Ptr equ (DAC_98_To_9A_Data&$FFFF)|$8000
 DAC_9B_Size           equ (DAC_9B_Data_End-DAC_9B_Data)
 DAC_9B_Data_Ptr       equ (DAC_9B_Data&$FFFF)|$8000
 
-DAC_Table:                                                     ; Offset_0x0F0000
 DACBank:	startBank
-		dc.w	(((DAC_81_Ptr>>$08)|(DAC_81_Ptr<<$08))&$FFFF)    ; $8036
-		dc.w	(((DAC_82_Ptr>>$08)|(DAC_82_Ptr<<$08))&$FFFF)    ; $803B
-		dc.w	(((DAC_83_Ptr>>$08)|(DAC_83_Ptr<<$08))&$FFFF)    ; $8040
-		dc.w	(((DAC_84_Ptr>>$08)|(DAC_84_Ptr<<$08))&$FFFF)    ; $8045
-		dc.w	(((DAC_85_Ptr>>$08)|(DAC_85_Ptr<<$08))&$FFFF)    ; $804A
-		dc.w	(((DAC_86_Ptr>>$08)|(DAC_86_Ptr<<$08))&$FFFF)    ; $804F
-		dc.w	(((DAC_87_Ptr>>$08)|(DAC_87_Ptr<<$08))&$FFFF)    ; $8054
-		dc.w	(((DAC_88_Ptr>>$08)|(DAC_88_Ptr<<$08))&$FFFF)    ; $8059
-		dc.w	(((DAC_89_Ptr>>$08)|(DAC_89_Ptr<<$08))&$FFFF)    ; $805E
-		dc.w	(((DAC_8A_Ptr>>$08)|(DAC_8A_Ptr<<$08))&$FFFF)    ; $8063
-		dc.w	(((DAC_8B_Ptr>>$08)|(DAC_8B_Ptr<<$08))&$FFFF)    ; $8068
-		dc.w	(((DAC_8C_Ptr>>$08)|(DAC_8C_Ptr<<$08))&$FFFF)    ; $806D
-		dc.w	(((DAC_8D_Ptr>>$08)|(DAC_8D_Ptr<<$08))&$FFFF)    ; $8072
-		dc.w	(((DAC_8E_Ptr>>$08)|(DAC_8E_Ptr<<$08))&$FFFF)    ; $8077
-		dc.w	(((DAC_8F_Ptr>>$08)|(DAC_8F_Ptr<<$08))&$FFFF)    ; $807C
-		dc.w	(((DAC_90_Ptr>>$08)|(DAC_90_Ptr<<$08))&$FFFF)    ; $8081
-		dc.w	(((DAC_91_Ptr>>$08)|(DAC_91_Ptr<<$08))&$FFFF)    ; $8086
-		dc.w	(((DAC_92_Ptr>>$08)|(DAC_92_Ptr<<$08))&$FFFF)    ; $808B
-		dc.w	(((DAC_93_Ptr>>$08)|(DAC_93_Ptr<<$08))&$FFFF)    ; $8090
-		dc.w	(((DAC_94_Ptr>>$08)|(DAC_94_Ptr<<$08))&$FFFF)    ; $8095
-		dc.w	(((DAC_95_Ptr>>$08)|(DAC_95_Ptr<<$08))&$FFFF)    ; $809A
-		dc.w	(((DAC_96_Ptr>>$08)|(DAC_96_Ptr<<$08))&$FFFF)    ; $809F
-		dc.w	(((DAC_97_Ptr>>$08)|(DAC_97_Ptr<<$08))&$FFFF)    ; $80A4
-		dc.w	(((DAC_98_Ptr>>$08)|(DAC_98_Ptr<<$08))&$FFFF)    ; $80A9
-		dc.w	(((DAC_99_Ptr>>$08)|(DAC_99_Ptr<<$08))&$FFFF)    ; $80AE
-		dc.w	(((DAC_9A_Ptr>>$08)|(DAC_9A_Ptr<<$08))&$FFFF)    ; $80B3
-		dc.w	(((DAC_9B_Ptr>>$08)|(DAC_9B_Ptr<<$08))&$FFFF)    ; $80B8
+DAC_Table:                                                     ; Offset_0x0F0000
+		dc.w	z80_ptr(DAC_81_Setup)    ; $8036
+		dc.w	z80_ptr(DAC_82_Setup)    ; $803B
+		dc.w	z80_ptr(DAC_83_Setup)    ; $8040
+		dc.w	z80_ptr(DAC_84_Setup)    ; $8045
+		dc.w	z80_ptr(DAC_85_Setup)    ; $804A
+		dc.w	z80_ptr(DAC_86_Setup)    ; $804F
+		dc.w	z80_ptr(DAC_87_Setup)    ; $8054
+		dc.w	z80_ptr(DAC_88_Setup)    ; $8059
+		dc.w	z80_ptr(DAC_89_Setup)    ; $805E
+		dc.w	z80_ptr(DAC_8A_Setup)    ; $8063
+		dc.w	z80_ptr(DAC_8B_Setup)    ; $8068
+		dc.w	z80_ptr(DAC_8C_Setup)    ; $806D
+		dc.w	z80_ptr(DAC_8D_Setup)    ; $8072
+		dc.w	z80_ptr(DAC_8E_Setup)    ; $8077
+		dc.w	z80_ptr(DAC_8F_Setup)    ; $807C
+		dc.w	z80_ptr(DAC_90_Setup)    ; $8081
+		dc.w	z80_ptr(DAC_91_Setup)    ; $8086
+		dc.w	z80_ptr(DAC_92_Setup)    ; $808B
+		dc.w	z80_ptr(DAC_93_Setup)    ; $8090
+		dc.w	z80_ptr(DAC_94_Setup)    ; $8095
+		dc.w	z80_ptr(DAC_95_Setup)    ; $809A
+		dc.w	z80_ptr(DAC_96_Setup)    ; $809F
+		dc.w	z80_ptr(DAC_97_Setup)    ; $80A4
+		dc.w	z80_ptr(DAC_98_Setup)    ; $80A9
+		dc.w	z80_ptr(DAC_99_Setup)    ; $80AE
+		dc.w	z80_ptr(DAC_9A_Setup)    ; $80B3
+		dc.w	z80_ptr(DAC_9B_Setup)    ; $80B8
 DAC_81_Setup:                                                  ; Offset_0x0F0036
 		dc.b	$04
 		dc.w	(((DAC_81_Size>>$08)|(DAC_81_Size<<$08))&$FFFF)         ; $0790

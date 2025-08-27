@@ -161,7 +161,7 @@ Acceleration = 2
 Deceleration = 4
 
 Max_Dynamic_Objects   = ((Obj_Dynamic_RAM_End-Obj_Dynamic_RAM)/Obj_Size)-1
-                          
+
 ; Fases 
 S2_EHz_Id             = $00
 S2_EHz_Act_1          = $0000
@@ -218,7 +218,6 @@ GM_BS_Id              = $13
 GM_BS_Act_1           = $1300
 GS_BS_Act_1           = $1400
 SM_BS_Act_1           = $1500
-
 ; ---------------------------------------------------------------------------
 ; Sound commands list.
 
@@ -474,9 +473,9 @@ sfx__End =			*		; next ID after the last sound effect
 	dephase
 	!org 0				; make sure we reset the ROM position to 0
 
-sfx_BigRingUnk = $32
+sfx_BigRingUnk =	$32
 sfx_S2Smash =	$B9
-sfx_S2LargeBumper = $D9
+sfx_S2LargeBumper =	$D9
 sfx_S2Error	=	$ED
 
 ; Músicas 
@@ -596,32 +595,29 @@ S2_Add_Points_Blip_Sfx   = $CD
 S2_Panel_Spinning_Sfx    = $CF 
 S2_Baaaang_Bumper_Sfx    = $D9
 
-
 ; Comandos
-Volume_Down              = signextendB(cmd_FadeOut)
-Stop_Sound               = signextendB(cmd_Stop)
-PSG_Mute                 = signextendB(cmd_MutePSG)
-Stop_SFx                 = signextendB(cmd_StopSFX)
-Music_Normal_Speed       = $FC
+Volume_Down	= signextendB(cmd_FadeOut)
+Stop_Sound	= signextendB(cmd_Stop)
+PSG_Mute	= signextendB(cmd_MutePSG)
+Stop_SFx	= signextendB(cmd_StopSFX)
+Music_Normal_Speed	= $FC
 
 ; Z80  
-Z80_RAM_Start                  = $A00000 
+Z80_RAM_Start	= $A00000 
 
 ; I/O
+IO_Hardware_Version	= $A10001 
+IO_Joypad_Port_0	= $A10003
+IO_Port_0_Control	= $A10008
+IO_Port_1_Control	= $A1000A
+IO_Expansion_Control	= $A1000C
 
-IO_Hardware_Version            = $A10001 
-IO_Joypad_Port_0               = $A10003
-IO_Port_0_Control              = $A10008
-IO_Port_1_Control              = $A1000A
-IO_Expansion_Control           = $A1000C
-
-Z80_Bus_Request                = $A11100 
-Z80_Reset                      = $A11200 
+Z80_Bus_Request	= $A11100 
+Z80_Reset	= $A11200 
 
 ; VDP
-
-VDP_Data_Port                  = $C00000
-VDP_Control_Port               = $C00004
+VDP_Data_Port	= $C00000
+VDP_Control_Port	= $C00004
 
 ; sign-extends a 32-bit integer to 64-bit
 ; all RAM addresses are run through this function to allow them to work in both 16-bit and 32-bit addressing modes
