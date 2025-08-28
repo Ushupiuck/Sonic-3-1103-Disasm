@@ -43886,9 +43886,9 @@ Hyper_Form_Change_Sfx_Data:                                    ; Offset_0x0EC39F
 Offset_0x0EC3CC:
 		include  "sound\sfx\47 - sand wall rise.asm"
 Offset_0x0EC3EC:
-		binclude  "sound\0x48.sfx"
+		include  "sound\sfx\48 - flying.asm"
 Offset_0x0EC414:
-		binclude  "sound\0x49.sfx"
+		include  "sound\sfx\49 - flying (tired).asm"
 Grab_Sfx_Data:                                                 ; Offset_0x0EC41E
 		binclude  "sound\0x4A.sfx"
 Offset_0x0EC438:
