@@ -43890,9 +43890,9 @@ Offset_0x0EC3EC:
 Offset_0x0EC414:
 		include  "sound\sfx\49 - flying (tired).asm"
 Grab_Sfx_Data:                                                 ; Offset_0x0EC41E
-		binclude  "sound\0x4A.sfx"
+		include  "sound\sfx\4A - blast.asm"
 Offset_0x0EC438:
-		binclude  "sound\0x4B.sfx"
+		include  "sound\sfx\4B - thump.asm"
 Offset_0x0EC460:
 		binclude  "sound\0x4C.sfx"
 Offset_0x0EC483:
