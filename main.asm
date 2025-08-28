@@ -43884,7 +43884,7 @@ Offset_0x0EC377:
 Hyper_Form_Change_Sfx_Data:                                    ; Offset_0x0EC39F
 		include  "sound\sfx\46 - whistle.asm"
 Offset_0x0EC3CC:
-		binclude  "sound\0x47.sfx"
+		include  "sound\sfx\47 - sand wall rise.asm"
 Offset_0x0EC3EC:
 		binclude  "sound\0x48.sfx"
 Offset_0x0EC414:
