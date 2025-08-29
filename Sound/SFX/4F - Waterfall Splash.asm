@@ -1,6 +1,6 @@
 Sound_4F_Header:
 	smpsHeaderStartSong 3
-	smpsHeaderVoice     Sound_4E_4F_8E_Voices
+	smpsHeaderVoice     Sound_4E_4F_Voices
 	smpsHeaderTempoSFX  $01
 	smpsHeaderChanSFX   $02
 

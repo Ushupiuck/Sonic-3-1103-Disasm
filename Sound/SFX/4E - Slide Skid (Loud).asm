@@ -1,21 +1,21 @@
 Sound_4E_Header:
 	smpsHeaderStartSong 3
-	smpsHeaderVoice     Sound_4E_4F_8E_Voices
+	smpsHeaderVoice     Sound_4E_4F_Voices
 	smpsHeaderTempoSFX  $01
 	smpsHeaderChanSFX   $01
 
-	smpsHeaderSFXChannel cFM3, Sound_4E_8E_FM3,	$00, $10
+	smpsHeaderSFXChannel cFM3, Sound_4E_FM3,	$00, $10
 
 ; FM3 Data
-Sound_4E_8E_FM3:
+Sound_4E_FM3:
 	smpsSetvoice        $00
 
-;Sound_4E_8E_Loop00:
+;Sound_4E_Loop00:
 	dc.b	nBb6, $10
-;	smpsContinuousLoop  Sound_4E_8E_Loop00
+;	smpsContinuousLoop  Sound_4E_Loop00
 	smpsStop
 
-Sound_4E_4F_8E_Voices:
+Sound_4E_4F_Voices:
 ;	Voice $00
 ;	$38
 ;	$00, $30, $00, $01, 	$1F, $1F, $1F, $1F, 	$00, $00, $00, $00
