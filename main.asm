@@ -43900,7 +43900,7 @@ Offset_0x0EC483:
 Offset_0x0EC498:
 		include  "sound\sfx\4E - slide skid (loud).asm"
 Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0
-		binclude  "sound\0x4F.sfx"
+		include  "sound\sfx\4F - waterfall splash.asm"
 Offset_0x0EC4F1:
 		binclude  "sound\0x50.sfx"
 Projectile_Sfx_Data:                                           ; Offset_0x0EC51B
