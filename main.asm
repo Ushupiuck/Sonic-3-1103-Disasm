@@ -43894,7 +43894,7 @@ Grab_Sfx_Data:                                                 ; Offset_0x0EC41E
 Offset_0x0EC438:
 		include  "sound\sfx\4B - thump.asm"
 Offset_0x0EC460:
-		binclude  "sound\0x4C.sfx"
+		include  "sound\sfx\4C - grab.asm"
 Offset_0x0EC483:
 		binclude  "sound\0x4D.sfx"
 Offset_0x0EC498:

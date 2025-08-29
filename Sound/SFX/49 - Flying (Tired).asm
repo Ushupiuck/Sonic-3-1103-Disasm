@@ -4,4 +4,4 @@ Sound_49_Header:
 	smpsHeaderTempoSFX  $01
 	smpsHeaderChanSFX   $01
 
-	smpsHeaderSFXChannel cFM5, Sound_48_49_FM5,	$FA, $0C
+	smpsHeaderSFXChannel cFM5, Sound_48_49_4C_FM5,	$FA, $0C
