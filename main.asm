@@ -43902,9 +43902,9 @@ Offset_0x0EC498:
 Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0
 		include  "sound\sfx\4F - waterfall splash.asm"
 Offset_0x0EC4F1:
-		binclude  "sound\0x50.sfx"
+		include  "sound\sfx\50 - glide land.asm"
 Projectile_Sfx_Data:                                           ; Offset_0x0EC51B
-		binclude  "sound\0x51.sfx"
+		include  "sound\sfx\51 - projectile.asm"
 Missile_Explosion_Sfx_Data:                                    ; Offset_0x0EC548
 		binclude  "sound\0x52.sfx"
 Flame_Sfx_Data:                                                ; Offset_0x0EC58C
