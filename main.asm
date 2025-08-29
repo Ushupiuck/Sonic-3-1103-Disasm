@@ -43896,7 +43896,7 @@ Offset_0x0EC438:
 Offset_0x0EC460:
 		include  "sound\sfx\4C - grab.asm"
 Offset_0x0EC483:
-		binclude  "sound\0x4D.sfx"
+		include  "sound\sfx\4D - waterfall.asm"
 Offset_0x0EC498:
 		binclude  "sound\0x4E.sfx"
 Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0
