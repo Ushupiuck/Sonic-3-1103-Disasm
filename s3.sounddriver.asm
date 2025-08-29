@@ -13,7 +13,7 @@
 ; ex af,af' is simply written as ex af,af.
 
 ; Set this to 1 to fix some bugs in the driver.
-fix_sndbugs				=  0
+fix_sndbugs	=	0
 
 z80_SoundDriverStart:
 ; ---------------------------------------------------------------------------
@@ -110,12 +110,9 @@ zFadeToPrevFlag:	ds.b	1
 unk_1C17:		ds.b	1	; set once, never read
 zSoundIndex:		ds.b	1	; effectively unused in the final
 zUpdatingSFX:		ds.b	1
-zSpecFM3FreqsSFX:	ds.b	1
-			ds.b	7	; unused
-unk_1C22:		ds.b	1
-			ds.b	7	; unused
-zSpecFM3Freqs:		ds.b	1
-			ds.b	7	; unused
+zSpecFM3FreqsSFX:	ds.b	8
+unk_1C22:		ds.b	8
+zSpecFM3Freqs:		ds.b	8
 zSFXSaveIndex:		ds.b	1
 zSongPosition:		ds.b	2
 zTrackInitPos:		ds.b	2
@@ -185,6 +182,7 @@ bankswitch macro addr68k
 ; Macro to perform a bank switch... after using this,
 ; the start of zROMWindow points to the start of the given 68k address,
 ; rounded down to the nearest $8000 byte boundary
+; This is only ever used once.
 bankswitch2 macro addr68k
 	ld	hl,zBankRegister
 	ld	d,1	; d = 1
