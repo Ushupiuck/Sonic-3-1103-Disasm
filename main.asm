@@ -43906,7 +43906,7 @@ Offset_0x0EC4F1:
 Projectile_Sfx_Data:                                           ; Offset_0x0EC51B
 		include  "sound\sfx\51 - projectile.asm"
 Missile_Explosion_Sfx_Data:                                    ; Offset_0x0EC548
-		binclude  "sound\0x52.sfx"
+		include  "sound\sfx\52 - missile explode.asm"
 Flame_Sfx_Data:                                                ; Offset_0x0EC58C
 		binclude  "sound\0x53.sfx"
 Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D
