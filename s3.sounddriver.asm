@@ -12,6 +12,9 @@
 ; and group functionality, and shadow registers are not indicated  with an apostrophe; e.g.,
 ; ex af,af' is simply written as ex af,af.
 
+; Set this to 1 to fix some bugs in the driver.
+fix_sndbugs				=  0
+
 z80_SoundDriverStart:
 ; ---------------------------------------------------------------------------
 
@@ -157,6 +160,16 @@ zTempVariablesEnd
 ; the start of zROMWindow points to the start of the given 68k address,
 ; rounded down to the nearest $8000 byte boundary
 bankswitch macro addr68k
+	if fix_sndbugs
+	; Because why use a and e when you can use h and l?
+	ld	hl,zBankRegister+1	; +1 so that 6000h becomes 6001h, which is still a valid bankswitch port
+.cnt	:= 0
+	rept 9
+		; this is either ld (hl),h or ld (hl),l
+		db 74h|(((addr68k)&(1<<(15+.cnt)))<>0)
+.cnt		:= .cnt+1
+	endm
+	else
 	ld	hl,zBankRegister
 	xor	a	; a = 0
 	ld	e,1	; e = 1
@@ -166,6 +179,7 @@ bankswitch macro addr68k
 		db 73h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)
 .cnt		:= .cnt+1
 	endm
+	endif
 	endm
 	
 ; Macro to perform a bank switch... after using this,
@@ -246,7 +260,11 @@ zEntryPoint:
 ; ---------------------------------------------------------------------------
 	align 8
 zGetPointerTable:	rsttarget
+	if fix_sndbugs
+		ld	hl,z80_SoundDriverPointers		; read pointer table
+	else
 		ld	hl,(zPointerTable)		; read pointer to pointer table (yes, really)
+	endif
 		; really, you should just make this reference z80_SoundDriverPointers directly
 		ld	b,0
 		add	hl,bc				; add offset into pointer table
@@ -273,10 +291,13 @@ zPointerTableOffset:	rsttarget
 		ld	b,0
 		add	hl,bc
 		add	hl,bc
-		; then fall into zReadPointer
+	if fix_sndbugs
+		jp	zReadPointer	; 10 clock cycles, 3 bytes
+	else
+		nop			; 12 clock cycles, 3 bytes
 		nop
 		nop
-		nop
+	endif
 ; ----------------------------------------------------------------------------
 ; Dereferences a pointer.
 ;
@@ -338,8 +359,10 @@ zInitAudioDriver:
 		ld	a,5				; set PAL double-update timer to 5
 		ld	(zPalDblUpdCounter),a		; (that is, do not double-update for 5 frames)
 
+	if ~~fix_sndbugs
 		; duplicate DAC bankswitch
 		bankswitch2 DACBank
+	endif
 		ei
 		jp	zPlayDigitalAudio
 ; ===========================================================================
@@ -370,7 +393,9 @@ zWriteFMIorII:
 
 zWriteFMI:
 		ld	(zYM2612_A0),a			; select YM2612 register
+	if ~~fix_sndbugs
 		nop
+	endif
 		ld	a,c
 		ld	(zYM2612_D0),a			; send data to register
 		ret
@@ -390,7 +415,9 @@ zWriteFMII_reduced:
 
 zWriteFMII:
 		ld	(zYM2612_A1),a			; select YM2612 register
+	if ~~fix_sndbugs
 		nop
+	endif
 		ld	a,c
 		ld	(zYM2612_D1),a			; send data to register
 		ret
@@ -441,7 +468,11 @@ zUpdateFMorPSGTrack:
 		bit	7,(ix+zTrack.VoiceControl)		; is this a PSG channel?
 		jp	nz,zUpdatePSGTrack		; if yes, branch
 
-		call	zTrackRunTimer			; run note timer
+	if fix_sndbugs
+		dec	(ix+zTrack.DurationTimeout)	; Run note timer
+	else
+		call	zTrackRunTimer			; Run note timer
+	endif
 		jr	nz,.noteGoing			; if the note has not expired yet, branch
 		call	zGetNextNote			; get note for next FM track
 		bit	4,(ix+zTrack.PlaybackControl)		; is track resting?
@@ -495,8 +526,12 @@ zFMSendFreq:
 		call	zWriteFMIorII
 		ld	a,0A0h				; update frequency LSB
 		ld	c,l
-		call	zWriteFMIorII
+	if fix_sndbugs
+		jp	zWriteFMIorII			; Send it to YM2612
+	else
+		call	zWriteFMIorII			; Send it to YM2612
 		ret
+	endif
 ; ---------------------------------------------------------------------------
 
 .specialMode:
@@ -602,8 +637,10 @@ zGetNextNote_cont:
 		add	a,d
 		jr	.loop
 ; ---------------------------------------------------------------------------
+	if ~~fix_sndbugs
 		; unused
 		ex	af,af'
+	endif
 
 .gotDisplacement:
 		add	a,e
@@ -626,11 +663,13 @@ zGetNoteDuration:
 		ld	(ix+zTrack.DurationTimeout),a
 		jr	zFinishTrackUpdate
 		
+	if ~~fix_sndbugs
 		; unused
 		ld	a,(de)
 		inc	de
 		ld	(ix+zTrack.Unk11h),a
 		jr	zGetRawDuration
+	endif
 
 zAltFreqMode:
 		ld	h,a
@@ -643,11 +682,11 @@ zAltFreqMode:
 		ld	b,0
 		or	a
 		jp	p,.didSignExtend
- 		dec	b
+		dec	b
 
 .didSignExtend:
 		ld	c,a
- 		add	hl,bc
+		add	hl,bc
 
 .gotZero:
 		ld	(ix+zTrack.FreqLow),l
@@ -673,7 +712,7 @@ zFinishTrackUpdate:
 		ld	(ix+zTrack.DurationTimeout),a
 		bit	1,(ix+zTrack.PlaybackControl)
 		ret	nz
- 		xor	a
+		xor	a
 		ld	(ix+zTrack.ModEnvIndex),a
 		ld	(ix+zTrack.ModEnvSens),a
 		ld	(ix+zTrack.VolEnv),a
@@ -683,38 +722,56 @@ zFinishTrackUpdate:
 
 zComputeNoteDuration:
 		ld	b,(ix+zTrack.TempoDivider)
- 		dec	b
+		dec	b
 		ret	z
 		ld	c,a
 
 .loop:
- 		add	a,c
+		add	a,c
 		djnz	.loop
 		ret
 
+; =============== S U B	R O U T	I N E =======================================
+; Reduces note duration timeout for current track.
+;
+; Input:   ix   Track data
+; Output:  a    New duration
+;sub_33A
+	if ~~fix_sndbugs
 zTrackRunTimer:
-		ld	a,(ix+zTrack.DurationTimeout)
- 		dec	a
-		ld	(ix+zTrack.DurationTimeout),a
+		; This is absurdly inefficient, since 'dec' can be ran directly on memory.
+		ld	a, (ix+zTrack.DurationTimeout)	; Get track duration timeout
+		dec	a				; Decrement it...
+		ld	(ix+zTrack.DurationTimeout), a	; ... and save new value
 		ret
+; End of function zTrackRunTimer
+	endif
 
 zFMNoteOn:
 		ld	a,(ix+zTrack.FreqLow)
 		or	(ix+zTrack.FreqHigh)
 		ret	z
 		ld	a,(ix+zTrack.PlaybackControl)
- 		and	6
+	if fix_sndbugs
+		and	16h				; Is either bit 4 ("track at rest") or 2 ("SFX overriding this track") or bit 1 ("do not attack next note") set?
+	else
+		and	6				; Is either bit 1 ("do not attack next note") or 2 ("SFX overriding this track") set?
+	endif
 		ret	nz
 		ld	a,(ix+zTrack.VoiceControl)
 		or	0F0h
 		ld	c,a
 		ld	a,28h
-		call	zWriteFMI
+	if fix_sndbugs
+		jp	zWriteFMI			; Send command to YM2612
+	else
+		call	zWriteFMI			; Send command to YM2612
 		ret
+	endif
 
 zKeyOffIfActive:
 		ld	a,(ix+zTrack.PlaybackControl)
- 		and	6
+		and	6
 		ret	nz
 
 zKeyOff:
@@ -724,15 +781,20 @@ zKeyOff:
 
 zKeyOnOff:
 		ld	a,28h
-		call	zWriteFMI
+	if fix_sndbugs
+		res	6, (ix+zTrack.PlaybackControl)	; From Dyna Brothers 2, but in a better place; clear flag to sustain frequency
+		jp	zWriteFMI			; Send it
+	else
+		call	zWriteFMI			; Send it
 		ret
+	endif
 
 zDoFMVolEnv:
 		ld	a,(ix+zTrack.FMVolEnv)
 		or	a
 		ret	z
 		ret	m
- 		dec	a
+		dec	a
 		ld	c,zID_VolEnvPointers
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
@@ -744,21 +806,24 @@ zDoFMVolEnv:
 		ld	c,(ix+zTrack.FMVolEnvMask)
 
 .loop:
- 		push	af
- 		sra	c
- 		push	bc
+		push	af
+		sra	c
+		push	bc
 		jr	nc,.skipReg
- 		add	a,(hl)
- 		and	7Fh
+		add	a,(hl)
+	if fix_sndbugs=0
+		; This isn't actually needed
+		and	7Fh				; Strip sign bit
+	endif
 		ld	c,a
 		ld	a,(de)
 		call	zWriteFMIorII
 
 .skipReg:
- 		pop	bc
+		pop	bc
 		inc	de
 		inc	hl
- 		pop	af
+		pop	af
 		djnz	.loop
 		ret
 
@@ -769,19 +834,19 @@ zPrepareModulation:
 		ret	nz
 		ld	e,(ix+zTrack.ModulationPtrLow)
 		ld	d,(ix+zTrack.ModulationPtrHigh)
- 		push	ix
- 		pop	hl
+		push	ix
+		pop	hl
 		ld	b,0
 		ld	c,zTrack.ModulationWait
- 		add	hl,bc
- 		ex	de,hl
+		add	hl,bc
+		ex	de,hl
 		ldi
 		ldi
 		ldi
 		ld	a,(hl)
- 		srl	a
+		srl	a
 		ld	(de),a
- 		xor	a
+		xor	a
 		ld	(ix+zTrack.ModulationValLow),a
 		ld	(ix+zTrack.ModulationValHigh),a
 		ret
@@ -790,47 +855,52 @@ zDoModulation:
 		ld	a,(ix+zTrack.ModulationCtrl)
 		or	a
 		ret	z
- 		cp	80h
+		cp	80h
 		jr	nz,zDoModEnvelope
- 		dec	(ix+zTrack.ModulationWait)
+		dec	(ix+zTrack.ModulationWait)
 		ret	nz
 		inc	(ix+zTrack.ModulationWait)
- 		push	hl
+		push	hl
 		ld	l,(ix+zTrack.ModulationValLow)
 		ld	h,(ix+zTrack.ModulationValHigh)
 		ld	e,(ix+zTrack.ModulationPtrLow)
 		ld	d,(ix+zTrack.ModulationPtrHigh)
- 		push	de
- 		pop	iy
- 		dec	(ix+zTrack.ModulationSpeed)
+		push	de
+		pop	iy
+		dec	(ix+zTrack.ModulationSpeed)
 		jr	nz,.modSustain
-		ld	a,(iy+zTrack.VoiceControl)
+		ld	a,(iy+1)
 		ld	(ix+zTrack.ModulationSpeed),a
 		ld	a,(ix+zTrack.ModulationDelta)
 		ld	c,a
- 		and	80h
- 		rlca
- 		neg
+	if fix_sndbugs
+		rla						; Carry contains sign of delta
+		sbc	a, a					; a = 0 or -1 if carry is 0 or 1
+	else
+		and	80h					; Get only sign bit
+		rlca						; Shift it into bit 0
+		neg						; Negate (so it is either 0 or -1)
+	endif
 		ld	b,a
- 		add	hl,bc
+		add	hl,bc
 		ld	(ix+zTrack.ModulationValLow),l
 		ld	(ix+zTrack.ModulationValHigh),h
 
 .modSustain:
- 		pop	bc
- 		add	hl,bc
- 		dec	(ix+zTrack.ModulationSteps)
+		pop	bc
+		add	hl,bc
+		dec	(ix+zTrack.ModulationSteps)
 		ret	nz
-		ld	a,(iy+zTrack.DataPointerLow)
+		ld	a,(iy+3)
 		ld	(ix+zTrack.ModulationSteps),a
 		ld	a,(ix+zTrack.ModulationDelta)
- 		neg
+		neg
 		ld	(ix+zTrack.ModulationDelta),a
 		ret
 
 zDoModEnvelope:
- 		dec	a
- 		ex	de,hl
+		dec	a
+		ex	de,hl
 		ld	c,zID_ModEnvPointers
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
@@ -840,89 +910,103 @@ zModEnvSetIndex:
 		ld	(ix+zTrack.ModEnvIndex),a
 
 zDoModEnvelope_cont:
- 		push	hl
+		push	hl
 		ld	c,(ix+zTrack.ModEnvIndex)
 		ld	b,0
- 		add	hl,bc
-		ld	a,(hl)
- 		pop	hl
+		add	hl,bc
+	if fix_sndbugs
+		ld	c, l
+		ld	b, h
+		ld	a, (bc)					; a = new modulation envelope value
+	else
+		ld	a, (hl)					; a = new modulation envelope value
+	endif
+		pop	hl
 		bit	7,a
 		jp	z,zPositiveModEnvMod
- 		cp	82h
+		cp	82h
 		jr	z,zChangeModEnvIndex
- 		cp	80h
+		cp	80h
 		jr	z,zResetModEnvMod
- 		cp	84h
+		cp	84h
 		jr	z,zModEnvIncMultiplier
 		ld	h,-1
 		jr	nc,zApplyModEnvMod
- 		set	6,(ix+zTrack.PlaybackControl)
- 		pop	hl
+		set	6,(ix+zTrack.PlaybackControl)
+		pop	hl
 		ret
 
 zChangeModEnvIndex:
-		inc	bc              ; 00038B 03
-		ld	a,(bc)          ; 00038C 0A
+		inc	bc
+		ld	a,(bc)
 		jr	zModEnvSetIndex
 
 zResetModEnvMod:
- 		xor	a               ; 00038F AF
+		xor	a
 		jr	zModEnvSetIndex
 
 zModEnvIncMultiplier:
-		inc	bc              ; 000392 03
-		ld	a,(bc)          ; 000393 0A
- 		add	a,(ix+zTrack.ModEnvSens)      ; 000394 DD 86 22
-		ld	(ix+zTrack.ModEnvSens),a      ; 000397 DD 77 22
-		inc	(ix+zTrack.ModEnvIndex)        ; 00039A DD 34 25
-		inc	(ix+zTrack.ModEnvIndex)        ; 00039D DD 34 25
+		inc	bc
+		ld	a,(bc)
+		add	a,(ix+zTrack.ModEnvSens)
+		ld	(ix+zTrack.ModEnvSens),a
+		inc	(ix+zTrack.ModEnvIndex)
+		inc	(ix+zTrack.ModEnvIndex)
 		jr	zDoModEnvelope_cont
 
 zPositiveModEnvMod:
-		ld	h,0           ; 0003A2 26 00
+		ld	h,0
 
 zApplyModEnvMod:
-		ld	l,a             ; 0003A4 6F
-		ld	b,(ix+zTrack.ModEnvSens)      ; 0003A5 DD 46 22
-		inc	b               ; 0003A8 04
- 		ex	de,hl           ; 0003A9 EB
+		ld	l,a
+		ld	b,(ix+zTrack.ModEnvSens)
+		inc	b
+		ex	de,hl
 
 .loop:
- 		add	hl,de           ; 0003AA 19
+		add	hl,de
 		djnz	.loop
-		inc	(ix+zTrack.ModEnvIndex)        ; 0003AD DD 34 25
-		ret	                ; 0003B0 C9
+		inc	(ix+zTrack.ModEnvIndex)
+		ret
 
 zUpdateFreq:
-		ld	h,(ix+zTrack.FreqHigh)      ; 0003B1 DD 66 0E
-		ld	l,(ix+zTrack.FreqLow)      ; 0003B4 DD 6E 0D
-		ld	b,0           ; 0003B7 06 00
-		ld	a,(ix+zTrack.Detune)      ; 0003B9 DD 7E 10
-		or	a               ; 0003BC B7
-		jp	p,.didSignExtend
-		ld	b,0FFh           ; 0003C0 06 FF
+		ld	h,(ix+zTrack.FreqHigh)
+		ld	l,(ix+zTrack.FreqLow)
+	if fix_sndbugs
+		ld	a, (ix+zTrack.Detune)			; a = detune
+		ld	c, a					; bc = sign extension of frequency displacement
+		rla						; Carry contains sign of frequency displacement
+		sbc	a, a					; a = 0 or -1 if carry is 0 or 1
+		ld	b, a					; bc = sign extension of frequency displacement
+	else
+		ld	b, 0					; b = 0
+		ld	a, (ix+zTrack.Detune)			; a = detune
+		or	a					; Is a negative?
+		jp	p, .did_sign_extend			; Branch if not
+		ld	b, 0FFh					; b = -1
 
-.didSignExtend:
-		ld	c,a             ; 0003C2 4F
- 		add	hl,bc           ; 0003C3 09
-		ret	                ; 0003C4 C9
+.did_sign_extend:
+		ld	c, a					; bc = sign extension of frequency displacement
+	endif
+		add	hl,bc
+		ret
 
 zGetFMInstrumentPointer:
-		ld	hl,(zVoiceTblPtr)      ; 0003C5 2A 37 1C
-		ld	a,(zUpdatingSFX)       ; 0003C8 3A 19 1C
-		or	a               ; 0003CB B7
+		ld	hl,(zVoiceTblPtr)
+		ld	a,(zUpdatingSFX)
+		or	a
 		jr	z,zGetFMInstrumentOffset
-		ld	l,(ix+zTrack.VoicesLow)      ; 0003CE DD 6E 2A
-		ld	h,(ix+zTrack.VoicesHigh)      ; 0003D1 DD 66 2B
+		ld	l,(ix+zTrack.VoicesLow)
+		ld	h,(ix+zTrack.VoicesHigh)
 
 zGetFMInstrumentOffset:
- 		xor	a               ; 0003D4 AF
-		or	b               ; 0003D5 B0
-		ret	z               ; 0003D6 C8
-		ld	de,25        ; 0003D7 11 19 00
+		xor	a
+		or	b
+		ret	z
+		ld	de,25
 
 .loop:
- 		add	hl,de           ; 0003DA 19
+		add	hl,de
 		djnz	.loop
 		ret
 
@@ -972,27 +1056,31 @@ zFMInstrumentSSGEGTable_End:
 
 zSendFMInstrument:
 		ld	de,zFMInstrumentRegTable
-		ld	c,(ix+zTrack.AMSFMSPan)      ; 0003FE DD 4E 0A
-		ld	a,0B4h           ; 000401 3E B4
+		ld	c,(ix+zTrack.AMSFMSPan)
+		ld	a,0B4h
 		call	zWriteFMIorII
 		call	zSendFMInstrData
-		ld	(ix+zTrack.FeedbackAlgo),a      ; 000409 DD 77 1B
-		ld	b,zFMInstrumentOperatorTable_End-zFMInstrumentOperatorTable           ; 00040C 06 14
+		ld	(ix+zTrack.FeedbackAlgo),a
+		ld	b,zFMInstrumentOperatorTable_End-zFMInstrumentOperatorTable
 
 .loop:
 		call	zSendFMInstrData
 		djnz	.loop
-		ld	(ix+zTrack.TLPtrLow),l      ; 000413 DD 75 1C
-		ld	(ix+zTrack.TLPtrHigh),h      ; 000416 DD 74 1D
+		ld	(ix+zTrack.TLPtrLow),l
+		ld	(ix+zTrack.TLPtrHigh),h
 		jp	zSendTL
 
 zSendFMInstrData:
-		ld	a,(de)          ; 00041C 1A
-		inc	de              ; 00041D 13
-		ld	c,(hl)          ; 00041E 4E
-		inc	hl              ; 00041F 23
+		ld	a,(de)
+		inc	de
+		ld	c,(hl)
+		inc	hl
+	if fix_sndbugs
+		jp	zWriteFMIorII
+	else
 		call	zWriteFMIorII
-		ret	                ; 000423 C9
+		ret
+	endif
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Play sound depending on the indexed entry
@@ -1028,121 +1116,125 @@ zFadeEffects:
 ; ---------------------------------------------------------------------------
 
 zStopSFX:
-		ld	ix,zTracksSFXStart        ; 000453 DD 21 F0 1D
-		ld	b,(zTracksSFXEnd-zTracksSFXStart)/zTrack.len           ; 000457 06 07
-		ld	a,1           ; 000459 3E 01
-		ld	(zUpdatingSFX),a       ; 00045B 32 19 1C
+		ld	ix,zTracksSFXStart
+		ld	b,(zTracksSFXEnd-zTracksSFXStart)/zTrack.len
+		ld	a,1
+		ld	(zUpdatingSFX),a
 
 .loop:
- 		push	bc              ; 00045E C5
-		bit	7,(ix+zTrack.PlaybackControl)      ; 00045F DD CB 00 7E
+		push	bc
+		bit	7,(ix+zTrack.PlaybackControl)
 		call	nz,zSilenceStopTrack
-		ld	de,zTrack.len        ; 000466 11 30 00
- 		add	ix,de           ; 000469 DD 19
- 		pop	bc              ; 00046B C1
+		ld	de,zTrack.len
+		add	ix,de
+		pop	bc
 		djnz	.loop
+	if fix_sndbugs
+		jp	zClearNextSound
+	else
 		call	zClearNextSound
 		ret
+	endif
 
 zSilenceStopTrack:
- 		push	hl              ; 000472 E5
- 		push	hl              ; 000473 E5
+		push	hl
+		push	hl
 		jp	cfSilenceStopTrack
 
 zPlayMusic:
- 		sub	mus__First             ; 000477 D6 01
-		ret	m               ; 000479 F8
- 		push	af              ; 00047A F5
+		sub	mus__First
+		ret	m
+		push	af
 		call	zStopAllSound
- 		pop	af              ; 00047E F1
- 		push	af              ; 00047F F5
+		pop	af
+		push	af
 		ld	hl,z80_MusicBanks
- 		add	a,l             ; 000483 85
-		ld	l,a             ; 000484 6F
- 		adc    a,h             ; 000485 8C
- 		sub	l               ; 000486 95
-		ld	h,a             ; 000487 67
+		add	a,l
+		ld	l,a
+		adc	a,h
+		sub	l
+		ld	h,a
 		ld	(zloc_48B+1),hl
 
 zloc_48B:
 		ld	a,(z80_MusicBanks)
-		ld	(zSongBank),a       ; 00048E 32 04 1C
+		ld	(zSongBank),a
 
 		; music bankswitch
-		ld	hl,zBankRegister        ; 000491 21 00 60
+		ld	hl,zBankRegister
 		bankswitchToMusic Snd_Bank1_Start
-		ld	a,0b6h           ; 0004A3 3E B6
-		ld	(zYM2612_A1),a       ; 0004A5 32 02 40
- 		nop                    ; 0004A8 00
-		ld	a,0c0h           ; 0004A9 3E C0
-		ld	(zYM2612_D1),a       ; 0004AB 32 03 40
- 		pop	af              ; 0004AE F1
+		ld	a,0B6h
+		ld	(zYM2612_A1),a
+		nop
+		ld	a,0C0h
+		ld	(zYM2612_D1),a
+		pop	af
 		ld	c,zID_MusicPointers
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
- 		push	hl              ; 0004B3 E5
- 		push	hl              ; 0004B4 E5
+		push	hl
+		push	hl
 		rst	zReadPointer
-		ld	(zVoiceTblPtr),hl      ; 0004B6 22 37 1C
- 		pop	hl              ; 0004B9 E1
- 		pop	iy              ; 0004BA FD E1
-		ld	a,(iy+5)      ; 0004BC FD 7E 05
-		ld	(zTempoAccumulator),a       ; 0004BF 32 13 1C
-		ld	(zCurrentTempo),a       ; 0004C2 32 05 1C
-		ld	de,6        ; 0004C5 11 06 00
- 		add	hl,de           ; 0004C8 19
-		ld	(zSongPosition),hl      ; 0004C9 22 33 1C
+		ld	(zVoiceTblPtr),hl
+		pop	hl
+		pop	iy
+		ld	a,(iy+5)
+		ld	(zTempoAccumulator),a
+		ld	(zCurrentTempo),a
+		ld	de,6
+		add	hl,de
+		ld	(zSongPosition),hl
 		ld	hl,zFMDACInitBytes
-		ld	(zTrackInitPos),hl      ; 0004CF 22 35 1C
-		ld	de,zTracksStart        ; 0004D2 11 40 1C
-		ld	b,(iy+zTrack.TempoDivider)      ; 0004D5 FD 46 02
-		ld	a,(iy+zTrack.DataPointerHigh)      ; 0004D8 FD 7E 04
+		ld	(zTrackInitPos),hl
+		ld	de,zTracksStart
+		ld	b,(iy+zTrack.TempoDivider)
+		ld	a,(iy+zTrack.DataPointerHigh)
 
 .FMDACLoop:
- 		push	bc              ; 0004DB C5
-		ld	hl,(zTrackInitPos)      ; 0004DC 2A 35 1C
-		ldi                    ; 0004DF ED A0
-		ldi                    ; 0004E1 ED A0
-		ld	(de),a          ; 0004E3 12
-		inc	de              ; 0004E4 13
-		ld	(zTrackInitPos),hl      ; 0004E5 22 35 1C
-		ld	hl,(zSongPosition)      ; 0004E8 2A 33 1C
-		ldi                    ; 0004EB ED A0
-		ldi                    ; 0004ED ED A0
-		ldi                    ; 0004EF ED A0
-		ldi                    ; 0004F1 ED A0
-		ld	(zSongPosition),hl      ; 0004F3 22 33 1C
+		push	bc
+		ld	hl,(zTrackInitPos)
+		ldi
+		ldi
+		ld	(de),a
+		inc	de
+		ld	(zTrackInitPos),hl
+		ld	hl,(zSongPosition)
+		ldi
+		ldi
+		ldi
+		ldi
+		ld	(zSongPosition),hl
 		call	zInitFMDACTrack
- 		pop	bc              ; 0004F9 C1
+		pop	bc
 		djnz	.FMDACLoop
-		ld	a,(iy+zTrack.DataPointerLow)      ; 0004FC FD 7E 03
-		or	a               ; 0004FF B7
+		ld	a,(iy+zTrack.DataPointerLow)
+		or	a
 		jp	z,zClearNextSound
-		ld	b,a             ; 000503 47
+		ld	b,a
 		ld	hl,zPSGInitBytes
-		ld	(zTrackInitPos),hl      ; 000507 22 35 1C
-		ld	de,zSongPSG1        ; 00050A 11 60 1D
-		ld	a,(iy+zTrack.DataPointerHigh)      ; 00050D FD 7E 04
+		ld	(zTrackInitPos),hl
+		ld	de,zSongPSG1
+		ld	a,(iy+zTrack.DataPointerHigh)
 
 .PSGLoop:
- 		push	bc              ; 000510 C5
-		ld	hl,(zTrackInitPos)      ; 000511 2A 35 1C
-		ldi                    ; 000514 ED A0
-		ldi                    ; 000516 ED A0
-		ld	(de),a          ; 000518 12
-		inc	de              ; 000519 13
-		ld	(zTrackInitPos),hl      ; 00051A 22 35 1C
-		ld	hl,(zSongPosition)      ; 00051D 2A 33 1C
-		ld	bc,6        ; 000520 01 06 00
-		ldir                   ; 000523 ED B0
-		ld	(zSongPosition),hl      ; 000525 22 33 1C
+		push	bc
+		ld	hl,(zTrackInitPos)
+		ldi
+		ldi
+		ld	(de),a
+		inc	de
+		ld	(zTrackInitPos),hl
+		ld	hl,(zSongPosition)
+		ld	bc,6
+		ldir
+		ld	(zSongPosition),hl
 		call	zZeroFillTrackRAM
- 		pop	bc              ; 00052B C1
+		pop	bc
 		djnz	.PSGLoop
 
 zClearNextSound:
- 		xor	a               ; 00052E AF
-		ld	(zNextSound),a       ; 00052F 32 09 1C
+		xor	a
+		ld	(zNextSound),a
 		ret
 
 zFMDACInitBytes:
@@ -1160,7 +1252,7 @@ zPSGInitBytes:
 		db	80h,0C0h
 
 zPlaySound:
- 		sub	sfx__First             ; 000547 D6 32
+		sub	sfx__First
 ; Ring SFX patch below provided by ValleyBell.
 ; Originally used zSpecFM3FreqsSFX to make the rings alternate between speakers, a better method would be to use unused RAM as long as it's a byte in size.
 ;		or	a ; is it equal to sfx__First?
@@ -1169,51 +1261,53 @@ zPlaySound:
 ;		xor	1 ; set a to 1
 ;		ld	(zRingSpeaker),a ; load a back into zRingSpeaker
 ;.notequ:
- 		ex	af,af'          ; 000549 08
+		ex	af,af'
 
 		; sound bankswitch
 		bankswitch SndBank
 
- 		xor	a               ; 000559 AF
+		xor	a               ; 000559 AF
 		ld	c,zID_SFXPointers
 		ld	(zUpdatingSFX),a       ; 00055C 32 19 1C
- 		ex	af,af'          ; 00055F 08
+		ex	af,af'          ; 00055F 08
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
- 		push	hl              ; 000562 E5
+		push	hl              ; 000562 E5
 		rst	zReadPointer
 		ld	(zSFXVoiceTblPtr),hl      ; 000564 22 39 1C
- 		xor	a               ; 000567 AF
+	if ~~fix_sndbugs
+		xor	a               ; 000567 AF
 		ld	(unk_1C15),a       ; 000568 32 15 1C
- 		pop	hl              ; 00056B E1
- 		push	hl              ; 00056C E5
- 		pop	iy              ; 00056D FD E1
+	endif
+		pop	hl              ; 00056B E1
+		push	hl              ; 00056C E5
+		pop	iy              ; 00056D FD E1
 		ld	a,(iy+zTrack.TempoDivider)      ; 00056F FD 7E 02
 		ld	(zSFXTempoDivider),a       ; 000572 32 3B 1C
 		ld	de,4        ; 000575 11 04 00
- 		add	hl,de           ; 000578 19
+		add	hl,de           ; 000578 19
 		ld	b,(iy+zTrack.DataPointerLow)      ; 000579 FD 46 03
 
 zSFXTrackInitLoop:
- 		push	bc              ; 00057C C5
- 		push	hl              ; 00057D E5
+		push	bc              ; 00057C C5
+		push	hl              ; 00057D E5
 		inc	hl              ; 00057E 23
 		ld	c,(hl)          ; 00057F 4E
 		call	zGetSFXChannelPointers
- 		set	2,(hl)          ; 000583 CB D6
- 		push	ix              ; 000585 DD E5
+		set	2,(hl)          ; 000583 CB D6
+		push	ix              ; 000585 DD E5
 		ld	a,(zUpdatingSFX)       ; 000587 3A 19 1C
 		or	a               ; 00058A B7
 		jr	z,.normalSFX1
- 		pop	hl              ; 00058D E1
- 		push	iy              ; 00058E FD E5
+		pop	hl              ; 00058D E1
+		push	iy              ; 00058E FD E5
 
 .normalSFX1:
- 		pop	de              ; 000590 D1
- 		pop	hl              ; 000591 E1
+		pop	de              ; 000590 D1
+		pop	hl              ; 000591 E1
 		ldi                    ; 000592 ED A0
 		ld	a,(de)          ; 000594 1A
- 		cp	2             ; 000595 FE 02
+		cp	2             ; 000595 FE 02
 		call	z,zFM3NormalMode
 		ldi                    ; 00059A ED A0
 		ld	a,(zSFXTempoDivider)       ; 00059C 3A 3B 1C
@@ -1227,26 +1321,26 @@ zSFXTrackInitLoop:
 		bit	7,(ix+zTrack.PlaybackControl)      ; 0005AC DD CB 00 7E
 		jr	z,.dontOverride
 		ld	a,(ix+zTrack.VoiceControl)      ; 0005B2 DD 7E 01
- 		cp	(iy+zTrack.VoiceControl)        ; 0005B5 FD BE 01
+		cp	(iy+zTrack.VoiceControl)        ; 0005B5 FD BE 01
 		jr	nz,.dontOverride
- 		set	2,(iy+zTrack.PlaybackControl)      ; 0005BA FD CB 00 D6
+		set	2,(iy+zTrack.PlaybackControl)      ; 0005BA FD CB 00 D6
 
 .dontOverride:
- 		push	hl              ; 0005BE E5
+		push	hl              ; 0005BE E5
 		ld	hl,(zSFXVoiceTblPtr)      ; 0005BF 2A 39 1C
 		ld	a,(zUpdatingSFX)       ; 0005C2 3A 19 1C
 		or	a               ; 0005C5 B7
 		jr	z,.normalSFX2
- 		push	iy              ; 0005C8 FD E5
- 		pop	ix              ; 0005CA DD E1
+		push	iy              ; 0005C8 FD E5
+		pop	ix              ; 0005CA DD E1
 
 .normalSFX2:
 		ld	(ix+zTrack.VoicesLow),l      ; 0005CC DD 75 2A
 		ld	(ix+zTrack.VoicesHigh),h      ; 0005CF DD 74 2B
 		call	zKeyOffIfActive
 		call	zFMClearSSGEGOps
- 		pop	hl              ; 0005D8 E1
- 		pop	bc              ; 0005D9 C1
+		pop	hl              ; 0005D8 E1
+		pop	bc              ; 0005D9 C1
 		djnz	zSFXTrackInitLoop
 		jp	zClearNextSound
 
@@ -1256,7 +1350,7 @@ zGetSFXChannelPointers:
 		ld	a,c             ; 0005E3 79
 		bit	2,a             ; 0005E4 CB 57
 		jr	z,.getPtrs
- 		dec	a               ; 0005E8 3D
+		dec	a               ; 0005E8 3D
 		jr	.getPtrs
 
 .isPSG:
@@ -1265,37 +1359,41 @@ zGetSFXChannelPointers:
 		ld	a,0FFh           ; 0005F0 3E FF
 		ld	(zPSG),a       ; 0005F2 32 11 7F
 		ld	a,c             ; 0005F5 79
- 		srl	a               ; 0005F6 CB 3F
- 		srl	a               ; 0005F8 CB 3F
- 		srl	a               ; 0005FA CB 3F
- 		srl	a               ; 0005FC CB 3F
- 		srl	a               ; 0005FE CB 3F
- 		add	a,2           ; 000600 C6 02
+		srl	a               ; 0005F6 CB 3F
+		srl	a               ; 0005F8 CB 3F
+		srl	a               ; 0005FA CB 3F
+		srl	a               ; 0005FC CB 3F
+		srl	a               ; 0005FE CB 3F
+		add	a,2           ; 000600 C6 02
 
 .getPtrs:
- 		sub	2             ; 000602 D6 02
+		sub	2             ; 000602 D6 02
 		ld	(zSFXSaveIndex),a       ; 000604 32 32 1C
- 		push	af              ; 000607 F5
+		push	af              ; 000607 F5
 		ld	hl,zSFXChannelData
 		rst	zPointerTableOffset
- 		push	hl              ; 00060C E5
- 		pop	ix              ; 00060D DD E1
- 		pop	af              ; 00060F F1
+		push	hl              ; 00060C E5
+		pop	ix              ; 00060D DD E1
+		pop	af              ; 00060F F1
 		ld	hl,zSFXOverriddenChannel
+	if fix_sndbugs
+		jp	zPointerTableOffset
+	else
 		rst	zPointerTableOffset
 		ret
+	endif
 
 zInitFMDACTrack:
- 		ex	af,af'          ; 000615 08
- 		xor	a               ; 000616 AF
+		ex	af,af'          ; 000615 08
+		xor	a               ; 000616 AF
 		ld	(de),a          ; 000617 12
 		inc	de              ; 000618 13
 		ld	(de),a          ; 000619 12
 		inc	de              ; 00061A 13
- 		ex	af,af'          ; 00061B 08
+		ex	af,af'          ; 00061B 08
 
 zZeroFillTrackRAM:
- 		ex	de,hl           ; 00061C EB
+		ex	de,hl           ; 00061C EB
 		ld	(hl),zTrack.len       ; 00061D 36 30
 		inc	hl              ; 00061F 23
 		ld	(hl),0c0h        ; 000620 36 C0
@@ -1308,7 +1406,7 @@ zZeroFillTrackRAM:
 		ld	(hl),0        ; 000628 36 00
 		djnz	.loop
 		inc	hl              ; 00062C 23
- 		ex	de,hl           ; 00062D EB
+		ex	de,hl           ; 00062D EB
 		ret
 
 zSFXChannelData:
@@ -1337,14 +1435,14 @@ zPauseUnpause:
 		or	a               ; 000653 B7
 		ret	z               ; 000654 C8
 		jp	m,.unpause
- 		pop	de              ; 000658 D1
- 		dec	a               ; 000659 3D
+		pop	de              ; 000658 D1
+		dec	a               ; 000659 3D
 		ret	nz              ; 00065A C0
 		ld	(hl),2        ; 00065B 36 02
 		jp	zPauseAudio
 
 .unpause:
- 		xor	a               ; 000660 AF
+		xor	a               ; 000660 AF
 		ld	(hl),a          ; 000661 77
 		ld	a,(zFadeOutTimeout)       ; 000662 3A 0D 1C
 		or	a               ; 000665 B7
@@ -1366,7 +1464,7 @@ zPauseUnpause:
 
 .skipFMTrack:
 		ld	de,zTrack.len        ; 000683 11 30 00
- 		add	ix,de           ; 000686 DD 19
+		add	ix,de           ; 000686 DD 19
 		djnz	.FMLoop
 		ld	ix,zTracksSFXEnd        ; 00068A DD 21 40 1F
 		ld	b,7           ; 00068E 06 07
@@ -1382,7 +1480,7 @@ zPauseUnpause:
 
 .skipPSG:
 		ld	de,zTrack.len        ; 0006A4 11 30 00
- 		add	ix,de           ; 0006A7 DD 19
+		add	ix,de           ; 0006A7 DD 19
 		djnz	.PSGLoop
 		ret
 
@@ -1394,7 +1492,7 @@ zFadeOutMusic:
 		ld	(zFadeDelay),a       ; 0006B6 32 0E 1C
 
 zHaltDACPSG:
- 		xor	a               ; 0006B9 AF
+		xor	a               ; 0006B9 AF
 		ld	(zSongFM6_DAC),a       ; 0006BA 32 40 1C
 		ld	(zSongPSG3),a       ; 0006BD 32 C0 1D
 		ld	(zSongPSG1),a       ; 0006C0 32 60 1D
@@ -1407,9 +1505,9 @@ zDoMusicFadeOut:
 		or	a               ; 0006CD B7
 		ret	z               ; 0006CE C8
 		call	m,zHaltDACPSG
- 		res	7,(hl)          ; 0006D2 CB BE
+		res	7,(hl)          ; 0006D2 CB BE
 		ld	a,(zFadeDelayTimeout)       ; 0006D4 3A 0F 1C
- 		dec	a               ; 0006D7 3D
+		dec	a               ; 0006D7 3D
 		jr	z,.timerExpired
 		ld	(zFadeDelayTimeout),a       ; 0006DA 32 0F 1C
 		ret
@@ -1418,7 +1516,7 @@ zDoMusicFadeOut:
 		ld	a,(zFadeDelay)       ; 0006DE 3A 0E 1C
 		ld	(zFadeDelayTimeout),a       ; 0006E1 32 0F 1C
 		ld	a,(zFadeOutTimeout)       ; 0006E4 3A 0D 1C
- 		dec	a               ; 0006E7 3D
+		dec	a               ; 0006E7 3D
 		ld	(zFadeOutTimeout),a       ; 0006E8 32 0D 1C
 		jr	z,zStopAllSound
 		ld	a,(zSongBank)       ; 0006ED 3A 04 1C
@@ -1432,7 +1530,7 @@ zDoMusicFadeOut:
 .loop:
 		inc	(ix+zTrack.Volume)        ; 000708 DD 34 06
 		jp	p,.chkChangeVolume
- 		dec	(ix+zTrack.Volume)        ; 00070E DD 35 06
+		dec	(ix+zTrack.Volume)        ; 00070E DD 35 06
 		jr	.nextTrack
 
 .chkChangeVolume:
@@ -1440,13 +1538,13 @@ zDoMusicFadeOut:
 		jr	z,.nextTrack
 		bit	2,(ix+zTrack.PlaybackControl)      ; 000719 DD CB 00 56
 		jr	nz,.nextTrack
- 		push	bc              ; 00071F C5
+		push	bc              ; 00071F C5
 		call	zSendTL
- 		pop	bc              ; 000723 C1
+		pop	bc              ; 000723 C1
 
 .nextTrack:
 		ld	de,zTrack.len        ; 000724 11 30 00
- 		add	ix,de           ; 000727 DD 19
+		add	ix,de           ; 000727 DD 19
 		djnz	.loop
 		ret
 
@@ -1460,15 +1558,15 @@ zStopAllSound:
 		ld	b,6           ; 00073D 06 06
 
 .loop:
- 		push	bc              ; 00073F C5
+		push	bc              ; 00073F C5
 		call	zFMSilenceChannel
 		call	zFMClearSSGEGOps
 		inc	ix              ; 000746 DD 23
 		inc	ix              ; 000748 DD 23
- 		pop	bc              ; 00074A C1
+		pop	bc              ; 00074A C1
 		djnz	.loop
 		ld	b,7           ; 00074D 06 07
- 		xor	a               ; 00074F AF
+		xor	a               ; 00074F AF
 		ld	(zFadeOutTimeout),a       ; 000750 32 0D 1C
 		call	zPSGSilenceAll
 		ld	c,0           ; 000756 0E 00
@@ -1476,7 +1574,7 @@ zStopAllSound:
 		call	zWriteFMI
 
 zFM3NormalMode:
- 		xor	a               ; 00075D AF
+		xor	a               ; 00075D AF
 		ld	(zFM3Settings),a       ; 00075E 32 12 1C
 		ld	c,a             ; 000761 4F
 		ld	a,27h           ; 000762 3E 27
@@ -1490,25 +1588,25 @@ zFMClearSSGEGOps:
 
 zPauseAudio:
 		call	zPSGSilenceAll
- 		push	bc              ; 000774 C5
- 		push	af              ; 000775 F5
+		push	bc              ; 000774 C5
+		push	af              ; 000775 F5
 		ld	b,(zSongFM4-zSongFM1)/zTrack.len           ; 000776 06 03
 		ld	a,0B4h           ; 000778 3E B4
 		ld	c,0           ; 00077A 0E 00
 
 .loop1:
- 		push	af              ; 00077C F5
+		push	af              ; 00077C F5
 		call	zWriteFMI
- 		pop	af              ; 000780 F1
+		pop	af              ; 000780 F1
 		inc	a               ; 000781 3C
 		djnz	.loop1
 		ld	b,(zSongPSG1-zSongFM4)/zTrack.len          ; 000784 06 02
 		ld	a,0B4h           ; 000786 3E B4
 
 .loop2:
- 		push	af              ; 000788 F5
+		push	af              ; 000788 F5
 		call	zWriteFMII
- 		pop	af              ; 00078C F1
+		pop	af              ; 00078C F1
 		inc	a               ; 00078D 3C
 		djnz	.loop2
 		ld	c,0           ; 000790 0E 00
@@ -1516,30 +1614,30 @@ zPauseAudio:
 		ld	a,28h           ; 000794 3E 28
 
 .loop3:
- 		push	af              ; 000796 F5
+		push	af              ; 000796 F5
 		call	zWriteFMI
 		inc	c               ; 00079A 0C
- 		pop	af              ; 00079B F1
+		pop	af              ; 00079B F1
 		djnz	.loop3
- 		pop	af              ; 00079E F1
- 		pop	bc              ; 00079F C1
+		pop	af              ; 00079E F1
+		pop	bc              ; 00079F C1
 
 zPSGSilenceAll:
- 		push	bc              ; 0007A0 C5
+		push	bc              ; 0007A0 C5
 		ld	b,4           ; 0007A1 06 04
 		ld	a,9Fh           ; 0007A3 3E 9F
 
 .loop:
 		ld	(zPSG),a       ; 0007A5 32 11 7F
- 		add	a,20h           ; 0007A8 C6 20
+		add	a,20h           ; 0007A8 C6 20
 		djnz	.loop
- 		pop	bc              ; 0007AC C1
+		pop	bc              ; 0007AC C1
 		jp	zClearNextSound
 
 zTempoWait:
 		ld	a,(zCurrentTempo)       ; 0007B0 3A 05 1C
 		ld	hl,zTempoAccumulator	   ; 0007B3 21 13 1C
- 		add	a,(hl)          ; 0007B6 86
+		add	a,(hl)          ; 0007B6 86
 		ld	(hl),a          ; 0007B7 77
 		ret	nc              ; 0007B8 D0
 		ld	hl,zTracksStart+zTrack.DurationTimeout
@@ -1548,13 +1646,15 @@ zTempoWait:
 
 .loop:
 		inc	(hl)            ; 0007C1 34
- 		add	hl,de           ; 0007C2 19
+		add	hl,de           ; 0007C2 19
 		djnz	.loop
 		ret
 
 zDoUpdate:
+	if ~~fix_sndbugs
 		ld	a,r             ; 0007C6 ED 5F
 		ld	(unk_1C17),a       ; 0007C8 32 17 1C
+	endif
 		ld	de,zTempVariablesStart+1        ; 0007CB 11 0A 1C
 		call	zloc_7D4
 		call	zloc_7D4
@@ -1563,14 +1663,14 @@ zloc_7D4:
 		ld	a,(de)          ; 0007D4 1A
 		or	a               ; 0007D5 B7
 		ret	z               ; 0007D6 C8
- 		sub	mus__First             ; 0007D7 D6 01
+		sub	mus__First             ; 0007D7 D6 01
 		ld	c,zID_PriorityList
 		rst	zGetPointerTable
 		ld	c,a             ; 0007DC 4F
 		ld	b,0           ; 0007DD 06 00
- 		add	hl,bc           ; 0007DF 09
+		add	hl,bc           ; 0007DF 09
 		ld	a,(zSoundIndex)       ; 0007E0 3A 18 1C
- 		cp	(hl)            ; 0007E3 BE
+		cp	(hl)            ; 0007E3 BE
 		jr	z,.skip
 		jr	nc,.skip2
 
@@ -1578,11 +1678,11 @@ zloc_7D4:
 		ld	a,(de)          ; 0007E8 1A
 		ld	(zNextSound),a       ; 0007E9 32 09 1C
 		ld	a,(hl)          ; 0007EC 7E
- 		and	7fh             ; 0007ED E6 7F
+		and	7Fh             ; 0007ED E6 7F
 		ld	(zSoundIndex),a       ; 0007EF 32 18 1C
 
 .skip2:
- 		xor	a               ; 0007F2 AF
+		xor	a               ; 0007F2 AF
 		ld	(de),a          ; 0007F3 12
 		inc	de              ; 0007F4 13
 		ret
@@ -1603,17 +1703,17 @@ zFMOperatorWriteLoop:
 		ld	b,4           ; 00080A 06 04
 
 .loop:
- 		push	af              ; 00080C F5
+		push	af              ; 00080C F5
 		call	zWriteFMIorII
- 		pop	af              ; 000810 F1
- 		add	a,4           ; 000811 C6 04
+		pop	af              ; 000810 F1
+		add	a,4           ; 000811 C6 04
 		djnz	.loop
 		ret
 
 zPlaySegaSound:
 		ld	a,1           ; 000816 3E 01
 		ld	(zPlaySegaPCMFlag),a       ; 000818 32 07 1C
- 		pop	hl              ; 00081B E1
+		pop	hl              ; 00081B E1
 		ret
 
 zPSGFrequencies:
@@ -1781,7 +1881,11 @@ z80_MusicBanks:
 	zmakeSongBanks	Panic_Snd_Data
 
 zUpdateDACTrack:
-		call	zTrackRunTimer
+	if fix_sndbugs
+		dec	(ix+zTrack.DurationTimeout)	; Run note timer
+	else
+		call	zTrackRunTimer			; Run note timer
+	endif
 		ret	nz
 		ld	e,(ix+zTrack.DataPointerLow)
 		ld	d,(ix+zTrack.DataPointerHigh)
@@ -1789,32 +1893,32 @@ zUpdateDACTrack:
 zUpdateDACTrack_cont:
 		ld	a,(de)
 		inc	de
- 		cp	0E0h
+		cp	0E0h
 		jp	nc,zHandleDACCoordFlag
 		or	a
 		jp	m,.gotSample
- 		dec	de
+		dec	de
 		ld	a,(ix+zTrack.FreqLow)
 
 .gotSample:
 		ld	(ix+zTrack.FreqLow),a
- 		cp	80h
+		cp	80h
 		jp	z,zUpdateDACTrack_GetDuration
- 		res	7,a
- 		push	de
- 		ex	af,af'
+		res	7,a
+		push	de
+		ex	af,af'
 		call	zKeyOffIfActive
 		call	zFM3NormalMode
- 		ex	af,af'
+		ex	af,af'
 		ld	(zDACIndex),a
- 		pop	de
+		pop	de
 
 zUpdateDACTrack_GetDuration:
 		ld	a,(de)
 		inc	de
 		or	a
 		jp	p,zStoreDuration
- 		dec	de
+		dec	de
 		ld	a,(ix+zTrack.SavedDuration)
 		ld	(ix+zTrack.DurationTimeout),a
 		jp	zFinishTrackUpdate
@@ -1831,8 +1935,8 @@ zHandleFMorPSGCoordFlag:
 		ld	hl,zloc_964
 
 zHandleCoordFlag:
- 		push	hl
- 		sub	0E0h
+		push	hl
+		sub	0E0h
 		ld	hl,zCoordFlagSwitchTable
 		rst	zPointerTableOffset
 		ld	a,(de)
@@ -1890,27 +1994,27 @@ cfPlayDACSample:
 		ret
 
 cfPanningAMSFMS:
-		ld	c,3fh           ; 0009BA 0E 3F
+		ld	c,3Fh           ; 0009BA 0E 3F
 
 zDoChangePan:
 		ld	a,(ix+zTrack.AMSFMSPan)      ; 0009BC DD 7E 0A
- 		and	c               ; 0009BF A1
- 		push	de              ; 0009C0 D5
- 		ex	de,hl           ; 0009C1 EB
+		and	c               ; 0009BF A1
+		push	de              ; 0009C0 D5
+		ex	de,hl           ; 0009C1 EB
 		or	(hl)            ; 0009C2 B6
 		ld	(ix+zTrack.AMSFMSPan),a      ; 0009C3 DD 77 0A
 		ld	c,a             ; 0009C6 4F
-		ld	a,0b4h           ; 0009C7 3E B4
+		ld	a,0B4h           ; 0009C7 3E B4
 		call	zWriteFMIorII
- 		pop	de              ; 0009CC D1
+		pop	de              ; 0009CC D1
 		ret
 
 cfSpindashRev:
 		ld	a,(ix+zTrack.ModulationCtrl)
 		or	a
 		ret	z
- 		set	7,(ix+zTrack.ModulationCtrl)
- 		dec	de
+		set	7,(ix+zTrack.ModulationCtrl)
+		dec	de
 		ret
 
 cfDetune:
@@ -1928,16 +2032,16 @@ cfSilenceStopTrack:
 cfSetVolume:
 		bit	7,(ix+zTrack.VoiceControl)
 		jr	z,.notPSG
- 		srl	a
- 		srl	a
- 		srl	a
- 		xor	0Fh
- 		and	0Fh
+		srl	a
+		srl	a
+		srl	a
+		xor	0Fh
+		and	0Fh
 		jp	zStoreTrackVolume
 
 .notPSG:
- 		xor	7Fh
- 		and	7Fh
+		xor	7Fh
+		and	7Fh
 		ld	(ix+zTrack.Volume),a
 		jr	zSendTL
 
@@ -1948,10 +2052,10 @@ cfChangeVolume2:
 cfChangeVolume:
 		bit	7,(ix+zTrack.VoiceControl)
 		ret	nz
- 		add	a,(ix+zTrack.Volume)
+		add	a,(ix+zTrack.Volume)
 		jp	p,.setVol
 		jp	pe,.underflow
- 		xor	a
+		xor	a
 		jp	.setVol
 
 .underflow:
@@ -1961,7 +2065,7 @@ cfChangeVolume:
 		ld	(ix+zTrack.Volume),a
 
 zSendTL:
- 		push	de
+		push	de
 		ld	de,zFMInstrumentTLTable        ; 000A1D 11 F3 03
 		ld	l,(ix+zTrack.TLPtrLow)      ; 000A20 DD 6E 1C
 		ld	h,(ix+zTrack.TLPtrHigh)      ; 000A23 DD 66 1D
@@ -1971,22 +2075,22 @@ zSendTL:
 		ld	a,(hl)          ; 000A28 7E
 		or	a               ; 000A29 B7
 		jp	p,.skipTrackVol
- 		add	a,(ix+zTrack.Volume)      ; 000A2D DD 86 06
+		add	a,(ix+zTrack.Volume)      ; 000A2D DD 86 06
 
 .skipTrackVol:
- 		and	7fh             ; 000A30 E6 7F
+		and	7Fh             ; 000A30 E6 7F
 		ld	c,a             ; 000A32 4F
 		ld	a,(de)          ; 000A33 1A
 		call	zWriteFMIorII
 		inc	de              ; 000A37 13
 		inc	hl              ; 000A38 23
 		djnz	.loop
- 		pop	de              ; 000A3B D1
+		pop	de              ; 000A3B D1
 		ret	                ; 000A3C C9
 
 cfPreventAttack:
- 		set    1,(ix+zTrack.PlaybackControl)      ; 000A3D DD CB 00 CE
- 		dec	de              ; 000A41 1B
+		set	1,(ix+zTrack.PlaybackControl)      ; 000A3D DD CB 00 CE
+		dec	de              ; 000A41 1B
 		ret
 
 cfNoteFill:
@@ -1997,30 +2101,30 @@ cfNoteFill:
 
 cfConditionalJump:
 		inc	de              ; 000A4D 13
- 		add	a,zTrack.LoopCounters           ; 000A4E C6 28
+		add	a,zTrack.LoopCounters           ; 000A4E C6 28
 		ld	c,a             ; 000A50 4F
 		ld	b,0           ; 000A51 06 00
- 		push	ix              ; 000A53 DD E5
- 		pop	hl              ; 000A55 E1
- 		add	hl,bc           ; 000A56 09
+		push	ix              ; 000A53 DD E5
+		pop	hl              ; 000A55 E1
+		add	hl,bc           ; 000A56 09
 		ld	a,(hl)          ; 000A57 7E
- 		dec	a               ; 000A58 3D
+		dec	a               ; 000A58 3D
 		jp	z,.doJump
 		inc	de              ; 000A5C 13
 		ret
 
 .doJump:
- 		xor	a               ; 000A5E AF
+		xor	a               ; 000A5E AF
 		ld	(hl),a          ; 000A5F 77
 		jp	cfJumpTo
 
 cfChangePSGVolume:
 		bit	7,(ix+zTrack.VoiceControl)      ; 000A63 DD CB 01 7E
 		ret	z               ; 000A67 C8
- 		res	4,(ix+zTrack.PlaybackControl)      ; 000A68 DD CB 00 A6
- 		dec	(ix+zTrack.VolEnv)        ; 000A6C DD 35 17
- 		add	a,(ix+zTrack.Volume)      ; 000A6F DD 86 06
- 		cp	0Fh             ; 000A72 FE 0F
+		res	4,(ix+zTrack.PlaybackControl)      ; 000A68 DD CB 00 A6
+		dec	(ix+zTrack.VolEnv)        ; 000A6C DD 35 17
+		add	a,(ix+zTrack.Volume)      ; 000A6F DD 86 06
+		cp	0Fh             ; 000A72 FE 0F
 		jp	c,zStoreTrackVolume
 		ld	a,0Fh           ; 000A77 3E 0F
 
@@ -2029,21 +2133,25 @@ zStoreTrackVolume:
 		ret
 
 cfSetKey:
- 		sub	40h             ; 000A7D D6 40
+		sub	40h             ; 000A7D D6 40
 		ld	(ix+zTrack.Transpose),a      ; 000A7F DD 77 05
 		ret
 
 cfSendFMI:
 		call	zGetFMParams
+	if fix_sndbugs
+		jp	zWriteFMI
+	else
 		call	zWriteFMI
 		ret
+	endif
 
 zGetFMParams:
- 		ex	de,hl           ; 000A8A EB
+		ex	de,hl           ; 000A8A EB
 		ld	a,(hl)          ; 000A8B 7E
 		inc	hl              ; 000A8C 23
 		ld	c,(hl)          ; 000A8D 4E
- 		ex	de,hl           ; 000A8E EB
+		ex	de,hl           ; 000A8E EB
 		ret
 
 cfSetVoice:
@@ -2059,27 +2167,27 @@ cfSetVoice:
 		ld	(ix+zTrack.VoiceSongID),a      ; 000AA3 DD 77 0F
 
 zSetVoiceUploadAlter:
- 		push	de              ; 000AA6 D5
+		push	de              ; 000AA6 D5
 		ld	a,(ix+zTrack.VoiceSongID)      ; 000AA7 DD 7E 0F
- 		sub	81h             ; 000AAA D6 81
+		sub	81h             ; 000AAA D6 81
 		ld	c,zID_MusicPointers
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
 		rst	zReadPointer
 		ld	a,(ix+zTrack.VoiceIndex)      ; 000AB1 DD 7E 08
- 		and	7Fh             ; 000AB4 E6 7F
+		and	7Fh             ; 000AB4 E6 7F
 		ld	b,a             ; 000AB6 47
 		call	zGetFMInstrumentOffset
 		jr	zSetVoiceDoUpload
 
 zSetVoiceUpload:
- 		push	de              ; 000ABC D5
+		push	de              ; 000ABC D5
 		ld	b,a             ; 000ABD 47
 		call	zGetFMInstrumentPointer
 
 zSetVoiceDoUpload:
 		call	zSendFMInstrument
- 		pop	de              ; 000AC4 D1
+		pop	de              ; 000AC4 D1
 		ret
 
 zSetVoicePSG:
@@ -2087,8 +2195,10 @@ zSetVoicePSG:
 		jp	p,cfStoreNewVoice
 		inc	de              ; 000ACA 13
 		jp	cfStoreNewVoice
+	if ~~fix_sndbugs
 		; unused
 		ret
+	endif
 
 cfModulation:
 		ld	(ix+zTrack.ModulationPtrLow),e      ; 000ACF DD 73 20
@@ -2111,33 +2221,35 @@ cfSetModulation:
 		ret
 
 cfStopTrack:
- 		res    7,(ix+zTrack.PlaybackControl)      ; 000AEA DD CB 00 BE
+		res	7,(ix+zTrack.PlaybackControl)      ; 000AEA DD CB 00 BE
+	if ~~fix_sndbugs
 		ld	a,1Fh           ; 000AEE 3E 1F
 		ld	(unk_1C15),a       ; 000AF0 32 15 1C
+	endif
 		call	zKeyOffIfActive
 		ld	c,(ix+zTrack.VoiceControl)      ; 000AF6 DD 4E 01
- 		push	ix              ; 000AF9 DD E5
+		push	ix              ; 000AF9 DD E5
 		call	zGetSFXChannelPointers
 		ld	a,(zUpdatingSFX)       ; 000AFE 3A 19 1C
 		or	a               ; 000B01 B7
 		jr	z,zStopCleanExit
- 		xor	a               ; 000B04 AF
+		xor	a               ; 000B04 AF
 		ld	(zSoundIndex),a       ; 000B05 32 18 1C
- 		push	hl              ; 000B08 E5
+		push	hl              ; 000B08 E5
 		ld	hl,(zVoiceTblPtr)      ; 000B09 2A 37 1C
- 		pop	ix              ; 000B0C DD E1
- 		res	2,(ix+zTrack.PlaybackControl)      ; 000B0E DD CB 00 96
+		pop	ix              ; 000B0C DD E1
+		res	2,(ix+zTrack.PlaybackControl)      ; 000B0E DD CB 00 96
 		bit	7,(ix+zTrack.VoiceControl)      ; 000B12 DD CB 01 7E
 		jr	nz,zStopPSGTrack
 		bit	7,(ix+zTrack.PlaybackControl)      ; 000B18 DD CB 00 7E
 		jr	z,zStopCleanExit
 		ld	a,2           ; 000B1E 3E 02
- 		cp	(ix+zTrack.VoiceControl)        ; 000B20 DD BE 01
+		cp	(ix+zTrack.VoiceControl)        ; 000B20 DD BE 01
 		jr	nz,.notFM3
 		ld	a,4Fh           ; 000B25 3E 4F
 		bit	0,(ix+zTrack.PlaybackControl)      ; 000B27 DD CB 00 46
 		jr	nz,.doFM3Settings
- 		and	0Fh             ; 000B2D E6 0F
+		and	0Fh             ; 000B2D E6 0F
 
 .doFM3Settings:
 		call	zWriteFM3Settings
@@ -2151,18 +2263,21 @@ cfStopTrack:
 
 .switchToMusic:
 		ld	b,a             ; 000B3E 47
- 		push	hl              ; 000B3F E5
+		push	hl              ; 000B3F E5
 
 		; music bankswitch
 		ld	hl,zBankRegister        ; 000B40 21 00 60
 		ld	a,(zSongBank)       ; 000B43 3A 04 1C
 		bankswitchToMusic Snd_Bank1_Start
- 		pop	hl              ; 000B55 E1
+		pop	hl              ; 000B55 E1
 		call	zGetFMInstrumentOffset
 		call	zSendFMInstrument
+	if fix_sndbugs
+		bankswitch SndBank
+	else
 		; there SHOULD be a sound bankswitch here, but it's missing; this is
 		; what causes all the sound glitches to happen
-		;bankswitch SndBank
+	endif
 		ld	a,(ix+zTrack.FMVolEnv)      ; 000B5C DD 7E 18
 		or	a               ; 000B5F B7
 		jp	p,zStopCleanExit
@@ -2173,9 +2288,9 @@ cfStopTrack:
 		call	zSendSSGEGData
 
 zStopCleanExit:
- 		pop	ix              ; 000B6C DD E1
- 		pop	hl              ; 000B6E E1
- 		pop	hl              ; 000B6F E1
+		pop	ix              ; 000B6C DD E1
+		pop	hl              ; 000B6E E1
+		pop	hl              ; 000B6F E1
 		ret
 
 zStopPSGTrack:
@@ -2190,20 +2305,38 @@ zStopPSGTrack:
 		jr	zStopCleanExit
 
 cfSetPSGNoise:
-		bit	2,(ix+zTrack.VoiceControl)      ; 000B83 DD CB 01 56
-		ret	nz              ; 000B87 C0
-		ld	a,0DFh           ; 000B88 3E DF
-		ld	(zPSG),a       ; 000B8A 32 11 7F
-		ld	a,(de)          ; 000B8D 1A
-		ld	(ix+zTrack.PSGNoise),a      ; 000B8E DD 77 1A
- 		set	0,(ix+zTrack.PlaybackControl)      ; 000B91 DD CB 00 C6
-		or	a               ; 000B95 B7
-		jr	nz,.skipNoiseSilence
- 		res	0,(ix+zTrack.PlaybackControl)      ; 000B98 DD CB 00 86
-		ld	a,0FFh           ; 000B9C 3E FF
+	if fix_sndbugs
+		bit	7, (ix+zTrack.VoiceControl)	; Is this a PSG track?
+		ret	z				; Return if not
+		ld	(ix+zTrack.PSGNoise), a		; Store to track RAM
+		set	0, (ix+zTrack.PlaybackControl)	; Mark PSG track as being noise
+		or	a				; Test noise value
+		ld	a, 0DFh				; Command to silence PSG3
+		jr	nz, .skip_noise_silence		; If nonzero, branch
+		res	0, (ix+zTrack.PlaybackControl)	; Otherwise, mark track as not being a noise channel
+		ld	a, 0FFh				; Command to silence the noise channel
 
-.skipNoiseSilence:
-		ld	(zPSG),a       ; 000B9E 32 11 7F
+.skip_noise_silence:
+		bit	2, (ix+zTrack.PlaybackControl)	; Is SFX overriding this track?
+		ret	nz				; Return if yes
+		ld	(zPSG), a			; Execute it
+		ld	a, (de)				; Get PSG noise value
+		ld	(zPSG), a			; Send command to PSG
+	else
+		bit	2, (ix+zTrack.VoiceControl)	; Is this a channel bound for part II (FM4, FM5, FM6/DAC)?
+		ret	nz				; Return if yes
+		ld	a, 0DFh				; Command to silence PSG3
+		ld	(zPSG), a			; Execute it
+		ld	a, (de)				; Get PSG noise value
+		ld	(ix+zTrack.PSGNoise), a		; Store to track RAM
+		set	0, (ix+zTrack.PlaybackControl)	; Mark PSG track as being noise
+		or	a				; Test noise value
+		jr	nz, .skip_noise_silence		; If nonzero, branch
+		res	0, (ix+zTrack.PlaybackControl)	; Otherwise, mark track as not being a noise channel
+		ld	a, 0FFh				; Command to silence the noise channel
+.skip_noise_silence:
+		ld	(zPSG), a			; Send command to PSG
+	endif
 		ret
 
 cfSetPSGVolEnv:
@@ -2215,21 +2348,21 @@ cfStoreNewVoice:
 		ret	                ; 000BAA C9
 
 cfJumpTo:
- 		ex	de,hl           ; 000BAB EB
+		ex	de,hl           ; 000BAB EB
 		ld	e,(hl)          ; 000BAC 5E
 		inc	hl              ; 000BAD 23
 		ld	d,(hl)          ; 000BAE 56
- 		dec	de              ; 000BAF 1B
+		dec	de              ; 000BAF 1B
 		ret
 
 cfRepeatAtPos:
 		inc	de              ; 000BB1 13
- 		add	a,zTrack.LoopCounters           ; 000BB2 C6 28
+		add	a,zTrack.LoopCounters           ; 000BB2 C6 28
 		ld	c,a             ; 000BB4 4F
 		ld	b,0           ; 000BB5 06 00
- 		push	ix              ; 000BB7 DD E5
- 		pop	hl              ; 000BB9 E1
- 		add	hl,bc           ; 000BBA 09
+		push	ix              ; 000BB7 DD E5
+		pop	hl              ; 000BB9 E1
+		add	hl,bc           ; 000BBA 09
 		ld	a,(hl)          ; 000BBB 7E
 		or	a               ; 000BBC B7
 		jr	nz,.runCounter
@@ -2238,7 +2371,7 @@ cfRepeatAtPos:
 
 .runCounter:
 		inc	de              ; 000BC1 13
- 		dec	(hl)            ; 000BC2 35
+		dec	(hl)            ; 000BC2 35
 		jp	nz,cfJumpTo
 		inc	de              ; 000BC6 13
 		ret
@@ -2248,27 +2381,27 @@ cfJumpToGosub:
 		inc	de              ; 000BC9 13
 		ld	a,(de)          ; 000BCA 1A
 		ld	b,a             ; 000BCB 47
- 		push	bc              ; 000BCC C5
- 		push	ix              ; 000BCD DD E5
- 		pop	hl              ; 000BCF E1
- 		dec	(ix+zTrack.StackPointer)        ; 000BD0 DD 35 09
+		push	bc              ; 000BCC C5
+		push	ix              ; 000BCD DD E5
+		pop	hl              ; 000BCF E1
+		dec	(ix+zTrack.StackPointer)        ; 000BD0 DD 35 09
 		ld	c,(ix+zTrack.StackPointer)      ; 000BD3 DD 4E 09
- 		dec	(ix+zTrack.StackPointer)        ; 000BD6 DD 35 09
+		dec	(ix+zTrack.StackPointer)        ; 000BD6 DD 35 09
 		ld	b,0           ; 000BD9 06 00
- 		add	hl,bc           ; 000BDB 09
+		add	hl,bc           ; 000BDB 09
 		ld	(hl),d          ; 000BDC 72
- 		dec	hl              ; 000BDD 2B
+		dec	hl              ; 000BDD 2B
 		ld	(hl),e          ; 000BDE 73
- 		pop	de              ; 000BDF D1
- 		dec	de              ; 000BE0 1B
+		pop	de              ; 000BDF D1
+		dec	de              ; 000BE0 1B
 		ret
 
 cfJumpReturn:
- 		push	ix              ; 000BE2 DD E5
- 		pop	hl              ; 000BE4 E1
+		push	ix              ; 000BE2 DD E5
+		pop	hl              ; 000BE4 E1
 		ld	c,(ix+zTrack.StackPointer)      ; 000BE5 DD 4E 09
 		ld	b,0           ; 000BE8 06 00
- 		add	hl,bc           ; 000BEA 09
+		add	hl,bc           ; 000BEA 09
 		ld	e,(hl)          ; 000BEB 5E
 		inc	hl              ; 000BEC 23
 		ld	d,(hl)          ; 000BED 56
@@ -2277,12 +2410,12 @@ cfJumpReturn:
 		ret
 
 cfDisableModulation:
- 		res	7,(ix+zTrack.ModulationCtrl)      ; 000BF5 DD CB 07 BE
- 		dec	de              ; 000BF9 1B
+		res	7,(ix+zTrack.ModulationCtrl)      ; 000BF5 DD CB 07 BE
+		dec	de              ; 000BF9 1B
 		ret
 
 cfChangeTransposition:
- 		add	a,(ix+zTrack.Transpose)      ; 000BFB DD 86 05
+		add	a,(ix+zTrack.Transpose)      ; 000BFB DD 86 05
 		ld	(ix+zTrack.Transpose),a      ; 000BFE DD 77 05
 		ret
 
@@ -2290,49 +2423,60 @@ cfSpecialSFX:
 		ret
 
 cfToggleAltFreqMode:
- 		cp	1             ; 000C03 FE 01
-		jr	nz,.stopAltFreqMode
- 		set	3,(ix+zTrack.PlaybackControl)      ; 000C07 DD CB 00 DE
+	if fix_sndbugs
+		or	a				; Is parameter equal to 0?
+		jr	z, .stop_altfreq_mode		; Branch if so
+	else
+		cp	1				; Is parameter equal to 1?
+		jr	nz, .stop_altfreq_mode		; Branch if not
+	endif
+		set	3,(ix+zTrack.PlaybackControl)      ; 000C07 DD CB 00 DE
 		ret
 
-.stopAltFreqMode:
- 		res	3,(ix+zTrack.PlaybackControl)      ; 000C0C DD CB 00 9E
+.stop_altfreq_mode:
+		res	3,(ix+zTrack.PlaybackControl)      ; 000C0C DD CB 00 9E
 		ret
 
 cfFM3SpecialMode:
 		ld	a,(ix+zTrack.VoiceControl)      ; 000C11 DD 7E 01
- 		cp	2             ; 000C14 FE 02
+		cp	2             ; 000C14 FE 02
 		jr	nz,zTrackSkip3bytes
- 		set	0,(ix+zTrack.PlaybackControl)      ; 000C18 DD CB 00 C6
- 		ex	de,hl           ; 000C1C EB
+		set	0,(ix+zTrack.PlaybackControl)      ; 000C18 DD CB 00 C6
+		ex	de,hl           ; 000C1C EB
 		call	zGetSpecialFM3DataPointer
 		ld	b,4           ; 000C20 06 04
 
 .loop:
- 		push	bc              ; 000C22 C5
+		push	bc              ; 000C22 C5
 		ld	a,(hl)          ; 000C23 7E
 		inc	hl              ; 000C24 23
- 		push	hl              ; 000C25 E5
+		push	hl              ; 000C25 E5
 		ld	hl,zFM3FreqShiftTable
- 		add	a,a             ; 000C29 87
+		add	a,a             ; 000C29 87
 		ld	c,a             ; 000C2A 4F
 		ld	b,0           ; 000C2B 06 00
- 		add	hl,bc           ; 000C2D 09
+		add	hl,bc           ; 000C2D 09
 		ldi                    ; 000C2E ED A0
 		ldi                    ; 000C30 ED A0
- 		pop	hl              ; 000C32 E1
- 		pop	bc              ; 000C33 C1
+		pop	hl              ; 000C32 E1
+		pop	bc              ; 000C33 C1
 		djnz	.loop
- 		ex	de,hl           ; 000C36 EB
- 		dec	de              ; 000C37 1B
-		ld	a,4fh           ; 000C38 3E 4F
+		ex	de,hl           ; 000C36 EB
+		dec	de              ; 000C37 1B
+		ld	a,4Fh           ; 000C38 3E 4F
 
 zWriteFM3Settings:
+	if ~~fix_sndbugs
 		ld	(zFM3Settings),a       ; 000C3A 32 12 1C
+	endif
 		ld	c,a             ; 000C3D 4F
 		ld	a,27h           ; 000C3E 3E 27
+	if fix_sndbugs
+		jp	zWriteFMI
+	else
 		call	zWriteFMI
 		ret
+	endif
 
 zTrackSkip3bytes:
 		inc	de              ; 000C44 13
@@ -2362,47 +2506,47 @@ cfSetTempo:
 		ret
 
 cfPlaySoundByIndex:
- 		push	ix              ; 000C63 DD E5
+		push	ix              ; 000C63 DD E5
 		call	zPlaySoundByIndex
- 		pop	ix              ; 000C68 DD E1
+		pop	ix              ; 000C68 DD E1
 		ret
 
 cfHaltSound:
 		ld	(zHaltFlag),a       ; 000C6B 32 11 1C
 		or	a               ; 000C6E B7
 		jr	z,.resume
- 		push	ix              ; 000C71 DD E5
- 		push	de              ; 000C73 D5
+		push	ix              ; 000C71 DD E5
+		push	de              ; 000C73 D5
 		ld	ix,zTracksStart        ; 000C74 DD 21 40 1C
 		ld	b,(zTracksEnd-zTracksStart)/zTrack.len           ; 000C78 06 09
 		ld	de,zTrack.len        ; 000C7A 11 30 00
 
 .loop:
- 		res	7,(ix+zTrack.PlaybackControl)      ; 000C7D DD CB 00 BE
+		res	7,(ix+zTrack.PlaybackControl)      ; 000C7D DD CB 00 BE
 		call	zKeyOff
- 		add	ix,de           ; 000C84 DD 19
+		add	ix,de           ; 000C84 DD 19
 		djnz	.loop
- 		pop	de              ; 000C88 D1
- 		pop	ix              ; 000C89 DD E1
+		pop	de              ; 000C88 D1
+		pop	ix              ; 000C89 DD E1
 		jp	zPSGSilenceAll
 
 .resume:
- 		push	ix              ; 000C8E DD E5
- 		push	de              ; 000C90 D5
+		push	ix              ; 000C8E DD E5
+		push	de              ; 000C90 D5
 		ld	ix,zTracksStart        ; 000C91 DD 21 40 1C
 		ld	b,(zTracksEnd-zTracksStart)/zTrack.len           ; 000C95 06 09
 		ld	de,zTrack.len        ; 000C97 11 30 00
 
 .loop2:
- 		set	7,(ix+zTrack.PlaybackControl)      ; 000C9A DD CB 00 FE
- 		add	ix,de           ; 000C9E DD 19
+		set	7,(ix+zTrack.PlaybackControl)      ; 000C9A DD CB 00 FE
+		add	ix,de           ; 000C9E DD 19
 		djnz	.loop2
- 		pop	de              ; 000CA2 D1
- 		pop	ix              ; 000CA3 DD E1
+		pop	de              ; 000CA2 D1
+		pop	ix              ; 000CA3 DD E1
 		ret
 
 cfCopyData:
- 		ex	de,hl           ; 000CA6 EB
+		ex	de,hl           ; 000CA6 EB
 		ld	e,(hl)          ; 000CA7 5E
 		inc	hl              ; 000CA8 23
 		ld	d,(hl)          ; 000CA9 56
@@ -2410,9 +2554,9 @@ cfCopyData:
 		ld	c,(hl)          ; 000CAB 4E
 		ld	b,0           ; 000CAC 06 00
 		inc	hl              ; 000CAE 23
- 		ex	de,hl           ; 000CAF EB
+		ex	de,hl           ; 000CAF EB
 		ldir                   ; 000CB0 ED B0
- 		dec	de              ; 000CB2 1B
+		dec	de              ; 000CB2 1B
 		ret
 
 cfSetTempoDivider:
@@ -2420,11 +2564,11 @@ cfSetTempoDivider:
 		ld	hl,zTracksStart+zTrack.TempoDivider        ; 000CB6 21 42 1C
 
 .loop:
- 		push	bc              ; 000CB9 C5
+		push	bc              ; 000CB9 C5
 		ld	bc,zTrack.len        ; 000CBA 01 30 00
 		ld	(hl),a          ; 000CBD 77
- 		add	hl,bc           ; 000CBE 09
- 		pop	bc              ; 000CBF C1
+		add	hl,bc           ; 000CBE 09
+		pop	bc              ; 000CBF C1
 		djnz	.loop
 		ret
 
@@ -2434,6 +2578,18 @@ cfSetSSGEG:
 		ld	(ix+zTrack.SSGEGPointerHigh),d      ; 000CCA DD 72 1A
 
 zSendSSGEGData:
+		; DANGER! The following code ignores the fact that SSG-EG mode must be
+		; used with maximum (1Fh) attack rate or output is officially undefined.
+		; This has the potential effect of weird sound, even in real hardware.
+	if fix_sndbugs
+		; This fix is even better than what is done in Ristar's sound driver:
+		; we preserve rate scaling, whereas that driver sets it to 0.
+		ld	l, (ix+zTrack.TLPtrLow)				; l = low byte of pointer to TL data
+		ld	h, (ix+zTrack.TLPtrHigh)			; hl = pointer to TL data
+		ld	bc, zFMInstrumentRSARTable-zFMInstrumentTLTable	; bc = -10h
+		add	hl, bc						; hl = pointer to RS/AR data
+		push	hl						; Save hl (**)
+	endif
 		ld	hl,zFMInstrumentSSGEGTable
 		ld	b,zFMInstrumentSSGEGTable_End-zFMInstrumentSSGEGTable
 
@@ -2442,10 +2598,24 @@ zSendSSGEGData:
 		inc	de              ; 000CD3 13
 		ld	c,a             ; 000CD4 4F
 		ld	a,(hl)          ; 000CD5 7E
+	if fix_sndbugs
+		call	zWriteFMIorII	; Send data to correct channel
+		ex	(sp), hl	; Save hl, hl = pointer to RS/AR data (see line marked (**) above)
+		ld	a, (hl)		; a = RS/AR value for operator
+		inc	hl		; Advance pointer
+		ex	(sp), hl	; Save hl, hl = pointer to registers for SSG-EG data
+		or	1Fh		; Set AR to maximum, but keep RS intact
+		ld	c, a		; c = RS/AR
+		ld	a, (hl)		; a = register to send to
+		sub	40h		; Convert into command to set RS/AR
+	endif
 		inc	hl              ; 000CD6 23
 		call	zWriteFMIorII
 		djnz	.loop
- 		dec	de              ; 000CDC 1B
+	if fix_sndbugs
+		pop	hl		; Remove from stack (see line marked (**) above)
+	endif
+		dec	de              ; 000CDC 1B
 		ret
 
 cfFMVolEnv:
@@ -2456,7 +2626,11 @@ cfFMVolEnv:
 		ret	                ; 000CE6 C9
 
 zUpdatePSGTrack:
-		call	zTrackRunTimer
+	if fix_sndbugs
+		dec	(ix+zTrack.DurationTimeout)	; Run note timer
+	else
+		call	zTrackRunTimer			; Run note timer
+	endif
 		jr	nz,.noteGoing
 		call	zGetNextNote
 		bit	4,(ix+zTrack.PlaybackControl)      ; 000CEF DD CB 00 66
@@ -2468,7 +2642,7 @@ zUpdatePSGTrack:
 		ld	a,(ix+zTrack.NoteFillTimeout)      ; 000CF9 DD 7E 1E
 		or	a               ; 000CFC B7
 		jr	z,.skipFill
- 		dec	(ix+zTrack.NoteFillTimeout)        ; 000CFF DD 35 1E
+		dec	(ix+zTrack.NoteFillTimeout)        ; 000CFF DD 35 1E
 		jp	z,zRestTrack
 
 .skipFill:
@@ -2478,22 +2652,22 @@ zUpdatePSGTrack:
 		ret	nz              ; 000D0F C0
 		ld	c,(ix+zTrack.VoiceControl)      ; 000D10 DD 4E 01
 		ld	a,l             ; 000D13 7D
- 		and	0Fh             ; 000D14 E6 0F
+		and	0Fh             ; 000D14 E6 0F
 		or	c               ; 000D16 B1
 		ld	(zPSG),a       ; 000D17 32 11 7F
 		ld	a,l             ; 000D1A 7D
- 		and	0F0h             ; 000D1B E6 F0
+		and	0F0h             ; 000D1B E6 F0
 		or	h               ; 000D1D B4
- 		rrca                   ; 000D1E 0F
- 		rrca                   ; 000D1F 0F
- 		rrca                   ; 000D20 0F
- 		rrca                   ; 000D21 0F
+		rrca                   ; 000D1E 0F
+		rrca                   ; 000D1F 0F
+		rrca                   ; 000D20 0F
+		rrca                   ; 000D21 0F
 		ld	(zPSG),a       ; 000D22 32 11 7F
 		ld	a,(ix+zTrack.VoiceIndex)      ; 000D25 DD 7E 08
 		or	a               ; 000D28 B7
 		ld	c,0           ; 000D29 0E 00
 		jr	z,.noVolEnv
- 		dec	a               ; 000D2D 3D
+		dec	a               ; 000D2D 3D
 		ld	c,zID_VolEnvPointers
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
@@ -2504,58 +2678,74 @@ zUpdatePSGTrack:
 		bit	4,(ix+zTrack.PlaybackControl)      ; 000D36 DD CB 00 66
 		ret	nz              ; 000D3A C0
 		ld	a,(ix+zTrack.Volume)      ; 000D3B DD 7E 06
- 		add	a,c             ; 000D3E 81
+		add	a,c             ; 000D3E 81
 		bit	4,a             ; 000D3F CB 67
 		jr	z,.noUnderflow
 		ld	a,0Fh           ; 000D43 3E 0F
 
 .noUnderflow:
 		or	(ix+zTrack.VoiceControl)        ; 000D45 DD B6 01
- 		add	a,10h           ; 000D48 C6 10
+		add	a,10h           ; 000D48 C6 10
 		bit	0,(ix+zTrack.PlaybackControl)      ; 000D4A DD CB 00 46
-		jr	nz,.setNoise
-		ld	(zPSG),a       ; 000D50 32 11 7F
+	if fix_sndbugs
+		jr	z, .not_noise			; Branch if not
+		add	a, 20h				; Change to noise channel
+.not_noise:
+		ld	(zPSG), a			; Set noise channel volume
 		ret
-
-.setNoise:
- 		add	a,20h           ; 000D54 C6 20
-		ld	(zPSG),a       ; 000D56 32 11 7F
+	else
+		jr	nz, .set_noise			; Branch if yes
+		ld	(zPSG), a			; Set PSG volume
 		ret
+; ---------------------------------------------------------------------------
+.set_noise:
+		add	a, 20h				; Change to noise channel
+		ld	(zPSG), a			; Set noise channel volume
+		ret
+	endif
 
 zDoVolEnvSetValue:
 		ld	(ix+zTrack.VolEnv),a      ; 000D5A DD 77 17
 
 zDoVolEnv:
- 		push	hl              ; 000D5D E5
+		push	hl              ; 000D5D E5
 		ld	c,(ix+zTrack.VolEnv)      ; 000D5E DD 4E 17
 		ld	b,0           ; 000D61 06 00
- 		add	hl,bc           ; 000D63 09
-		ld	a,(hl)          ; 000D64 7E
- 		pop	hl              ; 000D65 E1
+		add	hl,bc           ; 000D63 09
+	if fix_sndbugs
+		ld	c, l
+		ld	b, h
+		ld	a, (bc)				; a = PSG volume envelope
+	else
+		ld	a, (hl)				; a = PSG flutter value
+	endif
+		pop	hl              ; 000D65 E1
 		bit	7,a             ; 000D66 CB 7F
 		jr	z,zDoVolEnvAdvance
- 		cp	83h             ; 000D6A FE 83
+		cp	83h             ; 000D6A FE 83
 		jr	z,zDoVolEnvFullRest
- 		cp	81h             ; 000D6E FE 81
+		cp	81h             ; 000D6E FE 81
 		jr	z,zDoVolEnvRest
- 		cp	80h             ; 000D72 FE 80
+		cp	80h             ; 000D72 FE 80
 		jr	z,zDoVolEnvReset
 		inc	bc              ; 000D76 03
 		ld	a,(bc)          ; 000D77 0A
 		jr	zDoVolEnvSetValue
 
 zDoVolEnvFullRest:
- 		set	4,(ix+zTrack.PlaybackControl)      ; 000D7A DD CB 00 E6
- 		pop	hl              ; 000D7E E1
+	if ~~fix_sndbugs
+		set	4,(ix+zTrack.PlaybackControl)      ; 000D7A DD CB 00 E6
+	endif
+		pop	hl              ; 000D7E E1
 		jp	zRestTrack
 
 zDoVolEnvReset:
- 		xor	a               ; 000D82 AF
+		xor	a               ; 000D82 AF
 		jr	zDoVolEnvSetValue
 
 zDoVolEnvRest:
- 		pop	hl              ; 000D85 E1
- 		set	4,(ix+zTrack.PlaybackControl)      ; 000D86 DD CB 00 E6
+		pop	hl              ; 000D85 E1
+		set	4,(ix+zTrack.PlaybackControl)      ; 000D86 DD CB 00 E6
 		ret	                ; 000D8A C9
 
 zDoVolEnvAdvance:
@@ -2563,30 +2753,38 @@ zDoVolEnvAdvance:
 		ret	                ; 000D8E C9
 
 zRestTrack:
- 		set	4,(ix+zTrack.PlaybackControl)      ; 000D8F DD CB 00 E6
+		set	4,(ix+zTrack.PlaybackControl)      ; 000D8F DD CB 00 E6
 		bit	2,(ix+zTrack.PlaybackControl)      ; 000D93 DD CB 00 56
 		ret	nz              ; 000D97 C0
 
 zSilencePSGChannel:
 		ld	a,1Fh           ; 000D98 3E 1F
- 		add	a,(ix+zTrack.VoiceControl)      ; 000D9A DD 86 01
+		add	a,(ix+zTrack.VoiceControl)      ; 000D9A DD 86 01
 		or	a               ; 000D9D B7
 		ret	p               ; 000D9E F0
 		ld	(zPSG),a       ; 000D9F 32 11 7F
-		bit	0,(ix+zTrack.PlaybackControl)      ; 000DA2 DD CB 00 46
-		ret	z               ; 000DA6 C8
+	if fix_sndbugs
+		cp	0DFh				; Was this PSG3?
+		ret	nz				; Return if not
+	else
+		; This does not work as intended: since this function is called when
+		; a new channel is starting, this bit will almost inevitably be 0
+		; and the noise channel will not be silenced.
+		bit	0, (ix+zTrack.PlaybackControl)	; Is this a noise channel?
+		ret	z				; Return if not
+	endif
 		ld	a,0FFh           ; 000DA7 3E FF
 		ld	(zPSG),a       ; 000DA9 32 11 7F
 		ret	                ; 000DAC C9
 
 zPlayDigitalAudio:
- 		di                     ; 000DAD F3
+		di                     ; 000DAD F3
 		ld	a,2Bh           ; 000DAE 3E 2B
 		ld	c,0           ; 000DB0 0E 00
 		call	zWriteFMI
 
 .DACIdleLoop:
- 		ei                     ; 000DB5 FB
+		ei                     ; 000DB5 FB
 		ld	a,(zPlaySegaPCMFlag)       ; 000DB6 3A 07 1C
 		or	a               ; 000DB9 B7
 		jp	nz,zPlaySEGAPCM
@@ -2595,14 +2793,14 @@ zPlayDigitalAudio:
 		jr	z,.DACIdleLoop
 		ld	a,2Bh           ; 000DC3 3E 2B
 		ld	c,80h           ; 000DC5 0E 80
- 		di                     ; 000DC7 F3
+		di                     ; 000DC7 F3
 		call	zWriteFMI
- 		ei                     ; 000DCB FB
+		ei                     ; 000DCB FB
 		ld	iy,DecTable
 		ld	hl,zDACIndex        ; 000DD0 21 06 1C
 		ld	a,(hl)          ; 000DD3 7E
- 		dec	a               ; 000DD4 3D
- 		set	7,(hl)          ; 000DD5 CB FE
+		dec	a               ; 000DD4 3D
+		set	7,(hl)          ; 000DD5 CB FE
 		ld	hl,zROMWindow        ; 000DD7 21 00 80
 		rst	zPointerTableOffset
 		ld	c,80h           ; 000DDB 0E 80
@@ -2622,51 +2820,51 @@ zPlayDigitalAudio:
 .DACPlaybackLoop:
 .sample1Rate:
 		ld	b,0Ah           ; 000DED 06 0A
- 		ei                     ; 000DEF FB
+		ei                     ; 000DEF FB
 		djnz	$
- 		di                     ; 000DF2 F3
+		di                     ; 000DF2 F3
 		ld	a,2Ah           ; 000DF3 3E 2A
 		ld	(zYM2612_A0),a       ; 000DF5 32 00 40
 		ld	a,(hl)          ; 000DF8 7E
- 		rlca                   ; 000DF9 07
- 		rlca                   ; 000DFA 07
- 		rlca                   ; 000DFB 07
- 		rlca                   ; 000DFC 07
- 		and	0Fh             ; 000DFD E6 0F
+		rlca                   ; 000DF9 07
+		rlca                   ; 000DFA 07
+		rlca                   ; 000DFB 07
+		rlca                   ; 000DFC 07
+		and	0Fh             ; 000DFD E6 0F
 		ld	(.sample1Index+2),a
 		ld	a,c             ; 000E02 79
 
 .sample1Index:
- 		add	a,(iy+0)      ; 000E03 FD 86 00
+		add	a,(iy+0)      ; 000E03 FD 86 00
 		ld	(zYM2612_D0),a       ; 000E06 32 01 40
 		ld	c,a             ; 000E09 4F
 
 .sample2Rate:
 		ld	b,0Ah           ; 000E0A 06 0A
- 		ei                     ; 000E0C FB
+		ei                     ; 000E0C FB
 		djnz	$
- 		di                     ; 000E0F F3
+		di                     ; 000E0F F3
 		ld	a,2Ah           ; 000E10 3E 2A
 		ld	(zYM2612_A0),a       ; 000E12 32 00 40
 		ld	a,(hl)          ; 000E15 7E
- 		and	0Fh             ; 000E16 E6 0F
+		and	0Fh             ; 000E16 E6 0F
 		ld	(.sample2Index+2),a
 		ld	a,c             ; 000E1B 79
 
 .sample2Index:
- 		add	a,(iy+0)      ; 000E1C FD 86 00
+		add	a,(iy+0)      ; 000E1C FD 86 00
 		ld	(zYM2612_D0),a       ; 000E1F 32 01 40
- 		ei                     ; 000E22 FB
+		ei                     ; 000E22 FB
 		ld	c,a             ; 000E23 4F
 		ld	a,(zDACIndex)       ; 000E24 3A 06 1C
 		or	a               ; 000E27 B7
 		jp	p,.DACIdleLoop
 		inc	hl              ; 000E2B 23
- 		dec	de              ; 000E2C 1B
+		dec	de              ; 000E2C 1B
 		ld	a,d             ; 000E2D 7A
 		or	e               ; 000E2E B3
 		jp	nz,.DACPlaybackLoop
- 		xor	a               ; 000E32 AF
+		xor	a               ; 000E32 AF
 		ld	(zDACIndex),a       ; 000E33 32 06 1C
 		jp	zPlayDigitalAudio
 
@@ -2689,10 +2887,12 @@ DecTable:
 		db	-40h
 
 zPlaySEGAPCM:
- 		di
+		di
 		ld	a,2Bh
 		ld	(zYM2612_A0),a
+	if ~~fix_sndbugs
 		nop
+	endif
 		ld	a,80h
 		ld	(zYM2612_D0),a
 
@@ -2709,16 +2909,18 @@ zPlaySEGAPCM:
 		ld	b,0Dh
 		djnz	$
 		inc	hl
- 		dec	de
+		dec	de
 		ld	a,d
 		or	e
 		jp	nz,.loop
- 		xor	a
+		xor	a
 		ld	(zPlaySegaPCMFlag),a
 		call	zStopAllSound
 		jp	zPlayDigitalAudio
 
+	if ~~fix_sndbugs
 		binclude	"data\z80_unknown.bin"
+	endif
 
 	if $ > 1200h
 		fatal "Your Z80 code won't fit before its tables. It's \{$-1200h}h bytes past the start of music data \{1200h}h"
