@@ -37,8 +37,7 @@ FreqHigh:		ds.b 1
 VoiceSongID:		ds.b 1
 Detune:			ds.b 1
 Unk11h:			ds.b 1
-		ds.b 5
-; $12-$16 are unused!
+		ds.b 5	; $12-$16 are unused!
 VolEnv:			ds.b 1
 FMVolEnv:		ds.b 1
 SSGEGPointerLow:
