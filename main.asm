@@ -43898,7 +43898,7 @@ Offset_0x0EC460:
 Offset_0x0EC483:
 		include  "sound\sfx\4D - waterfall.asm"
 Offset_0x0EC498:
-		binclude  "sound\0x4E.sfx"
+		include  "sound\sfx\4E - slide skid (loud).asm"
 Waterfall_Splash_Sfx_Data:                                     ; Offset_0x0EC4C0
 		binclude  "sound\0x4F.sfx"
 Offset_0x0EC4F1:
