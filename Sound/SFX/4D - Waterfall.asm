@@ -11,9 +11,9 @@ Sound_4D_PSG3:
 	smpsPSGform         $E7
 	dc.b	nA6, $05
 
-Sound_4B_Jump01:
+Sound_4D_Jump01:
 	dc.b	nB6, $10, smpsNoAttack
-	smpsJump            Sound_4B_Jump01
+	smpsJump            Sound_4D_Jump01
 
 ; Unreachable
 	smpsStop
