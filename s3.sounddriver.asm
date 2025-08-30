@@ -227,7 +227,9 @@ zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
 ; function to turn a 68k address into a bank byte
 zmake68kBank function addr,(((addr&3F8000h)/zROMWindow))
 
-zID_PriorityList	= 0	; Earlier drivers had this; unused
+zmakeSongBank function addr,zmake68kBank(addr)&0Fh ; See bankswitchToMusicS3
+
+zID_PriorityList	= 0
 zID_UniVoiceBank	= 2
 zID_MusicPointers	= 4
 zID_SFXPointers		= 6
@@ -347,7 +349,7 @@ zInitAudioDriver:
 		dec	c
 		jr	z,.loop
 
-		ld	a,zmake68kBank(Snd_Bank1_Start)&0Fh ; See bankswitchToMusic
+		ld	a,zmakeSongBank(Snd_Bank1_Start)
 		ld	(zSongBank),a			; store the music bank
 		xor	a
 		ld	(zDACIndex),a			; clear the DAC index
@@ -1817,8 +1819,6 @@ zFMFrequencies:
 ; ===========================================================================
 ; MUSIC BANKS
 ; ===========================================================================
-
-zmakeSongBank function addr,zmake68kBank(addr)&0Fh ; See bankswitchToMusic
 
 zmakeSongBanks macro
 		irp op,ALLARGS
