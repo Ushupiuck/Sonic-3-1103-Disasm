@@ -1265,64 +1265,64 @@ zPlaySound:
 		; sound bankswitch
 		bankswitch SndBank
 
-		xor	a               ; 000559 AF
+		xor	a
 		ld	c,zID_SFXPointers
-		ld	(zUpdatingSFX),a       ; 00055C 32 19 1C
-		ex	af,af'          ; 00055F 08
+		ld	(zUpdatingSFX),a
+		ex	af,af'
 		rst	zGetPointerTable
 		rst	zPointerTableOffset
-		push	hl              ; 000562 E5
+		push	hl
 		rst	zReadPointer
-		ld	(zSFXVoiceTblPtr),hl      ; 000564 22 39 1C
+		ld	(zSFXVoiceTblPtr),hl
 	if ~~fix_sndbugs
-		xor	a               ; 000567 AF
-		ld	(unk_1C15),a       ; 000568 32 15 1C
+		xor	a
+		ld	(unk_1C15),a
 	endif
-		pop	hl              ; 00056B E1
-		push	hl              ; 00056C E5
-		pop	iy              ; 00056D FD E1
-		ld	a,(iy+zTrack.TempoDivider)      ; 00056F FD 7E 02
-		ld	(zSFXTempoDivider),a       ; 000572 32 3B 1C
-		ld	de,4        ; 000575 11 04 00
-		add	hl,de           ; 000578 19
-		ld	b,(iy+zTrack.DataPointerLow)      ; 000579 FD 46 03
+		pop	hl
+		push	hl
+		pop	iy
+		ld	a,(iy+zTrack.TempoDivider)
+		ld	(zSFXTempoDivider),a
+		ld	de,4
+		add	hl,de
+		ld	b,(iy+zTrack.DataPointerLow)
 
 zSFXTrackInitLoop:
-		push	bc              ; 00057C C5
-		push	hl              ; 00057D E5
-		inc	hl              ; 00057E 23
-		ld	c,(hl)          ; 00057F 4E
+		push	bc
+		push	hl
+		inc	hl
+		ld	c,(hl)
 		call	zGetSFXChannelPointers
-		set	2,(hl)          ; 000583 CB D6
-		push	ix              ; 000585 DD E5
-		ld	a,(zUpdatingSFX)       ; 000587 3A 19 1C
-		or	a               ; 00058A B7
+		set	2,(hl)
+		push	ix
+		ld	a,(zUpdatingSFX)
+		or	a
 		jr	z,.normalSFX1
-		pop	hl              ; 00058D E1
-		push	iy              ; 00058E FD E5
+		pop	hl
+		push	iy
 
 .normalSFX1:
-		pop	de              ; 000590 D1
-		pop	hl              ; 000591 E1
-		ldi                    ; 000592 ED A0
-		ld	a,(de)          ; 000594 1A
-		cp	2             ; 000595 FE 02
+		pop	de
+		pop	hl
+		ldi
+		ld	a,(de)
+		cp	2
 		call	z,zFM3NormalMode
-		ldi                    ; 00059A ED A0
-		ld	a,(zSFXTempoDivider)       ; 00059C 3A 3B 1C
-		ld	(de),a          ; 00059F 12
-		inc	de              ; 0005A0 13
-		ldi                    ; 0005A1 ED A0
-		ldi                    ; 0005A3 ED A0
-		ldi                    ; 0005A5 ED A0
-		ldi                    ; 0005A7 ED A0
+		ldi
+		ld	a,(zSFXTempoDivider)
+		ld	(de),a
+		inc	de
+		ldi
+		ldi
+		ldi
+		ldi
 		call	zInitFMDACTrack
-		bit	7,(ix+zTrack.PlaybackControl)      ; 0005AC DD CB 00 7E
+		bit	7,(ix+zTrack.PlaybackControl)
 		jr	z,.dontOverride
-		ld	a,(ix+zTrack.VoiceControl)      ; 0005B2 DD 7E 01
-		cp	(iy+zTrack.VoiceControl)        ; 0005B5 FD BE 01
+		ld	a,(ix+zTrack.VoiceControl)
+		cp	(iy+zTrack.VoiceControl)
 		jr	nz,.dontOverride
-		set	2,(iy+zTrack.PlaybackControl)      ; 0005BA FD CB 00 D6
+		set	2,(iy+zTrack.PlaybackControl)
 
 .dontOverride:
 		push	hl              ; 0005BE E5
@@ -1447,7 +1447,13 @@ zPauseUnpause:
 		or	a               ; 000665 B7
 		jp	nz,zStopAllSound
 		ld	ix,zSongFM1        ; 000669 DD 21 70 1C
-		ld	b,(zSongPSG2-zSongFM1)/zTrack.len           ; 00066D 06 06
+	if fix_sndbugs
+		ld	b, (zSongPSG1-zSongFM1)/zTrack.len	; Number of FM tracks
+	else
+		; DANGER! This treats a PSG channel as if it were an FM channel. This
+		; will break AMS/FMS/pan for FM1.
+		ld	b, (zSongPSG2-zSongFM1)/zTrack.len	; Number of FM tracks +1
+	endif
 
 .FMLoop:
 		ld	a,(zHaltFlag)       ; 00066F 3A 11 1C
@@ -1458,23 +1464,30 @@ zPauseUnpause:
 
 .setPan:
 		ld	c,(ix+zTrack.AMSFMSPan)      ; 00067B DD 4E 0A
-		ld	a,0b4h           ; 00067E 3E B4
+		ld	a,0B4h           ; 00067E 3E B4
 		call	zWriteFMIorII
 
 .skipFMTrack:
 		ld	de,zTrack.len        ; 000683 11 30 00
 		add	ix,de           ; 000686 DD 19
 		djnz	.FMLoop
-		ld	ix,zTracksSFXEnd        ; 00068A DD 21 40 1F
-		ld	b,7           ; 00068E 06 07
 
+	if fix_sndbugs
+		ld	ix, zTracksSFXStart		; Start at the start of SFX track data
+		ld	b, (zTracksSFXEnd-zTracksSFXStart)/zTrack.len	; Number of tracks
+	else
+		; DANGER! This code goes past the end of Z80 RAM and into reserved territory!
+		; By luck, it only *reads* from these areas...
+		ld	ix, zTracksSFXEnd		; Start at the END of SFX track data (?)
+		ld	b, 7				; But loop for 7 tracks (??)
+	endif
 .PSGLoop:
 		bit	7,(ix+zTrack.PlaybackControl)      ; 000690 DD CB 00 7E
 		jr	z,.skipPSG
 		bit	7,(ix+zTrack.VoiceControl)      ; 000696 DD CB 01 7E
 		jr	nz,.skipPSG
 		ld	c,(ix+zTrack.AMSFMSPan)      ; 00069C DD 4E 0A
-		ld	a,0b4h           ; 00069F 3E B4
+		ld	a,0B4h           ; 00069F 3E B4
 		call	zWriteFMIorII
 
 .skipPSG:
