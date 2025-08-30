@@ -43914,7 +43914,7 @@ Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D
 Offset_0x0EC5D1:
 		include  "sound\sfx\55 - boss activate.asm"
 Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609
-		binclude  "sound\0x56.sfx"
+		include  "sound\sfx\56 - missile throw.asm"
 Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A
 		binclude  "sound\0x57.sfx"
 Spike_Move_Sfx_Data:                                           ; Offset_0x0EC671
