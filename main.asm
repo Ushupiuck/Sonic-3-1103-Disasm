@@ -43916,7 +43916,7 @@ Offset_0x0EC5D1:
 Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609
 		include  "sound\sfx\56 - missile throw.asm"
 Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A
-		binclude  "sound\0x57.sfx"
+		include  "sound\sfx\57.asm"
 Spike_Move_Sfx_Data:                                           ; Offset_0x0EC671
 		binclude  "sound\0x58.sfx"
 Offset_0x0EC68E:
