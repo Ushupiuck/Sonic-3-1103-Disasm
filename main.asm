@@ -43910,7 +43910,7 @@ Missile_Explosion_Sfx_Data:                                    ; Offset_0x0EC548
 Flame_Sfx_Data:                                                ; Offset_0x0EC58C
 		include  "sound\sfx\53 - flamethrower (quiet).asm"
 Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D
-		binclude  "sound\0x54.sfx"
+		include  "sound\sfx\54 - large ship.asm"
 Offset_0x0EC5D1:
 		binclude  "sound\0x55.sfx"
 Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609
