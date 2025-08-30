@@ -43912,7 +43912,7 @@ Flame_Sfx_Data:                                                ; Offset_0x0EC58C
 Flying_Battery_Move_Sfx_Data:                                  ; Offset_0x0EC59D
 		include  "sound\sfx\54 - large ship.asm"
 Offset_0x0EC5D1:
-		binclude  "sound\0x55.sfx"
+		include  "sound\sfx\55 - boss activate.asm"
 Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609
 		binclude  "sound\0x56.sfx"
 Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A
