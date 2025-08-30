@@ -810,7 +810,7 @@ zDoFMVolEnv:
 		push	bc
 		jr	nc,.skipReg
 		add	a,(hl)
-	if fix_sndbugs=0
+	if ~~fix_sndbugs
 		; This isn't actually needed
 		and	7Fh				; Strip sign bit
 	endif
@@ -1153,10 +1153,14 @@ zPlayMusic:
 		adc	a,h
 		sub	l
 		ld	h,a
+	if fix_sndbugs
+		ld	a,(hl)				; Get bank for the song to play
+	else
 		ld	(zloc_48B+1),hl
 
 zloc_48B:
 		ld	a,(z80_MusicBanks)
+	endif
 		ld	(zSongBank),a
 
 		; music bankswitch
@@ -1164,7 +1168,9 @@ zloc_48B:
 		bankswitchToMusic Snd_Bank1_Start
 		ld	a,0B6h
 		ld	(zYM2612_A1),a
+	if ~~fix_sndbugs
 		nop
+	endif
 		ld	a,0C0h
 		ld	(zYM2612_D1),a
 		pop	af
@@ -1186,8 +1192,8 @@ zloc_48B:
 		ld	hl,zFMDACInitBytes
 		ld	(zTrackInitPos),hl
 		ld	de,zTracksStart
-		ld	b,(iy+zTrack.TempoDivider)
-		ld	a,(iy+zTrack.DataPointerHigh)
+		ld	b,(iy+2)
+		ld	a,(iy+4)
 
 .FMDACLoop:
 		push	bc
@@ -1295,13 +1301,26 @@ zSFXTrackInitLoop:
 		call	zGetSFXChannelPointers
 		set	2,(hl)
 		push	ix
-		ld	a,(zUpdatingSFX)
-		or	a
-		jr	z,.normalSFX1
-		pop	hl
-		push	iy
+	if ~~fix_sndbugs
+		ld	a,(zUpdatingSFX)		; Get flag
+		or	a				; Are we updating SFX?
+		jr	z,.normalsfx1			; Branch if not (hint: it was cleared just below the bank switch above so... always)
 
-.normalSFX1:
+		; Effectively dead code.
+		; Analysis of the Battletoads sound driver confirms previous speculation:
+		; this code was meant for GHZ-like waterfall effects which were subsequently
+		; scrapped in favor of the continuous SFX system.
+		; If this system were to be reimplemented, then, after the call to
+		; zGetSFXChannelPointers, we would have:
+		; * ix = pointer to the overriding SFX track data in RAM;
+		; * iy = pointer to the special SFX track data in RAM.
+		; * hl = pointer to the overridden music track data in RAM;
+		; This code would then ensure that de points to the correct RAM area for
+		; the writes below.
+		pop	hl			; hl = pointer to SFX track data in RAM
+		push	iy				; Save iy (pointer to SFX data)
+.normalsfx1:
+	endif
 		pop	de
 		pop	hl
 		ldi
@@ -1317,63 +1336,113 @@ zSFXTrackInitLoop:
 		ldi
 		ldi
 		call	zInitFMDACTrack
-		bit	7,(ix+zTrack.PlaybackControl)
-		jr	z,.dontOverride
-		ld	a,(ix+zTrack.VoiceControl)
-		cp	(iy+zTrack.VoiceControl)
-		jr	nz,.dontOverride
-		set	2,(iy+zTrack.PlaybackControl)
+	if ~~fix_sndbugs
+		; Analysis of the Battletoads sound driver confirms previous speculation:
+		; this code was meant for GHZ-like waterfall effects which were subsequently
+		; scrapped in favor of the continuous SFX system.
+		; If this system were to be reimplemented, then, after the call to
+		; zGetSFXChannelPointers, we would have:
+		; * ix = pointer to the overriding SFX track data in RAM;
+		; * iy = pointer to the special SFX track data in RAM.
+		; * hl = pointer to the overridden music track data in RAM;
+		; The code would then be checking to see if the corresponding SFX track
+		; was playing, make sure the tracks refer to the same FM/PSG channel
+		; then, if needed, mark the special SFX track as being overridden by the
+		; SFX so as to not abruptly end the SFX.
+		; With the system unimplemented, iy points to the current SFX track data,
+		; meaning that the second branch is never taken, resulting in an attempted
+		; write to ROM.
+		bit	7,(ix+zTrack.PlaybackControl)	; Is the 'playing' bit set for this track?
+		jr	z,.dontoverride		; Branch if not (all SFX define it as 80h, so... never)
+		ld	a,(ix+zTrack.VoiceControl)	; Grab the voice control byte
+		cp	(iy+zTrack.VoiceControl)	; Is this equal to the one for the corresponding special SFX track?
+		jr	nz,.dontoverride		; Branch if not
+		set	2,(iy+zTrack.PlaybackControl)	; Set bit 2 of playback control ('SFX is overriding this track')
+.dontoverride:
+	endif
+		push	hl
+		ld	hl,(zSFXVoiceTblPtr)
+	if ~~fix_sndbugs
+		ld	a,(zUpdatingSFX)		; Get flag
+		or	a				; Are we updating SFX?
+		jr	z,.normalsfx2			; Branch if not (hint: it was cleared just below the bank switch above so... always)
 
-.dontOverride:
-		push	hl              ; 0005BE E5
-		ld	hl,(zSFXVoiceTblPtr)      ; 0005BF 2A 39 1C
-		ld	a,(zUpdatingSFX)       ; 0005C2 3A 19 1C
-		or	a               ; 0005C5 B7
-		jr	z,.normalSFX2
-		push	iy              ; 0005C8 FD E5
-		pop	ix              ; 0005CA DD E1
-
-.normalSFX2:
-		ld	(ix+zTrack.VoicesLow),l      ; 0005CC DD 75 2A
-		ld	(ix+zTrack.VoicesHigh),h      ; 0005CF DD 74 2B
+		; Analysis of the Battletoads sound driver confirms previous speculation:
+		; this code was meant for GHZ-like waterfall effects which were subsequently
+		; scrapped in favor of the continuous SFX system.
+		; If this system were to be reimplemented, then, after the call to
+		; zGetSFXChannelPointers, we would have:
+		; * ix = pointer to the overriding SFX track data in RAM;
+		; * iy = pointer to the special SFX track data in RAM.
+		; * hl = pointer to the overridden music track data in RAM;
+		; This code would then make ix point to the correct track data for the
+		; function calls below.
+		; Without it implemented, iy points to the current SFX track data.
+		push	iy				; Save iy
+		pop	ix				; ix = pointer to special SFX data
+.normalsfx2:
+	endif
+		ld	(ix+zTrack.VoicesLow),l
+		ld	(ix+zTrack.VoicesHigh),h
 		call	zKeyOffIfActive
-		call	zFMClearSSGEGOps
-		pop	hl              ; 0005D8 E1
-		pop	bc              ; 0005D9 C1
+	if fix_sndbugs
+		bit	7,(ix+zTrack.VoiceControl)	; Is this an FM track?
+		call	z,zFMClearSSGEGOps		; If so, clear SSG-EG operators for track's channels
+	else
+		call	zFMClearSSGEGOps		; Clear SSG-EG operators for track's channels (even on PSG tracks!!!)
+	endif
+		pop	hl
+		pop	bc
 		djnz	zSFXTrackInitLoop
 		jp	zClearNextSound
 
 zGetSFXChannelPointers:
-		bit	7,c             ; 0005DF CB 79
+		bit	7,c
 		jr	nz,.isPSG
-		ld	a,c             ; 0005E3 79
-		bit	2,a             ; 0005E4 CB 57
+		ld	a,c
+	if ~~fix_sndbugs
+		bit	2,a
 		jr	z,.getPtrs
-		dec	a               ; 0005E8 3D
+		dec	a
+	endif
 		jr	.getPtrs
 
 .isPSG:
-		ld	a,1Fh           ; 0005EB 3E 1F
-		call	zSilencePSGChannel
-		ld	a,0FFh           ; 0005F0 3E FF
-		ld	(zPSG),a       ; 0005F2 32 11 7F
-		ld	a,c             ; 0005F5 79
-		srl	a               ; 0005F6 CB 3F
-		srl	a               ; 0005F8 CB 3F
-		srl	a               ; 0005FA CB 3F
-		srl	a               ; 0005FC CB 3F
-		srl	a               ; 0005FE CB 3F
-		add	a,2           ; 000600 C6 02
+	if fix_sndbugs
+		call	zSilencePSGChannel		; Silence channel at ix
+		ld	a,c				; a = channel identifier
+		; Shift high 3 bits to low bits so that we can convert it to a table index
+		rlca
+		rlca
+		rlca
+		and	7
+		add	a,3				; Compensate for subtraction below
+	else
+		ld	a,1Fh				; a = 1Fh (redundant, as this is the first instruction of the function)
+		call	zSilencePSGChannel		; Silence channel at ix
+		; The next two lines are here because zSilencePSGChannel does not do
+		; its job correctly. See the note there.
+		ld	a,0FFh				; Command to silence Noise channel
+		ld	(zPSG),a			; Silence it
+		ld	a,c				; a = channel identifier
+		; The next 5 shifts are so that we can convert it to a table index
+		srl	a
+		srl	a
+		srl	a
+		srl	a
+		srl	a
+		add	a,2				; Compensate for subtraction below
+	endif
 
 .getPtrs:
-		sub	2             ; 000602 D6 02
-		ld	(zSFXSaveIndex),a       ; 000604 32 32 1C
-		push	af              ; 000607 F5
+		sub	2
+		ld	(zSFXSaveIndex),a
+		push	af
 		ld	hl,zSFXChannelData
 		rst	zPointerTableOffset
-		push	hl              ; 00060C E5
-		pop	ix              ; 00060D DD E1
-		pop	af              ; 00060F F1
+		push	hl
+		pop	ix
+		pop	af
 		ld	hl,zSFXOverriddenChannel
 	if fix_sndbugs
 		jp	zPointerTableOffset
@@ -1383,103 +1452,109 @@ zGetSFXChannelPointers:
 	endif
 
 zInitFMDACTrack:
-		ex	af,af'          ; 000615 08
-		xor	a               ; 000616 AF
-		ld	(de),a          ; 000617 12
-		inc	de              ; 000618 13
-		ld	(de),a          ; 000619 12
-		inc	de              ; 00061A 13
-		ex	af,af'          ; 00061B 08
+		ex	af,af'
+		xor	a
+		ld	(de),a
+		inc	de
+		ld	(de),a
+		inc	de
+		ex	af,af'
 
 zZeroFillTrackRAM:
-		ex	de,hl           ; 00061C EB
-		ld	(hl),zTrack.len       ; 00061D 36 30
-		inc	hl              ; 00061F 23
-		ld	(hl),0c0h        ; 000620 36 C0
-		inc	hl              ; 000622 23
-		ld	(hl),1        ; 000623 36 01
-		ld	b,24h           ; 000625 06 24
+		ex	de,hl
+		ld	(hl),zTrack.len
+		inc	hl
+		ld	(hl),0C0h
+		inc	hl
+		ld	(hl),1
+		ld	b,zTrack.len-zTrack.DurationTimeout-1	; Loop counter
 
 .loop:
-		inc	hl              ; 000627 23
-		ld	(hl),0        ; 000628 36 00
+		inc	hl
+		ld	(hl),0
 		djnz	.loop
-		inc	hl              ; 00062C 23
-		ex	de,hl           ; 00062D EB
+		inc	hl
+		ex	de,hl
 		ret
 
 zSFXChannelData:
-		dw	zSFX_FM3
-		dw	zSFX_FM4
-		dw	zSFX_FM5
-		dw	zSFX_FM6
-		dw	zSFX_PSG1
-		dw	zSFX_PSG2
-		dw	zSFX_PSG3
-		dw	zSFX_PSG3
+		dw  zSFX_FM3		; FM3
+	if fix_sndbugs
+		dw  0000h		; Ironically, this filler is smaller than the code made to avoid it
+	endif
+		dw  zSFX_FM4		; FM4
+		dw  zSFX_FM5		; FM5
+		dw  zSFX_FM6		; FM6 or DAC
+		dw  zSFX_PSG1		; PSG1
+		dw  zSFX_PSG2		; PSG2
+		dw  zSFX_PSG3		; PSG3
+		dw  zSFX_PSG3		; PSG3/Noise
 
 zSFXOverriddenChannel:
-		dw	zSongFM3
-		dw	zSongFM4
-		dw	zSongFM5
-		dw	zSongFM6_DAC
-		dw	zSongPSG1
-		dw	zSongPSG2
-		dw	zSongPSG3
-		dw	zSongPSG3
+		dw  zSongFM3		; FM3
+	if fix_sndbugs
+		dw  0000h
+	endif
+		dw  zSongFM4		; FM4
+		dw  zSongFM5		; FM5
+		dw  zSongFM6_DAC	; FM6 or DAC
+		dw  zSongPSG1		; PSG1
+		dw  zSongPSG2		; PSG2
+		dw  zSongPSG3		; PSG3
+		dw  zSongPSG3		; PSG3/Noise
 
 zPauseUnpause:
-		ld	hl,zPauseFlag        ; 00064F 21 10 1C
-		ld	a,(hl)          ; 000652 7E
-		or	a               ; 000653 B7
-		ret	z               ; 000654 C8
+		ld	hl,zPauseFlag
+		ld	a,(hl)
+		or	a
+		ret	z
 		jp	m,.unpause
-		pop	de              ; 000658 D1
-		dec	a               ; 000659 3D
-		ret	nz              ; 00065A C0
-		ld	(hl),2        ; 00065B 36 02
+		pop	de
+		dec	a
+		ret	nz
+		ld	(hl),2
 		jp	zPauseAudio
 
 .unpause:
-		xor	a               ; 000660 AF
-		ld	(hl),a          ; 000661 77
-		ld	a,(zFadeOutTimeout)       ; 000662 3A 0D 1C
-		or	a               ; 000665 B7
+		xor	a
+		ld	(hl),a
+		ld	a,(zFadeOutTimeout)
+		or	a
 		jp	nz,zStopAllSound
-		ld	ix,zSongFM1        ; 000669 DD 21 70 1C
+		ld	ix,zSongFM1
 	if fix_sndbugs
-		ld	b, (zSongPSG1-zSongFM1)/zTrack.len	; Number of FM tracks
+		ld	b,(zSongPSG1-zSongFM1)/zTrack.len	; Number of FM tracks
 	else
 		; DANGER! This treats a PSG channel as if it were an FM channel. This
 		; will break AMS/FMS/pan for FM1.
-		ld	b, (zSongPSG2-zSongFM1)/zTrack.len	; Number of FM tracks +1
+		ld	b,(zSongPSG2-zSongFM1)/zTrack.len	; Number of FM tracks +1
 	endif
 
 .FMLoop:
-		ld	a,(zHaltFlag)       ; 00066F 3A 11 1C
-		or	a               ; 000672 B7
+		ld	a,(zHaltFlag)
+		or	a
 		jr	nz,.setPan
-		bit	7,(ix+zTrack.PlaybackControl)      ; 000675 DD CB 00 7E
+		bit	7,(ix+zTrack.PlaybackControl)
 		jr	z,.skipFMTrack
 
 .setPan:
-		ld	c,(ix+zTrack.AMSFMSPan)      ; 00067B DD 4E 0A
-		ld	a,0B4h           ; 00067E 3E B4
+		ld	c,(ix+zTrack.AMSFMSPan)
+		ld	a,0B4h
 		call	zWriteFMIorII
 
 .skipFMTrack:
-		ld	de,zTrack.len        ; 000683 11 30 00
-		add	ix,de           ; 000686 DD 19
+		ld	de,zTrack.len
+		add	ix,de
 		djnz	.FMLoop
 
 	if fix_sndbugs
-		ld	ix, zTracksSFXStart		; Start at the start of SFX track data
-		ld	b, (zTracksSFXEnd-zTracksSFXStart)/zTrack.len	; Number of tracks
+		ld	ix,zTracksSFXStart		; Start at the start of SFX track data
+		ld	b,(zTracksSFXEnd-zTracksSFXStart)/zTrack.len	; Number of tracks
 	else
 		; DANGER! This code goes past the end of Z80 RAM and into reserved territory!
 		; By luck, it only *reads* from these areas...
-		ld	ix, zTracksSFXEnd		; Start at the END of SFX track data (?)
-		ld	b, 7				; But loop for 7 tracks (??)
+		ld	ix,zTracksSFXEnd		; Start at the END of SFX track data (?)
+		ld	b,7				; But loop for 7 tracks (??)
 	endif
 .PSGLoop:
 		bit	7,(ix+zTrack.PlaybackControl)      ; 000690 DD CB 00 7E
