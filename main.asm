@@ -43944,11 +43944,11 @@ Offset_0x0EC852:
 Switch_Blip_Sfx_Data:                                          ; Offset_0x0EC87F
 		include  "sound\sfx\64 - switch.asm"
 Offset_0x0EC88C:
-		binclude  "sound\0x65.sfx"
+		include  "sound\sfx\65 - flamethrower (loud).asm"
 Offset_0x0EC89B:
-		binclude  "sound\0x66.sfx"
+		include  "sound\sfx\66 - mecha spark.asm"
 Offset_0x0EC8C3:
-		binclude  "sound\0x67.sfx"
+		include  "sound\sfx\67.asm"
 Floor_Thump_Sfx_Data:                                          ; Offset_0x0EC8F9
 		binclude  "sound\0x68.sfx"
 Offset_0x0EC922:
