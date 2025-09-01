@@ -43940,9 +43940,9 @@ Offset_0x0EC7DD:
 Smash_Sfx_Data:                                                ; Offset_0x0EC7F6
 		include  "sound\sfx\62 - collapse.asm"
 Offset_0x0EC852:
-		binclude  "sound\0x63.sfx"
+		include  "sound\sfx\63 - unknown charge.asm"
 Switch_Blip_Sfx_Data:                                          ; Offset_0x0EC87F
-		binclude  "sound\0x64.sfx"
+		include  "sound\sfx\64 - switch.asm"
 Offset_0x0EC88C:
 		binclude  "sound\0x65.sfx"
 Offset_0x0EC89B:
