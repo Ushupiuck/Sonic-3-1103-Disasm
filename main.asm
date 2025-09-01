@@ -43936,9 +43936,9 @@ Offset_0x0EC794:
 Offset_0x0EC7C5:
 		include  "sound\sfx\60 - fan (small).asm"
 Offset_0x0EC7DD:
-		binclude  "sound\0x61.sfx"
+		include  "sound\sfx\61 - fan latch.asm"
 Smash_Sfx_Data:                                                ; Offset_0x0EC7F6
-		binclude  "sound\0x62.sfx"
+		include  "sound\sfx\62 - collapse.asm"
 Offset_0x0EC852:
 		binclude  "sound\0x63.sfx"
 Switch_Blip_Sfx_Data:                                          ; Offset_0x0EC87F
