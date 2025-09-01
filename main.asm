@@ -43932,9 +43932,9 @@ Geyser_Sfx_Data:                                               ; Offset_0x0EC749
 Fan_Big_Sfx_Data:                                              ; Offset_0x0EC762
 		include  "sound\sfx\5E - boss rotate.asm"
 Offset_0x0EC794:
-		binclude  "sound\0x5F.sfx"
+		include  "sound\sfx\5F - fan (big).asm"
 Offset_0x0EC7C5:
-		binclude  "sound\0x60.sfx"
+		include  "sound\sfx\60 - fan (small).asm"
 Offset_0x0EC7DD:
 		binclude  "sound\0x61.sfx"
 Smash_Sfx_Data:                                                ; Offset_0x0EC7F6
