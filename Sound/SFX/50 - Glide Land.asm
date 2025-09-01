@@ -1,6 +1,6 @@
 Sound_50_Header:
 	smpsHeaderStartSong 3
-	smpsHeaderVoice     Sound_50_Voices
+	smpsHeaderVoice     Sound_50_5C_Voices
 	smpsHeaderTempoSFX  $01
 	smpsHeaderChanSFX   $01
 
@@ -12,7 +12,7 @@ Sound_50_FM5:
 	dc.b	nG2, $03, nB2, $07
 	smpsStop
 
-Sound_50_Voices:
+Sound_50_5C_Voices:
 ;	Voice $00
 ;	$3C
 ;	$00, $0A, $00, $00, 	$1F, $1F, $1F, $0F, 	$00, $16, $15, $0F

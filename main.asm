@@ -43918,17 +43918,17 @@ Missile_Throw_Sfx_Data:                                        ; Offset_0x0EC609
 Robotnik_Buzzer_Sfx_Data:                                      ; Offset_0x0EC63A
 		include  "sound\sfx\57.asm"
 Spike_Move_Sfx_Data:                                           ; Offset_0x0EC671
-		binclude  "sound\0x58.sfx"
+		include  "sound\sfx\58 - spike move.asm"
 Offset_0x0EC68E:
-		binclude  "sound\0x59.sfx"
+		include  "sound\sfx\59 - charging.asm"
 Offset_0x0EC6CE:
-		binclude  "sound\0x5A.sfx"
+		include  "sound\sfx\5A - boss laser.asm"
 Offset_0x0EC711:
-		binclude  "sound\0x5B.sfx"
+		include  "sound\sfx\5B - block conveyor.asm"
 Draw_Bridge_Move_Sfx_Data:                                     ; Offset_0x0EC739
-		binclude  "sound\0x5C.sfx"
+		include  "sound\sfx\5C - flip bridge.asm"
 Geyser_Sfx_Data:                                               ; Offset_0x0EC749
-		binclude  "sound\0x5D.sfx"
+		include  "sound\sfx\5D - geyser.asm"
 Fan_Big_Sfx_Data:                                              ; Offset_0x0EC762
 		binclude  "sound\0x5E.sfx"
 Offset_0x0EC794:
