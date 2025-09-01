@@ -43930,7 +43930,7 @@ Draw_Bridge_Move_Sfx_Data:                                     ; Offset_0x0EC739
 Geyser_Sfx_Data:                                               ; Offset_0x0EC749
 		include  "sound\sfx\5D - geyser.asm"
 Fan_Big_Sfx_Data:                                              ; Offset_0x0EC762
-		binclude  "sound\0x5E.sfx"
+		include  "sound\sfx\5E - boss rotate.asm"
 Offset_0x0EC794:
 		binclude  "sound\0x5F.sfx"
 Offset_0x0EC7C5:
