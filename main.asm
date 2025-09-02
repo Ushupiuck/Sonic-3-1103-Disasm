@@ -118,8 +118,8 @@ Checksum:	dc.w	$1019
 IOSupport:	dc.b	"J               "
 ROMStartLoc:	dc.l	StartOfRom
 ROMEndLoc:	dc.l	EndOfRom-1
-RAMStart:	dc.l	$FF0000
-RAMEnd:		dc.l	$FFFFFF
+RAMStart:	dc.l	RAM_Start&$FFFFFF
+RAMEnd:		dc.l	(RAM_End-1)&$FFFFFF
 SRAMSupport:	dc.b	"                "
 Notes:		dc.b	0, 1, 2, 3, 4, 5, 6, 7
 		dc.b	8, 9, $A, $B, $C, $D, $E, $F
@@ -296,9 +296,9 @@ ClearSomeRAMLoop:
 ; Offset_0x000376:
 AlreadyInit:
 		bsr.w	CheckVDPFrequency
-		lea	(M68K_RAM_Start&$FFFFFF).l,a6
+		lea	(RAM_Start&$FFFFFF).l,a6
 		moveq	#0,d7
-		move.w	#bytesToLcnt(CrossResetRAM-M68K_RAM_Start),d6
+		move.w	#bytesToLcnt(CrossResetRAM-RAM_Start),d6
 ; Offset_0x000386:
 ClearRemainingRAMLoop:
 		move.l	d7,(a6)+
@@ -883,7 +883,7 @@ Offset_0x000A9C:
 		move.w	#$8B00,(A6)
 		move.w	#$8402,(A6)
 		move.w	#$9011,(A6)
-		lea	(M68K_RAM_Start),a1                         ; $FFFF0000
+		lea	(RAM_Start),a1                         ; $FFFF0000
 		move.l	#$50AC0003,d0
 		moveq	#23-1,d1
 		moveq	#15-1,d2
@@ -4107,12 +4107,12 @@ Offset_0x00309A:
 		lea	(Art_SEGA_Some_Blocks).l,a0
 		bsr.w	NemesisDec
 
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		lea	(SEGA_Mappings).l,a0
 		move.w	#0,d0
 		bsr.w	EnigmaDec
 
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		move.l	#$60000002,d0
 		moveq	#40-1,d1
 		moveq	#28-1,d2
@@ -4228,11 +4228,11 @@ TitleScreen:
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
 		move.l	d0,a0
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		bsr.w	KosinskiDec
 		move.w	a1,d3
 		lsr.w	#1,d3
-		move.l	#M68K_RAM_Start,d1
+		move.l	#RAM_Start,d1
 		move.w	#$8000,d2
 		andi.l	#$FFFFFF,d1
 		jsr	(QueueDMATransfer).l
@@ -4243,18 +4243,18 @@ TitleScreen:
 Offset_0x0032EE:
 		move.l	(a0)+,(a1)+
 		dbf	D0, Offset_0x0032EE
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		moveq	#0,d0
 		move.w	#bytesToLcnt($1400),d1
 
 Offset_0x003300:
 		move.l	d0,(a1)+
 		dbf	d1,Offset_0x003300
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$6400,d0
 		bsr.w	EnigmaDec
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		move.l	#$40000003,d0
 		moveq	#40-1,d1
 		moveq	#64-1,d2
@@ -4591,11 +4591,11 @@ TitleSonic_LoadFrame:
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
 		move.l	d0,a0
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		bsr.w	KosinskiDec
 		move.w	a1,d3
 		lsr.w	#1,d3
-		move.l	#M68K_RAM_Start,d1
+		move.l	#RAM_Start,d1
 		move.w	#0,d2
 		tst.b	(Title_Screen_Animate_Buffer).w
 		beq.s	Offset_0x0036DE
@@ -4613,12 +4613,12 @@ Offset_0x0036F2:
 		dbf	d0,Offset_0x0036F2
 		tst.b	(Title_Screen_Animate_Buffer).w
 		bne.s	Offset_0x00372E
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$4000,d0
 		bsr.w	EnigmaDec
 		move	#$2700,sr
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		move.l	#$60000003,d0
 		moveq	#40-1,d1
 		moveq	#28-1,d2
@@ -4628,12 +4628,12 @@ Offset_0x0036F2:
 ; ---------------------------------------------------------------------------
 
 Offset_0x00372E:
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$4200,d0
 		bsr.w	EnigmaDec
 		move	#$2700,sr
-		lea	(M68K_RAM_Start+$4000).l,a1
+		lea	(RAM_Start+$4000).l,a1
 		move.l	#$60000002,d0
 		moveq	#40-1,d1
 		moveq	#28-1,d2
@@ -6010,7 +6010,7 @@ Offset_0x004842:
 ; Offset_0x004844: ; Sonic 2 Left over
 		cmpi.b	#S2_EHz_Id,(Current_Zone).w                ; $00, $FFFFFE10
 		bne.s	Offset_0x004882
-		lea	((M68K_Dev_RAM_Start+$C000)&$FFFFFF),a1           ; $00FEC000
+		lea	((Dev_RAM_Start+$C000)&$FFFFFF),a1           ; $00FEC000
 		move.w	(Demo_Button_Index_2P).w,d0                 ; $FFFFF732
 		adda.w	D0,a1
 		move.b	(Control_Ports_Buffer_Data+2).w,d0        ; $FFFFF606
@@ -6508,9 +6508,9 @@ Offset_0x005174:
 		move.b	Offset_0x0051FA(PC),d0
 Offset_0x00519C:
 		lsl.w	#7,d0
-		lea	(M68K_RAM_Start),a1                         ; $FFFF0000
+		lea	(RAM_Start),a1                         ; $FFFF0000
 		lea	(A1,d0),a1
-		lea	(M68K_RAM_Start+$200),a2                   ; $FFFF0200
+		lea	(RAM_Start+$200),a2                   ; $FFFF0200
 		move.w	#bytesToWcnt($100),d0
 Offset_0x0051B2:
 		move.w	(A1)+,(A2)+
@@ -6524,9 +6524,9 @@ Offset_0x0051B2:
 		move.b	Offset_0x005214(PC),d0
 Offset_0x0051D2:
 		lsl.w	#7,d0
-		lea	(M68K_RAM_Start),a1                         ; $FFFF0000
+		lea	(RAM_Start),a1                         ; $FFFF0000
 		lea	(A1,d0),a1
-		lea	(M68K_RAM_Start+$F00),a2                   ; $FFFF0F00
+		lea	(RAM_Start+$F00),a2                   ; $FFFF0F00
 		move.w	#bytesToWcnt($80),d0
 Offset_0x0051E8:
 		move.w	(A1)+,(A2)+
@@ -6611,11 +6611,11 @@ S2_Menus:                                                      ; Offset_0x0052CC
 		move.l	#$52000000,(VDP_Control_Port)               ; $00C00004
 		lea	(Art_Level_Icons).l,a0                  ; Offset_0x109F48
 		bsr.w	NemesisDec                             ; Offset_0x001390
-		lea	(M68K_RAM_Start).l,a1                         ; $FFFF0000
+		lea	(RAM_Start).l,a1                         ; $FFFF0000
 		lea	(Versus_Menu_Bg_Mappings).l,a0          ; Offset_0x109D1C
 		move.w	#$6000,d0
 		bsr.w	EnigmaDec                              ; Offset_0x00168A
-		lea	(M68K_RAM_Start).l,a1                         ; $FFFF0000
+		lea	(RAM_Start).l,a1                         ; $FFFF0000
 		move.l	#$60000003,d0
 		moveq	#40-1,d1
 		moveq	#28-1,d2
@@ -6626,19 +6626,19 @@ S2_Menus:                                                      ; Offset_0x0052CC
 		beq.w	LevelSelect_Menu                      ; Offset_0x0059F0
 ;-------------------------------------------------------------------------------
 ; Level_Select_Menu_2P:
-		lea	(M68K_RAM_Start).l,a1                         ; $FFFF0000
+		lea	(RAM_Start).l,a1                         ; $FFFF0000
 		lea	(Vs_Level_Select_Frame_Mappings).l,a0   ; Offset_0x006410
 		move.w	#$70,d0
 		bsr.w	EnigmaDec                              ; Offset_0x00168A
-		lea	(M68K_RAM_Start+$198).l,a1                   ; $FFFF0198
+		lea	(RAM_Start+$198).l,a1                   ; $FFFF0198
 		lea	(Vs_Level_Select_Frame_Mappings).l,a0   ; Offset_0x006410
 		move.w	#$2070,d0
 		bsr.w	EnigmaDec                              ; Offset_0x00168A
-		lea	(M68K_RAM_Start+$330).l,a1                   ; $FFFF0330
+		lea	(RAM_Start+$330).l,a1                   ; $FFFF0330
 		lea	(Menu_Icons_Mappings).l,a0              ; Offset_0x0065E2
 		move.w	#$90,d0
 		bsr.w	EnigmaDec                              ; Offset_0x00168A
-		lea	(M68K_RAM_Start+$498).l,a2                   ; $FFFF0498
+		lea	(RAM_Start+$498).l,a2                   ; $FFFF0498
 		moveq	#bytesToWcnt($20),d1
 Offset_0x0053F2:
 		move.w	#$207B,(A2)+
@@ -6756,17 +6756,17 @@ Offset_0x005580:
 		lea	(Level_Select_Text_2P).l,a3             ; Offset_0x00567C
 		lea	(A3,d0),a3
 		move.w	#$6000,d0
-		lea	(M68K_RAM_Start+$48).l,a2                   ; $FFFF0048
+		lea	(RAM_Start+$48).l,a2                   ; $FFFF0048
 		move.l	(A3)+,a1
 		bsr.w	MenuScreenTextToRAM
-		lea	(M68K_RAM_Start+$94).l,a2                   ; $FFFF0094
+		lea	(RAM_Start+$94).l,a2                   ; $FFFF0094
 		move.l	(A3)+,a1
 		bsr.w	MenuScreenTextToRAM
-		lea	(M68K_RAM_Start+$D8).l,a2                   ; $FFFF00D8
+		lea	(RAM_Start+$D8).l,a2                   ; $FFFF00D8
 		move.l	4(A3),a1
 		bsr.w	Offset_0x005600
 		bmi.s	Offset_0x0055C4
-		lea	(M68K_RAM_Start+$468).l,a1                   ; $FFFF0468
+		lea	(RAM_Start+$468).l,a1                   ; $FFFF0468
 Offset_0x0055C4:
 		moveq	#2,d1
 Offset_0x0055C6:
@@ -6774,7 +6774,7 @@ Offset_0x0055C6:
 		move.l	(A1)+,(A2)+
 		lea	$1A(A2),a2
 		dbf	D1, Offset_0x0055C6
-		lea	(M68K_RAM_Start).l,a1                         ; $FFFF0000
+		lea	(RAM_Start).l,a1                         ; $FFFF0000
 		move.l	(A3)+,d0
 		moveq	#17-1,d1
 		moveq	#12-1,d2
@@ -6809,17 +6809,17 @@ Offset_0x00561A:
 		lea	(Level_Select_Text_2P).l,a3             ; Offset_0x00567C
 		lea	(A3,d0),a3
 		moveq	#0,d0
-		lea	(M68K_RAM_Start+$1E0).l,a2                   ; $FFFF01E0
+		lea	(RAM_Start+$1E0).l,a2                   ; $FFFF01E0
 		move.l	(A3)+,a1
 		bsr.w	MenuScreenTextToRAM
-		lea	(M68K_RAM_Start+$22C).l,a2                   ; $FFFF022C
+		lea	(RAM_Start+$22C).l,a2                   ; $FFFF022C
 		move.l	(A3)+,a1
 		bsr.w	MenuScreenTextToRAM
-		lea	(M68K_RAM_Start+$270).l,a2                   ; $FFFF0270
-		lea	(M68K_RAM_Start+$498).l,a1                   ; $FFFF0498
+		lea	(RAM_Start+$270).l,a2                   ; $FFFF0270
+		lea	(RAM_Start+$498).l,a1                   ; $FFFF0498
 		bsr.w	Offset_0x005600
 		bmi.s	Offset_0x00565E
-		lea	(M68K_RAM_Start+$468).l,a1                   ; $FFFF0468
+		lea	(RAM_Start+$468).l,a1                   ; $FFFF0468
 Offset_0x00565E:
 		moveq	#2,d1
 Offset_0x005660:
@@ -6827,7 +6827,7 @@ Offset_0x005660:
 		move.l	(A1)+,(A2)+
 		lea	$1A(A2),a2
 		dbf	D1, Offset_0x005660
-		lea	(M68K_RAM_Start+$198).l,a1                   ; $FFFF0198
+		lea	(RAM_Start+$198).l,a1                   ; $FFFF0198
 		move.l	(A3)+,d0
 		moveq	#17-1,d1
 		moveq	#12-1,d2
@@ -6877,11 +6877,11 @@ Offset_0x0056C0:
 ; ---------------------------------------------------------------------------
 ; Offset_0x0056CA:
 OptionsMenu:
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		lea	(Options_Frame_Mappings).l,a0
 		move.w	#$70,d0
 		bsr.w	EnigmaDec
-		lea	(M68K_RAM_Start+$160).l,a1
+		lea	(RAM_Start+$160).l,a1
 		lea	(Options_Frame_Mappings).l,a0
 		move.w	#$2070,d0
 		bsr.w	EnigmaDec
@@ -7051,10 +7051,10 @@ OptionsMenu_DrawSelected:
 		lea	(OptionsMenu_Boxes).l,a3
 		lea	(a3,d1.w),a3
 		move.w	#$6000,d0
-		lea	(M68K_RAM_Start+$30).l,a2
+		lea	(RAM_Start+$30).l,a2
 		move.l	(a3)+,a1
 		bsr.w	MenuScreenTextToRAM
-		lea	(M68K_RAM_Start+$B6).l,a2
+		lea	(RAM_Start+$B6).l,a2
 		moveq	#0,d1
 		cmpi.b	#2,(Options_Menu_Cursor).w
 		beq.s	Offset_0x0058C8
@@ -7070,11 +7070,11 @@ Offset_0x0058C8:
 		bsr.w	MenuScreenTextToRAM
 		cmpi.b	#2,(Options_Menu_Cursor).w
 		bne.s	Offset_0x0058E2
-		lea	(M68K_RAM_Start+$C2).l,a2
+		lea	(RAM_Start+$C2).l,a2
 		bsr.w	OptionsMenu_DrawSoundNumber
 
 Offset_0x0058E2:
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		move.l	(a3)+,d0
 		moveq	#22-1,d1
 		moveq	#8-1,d2
@@ -7089,10 +7089,10 @@ OptionsMenu_DrawUnselected:
 		lea	(OptionsMenu_Boxes).l,a3
 		lea	(a3,d1.w),a3
 		moveq	#0,d0
-		lea	(M68K_RAM_Start+$190).l,a2
+		lea	(RAM_Start+$190).l,a2
 		move.l	(a3)+,a1
 		bsr.w	MenuScreenTextToRAM
-		lea	(M68K_RAM_Start+$216).l,a2
+		lea	(RAM_Start+$216).l,a2
 		moveq	#0,d1
 		cmpi.b	#2,(Options_Menu_Cursor).w
 		beq.s	Offset_0x005938
@@ -7108,11 +7108,11 @@ Offset_0x005938:
 		bsr.w	MenuScreenTextToRAM
 		cmpi.b	#2,(Options_Menu_Cursor).w
 		bne.s	Offset_0x005952
-		lea	(M68K_RAM_Start+$222).l,a2
+		lea	(RAM_Start+$222).l,a2
 		bsr.w	OptionsMenu_DrawSoundNumber
 
 Offset_0x005952:
-		lea	(M68K_RAM_Start+$160).l,a1
+		lea	(RAM_Start+$160).l,a1
 		move.l	(a3)+,d0
 		moveq	#22-1,d1
 		moveq	#8-1,d2
@@ -7193,19 +7193,19 @@ OptionsText_SoundTest:
 ; Offset_0x0059F0: Level_Select_Menu:
 LevelSelect_Menu:
 		; load the Sonic 2 level select text (for the level icons)
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		lea	(S2_Menu_Level_Select_Text).l,a0
 		move.w	#0,d0
 		bsr.w	EnigmaDec
 		; then clear most of it, except the bottom (again, for the icons)
-		lea	(M68K_RAM_Start).l,a3
+		lea	(RAM_Start).l,a3
 		move.w	#bytesToWcnt($640),d1
 
 Offset_0x005A0E:
 		move.w	#0,(a3)+
 		dbf	d1,Offset_0x005A0E
 		; and clear a bit more (Oil Ocean's name)
-		lea	(M68K_RAM_Start+$696).l,a3
+		lea	(RAM_Start+$696).l,a3
 		move.w	#bytesToWcnt($20),d1
 
 Offset_0x005A20:
@@ -7215,7 +7215,7 @@ Offset_0x005A20:
 		; begin adding the *actual* level select text; Sonic 3 opts to create
 		; it on the spot using character data, rather than just storing the
 		; whole plane map in its ROM
-		lea	(M68K_RAM_Start).l,a3
+		lea	(RAM_Start).l,a3
 		lea	(LevelSelect_Names).l,a1
 		lea	(LevelSelect_TextPositions).l,a5
 		moveq	#0,d0
@@ -7253,7 +7253,7 @@ Offset_0x005A40:
 		move.w	#$1A,(a2)		; replace 1 with *
 
 		; and finally send it to VRAM
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		move.l	#$40000003,d0
 		moveq	#40-1,d1
 		moveq	#28-1,d2
@@ -7262,7 +7262,7 @@ Offset_0x005A40:
 		moveq	#0,d3
 		bsr.w	LevelSelect_DrawSoundNumber
 
-		lea	(M68K_RAM_Start+$8C0).l,a1
+		lea	(RAM_Start+$8C0).l,a1
 		lea	(Menu_Icons_Mappings).l,a0
 		move.w	#$90,d0
 		bsr.w	EnigmaDec
@@ -7561,7 +7561,7 @@ Offset_0x005DE4:
 ; ---------------------------------------------------------------------------
 ; Offset_0x005DE6:
 LevelSelect_MarkFields:
-		lea	(M68K_RAM_Start).l,a4
+		lea	(RAM_Start).l,a4
 		lea	(LevelSelect_MarkTable).l,a5
 		lea	(VDP_Data_Port).l,a6
 		moveq	#0,d0
@@ -7656,7 +7656,7 @@ LevelSelect_DrawIcon:
 		move.w	(Level_Select_Menu_Cursor).w,d0
 		lea	(LevelSelect_IconTable).l,a3
 		lea	(a3,d0.w),a3
-		lea	(M68K_RAM_Start+$8C0).l,a1
+		lea	(RAM_Start+$8C0).l,a1
 		moveq	#0,d0
 		move.b	(a3),d0
 		lsl.w	#3,d0
@@ -17894,7 +17894,7 @@ Offset_0x012428:
 		andi.l	#$FFFFFF,d0
 		move.l	d0,d7
 		move.l	d0,a0
-		lea	(M68K_RAM_Start).l,a1
+		lea	(RAM_Start).l,a1
 		jsr	(KosinskiDec).l
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
@@ -18432,7 +18432,7 @@ Offset_0x01293E:
 		lea	(Blocks_Mem_Address).w,a2
 		jsr	(Queue_Kos).l
 		lea	(Launch_Base_2_Chunks_3).l,a1
-		lea	(M68K_RAM_Start).l,a2
+		lea	(RAM_Start).l,a2
 		jsr	(Queue_Kos).l
 		lea	(Launch_Base_2_Tiles_3).l,a1
 		move.w	#0,d2
@@ -23946,7 +23946,7 @@ Dynamic_Hz_1_A3:                                               ; Offset_0x01E986
 		bcc.w	 Offset_0x01EAA8
 		lsl.w	#$05,d1
 		andi.w	#$FFC0,d1
-		lea	(M68K_RAM_Start+$7C00),a4                   ; $FFFF7C00
+		lea	(RAM_Start+$7C00),a4                   ; $FFFF7C00
 		lea	(Water_Surface_Scroll_Data),a5        ; Offset_0x1C8000
 		adda.w	D1,a5
 		move.w	#$003F,d1
@@ -23972,7 +23972,7 @@ Offset_0x01E9BE:
 		move.l	(A0),(A4)
 		lea	-$1FC(A4),a4
 		dbf	D1, Offset_0x01E9BE
-		move.l	#M68K_RAM_Start+$7C00,d1                    ; $FFFF7C00
+		move.l	#RAM_Start+$7C00,d1                    ; $FFFF7C00
 		move.w	#$5100,d2
 		move.w	#$0200,d3
 		jsr	(QueueDMATransfer).l                        ; Offset_0x0012FC
@@ -23988,7 +23988,7 @@ Offset_0x01EA26:
 		bcc.s	Offset_0x01EAA8
 		lsl.w	#$05,d1
 		andi.w	#$FFC0,d1
-		lea	(M68K_RAM_Start+$7C00),a4                   ; $FFFF7C00
+		lea	(RAM_Start+$7C00),a4                   ; $FFFF7C00
 		lea	(Water_Surface_Scroll_Data),a5        ; Offset_0x1C8000
 		adda.w	D1,a5
 		move.w	#$003F,d1
@@ -24014,7 +24014,7 @@ Offset_0x01EA46:
 		move.l	(A0),(A4)
 		lea	-$1FC(A4),a4
 		dbf	D1, Offset_0x01EA46
-		move.l	#(M68K_RAM_Start+$7C00),d1                  ; $FFFF7C00
+		move.l	#(RAM_Start+$7C00),d1                  ; $FFFF7C00
 		move.w	#$4D00,d2
 		move.w	#$0200,d3
 		jsr	(QueueDMATransfer).l                        ; Offset_0x0012FC
@@ -24472,7 +24472,7 @@ Offset_0x01EFCC:
 		addi.w	#$0040,d1
 		bcc.w	 Offset_0x01F0B0
 		lsl.w	#$06,d1
-		lea	(M68K_RAM_Start+$7E00),a4                   ; $FFFF7E00
+		lea	(RAM_Start+$7E00),a4                   ; $FFFF7E00
 		lea	(Water_Surface_Scroll_Data),a5        ; Offset_0x1C8000
 		adda.w	D1,a5
 		move.w	#$003F,d1
@@ -24489,7 +24489,7 @@ Offset_0x01F002:
 		move.l	(A0),(A4)
 		lea	-$FC(A4),a4
 		dbf	D1, Offset_0x01F002
-		move.l	#(M68K_RAM_Start+$7E00),d1                  ; $FFFF7E00
+		move.l	#(RAM_Start+$7E00),d1                  ; $FFFF7E00
 		move.w	#$5900,d2
 		move.w	#$0100,d3
 		jsr	(QueueDMATransfer).l                        ; Offset_0x0012FC
@@ -24504,7 +24504,7 @@ Offset_0x01F04C:
 		addi.w	#$0040,d1
 		bcc.s	Offset_0x01F0B0
 		lsl.w	#$06,d1
-		lea	(M68K_RAM_Start+$7E00),a4                   ; $FFFF7E00
+		lea	(RAM_Start+$7E00),a4                   ; $FFFF7E00
 		lea	(Water_Surface_Scroll_Data),a5        ; Offset_0x1C8000
 		adda.w	D1,a5
 		move.w	#$003F,d1
@@ -24521,7 +24521,7 @@ Offset_0x01F068:
 		move.l	(A0),(A4)
 		lea	-$FC(A4),a4
 		dbf	D1, Offset_0x01F068
-		move.l	#(M68K_RAM_Start+$7E00),d1                  ; $FFFF7E00
+		move.l	#(RAM_Start+$7E00),d1                  ; $FFFF7E00
 		move.w	#$5B00,d2
 		move.w	#$0100,d3
 		jsr	(QueueDMATransfer).l                        ; Offset_0x0012FC
@@ -29524,7 +29524,7 @@ Offset_0x030856:
 		bcs.s	Offset_0x0308E8
 		movem.l	D7/A0/A2/A3, -(sp)
 		lea	(Angel_Island_2_Chunks),a1            ; Offset_0x14EA6E
-		lea	(M68K_RAM_Start),a2                         ; $FFFF0000
+		lea	(RAM_Start),a2                         ; $FFFF0000
 		jsr	(Queue_Kos).l          ; Offset_0x0019AE
 		lea	(Angel_Island_2_Blocks),a1            ; Offset_0x148128
 		lea	(Blocks_Mem_Address).w,a2                   ; $FFFF9000
@@ -30881,7 +30881,7 @@ MGz_1_Normal:                                                  ; Offset_0x031F54
 		clr.w	(Level_Events_Buffer_5).w                    ; $FFFFEEC6
 		movem.l	D7/A0/A2/A3, -(sp)
 		lea	(Marble_Garden_2_Chunks_2),a1         ; Offset_0x16403A
-		lea	(M68K_RAM_Start+$6B80),a2                   ; $FFFF6B80
+		lea	(RAM_Start+$6B80),a2                   ; $FFFF6B80
 		jsr	(Queue_Kos).l          ; Offset_0x0019AE
 		lea	(Marble_Garden_2_Blocks_2),a1         ; Offset_0x162E58
 		lea	(Blocks_Mem_Address+$0C78).w,a2             ; $FFFF9C78
@@ -31397,9 +31397,9 @@ Offset_0x03259A:
 ;-------------------------------------------------------------------------------
 MGz_Change_Chunk:                                              ; Offset_0x03259C
 		lea	MGz_2_Chunk_Replace_Array(PC),a1      ; Offset_0x0326AA
-		lea	((M68K_RAM_Start+$5900)&$FFFFFF),a5       ; $00FF5900
+		lea	((RAM_Start+$5900)&$FFFFFF),a5       ; $00FF5900
 		bsr.s	Offset_0x0325AE
-		lea	((M68K_RAM_Start+$7500)&$FFFFFF),a5       ; $00FF7500
+		lea	((RAM_Start+$7500)&$FFFFFF),a5       ; $00FF7500
 Offset_0x0325AE:
 		lea	(Marble_Garden_2_Dynamic_Chunks),a4   ; Offset_0x1649DA
 		adda.w	(A1,d0),a4
@@ -32085,7 +32085,7 @@ Iz_1_Normal_2:                                                 ; Offset_0x032EE2
 		bcs.s	Offset_0x032F30
 		movem.l	D7/A0/A2/A3, -(sp)
 		lea	(Icecap_2_Chunks_2),a1                ; Offset_0x182746
-		lea	(M68K_RAM_Start+$0B80),a2                   ; $FFFF0B80
+		lea	(RAM_Start+$0B80),a2                   ; $FFFF0B80
 		jsr	(Queue_Kos).l          ; Offset_0x0019AE
 		lea	(Icecap_2_Blocks_2),a1                ; Offset_0x17FB24
 		lea	(Blocks_Mem_Address+$0418).w,a2             ; $FFFF9418
@@ -32833,7 +32833,7 @@ LBZ1_NormalBackground:
 ; LBZ1_BeginLoadingAct2:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(Launch_Base_2_Chunks).l,a1
-		lea	(M68K_RAM_Start).l,a2
+		lea	(RAM_Start).l,a2
 		jsr	(Queue_Kos).l
 		lea	(Launch_Base_2_Blocks_2).l,a1
 		lea	(Blocks_Mem_Address+$628).w,a2

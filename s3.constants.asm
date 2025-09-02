@@ -638,15 +638,17 @@ VDP_Control_Port	= $C00004
 ramaddr function x,(-(x&$80000000)<<1)|x
 
 ; RAM
-M68K_Dev_RAM_Start	= ramaddr($FFFE0000)
+Dev_RAM_Start	= ramaddr($FFFE0000)
+M68K_Dev_RAM_Start	= Dev_RAM_Start
 
 	phase ramaddr($FFFF0000)
 
-M68K_RAM_Start:		ds.b	$8000
+RAM_Start:		ds.b	$8000
+M68K_RAM_Start	= RAM_Start
 
-Sprite_Table_Buffer_2	= M68K_RAM_Start+$7880
-Sprite_Table_Buffer_P2	= M68K_RAM_Start+$7B00
-Sprite_Table_Buffer_P2_2	= M68K_RAM_Start+$7D80
+Sprite_Table_Buffer_2	= RAM_Start+$7880
+Sprite_Table_Buffer_P2	= RAM_Start+$7B00
+Sprite_Table_Buffer_P2_2	= RAM_Start+$7D80
 
 Level_Layout_Buffer:	ds.b	$1000
 Level_Layout_Buffer_End
@@ -985,7 +987,7 @@ Camera_X_Left:		ds.w	1
 Camera_X_Left_P2:		ds.w	1
 Miles_Previous_Frame:		ds.b	1
 Miles_Tails_Previous_Frame:		ds.b	1
-; Refresh_Level_Layout	= M68K_RAM_Start+$F7E0
+; Refresh_Level_Layout	= RAM_Start+$F7E0
 Level_Trigger_Array:		ds.b	$10
 Animate_Counters:		ds.b	$10
 
@@ -994,11 +996,11 @@ Misc_Variables_End
 Sprite_Table_Buffer:		ds.b	$280
 Sprite_Table_Buffer_End
 Boss_Data_Buffer:		ds.b	$12
-;Tmp_FA81	= M68K_RAM_Start+$FA81
-;Tmp_FA82	= M68K_RAM_Start+$FA82
-;Tmp_FA83	= M68K_RAM_Start+$FA83
-;Tmp_FA8A	= M68K_RAM_Start+$FA8A
-;Tmp_FA8B	= M68K_RAM_Start+$FA8B
+;Tmp_FA81	= RAM_Start+$FA81
+;Tmp_FA82	= RAM_Start+$FA82
+;Tmp_FA83	= RAM_Start+$FA83
+;Tmp_FA8A	= RAM_Start+$FA8A
+;Tmp_FA8B	= RAM_Start+$FA8B
 Target_Camera_Max_X:		ds.w	1
 Target_Camera_Min_X:		ds.w	1
 Target_Camera_Min_Y:		ds.w	1
@@ -1018,7 +1020,7 @@ Palette_Rotation_Data:		ds.w	9
 Object_Respawn_Table:		ds.b	$200
 Object_Respawn_Table_End
 
-S2_Palette_Buffer	= M68K_RAM_Start+$FB00
+S2_Palette_Buffer	= RAM_Start+$FB00
 S2_Palette_Row_0_Offset	= S2_Palette_Buffer
 S2_Palette_Row_1_Offset	= S2_Palette_Buffer+$20
 		ds.b	$100
@@ -1219,6 +1221,7 @@ Hardware_Id:		ds.w	1
 Debug_Mode_Active:		ds.w	1
 Init_Flag:		ds.l	1
 CrossResetRAM_End
+RAM_End
 		dephase						; restore options
 		!org 0
 
