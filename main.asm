@@ -1538,7 +1538,7 @@ Pause:                                                         ; Offset_0x0011E0
 		bne.s	Pause_AlreadyPaused                    ; Offset_0x001200
 		move.b	(Control_Ports_Buffer_Data+1).w,d0      ; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0      ; $FFFFF607
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		beq.w	Pause_DoNothing                        ; Offset_0x001290
 Pause_AlreadyPaused:                                           ; Offset_0x001200
 		move.w	#1,(Pause_Status).w                     ; $FFFFF63A
@@ -1550,20 +1550,20 @@ Pause_Loop:                                                    ; Offset_0x001228
 		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
 		tst.b	(Slow_Motion_Flag).w                         ; $FFFFFFD1
 		beq.s	Pause_CheckStart                       ; Offset_0x00125A
-		btst	#6,(Control_Ports_Buffer_Data+1).w    ; $FFFFF605
+		btst	#button_A,(Control_Ports_Buffer_Data+1).w    ; $FFFFF605
 		beq.s	Pause_CheckBC                          ; Offset_0x00124A
 		move.b	#gm_TitleScreen,(Game_Mode).w          ; $04, $FFFFF600
 		nop
 		bra.s	Offset_0x001268
 Pause_CheckBC:                                                 ; Offset_0x00124A
-		btst	#4,(Control_Ports_Buffer_Data).w          ; $FFFFF604
+		btst	#button_B,(Control_Ports_Buffer_Data).w          ; $FFFFF604
 		bne.s	Pause_SlowMotion                       ; Offset_0x001292
-		btst	#5,(Control_Ports_Buffer_Data+1).w    ; $FFFFF605
+		btst	#button_C,(Control_Ports_Buffer_Data+1).w    ; $FFFFF605
 		bne.s	Pause_SlowMotion                       ; Offset_0x001292
 Pause_CheckStart:                                              ; Offset_0x00125A
 		move.b	(Control_Ports_Buffer_Data+1).w,d0      ; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0      ; $FFFFF607
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		beq.s	Pause_Loop                             ; Offset_0x001228
 Offset_0x001268:
 		stopZ80
@@ -3067,96 +3067,96 @@ Offset_0x001FEA:
 ; ---------------------------------------------------------------------------
 
 Offset_0x001FEC:
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x002048
-		move.w	#$0009,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#$A-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$08,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0050,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#8,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$50,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x00200E
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x00200E:
 		lea	(Pal_AIz1_Cyc2).l,a0                    ; Offset_0x002450
-		move.l	(A0,d0),(Palette_Row_3_Offset+$04).w    ; $FFFFED64
-		move.l	$04(A0,d0),(Palette_Row_3_Offset+$08).w    ; $FFFFED68
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$06,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$003C,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.l	(A0,d0),(Palette_Row_3_Offset+4).w    ; $FFFFED64
+		move.l	4(A0,d0),(Palette_Row_3_Offset+8).w    ; $FFFFED68
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#6,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$3C,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x002036
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x002036:
 		lea	(Pal_AIz1_Cyc3).l,a0                    ; Offset_0x0024D0
 		move.l	(A0,d0),(Palette_Row_3_Offset+$1A).w    ; $FFFFED7A
-		move.w	$04(A0,d0),(Palette_Row_3_Offset+$1E).w    ; $FFFFED7E
+		move.w	4(A0,d0),(Palette_Row_3_Offset+$1E).w    ; $FFFFED7E
 Offset_0x002048:
 		rts
 ;-------------------------------------------------------------------------------
 PalCycle_AIz_2:                                                ; Offset_0x00204A
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x0020C4
-		move.w	#$0005,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#6-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$08,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		andi.w	#$0018,d0
+		addq.w	#8,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		andi.w	#$18,d0
 		lea	(Pal_AIz2_Cyc1).l,a0                    ; Offset_0x002560
 		move.l	(A0,d0),(Palette_Row_3_Offset+$18).w    ; $FFFFED78
-		move.l	$04(A0,d0),(Palette_Row_3_Offset+$1C).w    ; $FFFFED7C
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$06,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$0030,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.l	4(A0,d0),(Palette_Row_3_Offset+$1C).w    ; $FFFFED7C
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#6,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$30,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x00208A
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x00208A:
 		lea	(Pal_AIz2_Cyc2).l,a0                    ; Offset_0x002580
 		cmpi.w	#$3800,(Camera_X).w                         ; $FFFFEE78
 		bcs.s	Offset_0x00209E
 		lea	(Pal_AIz2_Cyc3).l,a0                    ; Offset_0x0025B0
 Offset_0x00209E:
-		move.w	(A0,d0),(Palette_Row_2_Offset+$08).w    ; $FFFFED48
-		move.w	$02(A0,d0),(Palette_Row_2_Offset+$10).w    ; $FFFFED50
-		move.w	$04(A0,d0),(Palette_Row_3_Offset+$16).w    ; $FFFFED76
-		move.w	#$0A0E,(Palette_Row_2_Offset+$1C).w         ; $FFFFED5C
-		cmpi.w	#$01C0,(Camera_X).w                         ; $FFFFEE78
+		move.w	(A0,d0),(Palette_Row_2_Offset+8).w    ; $FFFFED48
+		move.w	2(A0,d0),(Palette_Row_2_Offset+$10).w    ; $FFFFED50
+		move.w	4(A0,d0),(Palette_Row_3_Offset+$16).w    ; $FFFFED76
+		move.w	#$A0E,(Palette_Row_2_Offset+$1C).w         ; $FFFFED5C
+		cmpi.w	#$1C0,(Camera_X).w                         ; $FFFFEE78
 		bcc.s	Offset_0x0020C4
-		move.w	$04(A0,d0),(Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
+		move.w	4(A0,d0),(Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
 Offset_0x0020C4:
-		subq.w	#$01,(Palette_Cycle_Counters+$08).w         ; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w         ; $FFFFF658
 		bpl.s	Offset_0x002100
-		move.w	#$0001,(Palette_Cycle_Counters+$08).w       ; $FFFFF658
-		move.w	(Palette_Cycle_Counters+$04).w,d0           ; $FFFFF654
-		addq.w	#$02,(Palette_Cycle_Counters+$04).w         ; $FFFFF654
-		cmpi.w	#$0034,(Palette_Cycle_Counters+$04).w       ; $FFFFF654
+		move.w	#2-1,(Palette_Cycle_Counters+8).w       ; $FFFFF658
+		move.w	(Palette_Cycle_Counters+4).w,d0           ; $FFFFF654
+		addq.w	#2,(Palette_Cycle_Counters+4).w         ; $FFFFF654
+		cmpi.w	#$34,(Palette_Cycle_Counters+4).w       ; $FFFFF654
 		bcs.s	Offset_0x0020E6
-		move.w	#$0000,(Palette_Cycle_Counters+$04).w       ; $FFFFF654
+		move.w	#0,(Palette_Cycle_Counters+4).w       ; $FFFFF654
 Offset_0x0020E6:
 		lea	(Pal_AIz2_Cyc4).l,a0                    ; Offset_0x0025E0
 		cmpi.w	#$3800,(Camera_X).w                         ; $FFFFEE78
 		bcs.s	Offset_0x0020FA
 		lea	(Pal_AIz2_Cyc5).l,a0                    ; Offset_0x002614
 Offset_0x0020FA:
-		move.w	(A0,d0),(Palette_Row_3_Offset+$02).w    ; $FFFFED62
+		move.w	(A0,d0),(Palette_Row_3_Offset+2).w    ; $FFFFED62
 Offset_0x002100:
 		rts
 ;-------------------------------------------------------------------------------
 PalCycle_Hz_1:                                                 ; Offset_0x002102
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x00214E
-		move.w	#$0007,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#8-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		tst.b	(Palette_Cycle_Counters).w                   ; $FFFFF650
 		beq.s	Offset_0x00211A
-		move.w	#$0000,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#0,(Palette_Cycle_Count_1).w            ; $FFFFF634
 Offset_0x00211A:
 		lea	(Pal_Hz1_Cyc).l,a0                      ; Offset_0x002648
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$08,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0020,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#8,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$20,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x002136
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x002136:
-		move.l	(A0,d0),(Palette_Row_2_Offset+$06).w    ; $FFFFED46
-		move.l	$04(A0,d0),(Palette_Row_2_Offset+$0A).w    ; $FFFFED4A
-		move.l	(A0,d0),(Palette_UW_Row_2_Offset+$06).w ; $FFFFF0C6
-		move.l	$04(A0,d0),(Palette_UW_Row_2_Offset+$0A).w ; $FFFFF0CA
+		move.l	(A0,d0),(Palette_Row_2_Offset+6).w    ; $FFFFED46
+		move.l	4(A0,d0),(Palette_Row_2_Offset+$A).w    ; $FFFFED4A
+		move.l	(A0,d0),(Palette_UW_Row_2_Offset+6).w ; $FFFFF0C6
+		move.l	4(A0,d0),(Palette_UW_Row_2_Offset+$A).w ; $FFFFF0CA
 Offset_0x00214E:
 		rts
 ;-------------------------------------------------------------------------------
@@ -3165,39 +3165,39 @@ PalCycle_Hz_2:                                                 ; Offset_0x002150
 ;-------------------------------------------------------------------------------
 PalCycle_CNz_1:                                                ; Offset_0x002152
 PalCycle_CNz_2:  
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x002186
-		move.w	#$0003,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#4-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		lea	(Pal_CNz_Cyc1).l,a0                     ; Offset_0x002668
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$06,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0060,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#6,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$60,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x00217A
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x00217A:
 		move.l	(A0,d0),(Palette_Row_3_Offset+$12).w    ; $FFFFED72
-		move.w	$04(A0,d0),(Palette_Row_3_Offset+$16).w    ; $FFFFED76
+		move.w	4(A0,d0),(Palette_Row_3_Offset+$16).w    ; $FFFFED76
 Offset_0x002186:
 		lea	(Pal_CNz_Cyc2).l,a0                     ; Offset_0x0026C8
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$06,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$00B4,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#6,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$B4,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x0021A2
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x0021A2:
 		move.l	(A0,d0),(Palette_Row_2_Offset+$12).w    ; $FFFFED52
-		move.w	$04(A0,d0),(Palette_Row_2_Offset+$16).w    ; $FFFFED56
-		subq.w	#$01,(Palette_Cycle_Counters+$08).w         ; $FFFFF658
+		move.w	4(A0,d0),(Palette_Row_2_Offset+$16).w    ; $FFFFED56
+		subq.w	#1,(Palette_Cycle_Counters+8).w         ; $FFFFF658
 		bpl.s	Offset_0x0021DC
-		move.w	#$0002,(Palette_Cycle_Counters+$08).w       ; $FFFFF658
+		move.w	#3-1,(Palette_Cycle_Counters+8).w       ; $FFFFF658
 		lea	(Pal_CNz_Cyc3).l,a0                     ; Offset_0x00277C
-		move.w	(Palette_Cycle_Counters+$04).w,d0           ; $FFFFF654
-		addq.w	#$04,(Palette_Cycle_Counters+$04).w         ; $FFFFF654
-		cmpi.w	#$0040,(Palette_Cycle_Counters+$04).w       ; $FFFFF654
+		move.w	(Palette_Cycle_Counters+4).w,d0           ; $FFFFF654
+		addq.w	#4,(Palette_Cycle_Counters+4).w         ; $FFFFF654
+		cmpi.w	#$40,(Palette_Cycle_Counters+4).w       ; $FFFFF654
 		bcs.s	Offset_0x0021D6
-		move.w	#$0000,(Palette_Cycle_Counters+$04).w       ; $FFFFF654
+		move.w	#0,(Palette_Cycle_Counters+4).w       ; $FFFFF654
 Offset_0x0021D6:
-		move.l	(A0,d0),(Palette_Row_2_Offset+$0E).w    ; $FFFFED4E
+		move.l	(A0,d0),(Palette_Row_2_Offset+$E).w    ; $FFFFED4E
 Offset_0x0021DC:
 		rts
 ;-------------------------------------------------------------------------------
@@ -3207,52 +3207,52 @@ PalCycle_FBz_2:
 ;-------------------------------------------------------------------------------
 PalCycle_Iz_1:                                                 ; Offset_0x0021E0
 PalCycle_Iz_2:
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x00220E
-		move.w	#$0005,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#6-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		lea	(Pal_Iz_Cyc1).l,a0                      ; Offset_0x0027BC
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$04,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0040,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#4,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$40,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x002208
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x002208:
 		move.l	(A0,d0),(Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
 Offset_0x00220E:
-		subq.w	#$01,(Palette_Cycle_Counters+$08).w         ; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w         ; $FFFFF658
 		bpl.s	Offset_0x002242
-		move.w	#$0009,(Palette_Cycle_Counters+$08).w       ; $FFFFF658
+		move.w	#$A-1,(Palette_Cycle_Counters+8).w       ; $FFFFF658
 		lea	(Pal_Iz_Cyc2).l,a0                      ; Offset_0x0027FC
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$04,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$0048,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#4,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$48,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x002236
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x002236:
 		tst.w	(Background_Events+$16).w                    ; $FFFFEEE8
 		beq.s	Offset_0x002242
 		move.l	(A0,d0),(Palette_Row_3_Offset+$1C).w    ; $FFFFED7C
 Offset_0x002242:
-		subq.w	#$01,(Palette_Cycle_Counters+$0A).w         ; $FFFFF65A
+		subq.w	#1,(Palette_Cycle_Counters+$A).w         ; $FFFFF65A
 		bpl.s	Offset_0x002298
-		move.w	#$0007,(Palette_Cycle_Counters+$0A).w       ; $FFFFF65A
+		move.w	#8-1,(Palette_Cycle_Counters+$A).w       ; $FFFFF65A
 		lea	(Pal_Iz_Cyc3).l,a0                      ; Offset_0x002844
-		move.w	(Palette_Cycle_Counters+$04).w,d0           ; $FFFFF654
-		addq.w	#$04,(Palette_Cycle_Counters+$04).w         ; $FFFFF654
-		cmpi.w	#$0018,(Palette_Cycle_Counters+$04).w       ; $FFFFF654
+		move.w	(Palette_Cycle_Counters+4).w,d0           ; $FFFFF654
+		addq.w	#4,(Palette_Cycle_Counters+4).w         ; $FFFFF654
+		cmpi.w	#$18,(Palette_Cycle_Counters+4).w       ; $FFFFF654
 		bcs.s	Offset_0x00226A
-		move.w	#$0000,(Palette_Cycle_Counters+$04).w       ; $FFFFF654
+		move.w	#0,(Palette_Cycle_Counters+4).w       ; $FFFFF654
 Offset_0x00226A:
 		tst.w	(Background_Events+$16).w                    ; $FFFFEEE8
 		beq.s	Offset_0x002276
 		move.l	(A0,d0),(Palette_Row_3_Offset+$18).w    ; $FFFFED78
 Offset_0x002276:
 		lea	(Pal_Iz_Cyc4).l,a0                      ; Offset_0x00285C
-		move.w	(Palette_Cycle_Counters+$06).w,d0           ; $FFFFF656
-		addq.w	#$04,(Palette_Cycle_Counters+$06).w         ; $FFFFF656
-		cmpi.w	#$0040,(Palette_Cycle_Counters+$06).w       ; $FFFFF656
+		move.w	(Palette_Cycle_Counters+6).w,d0           ; $FFFFF656
+		addq.w	#4,(Palette_Cycle_Counters+6).w         ; $FFFFF656
+		cmpi.w	#$40,(Palette_Cycle_Counters+6).w       ; $FFFFF656
 		bcs.s	Offset_0x002292
-		move.w	#$0000,(Palette_Cycle_Counters+$06).w       ; $FFFFF656
+		move.w	#0,(Palette_Cycle_Counters+6).w       ; $FFFFF656
 Offset_0x002292:
 		move.l	(A0,d0),(Palette_Row_2_Offset+$18).w    ; $FFFFED58
 Offset_0x002298:
@@ -3265,41 +3265,41 @@ PalCycle_LBz_1:                                                ; Offset_0x00229A
 PalCycle_LBz_2:                                                ; Offset_0x0022A2
 		lea	(Pal_LBz2_Cyc).l,a0                     ; Offset_0x0028AE
 PalCycle_LBz_Main:
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x0022D6
-		move.w	#$0003,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#4-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$06,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0012,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#6,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$12,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x0022CA
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x0022CA:
 		move.l	(A0,d0),(Palette_Row_2_Offset+$10).w    ; $FFFFED50
-		move.w	$04(A0,d0),(Palette_Row_2_Offset+$14).w    ; $FFFFED54
+		move.w	4(A0,d0),(Palette_Row_2_Offset+$14).w    ; $FFFFED54
 Offset_0x0022D6:
 		rts
 ;-------------------------------------------------------------------------------
 PalCycle_LRz_1:                                                ; Offset_0x0022D8
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x00232E
-		move.w	#$000F,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#$10-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$08,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0080,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#8,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$80,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x0022FA
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x0022FA:
 		lea	(Pal_LRz1_Cyc1).l,a0                    ; Offset_0x0028C0
-		move.l	(A0,d0),(Palette_Row_2_Offset+$02).w    ; $FFFFED42
-		move.l	$04(A0,d0),(Palette_Row_2_Offset+$06).w    ; $FFFFED46
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$04,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$001C,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.l	(A0,d0),(Palette_Row_2_Offset+2).w    ; $FFFFED42
+		move.l	4(A0,d0),(Palette_Row_2_Offset+6).w    ; $FFFFED46
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#4,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$1C,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x002322
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x002322:
 		lea	(Pal_LRz1_Cyc2).l,a0                    ; Offset_0x002940
-		move.l	(A0,d0),(Palette_Row_3_Offset+$02).w    ; $FFFFED62
+		move.l	(A0,d0),(Palette_Row_3_Offset+2).w    ; $FFFFED62
 Offset_0x00232E:
 		rts
 ;-------------------------------------------------------------------------------
@@ -3308,74 +3308,74 @@ PalCycle_LRz_2:                                                ; Offset_0x002330
 ;-------------------------------------------------------------------------------
 PalCycle_BPz_1:                                                ; Offset_0x002332
 PalCycle_BPz_2:
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x002366
-		move.w	#$0007,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#8-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		lea	(Pal_BPz_Cyc1).l,a0                     ; Offset_0x002964
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$06,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0012,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#6,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$12,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x00235A
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x00235A:
 		move.l	(A0,d0),(Palette_Row_2_Offset+$1A).w    ; $FFFFED5A
-		move.w	$04(A0,d0),(Palette_Row_2_Offset+$1E).w    ; $FFFFED5E
+		move.w	4(A0,d0),(Palette_Row_2_Offset+$1E).w    ; $FFFFED5E
 Offset_0x002366:
-		subq.w	#$01,(Palette_Cycle_Counters+$08).w         ; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w         ; $FFFFF658
 		bpl.s	Offset_0x00239A
-		move.w	#$0011,(Palette_Cycle_Counters+$08).w       ; $FFFFF658
+		move.w	#$12-1,(Palette_Cycle_Counters+8).w       ; $FFFFF658
 		lea	(Pal_BPz_Cyc2).l,a0                     ; Offset_0x002976
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$06,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$007E,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#6,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$7E,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x00238E
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x00238E:
-		move.l	(A0,d0),(Palette_Row_3_Offset+$04).w    ; $FFFFED64
-		move.w	$04(A0,d0),(Palette_Row_3_Offset+$08).w    ; $FFFFED68
+		move.l	(A0,d0),(Palette_Row_3_Offset+4).w    ; $FFFFED64
+		move.w	4(A0,d0),(Palette_Row_3_Offset+8).w    ; $FFFFED68
 Offset_0x00239A:
 		rts
 ;-------------------------------------------------------------------------------
 PalCycle_CGz_1:                                                ; Offset_0x00239C
 PalCycle_CGz_2:
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x0023D0
-		move.w	#$0009,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#$A-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		lea	(Pal_CGz_Cyc).l,a0                      ; Offset_0x0029F4
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$08,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$0050,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#8,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$50,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x0023C4
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x0023C4:
-		move.l	(A0,d0),(Palette_Row_2_Offset+$04).w    ; $FFFFED44
-		move.l	$04(A0,d0),(Palette_Row_2_Offset+$08).w    ; $FFFFED48
+		move.l	(A0,d0),(Palette_Row_2_Offset+4).w    ; $FFFFED44
+		move.l	4(A0,d0),(Palette_Row_2_Offset+8).w    ; $FFFFED48
 Offset_0x0023D0:
 		rts
 ;-------------------------------------------------------------------------------
 PalCycle_EMz_1:                                                ; Offset_0x0023D2
 PalCycle_EMz_2:
-		subq.w	#$01,(Palette_Cycle_Count_1).w              ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w              ; $FFFFF634
 		bpl.s	Offset_0x002400
-		move.w	#$0007,(Palette_Cycle_Count_1).w            ; $FFFFF634
+		move.w	#8-1,(Palette_Cycle_Count_1).w            ; $FFFFF634
 		lea	(Pal_EMz_Cyc1).l,a0                     ; Offset_0x002A44
 		move.w	(Palette_Cycle_Count_0).w,d0                ; $FFFFF632
-		addq.w	#$02,(Palette_Cycle_Count_0).w              ; $FFFFF632
-		cmpi.w	#$003C,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		addq.w	#2,(Palette_Cycle_Count_0).w              ; $FFFFF632
+		cmpi.w	#$3C,(Palette_Cycle_Count_0).w            ; $FFFFF632
 		bcs.s	Offset_0x0023FA
-		move.w	#$0000,(Palette_Cycle_Count_0).w            ; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w            ; $FFFFF632
 Offset_0x0023FA:
-		move.w	$04(A0,d0),(Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
+		move.w	4(A0,d0),(Palette_Row_2_Offset+$1C).w    ; $FFFFED5C
 Offset_0x002400:
-		subq.w	#$01,(Palette_Cycle_Counters+$08).w         ; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w         ; $FFFFF658
 		bpl.s	Offset_0x00242E
-		move.w	#$001F,(Palette_Cycle_Counters+$08).w       ; $FFFFF658
+		move.w	#$20-1,(Palette_Cycle_Counters+8).w       ; $FFFFF658
 		lea	(Pal_EMz_Cyc2).l,a0                     ; Offset_0x002A80
-		move.w	(Palette_Cycle_Counters+$02).w,d0           ; $FFFFF652
-		addq.w	#$04,(Palette_Cycle_Counters+$02).w         ; $FFFFF652
-		cmpi.w	#$0034,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	(Palette_Cycle_Counters+2).w,d0           ; $FFFFF652
+		addq.w	#4,(Palette_Cycle_Counters+2).w         ; $FFFFF652
+		cmpi.w	#$34,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 		bcs.s	Offset_0x002428
-		move.w	#$0000,(Palette_Cycle_Counters+$02).w       ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w       ; $FFFFF652
 Offset_0x002428:
 		move.l	(A0,d0),(Palette_Row_3_Offset+$12).w    ; $FFFFED72
 Offset_0x00242E:
@@ -3556,7 +3556,7 @@ PalCycle_SuperSonic:
 ; PalCycle_SuperSonic_Normal:
 		subq.b	#1,(Super_Sonic_Palette_Timer).w
 		bpl.s	Offset_0x002B00
-		move.b	#3,(Super_Sonic_Palette_Timer).w
+		move.b	#4-1,(Super_Sonic_Palette_Timer).w
 		lea	(Pal_SuperSonic_Cyc).l,a0
 		move.w	(Super_Sonic_Palette_Frame).w,d0
 		addq.w	#8,(Super_Sonic_Palette_Frame).w
@@ -3577,7 +3577,7 @@ Offset_0x002B00:
 PalCycle_SuperSonic_Revert:
 		subq.b	#1,(Super_Sonic_Palette_Timer).w
 		bpl.s	Offset_0x002B00
-		move.b	#3,(Super_Sonic_Palette_Timer).w
+		move.b	#4-1,(Super_Sonic_Palette_Timer).w
 		lea	(Pal_SuperSonic_Cyc).l,a0
 		move.w	(Super_Sonic_Palette_Frame).w,d0
 		subq.w	#8,(Super_Sonic_Palette_Frame).w
@@ -3598,25 +3598,25 @@ Offset_0x002B2A:
 		rts
 
 Offset_0x002B50:
-		subq.b	#$01,(Super_Sonic_Palette_Timer).w          ; $FFFFF65E
+		subq.b	#1,(Super_Sonic_Palette_Timer).w          ; $FFFFF65E
 		bpl.s	Offset_0x002B00
-		move.b	#$07,(Super_Sonic_Palette_Timer).w          ; $FFFFF65E
+		move.b	#8-1,(Super_Sonic_Palette_Timer).w          ; $FFFFF65E
 		lea	(Pal_SuperSonic_Cyc).l,a0               ; Offset_0x002BA0
 		move.w	(Super_Sonic_Palette_Frame).w,d0            ; $FFFFF65C
-		addq.w	#$08,(Super_Sonic_Palette_Frame).w          ; $FFFFF65C
-		cmpi.w	#$0078,(Super_Sonic_Palette_Frame).w        ; $FFFFF65C
+		addq.w	#8,(Super_Sonic_Palette_Frame).w          ; $FFFFF65C
+		cmpi.w	#$78,(Super_Sonic_Palette_Frame).w        ; $FFFFF65C
 		bcs.s	Offset_0x002B78
-		move.w	#$0030,(Super_Sonic_Palette_Frame).w        ; $FFFFF65C
+		move.w	#$30,(Super_Sonic_Palette_Frame).w        ; $FFFFF65C
 Offset_0x002B78:
-		lea	(Palette_Row_0_Offset+$04).w,a1             ; $FFFFED04
+		lea	(Palette_Row_0_Offset+4).w,a1             ; $FFFFED04
 		move.l	(A0,d0),(A1)+
-		move.w	$04(A0,d0),(A1)
+		move.w	4(A0,d0),(A1)
 		lea	(Pal_SuperSonic_Underwater_Cyc).l,a0    ; Offset_0x002C20
 		tst.b	(Water_Level_Flag).w                         ; $FFFFF730
 		beq.w	Offset_0x002B00
-		lea	(Palette_UW_Row_0_Offset+$04).w,a1          ; $FFFFF084
+		lea	(Palette_UW_Row_0_Offset+4).w,a1          ; $FFFFF084
 		move.l	(A0,d0),(A1)+
-		move.w	$04(A0,d0),(A1)
+		move.w	4(A0,d0),(A1)
 		rts
 ;-------------------------------------------------------------------------------
 Pal_SuperSonic_Cyc:                                            ; Offset_0x002BA0
@@ -3826,38 +3826,38 @@ Pal_DecColor:                                                  ; Offset_0x002E36
 		beq.s	Pal_NoDec                              ; Offset_0x002E62
 Pal_DecRed:
 		move.w	D2,d1
-		andi.w	#$000E,d1
+		andi.w	#$E,d1
 		beq.s	Pal_DecGreen                           ; Offset_0x002E46
-		subq.w	#$02,(A0)+
+		subq.w	#2,(A0)+
 		rts
 Pal_DecGreen:                                                  ; Offset_0x002E46
 		move.w	D2,d1
-		andi.w	#$00E0,d1
+		andi.w	#$E0,d1
 		beq.s	Pal_DecBlue                            ; Offset_0x002E54
-		subi.w	#$0020,(A0)+
+		subi.w	#$20,(A0)+
 		rts
 Pal_DecBlue:                                                   ; Offset_0x002E54
 		move.w	D2,d1
-		andi.w	#$0E00,d1
+		andi.w	#$E00,d1
 		beq.s	Pal_NoDec                              ; Offset_0x002E62
-		subi.w	#$0200,(A0)+
+		subi.w	#$200,(A0)+
 		rts
 Pal_NoDec:                                                     ; Offset_0x002E62
-		addq.w	#$02,a0
+		addq.w	#2,a0
 		rts
 ;-------------------------------------------------------------------------------
 Pal_MakeWhite: ; Usado pelo Special Stage                      ; Offset_0x002E66
-		move.w	#$003F,(Palette_Fade_Info).w                ; $FFFFF626
+		move.w	#$3F,(Palette_Fade_Info).w                ; $FFFFF626
 		moveq	#0,d0
 		lea	(Palette_Buffer).w,a0                       ; $FFFFED00
 		move.b	(Palette_Fade_Info).w,d0                    ; $FFFFF626
 		adda.w	D0,a0
-		move.w	#$0EEE,d1
+		move.w	#$EEE,d1
 		move.b	(Palette_Fade_Count).w,d0                   ; $FFFFF627
 Offset_0x002E80:
 		move.w	D1,(A0)+
 		dbf	D0, Offset_0x002E80
-		move.w	#$0015,d4
+		move.w	#$15,d4
 Offset_0x002E8A:
 		move.b	#$12,(VBlank_Index).w                       ; $FFFFF62A
 		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
@@ -3899,7 +3899,7 @@ Pal_DecColor_2:                                                ; Offset_0x002EE0
 		beq.s	Pal_NoDec_2                            ; Offset_0x002F0C
 Pal_DecBlue_2:                
 		move.w	D3,d1
-		subi.w	#$0200,d1
+		subi.w	#$200,d1
 		bcs.s	Pal_DecGreen_2                         ; Offset_0x002EF8
 		cmp.w	D2,d1
 		bcs.s	Pal_DecGreen_2                         ; Offset_0x002EF8
@@ -3907,22 +3907,22 @@ Pal_DecBlue_2:
 		rts
 Pal_DecGreen_2:                                                ; Offset_0x002EF8
 		move.w	D3,d1
-		subi.w	#$0020,d1
+		subi.w	#$20,d1
 		bcs.s	Pal_DecRed_2                           ; Offset_0x002F08
 		cmp.w	D2,d1
 		bcs.s	Pal_DecRed_2                           ; Offset_0x002F08
 		move.w	D1,(A0)+
 		rts
 Pal_DecRed_2:                                                  ; Offset_0x002F08
-		subq.w	#$02,(A0)+
+		subq.w	#2,(A0)+
 		rts
 Pal_NoDec_2:                                                   ; Offset_0x002F0C
-		addq.w	#$02,a0
+		addq.w	#2,a0
 		rts
 ;-------------------------------------------------------------------------------
 Pal_MakeFlash:  ; Usado pelo Special Stage                     ; Offset_0x002F10
-		move.w	#$003F,(Palette_Fade_Info).w                ; $FFFFF626
-		move.w	#$0015,d4
+		move.w	#$3F,(Palette_Fade_Info).w                ; $FFFFF626
+		move.w	#$15,d4
 Offset_0x002F1A:
 		move.b	#$12,(VBlank_Index).w                       ; $FFFFF62A
 		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
@@ -3950,31 +3950,31 @@ Offset_0x002F56:
 		rts
 Pal_AddColor_2:                                                ; Offset_0x002F5E
 		move.w	(A0),d2
-		cmpi.w	#$0EEE,d2
+		cmpi.w	#$EEE,d2
 		beq.s	Pal_NoAdd_2                            ; Offset_0x002F9A
 Pal_AddRed_2:
 		move.w	D2,d1
-		andi.w	#$000E,d1
-		cmpi.w	#$000E,d1
+		andi.w	#$E,d1
+		cmpi.w	#$E,d1
 		beq.s	Pal_AddGreen_2                         ; Offset_0x002F76
-		addq.w	#$02,(A0)+
+		addq.w	#2,(A0)+
 		rts
 Pal_AddGreen_2:                                                ; Offset_0x002F76
 		move.w	D2,d1
-		andi.w	#$00E0,d1
-		cmpi.w	#$00E0,d1
+		andi.w	#$E0,d1
+		cmpi.w	#$E0,d1
 		beq.s	Pal_AddBlue_2                          ; Offset_0x002F88
-		addi.w	#$0020,(A0)+
+		addi.w	#$20,(A0)+
 		rts
 Pal_AddBlue_2:                                                 ; Offset_0x002F88
 		move.w	D2,d1
-		andi.w	#$0E00,d1
-		cmpi.w	#$0E00,d1
+		andi.w	#$E00,d1
+		cmpi.w	#$E00,d1
 		beq.s	Pal_NoAdd_2                            ; Offset_0x002F9A
-		addi.w	#$0200,(A0)+
+		addi.w	#$200,(A0)+
 		rts
 Pal_NoAdd_2:                                                   ; Offset_0x002F9A
-		addq.w	#$02,a0
+		addq.w	#2,a0
 		rts
 ;===============================================================================
 ; Rotinas para escurecer / clarear a tela progressivamente
@@ -4134,7 +4134,7 @@ Offset_0x00310C:
 		lea	(Obj_Player_Two).w,a1                       ; $FFFFB04A
 		move.l	#Obj_SegaSonic,(A1)     ; Offset_0x034488
 		move.b	#$4C,Obj_Subtype(A1)                            ; $002C
-		move.w	#$F0,(Demo_Timer).w                       ; $FFFFF614
+		move.w	#240,(Demo_Timer).w                       ; $FFFFF614
 		jsr	(Init_Sprite_Table).l                    ; Offset_0x011042
 		move.w	(VDP_Register_1_Command).w,d0               ; $FFFFF60E
 		ori.b	#$40,d0
@@ -4150,7 +4150,7 @@ Offset_0x003154:
 		bsr.w	PlaySound                             ; Offset_0x001176
 		move.b	#2,(VBlank_Index).w                       ; $FFFFF62A
 		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
-		move.w	#$B4,(Demo_Timer).w                       ; $FFFFF614
+		move.w	#180,(Demo_Timer).w                       ; $FFFFF614
 Offset_0x003186:
 		move.b	#$14,(VBlank_Index).w                       ; $FFFFF62A
 		bsr.w	Wait_For_VSync                         ; Offset_0x001AEE
@@ -4158,7 +4158,7 @@ Offset_0x003186:
 		beq.s	Offset_0x0031A4
 		move.b	(Control_Ports_Buffer_Data+1).w,d0      ; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0      ; $FFFFF607
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		beq.s	Offset_0x003186
 Offset_0x0031A4:
 		clr.w	(PalCycle_Done_Flag).w                       ; $FFFFF660
@@ -4169,13 +4169,13 @@ Offset_0x0031B4:
 		lea	(VDP_Data_Port),a6                          ; $00C00000
 		move.l	#$1000000,d4
 Offset_0x0031C0:
-		move.l	D0,4(A6)
-		move.w	D1,d3
+		move.l	d0,4(a6)
+		move.w	d1,d3
 Offset_0x0031C6:
-		move.w	(A1)+,(A6)
-		dbf	D3, Offset_0x0031C6
-		add.l	D4,d0
-		dbf	D2, Offset_0x0031C0
+		move.w	(a1)+,(a6)
+		dbf	d3,Offset_0x0031C6
+		add.l	d4,d0
+		dbf	d2,Offset_0x0031C0
 		rts
 ;===============================================================================
 ; Logo da SEGA
@@ -4238,14 +4238,14 @@ TitleScreen:
 		jsr	(QueueDMATransfer).l
 		move.l	(a2)+,a0
 		lea	(Palette_Row_3_Offset).w,a1
-		moveq	#7,d0
+		moveq	#bytesToLcnt($20),d0
 
 Offset_0x0032EE:
 		move.l	(a0)+,(a1)+
 		dbf	D0, Offset_0x0032EE
 		lea	(M68K_RAM_Start+$4000).l,a1
 		moveq	#0,d0
-		move.w	#$4FF,d1
+		move.w	#bytesToLcnt($1400),d1
 
 Offset_0x003300:
 		move.l	d0,(a1)+
@@ -4308,7 +4308,7 @@ TitleScreen_Loop:
 		beq.w	TitleScreen_Demo
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		beq.w	TitleScreen_Loop
 		move.b	#gm_PlayMode,(Game_Mode).w
 		move.b	#3,(Life_count).w
@@ -4340,21 +4340,21 @@ TitleScreen_Loop:
 		beq.s	TitleScreen_ClrSpecStg
 		move.b	#gm_Level_Select_Menu,(Game_Mode).w
 ; TitleScreen_SonicAndTails:
-		btst	#Btn_A,(Control_Ports_Buffer_Data).w
+		btst	#button_A,(Control_Ports_Buffer_Data).w
 		beq.s	TitleScreen_SonicAlone
 		move.w	#Sonic_And_Miles,(Player_Select_Flag).w
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x003466:
 TitleScreen_SonicAlone:
-		btst	#Btn_B,(Control_Ports_Buffer_Data).w
+		btst	#button_B,(Control_Ports_Buffer_Data).w
 		beq.s	TitleScreen_TailsAlone
 		move.w	#Sonic_Alone,(Player_Select_Flag).w
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x003476:
 TitleScreen_TailsAlone:
-		btst	#Btn_C,(Control_Ports_Buffer_Data).w
+		btst	#button_C,(Control_Ports_Buffer_Data).w
 		beq.s	Offset_0x003486
 		move.w	#Miles_Alone,(Player_Select_Flag).w
 		rts
@@ -4448,7 +4448,7 @@ LevelSelectCheat:
 		move.w	(Secret_Code_Input_Entries).w,d0
 		adda.w	d0,a0
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
-		andi.b	#$F,d0
+		andi.b	#button_up_mask+button_down_mask+button_left_mask+button_right_mask,d0
 		beq.s	Offset_0x003590
 		cmp.b	(a0),d0
 		bne.s	Code_NoMatch
@@ -4470,12 +4470,12 @@ Offset_0x003590:
 ; ===========================================================================
 ; Offset_0x003592: Secret_Code_Sequence:
 LevelSelect_Inputs:
-		dc.b	Btn_Up+1
-		dc.b	Btn_Up+1
-		dc.b	Btn_Down+1
-		dc.b	Btn_Down+1
-		dc.b	Btn_Up+1
-		dc.b	Btn_Up+1
+		dc.b	button_up_mask
+		dc.b	button_up_mask
+		dc.b	button_down_mask
+		dc.b	button_down_mask
+		dc.b	button_up_mask
+		dc.b	button_up_mask
 		dc.b	0
 		even
 ; ===========================================================================
@@ -4488,7 +4488,7 @@ VInt_Title_Screen:                                             ; Offset_0x00359A
 		bcs.s	Offset_0x0035B4
 		move.b	#2,(Title_Screen_Animate_Delay).w         ; $FFFFFFBD
 Offset_0x0035B4:
-		lea	(Palette_Data_Target+$40).w,a0              ; $FFFFEDC0
+		lea	(Palette_Row_2_Data_Target).w,a0              ; $FFFFEDC0
 		lea	(Palette_Row_2_Offset).w,a1                 ; $FFFFED40
 		moveq	#bytesToLcnt($20),d0
 Offset_0x0035BE:
@@ -4605,7 +4605,7 @@ Offset_0x0036DE:
 		andi.l	#$FFFFFF,d1
 		jsr	(QueueDMATransfer).l
 		move.l	(a2)+,a0
-		lea	(Palette_Data_Target+$40).w,a1
+		lea	(Palette_Row_2_Data_Target).w,a1
 		moveq	#bytesToLcnt($20),d0
 
 Offset_0x0036F2:
@@ -4845,7 +4845,7 @@ Level:
 
 Offset_0x0039B2:
 		clr.w	(Kos_decomp_queue_count).w
-		clearRAM	Kos_decomp_stored_registers,Kos_decomp_stored_registers+$6C
+		clearRAM	Kos_decomp_stored_registers,Kos_module_queue_End
 		bsr.w	ClearPLC
 		bsr.w	Pal_FadeToBlack
 		tst.w	(Auto_Control_Player_Flag).w
@@ -5169,7 +5169,7 @@ Offset_0x003E78:
 		move.b	#gm_SEGALogo,(Game_Mode).w             ; $00, $FFFFF600
 		rts
 Offset_0x003E88:
-		move.w	#$3C,(Demo_Timer).w                       ; $FFFFF614
+		move.w	#60,(Demo_Timer).w                       ; $FFFFF614
 		move.w	#$3F,(Palette_Fade_Info).w                ; $FFFFF626
 		clr.w	(Demo_Pal_FadeOut_Counter).w                 ; $FFFFF794
 Offset_0x003E98:
@@ -5265,7 +5265,7 @@ Offset_0x003FEE:
 		move.b	#gm_SEGALogo,(Game_Mode).w             ; $00, $FFFFF600
 		rts
 Offset_0x003FFE:
-		move.w	#$3C,(Demo_Timer).w                       ; $FFFFF614
+		move.w	#60,(Demo_Timer).w                       ; $FFFFF614
 		move.w	#$3F,(Palette_Fade_Info).w                ; $FFFFF626
 		clr.w	(Demo_Pal_FadeOut_Counter).w                 ; $FFFFF794
 Offset_0x00400E:
@@ -5296,7 +5296,7 @@ Offset_0x004050:
 
 ; Offset_0x004058: Init_Player_Selected:
 Level_SetPlayerMode:
-		cmpi.b	#$80|gm_DemoMode,(Game_Mode).w
+		cmpi.b	#$80+gm_DemoMode,(Game_Mode).w
 		beq.s	Offset_0x00406E
 		tst.w	(Two_Player_Flag).w
 		bne.s	Offset_0x00406E
@@ -5498,22 +5498,22 @@ Offset_0x004236:
 ; ->>>
 ;-------------------------------------------------------------------------------
 Water_Height_Array:                                            ; Offset_0x00423C
-		dc.w	$0504, $0528 ; AIz
-		dc.w	$0500, $0700 ; Hz
-		dc.w	$0600, $0600 ; MGz
-		dc.w	$0600, $0A90 ; CNz
-		dc.w	$0600, $0600 ; FBz
-		dc.w	$0600, $0600 ; Iz
-		dc.w	$0A80, $065E ; LBz
-		dc.w	$0600, $0600 ; MVz
-		dc.w	$0600, $0600 ; Sz
-		dc.w	$0600, $0600 ; LRz
-		dc.w	$0600, $0600 ; SSz
-		dc.w	$0600, $0600 ; DEz
-		dc.w	$0600, $0600 ; TDz
-		dc.w	$0600, $0710 ; Ending
-		dc.w	$0600, $0600 ; ALz
-		dc.w	$0410, $0510 ; BPz
+		dc.w	$504, $528 ; AIz
+		dc.w	$500, $700 ; Hz
+		dc.w	$600, $600 ; MGz
+		dc.w	$600, $A90 ; CNz
+		dc.w	$600, $600 ; FBz
+		dc.w	$600, $600 ; Iz
+		dc.w	$A80, $65E ; LBz
+		dc.w	$600, $600 ; MVz
+		dc.w	$600, $600 ; Sz
+		dc.w	$600, $600 ; LRz
+		dc.w	$600, $600 ; SSz
+		dc.w	$600, $600 ; DEz
+		dc.w	$600, $600 ; TDz
+		dc.w	$600, $710 ; Ending
+		dc.w	$600, $600 ; ALz
+		dc.w	$410, $510 ; BPz
 ;-------------------------------------------------------------------------------
 Dynamic_Water_Height:                                          ; Offset_0x00427C
 		moveq	#0,d0
@@ -5606,15 +5606,15 @@ Dynamic_Hz1_Water:                                             ; Offset_0x00434A
 		bra.s	Offset_0x0043A2
 ;-------------------------------------------------------------------------------
 Offset_0x004352:
-		dc.b	$85, $00, $09, $00, $86, $80, $2A, $00
-		dc.b	$86, $00, $35, $00, $86, $A0, $FF, $FF
+		dc.w	$8500, $900, $8680, $2A00
+		dc.w	$8600, $3500, $86A0, $FFFF
 ;-------------------------------------------------------------------------------
 Dynamic_Hz2_Water:                                             ; Offset_0x004362
 		lea	(Offset_0x00436A).l,a1
 		bra.s	Offset_0x0043A2
 ;-------------------------------------------------------------------------------
 Offset_0x00436A:
-		dc.b	$07, $00, $3E, $00, $07, $E0, $FF, $FF
+		dc.w	$700, $3E00, $7E0, $FFFF
 ;-------------------------------------------------------------------------------
 Dynamic_MGz1_Water:                                            ; Offset_0x004372
 Dynamic_MGz2_Water:
@@ -5631,9 +5631,9 @@ Dynamic_LBz1_Water:                                            ; Offset_0x004374
 		bra.s	Offset_0x0043A2
 ;-------------------------------------------------------------------------------
 Offset_0x00437C:
-		dc.b	$8B, $00, $0E, $00, $8A, $00, $19, $80
-		dc.b	$8A, $00, $23, $40, $8A, $C8, $2C, $00
-		dc.b	$8F, $F0, $FF, $FF
+		dc.w	$8B00, $E00, $8A00, $1980
+		dc.w	$8A00, $2340, $8AC8, $2C00
+		dc.w	$8FF0, $FFFF
 ;-------------------------------------------------------------------------------
 Dynamic_LBz2_Water:                                            ; Offset_0x004390
 Dynamic_MHz1_Water:
@@ -5758,21 +5758,21 @@ Offset_0x0044A6:
 ;-------------------------------------------------------------------------------
 Hz_Wind_Tunnels_Data:                                          ; Offset_0x0044A8
 		dc.w	15-1
-		dc.w	$0380, $0580, $05A0, $05C0, $03F0, $FFE0, $0000
-		dc.w	$05A0, $0560, $0A80, $05C0, $03F0, $FFF0, $0000
-		dc.w	$1400, $0A80, $15A0, $0AC0, $0400, $0000, $0000
-		dc.w	$15A0, $0A40, $1960, $0AC0, $0400, $FFC0, $0000
-		dc.w	$1960, $0A10, $19D0, $0A80, $0300, $FD80, $0100
-		dc.w	$1990, $0978, $19F0, $0A10, $0080, $FC00, $0100
-		dc.w	$1990, $08F8, $19F0, $0978, $FEC0, $FC00, $0100
-		dc.w	$1990, $0878, $19F0, $08F8, $0140, $FC00, $0100
-		dc.w	$1990, $07F0, $19F0, $0878, $FEC0, $FC00, $0100
-		dc.w	$1990, $0780, $19E0, $07F0, $0000, $FC00, $0100
-		dc.w	$2B00, $0800, $2C20, $0840, $0400, $0000, $0000
-		dc.w	$2C20, $07C0, $2EE0, $0840, $0400, $FFC0, $0000
-		dc.w	$2EE0, $0790, $2F50, $0800, $0300, $FD00, $0100
-		dc.w	$2F00, $0700, $2F70, $0790, $0100, $FC00, $0100
-		dc.w	$2F30, $0680, $2F70, $0700, $0000, $FC00, $0100
+		dc.w	$380, $580, $5A0, $5C0, $3F0, $FFE0, 0
+		dc.w	$5A0, $560, $A80, $5C0, $3F0, $FFF0, 0
+		dc.w	$1400, $A80, $15A0, $AC0, $400, 0, 0
+		dc.w	$15A0, $A40, $1960, $AC0, $400, $FFC0, 0
+		dc.w	$1960, $A10, $19D0, $A80, $300, $FD80, $100
+		dc.w	$1990, $978, $19F0, $A10, $80, $FC00, $100
+		dc.w	$1990, $8F8, $19F0, $978, $FEC0, $FC00, $100
+		dc.w	$1990, $878, $19F0, $8F8, $140, $FC00, $100
+		dc.w	$1990, $7F0, $19F0, $878, $FEC0, $FC00, $100
+		dc.w	$1990, $780, $19E0, $7F0, 0, $FC00, $100
+		dc.w	$2B00, $800, $2C20, $840, $400, 0, 0
+		dc.w	$2C20, $7C0, $2EE0, $840, $400, $FFC0, 0
+		dc.w	$2EE0, $790, $2F50, $800, $300, $FD00, $100
+		dc.w	$2F00, $700, $2F70, $790, $100, $FC00, $100
+		dc.w	$2F30, $680, $2F70, $700, 0, $FC00, $100
 ;-------------------------------------------------------------------------------
 Level_Slides:                                                  ; Offset_0x00457C
 		cmpi.w	#Hz_Act_2,(Current_ZoneAndAct).w               ; $0101, $FFFFFE10
@@ -5933,29 +5933,48 @@ Iz_Slide_Tile_Data:                                            ; Offset_0x004724
 ; <<<-
 ;===============================================================================
 AIz_1_Water_Transistion:                                       ; Offset_0x00472E
-		dc.w	$000F
+		dc.w	bytesToWcnt(AIz_1_Water_Transistion_End-AIz_1_Water_Transistion_Start)
+
+AIz_1_Water_Transistion_Start:
 		dc.w	$0002, $0068, $0062, $0042, $0048, $004E, $0054, $0008
 		dc.w	$000E, $0014, $001A, $0034, $0022, $003A, $002E, $0028
+AIz_1_Water_Transistion_End
+
 AIz_2_Water_Transistion:                                       ; Offset_0x004750
-		dc.w	$0012
+		dc.w	bytesToWcnt(AIz_2_Water_Transistion_End-AIz_2_Water_Transistion_Start)
+
+AIz_2_Water_Transistion_Start:
 		dc.w	$006E, $0068, $0002, $0048, $0042, $004E, $005A, $0054
 		dc.w	$0062, $0074, $0008, $000E, $0014, $001A, $0034, $0022
 		dc.w	$003A, $002E, $0028
+AIz_2_Water_Transistion_End
+
 Hz_Water_Transistion:                                          ; Offset_0x004778
-		dc.w	$0013
+		dc.w	bytesToWcnt(Hz_Water_Transistion_End-Hz_Water_Transistion_Start)
+
+Hz_Water_Transistion_Start:
 		dc.w	$0002, $0074, $0062, $0068, $006E, $0042, $0048, $007A
 		dc.w	$005A, $0054, $0008, $000E, $0014, $001A, $002E, $0034
 		dc.w	$0028, $003A, $0022, $004E
+Hz_Water_Transistion_End
+
 LBz_2_Water_Transistion:                                       ; Offset_0x0047A2
-		dc.w	$0013  
+		dc.w	bytesToWcnt(LBz_2_Water_Transistion_End-LBz_2_Water_Transistion_Start)
+
+LBz_2_Water_Transistion_Start:
 		dc.w	$0002, $006E, $0068, $007A, $0062, $0074, $0042, $0048
 		dc.w	$005A, $0054, $0008, $000E, $0014, $001A, $002E, $0034
 		dc.w	$0028, $003A, $0022, $004E
+LBz_2_Water_Transistion_End
+
 ; Offset_0x0047CC:
-		dc.w	$0013
+		dc.w	bytesToWcnt(Unused_Water_Transistion_End-Unused_Water_Transistion_Start)
+
+Unused_Water_Transistion_Start:
 		dc.w	$0002, $0008, $000E, $0014, $001A, $0042, $0048, $004E
 		dc.w	$0054, $005A, $0062, $0068, $006E, $0074, $007A, $0022
 		dc.w	$0028, $002E, $0034, $003A
+Unused_Water_Transistion_End
 ;===============================================================================
 ; Rotina de controle autom�tico do jogador usado no modo de demonstra��o
 ; ->>>
@@ -6012,7 +6031,7 @@ Offset_0x004882:
 Run_Demo_Mode:                                                 ; Offset_0x004884
 		move.b	(Control_Ports_Buffer_Data+1).w,d0        ; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0        ; $FFFFF607
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		beq.s	Offset_0x00489E
 		tst.w	(Auto_Control_Player_Flag).w                 ; $FFFFFFF0
 		bmi.s	Offset_0x00489E
@@ -6156,7 +6175,7 @@ Oscillate_Data_End:
 Oscillate_Num_Do:                                             ;  Offset_0x004A34
 		tst.w	(Two_Player_Flag).w                          ; $FFFFFFD8
 		bne.s	Offset_0x004A42
-		cmpi.b	#$06,(Obj_Player_One+Obj_Routine).w         ; $FFFFB005
+		cmpi.b	#6,(Obj_Player_One+Obj_Routine).w         ; $FFFFB005
 		bcc.s	Offset_0x004A88
 Offset_0x004A42:
 		lea	(Oscillate_Data_Buffer).w,a1                ; $FFFFFE5E
@@ -6598,8 +6617,8 @@ S2_Menus:                                                      ; Offset_0x0052CC
 		bsr.w	EnigmaDec                              ; Offset_0x00168A
 		lea	(M68K_RAM_Start).l,a1                         ; $FFFF0000
 		move.l	#$60000003,d0
-		moveq	#$27,d1
-		moveq	#$1B,d2
+		moveq	#40-1,d1
+		moveq	#28-1,d2
 		jsr	(PlaneMapToVRAM_H40).l                      ; Offset_0x0012BC
 		cmpi.b	#gm_S2_Options_Menu,(Game_Mode).w      ; $24, $FFFFF600
 		beq.w	OptionsMenu                           ; Offset_0x0056CA
@@ -6647,13 +6666,13 @@ Offset_0x0053F2:
 		moveq	#4,d0
 		bsr.w	PalLoad_ForFade                               ; Offset_0x002F9E
 		lea	(Palette_Row_2_Offset).w,a1                 ; $FFFFED40
-		lea	(Palette_Data_Target+$40).w,a2              ; $FFFFEDC0
+		lea	(Palette_Row_2_Data_Target).w,a2              ; $FFFFEDC0
 		moveq	#bytesToLcnt($20),d1
 Offset_0x005466:
 		move.l	(A1),(A2)+
 		clr.l	(A1)+
 		dbf	D1, Offset_0x005466
-		move.w	#$707,(Demo_Timer).w                       ; $FFFFF614
+		move.w	#(30*60)-1,(Demo_Timer).w                       ; $FFFFF614
 		clr.w	(Two_Player_Flag).w                          ; $FFFFFFD8
 		clr.l	(Camera_X).w                                 ; $FFFFEE78
 		clr.l	(Camera_Y).w                                 ; $FFFFEE7C
@@ -6675,7 +6694,7 @@ Offset_0x00549C:
 		jsr	(Dynamic_Normal).l                       ; Offset_0x01F2DE
 		move.b	(Control_Ports_Buffer_Data+1).w,d0      ; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0      ; $FFFFF607
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		bne.s	Offset_0x0054D8
 		bra.w	Offset_0x00549C
 Offset_0x0054D8:
@@ -6815,17 +6834,17 @@ Offset_0x005660:
 		bra.w	PlaneMapToVRAM_H40                        ; Offset_0x0012BC
 ;-------------------------------------------------------------------------------
 Level_Select_Text_2P:                                          ; Offset_0x00567C
-		dc.l	Map_Emerald_Hill                       ; Offset_0x00610E
-		dc.l	Map_Zone                               ; Offset_0x006150
+		dc.l	Text2P_EmeraldHill                       ; Offset_0x00610E
+		dc.l	Text2P_Zone                               ; Offset_0x006150
 		dc.w	$4104, $0003, $00FF, $0330
-		dc.l	Map_Mystic_Cave                        ; Offset_0x00611B
-		dc.l	Map_Zone                               ; Offset_0x006150
+		dc.l	Text2P_MysticCave                        ; Offset_0x00611B
+		dc.l	Text2P_Zone                               ; Offset_0x006150
 		dc.w	$412C, $0003, $05FF, $03A8
-		dc.l	Map_Casino_Night                       ; Offset_0x006128
-		dc.l	Map_Zone                               ; Offset_0x006150
+		dc.l	Text2P_CasinoNight                       ; Offset_0x006128
+		dc.l	Text2P_Zone                               ; Offset_0x006150
 		dc.w	$4784, $0003, $06FF, $03C0
-		dc.l	Map_Special                            ; Offset_0x006143
-		dc.l	Map_Stage                              ; Offset_0x006156
+		dc.l	Text2P_Special                            ; Offset_0x006143
+		dc.l	Text2P_Stage                              ; Offset_0x006156
 		dc.w	$47AC, $0003, $0CFF, $0450
 
 ; ---------------------------------------------------------------------------
@@ -6908,7 +6927,7 @@ OptionsMenu_Main:
 		jsr	(Dynamic_Normal).l
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		bne.s	OptionsMenu_Select
 		bra.w	OptionsMenu_Main
 ; ===========================================================================
@@ -6951,14 +6970,14 @@ OptionsMenu_Controls:
 		move.b	(Options_Menu_Cursor).w,d2
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0
-		btst	#0,d0
+		btst	#button_up,d0
 		beq.s	Offset_0x0057FA
 		subq.b	#1,d2
 		bcc.s	Offset_0x0057FA
 		move.b	#2,d2
 
 Offset_0x0057FA:
-		btst	#1,d0
+		btst	#button_down,d0
 		beq.s	Offset_0x00580A
 		addq.b	#1,d2
 		cmpi.b	#3,d2
@@ -6971,14 +6990,14 @@ Offset_0x00580A:
 		move.b	OptionsMenu_Choices(pc,d2.w),d3
 		move.l	OptionsMenu_Choices(pc,d2.w),a1
 		move.w	(a1),d2
-		btst	#2,d0
+		btst	#button_left,d0
 		beq.s	Offset_0x005826
 		subq.b	#1,d2
 		bcc.s	Offset_0x005826
 		move.b	d3,d2
 
 Offset_0x005826:
-		btst	#3,d0
+		btst	#button_right,d0
 		beq.s	Offset_0x005834
 		addq.b	#1,d2
 		cmp.b	d3,d2
@@ -6986,7 +7005,7 @@ Offset_0x005826:
 		moveq	#0,d2
 
 Offset_0x005834:
-		btst	#6,d0
+		btst	#button_A,d0
 		beq.s	OptionsMenu_PlaySound
 		addi.b	#$10,d2
 		cmp.b	d3,d2
@@ -7143,29 +7162,29 @@ Offset_0x0059AA:
 ; ===========================================================================
 ; Offset_0x0059B4: Menu_Options_Idx:
 OptionsMenu_Boxes:
-		dc.l	Map_Player_Select_Caption
+		dc.l	TextOptScr_PlayerSelect
 		dc.w	$4192, 3
-		dc.l	Map_Vs_Mode_Items_Caption
+		dc.l	TextOptScr_VsModeItems
 		dc.w	$4592, 3
-		dc.l	Map_Sound_Test_Caption
+		dc.l	TextOptScr_SoundTest
 		dc.w	$4992, 3
 ; Offset_0x0059CC: Map_Player_Select_Jap_Idx:
 OptionsText_PlayerSelect:
-		dc.l	Map_Sonic_And_Miles
-		dc.l	Map_Sonic_Alone
-		dc.l	Map_Miles_Alone
+		dc.l	TextOptScr_SonicAndMiles
+		dc.l	TextOptScr_SonicAlone
+		dc.l	TextOptScr_MilesAlone
 ; Offset_0x0059D8: Map_Player_Select_Idx:
 OptionsText_PlayerSelect2:
-		dc.l	Map_Sonic_And_Tails
-		dc.l	Map_Sonic_Alone
-		dc.l	Map_Tails_Alone
+		dc.l	TextOptScr_SonicAndTails
+		dc.l	TextOptScr_SonicAlone
+		dc.l	TextOptScr_TailsAlone
 ; Offset_0x0059E4: Map_Vs_Mode_Items_Idx:
 OptionsText_TwoPlayerItems:
-		dc.l	Map_All_Kinds_Items
-		dc.l	Map_Teleport_Only
+		dc.l	TextOptScr_AllKindsItems
+		dc.l	TextOptScr_TeleportOnly
 ; Offset_0x0059EC: Map_Sound_Test_Idx:
 OptionsText_SoundTest:
-		dc.l	Map_Sound_Test_Sound
+		dc.l	TextOptScr_0
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -7266,7 +7285,7 @@ Offset_0x005AE0:
 		clr.l	(a1)+
 		dbf	d1,Offset_0x005AE0
 
-		move.w	#$707,(Demo_Timer).w
+		move.w	#(30*60)-1,(Demo_Timer).w
 		clr.w	(Two_Player_Flag).w
 		clr.l	(Camera_X).w
 		clr.l	(Camera_Y).w
@@ -7300,7 +7319,7 @@ LevelSelect_Main:
 		jsr	(Dynamic_Normal).l
 		move.b	(Control_Ports_Buffer_Data+1).w,d0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0
-		andi.b	#$80,d0
+		andi.b	#button_start_mask,d0
 		bne.s	LevelSelect_PressStart
 		bra.w	LevelSelect_Main
 ; ===========================================================================
@@ -7392,7 +7411,7 @@ LevelSelect_LoadLevel:
 		move.b	d0,(Continue_count).w
 		move.l	#5000,(Next_Extra_Life_Score).w
 		move.l	#5000,(Next_Extra_Life_Score_P2).w
-		move.b	#sfx_EnterSS,d0
+		move.b	#cmd_FadeOutUnk,d0
 		jsr	(PlaySound).l
 		moveq	#0,d0
 		move.w	d0,(Two_Player_Flag_2).w
@@ -7425,14 +7444,14 @@ Offset_0x005CCC:
 		andi.b	#3,d1
 		beq.s	LevelSelect_CheckLR
 		move.w	(Level_Select_Menu_Cursor).w,d0
-		btst	#0,d1
+		btst	#button_up,d1
 		beq.s	Offset_0x005CEC
 		subq.w	#1,d0
 		bcc.s	Offset_0x005CEC
 		moveq	#$1C,d0
 
 Offset_0x005CEC:
-		btst	#1,d1
+		btst	#button_down,d1
 		beq.s	Offset_0x005CFC
 		addq.w	#1,d0
 		cmpi.w	#$1D,d0
@@ -7450,14 +7469,14 @@ LevelSelect_CheckLR:
 ; LevelSelect_SoundTest:
 		move.w	(Sound_Test_Sound).w,d0
 		move.b	(Control_Ports_Buffer_Data+1).w,d1
-		btst	#2,d1
+		btst	#button_left,d1
 		beq.s	Offset_0x005D1E
 		subq.b	#1,d0
 		bcc.s	Offset_0x005D1E
 		moveq	#0,d0
 
 Offset_0x005D1E:
-		btst	#3,d1
+		btst	#button_right,d1
 		beq.s	Offset_0x005D2E
 		addq.b	#1,d0
 		cmpi.w	#$100,d0
@@ -7465,14 +7484,14 @@ Offset_0x005D1E:
 		moveq	#0,d0
 
 Offset_0x005D2E:
-		btst	#6,d1
+		btst	#button_A,d1
 		beq.s	LevelSelect_PlaySound
 		addi.b	#$10,d0
 		andi.b	#$FF,d0
 ; Offset_0x005D3C:
 LevelSelect_PlaySound:
 		move.w	d0,(Sound_Test_Sound).w
-		btst	#5,d1
+		btst	#button_C,d1
 		beq.s	LevelSelect_MutePSG
 		move.w	(Sound_Test_Sound).w,d0
 		jsr	(PlaySound).l
@@ -7484,7 +7503,7 @@ LevelSelect_PlaySound:
 ; ---------------------------------------------------------------------------
 ; Offset_0x005D66:
 LevelSelect_MutePSG:
-		btst	#4,d1
+		btst	#button_B,d1
 		beq.s	Offset_0x005D76
 		move.w	#sfx_Error,d0		; incorrect sound ID... though not sure why we'd
 		jsr	(PlaySound).l		; need a sound command to mute PSG anyways
@@ -7512,12 +7531,12 @@ LevelSelect_SwitchTable:
 		dc.b	$1A, $1B, $1C, $1C, $1C, $1C, $1C, $1C
 		dc.b	$1C, $1C
 		; RIGHT SIDE
-		dc.b	$00, $01, $02, $03, $04, $05, $06, $07
-		dc.b	$08, $09, $0A, $0B
+		dc.b	0, 1, 2, 3, 4, 5, 6, 7
+		dc.b	8, 9, $A, $B
 ; ===========================================================================
 ; Offset_0x005DB0:
 LevelSelect_ChangeCharacter:
-		btst	#5,(Control_Ports_Buffer_Data+1).w
+		btst	#button_C,(Control_Ports_Buffer_Data+1).w
 		beq.s	Offset_0x005DCA
 		addq.b	#1,(Menu_Player_One_Cursor).w
 		cmpi.b	#3,(Menu_Player_One_Cursor).w
@@ -7525,7 +7544,7 @@ LevelSelect_ChangeCharacter:
 		move.b	#0,(Menu_Player_One_Cursor).w
 
 Offset_0x005DCA:
-		btst	#5,(Control_Ports_Buffer_Data+3).w
+		btst	#button_C,(Control_Ports_Buffer_Data+3).w
 		beq.s	Offset_0x005DE4
 		addq.b	#1,(Menu_Player_Two_Cursor).w
 		cmpi.b	#3,(Menu_Player_Two_Cursor).w
@@ -7738,106 +7757,72 @@ Offset_0x006042:
 
 ; ===========================================================================
 ; Offset_0x006044: S2_Code_Level_Select:
-S2LevelSelect_Cheat:	dc.b	$19,$65, 9,$17,0
+S2LevelSelect_Cheat:	dc.b	$19,$65,9,$17,0
 ; Offset_0x006049: S2_Code_14_Continues:
-S214Continues_Cheat:	dc.b	1, 1, 2, 4,0
+S214Continues_Cheat:	dc.b	1,1,2,4,0
 ; Offset_0x00604E: Code_Debug_Mode:
-DebugMode_Cheat:	dc.b	1, 3, 5, 7,0
+DebugMode_Cheat:	dc.b	1,3,5,7,0
 ; Offset_0x006053: Code_All_Emeralds:
-AllEmeralds_Cheat:	dc.b	2, 4, 5, 6,0
-; ---------------------------------------------------------------------------
-; First byte is the length of the string, make sure to change it if the
-; string itself ever changes length
+AllEmeralds_Cheat:	dc.b	2,4,5,6,0
 
-Map_Player_Select_Caption:                                     ; Offset_0x006058
-		dc.b	$10
-		dc.b	_st,__,_P,_L,_A,_Y,_E,_R,__,_S,_E,_L,_E,_C,_T,__,_st
-Map_Sonic_And_Miles:                                           ; Offset_0x00606A
-		dc.b	$0E
-		dc.b	_S,_O,_N,_I,_C,__,_A,_N,_D,__,_M,_I,_L,_E,_S
-Map_Sonic_And_Tails:                                           ; Offset_0x00607A
-		dc.b	$0E
-		dc.b	_S,_O,_N,_I,_C,__,_A,_N,_D,__,_T,_A,_I,_L,_S
-Map_Sonic_Alone:                                               ; Offset_0x00608A
-		dc.b	$0E
-		dc.b	_S,_O,_N,_I,_C,__,_A,_L,_O,_N,_E,__,__,__,__
-Map_Miles_Alone:                                               ; Offset_0x00609A
-		dc.b	$0E
-		dc.b	_M,_I,_L,_E,_S,__,_A,_L,_O,_N,_E,__,__,__,__
-Map_Tails_Alone:                                               ; Offset_0x0060AA
-		dc.b	$0E
-		dc.b	_T,_A,_I,_L,_S,__,_A,_L,_O,_N,_E,__,__,__,__
-;-------------------------------------------------------------------------------
-Map_Vs_Mode_Items_Caption:                                     ; Offset_0x0060BA
-		dc.b	$10
-		dc.b	_st,__,_V,_S,__,_M,_O,_D,_E,__,_I,_T,_E,_M,_S,__,_st
-Map_All_Kinds_Items:                                           ; Offset_0x0060CC
-		dc.b	$0E
-		dc.b	_A,_L,_L,__,_K,_I,_N,_D,_S,__,_I,_T,_E,_M,_S
-Map_Teleport_Only:                                             ; Offset_0x0060DC
-		dc.b	$0E
-		dc.b	_T,_E,_L,_E,_P,_O,_R,_T,__,_O,_N,_L,_Y,__,__
-;-------------------------------------------------------------------------------
-Map_Sound_Test_Caption:                                        ; Offset_0x0060EC
-		dc.b	$10
-		dc.b	_st,__,__,_S,_O,_U,_N,_D,__,_T,_E,_S,_T,__,__,__,_st
-Map_Sound_Test_Sound:                                          ; Offset_0x0060FE
-		dc.b	$0E
-		dc.b	__,__,__,__,__,__,_0,_0,__,__,__,__,__,__,__
-;-------------------------------------------------------------------------------
-; Offset_0x00610E:
-Map_Emerald_Hill:
-		dc.b	11,_E,_M,_E,_R,_A,_L,_D,__,_H,_I,_L,_L
-; Offset_0x00611B:
-Map_Mystic_Cave:
-		dc.b	11,__,_M,_Y,_S,_T,_I,_C,__,_C,_A,_V,_E
-; Offset_0x006128:
-Map_Casino_Night:
-		dc.b	11,_C,_A,_S,_I,_N,_O,__,_N,_I,_G,_H,_T
-; Offset_0x006135:
-Map_Special_Stage:
-		dc.b	12,_S,_P,_E,_C,_I,_A,_L,__,_S,_T,_A,_G,_E
-; Offset_0x006143:
-Map_Special:	dc.b	11,__,__,__,_S,_P,_E,_C,_I,_A,_L,__,__
-; Offset_0x006150:
-Map_Zone:	dc.b	4,_Z,_O,_N,_E,__
-; Offset_0x006156:
-Map_Stage:	dc.b	4,_S,_T,_A,_G,_E
-; Map_Game_Over:
-		dc.b	8,_G,_A,_M,_E,__,_O,_V,_E,_R
-; Map_Time_Over:
-		dc.b	8,_T,_I,_M,_E,__,_O,_V,_E,_R
-; Map_No_Game:
-		dc.b	6,_N,_O,__,_G,_A,_M,_E
-; Map_Tied:
-		dc.b	3,_T,_I,_E,_D
-; Map_1P:
-		dc.b	2,__,_1,_P
-; Map_2P:
-		dc.b	2,__,_2,_P
-; Map_Blank:
-		dc.b	3,__,__,__,__
+	; set the character set for menu text
+	charset '@',"\27\30\31\32\33\34\35\36\37\38\39\40\41\42\43\44\45\46\47\48\49\50\51\52\53\54\55"
+	charset '0',"\16\17\18\19\20\21\22\23\24\25"
+	charset '*',$1A
+	charset ':',$1C
+	charset '.',$1D
+	charset ' ',0
+
+	; options screen menu text
+TextOptScr_PlayerSelect:	menutxt	"* PLAYER SELECT *"
+TextOptScr_SonicAndMiles:	menutxt	"SONIC AND MILES"
+TextOptScr_SonicAndTails:	menutxt	"SONIC AND TAILS"
+TextOptScr_SonicAlone:		menutxt	"SONIC ALONE    "
+TextOptScr_MilesAlone:		menutxt	"MILES ALONE    "
+TextOptScr_TailsAlone:		menutxt	"TAILS ALONE    "
+TextOptScr_VsModeItems:		menutxt	"* VS MODE ITEMS *"
+TextOptScr_AllKindsItems:	menutxt	"ALL KINDS ITEMS"
+TextOptScr_TeleportOnly:	menutxt	"TELEPORT ONLY  "
+TextOptScr_SoundTest:		menutxt	"*  SOUND TEST   *"
+TextOptScr_0:			menutxt	"      00       "
+
+	; Menu text
+Text2P_EmeraldHill:	menutxt	"EMERALD HILL"
+Text2P_MysticCave:	menutxt	" MYSTIC CAVE"
+Text2P_CasinoNight:	menutxt	"CASINO NIGHT"
+Text2P_SpecialStage:	menutxt	"SPECIAL STAGE"
+Text2P_Special:		menutxt	"   SPECIAL  "
+Text2P_Zone:		menutxt	"ZONE "
+Text2P_Stage:		menutxt	"STAGE"
+Text2P_GameOver:	menutxt	"GAME OVER"
+Text2P_TimeOver:	menutxt	"TIME OVER"
+Text2P_NoGame:		menutxt	"NO GAME"
+Text2P_Tied:		menutxt	"TIED"
+Text2P_1P:		menutxt	" 1P"
+Text2P_2P:		menutxt	" 2P"
+Text2P_Blank:		menutxt	"    "
 
 ; Offset_0x00618A: Menu_Level_Select_Text:
 LevelSelect_Names:
-		dc.b	11,_A,_N,_G,_E,_L,__,_I,_S,_L,_A,_N,_D
-		dc.b	8, _H,_Y,_D,_R,_O,_C,_I,_T,_Y
-		dc.b	12,_M,_A,_R,_B,_L,_E,__,_G,_A,_R,_D,_E,_N
-		dc.b	13,_C,_A,_R,_N,_I,_V,_A,_L,__,_N,_I,_G,_H,_T
-		dc.b	13,_F,_L,_Y,_I,_N,_G,__,_B,_A,_T,_T,_E,_R,_Y
-		dc.b	5, _I,_C,_E,_C,_A,_P 
-		dc.b	10,_L,_A,_U,_N,_C,_H,__,_B,_A,_S,_E 
-		dc.b	14,_M,_U,_S,_H,_R,_O,_O,_M,__,_V,_A,_L,_L,_E,_Y
+		menutxt "ANGEL ISLAND"
+		menutxt "HYDROCITY"
+		menutxt "MARBLE GARDEN"
+		menutxt "CARNIVAL NIGHT"
+		menutxt "FLYING BATTERY"
+		menutxt "ICECAP"
+		menutxt "LAUNCH BASE"
+		menutxt "MUSHROOM VALLEY"
 
-		dc.b	9, _S,_A,_N,_D,_O,_P,_O,_L,_I,_S
-		dc.b	4, _2,_P,__,_V,_S
-		dc.b	4, _2,_P,__,_V,_S 
-		dc.b	4, _2,_P,__,_V,_S
-		dc.b	4, _B,_O,_N,_U,_S
-		dc.b	12,_S,_P,_E,_C,_I,_A,_L,__,_S,_T,_A,_G,_E
-		dc.b	12,_S,_O,_U,_N,_D,__,_T,_E,_S,_T,__,__,_st
+		menutxt "SANDOPOLIS"
+		menutxt "2P VS"
+		menutxt "2P VS"
+		menutxt "2P VS"
+		menutxt "BONUS"
+		menutxt "SPECIAL STAGE"
+		menutxt "SOUND TEST  *"
 		even
 
+	charset ; reset character set
 ; ---------------------------------------------------------------------------
 ; Offset_0x006230: Pal_Levels_Icons:
 Palette_S2LevelIcons:		binclude	"data/menus/lvsicons.pal"
@@ -7921,8 +7906,8 @@ Offset_0x0066BA:
 		bsr.w	NemesisDec                             ; Offset_0x001390
 		lea	(Special_Stage_Globe_Mappings).l,a1     ; Offset_0x10BFEE
 		move.l	#$40000003,d0
-		moveq	#$27,d1
-		moveq	#$1B,d2
+		moveq	#40-1,d1
+		moveq	#28-1,d2
 		jsr	(PlaneMapToVRAM_H40).l                      ; Offset_0x0012BC
 		move.l	#Obj_Spheres,(Obj_Player_One).w ; Offset_0x006874, $FFFFB000
 		move.w	#$A0,(Obj_Player_One+Obj_X).w             ; $FFFFB010
@@ -8959,14 +8944,9 @@ Offset_0x008960:
 ; ->>>
 ;===============================================================================
 Load_Rings_Layout:                                             ; Offset_0x008966
-		lea	(Ring_Status_Table).w,a1                    ; $FFFFE900
-		moveq	#0,d0
-		move.w	#$FF,d1
-Offset_0x008970:
-		move.l	D0,(A1)+
-		dbf	D1, Offset_0x008970
+		clearRAM	Ring_Status_Table,Ring_Status_Table_End
 		lea	(Ring_Consumption_Table).w,a1               ; $FFFFEF80
-		moveq	#$1F,d1
+		moveq	#bytesToLcnt(Ring_Consumption_Table_End-Ring_Consumption_Table),d1
 Offset_0x00897C:
 		move.l	D0,(A1)+
 		dbf	D1, Offset_0x00897C
@@ -9918,38 +9898,11 @@ Floor_Check_Tile_2:                                            ; Offset_0x009500
 ; ->>>
 ;-------------------------------------------------------------------------------
 Chunk_Mem_Address:                                             ; Offset_0x00953A
-		dc.w	$0000, $0080, $0100, $0180, $0200, $0280, $0300, $0380
-		dc.w	$0400, $0480, $0500, $0580, $0600, $0680, $0700, $0780
-		dc.w	$0800, $0880, $0900, $0980, $0A00, $0A80, $0B00, $0B80
-		dc.w	$0C00, $0C80, $0D00, $0D80, $0E00, $0E80, $0F00, $0F80
-		dc.w	$1000, $1080, $1100, $1180, $1200, $1280, $1300, $1380
-		dc.w	$1400, $1480, $1500, $1580, $1600, $1680, $1700, $1780
-		dc.w	$1800, $1880, $1900, $1980, $1A00, $1A80, $1B00, $1B80
-		dc.w	$1C00, $1C80, $1D00, $1D80, $1E00, $1E80, $1F00, $1F80
-		dc.w	$2000, $2080, $2100, $2180, $2200, $2280, $2300, $2380
-		dc.w	$2400, $2480, $2500, $2580, $2600, $2680, $2700, $2780
-		dc.w	$2800, $2880, $2900, $2980, $2A00, $2A80, $2B00, $2B80
-		dc.w	$2C00, $2C80, $2D00, $2D80, $2E00, $2E80, $2F00, $2F80
-		dc.w	$3000, $3080, $3100, $3180, $3200, $3280, $3300, $3380
-		dc.w	$3400, $3480, $3500, $3580, $3600, $3680, $3700, $3780
-		dc.w	$3800, $3880, $3900, $3980, $3A00, $3A80, $3B00, $3B80
-		dc.w	$3C00, $3C80, $3D00, $3D80, $3E00, $3E80, $3F00, $3F80
-		dc.w	$4000, $4080, $4100, $4180, $4200, $4280, $4300, $4380
-		dc.w	$4400, $4480, $4500, $4580, $4600, $4680, $4700, $4780
-		dc.w	$4800, $4880, $4900, $4980, $4A00, $4A80, $4B00, $4B80
-		dc.w	$4C00, $4C80, $4D00, $4D80, $4E00, $4E80, $4F00, $4F80
-		dc.w	$5000, $5080, $5100, $5180, $5200, $5280, $5300, $5380
-		dc.w	$5400, $5480, $5500, $5580, $5600, $5680, $5700, $5780
-		dc.w	$5800, $5880, $5900, $5980, $5A00, $5A80, $5B00, $5B80
-		dc.w	$5C00, $5C80, $5D00, $5D80, $5E00, $5E80, $5F00, $5F80
-		dc.w	$6000, $6080, $6100, $6180, $6200, $6280, $6300, $6380
-		dc.w	$6400, $6480, $6500, $6580, $6600, $6680, $6700, $6780
-		dc.w	$6800, $6880, $6900, $6980, $6A00, $6A80, $6B00, $6B80
-		dc.w	$6C00, $6C80, $6D00, $6D80, $6E00, $6E80, $6F00, $6F80
-		dc.w	$7000, $7080, $7100, $7180, $7200, $7280, $7300, $7380
-		dc.w	$7400, $7480, $7500, $7580, $7600, $7680, $7700, $7780
-		dc.w	$7800, $7880, $7900, $7980, $7A00, $7A80, $7B00, $7B80
-		dc.w	$7C00, $7C80, $7D00, $7D80, $7E00, $7E80, $7F00, $7F80
+c := 0
+	rept 256
+		dc.w	c
+c := c+$80
+	endm
 ;-------------------------------------------------------------------------------
 ; Tabela contendo os endere�os dos tiles 128x128 -> Ex: Tile 1 = $0080
 ; <<<-
@@ -11782,7 +11735,7 @@ Sonic_MdNormal_Checks:
 		; again. Likewise, if he's been waiting for so long that he's laying
 		; down, then make him play an animation of standing up.
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$70,d0
+		andi.b	#button_A_mask+button_B_mask+button_C_mask,d0
 		bne.s	Sonic_MdNormal
 		cmpi.b	#$A,Obj_Ani_Number(a0)
 		beq.s	Offset_0x00AEB6
@@ -11794,7 +11747,7 @@ Sonic_MdNormal_Checks:
 		bcs.s	Sonic_MdNormal
 		bsr.w	Sonic_SlopeResist
 		move.b	(Control_Ports_Logical_Data).w,d0
-		andi.b	#$7F,d0
+		andi.b	#button_A_mask+button_B_mask+button_C_mask+button_up_mask+button_down_mask+button_left_mask+button_right_mask,d0
 		beq.s	Offset_0x00AE9E
 		move.b	#$A,Obj_Ani_Number(a0)
 		cmpi.b	#$AC,Obj_Ani_Frame(a0)
@@ -11907,12 +11860,12 @@ Sonic_Move:
 		bmi.w	Sonic_Traction
 		tst.w	Obj_P_Horiz_Ctrl_Lock(a0)
 		bne.w	Sonic_ResetScr
-		btst	#2,(Control_Ports_Logical_Data).w	; is left being pressed?
+		btst	#button_left,(Control_Ports_Logical_Data).w	; is left being pressed?
 		beq.s	Sonic_NotLeft				; if not, branch
 		bsr.w	Offset_0x00B2A6
 ; Offset_0x00AF68:
 Sonic_NotLeft:
-		btst	#3,(Control_Ports_Logical_Data).w	; is right being pressed?
+		btst	#button_right,(Control_Ports_Logical_Data).w	; is right being pressed?
 		beq.s	Sonic_NotRight				; if not, branch
 		bsr.w	Offset_0x00B32C
 ; Offset_0x00AF74:
@@ -12078,7 +12031,7 @@ SuperSonic_SetBalanceAnim:
 ; ===========================================================================
 ; Offset_0x00B15E:
 Sonic_Lookup:
-		btst	#0,(Control_Ports_Logical_Data).w	; is up being pressed?
+		btst	#button_up,(Control_Ports_Logical_Data).w	; is up being pressed?
 		beq.s	Offset_0x00B188				; if not, branch
 		move.b	#7,Obj_Ani_Number(a0)			; use "looking up" animation
 		addq.b	#1,Obj_Look_Up_Down_Time(a0)
@@ -12092,7 +12045,7 @@ Sonic_Lookup:
 ; ---------------------------------------------------------------------------
 
 Offset_0x00B188:
-		btst	#1,(Control_Ports_Logical_Data).w	; is down being pressed?
+		btst	#button_down,(Control_Ports_Logical_Data).w	; is down being pressed?
 		beq.s	Sonic_ResetScr				; if not, branch
 		move.b	#8,Obj_Ani_Number(a0)			; use "ducking" animation
 		addq.b	#1,Obj_Look_Up_Down_Time(a0)
@@ -12129,7 +12082,7 @@ Sonic_UpdateSpeedOnGround:
 
 Offset_0x00B1D0:
 		move.b	(Control_Ports_Logical_Data).w,d0
-		andi.b	#$C,d0					; is left/right pressed?
+		andi.b	#button_left_mask+button_right_mask,d0					; is left/right pressed?
 		bne.s	Sonic_Traction				; if yes, branch
 		move.w	Obj_Inertia(a0),d0
 		beq.s	Sonic_Traction
@@ -12233,10 +12186,10 @@ Offset_0x00B2A6:
 		beq.s   Offset_0x00B2AE
 		bpl.s   Offset_0x00B2E0
 Offset_0x00B2AE:
-		bset    #0, Obj_Status(A0)		             ; $002A
+		bset    #0,Obj_Status(A0)		             ; $002A
 		bne.s   Offset_0x00B2C2
-		bclr    #5, Obj_Status(A0)		             ; $002A
-		move.b  #1, Obj_Ani_Flag(A0)		           ; $0021
+		bclr    #5,Obj_Status(A0)		             ; $002A
+		move.b  #1,Obj_Ani_Flag(A0)		           ; $0021
 Offset_0x00B2C2:
 		sub.w   D5,d0
 		move.w  D6,d1
@@ -12248,8 +12201,8 @@ Offset_0x00B2C2:
 		ble.s   Offset_0x00B2D4
 		move.w  D1,d0
 Offset_0x00B2D4:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
-		move.b  #0, Obj_Ani_Number(A0)		         ; $0020
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
+		move.b  #0,Obj_Ani_Number(A0)		         ; $0020
 		rts
 Offset_0x00B2E0:
 		sub.w   D4,d0
@@ -12263,23 +12216,23 @@ Offset_0x00B2E8:
 		bne.s   Offset_0x00B32A
 		cmpi.w  #$400,d0
 		blt.s   Offset_0x00B32A
-		move.b  #$D, Obj_Ani_Number(A0)		         ; $0020
-		bclr    #0, Obj_Status(A0)		             ; $002A
+		move.b  #$D,Obj_Ani_Number(A0)		         ; $0020
+		bclr    #0,Obj_Status(A0)		             ; $002A
 		move.w  #sfx_Skid,d0				; $0036
 		jsr     (PlaySound).l		           ; Offset_0x001176
-		cmpi.b  #$C, Obj_Subtype(A0)		            ; $002C
+		cmpi.b  #$C,Obj_Subtype(A0)		            ; $002C
 		bcs.s   Offset_0x00B32A
-		move.b  #6, Obj_Routine(A6)		            ; $0005
-		move.b  #$15, Obj_Map_Id(A6)		             ; $0022
+		move.b  #6,Obj_Routine(A6)		            ; $0005
+		move.b  #$15,Obj_Map_Id(A6)		             ; $0022
 Offset_0x00B32A:
 		rts
 Offset_0x00B32C:
 		move.w  Obj_Inertia(A0),d0		              ; $001C
 		bmi.s   Offset_0x00B360
-		bclr    #0, Obj_Status(A0)		             ; $002A
+		bclr    #0,Obj_Status(A0)		             ; $002A
 		beq.s   Offset_0x00B346
-		bclr    #5, Obj_Status(A0)		             ; $002A
-		move.b  #1, Obj_Ani_Flag(A0)		           ; $0021
+		bclr    #5,Obj_Status(A0)		             ; $002A
+		move.b  #1,Obj_Ani_Flag(A0)		           ; $0021
 Offset_0x00B346:
 		add.w   D5,d0
 		cmp.w   D6,d0
@@ -12289,29 +12242,29 @@ Offset_0x00B346:
 		bge.s   Offset_0x00B354
 		move.w  D6,d0
 Offset_0x00B354:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
-		move.b  #0, Obj_Ani_Number(A0)		         ; $0020
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
+		move.b  #0,Obj_Ani_Number(A0)		         ; $0020
 		rts
 Offset_0x00B360:
 		add.w   D4,d0
 		bcc.s   Offset_0x00B368
 		move.w  #$80,d0
 Offset_0x00B368:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
 		move.b  Obj_Angle(A0),d0				; $0026
 		addi.b  #$20,d0
 		andi.b  #$C0,d0
 		bne.s   Offset_0x00B3AA
 		cmpi.w  #-$400,d0
 		bgt.s   Offset_0x00B3AA
-		move.b  #$D, Obj_Ani_Number(A0)		         ; $0020
-		bset    #0, Obj_Status(A0)		             ; $002A
+		move.b  #$D,Obj_Ani_Number(A0)		         ; $0020
+		bset    #0,Obj_Status(A0)		             ; $002A
 		move.w  #sfx_Skid,d0				; $0036
 		jsr     (PlaySound).l		           ; Offset_0x001176
-		cmpi.b  #$C, Obj_Subtype(A0)		            ; $002C
+		cmpi.b  #$C,Obj_Subtype(A0)		            ; $002C
 		bcs.s   Offset_0x00B3AA
-		move.b  #6, Obj_Routine(A6)		            ; $0005
-		move.b  #$15, Obj_Map_Id(A6)		             ; $0022
+		move.b  #6,Obj_Routine(A6)		            ; $0005
+		move.b  #$15,Obj_Map_Id(A6)		             ; $0022
 Offset_0x00B3AA:
 		rts
 ;-------------------------------------------------------------------------------		
@@ -12325,11 +12278,11 @@ Sonic_RollSpeed:				               ; Offset_0x00B3AC
 		bmi.w   Offset_0x00B448
 		tst.w   Obj_P_Horiz_Ctrl_Lock(A0)		        ; $0032
 		bne.s   Offset_0x00B3E0
-		btst    #2,(Control_Ports_Logical_Data).w         ; $FFFFF602
+		btst    #button_left,(Control_Ports_Logical_Data).w         ; $FFFFF602
 		beq.s   Offset_0x00B3D4
 		bsr.w   Offset_0x00B48A
 Offset_0x00B3D4:
-		btst    #3,(Control_Ports_Logical_Data).w         ; $FFFFF602
+		btst    #button_right,(Control_Ports_Logical_Data).w         ; $FFFFF602
 		beq.s   Offset_0x00B3E0
 		bsr.w   Offset_0x00B4AE
 Offset_0x00B3E0:
@@ -12340,31 +12293,31 @@ Offset_0x00B3E0:
 		bcc.s   Offset_0x00B3F0
 		move.w  #0,d0
 Offset_0x00B3F0:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
 		bra.s   Offset_0x00B402
 Offset_0x00B3F6:
 		add.w   D5,d0
 		bcc.s   Offset_0x00B3FE
 		move.w  #0,d0
 Offset_0x00B3FE:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
 Offset_0x00B402:
 		tst.w   Obj_Inertia(A0)				  ; $001C
 		bne.s   Offset_0x00B448
 		tst.b   Obj_Player_Spdsh_Flag(A0)		        ; $003D
 		bne.s   Offset_0x00B436
-		bclr    #2, Obj_Status(A0)		             ; $002A
+		bclr    #2,Obj_Status(A0)		             ; $002A
 		move.b  Obj_Height_2(A0),d0		             ; $001E
 		move.b  Obj_Height_3(A0), Obj_Height_2(A0)        ; $001E, $0044
 		move.b  Obj_Width_3(A0), Obj_Width_2(A0)          ; $001F, $0045
-		move.b  #5, Obj_Ani_Number(A0)		         ; $0020
+		move.b  #5,Obj_Ani_Number(A0)		         ; $0020
 		sub.b   Obj_Height_3(A0),d0		             ; $0044
 		ext.w   D0
-		add.w   D0, Obj_Y(A0)				    ; $0014
+		add.w   D0,Obj_Y(A0)				    ; $0014
 		bra.s   Offset_0x00B448
 Offset_0x00B436:
-		move.w  #$400, Obj_Inertia(A0)		          ; $001C
-		btst    #0, Obj_Status(A0)		             ; $002A
+		move.w  #$400,Obj_Inertia(A0)		          ; $001C
+		btst    #0,Obj_Status(A0)		             ; $002A
 		beq.s   Offset_0x00B448
 		neg.w   Obj_Inertia(A0)				  ; $001C
 Offset_0x00B448:
@@ -12379,46 +12332,46 @@ Offset_0x00B454:
 		jsr	(CalcSine).l		             ; Offset_0x001B20
 		muls.w  Obj_Inertia(A0),d0		              ; $001C
 		asr.l   #8,d0
-		move.w  D0, Obj_Speed_Y(A0)		              ; $001A
+		move.w  D0,Obj_Speed_Y(A0)		              ; $001A
 		muls.w  Obj_Inertia(A0),d1		              ; $001C
 		asr.l   #8,d1
 		cmpi.w  #$1000,d1
 		ble.s   Offset_0x00B478
 		move.w  #$1000,d1
 Offset_0x00B478:
-		cmpi.w  #$F000,d1
+		cmpi.w  #-$1000,d1
 		bge.s   Offset_0x00B482
-		move.w  #$F000,d1
+		move.w  #-$1000,d1
 Offset_0x00B482:
-		move.w  D1, Obj_Speed_X(A0)		              ; $0018
+		move.w  D1,Obj_Speed_X(A0)		              ; $0018
 		bra.w	Sonic_CheckWallsOnGround
 Offset_0x00B48A:
 		move.w  Obj_Inertia(A0),d0		              ; $001C
 		beq.s   Offset_0x00B492
 		bpl.s   Offset_0x00B4A0
 Offset_0x00B492:
-		bset    #0, Obj_Status(A0)		             ; $002A
-		move.b  #2, Obj_Ani_Number(A0)		         ; $0020
+		bset    #0,Obj_Status(A0)		             ; $002A
+		move.b  #2,Obj_Ani_Number(A0)		         ; $0020
 		rts
 Offset_0x00B4A0:
 		sub.w   D4,d0
 		bcc.s   Offset_0x00B4A8
 		move.w  #-$80,d0
 Offset_0x00B4A8:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
 		rts
 Offset_0x00B4AE:
 		move.w  Obj_Inertia(A0),d0		              ; $001C
 		bmi.s   Offset_0x00B4C2
-		bclr    #0, Obj_Status(A0)		             ; $002A
-		move.b  #2, Obj_Ani_Number(A0)		         ; $0020
+		bclr    #0,Obj_Status(A0)		             ; $002A
+		move.b  #2,Obj_Ani_Number(A0)		         ; $0020
 		rts
 Offset_0x00B4C2:
 		add.w   D4,d0
 		bcc.s   Offset_0x00B4CA
 		move.w  #$80,d0
 Offset_0x00B4CA:
-		move.w  D0, Obj_Inertia(A0)		              ; $001C
+		move.w  D0,Obj_Inertia(A0)		              ; $001C
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -12435,7 +12388,7 @@ Sonic_ChgJumpDir:
 		btst	#4,Obj_Status(a0)			; did Sonic jump from rolling?
 		bne.s	Sonic_Jump_ResetScr			; if yes, branch to skip bidair control
 		move.w	Obj_Speed_X(a0),d0
-		btst	#2,(Control_Ports_Logical_Data).w	; is left being held?
+		btst	#button_left,(Control_Ports_Logical_Data).w	; is left being held?
 		beq.s	.jumpRight				; if not, branch
 
 		bset	#0,Obj_Status(a0)
@@ -12450,7 +12403,7 @@ Sonic_ChgJumpDir:
 		move.w	d1,d0					; limit speed in air going left, even if Sonic was already going faster (speed limit/cap)
 ; Offset_0x00B504:
 .jumpRight:
-		btst	#3,(Control_Ports_Logical_Data).w	; is right being held?
+		btst	#button_right,(Control_Ports_Logical_Data).w	; is right being held?
 		beq.s	Sonic_JumpMove				; if not, branch
 		bclr	#0,Obj_Status(a0)
 		add.w	d5,d0					; add acceleration to the right
@@ -12567,9 +12520,9 @@ Offset_0x00B5C4:
 		cmpi.w	#$80,d0					; is Sonic moving at $80 speed or faster?
 		bcs.s	Sonic_NoRoll				; if not, branch
 		move.b	(Control_Ports_Logical_Data).w,d0 
-		andi.b	#$C,d0					; is left/right being pressed?
+		andi.b	#button_left_mask+button_right_mask,d0	; is left/right being pressed?
 		bne.s	Sonic_NoRoll				; if yes, branch
-		btst	#1,(Control_Ports_Logical_Data).w	; is down being pressed?
+		btst	#button_down,(Control_Ports_Logical_Data).w	; is down being pressed?
 		bne.s	Sonic_ChkRoll				; if yes, branch
 ; Offset_0x00B5DC:
 Sonic_NoRoll:
@@ -12607,12 +12560,12 @@ Offset_0x00B61A:
 ; Offset_0x00B61C:
 Sonic_Jump:
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$70,d0					; is A/B/C pressed?
+		andi.b	#button_A_mask+button_B_mask+button_C_mask,d0	; is A/B/C pressed?
 		beq.w	Offset_0x00B6F0				; if not, branch
 		move.b	(Control_Ports_Logical_Data).w,d0
-		andi.b	#$D,d0
-		cmpi.b	#1,d0
-		bne.s	Offset_0x00B63C
+		andi.b	#button_up_mask+button_left_mask+button_right_mask,d0	; is up, left, or right being pressed?
+		cmpi.b	#button_up_mask,d0	; invalidate the previous check minus up
+		bne.s	Offset_0x00B63C	; if not, branch
 		move.w	#-1,(Dropdash_flag).w
 
 Offset_0x00B63C:
@@ -12693,10 +12646,10 @@ Sonic_JumpHeight:
 
 Offset_0x00B710:
 		cmp.w	Obj_Speed_Y(a0),d1			; if Sonic is not going up faster than d1, branch
-		ble.w	Sonic_ThrowRings			; this is altered from Sonic 2 to prevent the Super Sonic transformation,
-								; change the branch to B726 to re-enable him
+		ble.w	Sonic_ThrowRings			; this is altered from Sonic 2 to prevent the Super Sonic transformation, change the branch to Sonic_CheckGoSuper to re-enable him
+
 		move.b	(Control_Ports_Logical_Data).w,d0
-		andi.b	#$70,d0					; is A/B/C pressed?
+		andi.b	#button_A_mask+button_B_mask+button_C_mask,d0	; is A/B/C pressed?
 		bne.s	Offset_0x00B726				; if yes, branch
 		move.w	d1,Obj_Speed_Y(a0)			; immediately reduce Sonic's upward speed to d1
 
@@ -12743,7 +12696,7 @@ Sonic_CheckGoSuper:
 		move.w	#$A00,(a4)
 		move.w	#$30,Acceleration(a4)
 		move.w	#$100,Deceleration(a4)
-		move.b	#$0,Obj_P_Invcbility_Time(a0)
+		move.b	#0,Obj_P_Invcbility_Time(a0)
 		bset	#1,Obj_Player_Status(a0)
 		move.w	#signextendB(sfx_SuperTransform),d0
 		jsr	(PlaySound).l
@@ -12772,7 +12725,7 @@ Sonic_ThrowRings:
 		btst	#2,Obj_Status(a0)			; is Sonic rolling?
 		beq.w	Offset_0x00B8B6				; if not, branch
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$20,d0					; has C been pressed?
+		andi.b	#button_C_mask,d0		; has C been pressed?
 		beq.s	.notRolling				; if not, branch
 		move.w	Obj_Speed_X(a0),d2
 		bsr.w	AllocateObject
@@ -12803,7 +12756,7 @@ Sonic_ThrowRings:
 ; Offset_0x00B83A:
 .notRolling:
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$10,d0					; has B been pressed?
+		andi.b	#button_B_mask,d0			; has B been pressed?
 		beq.s	Offset_0x00B8B6				; if not, branch
 		move.w	Obj_Speed_X(a0),d2
 		bsr.w	AllocateObject
@@ -12855,10 +12808,10 @@ Sonic_HyperDash:
 		tst.w	(Dropdash_flag).w
 		bne.w	Offset_0x00B952
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$40,d0
+		andi.b	#button_A_mask,d0
 		beq.w	Offset_0x00B952
 		move.b	(Control_Ports_Logical_Data).w,d0
-		andi.w	#$F,d0
+		andi.w	#button_up_mask+button_down_mask+button_left_mask+button_right_mask,d0
 		beq.s	.noInput
 		lsl.w	#2,d0
 		lea	Sonic_HyperDash_Velocities(pc,d0.w),a1
@@ -13050,7 +13003,7 @@ Sonic_CheckSpindash:
 		cmpi.b	#8,Obj_Ani_Number(a0)
 		bne.s	Offset_0x00BB28
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$70,d0
+		andi.b	#button_A_mask+button_B_mask+button_C_mask,d0
 		beq.w	Offset_0x00BB28
 		move.b	#9,Obj_Ani_Number(a0)
 		move.w	#sfx_Roll,d0
@@ -13079,7 +13032,7 @@ Offset_0x00BB28:
 ; Offset_0x00BB2A:
 Sonic_UpdateSpindash:
 		move.b	(Control_Ports_Logical_Data).w,d0
-		btst	#1,d0
+		btst	#button_down,d0
 		bne.w	Sonic_ChargingSpindash
 		move.b	#$E,Obj_Height_2(a0)
 		move.b	#7,Obj_Width_2(a0)
@@ -13141,7 +13094,7 @@ Sonic_ChargingSpindash:
 
 Offset_0x00BBEE:
 		move.b	(Control_Ports_Logical_Data+1).w,d0
-		andi.b	#$70,d0
+		andi.b	#button_A_mask+button_B_mask+button_C_mask,d0
 		beq.w	Offset_0x00BC1E
 		move.w	#$900,Obj_Ani_Number(a0)
 		move.w	#sfx_Roll,d0
@@ -13183,11 +13136,11 @@ Sonic_SlopeResist:				             ; Offset_0x00BC36
 		bmi.s   Offset_0x00BC66
 		tst.w   D0
 		beq.s   Offset_0x00BC64
-		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		add.w   D0,Obj_Inertia(A0)		              ; $001C
 Offset_0x00BC64:
 		rts
 Offset_0x00BC66:
-		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		add.w   D0,Obj_Inertia(A0)		              ; $001C
 Offset_0x00BC6A:
 		rts
 Offset_0x00BC6C:
@@ -13197,7 +13150,7 @@ Offset_0x00BC6C:
 Offset_0x00BC72:
 		cmpi.w  #$D,d1
 		bcs.s   Offset_0x00BC6A
-		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		add.w   D0,Obj_Inertia(A0)		              ; $001C
 		rts
 ;-------------------------------------------------------------------------------
 Sonic_RollRepel:				               ; Offset_0x00BC7E
@@ -13215,14 +13168,14 @@ Sonic_RollRepel:				               ; Offset_0x00BC7E
 		bpl.s   Offset_0x00BCA8
 		asr.l   #2,d0
 Offset_0x00BCA8:
-		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		add.w   D0,Obj_Inertia(A0)		              ; $001C
 		rts
 Offset_0x00BCAE:
 		tst.w   D0
 		bmi.s   Offset_0x00BCB4
 		asr.l   #2,d0
 Offset_0x00BCB4:
-		add.w   D0, Obj_Inertia(A0)		              ; $001C
+		add.w   D0,Obj_Inertia(A0)		              ; $001C
 Offset_0x00BCB8:
 		rts
 ;-------------------------------------------------------------------------------
@@ -13247,19 +13200,19 @@ Offset_0x00BCDE:
 		addi.b  #$30,d0
 		cmpi.b  #$60,d0
 		bcs.s   Offset_0x00BD00
-		bset    #1, Obj_Status(A0)		             ; $002A
+		bset    #1,Obj_Status(A0)		             ; $002A
 Offset_0x00BCFE:
 		rts
 Offset_0x00BD00:
 		cmpi.b  #$30,d0
 		bcs.s   Offset_0x00BD0E
-		addi.w  #$80, Obj_Inertia(A0)		          ; $001C
+		addi.w  #$80,Obj_Inertia(A0)		          ; $001C
 		rts
 Offset_0x00BD0E:
-		subi.w  #$80, Obj_Inertia(A0)		          ; $001C
+		subi.w  #$80,Obj_Inertia(A0)		          ; $001C
 		rts
 Offset_0x00BD16:
-		subq.w  #1, Obj_P_Horiz_Ctrl_Lock(A0)		  ; $0032
+		subq.w  #1,Obj_P_Horiz_Ctrl_Lock(A0)		  ; $0032
 		rts
 ;-------------------------------------------------------------------------------
 Sonic_JumpAngle:				               ; Offset_0x00BD1C
@@ -13276,7 +13229,7 @@ Offset_0x00BD2C:
 		bcc.s   Offset_0x00BD32
 		moveq   #0,d0
 Offset_0x00BD32:
-		move.b  D0, Obj_Angle(A0)				; $0026
+		move.b  D0,Obj_Angle(A0)				; $0026
 Offset_0x00BD36:
 		move.b  Obj_Flip_Angle(A0),d0		           ; $0027
 		beq.s   Offset_0x00BD7A
@@ -13286,9 +13239,9 @@ Offset_0x00BD42:
 		move.b  Obj_Player_Flip_Speed(A0),d1		    ; $0031
 		add.b   D1,d0
 		bcc.s   Offset_0x00BD58
-		subq.b  #1, Obj_P_Flips_Remaining(A0)		  ; $0030
+		subq.b  #1,Obj_P_Flips_Remaining(A0)		  ; $0030
 		bcc.s   Offset_0x00BD58
-		move.b  #0, Obj_P_Flips_Remaining(A0)		  ; $0030
+		move.b  #0,Obj_P_Flips_Remaining(A0)		  ; $0030
 		moveq   #0,d0
 Offset_0x00BD58:
 		bra.s   Offset_0x00BD76
@@ -13298,12 +13251,12 @@ Offset_0x00BD5A:
 		move.b  Obj_Player_Flip_Speed(A0),d1		    ; $0031
 		sub.b   D1,d0
 		bcc.s   Offset_0x00BD76
-		subq.b  #1, Obj_P_Flips_Remaining(A0)		  ; $0030
+		subq.b  #1,Obj_P_Flips_Remaining(A0)		  ; $0030
 		bcc.s   Offset_0x00BD76
-		move.b  #0, Obj_P_Flips_Remaining(A0)		  ; $0030
+		move.b  #0,Obj_P_Flips_Remaining(A0)		  ; $0030
 		moveq   #0,d0
 Offset_0x00BD76:
-		move.b  D0, Obj_Flip_Angle(A0)		           ; $0027
+		move.b  D0,Obj_Flip_Angle(A0)		           ; $0027
 Offset_0x00BD7A:
 		rts
 ;-------------------------------------------------------------------------------
@@ -13328,14 +13281,14 @@ Offset_0x00BD90:
 		bsr.w   Player_HitWall		         ; Offset_0x00A0BC
 		tst.w   D1
 		bpl.s   Offset_0x00BDD4
-		sub.w   D1, Obj_X(A0)				    ; $0010
-		move.w  #0, Obj_Speed_X(A0)		          ; $0018
+		sub.w   D1,Obj_X(A0)				    ; $0010
+		move.w  #0,Obj_Speed_X(A0)		          ; $0018
 Offset_0x00BDD4:
 		bsr.w   Offset_0x009EC6
 		tst.w   D1
 		bpl.s   Offset_0x00BDE6
-		add.w   D1, Obj_X(A0)				    ; $0010
-		move.w  #0, Obj_Speed_X(A0)		          ; $0018
+		add.w   D1,Obj_X(A0)				    ; $0010
+		move.w  #0,Obj_Speed_X(A0)		          ; $0018
 Offset_0x00BDE6:
 		bsr.w   Player_Check_Floor		     ; Offset_0x009BD4
 		tst.w   D1
@@ -14030,42 +13983,42 @@ Offset_0x00C58E:
 		bra.w	Offset_0x00C33A      
 ;-------------------------------------------------------------------------------
 Sonic_Animate_Data:				            ; Offset_0x00C5A4
-		dc.w    Offset_0x00C5EC-Sonic_Animate_Data
-		dc.w    Offset_0x00C5F6-Sonic_Animate_Data
-		dc.w    Offset_0x00C600-Sonic_Animate_Data
-		dc.w    Offset_0x00C60A-Sonic_Animate_Data
-		dc.w    Offset_0x00C614-Sonic_Animate_Data
-		dc.w    Offset_0x00C61E-Sonic_Animate_Data
-		dc.w    Offset_0x00C6D4-Sonic_Animate_Data
-		dc.w    Offset_0x00C6DA-Sonic_Animate_Data
-		dc.w    Offset_0x00C6DF-Sonic_Animate_Data
-		dc.w    Offset_0x00C6E4-Sonic_Animate_Data
-		dc.w    Offset_0x00C6F0-Sonic_Animate_Data
-		dc.w    Offset_0x00C6F4-Sonic_Animate_Data
-		dc.w    Offset_0x00C6F8-Sonic_Animate_Data
-		dc.w    Offset_0x00C6FE-Sonic_Animate_Data
-		dc.w    Offset_0x00C705-Sonic_Animate_Data
-		dc.w    Offset_0x00C709-Sonic_Animate_Data
-		dc.w    Offset_0x00C710-Sonic_Animate_Data
-		dc.w    Offset_0x00C714-Sonic_Animate_Data
-		dc.w    Offset_0x00C718-Sonic_Animate_Data
-		dc.w    Offset_0x00C71E-Sonic_Animate_Data
-		dc.w    Offset_0x00C723-Sonic_Animate_Data
-		dc.w    Offset_0x00C727-Sonic_Animate_Data
-		dc.w    Offset_0x00C72E-Sonic_Animate_Data
-		dc.w    Offset_0x00C731-Sonic_Animate_Data
-		dc.w    Offset_0x00C734-Sonic_Animate_Data
-		dc.w    Offset_0x00C737-Sonic_Animate_Data
-		dc.w    Offset_0x00C737-Sonic_Animate_Data
-		dc.w    Offset_0x00C73A-Sonic_Animate_Data
-		dc.w    Offset_0x00C73E-Sonic_Animate_Data
-		dc.w    Offset_0x00C741-Sonic_Animate_Data
-		dc.w    Offset_0x00C745-Sonic_Animate_Data
-		dc.w    Offset_0x00C7D9-Sonic_Animate_Data
-		dc.w    Offset_0x00C74D-Sonic_Animate_Data
-		dc.w    Offset_0x00C751-Sonic_Animate_Data
-		dc.w    Offset_0x00C755-Sonic_Animate_Data
-		dc.w    Offset_0x00C75F-Sonic_Animate_Data
+		dc.w	Offset_0x00C5EC-Sonic_Animate_Data
+		dc.w	Offset_0x00C5F6-Sonic_Animate_Data
+		dc.w	Offset_0x00C600-Sonic_Animate_Data
+		dc.w	Offset_0x00C60A-Sonic_Animate_Data
+		dc.w	Offset_0x00C614-Sonic_Animate_Data
+		dc.w	Offset_0x00C61E-Sonic_Animate_Data
+		dc.w	Offset_0x00C6D4-Sonic_Animate_Data
+		dc.w	Offset_0x00C6DA-Sonic_Animate_Data
+		dc.w	Offset_0x00C6DF-Sonic_Animate_Data
+		dc.w	Offset_0x00C6E4-Sonic_Animate_Data
+		dc.w	Offset_0x00C6F0-Sonic_Animate_Data
+		dc.w	Offset_0x00C6F4-Sonic_Animate_Data
+		dc.w	Offset_0x00C6F8-Sonic_Animate_Data
+		dc.w	Offset_0x00C6FE-Sonic_Animate_Data
+		dc.w	Offset_0x00C705-Sonic_Animate_Data
+		dc.w	Offset_0x00C709-Sonic_Animate_Data
+		dc.w	Offset_0x00C710-Sonic_Animate_Data
+		dc.w	Offset_0x00C714-Sonic_Animate_Data
+		dc.w	Offset_0x00C718-Sonic_Animate_Data
+		dc.w	Offset_0x00C71E-Sonic_Animate_Data
+		dc.w	Offset_0x00C723-Sonic_Animate_Data
+		dc.w	Offset_0x00C727-Sonic_Animate_Data
+		dc.w	Offset_0x00C72E-Sonic_Animate_Data
+		dc.w	Offset_0x00C731-Sonic_Animate_Data
+		dc.w	Offset_0x00C734-Sonic_Animate_Data
+		dc.w	Offset_0x00C737-Sonic_Animate_Data
+		dc.w	Offset_0x00C737-Sonic_Animate_Data
+		dc.w	Offset_0x00C73A-Sonic_Animate_Data
+		dc.w	Offset_0x00C73E-Sonic_Animate_Data
+		dc.w	Offset_0x00C741-Sonic_Animate_Data
+		dc.w	Offset_0x00C745-Sonic_Animate_Data
+		dc.w	Offset_0x00C7D9-Sonic_Animate_Data
+		dc.w	Offset_0x00C74D-Sonic_Animate_Data
+		dc.w	Offset_0x00C751-Sonic_Animate_Data
+		dc.w	Offset_0x00C755-Sonic_Animate_Data
+		dc.w	Offset_0x00C75F-Sonic_Animate_Data
 Offset_0x00C5EC:
 		dc.b    $FF, $0F, $10, $11, $12, $13, $14, $0D
 		dc.b    $0E, $FF
@@ -14166,38 +14119,38 @@ Offset_0x00C75F:
 		even
 ;-------------------------------------------------------------------------------
 Super_Sonic_Animate_Data:				      ; Offset_0x00C768
-		dc.w    Offset_0x00C7A8-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C7B2-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C600-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C60A-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C7BC-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C7C6-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C7CC-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C6DA-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C7D6-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C6E4-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C6F0-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C6F4-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C6F8-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C6FE-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C705-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C709-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C710-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C714-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C718-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C71E-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C723-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C727-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C72E-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C731-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C734-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C737-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C737-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C73A-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C73E-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C741-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C745-Super_Sonic_Animate_Data
-		dc.w    Offset_0x00C7D9-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7A8-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7B2-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C600-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C60A-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7BC-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7C6-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7CC-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C6DA-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7D6-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C6E4-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C6F0-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C6F4-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C6F8-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C6FE-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C705-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C709-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C710-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C714-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C718-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C71E-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C723-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C727-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C72E-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C731-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C734-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C737-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C737-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C73A-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C73E-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C741-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C745-Super_Sonic_Animate_Data
+		dc.w	Offset_0x00C7D9-Super_Sonic_Animate_Data
 Offset_0x00C7A8:
 		dc.b    $FF, $77, $78, $79, $7A, $7B, $7C, $75
 		dc.b    $76, $FF
@@ -14264,10 +14217,10 @@ Offset_0x00C83C:
 
 ;-------------------------------------------------------------------------------  
 Sonic_Or_Knuckles_Animate_Sprite_2P:		           ; Offset_0x00C83E
-		lea     (Sonic_2P_AnimateData).l,a1             ; Offset_0x00CA8C
+		lea	(Sonic_2P_AnimateData).l,a1             ; Offset_0x00CA8C
 		tst.b   Obj_Player_Selected(A0)		          ; $0038
 		beq.s   Sonic_Or_Knuckles_Animate_Sprite_2P_A1 ; Offset_0x00C850
-		lea     (Knuckles_2P_AnimateData).l,a1          ; Offset_0x00CAD4
+		lea	(Knuckles_2P_AnimateData).l,a1          ; Offset_0x00CAD4
 Sonic_Or_Knuckles_Animate_Sprite_2P_A1:		        ; Offset_0x00C850
 		moveq   #0,d0
 		move.b  Obj_Ani_Number(A0),d0		           ; $0020
@@ -14423,10 +14376,10 @@ Offset_0x00C9FC:
 		bpl.s   Offset_0x00CA0C
 		neg.w   D2
 Offset_0x00CA0C:
-		lea     (Offset_0x00CB2E).l,a1
+		lea	(Offset_0x00CB2E).l,a1
 		cmpi.w  #$0600,d2
 		bcc.s   Offset_0x00CA1E
-		lea     (Offset_0x00CB28).l,a1
+		lea	(Offset_0x00CB28).l,a1
 Offset_0x00CA1E:
 		neg.w   D2
 		addi.w  #$400,d2
@@ -14466,80 +14419,80 @@ Offset_0x00CA72:
 		bra.w	Offset_0x00C898   
 ;-------------------------------------------------------------------------------
 Sonic_2P_AnimateData:				          ; Offset_0x00CA8C
-		dc.w    Offset_0x00CB1C-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB22-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB28-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB2E-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB34-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB5B-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB5E-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB62-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB69-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB6C-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB6F-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB73-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB76-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB79-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB7C-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB7F-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB82-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB85-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB88-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB8B-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB8B-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB8E-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB91-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB40-Sonic_2P_AnimateData
-		dc.w    Offset_0x00C7D9-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB94-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB97-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB9B-Sonic_2P_AnimateData
-		dc.w    Offset_0x00CB9E-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB1C-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB22-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB28-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB2E-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB34-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB5B-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB5E-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB62-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB69-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB6C-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB6F-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB73-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB76-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB79-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB7C-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB7F-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB82-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB85-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB88-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB8B-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB8B-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB8E-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB91-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB40-Sonic_2P_AnimateData
+		dc.w	Offset_0x00C7D9-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB94-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB97-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB9B-Sonic_2P_AnimateData
+		dc.w	Offset_0x00CB9E-Sonic_2P_AnimateData
 ;-------------------------------------------------------------------------------
 Knuckles_2P_AnimateData:				       ; Offset_0x00CAD4
-		dc.w    Offset_0x00CB1C-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB22-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB28-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB2E-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB3A-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB5B-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB5E-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB62-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB69-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB6C-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB6F-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB73-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB76-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB79-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB7C-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB7F-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB82-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB85-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB88-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB8B-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB8B-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB8E-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB91-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB40-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00C7D9-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB94-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB97-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB9B-Knuckles_2P_AnimateData
-		dc.w    Offset_0x00CB9E-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB1C-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB22-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB28-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB2E-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB3A-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB5B-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB5E-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB62-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB69-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB6C-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB6F-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB73-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB76-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB79-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB7C-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB7F-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB82-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB85-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB88-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB8B-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB8B-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB8E-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB91-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB40-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00C7D9-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB94-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB97-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB9B-Knuckles_2P_AnimateData
+		dc.w	Offset_0x00CB9E-Knuckles_2P_AnimateData
 ;-------------------------------------------------------------------------------
 Offset_0x00CB1C:
 		dc.b    $FF, $01, $02, $03, $02, $FF
@@ -15330,298 +15283,298 @@ Offset_0x010626:
 
 ;-------------------------------------------------------------------------------		  
 Fire_Shield_Mappings:				          ; Offset_0x010634
-		dc.w    Offset_0x010648-Fire_Shield_Mappings
-		dc.w    Offset_0x010662-Fire_Shield_Mappings
-		dc.w    Offset_0x01067C-Fire_Shield_Mappings
-		dc.w    Offset_0x010696-Fire_Shield_Mappings
-		dc.w    Offset_0x0106B0-Fire_Shield_Mappings
-		dc.w    Offset_0x0106BE-Fire_Shield_Mappings
-		dc.w    Offset_0x0106D8-Fire_Shield_Mappings
-		dc.w    Offset_0x0106F2-Fire_Shield_Mappings
-		dc.w    Offset_0x01070C-Fire_Shield_Mappings
-		dc.w    Offset_0x010726-Fire_Shield_Mappings
+		dc.w	Offset_0x010648-Fire_Shield_Mappings
+		dc.w	Offset_0x010662-Fire_Shield_Mappings
+		dc.w	Offset_0x01067C-Fire_Shield_Mappings
+		dc.w	Offset_0x010696-Fire_Shield_Mappings
+		dc.w	Offset_0x0106B0-Fire_Shield_Mappings
+		dc.w	Offset_0x0106BE-Fire_Shield_Mappings
+		dc.w	Offset_0x0106D8-Fire_Shield_Mappings
+		dc.w	Offset_0x0106F2-Fire_Shield_Mappings
+		dc.w	Offset_0x01070C-Fire_Shield_Mappings
+		dc.w	Offset_0x010726-Fire_Shield_Mappings
 Offset_0x010648:
-		dc.w    $0004
-		dc.w    $E809, $0000, $FFE8
-		dc.w    $E809, $0006, $0000
-		dc.w    $0809, $000C, $FFE8
-		dc.w    $0809, $0012, $0000
+		dc.w	$0004
+		dc.w	$E809, $0000, $FFE8
+		dc.w	$E809, $0006, $0000
+		dc.w	$0809, $000C, $FFE8
+		dc.w	$0809, $0012, $0000
 Offset_0x010662:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0009, $0000
-		dc.w    $000A, $0012, $FFE8
-		dc.w    $000A, $001B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0009, $0000
+		dc.w	$000A, $0012, $FFE8
+		dc.w	$000A, $001B, $0000
 Offset_0x01067C:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0009, $0000
-		dc.w    $000A, $0012, $FFE8
-		dc.w    $000A, $001B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0009, $0000
+		dc.w	$000A, $0012, $FFE8
+		dc.w	$000A, $001B, $0000
 Offset_0x010696:
-		dc.w    $0004
-		dc.w    $EC0A, $0000, $FFE8
-		dc.w    $EC0A, $0009, $0000
-		dc.w    $0409, $0012, $FFE8
-		dc.w    $0409, $0018, $0000
+		dc.w	$0004
+		dc.w	$EC0A, $0000, $FFE8
+		dc.w	$EC0A, $0009, $0000
+		dc.w	$0409, $0012, $FFE8
+		dc.w	$0409, $0018, $0000
 Offset_0x0106B0:
-		dc.w    $0002
-		dc.w    $F00F, $0000, $FFE8
-		dc.w    $F007, $0010, $0008
+		dc.w	$0002
+		dc.w	$F00F, $0000, $FFE8
+		dc.w	$F007, $0010, $0008
 Offset_0x0106BE:
-		dc.w    $0004
-		dc.w    $FC0A, $1000, $FFE8
-		dc.w    $FC0A, $1009, $0000
-		dc.w    $EC09, $1012, $FFE8
-		dc.w    $EC09, $1018, $0000
+		dc.w	$0004
+		dc.w	$FC0A, $1000, $FFE8
+		dc.w	$FC0A, $1009, $0000
+		dc.w	$EC09, $1012, $FFE8
+		dc.w	$EC09, $1018, $0000
 Offset_0x0106D8:
-		dc.w    $0004
-		dc.w    $000A, $1000, $FFE8
-		dc.w    $000A, $1009, $0000
-		dc.w    $E80A, $1012, $FFE8
-		dc.w    $E80A, $101B, $0000
+		dc.w	$0004
+		dc.w	$000A, $1000, $FFE8
+		dc.w	$000A, $1009, $0000
+		dc.w	$E80A, $1012, $FFE8
+		dc.w	$E80A, $101B, $0000
 Offset_0x0106F2:
-		dc.w    $0004
-		dc.w    $000A, $1000, $FFE8
-		dc.w    $000A, $1009, $0000
-		dc.w    $E80A, $1012, $FFE8
-		dc.w    $E80A, $101B, $0000
+		dc.w	$0004
+		dc.w	$000A, $1000, $FFE8
+		dc.w	$000A, $1009, $0000
+		dc.w	$E80A, $1012, $FFE8
+		dc.w	$E80A, $101B, $0000
 Offset_0x01070C:
-		dc.w    $0004
-		dc.w    $0809, $1000, $FFE8
-		dc.w    $0809, $1006, $0000
-		dc.w    $E809, $100C, $FFE8
-		dc.w    $E809, $1012, $0000
+		dc.w	$0004
+		dc.w	$0809, $1000, $FFE8
+		dc.w	$0809, $1006, $0000
+		dc.w	$E809, $100C, $FFE8
+		dc.w	$E809, $1012, $0000
 Offset_0x010726:
-		dc.w    $0000
+		dc.w	$0000
 ;-------------------------------------------------------------------------------
 Fire_Shield_Dyn_Script:				        ; Offset_0x010728
-		dc.w    Offset_0x01073C-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x010746-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x010750-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x01075A-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x010764-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x01075A-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x010750-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x010746-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x01073C-Fire_Shield_Dyn_Script
-		dc.w    Offset_0x01076A-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x01073C-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x010746-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x010750-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x01075A-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x010764-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x01075A-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x010750-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x010746-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x01073C-Fire_Shield_Dyn_Script
+		dc.w	Offset_0x01076A-Fire_Shield_Dyn_Script
 Offset_0x01073C:
-		dc.w    $0004
-		dc.w    $5000, $5006, $500C, $5012
+		dc.w	$0004
+		dc.w	$5000, $5006, $500C, $5012
 Offset_0x010746:
-		dc.w    $0004
-		dc.w    $8018, $8021, $802A, $8033
+		dc.w	$0004
+		dc.w	$8018, $8021, $802A, $8033
 Offset_0x010750:
-		dc.w    $0004
-		dc.w    $803C, $8045, $804E, $8057
+		dc.w	$0004
+		dc.w	$803C, $8045, $804E, $8057
 Offset_0x01075A:
-		dc.w    $0004
-		dc.w    $8060, $8069, $5072, $5078
+		dc.w	$0004
+		dc.w	$8060, $8069, $5072, $5078
 Offset_0x010764:
-		dc.w    $0002
-		dc.w    $F07E, $708E
+		dc.w	$0002
+		dc.w	$F07E, $708E
 Offset_0x01076A:
-		dc.w    $0000
+		dc.w	$0000
 ;-------------------------------------------------------------------------------		
 Lightning_Shield_Mappings:				     ; Offset_0x01076C
-		dc.w    Offset_0x01077C-Lightning_Shield_Mappings
-		dc.w    Offset_0x010790-Lightning_Shield_Mappings
-		dc.w    Offset_0x01079E-Lightning_Shield_Mappings
-		dc.w    Offset_0x0107B2-Lightning_Shield_Mappings
-		dc.w    Offset_0x0107C6-Lightning_Shield_Mappings
-		dc.w    Offset_0x0107D4-Lightning_Shield_Mappings
-		dc.w    Offset_0x0107EE-Lightning_Shield_Mappings
-		dc.w    Offset_0x010808-Lightning_Shield_Mappings
+		dc.w	Offset_0x01077C-Lightning_Shield_Mappings
+		dc.w	Offset_0x010790-Lightning_Shield_Mappings
+		dc.w	Offset_0x01079E-Lightning_Shield_Mappings
+		dc.w	Offset_0x0107B2-Lightning_Shield_Mappings
+		dc.w	Offset_0x0107C6-Lightning_Shield_Mappings
+		dc.w	Offset_0x0107D4-Lightning_Shield_Mappings
+		dc.w	Offset_0x0107EE-Lightning_Shield_Mappings
+		dc.w	Offset_0x010808-Lightning_Shield_Mappings
 Offset_0x01077C:
-		dc.w    $0003
-		dc.w    $E80C, $0000, $FFF0
-		dc.w    $F007, $0004, $0000
-		dc.w    $100C, $000C, $FFF0
+		dc.w	$0003
+		dc.w	$E80C, $0000, $FFF0
+		dc.w	$F007, $0004, $0000
+		dc.w	$100C, $000C, $FFF0
 Offset_0x010790:
-		dc.w    $0002
-		dc.w    $E80A, $0000, $FFF4
-		dc.w    $000A, $0009, $FFF4
+		dc.w	$0002
+		dc.w	$E80A, $0000, $FFF4
+		dc.w	$000A, $0009, $FFF4
 Offset_0x01079E:
-		dc.w    $0003
-		dc.w    $E808, $0000, $FFF0
-		dc.w    $F00B, $0003, $FFF8
-		dc.w    $1008, $000F, $FFF0
+		dc.w	$0003
+		dc.w	$E808, $0000, $FFF0
+		dc.w	$F00B, $0003, $FFF8
+		dc.w	$1008, $000F, $FFF0
 Offset_0x0107B2:
-		dc.w    $0003
-		dc.w    $E808, $0000, $FFF0
-		dc.w    $F00E, $0003, $FFF0
-		dc.w    $0809, $000F, $FFF0
+		dc.w	$0003
+		dc.w	$E808, $0000, $FFF0
+		dc.w	$F00E, $0003, $FFF0
+		dc.w	$0809, $000F, $FFF0
 Offset_0x0107C6:
-		dc.w    $0002
-		dc.w    $E807, $0000, $FFF8
-		dc.w    $0805, $0008, $FFF8
+		dc.w	$0002
+		dc.w	$E807, $0000, $FFF8
+		dc.w	$0805, $0008, $FFF8
 Offset_0x0107D4:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0009, $0000
-		dc.w    $000A, $1812, $FFE8
-		dc.w    $000A, $181B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0009, $0000
+		dc.w	$000A, $1812, $FFE8
+		dc.w	$000A, $181B, $0000
 Offset_0x0107EE:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0009, $0000
-		dc.w    $000A, $1812, $FFE8
-		dc.w    $000A, $181B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0009, $0000
+		dc.w	$000A, $1812, $FFE8
+		dc.w	$000A, $181B, $0000
 Offset_0x010808:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0809, $0000
-		dc.w    $000A, $1012, $FFE8
-		dc.w    $000A, $181B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0809, $0000
+		dc.w	$000A, $1012, $FFE8
+		dc.w	$000A, $181B, $0000
 ;------------------------------------------------------------------------------- 
 Lightning_Shield_Dyn_Script:				   ; Offset_0x010822
-		dc.w    Offset_0x010832-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x01083A-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x010840-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x010848-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x010850-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x010856-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x010860-Lightning_Shield_Dyn_Script
-		dc.w    Offset_0x01086A-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x010832-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x01083A-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x010840-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x010848-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x010850-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x010856-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x010860-Lightning_Shield_Dyn_Script
+		dc.w	Offset_0x01086A-Lightning_Shield_Dyn_Script
 Offset_0x010832:
-		dc.w    $0003
-		dc.w    $3000, $7004, $300C
+		dc.w	$0003
+		dc.w	$3000, $7004, $300C
 Offset_0x01083A:
-		dc.w    $0002
-		dc.w    $8010, $8019
+		dc.w	$0002
+		dc.w	$8010, $8019
 Offset_0x010840:
-		dc.w    $0003
-		dc.w    $2022, $B025, $2031
+		dc.w	$0003
+		dc.w	$2022, $B025, $2031
 Offset_0x010848:
-		dc.w    $0003
-		dc.w    $2034, $B037, $5043
+		dc.w	$0003
+		dc.w	$2034, $B037, $5043
 Offset_0x010850:
-		dc.w    $0002
-		dc.w    $7049, $3051
+		dc.w	$0002
+		dc.w	$7049, $3051
 Offset_0x010856:
-		dc.w    $0004
-		dc.w    $8055, $805E, $805E, $8055
+		dc.w	$0004
+		dc.w	$8055, $805E, $805E, $8055
 Offset_0x010860:
-		dc.w    $0004
-		dc.w    $8067, $8070, $8070, $8067
+		dc.w	$0004
+		dc.w	$8067, $8070, $8070, $8067
 Offset_0x01086A:
-		dc.w    $0004
-		dc.w    $8079, $8079, $8079, $8079  
+		dc.w	$0004
+		dc.w	$8079, $8079, $8079, $8079  
 ;-------------------------------------------------------------------------------   
 Water_Shield_Mappings:				         ; Offset_0x010874
-		dc.w    Offset_0x01088C-Water_Shield_Mappings
-		dc.w    Offset_0x01089A-Water_Shield_Mappings
-		dc.w    Offset_0x0108A8-Water_Shield_Mappings
-		dc.w    Offset_0x0108B6-Water_Shield_Mappings
-		dc.w    Offset_0x0108C4-Water_Shield_Mappings
-		dc.w    Offset_0x0108D2-Water_Shield_Mappings
-		dc.w    Offset_0x0108E0-Water_Shield_Mappings
-		dc.w    Offset_0x0108EE-Water_Shield_Mappings
-		dc.w    Offset_0x0108FC-Water_Shield_Mappings
-		dc.w    Offset_0x010916-Water_Shield_Mappings
-		dc.w    Offset_0x010930-Water_Shield_Mappings
-		dc.w    Offset_0x010938-Water_Shield_Mappings
+		dc.w	Offset_0x01088C-Water_Shield_Mappings
+		dc.w	Offset_0x01089A-Water_Shield_Mappings
+		dc.w	Offset_0x0108A8-Water_Shield_Mappings
+		dc.w	Offset_0x0108B6-Water_Shield_Mappings
+		dc.w	Offset_0x0108C4-Water_Shield_Mappings
+		dc.w	Offset_0x0108D2-Water_Shield_Mappings
+		dc.w	Offset_0x0108E0-Water_Shield_Mappings
+		dc.w	Offset_0x0108EE-Water_Shield_Mappings
+		dc.w	Offset_0x0108FC-Water_Shield_Mappings
+		dc.w	Offset_0x010916-Water_Shield_Mappings
+		dc.w	Offset_0x010930-Water_Shield_Mappings
+		dc.w	Offset_0x010938-Water_Shield_Mappings
 Offset_0x01088C:
-		dc.w    $0002
-		dc.w    $E808, $0000, $FFE8
-		dc.w    $E808, $0803, $0000
+		dc.w	$0002
+		dc.w	$E808, $0000, $FFE8
+		dc.w	$E808, $0803, $0000
 Offset_0x01089A:
-		dc.w    $0002
-		dc.w    $E809, $0000, $FFE8
-		dc.w    $E809, $0806, $0000
+		dc.w	$0002
+		dc.w	$E809, $0000, $FFE8
+		dc.w	$E809, $0806, $0000
 Offset_0x0108A8:
-		dc.w    $0002
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0809, $0000
+		dc.w	$0002
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0809, $0000
 Offset_0x0108B6:
-		dc.w    $0002
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0809, $0000
+		dc.w	$0002
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0809, $0000
 Offset_0x0108C4:
-		dc.w    $0002
-		dc.w    $F00B, $0000, $FFE8
-		dc.w    $F00B, $080C, $0000
+		dc.w	$0002
+		dc.w	$F00B, $0000, $FFE8
+		dc.w	$F00B, $080C, $0000
 Offset_0x0108D2:
-		dc.w    $0002
-		dc.w    $000A, $0000, $FFE8
-		dc.w    $000A, $0809, $0000
+		dc.w	$0002
+		dc.w	$000A, $0000, $FFE8
+		dc.w	$000A, $0809, $0000
 Offset_0x0108E0:
-		dc.w    $0002
-		dc.w    $000A, $0000, $FFE8
-		dc.w    $000A, $0809, $0000
+		dc.w	$0002
+		dc.w	$000A, $0000, $FFE8
+		dc.w	$000A, $0809, $0000
 Offset_0x0108EE:
-		dc.w    $0002
-		dc.w    $0809, $0000, $FFE8
-		dc.w    $0809, $0806, $0000
+		dc.w	$0002
+		dc.w	$0809, $0000, $FFE8
+		dc.w	$0809, $0806, $0000
 Offset_0x0108FC:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0809, $0000
-		dc.w    $000A, $1012, $FFE8
-		dc.w    $000A, $181B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0809, $0000
+		dc.w	$000A, $1012, $FFE8
+		dc.w	$000A, $181B, $0000
 Offset_0x010916:
-		dc.w    $0004
-		dc.w    $E80A, $0000, $FFE8
-		dc.w    $E80A, $0809, $0000
-		dc.w    $000A, $1012, $FFE8
-		dc.w    $000A, $181B, $0000
+		dc.w	$0004
+		dc.w	$E80A, $0000, $FFE8
+		dc.w	$E80A, $0809, $0000
+		dc.w	$000A, $1012, $FFE8
+		dc.w	$000A, $181B, $0000
 Offset_0x010930:
-		dc.w    $0001
-		dc.w    $FC00, $0000, $FFFC
+		dc.w	$0001
+		dc.w	$FC00, $0000, $FFFC
 Offset_0x010938:
-		dc.w    $0001
-		dc.w    $FC00, $0000, $FFFC
+		dc.w	$0001
+		dc.w	$FC00, $0000, $FFFC
 ;-------------------------------------------------------------------------------  
 Water_Shield_Dyn_Script:				       ; Offset_0x010940
-		dc.w    Offset_0x010958-Water_Shield_Dyn_Script
-		dc.w    Offset_0x01095E-Water_Shield_Dyn_Script
-		dc.w    Offset_0x010964-Water_Shield_Dyn_Script
-		dc.w    Offset_0x01096A-Water_Shield_Dyn_Script
-		dc.w    Offset_0x010970-Water_Shield_Dyn_Script
-		dc.w    Offset_0x010976-Water_Shield_Dyn_Script
-		dc.w    Offset_0x01097C-Water_Shield_Dyn_Script
-		dc.w    Offset_0x010982-Water_Shield_Dyn_Script
-		dc.w    Offset_0x010988-Water_Shield_Dyn_Script
-		dc.w    Offset_0x010992-Water_Shield_Dyn_Script
-		dc.w    Offset_0x01099C-Water_Shield_Dyn_Script
-		dc.w    Offset_0x0109A0-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010958-Water_Shield_Dyn_Script
+		dc.w	Offset_0x01095E-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010964-Water_Shield_Dyn_Script
+		dc.w	Offset_0x01096A-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010970-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010976-Water_Shield_Dyn_Script
+		dc.w	Offset_0x01097C-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010982-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010988-Water_Shield_Dyn_Script
+		dc.w	Offset_0x010992-Water_Shield_Dyn_Script
+		dc.w	Offset_0x01099C-Water_Shield_Dyn_Script
+		dc.w	Offset_0x0109A0-Water_Shield_Dyn_Script
 Offset_0x010958:
-		dc.w    $0002
-		dc.w    $2000, $2000
+		dc.w	$0002
+		dc.w	$2000, $2000
 Offset_0x01095E:
-		dc.w    $0002
-		dc.w    $5003, $5003
+		dc.w	$0002
+		dc.w	$5003, $5003
 Offset_0x010964:
-		dc.w    $0002
-		dc.w    $8009, $8009
+		dc.w	$0002
+		dc.w	$8009, $8009
 Offset_0x01096A:
-		dc.w    $0002
-		dc.w    $8012, $8012
+		dc.w	$0002
+		dc.w	$8012, $8012
 Offset_0x010970:
-		dc.w    $0002
-		dc.w    $B01B, $B01B
+		dc.w	$0002
+		dc.w	$B01B, $B01B
 Offset_0x010976:
-		dc.w    $0002
-		dc.w    $8027, $8027
+		dc.w	$0002
+		dc.w	$8027, $8027
 Offset_0x01097C:
-		dc.w    $0002
-		dc.w    $8030, $8030
+		dc.w	$0002
+		dc.w	$8030, $8030
 Offset_0x010982:
-		dc.w    $0002
-		dc.w    $5039, $5039
+		dc.w	$0002
+		dc.w	$5039, $5039
 Offset_0x010988:
-		dc.w    $0004
-		dc.w    $803F, $803F, $803F, $803F
+		dc.w	$0004
+		dc.w	$803F, $803F, $803F, $803F
 Offset_0x010992:
-		dc.w    $0004
-		dc.w    $8048, $8048, $8048, $8048
+		dc.w	$0004
+		dc.w	$8048, $8048, $8048, $8048
 Offset_0x01099C:
-		dc.w    $0001
-		dc.w    $0051
+		dc.w	$0001
+		dc.w	$0051
 Offset_0x0109A0:
-		dc.w    $0001
-		dc.w    $0052
+		dc.w	$0001
+		dc.w	$0052
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -34770,72 +34723,72 @@ Offset_0x035F5E:
 ; ===========================================================================
 ; Offset_0x035F6C:
 Tornado_Mappings:
-		dc.w    Offset_0x035F82-Tornado_Mappings
-		dc.w    Offset_0x035FBA-Tornado_Mappings
-		dc.w    Offset_0x035FC2-Tornado_Mappings
-		dc.w    Offset_0x035FCA-Tornado_Mappings
-		dc.w    Offset_0x035FD2-Tornado_Mappings
-		dc.w    Offset_0x035FDA-Tornado_Mappings
-		dc.w    Offset_0x035FEE-Tornado_Mappings
-		dc.w    Offset_0x036002-Tornado_Mappings
-		dc.w    Offset_0x036022-Tornado_Mappings
-		dc.w    Offset_0x03603C-Tornado_Mappings
-		dc.w    Offset_0x036050-Tornado_Mappings
+		dc.w	Offset_0x035F82-Tornado_Mappings
+		dc.w	Offset_0x035FBA-Tornado_Mappings
+		dc.w	Offset_0x035FC2-Tornado_Mappings
+		dc.w	Offset_0x035FCA-Tornado_Mappings
+		dc.w	Offset_0x035FD2-Tornado_Mappings
+		dc.w	Offset_0x035FDA-Tornado_Mappings
+		dc.w	Offset_0x035FEE-Tornado_Mappings
+		dc.w	Offset_0x036002-Tornado_Mappings
+		dc.w	Offset_0x036022-Tornado_Mappings
+		dc.w	Offset_0x03603C-Tornado_Mappings
+		dc.w	Offset_0x036050-Tornado_Mappings
 Offset_0x035F82:
-		dc.w    $0009
-		dc.w    $E009, $0000, $FFC4
-		dc.w    $F00E, $0006, $FFC4
-		dc.w    $F007, $0012, $FFE4
-		dc.w    $E80F, $001A, $FFF4
-		dc.w    $080C, $002A, $FFF4
-		dc.w    $E80C, $002E, $0014
-		dc.w    $F00B, $0032, $0014
-		dc.w    $1005, $003E, $001C
-		dc.w    $F802, $0042, $002C
+		dc.w	$0009
+		dc.w	$E009, $0000, $FFC4
+		dc.w	$F00E, $0006, $FFC4
+		dc.w	$F007, $0012, $FFE4
+		dc.w	$E80F, $001A, $FFF4
+		dc.w	$080C, $002A, $FFF4
+		dc.w	$E80C, $002E, $0014
+		dc.w	$F00B, $0032, $0014
+		dc.w	$1005, $003E, $001C
+		dc.w	$F802, $0042, $002C
 Offset_0x035FBA:
-		dc.w    $0001
-		dc.w    $F402, $0045, $FFFC
+		dc.w	$0001
+		dc.w	$F402, $0045, $FFFC
 Offset_0x035FC2:
-		dc.w    $0001
-		dc.w    $F402, $0048, $FFFC
+		dc.w	$0001
+		dc.w	$F402, $0048, $FFFC
 Offset_0x035FCA:
-		dc.w    $0001
-		dc.w    $F402, $004B, $FFFC
+		dc.w	$0001
+		dc.w	$F402, $004B, $FFFC
 Offset_0x035FD2:
-		dc.w    $0001
-		dc.w    $F402, $004E, $FFFC
+		dc.w	$0001
+		dc.w	$F402, $004E, $FFFC
 Offset_0x035FDA:
-		dc.w    $0003
-		dc.w    $F80D, $0051, $FFE4
-		dc.w    $F809, $0059, $0004
-		dc.w    $F80D, $005F, $FFC4
+		dc.w	$0003
+		dc.w	$F80D, $0051, $FFE4
+		dc.w	$F809, $0059, $0004
+		dc.w	$F80D, $005F, $FFC4
 Offset_0x035FEE:
-		dc.w    $0003
-		dc.w    $F80D, $0051, $FFE4
-		dc.w    $F809, $0059, $0004
-		dc.w    $F805, $0067, $FFD4
+		dc.w	$0003
+		dc.w	$F80D, $0051, $FFE4
+		dc.w	$F809, $0059, $0004
+		dc.w	$F805, $0067, $FFD4
 Offset_0x036002:
-		dc.w    $0005
-		dc.w    $F80D, $006B, $FFC4
-		dc.w    $F80D, $086B, $001C
-		dc.w    $F809, $0073, $FFE4
-		dc.w    $F809, $006F, $0004
-		dc.w    $F801, $006F, $FFFC
+		dc.w	$0005
+		dc.w	$F80D, $006B, $FFC4
+		dc.w	$F80D, $086B, $001C
+		dc.w	$F809, $0073, $FFE4
+		dc.w	$F809, $006F, $0004
+		dc.w	$F801, $006F, $FFFC
 Offset_0x036022:
-		dc.w    $0004
-		dc.w    $F80D, $0079, $FFD0
-		dc.w    $F80D, $0879, $0010
-		dc.w    $F805, $007D, $FFF0
-		dc.w    $F805, $007D, $0000
+		dc.w	$0004
+		dc.w	$F80D, $0079, $FFD0
+		dc.w	$F80D, $0879, $0010
+		dc.w	$F805, $007D, $FFF0
+		dc.w	$F805, $007D, $0000
 Offset_0x03603C:
-		dc.w    $0003
-		dc.w    $FC0C, $0081, $FFDC
-		dc.w    $FC0C, $0881, $0004
-		dc.w    $FC00, $0082, $FFFC
+		dc.w	$0003
+		dc.w	$FC0C, $0081, $FFDC
+		dc.w	$FC0C, $0881, $0004
+		dc.w	$FC00, $0082, $FFFC
 Offset_0x036050:
-		dc.w    $0002
-		dc.w    $FC08, $0085, $FFE8
-		dc.w    $FC08, $0885, $0000
+		dc.w	$0002
+		dc.w	$FC08, $0085, $FFE8
+		dc.w	$FC08, $0885, $0000
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -52239,7 +52192,7 @@ Angel_Island_1_Chunks_2:                                       ; Offset_0x143D96
 		binclude	"data\aiz\ck_act1.kos"
 Angel_Island_1_Flames:                                         ; Offset_0x1476A6
 		binclude	"data\aiz\flames.kmd"
-		dc.w	 $0000, $0000, $0000, $0000, $0000, $0000, $0000
+		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_2_Blocks:                                         ; Offset_0x148128
 		binclude	"data\aiz\bl_act2.kos"
 Angel_Island_2_Blocks_2:                                       ; Offset_0x1489A8

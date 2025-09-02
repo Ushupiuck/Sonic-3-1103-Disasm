@@ -18,6 +18,12 @@ rom_ptr_z80 macro addr
 	dc.w	z80_ptr(addr)
     endm
 
+; macro formatting text for the game's menus
+menutxt	macro	text
+	dc.b	strlen(text)-1
+	dc.b	text
+	endm
+
 ; calculates initial loop counter value for a dbf loop
 ; that writes n bytes total at 4 bytes per iteration
 bytesToLcnt function n,n>>2-1

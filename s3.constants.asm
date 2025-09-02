@@ -27,16 +27,27 @@ Sonic_And_Miles       = 0
 Sonic_Alone           = 1
 Miles_Alone           = 2
 Knuckles_Alone        = 3
-
-; CONTROLLER BUTTONS
-Btn_Up                = 0
-Btn_Down              = 1
-Btn_Left              = 2
-Btn_Right             = 3
-Btn_B                 = 4
-Btn_C                 = 5
-Btn_A                 = 6
-Btn_Start             = 7
+; ---------------------------------------------------------------------------
+; Controller Buttons
+;
+; Buttons bit numbers
+button_up:			EQU	0
+button_down:			EQU	1
+button_left:			EQU	2
+button_right:			EQU	3
+button_B:			EQU	4
+button_C:			EQU	5
+button_A:			EQU	6
+button_start:			EQU	7
+; Buttons masks (1 << x == pow(2, x))
+button_up_mask:			EQU	1<<button_up	; $01
+button_down_mask:		EQU	1<<button_down	; $02
+button_left_mask:		EQU	1<<button_left	; $04
+button_right_mask:		EQU	1<<button_right	; $08
+button_B_mask:			EQU	1<<button_B	; $10
+button_C_mask:			EQU	1<<button_C	; $20
+button_A_mask:			EQU	1<<button_A	; $40
+button_start_mask:		EQU	1<<button_start	; $80
 
 ; PATTERN LOAD CUES
 id_PLC__First		= 0
@@ -234,6 +245,9 @@ cmd_S2SEGA =			$FA		; $FA - SEGA sound ID in Sonic 2
 cmd_StopSEGA =			$FE		; $FE - Stop SEGA sound
 cmd_SEGA =			$FF		; $FF - Play SEGA sound
 	dephase
+
+cmd_FadeOutUnk =	$D0
+
 ; ---------------------------------------------------------------------------
 ; Music ID's list. These do not affect the sound driver, be careful.
 
@@ -700,6 +714,7 @@ DMA_Buffer_List_End:	ds.l	1	; stores the address of the next open slot for a que
 		ds.l	1
 
 Ring_Status_Table:		ds.b	$400
+Ring_Status_Table_End
 
 Palette_Buffer:		ds.b	$80
 Palette_Row_0_Offset	= Palette_Buffer
@@ -807,6 +822,7 @@ Use_Normal_Sprite_Table:		ds.w	1
 Normal_Sprite_Table_Flag:		ds.w	1
 Level_Result_BCD_Total_Bonus:		ds.b	$40
 Ring_Consumption_Table:		ds.b	$80
+Ring_Consumption_Table_End
 
 Palette_Underwater_Target:		ds.b	$80
 
@@ -1207,36 +1223,3 @@ CrossResetRAM_End
 
 ; CRAM
 Color_RAM_Address	= $C0000000
-
-; Variaveis para os menus exceto seleção de fases que é comprimido
-__	=  $00
-_0	=  $10
-_1	=  $11
-_2	=  $12  
-_st	=  $1A  ; estrela no sound test
-_A	=  $1E
-_B	=  $1F 
-_C	=  $20
-_D	=  $21
-_E	=  $22
-_F	=  $23
-_G	=  $24
-_H	=  $25 
-_I	=  $26
-_J	=  $27
-_K	=  $28
-_L	=  $29
-_M	=  $2A 
-_N	=  $2B 
-_O	=  $2C
-_P	=  $2D
-_Q	=  $2E
-_R	=  $2F
-_S	=  $30
-_T	=  $31
-_U	=  $32
-_V	=  $33
-_W	=  $34
-_X	=  $35
-_Y	=  $36
-_Z	=  $37  
