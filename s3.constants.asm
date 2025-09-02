@@ -309,6 +309,52 @@ mus_SuperSonicUnk =	$0A
 mus_S2ExtraLife =	$98
 mus_S2Drowning =	$9F
 
+; Músicas 
+Angel_Island_1_Snd       = mus_AIZ1
+Angel_Island_2_Snd       = mus_AIZ2
+Hydrocity_1_Snd          = mus_HCZ1
+Hydrocity_2_Snd          = mus_HCZ2
+Marble_Garden_1_Snd      = mus_MGZ1
+Marble_Garden_2_Snd      = mus_MGZ2
+Carnival_Night_1_Snd     = mus_CNZ1
+Carnival_Night_2_Snd     = mus_CNZ2
+Flying_Battery_1_Snd     = mus_FBZ1
+Flying_Battery_2_Snd     = mus_FBZ2
+Icecap_1_Snd             = mus_ICZ1
+Icecap_2_Snd             = mus_ICZ2
+Launch_Base_1_Snd        = mus_LBZ1
+Launch_Base_2_Snd        = mus_LBZ2
+Mushroom_Valley_1_Snd    = mus_MVZ1
+Mushroom_Valley_2_Snd    = mus_MVZ2
+Sandopolis_1_Snd         = mus_SOZ1
+Sandopolis_2_Snd         = mus_SOZ2
+Lava_Reef_1_Snd          = mus_LRZ1
+Lava_Reef_2_Snd          = mus_LRZ2
+Sky_Sanctuary_Snd        = mus_SSZ
+Death_Egg_1_Snd          = mus_DEZ1
+Death_Egg_2_Snd          = mus_DEZ2
+Mini_Boss_Snd            = mus_Miniboss
+Boss_Snd                 = mus_EndBoss
+The_Doomsday_Snd         = mus_DDZ
+Special_Stage_Snd        = mus_SpecialStage
+BS_Slot_Machine_Snd      = mus_Slots
+BS_Gumball_Machine_Snd   = mus_Gumball
+Knuckles_Theme_Snd       = mus_Knuckles
+Azure_Lake_Snd           = mus_ALZ
+Balloon_Park_Snd         = mus_BPZ
+Desert_Palace_Snd        = mus_DPZ
+Chrome_Gadget_Snd        = mus_CGZ
+Endless_Mine_Snd         = mus_EMZ
+Title_Screen_Snd         = mus_TitleScreen
+Game_Over_Time_Over_Snd  = mus_GameOver
+Continue_Snd             = mus_Continue
+Extra_Life_Snd           = mus_ExtraLife
+Got_Emerald_Snd          = mus_Emerald
+Invincibility_Snd        = mus_Invincibility
+Panic_Snd                = mus_Drowning
+
+Super_Sonic_Snd          = mus_SuperSonicUnk
+
 ; ---------------------------------------------------------------------------
 ; Sound effect ID's list. These do not affect the sound driver, be careful.
 
@@ -492,63 +538,16 @@ sfx_S2Smash =	$B9
 sfx_S2LargeBumper =	$D9
 sfx_S2Error	=	$ED
 
-; Músicas 
-Angel_Island_1_Snd       = mus_AIZ1
-Angel_Island_2_Snd       = mus_AIZ2
-Hydrocity_1_Snd          = $0003
-Hydrocity_2_Snd          = $0004
-Marble_Garden_1_Snd      = $0005
-Marble_Garden_2_Snd      = $0006
-Carnival_Night_1_Snd     = $0007
-Carnival_Night_2_Snd     = $0008
-Flying_Battery_1_Snd     = $0009
-Flying_Battery_2_Snd     = $000A
-Icecap_1_Snd             = $000B
-Icecap_2_Snd             = $000C
-Launch_Base_1_Snd        = $000D
-Launch_Base_2_Snd        = $000E
-Mushroom_Valley_1_Snd    = $000F
-Mushroom_Valley_2_Snd    = $0010
-Sandopolis_1_Snd         = $0011
-Sandopolis_2_Snd         = $0012
-Lava_Reef_1_Snd          = $0013
-Lava_Reef_2_Snd          = $0014
-Sky_Sanctuary_Snd        = $0015
-Death_Egg_1_Snd          = $0016
-Death_Egg_2_Snd          = $0017
-Mini_Boss_Snd            = $0018
-Boss_Snd                 = $0019
-The_Doomsday_Snd         = $001A
-Special_Stage_Snd        = $001C
-BS_Slot_Machine_Snd      = $001D
-BS_Gumball_Machine_Snd   = $001E
-Knuckles_Theme_Snd       = $001F
-Azure_Lake_Snd           = $0020
-Balloon_Park_Snd         = $0021
-Desert_Palace_Snd        = $0022
-Chrome_Gadget_Snd        = $0023
-Endless_Mine_Snd         = $0024
-Title_Screen_Snd         = $0025
-Game_Over_Time_Over_Snd  = $0027 
-Continue_Snd             = $0028
-Extra_Life_Snd           = $002A
-Got_Emerald_Snd          = $002B
-Invincibility_Snd        = mus_Invincibility
-Panic_Snd                = mus_Drowning
-
-Super_Sonic_Snd          = $000A 
-
-
 ; Efeitos especiais
-Ring_Sfx                 = $0032
-Ring_Left_Speaker_Sfx    = $0033
-Ring_Lost_Sfx            = $0034
-Hurt_Sfx                 = $0035
-Skidding_Sfx             = $0036 ; Stopping_Sfx
-Collect_Oxygen_Sfx       = $0038 
-Water_Splash_Sfx         = $0039
-Drowning_Sfx             = $003B
-Rolling_Sfx              = $003C ; Spin_Sfx     
+Ring_Sfx                 = sfx_RingRight
+Ring_Left_Speaker_Sfx    = sfx_RingLeft
+Ring_Lost_Sfx            = sfx_RingLoss
+Hurt_Sfx                 = sfx_Death
+Skidding_Sfx             = sfx_Skid ; Stopping_Sfx
+Collect_Oxygen_Sfx       = sfx_Bubble
+Water_Splash_Sfx         = sfx_Splash
+Drowning_Sfx             = sfx_Drown
+Rolling_Sfx              = sfx_Roll ; Spin_Sfx     
 Object_Hit_Sfx           = $003D
 Got_Fire_Shield_Sfx      = $003E  
 Got_Water_Shield_Sfx     = $003F

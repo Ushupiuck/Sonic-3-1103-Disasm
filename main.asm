@@ -43848,9 +43848,9 @@ Offset_0x0EC89B:
 Offset_0x0EC8C3:
 		include	"sound\sfx\67.asm"
 Floor_Thump_Sfx_Data:                                          ; Offset_0x0EC8F9
-		binclude	"sound\0x68.sfx"
+		include	"sound\sfx\68 - floor thump.asm"
 Offset_0x0EC922:
-		binclude	"sound\0x69.sfx"
+		include	"sound\sfx\69 - laser.asm"
 Offset_0x0EC94A:
 		binclude	"sound\0x6A.sfx"
 Offset_0x0EC97C:
