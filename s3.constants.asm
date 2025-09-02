@@ -688,9 +688,9 @@ Obj_P2_Dust_Water_Splash:		ds.b	Obj_Size
 Obj_P1_Shield:		ds.b	Obj_Size
 Obj_P2_Shield:		ds.b	Obj_Size
 Obj_P1_Invincibility:		ds.b	Obj_Size
-	rept 3
 		ds.b	Obj_Size
-	endm
+		ds.b	Obj_Size
+		ds.b	Obj_Size
 Obj_P2_Invincibility:		ds.b	Obj_Size
 		ds.b	Obj_Size
 		ds.b	Obj_Size
