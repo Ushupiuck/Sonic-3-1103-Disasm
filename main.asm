@@ -43490,7 +43490,7 @@ Offset_0x04CD0E:
 ; <<<-
 ;-------------------------------------------------------------------------------
 Offset_0x04CD18:
-		binclude  "data\unknown\dummy.dat"
+		binclude  "data\star trek\part1.bin"
 ;===============================================================================
 ; Lista de objetos das fases
 ; <<<-
@@ -43635,17 +43635,10 @@ Art_Oxygen_Numbers:                                            ; Offset_0x0A8640
 Art_Menu_Sonic_Miles:                                          ; Offset_0x0A8DC0
 		binclude  "data\menus\soncmils.dat"
 Offset_0x0A92C0:                
-		binclude  "data\unknown\dummy2.dat"
+		binclude  "data\star trek\part2.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_1:                                                    ; Offset_0x0AFF0F
-		dc.b	"WhichMessage", $0D, $0A
-		dc.b	"                Bra     @DoneInput", $0D, $0A, $0D, $0A
-		dc.b	"@InComingHail:", $0D, $0A
-		dc.b	"                Move.w  #3,WhichMessage", $0D, $0A
-		dc.b	"                Bra     @DoneInput", $0D, $0A, $0D, $0A
-		dc.b	"@ImpulseDamaged:", $0D, $0A
-		dc.b	"                Move.w  #4,WhichMessage", $0D, $0A
-		dc.b	"                Bra     @DoneInput", $0D
+		binclude  "data\star trek\source code 1.asm"
 ;-------------------------------------------------------------------------------
 
 ; Z80 Bank $16
@@ -43662,7 +43655,7 @@ Marble_Garden_1_Snd_Data:                                      ; Offset_0x0B6E51
 		include  "sound\music\mgz1.asm"
 Marble_Garden_2_Snd_Data:                                      ; Offset_0x0B7468
 		include  "sound\music\mgz2.asm"
-		binclude "data\leftoverbank1.bin"
+		binclude "data\star trek\part3.bin"
 	finishBank
 ; Z80 Bank $17
 Snd_Bank2_Start:	startBank
@@ -43680,28 +43673,10 @@ Icecap_2_Snd_Data:                                             ; Offset_0x0BCA37
 		include  "sound\music\icz2.asm"
 Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
 		include  "sound\music\lbz1.asm"
-		binclude "data\leftoverbank2.bin"
+		binclude "data\star trek\part4.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_2:                                                    ; Offset_0x0BFBA4
-		dc.b	" the screen.", $0D, $0A, $0D, $0A
-		dc.b	"DMAScrollArrows:", $0D, $0A
-		dc.b	"                Subq.w  #1,ArrowDelay                           ; Determine if arrow buffers or blanks should", $0D, $0A
-		dc.b	"                Bne.s   @NoTogg                                 ;  be DMA'ed this makes the arrows flash.", $0D, $0A, $0D, $0A
-		dc.b	"                Move.w  #15,ArrowDelay                          ; Reset delay between flashes.", $0D, $0A
-		dc.b	"                Eor.w   #1,ArrowToggle                          ; Toggle between blanks and arrows.", $0D, $0A, $0D, $0A
-		dc.b	"@NoTogg:", $0D, $0A
-		dc.b	"                Tst.w   ArrowToggle                             ; Branch to relevent bit.", $0D, $0A
-		dc.b	"                Beq.s   @ArrowsOff", $0D, $0A, $0D, $0A
-		dc.b	"; ====== Arrows on, DMA the buffers. ======", $0D, $0A, $0D, $0A
-		dc.b	"                Lea     UpArrowBuffer,A0                        ; Source.", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+(27*2)+(21*64),A1           ; Destination.", $0D, $0A
-		dc.b	"                Move.w  #1,D0                                   ; Number of words.", $0D, $0A
-		dc.b	"                Move.l  #VDP_VRAMWrite,D1                       ; Set to write to VRAM.   ", $0D, $0A
-		dc.b	"                Moveq   #2,D2                                   ; Auto increment.        ", $0D, $0A
-		dc.b	"                Jsr     PushDMA                                 ; Move characters to VRAM.", $0D, $0A, $0D, $0A
-		dc.b	"                Lea     DownArrowBuffer,A0                      ; Source.", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+(27*2)+(26*64),A1           ; Destination.", $0D, $0A
-		dc.b	"                Move.w  #1,D0                 "
+		binclude  "data\star trek\source code 2.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $18
@@ -43724,7 +43699,7 @@ Sky_Sanctuary_Snd_Data:                                        ; Offset_0x0C6642
 		include  "sound\music\ssz.asm"
 Death_Egg_1_Snd_Data:                                          ; Offset_0x0C7954
 		include  "sound\music\dez1.asm"
-		binclude "data\leftoverbank3.bin"
+		binclude "data\star trek\part5.bin"
 	finishBank
 ; Z80 Bank $19
 Snd_Bank4_Start:	startBank
@@ -43752,37 +43727,10 @@ Balloon_Park_Snd_Data:                                         ; Offset_0x0CC988
 		include  "sound\music\balloon park.asm"
 Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
 		include  "sound\music\desert palace.asm"
-		binclude "data\leftoverbank4.bin"
+		binclude "data\star trek\part6.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_3:                                                    ; Offset_0x0CF962
-		dc.b	$0A
-		dc.b	"                Lea     ScrollBBase+($b*64)+(27*2),A1", $0D, $0A
-		dc.b	"                Jsr     Word_2GVRAM    ", $0D, $0A
-		dc.b	"                Move.w  #AsciiOffset+CHR_Palette0+CHR_HighPri,D5 ; Color is different if in impulse.", $0D, $0A, $0D, $0A
-		dc.b	"                Bra     @DoneSeperators", $0D, $0A, $0D, $0A
-		dc.b	"@NotImpulse:", $0D, $0A
-		dc.b	"                Move.w  #AsciiOffset+CHR_Palette3+CHR_HighPri+'.',D0        ; Place decimal points and '/' seperators.", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+($5*64)+(28*2),A1           ", $0D, $0A
-		dc.b	"                Jsr     Word_2GVRAM     ", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+($7*64)+(27*2),A1", $0D, $0A
-		dc.b	"                Jsr     Word_2GVRAM     ", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+($d*64)+(28*2),A1", $0D, $0A
-		dc.b	"                Jsr     Word_2GVRAM     ", $0D, $0A
-		dc.b	"                Move.w  #AsciiOffset+CHR_Palette3+CHR_HighPri+'/',D0  ", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+($9*64)+(27*2),A1", $0D, $0A
-		dc.b	"                Jsr     Word_2GVRAM    ", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+($b*64)+(27*2),A1", $0D, $0A
-		dc.b	"                Jsr     Word_2GVRAM    ", $0D, $0A
-		dc.b	"                Move.w  #AsciiOffset+CHR_Palette3+CHR_HighPri,D5 ; Set up character color.", $0D, $0A, $0D, $0A
-		dc.b	"@DoneSeperators:", $0D, $0A
-		dc.b	"                Move.w  CurrentDistance,D7                      ; Get whole part of DISTANCE.", $0D, $0A
-		dc.b	"                Moveq   #3,D6                                   ; Three characters.", $0D, $0A
-		dc.b	"                Moveq   #'$',D2                                 ; Lead with a spaces.", $0D, $0A
-		dc.b	"                Lea     ScrollBBase+($5*64)+(25*2),A1           ; Screen destination.", $0D, $0A
-		dc.b	"                Jsr     PrintVal                                ; Print it.", $0D, $0A
-		dc.b	"                Move.w  CurrentDistance+2,D7                    ; Get fractional part of DISTANCE.", $0D, $0A
-		dc.b	"                Moveq   #2,D6                                   ; Two digits.", $0D, $0A
-		dc.b	"                Move.w  #'0'"
+		binclude  "data\star trek\source code 3.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $1A
@@ -43813,7 +43761,7 @@ Super_Sonic_Theme_Snd_Data:                                    ; Offset_0x0D5EAA
 		include  "sound\music\unused.asm"
 Data_Select_Menu_Snd_Data:                                     ; Offset_0x0D695E
 		include  "sound\music\menu.asm"
-		binclude "data\leftoverbank5.bin"
+		binclude "data\star trek\part7.bin"
 	finishBank
 ; Z80 Bank $1B
 Snd_Bank6_Start:	startBank
@@ -43823,12 +43771,9 @@ Panic_Snd_Data:                                                ; Offset_0x0D8592
 		include  "sound\music\countdown.asm"
 ;-------------------------------------------------------------------------------
 ; Offset_0x0D86C0:
-		binclude  "data\unknown\dummy3.dat"
+		binclude  "data\star trek\part8.bin"
 Asm_Code_4:                                                    ; Offset_0x0DFEF2
-		dc.b	"L_No1,VIEW_NOT_FLIPPED,VIEW_SIZE_6", $0D, $0A
-		dc.b	"                Dc.b    VIEW_PLANET10,VIEW_PAL_NoA,VIEW_FLIPPED,VIEW_SIZE_6", $0D, $0A, $0D, $0A
-		dc.b	"                Dc.b    VIEW_PLANET4,VIEW_PAL_NoC,VIEW_FLIPPED,VIEW_SIZE_7", $0D, $0A
-		dc.b	"                Dc.b    VIEW_PLANET10,VIEW_PAL_No1,VIEW_NOT_FLIPPED,VIEW_SIZE_7"
+		binclude  "data\star trek\source code 4.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Offset_0xE0000:
@@ -43836,7 +43781,7 @@ Z80_Driver:	include	"s3.sounddriver.asm"
 Z80_Driver_End
 ;-------------------------------------------------------------------------------
 Offset_0x0E1852:
-		binclude  "data\unknown\dummy4.dat"
+		binclude  "data\star trek\part11.bin"
 ;-------------------------------------------------------------------------------
 	cnop -Size_of_SndBank, $8000	; aligned to end of bank
 
@@ -44176,9 +44121,9 @@ Offset_0x0EDEB4:
 Offset_0x0EDEDC:
 		binclude  "sound\0xD9.sfx"
 Offset_0x0EDF30:
-		binclude  "data\unknown\dummy5.dat"
+		binclude  "data\star trek\part12.bin"
 Left_Over_Code:                                                ; Offset_0x0EF1DD
-		binclude "data/leftover.bin"
+		binclude  "data\star trek\part13.bin"
 SndBank_End
 
 	if SndBank_End - SndBank > $8000
@@ -44412,14 +44357,14 @@ DAC_9B_Data:                                                   ; Offset_0x0F5C67
 DAC_9B_Data_End:
 ;-------------------------------------------------------------------------------
 Offset_0x0F7304:
-		binclude  "data\unknown\dummy6.dat"
+		binclude  "data\star trek\part14.bin"
 	finishBank
 ;-------------------------------------------------------------------------------
 SEGABank:	startBank
 SEGA_PCM_Data:                                                 ; Offset_0x0F8000
 		binclude  "sound\sega.pcm"
 SEGA_PCM_Data_End:
-		binclude  "data\leftover2.bin"
+		binclude  "data\star trek\part15.bin"
 	finishBank
 ;===============================================================================
 ; Mapeamento dos Sprites do Sonic

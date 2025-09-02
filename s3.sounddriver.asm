@@ -3003,9 +3003,7 @@ zPlaySEGAPCM:
 		call	zStopAllSound
 		jp	zPlayDigitalAudio
 
-	if ~~fix_sndbugs
-		binclude	"data\z80_unknown.bin"
-	endif
+		binclude	"data\star trek\part9.bin"
 
 	if $ > 1200h
 		fatal "Your Z80 code won't fit before its tables. It's \{$-1200h}h bytes past the start of music data \{1200h}h"
@@ -3094,8 +3092,8 @@ z80_VolEnvPointers:
 		dw	VolEnv_22
 		dw	VolEnv_23
 		dw	VolEnv_24
-		dw	0F5h
-		dw	26h
+
+		binclude	"data\star trek\part10.bin"
 
 VolEnv_00:	db	2, 83h
 VolEnv_01:	db	0, 2, 4, 6, 8, 10h, 83h
