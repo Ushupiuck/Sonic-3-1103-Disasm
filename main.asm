@@ -981,7 +981,7 @@ Offset_0x000BE6:
 ; ---------------------------------------------------------------------------
 ; Offset_0x000C40:
 HBlank:
-		jmp	(HBlank_Ptr).w
+		jmp	(H_int_jump).w
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -4922,8 +4922,8 @@ Level_ChkMode:
 		move.w	#$8AFF,(Horizontal_Int_Count_Cmd).w
 		tst.w	(Two_Player_Flag).w
 		beq.s	Level_LoadPal
-		move.w	#$4EF9,(HBlank_Ptr).w
-		move.l	#HBlank_Competition,(HBlank_Ptr+2).w
+		move.w	#$4EF9,(H_int_jump).w
+		move.l	#HBlank_Competition,(H_int_addr).w
 		move.w	#$8014,(a6)
 		move.w	#$8220,(a6)
 		move.w	#$8405,(a6)
@@ -6424,14 +6424,14 @@ Offset_0x005076:
 Offset_0x005082:
 		tst.b	(Water_Level_Flag).w
 		beq.s	LevelInit_UndewaterPalette
-		move.w	#$4EF9,(HBlank_Ptr).w
-		move.l	#HBlank_WaterHCZ,(HBlank_Ptr+2).w
+		move.w	#$4EF9,(H_int_jump).w
+		move.l	#HBlank_WaterHCZ,(H_int_addr).w
 		cmpi.b	#Hz_Id,(Current_Zone).w
 		beq.s	Offset_0x0050B6
-		move.l	#HBlank_WaterPAL,(HBlank_Ptr+2).w
+		move.l	#HBlank_WaterPAL,(H_int_addr).w
 		cmpi.w	#$1000,(Vertical_Frequency).w
 		bcs.s	Offset_0x0050B6
-		move.l	#HBlank_WaterNTSC,(HBlank_Ptr+2).w
+		move.l	#HBlank_WaterNTSC,(H_int_addr).w
 
 Offset_0x0050B6:
 		move.l	#AIz_1_Water_Transistion,(Palette_Underwater_Ptr).w
@@ -29884,7 +29884,7 @@ AIz_2_Ship_Refresh:                                            ; Offset_0x030CD6
 		move.l	#Obj_AIz_Battle_Ship,(A1)             ; Offset_0x0311BC
 Offset_0x030D1C:
 		st	(Background_Events+$04).w                    ; $FFFFEED6
-		move.l	#HInt_Angel_Island_2,(HBlank_Ptr+$02).w ; Offset_0x030DBA, $FFFFF60A
+		move.l	#HInt_Angel_Island_2,(H_int_addr).w ; Offset_0x030DBA, $FFFFF60A
 		clr.b	(Water_Level_Flag).w                         ; $FFFFF730
 		move.b	#$40,(Scanline_Counter).w                   ; $FFFFF625
 		addq.w	#$04,(Level_Events_Routine).w               ; $FFFFEEC0

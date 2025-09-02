@@ -838,7 +838,8 @@ Game_Mode:		ds.b	1
 Control_Ports_Logical_Data:		ds.w	1
 Control_Ports_Buffer_Data:		ds.w	1
 		ds.w	1
-HBlank_Ptr:		ds.b	6
+H_int_jump:		ds.w	1
+H_int_addr:		ds.l	1
 VDP_Register_1_Command:		ds.w	1
 		ds.l	1
 Demo_Timer:		ds.w	1
