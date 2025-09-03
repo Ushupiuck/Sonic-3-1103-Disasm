@@ -43852,7 +43852,7 @@ Floor_Thump_Sfx_Data:                                          ; Offset_0x0EC8F9
 Offset_0x0EC922:
 		include	"sound\sfx\69 - laser.asm"
 Offset_0x0EC94A:
-		binclude	"sound\0x6A.sfx"
+		include	"sound\sfx\6A - boss panic.asm"
 Offset_0x0EC97C:
 		binclude	"sound\0x6B.sfx"
 Crash_Sfx_Data:                                                ; Offset_0x0EC997

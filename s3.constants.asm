@@ -354,6 +354,8 @@ Invincibility_Snd        = mus_Invincibility
 Panic_Snd                = mus_Drowning
 
 Super_Sonic_Snd          = mus_SuperSonicUnk
+S2_Extra_Life_Snd        = $98
+S2_Panic_Snd             = $9F
 
 ; ---------------------------------------------------------------------------
 ; Sound effect ID's list. These do not affect the sound driver, be careful.
@@ -599,8 +601,6 @@ Spring_Sfx               = -$2E   ; $00D2
 Error_Sfx                = sfx_Error
 
 S2_Enter_Big_Ring_Sfx    = $32
-S2_Extra_Life_Snd        = $98
-S2_Panic_Snd             = $9F 
 S2_Smash_Sfx             = $B9 
 S2_Cha_Ching_Sfx         = $C5 
 S2_Spring_Sfx            = $CC
