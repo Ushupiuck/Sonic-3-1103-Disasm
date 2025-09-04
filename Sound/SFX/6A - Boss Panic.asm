@@ -1,6 +1,6 @@
 Sound_6A_Header:
 	smpsHeaderStartSong 3
-	smpsHeaderVoice     Sound_6A_Voices
+	smpsHeaderVoice     Sound_6A_6B_Voices
 	smpsHeaderTempoSFX  $01
 	smpsHeaderChanSFX   $01
 
@@ -16,7 +16,7 @@ Sound_6A_Loop00:
 	smpsLoop            $00, $0A, Sound_6A_Loop00
 	smpsStop
 
-Sound_6A_Voices:
+Sound_6A_6B_Voices:
 ;	Voice $00
 ;	$34
 ;	$0B, $0F, $06, $03, 	$1F, $1F, $1F, $0F, 	$00, $00, $0C, $00

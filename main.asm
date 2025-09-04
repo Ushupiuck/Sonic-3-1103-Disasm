@@ -43854,7 +43854,7 @@ Offset_0x0EC922:
 Offset_0x0EC94A:
 		include	"sound\sfx\6A - boss panic.asm"
 Offset_0x0EC97C:
-		binclude	"sound\0x6B.sfx"
+		include	"sound\sfx\6B - Unknown Spin.asm"
 Crash_Sfx_Data:                                                ; Offset_0x0EC997
 		binclude	"sound\0x6C.sfx"
 Offset_0x0EC9BF:
