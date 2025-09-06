@@ -43856,7 +43856,7 @@ Offset_0x0EC94A:
 Offset_0x0EC97C:
 		include	"sound\sfx\6B - Unknown Spin.asm"
 Crash_Sfx_Data:                                                ; Offset_0x0EC997
-		binclude	"sound\0x6C.sfx"
+		include	"sound\sfx\6C - Crash.asm"
 Offset_0x0EC9BF:
 		binclude	"sound\0x6D.sfx"
 Offset_0x0ECA00:
