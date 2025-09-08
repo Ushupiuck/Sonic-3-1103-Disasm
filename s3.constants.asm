@@ -444,7 +444,7 @@ sfx_Hoverpad	ds.b 1		; $80
 sfx_Transporter	ds.b 1		; $81
 sfx_TunnelBooster	ds.b 1		; $82
 sfx_BalloonPlatform	ds.b 1		; $83
-	ds.b 1		; $84
+		ds.b 1		; $84
 sfx_TrapDoor	ds.b 1		; $85
 sfx_Balloon		ds.b 1		; $86
 sfx_CannonTurn	ds.b 1		; $87
@@ -462,7 +462,7 @@ sfx_IceSpikes	ds.b 1		; $92
 sfx_LightTunnel	ds.b 1		; $93
 sfx_Rumble	ds.b 1		; $94
 sfx_TubeLauncher	ds.b 1		; $95
-	ds.b 1		; $96
+		ds.b 1		; $96
 sfx_BridgeCollapse	ds.b 1		; $97
 sfx_BigRumble	ds.b 1		; $98
 sfx_UnknownPowerUp	ds.b 1		; $99
@@ -492,7 +492,7 @@ sfx_MechaLand	ds.b 1		; $B0
 sfx_EnemyBreath	ds.b 1		; $B1
 sfx_DeathEggRiseQuiet	ds.b 1		; $B2
 sfx_BossProjectile	ds.b 1		; $B3
-	ds.b 1		; $B4
+		ds.b 1		; $B4
 sfx_LavaFall	ds.b 1		; $B5
 sfx_SpringLatch	ds.b 1		; $B6
 sfx_ThumpBoss	ds.b 1		; $B7
@@ -505,7 +505,7 @@ sfx_MissileShoot	ds.b 1		; $BD
 sfx_UnknownOminous	ds.b 1		; $BE
 sfx_ConveyorPlatform	ds.b 1		; $BF
 sfx_UnknownSaw	ds.b 1		; $C0
-	ds.b 1		; $C1
+		ds.b 1		; $C1
 sfx_GravityLift	ds.b 1		; $C2
 sfx_MechaTransform	ds.b 1		; $C3
 sfx_UnknownRise	ds.b 1		; $C4

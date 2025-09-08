@@ -44072,8 +44072,8 @@ Offset_0x0EDE73:
 Offset_0x0EDEB4:
 		binclude	"sound\0xD8.sfx"
 Offset_0x0EDEDC:
-		binclude	"sound\0xD9.sfx"
-Offset_0x0EDF30:
+		include	"sound\sfx\D9 - Signpost.asm"
+Offset_0x0EDF03:
 		binclude	"data\star trek\part12.bin"
 Left_Over_Code:                                                ; Offset_0x0EF1DD
 		binclude	"data\star trek\part13.bin"
