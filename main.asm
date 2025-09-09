@@ -44070,7 +44070,7 @@ Offset_0x0EDE4B:
 Offset_0x0EDE73:
 		binclude	"sound\0xD7.sfx"
 Offset_0x0EDEB4:
-		binclude	"sound\0xD8.sfx"
+		include	"sound\sfx\D8 - Slot Machine.asm"
 Offset_0x0EDEDC:
 		include	"sound\sfx\D9 - Signpost.asm"
 Offset_0x0EDF03:
