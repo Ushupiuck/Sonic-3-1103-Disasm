@@ -43872,21 +43872,21 @@ Offset_0x0ECA90:
 Offset_0x0ECAC2:
 		include	"sound\sfx\74 - Skid.asm"
 Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7
-		binclude	"sound\0x75.sfx"
+		include	"sound\sfx\75 - Level Projectile.asm"
 Offset_0x0ECB23:
-		binclude	"sound\0x76.sfx"
+		include	"sound\sfx\76 - Spike Hit.asm"
 Offset_0x0ECB52:
-		binclude	"sound\0x77.sfx"
+		include	"sound\sfx\77 - Push Block.asm"
 Offset_0x0ECB7F:
-		binclude	"sound\0x78.sfx"
+		include	"sound\sfx\78 - Goal.asm"
 Underwater_Sfx_Data:                                           ; Offset_0x0ECBB2
-		binclude	"sound\0x79.sfx"
+		include	"sound\sfx\79 - Action Block.asm"
 Offset_0x0ECBC4:
-		binclude	"sound\0x7A.sfx"
+		include	"sound\sfx\7A - Splash 2.asm"
 Offset_0x0ECC05:
-		binclude	"sound\0x7B.sfx"
+		include	"sound\sfx\7B - Unknown Shift.asm"
 Boss_Hit_Sfx_Data:                                             ; Offset_0x0ECC24
-		binclude	"sound\0x7C.sfx"
+		include	"sound\sfx\7C - Boss Hit.asm"
 Offset_0x0ECC58:
 		binclude	"sound\0x7D.sfx"
 Offset_0x0ECC8E:
