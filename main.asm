@@ -43894,13 +43894,13 @@ Offset_0x0ECC8E:
 Offset_0x0ECCD8:
 		include	"sound\sfx\7F - Shield 2.asm"
 Hoverpad_Sfx_Data:                                             ; Offset_0x0ECD05
-		binclude	"sound\0x80.sfx"
+		include	"sound\sfx\80 - Hoverpad.asm"
 Transporter_Sfx_Data:                                          ; Offset_0x0ECD32
-		binclude	"sound\0x81.sfx"
+		include	"sound\sfx\81 - Transporter.asm"
 Tunnel_Booster_Sfx_Data:                                       ; Offset_0x0ECD66
-		binclude	"sound\0x82.sfx"
+		include	"sound\sfx\82 - Tunnel Booster.asm"
 Rising_Platform_Sfx_Data:                                      ; Offset_0x0ECD96
-		binclude	"sound\0x83.sfx"
+		include	"sound\sfx\83 - Balloon Platform.asm"
 Wave_Hover_Sfx_Data:                                           ; Offset_0x0ECDC5
 		binclude	"sound\0x84.sfx"
 Trapdoor_Sfx_Data:                                             ; Offset_0x0ECDF6
