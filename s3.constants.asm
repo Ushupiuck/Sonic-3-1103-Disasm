@@ -1,7 +1,7 @@
 ; Constants
-Compiler_Place_Holder = 0
-Check_Interrupt       = $20800C
-Size_of_Snd_driver_guess		= $1852
+Compiler_Place_Holder	= 0
+Check_Interrupt	= $20800C
+Size_of_Snd_driver_guess	= $1852
 
 ; ---------------------------------------------------------------------------
 ; Game Constants
@@ -10,23 +10,23 @@ Size_of_Snd_driver_guess		= $1852
 ; so switching them around is considerably more difficult
 
 ; GAME MODE
-gm_SEGALogo            = 0
-gm_TitleScreen         = 4
-gm_DemoMode            = 8
-gm_PlayMode            = $C
-gm_S2_SpecialStage     = $10
-gm_Continue            = $14
-gm_S2_Versus_Mode_Menu = $1C
-gm_S2_Options_Menu     = $24
-gm_Level_Select_Menu   = $28
-gm_S3_Special_Stage    = $2C
-gm_SK_Special_Stage    = $30
+gm_SEGALogo	= 0
+gm_TitleScreen	= 4
+gm_DemoMode	= 8
+gm_PlayMode	= $C
+gm_S2_SpecialStage	= $10
+gm_Continue	= $14
+gm_S2_Versus_Mode_Menu	= $1C
+gm_S2_Options_Menu	= $24
+gm_Level_Select_Menu	= $28
+gm_S3_Special_Stage	= $2C
+gm_SK_Special_Stage	= $30
 
 ; PLAYER MODE
-Sonic_And_Miles       = 0
-Sonic_Alone           = 1
-Miles_Alone           = 2
-Knuckles_Alone        = 3
+Sonic_And_Miles	= 0
+Sonic_Alone	= 1
+Miles_Alone	= 2
+Knuckles_Alone	= 3
 ; ---------------------------------------------------------------------------
 ; Controller Buttons
 ;
@@ -59,75 +59,75 @@ id_PLC_GameOver		= (PLCptr_GameOver-ArtLoadCues)/2+id_PLC__First
 ; ---------------------------------------------------------------------------
 ; Sprite Status Table
 ; ---------------------------------------------------------------------------
-Obj_Pointer           = $00     ; Longword      ; 00          ; 00..03
-Obj_Flags             = $04     ; Byte          ; 01          ; 04
-Obj_Routine           = $05     ; Byte          ; 24          ; 05
-Obj_Height            = $06     ; Byte
-Obj_Width             = $07     ; Byte          ; 19          ; 07
-Obj_Priority          = $08     ; Word          ; 18          ; 08..09
-Obj_Art_VRAM          = $0A     ; Word          ; 02..03      ; 0A..0B
-Obj_Map               = $0C     ; Longword      ; 04..07      ; 0C..0F
-Obj_X                 = $10     ; Word          ; 08..09      ; 10..11
-Obj_Sub_X             = $12     ; Word          ; 0A..0B      ; 12..13  ; Fixed position
-Obj_Y                 = $14     ; Word          ; 0C..0D      ; 14..15
-Obj_Sub_Y             = $16     ; Word          ; 0E..0F      ; 16..17
-Obj_Speed_X           = $18     ; Longword      ; 10..13      ; 18..1B
-Obj_Speed_Y           = $1A     ; complemento do $18 as vezes referenciado em word ; 12..13 ; 1A..1B
-Obj_Inertia           = $1C     ; Word          ; 14..15      ; 1C..1D
-Obj_Height_2          = $1E     ; Byte          ; 16          ; 1E
-Obj_Width_2           = $1F     ; Byte          ; 17          ; 1F
-Obj_Ani_Number        = $20     ; Byte          ; 1C          ; 20
-Obj_Ani_Flag          = $21     ; Byte          ; 1D          ; 21
-Obj_Map_Id            = $22     ; Byte          ; 1A          ; 22
-Obj_Ani_Frame         = $23     ; Byte          ; 1B          ; 23
-Obj_Ani_Time          = $24     ; Byte          ; 1E..1F      ; 24..25
-Obj_Ani_Time_2        = $25     ; Byte          ; 1F          ; 25   ; Usado por alguns objetos do Sonic 1
-Obj_Angle             = $26     ; Byte          ; $26         ; $26
-Obj_Flip_Angle        = $27     ; Byte          ; $27         ; $27
-Obj_Col_Flags         = $28     ; Byte          ; 20          ; 28   ; Collision Flags
-Obj_Col_Prop          = $29     ; Byte          ; 21          ; 29 
-Obj_Status            = $2A     ; Byte          ; 22          ; 2A
-Obj_Status_2          = $2B     ; Byte
-Obj_Subtype           = $2C     ; Byte          ; 28          ; 2C
-Obj_Flags_2           = $2D     ; Byte          ; 29          ; 2D
-Obj_Timer             = $2E     ; Word          ; 2A..2B      ; 2E..2F
-Obj_Timer_2           = $2F 
-Obj_Child_Data        = $30  
-Obj_Child             = $34 
-Obj_Destr_Flag        = $3D     ; Byte          ; 39          ; 3D
-Obj_Parent_Ref        = $3E     ; Word          ; 3E..3F      ; 3E..3F     
-Obj_Height_3          = $44 
-Obj_Width_3           = $45 
-Obj_Child_Ref         = $46
-Obj_Respaw_Ref        = $48     ; Word          ; None        ; 48..49
+Obj_Pointer	= $00     ; Longword      ; 00          ; 00..03
+Obj_Flags	= $04     ; Byte          ; 01          ; 04
+Obj_Routine	= $05     ; Byte          ; 24          ; 05
+Obj_Height	= $06     ; Byte
+Obj_Width	= $07     ; Byte          ; 19          ; 07
+Obj_Priority	= $08     ; Word          ; 18          ; 08..09
+Obj_Art_VRAM	= $0A     ; Word          ; 02..03      ; 0A..0B
+Obj_Map	= $0C     ; Longword      ; 04..07      ; 0C..0F
+Obj_X	= $10     ; Word          ; 08..09      ; 10..11
+Obj_Sub_X	= $12     ; Word          ; 0A..0B      ; 12..13  ; Fixed position
+Obj_Y	= $14     ; Word          ; 0C..0D      ; 14..15
+Obj_Sub_Y	= $16     ; Word          ; 0E..0F      ; 16..17
+Obj_Speed_X	= $18     ; Longword      ; 10..13      ; 18..1B
+Obj_Speed_Y	= $1A     ; complemento do $18 as vezes referenciado em word ; 12..13 ; 1A..1B
+Obj_Inertia	= $1C     ; Word          ; 14..15      ; 1C..1D
+Obj_Height_2	= $1E     ; Byte          ; 16          ; 1E
+Obj_Width_2	= $1F     ; Byte          ; 17          ; 1F
+Obj_Ani_Number	= $20     ; Byte          ; 1C          ; 20
+Obj_Ani_Flag	= $21     ; Byte          ; 1D          ; 21
+Obj_Map_Id	= $22     ; Byte          ; 1A          ; 22
+Obj_Ani_Frame	= $23     ; Byte          ; 1B          ; 23
+Obj_Ani_Time	= $24     ; Byte          ; 1E..1F      ; 24..25
+Obj_Ani_Time_2	= $25     ; Byte          ; 1F          ; 25   ; Usado por alguns objetos do Sonic 1
+Obj_Angle	= $26     ; Byte          ; $26         ; $26
+Obj_Flip_Angle	= $27     ; Byte          ; $27         ; $27
+Obj_Col_Flags	= $28     ; Byte          ; 20          ; 28   ; Collision Flags
+Obj_Col_Prop	= $29     ; Byte          ; 21          ; 29 
+Obj_Status	= $2A     ; Byte          ; 22          ; 2A
+Obj_Status_2	= $2B     ; Byte
+Obj_Subtype	= $2C     ; Byte          ; 28          ; 2C
+Obj_Flags_2	= $2D     ; Byte          ; 29          ; 2D
+Obj_Timer	= $2E     ; Word          ; 2A..2B      ; 2E..2F
+Obj_Timer_2	= $2F 
+Obj_Child_Data	= $30  
+Obj_Child	= $34 
+Obj_Destr_Flag	= $3D     ; Byte          ; 39          ; 3D
+Obj_Parent_Ref	= $3E     ; Word          ; 3E..3F      ; 3E..3F     
+Obj_Height_3	= $44 
+Obj_Width_3	= $45 
+Obj_Child_Ref	= $46
+Obj_Respaw_Ref	= $48     ; Word          ; None        ; 48..49
 
-Obj_Size              = $4A
+Obj_Size	= $4A
 
 ; Variaveis locais de objectos
-Obj_Control_Var_00      = $30
-Obj_Control_Var_01      = $31
-Obj_Control_Var_02      = $32
-Obj_Control_Var_03      = $33
-Obj_Control_Var_04      = $34 
-Obj_Control_Var_05      = $35
-Obj_Control_Var_06      = $36
-Obj_Control_Var_07      = $37
-Obj_Control_Var_08      = $38
-Obj_Control_Var_09      = $39
-Obj_Control_Var_0A      = $3A
-Obj_Control_Var_0B      = $3B
-Obj_Control_Var_0C      = $3C
-Obj_Control_Var_0D      = $3D
-Obj_Control_Var_0E      = $3E
-Obj_Control_Var_0F      = $3F
-Obj_Player_One_Or_Two   = $3F
-Obj_Control_Var_10      = $40
-Obj_Control_Var_11      = $41
-Obj_Control_Var_12      = $42
-Obj_Control_Var_13      = $43  
-Obj_Player_One_Or_Two_2 = $43
-Obj_Control_Var_14      = $44  
-Obj_Control_Var_16      = $46  
+Obj_Control_Var_00	= $30
+Obj_Control_Var_01	= $31
+Obj_Control_Var_02	= $32
+Obj_Control_Var_03	= $33
+Obj_Control_Var_04	= $34 
+Obj_Control_Var_05	= $35
+Obj_Control_Var_06	= $36
+Obj_Control_Var_07	= $37
+Obj_Control_Var_08	= $38
+Obj_Control_Var_09	= $39
+Obj_Control_Var_0A	= $3A
+Obj_Control_Var_0B	= $3B
+Obj_Control_Var_0C	= $3C
+Obj_Control_Var_0D	= $3D
+Obj_Control_Var_0E	= $3E
+Obj_Control_Var_0F	= $3F
+Obj_Player_One_Or_Two	= $3F
+Obj_Control_Var_10	= $40
+Obj_Control_Var_11	= $41
+Obj_Control_Var_12	= $42
+Obj_Control_Var_13	= $43  
+Obj_Player_One_Or_Two_2	= $43
+Obj_Control_Var_14	= $44  
+Obj_Control_Var_16	= $46  
 
 ; Variaveis usadas pelos jogadores
 Obj_Player_Flip_Flag  = $2D     ; Byte          ; 29          ; 2D

@@ -43858,9 +43858,9 @@ Offset_0x0EC97C:
 Crash_Sfx_Data:                                                ; Offset_0x0EC997
 		include	"sound\sfx\6C - Crash.asm"
 Offset_0x0EC9BF:
-		binclude	"sound\0x6D.sfx"
+		include	"sound\sfx\6D - Boss Zoom.asm"
 Offset_0x0ECA00:
-		binclude	"sound\0x6E_6F.sfx"
+		include	"sound\sfx\6E-6F - Boss Hit Floor.asm"
 Jump_Sfx_Data:                                                 ; Offset_0x0ECA31
 		binclude	"sound\0x70.sfx"
 Offset_0x0ECA47:
