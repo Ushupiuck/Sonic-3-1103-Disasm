@@ -43870,7 +43870,7 @@ Offset_0x0ECA71:
 Offset_0x0ECA90:
 		include	"sound\sfx\73 - Death.asm"
 Offset_0x0ECAC2:
-		binclude	"sound\0x74.sfx"
+		include	"sound\sfx\74 - Skid.asm"
 Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7
 		binclude	"sound\0x75.sfx"
 Offset_0x0ECB23:
