@@ -43868,7 +43868,7 @@ Offset_0x0ECA47:
 Offset_0x0ECA71:
 		include	"sound\sfx\72 - Pulley Grab.asm"
 Offset_0x0ECA90:
-		binclude	"sound\0x73.sfx"
+		include	"sound\sfx\73 - Death.asm"
 Offset_0x0ECAC2:
 		binclude	"sound\0x74.sfx"
 Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7
