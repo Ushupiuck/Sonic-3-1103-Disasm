@@ -43888,11 +43888,11 @@ Offset_0x0ECC05:
 Boss_Hit_Sfx_Data:                                             ; Offset_0x0ECC24
 		include	"sound\sfx\7C - Boss Hit.asm"
 Offset_0x0ECC58:
-		binclude	"sound\0x7D.sfx"
+		include	"sound\sfx\7D - Bubble 2.asm"
 Offset_0x0ECC8E:
-		binclude	"sound\0x7E.sfx"
+		include	"sound\sfx\7E - Lava Ball.asm"
 Offset_0x0ECCD8:
-		binclude	"sound\0x7F.sfx"
+		include	"sound\sfx\7F - Shield 2.asm"
 Hoverpad_Sfx_Data:                                             ; Offset_0x0ECD05
 		binclude	"sound\0x80.sfx"
 Transporter_Sfx_Data:                                          ; Offset_0x0ECD32
