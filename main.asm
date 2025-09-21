@@ -43862,11 +43862,11 @@ Offset_0x0EC9BF:
 Offset_0x0ECA00:
 		include	"sound\sfx\6E-6F - Boss Hit Floor.asm"
 Jump_Sfx_Data:                                                 ; Offset_0x0ECA31
-		binclude	"sound\0x70.sfx"
+		include	"sound\sfx\70 - Jump.asm"
 Offset_0x0ECA47:
-		binclude	"sound\0x71.sfx"
+		include	"sound\sfx\71 - Star Post.asm"
 Offset_0x0ECA71:
-		binclude	"sound\0x72.sfx"
+		include	"sound\sfx\72 - Pulley Grab.asm"
 Offset_0x0ECA90:
 		binclude	"sound\0x73.sfx"
 Offset_0x0ECAC2:
