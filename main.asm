@@ -43868,13 +43868,13 @@ Offset_0x0ECA47:
 Offset_0x0ECA71:
 		include	"sound\sfx\72 - Pulley Grab.asm"
 Offset_0x0ECA90:
-		include	"sound\sfx\73 - Death.asm"
+		include	"sound\sfx\73 - Death 2.asm"
 Offset_0x0ECAC2:
-		include	"sound\sfx\74 - Skid.asm"
+		include	"sound\sfx\74 - Skid 2.asm"
 Level_Projectile_Sfx_Data:                                     ; Offset_0x0ECAF7
 		include	"sound\sfx\75 - Level Projectile.asm"
 Offset_0x0ECB23:
-		include	"sound\sfx\76 - Spike Hit.asm"
+		include	"sound\sfx\76 - Spike Hit 2.asm"
 Offset_0x0ECB52:
 		include	"sound\sfx\77 - Push Block.asm"
 Offset_0x0ECB7F:
