@@ -43953,7 +43953,7 @@ Offset_0x0ECF75:
 Offset_0x0ECFA6:
 		include	"sound\sfx\8D - Unknown Pump.asm"
 Offset_0x0ECFD3:
-		binclude	"sound\0x8E.sfx"
+		include	"sound\sfx\8E - Slide Skid (Quiet).asm"
 Offset_0x0ECFE4:
 		binclude	"sound\0x8F.sfx"
 Offset_0x0ECFFC:
