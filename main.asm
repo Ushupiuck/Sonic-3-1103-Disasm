@@ -1460,8 +1460,8 @@ Offset_0x001128:
 Offset_0x00113E:
 		move.b	(a0)+,(a1)+
 		dbf	d0,Offset_0x00113E
-		; Detect PAL region consoles, uncomment when fix_sndbugs is enabled to fully support pal double updating
 	if FixBugs
+		; Detect PAL region consoles
 		btst	#6,(Hardware_Id).w
 		beq.s	.notpal
 		move.b	#1,(Z80_RAM_Start+zPalFlag).l
