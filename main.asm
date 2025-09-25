@@ -43683,7 +43683,7 @@ Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
 		binclude "data\star trek\part6.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_3:                                                    ; Offset_0x0CF962
-		binclude	"data\star trek\source code 3.bin"
+		include	"data\star trek\source code 3.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $1A
@@ -43726,7 +43726,7 @@ Panic_Snd_Data:                                                ; Offset_0x0D8592
 ; Offset_0x0D86C0:
 		binclude	"data\star trek\part8.bin"
 Asm_Code_4:                                                    ; Offset_0x0DFEF2
-		binclude	"data\star trek\source code 4.bin"
+		include	"data\star trek\source code 4.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Offset_0xE0000:
