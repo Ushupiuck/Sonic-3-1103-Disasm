@@ -43629,7 +43629,7 @@ Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
 		binclude "data\star trek\part4.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_2:                                                    ; Offset_0x0BFBA4
-		binclude	"data\star trek\source code 2.bin"
+		include	"data\star trek\source code 2.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $18
