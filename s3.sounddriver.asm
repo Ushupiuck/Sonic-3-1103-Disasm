@@ -12,8 +12,7 @@
 ; and group functionality, and shadow registers are not indicated  with an apostrophe; e.g.,
 ; ex af,af' is simply written as ex af,af.
 
-; Set this to 1 to fix some bugs in the driver.
-fix_sndbugs	=	0
+fix_sndbugs	=	FixBugs
 
 z80_SoundDriverStart:
 ; ---------------------------------------------------------------------------
@@ -81,13 +80,23 @@ zROMWindow:		= $8000
 zDataStart:		= $1C00
 
 		phase zDataStart
+	if fix_sndbugs
+			ds.b	1	; unused
+	else
 			ds.b	2	; unused
+	endif
 zPointerTable:		ds.w	1	; the 68000 SoundDriverLoad routine sets this to 1200h in Z80 memory
 zSongBank:		ds.b	1	; bits 15 to 22 of M68K bank address
 zCurrentTempo:		ds.b	1
 zDACIndex:		ds.b	1	; bit 7 = 1 if playing, 0 if not; remaining 7 bits are index into DAC tables (1-based)
 zPlaySegaPCMFlag:	ds.b	1
-zPalDblUpdCounter:	ds.b	1	; used to update the sound driver twice every five frames; not actually implemented yet
+	if fix_sndbugs
+zPalFlag:		ds.b 1
+	endif
+zPalDblUpdCounter:	ds.b	1	; used to update the sound driver twice every five frames; partially implemented
+	if fix_sndbugs
+			ds.b	1	; unused
+	endif
 
 zTempVariablesStart:	ds.b	1
 zNextSound:		=	zTempVariablesStart
@@ -326,8 +335,28 @@ zVInt:	rsttarget
 		push	iy
 		exx
 
+	if fix_sndbugs
+.doupdate:
+	endif
 		call	zDoUpdate
 		call	zUpdateEverything
+	if fix_sndbugs
+		ld	a, (zPalFlag)			; Get PAL flag
+		or	a				; Is it set?
+		jr	z, .not_pal			; Branch if not (NTSC)
+		ld	a, (zPalDblUpdCounter)		; Get PAL double-update timeout counter
+		or	a				; Is it zero?
+		jr	nz, .pal_timer			; Branch if not
+		ld	a, 5				; Set it back to 5...
+		ld	(zPalDblUpdCounter), a		; ... and save it
+		jp	.doupdate			; Go again
+
+.pal_timer:
+		dec	a				; Decrease PAL double-update timeout counter
+		ld	(zPalDblUpdCounter), a		; Store it
+
+.not_pal:
+	endif
 
 		; DAC bankswitch
 		bankswitch DACBank

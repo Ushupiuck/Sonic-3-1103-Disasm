@@ -35,6 +35,9 @@
 		include "s3.macrosetup.asm"
 		include	"s3.constants.asm"
 		include	"s3.macros.asm"
+
+FixBugs = 0
+; If 1, fixes multiple bugs within the game
 ; ---------------------------------------------------------------------------
 ; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
 FixMusicAndSFXDataBugs = 0
@@ -648,12 +651,16 @@ Offset_0x00071E:
 		lea	(VDP_Data_Port).l,a6                          ; $00C00000
 		move.l	#$C0000000,(VDP_Control_Port)               ; $00C00004
 		move.w	#$EEE,d0
-		move.w	#$1F,d1
+		move.w	#bytesToWcnt($40),d1
 Offset_0x00073E:
 		move.w	D0,(A6)
 		dbf	D1, Offset_0x00073E
 		move.l	#$C0420000,(VDP_Control_Port)               ; $00C00004
-		move.w	#$1F,d1
+	if FixBugs
+		move.w	#bytesToWcnt($3E),d1
+	else
+		move.w	#bytesToWcnt($40),d1
+	endif
 Offset_0x000752:
 		move.w	D0,(A6)
 		dbf	D1, Offset_0x000752
@@ -1071,7 +1078,7 @@ HBlank_WaterPAL:
 		move.l	(Palette_Underwater_Ptr).w,a2
 		moveq	#$C,d0
 ; Offset_0x000D40:
-.wait1:		dbf	d0,.wait1
+		dbf	d0,*
 		move.w	(a2)+,d1
 		move.b	(Scanline_Counter).w,d0
 		subi.b	#200,d0			; are we below line 200?
@@ -1092,7 +1099,7 @@ HBlank_WaterPAL:
 		nop
 		moveq	#$24,d0
 ; Offset_0x000D70:
-.wait2:		dbf	d0,.wait2
+		dbf	d0,*
 		dbf	d1,.transferColours	; repeat for number of colors
 ; Offset_0x000D78:
 .skipTransfer:
@@ -1132,7 +1139,7 @@ HBlank_WaterNTSC:
 		move.l	(Palette_Underwater_Ptr).w,a2
 		moveq	#$1B,d0
 ; Offset_0x000DD4:
-.wait1:		dbf	d0,.wait1
+		dbf	d0,*
 		move.w	(a2)+,d1
 		move.b	(Scanline_Counter).w,d0
 		subi.b	#200,d0			; are we below line 200?
@@ -1152,8 +1159,7 @@ HBlank_WaterNTSC:
 		nop
 		moveq	#$33,d0
 ; Offset_0x000E02:
-.wait2:
-		dbf	d0,.wait2
+		dbf	d0,*
 		dbf	d1,.transferColors	; repeat for number of colors
 ; Offset_0x000E0A:
 .skipTransfer:
@@ -1415,8 +1421,13 @@ ClearScreen_DMAWait_4:
 Offset_0x0010D4:
 		clr.l	(Vertical_Scroll_Value).w
 		clr.l	(Vertical_Scroll_Value_3).w
+	if FixBugs
+		clearRAM	Sprite_Table_Buffer,Sprite_Table_Buffer_End
+		clearRAM	Horizontal_Scroll_Buffer,Horizontal_Scroll_Buffer_End_Padded
+	else
 		clearRAM	Sprite_Table_Buffer,Sprite_Table_Buffer_End+4
 		clearRAM	Horizontal_Scroll_Buffer,Horizontal_Scroll_Buffer_End_Padded+4
+	endif
 		startZ80
 		rts
 ; End of function ClearScreen
@@ -1449,7 +1460,14 @@ Offset_0x001128:
 Offset_0x00113E:
 		move.b	(a0)+,(a1)+
 		dbf	d0,Offset_0x00113E
-		; PAL optimization hasn't been added yet
+		; Detect PAL region consoles, uncomment when fix_sndbugs is enabled to fully support pal double updating
+	if FixBugs
+		btst	#6,(Hardware_Id).w
+		beq.s	.notpal
+		move.b	#1,(Z80_RAM_Start+zPalFlag).l
+
+.notpal:
+	endif
 		move.w	#0,(Z80_Reset).l		; reset Z80
 		nop
 		nop
@@ -2054,7 +2072,9 @@ RunPLC_RAM:
 
 Offset_0x00157A:
 		andi.w	#$7FFF,d2
+	if ~~FixBugs
 		move.w	d2,(PLC_Data_Count).w
+	endif
 		bsr.w	NemesisDec_4
 		move.b	(a0)+,d5
 		asl.w	#8,d5
@@ -2068,6 +2088,9 @@ Offset_0x00157A:
 		move.l	d0,(Nemesis_Previous_Row).w
 		move.l	d5,(Nemesis_Data_Word).w
 		move.l	d6,(Nemesis_Shift_Value).w
+	if FixBugs
+		move.w	d2,(PLC_Data_Count).w
+	endif
 
 Offset_0x0015AC:
 		rts
@@ -3582,7 +3605,11 @@ PalCycle_SuperSonic_Revert:
 		move.w	(Super_Sonic_Palette_Frame).w,d0
 		subq.w	#8,(Super_Sonic_Palette_Frame).w
 		bcc.s	Offset_0x002B2A
+	if FixBugs
+		move.w	#0,(Super_Sonic_Palette_Frame).w
+	else
 		move.b	#0,(Super_Sonic_Palette_Frame).w
+	endif
 		move.b	#0,(Super_Sonic_Palette_Status).w
 
 Offset_0x002B2A:
@@ -3605,7 +3632,11 @@ Offset_0x002B50:
 		move.w	(Super_Sonic_Palette_Frame).w,d0            ; $FFFFF65C
 		addq.w	#8,(Super_Sonic_Palette_Frame).w          ; $FFFFF65C
 		cmpi.w	#$78,(Super_Sonic_Palette_Frame).w        ; $FFFFF65C
+	if FixBugs
+		bls.s	Offset_0x002B78
+	else
 		bcs.s	Offset_0x002B78
+	endif
 		move.w	#$30,(Super_Sonic_Palette_Frame).w        ; $FFFFF65C
 Offset_0x002B78:
 		lea	(Palette_Row_0_Offset+4).w,a1             ; $FFFFED04
