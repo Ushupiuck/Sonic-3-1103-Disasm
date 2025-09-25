@@ -146,7 +146,7 @@ zTracksSFXEnd
 zTempVariablesEnd
 		dephase
 		!org	z80_SoundDriverStart
-		
+
 		save
 		!org 0	; z80 Align, handled by the build process
 		CPU Z80
@@ -177,7 +177,7 @@ bankswitch macro addr68k
 	endm
 	endif
 	endm
-	
+
 ; Macro to perform a bank switch... after using this,
 ; the start of zROMWindow points to the start of the given 68k address,
 ; rounded down to the nearest $8000 byte boundary
@@ -661,7 +661,7 @@ zGetNoteDuration:
 		ld	a,(ix+zTrack.SavedDuration)
 		ld	(ix+zTrack.DurationTimeout),a
 		jr	zFinishTrackUpdate
-		
+
 	if ~~fix_sndbugs
 		; unused
 		ld	a,(de)
