@@ -43935,15 +43935,15 @@ Rising_Platform_Sfx_Data:                                      ; Offset_0x0ECD96
 Wave_Hover_Sfx_Data:                                           ; Offset_0x0ECDC5
 		binclude	"sound\0x84.sfx"
 Trapdoor_Sfx_Data:                                             ; Offset_0x0ECDF6
-		binclude	"sound\0x85.sfx"
+		include	"sound\sfx\85 - Trap Door.asm"
 Balloon_Pop_Sfx_Data:                                          ; Offset_0x0ECE20
-		binclude	"sound\0x86.sfx"
+		include	"sound\sfx\86 - Balloon.asm"
 Cannon_Turn_Sfx_Data:                                          ; Offset_0x0ECE6A
-		binclude	"sound\0x87.sfx"
+		include	"sound\sfx\87 - Cannon Turn.asm"
 Offset_0x0ECE99:
-		binclude	"sound\0x88.sfx"
+		include	"sound\sfx\88 - Gravity Machine.asm"
 Offset_0x0ECEC6:
-		binclude	"sound\0x89.sfx"
+		include	"sound\sfx\89 - Lightning.asm"
 Offset_0x0ECF11:
 		binclude	"sound\0x8A.sfx"
 Small_Bumper_Sfx_Data:                                         ; Offset_0x0ECF45
