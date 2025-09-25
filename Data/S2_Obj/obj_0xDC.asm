@@ -1,17 +1,17 @@
 ;===============================================================================
 ; Objeto 0xDC - Anéis usados como prêmio nos caça níqueis na Casino Night
 ; ->>>
-;===============================================================================     
+;===============================================================================
 ; Offset_0x010FC2:
                 moveq   #$00, D0
                 move.b  Obj_Routine(A0), D0                              ; $0005
                 move.w  Offset_0x010FD0(PC, D0), D1
-                jmp     Offset_0x010FD0(PC, D1)     
+                jmp     Offset_0x010FD0(PC, D1)
 ;-------------------------------------------------------------------------------
 Offset_0x010FD0:
                 dc.w    Offset_0x010FD6-Offset_0x010FD0
                 dc.w    Offset_0x01102A-Offset_0x010FD0
-                dc.w    Offset_0x011036-Offset_0x010FD0  
+                dc.w    Offset_0x011036-Offset_0x010FD0
 ;-------------------------------------------------------------------------------
 Offset_0x010FD6:
                 moveq   #$00, D1
@@ -38,7 +38,7 @@ Offset_0x010FD6:
                 subq.w  #$01, (A1)
                 bsr     CollectRing            ; Offset_0x010A20
                 addi.b  #$02, Obj_Routine(A0)                            ; $0005
-;-------------------------------------------------------------------------------                
+;-------------------------------------------------------------------------------
 Offset_0x01102A:
                 lea     Rings_Animate_Data(PC), A1             ; Offset_0x010DDA
                 bsr     AnimateSprite                          ; Offset_0x01115E
@@ -49,7 +49,7 @@ Offset_0x011036:
 Slot_Machine_Rings_Animate_Data:                               ; Offset_0x01103A
                 dc.w    Offset_0x01103C-Slot_Machine_Rings_Animate_Data
 Offset_0x01103C:
-                dc.b    $01, $00, $01, $02, $03, $FF                
+                dc.b    $01, $00, $01, $02, $03, $FF
 ;===============================================================================
 ; Objeto 0xDC - Anéis usados como prêmio nos caça níqueis na Casino Night
 ; <<<-

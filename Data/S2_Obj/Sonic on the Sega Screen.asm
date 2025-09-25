@@ -94,7 +94,7 @@ SegaSonic_Frames:
 		dc.l	Offset_0x101994
 		dc.l	Offset_0x10199A
 		dc.l	Offset_0x1019A0
-		dc.l	Offset_0x1019A6   
+		dc.l	Offset_0x1019A6
 ; Offset_0x03455C:
 SegaScreenScaledSpriteDataStart:
 		dc.l	$FFFF0000, $FFFF0B00
@@ -112,7 +112,7 @@ SegaScreenScaledSpriteDataStart:
 		dc.l	$FFFF0840, $FFFF2C00
 		dc.b	$02, $01
 		dc.l	$FFFF0900, $FFFF2F00
-		dc.b	$03, $03  
+		dc.b	$03, $03
 ; ===========================================================================
 ; Offset_0x0345AC:
 SegaSonic_RunLeft:
