@@ -87,6 +87,11 @@ objdatasimple macro pri,width,height,VRAM
 	dc.b	width, height
 	endm
 
+; Function to turn a sample rate into a djnz loop counter
+pcmLoopCounterBase function sampleRate,baseCycles, 1+(Z80_Clock/(sampleRate)-(baseCycles)+(13/2))/13
+pcmLoopCounter function sampleRate, pcmLoopCounterBase(sampleRate,68) ; 68 is the number of cycles zPlaySEGAPCM takes to deliver one sample.
+dpcmLoopCounter function sampleRate, pcmLoopCounterBase(sampleRate,303/2) ; 303 is the number of cycles zPlayDigitalAudio takes to deliver two samples.
+
 startBank macro {INTLABEL}
 	align	$8000
 __LABEL__ label *

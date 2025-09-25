@@ -4,6 +4,16 @@ Check_Interrupt	= $20800C
 Size_of_Snd_driver_guess	= $1852
 
 ; ---------------------------------------------------------------------------
+; Clock equates
+; ---------------------------------------------------------------------------
+
+Master_Clock    = 53693175
+M68000_Clock    = Master_Clock/7
+Z80_Clock       = Master_Clock/15
+FM_Sample_Rate  = M68000_Clock/(6*6*4)
+PSG_Sample_Rate = Z80_Clock/16
+
+; ---------------------------------------------------------------------------
 ; Game Constants
 ; ---------------------------------------------------------------------------
 ; These are usually hardcoded, such as zone IDs or the selected character,
