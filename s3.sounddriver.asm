@@ -264,7 +264,6 @@ zGetPointerTable:	rsttarget
 	else
 		ld	hl,(zPointerTable)		; read pointer to pointer table (yes, really)
 	endif
-		; really, you should just make this reference z80_SoundDriverPointers directly
 		ld	b,0
 		add	hl,bc				; add offset into pointer table
 		ex	af,af'				; backup AF
