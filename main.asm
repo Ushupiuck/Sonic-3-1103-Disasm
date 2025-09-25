@@ -43591,7 +43591,7 @@ Offset_0x0A92C0:
 		binclude	"data\star trek\part2.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_1:                                                    ; Offset_0x0AFF0F
-		binclude	"data\star trek\source code 1.asm"
+		binclude	"data\star trek\source code 1.bin"
 ;-------------------------------------------------------------------------------
 
 ; Z80 Bank $16
@@ -43629,7 +43629,7 @@ Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
 		binclude "data\star trek\part4.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_2:                                                    ; Offset_0x0BFBA4
-		binclude	"data\star trek\source code 2.asm"
+		binclude	"data\star trek\source code 2.bin"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $18
@@ -43683,7 +43683,7 @@ Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
 		binclude "data\star trek\part6.bin"
 ;-------------------------------------------------------------------------------
 Asm_Code_3:                                                    ; Offset_0x0CF962
-		binclude	"data\star trek\source code 3.asm"
+		binclude	"data\star trek\source code 3.bin"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $1A
@@ -43726,7 +43726,7 @@ Panic_Snd_Data:                                                ; Offset_0x0D8592
 ; Offset_0x0D86C0:
 		binclude	"data\star trek\part8.bin"
 Asm_Code_4:                                                    ; Offset_0x0DFEF2
-		binclude	"data\star trek\source code 4.asm"
+		binclude	"data\star trek\source code 4.bin"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Offset_0xE0000:
