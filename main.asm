@@ -43945,13 +43945,13 @@ Offset_0x0ECE99:
 Offset_0x0ECEC6:
 		include	"sound\sfx\89 - Lightning.asm"
 Offset_0x0ECF11:
-		binclude	"sound\0x8A.sfx"
+		include	"sound\sfx\8A - Boss Magma.asm"
 Small_Bumper_Sfx_Data:                                         ; Offset_0x0ECF45
-		binclude	"sound\0x8B.sfx"
+		include	"sound\sfx\8B - Small Bumpers.asm"
 Offset_0x0ECF75:
-		binclude	"sound\0x8C.sfx"
+		include	"sound\sfx\8C - Chain Tension.asm"
 Offset_0x0ECFA6:
-		binclude	"sound\0x8D.sfx"
+		include	"sound\sfx\8D - Unknown Pump.asm"
 Offset_0x0ECFD3:
 		binclude	"sound\0x8E.sfx"
 Offset_0x0ECFE4:
