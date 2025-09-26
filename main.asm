@@ -53029,24 +53029,26 @@ Pal_Bonus_Stage_Slot_Machine:                                  ; Offset_0x1EA3B4
 ;-------------------------------------------------------------------------------
 LRz_Rocks_Layout:                                              ; Offset_0x1EA414
 		binclude	"data\lrz\rockspos.dat"
-LRz_Incomplete_Map_Part_1:                                     ; Offset_0x1EAF4A
-		binclude	"data\lrz\incm1_p1.dat"
-LRz_Incomplete_Map_Part_2:                                     ; Offset_0x1EB2CC
-		binclude	"data\lrz\incm1_p2.dat"
-Unknown_Map:                                                   ; Offset_0x1EB85E
-		binclude	"data\unknown\unkmap_1.dat"
+LRz_Map_Act_1_Incomplete:
+		; 1300 bytes missing at the start. This is technically one file,
+		; but the 2nd half is re-used as padding further down, at
+		; Left_Over_LRz_Rocks_Layout
+		binclude	"data\lrz\Level Layout - Act 1 (Top Half).dat"
+		binclude	"data\lrz\Level Layout - Act 1 (Bottom Half).dat"
+LRz_Map_Act_2:                                                 ; Offset_0x1EB85E
+		binclude	"data\lrz\Level Layout - Act 2.dat"
 LRz_Map_Act_1:                                                 ; Offset_0x1EC4CE
-		binclude	"data\lrz\lrz_map1.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 LRz_Map_Act_1_2:                                               ; Offset_0x1ED2F6
-		binclude	"data\lrz\lrz_map2.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 LRz_Map_Act_1_3:                                               ; Offset_0x1EE11E
-		binclude	"data\lrz\lrz_map3.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 LRz_Map_Act_1_4:                                               ; Offset_0x1EEF46
-		binclude	"data\lrz\lrz_map4.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 LRz_Map_Act_1_5:                                               ; Offset_0x1EFD6E
-		binclude	"data\lrz\lrz_map5.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 LRz_Map_Act_1_6:                                               ; Offset_0x1F0B96
-		binclude	"data\lrz\lrz_map6.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 Left_Over_ALz_Map:                                             ; Offset_0x1F19BE
 		binclude	"data\alz\lo_map.dat"
 Left_Over_BPz_Map:                                             ; Offset_0x1F1B2A
@@ -53545,8 +53547,8 @@ Offset_0x1F338E:
 ;-------------------------------------------------------------------------------
 Left_Over_LRz_Rocks_Layout:                                    ; Offset_0x1F338E
 		binclude	"data\lrz\rockspos.dat"
-LRz_Incomplete_Map_Part_2_2:                                   ; Offset_0x1F3EC4
-		binclude	"data\lrz\incm1_p2.dat"
+LRz_Map_Act_1_Incomplete_Part_2:                               ; Offset_0x1F3EC4
+		binclude	"data\lrz\Level Layout - Act 1 (Bottom Half).dat"
 Left_Over_ALz_Map_2:                                           ; Offset_0x1F4456
 		binclude	"data\alz\lo_map.dat"
 Left_Over_BPz_Map_2:                                           ; Offset_0x1F45C2
