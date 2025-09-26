@@ -52915,9 +52915,9 @@ Pal_Bonus_Stage_Slot_Machine:                                  ; Offset_0x1EA3B4
 LRz_Rocks_Layout:
 		binclude	"data\lrz\rockspos.dat"
 LRz_Map_Act_2:
-		binclude	"data\lrz\lrz_map2.dat"
+		binclude	"data\lrz\Level Layout - Act 2.dat"
 LRz_Map_Act_1:
-		binclude	"data\lrz\lrz_map1.dat"
+		binclude	"data\lrz\Level Layout - Act 1.dat"
 ;-------------------------------------------------------------------------------
 Offset_0x1F32CE:
 		dc.w	$0886, $0EEE, $04AE, $026E, $024A, $00EE, $000E, $0224
