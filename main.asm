@@ -36,7 +36,7 @@
 		include	"s3.constants.asm"
 		include	"s3.macros.asm"
 
-FixBugs = 0
+FixBugs = 1
 ; If 1, fixes multiple bugs within the game
 ; ---------------------------------------------------------------------------
 ; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
@@ -43469,12 +43469,6 @@ Offset_0x04CD0E:
 		dc.w	((Obj_0xC8_Iz_Trampoline_Support+$88)&$FFFF) ; Offset_0x046A88
 		dc.l	(Obj_0xC9_Knuckles_Switch+$88)         ; Offset_0x03550C
 		dc.l	(ObjCA_AIZPlaneIntro+$88)   ; Offset_0x035B5A
-;-------------------------------------------------------------------------------
-; Left over - Parte de ponteiros de objetos de uma compila��o anterior
-; <<<-
-;-------------------------------------------------------------------------------
-Offset_0x04CD18:
-		binclude	"data\star trek\part1.bin"
 ;===============================================================================
 ; Lista de objetos das fases
 ; <<<-
@@ -43618,11 +43612,6 @@ Art_Oxygen_Numbers:                                            ; Offset_0x0A8640
 		binclude	"data\art\oxygnumb.dat"
 Art_Menu_Sonic_Miles:                                          ; Offset_0x0A8DC0
 		binclude	"data\menus\soncmils.dat"
-Offset_0x0A92C0:
-		binclude	"data\star trek\part2.bin"
-;-------------------------------------------------------------------------------
-Asm_Code_1:                                                    ; Offset_0x0AFF0F
-		binclude	"data\star trek\source code 1.bin"
 ;-------------------------------------------------------------------------------
 
 ; Z80 Bank $16
@@ -43639,7 +43628,6 @@ Marble_Garden_1_Snd_Data:                                      ; Offset_0x0B6E51
 		include	"sound\music\mgz1.asm"
 Marble_Garden_2_Snd_Data:                                      ; Offset_0x0B7468
 		include	"sound\music\mgz2.asm"
-		binclude "data\star trek\part3.bin"
 	finishBank
 ; Z80 Bank $17
 Snd_Bank2_Start:	startBank
@@ -43657,10 +43645,6 @@ Icecap_2_Snd_Data:                                             ; Offset_0x0BCA37
 		include	"sound\music\icz2.asm"
 Launch_Base_1_Snd_Data:                                        ; Offset_0x0BD04B
 		include	"sound\music\lbz1.asm"
-		binclude "data\star trek\part4.bin"
-;-------------------------------------------------------------------------------
-Asm_Code_2:                                                    ; Offset_0x0BFBA4
-		include	"data\star trek\source code 2.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $18
@@ -43683,7 +43667,6 @@ Sky_Sanctuary_Snd_Data:                                        ; Offset_0x0C6642
 		include	"sound\music\ssz.asm"
 Death_Egg_1_Snd_Data:                                          ; Offset_0x0C7954
 		include	"sound\music\dez1.asm"
-		binclude "data\star trek\part5.bin"
 	finishBank
 ; Z80 Bank $19
 Snd_Bank4_Start:	startBank
@@ -43711,10 +43694,6 @@ Balloon_Park_Snd_Data:                                         ; Offset_0x0CC988
 		include	"sound\music\balloon park.asm"
 Desert_Palace_Snd_Data:                                        ; Offset_0x0CD620
 		include	"sound\music\desert palace.asm"
-		binclude "data\star trek\part6.bin"
-;-------------------------------------------------------------------------------
-Asm_Code_3:                                                    ; Offset_0x0CF962
-		include	"data\star trek\source code 3.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Z80 Bank $1A
@@ -43745,7 +43724,6 @@ Super_Sonic_Theme_Snd_Data:                                    ; Offset_0x0D5EAA
 		include	"sound\music\unused.asm"
 Data_Select_Menu_Snd_Data:                                     ; Offset_0x0D695E
 		include	"sound\music\menu.asm"
-		binclude "data\star trek\part7.bin"
 	finishBank
 ; Z80 Bank $1B
 Snd_Bank6_Start:	startBank
@@ -43753,19 +43731,11 @@ Final_Boss_Snd_Data:                                           ; Offset_0x0D8000
 		include	"sound\music\final boss.asm"
 Panic_Snd_Data:                                                ; Offset_0x0D8592
 		include	"sound\music\countdown.asm"
-;-------------------------------------------------------------------------------
-; Offset_0x0D86C0:
-		binclude	"data\star trek\part8.bin"
-Asm_Code_4:                                                    ; Offset_0x0DFEF2
-		include	"data\star trek\source code 4.asm"
 	finishBank
 ;-------------------------------------------------------------------------------
 ; Offset_0xE0000:
 Z80_Driver:	include	"s3.sounddriver.asm"
 Z80_Driver_End
-;-------------------------------------------------------------------------------
-Offset_0x0E1852:
-		binclude	"data\star trek\part11.bin"
 ;-------------------------------------------------------------------------------
 	cnop -Size_of_SndBank, $8000	; aligned to end of bank
 
@@ -44104,10 +44074,6 @@ Offset_0x0EDEB4:
 		include	"sound\sfx\D8 - Slot Machine.asm"
 Offset_0x0EDEDC:
 		include	"sound\sfx\D9 - Signpost.asm"
-Offset_0x0EDF03:
-		binclude	"data\star trek\part12.bin"
-Left_Over_Code:                                                ; Offset_0x0EF1DD
-		binclude	"data\star trek\part13.bin"
 SndBank_End
 
 	if SndBank_End - SndBank > $8000
@@ -44339,16 +44305,12 @@ DAC_98_To_9A_Data_End:
 DAC_9B_Data:                                                   ; Offset_0x0F5C67
 		binclude	"sound\DAC\dac_9B.bin"
 DAC_9B_Data_End:
-;-------------------------------------------------------------------------------
-Offset_0x0F7304:
-		binclude	"data\star trek\part14.bin"
 	finishBank
 ;-------------------------------------------------------------------------------
 SEGABank:	startBank
 SEGA_PCM_Data:                                                 ; Offset_0x0F8000
 		binclude	"sound\sega.pcm"
 SEGA_PCM_Data_End:
-		binclude	"data\star trek\part15.bin"
 	finishBank
 ;===============================================================================
 ; Mapeamento dos Sprites do Sonic
@@ -51990,8 +51952,10 @@ Art_Balloon:                                                   ; Offset_0x11C852
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Gapsule:                                                   ; Offset_0x11C8F4
 		binclude	"data\fbz\gapsule.nem"
+		even
 Art_Laser_Beam:                                                ; Offset_0x11CEBA
 		binclude	"data\fbz\lasrbeam.nem"
+		even
 Art_Hang_Mobile:                                               ; Offset_0x11D3BC
 		binclude	"data\fbz\hangmobl.nem"
 Art_Blaster:                                                   ; Offset_0x11D79E
@@ -52049,12 +52013,15 @@ Art_Fire_Breath_Flames:                                        ; Offset_0x124854
 		binclude	"data\aiz\firebtfm.nem"
 Art_FBz_Boss_Flames:                                           ; Offset_0x124DA6
 		binclude	"data\fbz\bossflms.nem"
+		even
 Art_Robotnik_In_Egg_Mobile:                                    ; Offset_0x125122
 		binclude	"data\art\rbtnkegm.nem"
 Art_FBz_Robotnik_Faces:                                        ; Offset_0x12567E
 		binclude	"data\fbz\rbtkface.nem"
+		even
 Art_FBz_Robotnik_Stand:                                        ; Offset_0x1258F0
 		binclude	"data\fbz\rbtnkstd.nem"
+		even
 Art_FBz_Robotnik:                                              ; Offset_0x125D06
 		binclude	"data\fbz\robotnik.nem"
 Art_End_Panel_Dynamic:                                         ; Offset_0x12616A
@@ -52129,6 +52096,7 @@ Art_LBz_Spin_Launcher_And_Miscellaneous:                       ; Offset_0x136150
 		binclude	"data\lbz\spnlmisc.nem"
 Art_LRz_Rocks:                                                 ; Offset_0x13658C
 		binclude	"data\lrz\rocks.nem"
+		even
 Art_H_Springs_Switch_2P:                                       ; Offset_0x1366D4
 		binclude	"data\art\hspng_2p.nem"
 Art_V_Springs_Spikes_2P:                                       ; Offset_0x136848
@@ -52145,12 +52113,16 @@ Art_Point_And_Arrows_2P:                                       ; Offset_0x137BB0
 		binclude	"data\art\pointarw.nem"
 Art_BPz_Ballons_And_Miscellaneous:                             ; Offset_0x137C4A
 		binclude	"data\bpz\balloons.nem"
+		even
 Art_DPz_Sand_And_Miscellaneous:                                ; Offset_0x138494
 		binclude	"data\dpz\sandmisc.nem"
+		even
 Art_CGz_Platform_And_Miscellaneous:                            ; Offset_0x1391AA
 		binclude	"data\cgz\ptfrmisc.nem"
+		even
 Art_EMz_Rock_And_Miscellaneous:                                ; Offset_0x13951E
 		binclude	"data\emz\rockmisc.nem"
+		even
 ;-------------------------------------------------------------------------------
 Angel_Island_2_Boss_Ship:                                      ; Offset_0x1397B0
 		binclude	"data\aiz\bossship.kmd"
@@ -52453,63 +52425,19 @@ BS_Slot_Machine_Chunks:                                        ; Offset_0x1AA46E
 		binclude	"data\bs_sm\chunks.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 ;-------------------------------------------------------------------------------
-; Offset_0x1AACAE:
-		binclude	"data\unknown\unkdata.kos"
-; Offset_0x1AAE0E:
-		binclude	"data\unknown\chunks_1.kos"
-; Offset_0x1AB64E:
-		binclude	"data\unknown\unkdata2.kos"
-; Offset_0x1ABC6C:
-		binclude	"data\unknown\unkdata3.kos"
-; Offset_0x1ABD5C:
-		binclude	"data\unknown\unkdata4.kos"
-; Offset_0x1ABDDC:
-		binclude	"data\unknown\unkdata5.kos"
 Left_Over_Lava_Reef_Blocks:
 		binclude	"data\lrz\Blocks.kos"
-Left_Over_Lava_Reef_Tiles:                                     ; Offset_0x1AEF34
+Left_Over_Lava_Reef_Tiles:
 		binclude	"data\lrz\tiles_1.kmd"
-Left_Over_Lava_Reef_Chunks_2:                                  ; Offset_0x1B2ED6
+Left_Over_Lava_Reef_Chunks_2:
 		binclude	"data\lrz\chunks_2.kos"
-Left_Over_Azure_Lake_Blocks:                                   ; Offset_0x1B5DB6
+Left_Over_Azure_Lake_Blocks:
 		binclude	"data\alz\blocks_1.kos"
-Left_Over_Azure_Lake_Tiles:                                    ; Offset_0x1B66D6
+Left_Over_Azure_Lake_Tiles:
 		binclude	"data\alz\tiles_1.kmd"
-Left_Over_Azure_Lake_Chunks:                                   ; Offset_0x1B8EE8
+Left_Over_Azure_Lake_Chunks:
 		binclude	"data\alz\chunks_1.kos"
-; Offset_0x1B9568:
-		binclude	"data\unknown\blocks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-; Offset_0x1B95D8:
-		binclude	"data\unknown\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-; Offset_0x1B99FA:
-		binclude	"data\unknown\chunks.kos"
-; Offset_0x1B9B7A:
-		binclude	"data\unknown\blocks_2.kos"
-		dc.w	$0000, $0000, $0000
-; Offset_0x1B9C0A:
-		binclude	"data\unknown\tiles_2.kmd"
-		dc.w	$0000, $0000
-; Offset_0x1BA05C:
-		binclude	"data\unknown\chunks_2.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-; Offset_0x1BA24C:
-		binclude	"data\unknown\blocks_3.kos"
-		dc.w	$0000
-; Offset_0x1BA29C:
-		binclude	"data\unknown\tiles_3.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-; Offset_0x1BA6BE:
-		binclude	"data\unknown\chunks_3.kos"
-; Offset_0x1BA82E:
-		binclude	"data\unknown\blocks_4.kos"
-; Offset_0x1BA8DE:
-		binclude	"data\unknown\tiles_4.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-; Offset_0x1BAD00:
-		binclude	"data\unknown\chunks_4.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
+;-------------------------------------------------------------------------------
 Left_Over_BS_Gumball_Machine_Blocks:                           ; Offset_0x1BAF10
 		binclude	"data\bs_gm\blocks_1.kos"
 		dc.w	$0000, $0000, $0000
@@ -52518,49 +52446,6 @@ Left_Over_BS_Gumball_Machine_Tiles:                            ; Offset_0x1BB2D0
 Left_Over_BS_Gumball_Machine_Chunks:                           ; Offset_0x1BBC42
 		binclude	"data\bs_gm\chunks_1.kos"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-; Offset_0x1BBF92:
-		binclude	"data\unknown\unkdata6.bin"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-; Offset_0x1BC81C:
-		binclude	"data\unknown\tiles_5.kos"
-; Offset_0x1BCF2C:
-		binclude	"data\unknown\tiles5a.kos"
-		dc.w	$0000, $0000, $0000
-; Offset_0x1BD43C:
-		binclude	"data\unknown\chunks_5.kos"
-		dc.w	$0000, $0000, $0000
-Left_Over_Balloon_Park_Blocks:                                 ; Offset_0x1BDABC
-		binclude	"data\bpz\blocks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
-Left_Over_Balloon_Park_Tiles:                                  ; Offset_0x1BE39C
-		binclude	"data\bpz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-Left_Over_Balloon_Park_Chunks:                                 ; Offset_0x1C037E
-		binclude	"data\bpz\chunks_1.kos"
-		dc.w	$0000
-Left_Over_Desert_Palace_Blocks:                                ; Offset_0x1C0A6E
-		binclude	"data\dpz\blocks_1.kos"
-		dc.w	$0000, $0000, $0000
-Left_Over_Desert_Palace_Tiles:                                 ; Offset_0x1C142E
-		binclude	"data\dpz\tiles_1.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-Left_Over_Desert_Palace_Chunks:                                ; Offset_0x1C2E20
-		binclude	"data\dpz\chunks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-; Offset_0x1C3430:
-		binclude	"data\unknown\blocks_6.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000
-; Offset_0x1C3B80:
-		binclude	"data\unknown\unkdata7.bin"
-Left_Over_Water_Surface_Scroll_Data:                           ; Offset_0x1C4000
-		binclude	"data\hz\wsurfscr.dat"
-Left_Over_AngleMap:                                            ; Offset_0x1C5040
-		binclude	"data\all\anglemap.dat"
-Left_Over_Collision_Array_1:                                   ; Offset_0x1C5240
-		binclude	"data\all\c_array1.dat"
-Left_Over_Collision_Array_2_Incomplete:                        ; Offset_0x1C7240
-		binclude	"data\all\carray2i.dat"
-;-------------------------------------------------------------------------------
 Water_Surface_Scroll_Data:                                     ; Offset_0x1C8000
 		binclude	"data\hz\wsurfscr.dat"
 AngleMap:                                                      ; Offset_0x1C9040
@@ -53027,502 +52912,13 @@ Pal_Bonus_Stage_Glowing_Spheres:                               ; Offset_0x1EA354
 Pal_Bonus_Stage_Slot_Machine:                                  ; Offset_0x1EA3B4
 		binclude	"data\bs_sm\bs_sm.pal"
 ;-------------------------------------------------------------------------------
-LRz_Rocks_Layout:                                              ; Offset_0x1EA414
+LRz_Rocks_Layout:
 		binclude	"data\lrz\rockspos.dat"
-LRz_Incomplete_Map_Part_1:                                     ; Offset_0x1EAF4A
-		binclude	"data\lrz\incm1_p1.dat"
-LRz_Incomplete_Map_Part_2:                                     ; Offset_0x1EB2CC
-		binclude	"data\lrz\incm1_p2.dat"
-Unknown_Map:                                                   ; Offset_0x1EB85E
-		binclude	"data\unknown\unkmap_1.dat"
-LRz_Map_Act_1:                                                 ; Offset_0x1EC4CE
-		binclude	"data\lrz\lrz_map1.dat"
-LRz_Map_Act_1_2:                                               ; Offset_0x1ED2F6
+LRz_Map_Act_2:
 		binclude	"data\lrz\lrz_map2.dat"
-LRz_Map_Act_1_3:                                               ; Offset_0x1EE11E
-		binclude	"data\lrz\lrz_map3.dat"
-LRz_Map_Act_1_4:                                               ; Offset_0x1EEF46
-		binclude	"data\lrz\lrz_map4.dat"
-LRz_Map_Act_1_5:                                               ; Offset_0x1EFD6E
-		binclude	"data\lrz\lrz_map5.dat"
-LRz_Map_Act_1_6:                                               ; Offset_0x1F0B96
-		binclude	"data\lrz\lrz_map6.dat"
-Left_Over_ALz_Map:                                             ; Offset_0x1F19BE
-		binclude	"data\alz\lo_map.dat"
-Left_Over_BPz_Map:                                             ; Offset_0x1F1B2A
-		binclude	"data\bpz\lo_map.dat"
-Left_Over_DPz_Map:                                             ; Offset_0x1F1C04
-		binclude	"data\dpz\lo_map.dat"
-Left_Over_CGz_Map:                                             ; Offset_0x1F1D58
-		binclude	"data\cgz\lo_map.dat"
-Left_Over_EMz_Map:                                             ; Offset_0x1F1F9A
-		binclude	"data\emz\lo_map.dat"
-; Offset_0x1F20EE:
-Left_Over_BS_GM_Map:	binclude	"Levels/Bonus Stages/Level Layout - Gumball Machine (Earlier).bin"
+LRz_Map_Act_1:
+		binclude	"data\lrz\lrz_map1.dat"
 ;-------------------------------------------------------------------------------
-Left_Over_PalPointers:                                         ; Offset_0x1F21CE
-		dc.l	Left_Over_Pal_S2_Sega_Bg               ; Offset_0x1F25AE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Title_Screen_Miles    ; Offset_0x1F262E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Left_Over_Pal_S2B_Level_Select_Menu    ; Offset_0x1F264E
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Level_Sonic_Miles        ; Offset_0x1F26CE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Left_Over_Pal_Level_Select_Menu        ; Offset_0x1F270E
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Knuckles                 ; Offset_0x1F278E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Left_Over_Pal_S2_Sega_Bg               ; Offset_0x1F25AE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Sega_Bg               ; Offset_0x1F25AE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Sega_Bg               ; Offset_0x1F25AE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Sega_Bg               ; Offset_0x1F25AE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Angel_Island_Act_1       ; Offset_0x1F27AE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Angel_Island_Act_2       ; Offset_0x1F286E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Hydrocity_Act_1          ; Offset_0x1F2A2E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Hydrocity_Act_2          ; Offset_0x1F2A8E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Marble_Garden_Act_1      ; Offset_0x1F2B6E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Marble_Garden_Act_2      ; Offset_0x1F2B6E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Carnival_Night_Act_1     ; Offset_0x1F2BCE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Carnival_Night_Act_2     ; Offset_0x1F2BCE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Flying_Battery_Act_1     ; Offset_0x1F2C2E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Flying_Battery_Act_2     ; Offset_0x1F2C2E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Icecap_Act_1             ; Offset_0x1F2C8E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Icecap_Act_2             ; Offset_0x1F2C8E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Launch_Base_Act_1        ; Offset_0x1F2CEE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Launch_Base_Act_2        ; Offset_0x1F2DCE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Mushroom_Valley_Act_1    ; Offset_0x1F2F0E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Mushroom_Valley_Act_2    ; Offset_0x1F2F0E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sandopolis_Act_1         ; Offset_0x1F2F6E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sandopolis_Act_2         ; Offset_0x1F2F6E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Lava_Reef_Act_1          ; Offset_0x1F2FCE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Lava_Reef_Act_2          ; Offset_0x1F302E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sky_Sanctuary_Act_1      ; Offset_0x1F308E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sky_Sanctuary_Act_2      ; Offset_0x1F308E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Death_Egg_Act_1          ; Offset_0x1F30EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Death_Egg_Act_2          ; Offset_0x1F30EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_The_Doomsday_Act_1       ; Offset_0x1F314E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_The_Doomsday_Act_2       ; Offset_0x1F314E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Ending_1                 ; Offset_0x1F31AE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Ending_2                 ; Offset_0x1F31AE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Azure_Lake               ; Offset_0x1F31AE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Azure_Lake               ; Offset_0x1F31AE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Angel_Island_Act_1_2     ; Offset_0x1F320E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Angel_Island_Act_1_2     ; Offset_0x1F320E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_Underwater   ; Offset_0x1F292E
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Angel_Island_Act_2_Underwater   ; Offset_0x1F29AE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Launch_Base_Act_1_Underwater    ; Offset_0x1F2D4E
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Launch_Base_Act_2_Underwater    ; Offset_0x1F2E2E
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Launch_Base_Act_2_Underwater_2  ; Offset_0x1F2EAE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Angel_Island_Act_2_2     ; Offset_0x1F28CE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Hydrocity_Act_1_Underwater ; Offset_0x1F2AEE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Hydrocity_Act_2_Underwater ; Offset_0x1F2AEE
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Bonus_Stage_Gumball_Machine ; Offset_0x1F326E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles ; Offset_0x1F280E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Offset_0x1F32CE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32CE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F32EE
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F330E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F332E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F334E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F336E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F336E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F336E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F336E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Offset_0x1F338E
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-Left_Over_Pal_S2_Sega_Bg:                                      ; Offset_0x1F25AE
-		binclude	"data\all\sega_bg.pal"
-Left_Over_Pal_S2_Title_Screen_Miles:                           ; Offset_0x1F262E
-		binclude	"data\all\ts_miles.pal"
-Left_Over_Pal_S2B_Level_Select_Menu:                           ; Offset_0x1F264E
-		binclude	"data\all\s2b_menu.pal"
-Left_Over_Pal_Level_Sonic_Miles:                               ; Offset_0x1F26CE
-		binclude	"data\all\sonic.pal"
-Left_Over_Pal_Level_Select_Menu:                               ; Offset_0x1F270E
-		binclude	"data\menus\menu.pal"
-Left_Over_Pal_Knuckles:                                        ; Offset_0x1F278E
-		binclude	"data\all\knuckles.pal"
-
-; Offset_0x1F27AE:
-Left_Over_Pal_Angel_Island_Act_1:		binclude	"Levels/Angel Island/Palettes/Act 1 - Knuckles (Earliest).bin"
-
-; Offset_0x1F280E:
-LO_Pal_Angel_Island_Act_1_After_Knuckles:	binclude	"Levels/Angel Island/Palettes/Act 1 - Normal (Earliest).bin"
-
-; Offset_0x1F286E:
-Left_Over_Pal_Angel_Island_Act_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Normal (Earliest).bin"
-
-; Offset_0x1F28CE:
-Left_Over_Pal_Angel_Island_Act_2_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Airship (Earliest).bin"
-
-; Offset_0x1F292E:
-LO_Pal_Angel_Island_Act_1_Underwater:		binclude	"Levels/Angel Island/Palettes/Act 1 - Underwater (Earliest).bin"
-
-; Offset_0x1F29AE:
-LO_Pal_Angel_Island_Act_2_Underwater:		binclude	"Levels/Angel Island/Palettes/Act 2 - Underwater (Earliest).bin"
-
-Left_Over_Pal_Hydrocity_Act_1:                                 ; Offset_0x1F2A2E
-		binclude	"data\hz\hz_1_lo.pal"
-Left_Over_Pal_Hydrocity_Act_2:                                 ; Offset_0x1F2A8E
-		binclude	"data\hz\hz_2_lo.pal"
-Left_Over_Pal_Hydrocity_Act_1_Underwater:                      ; Offset_0x1F2AEE
-Left_Over_Pal_Hydrocity_Act_2_Underwater:
-		binclude	"data\hz\hz_uwlo.pal"
-Left_Over_Pal_Marble_Garden_Act_1:                             ; Offset_0x1F2B6E
-Left_Over_Pal_Marble_Garden_Act_2:                             ; Offset_0x1F2B6E
-		binclude	"data\mgz\mgz.pal"
-Left_Over_Pal_Carnival_Night_Act_1:                            ; Offset_0x1F2BCE
-Left_Over_Pal_Carnival_Night_Act_2:                            ; Offset_0x1F2BCE
-		binclude	"data\cnz\cnz_lo.pal"
-Left_Over_Pal_Flying_Battery_Act_1:                            ; Offset_0x1F2C2E
-Left_Over_Pal_Flying_Battery_Act_2:                            ; Offset_0x1F2C2E
-		binclude	"data\fbz\fbz.pal"
-Left_Over_Pal_Icecap_Act_1:                                    ; Offset_0x1F2C8E
-Left_Over_Pal_Icecap_Act_2:                                    ; Offset_0x1F2C8E
-		binclude	"data\iz\iz_lo.pal"
-Left_Over_Pal_Launch_Base_Act_1:                               ; Offset_0x1F2CEE
-		binclude	"data\lbz\lbz_1_lo.pal"
-LO_Pal_Launch_Base_Act_1_Underwater:                           ; Offset_0x1F2D4E
-		binclude	"data\lbz\lbz_1_uw.pal"
-Left_Over_Pal_Launch_Base_Act_2:                               ; Offset_0x1F2DCE
-		binclude	"data\lbz\lbz_2_lo.pal"
-LO_Pal_Launch_Base_Act_2_Underwater:                           ; Offset_0x1F2E2E
-		binclude	"data\lbz\lbz_2_uw.pal"
-LO_Pal_Launch_Base_Act_2_Underwater_2:                         ; Offset_0x1F2EAE
-		binclude	"data\lbz\lbz2_uw2.pal"
-Left_Over_Pal_Mushroom_Valley_Act_1:                           ; Offset_0x1F2F0E
-Left_Over_Pal_Mushroom_Valley_Act_2:                           ; Offset_0x1F2F0E
-		binclude	"data\mvz\mvz.pal"
-Left_Over_Pal_Sandopolis_Act_1:                                ; Offset_0x1F2F6E
-Left_Over_Pal_Sandopolis_Act_2:                                ; Offset_0x1F2F6E
-		binclude	"data\sz\sz.pal"
-Left_Over_Pal_Lava_Reef_Act_1:                                 ; Offset_0x1F2FCE
-		binclude	"data\lrz\lrz_1.pal"
-Left_Over_Pal_Lava_Reef_Act_2:                                 ; Offset_0x1F302E
-		binclude	"data\lrz\lrz_2.pal"
-Left_Over_Pal_Sky_Sanctuary_Act_1:                             ; Offset_0x1F308E
-Left_Over_Pal_Sky_Sanctuary_Act_2:                             ; Offset_0x1F308E
-		binclude	"data\ssz\ssz.pal"
-Left_Over_Pal_Death_Egg_Act_1:                                 ; Offset_0x1F30EE
-Left_Over_Pal_Death_Egg_Act_2:                                 ; Offset_0x1F30EE
-		binclude	"data\dez\dez.pal"
-Left_Over_Pal_The_Doomsday_Act_1:                              ; Offset_0x1F314E
-Left_Over_Pal_The_Doomsday_Act_2:                              ; Offset_0x1F314E
-		binclude	"data\tdz\tdz.pal"
-Left_Over_Pal_Ending_1:                                        ; Offset_0x1F31AE
-Left_Over_Pal_Ending_2:                                        ; Offset_0x1F31AE
-
-Left_Over_Pal_Azure_Lake:                                      ; Offset_0x1F31AE
-		binclude	"data\alz\alz_lo.pal"
-
-; Offset_0x1F320E:
-Left_Over_Pal_Angel_Island_Act_1_2:		binclude	"Levels/Angel Island/Palettes/Act 1 - Unused Introduction (Earliest).bin"
-
-Left_Over_Pal_Bonus_Stage_Gumball_Machine:                     ; Offset_0x1F326E
-		binclude	"data\bs_gm\bs_gm.pal"
 Offset_0x1F32CE:
 		dc.w	$0886, $0EEE, $04AE, $026E, $024A, $00EE, $000E, $0224
 		dc.w	$00AE, $008E, $08AE, $0020, $0ECC, $0CAA, $0866, $0020
@@ -53541,308 +52937,6 @@ Offset_0x1F334E:
 Offset_0x1F336E:
 		dc.w	$0886, $0EEE, $0000, $0000, $00E0, $00EE, $000E, $0224
 		dc.w	$00AE, $008E, $024A, $0222, $0EAA, $0A64, $0642, $0000
-Offset_0x1F338E:
-;-------------------------------------------------------------------------------
-Left_Over_LRz_Rocks_Layout:                                    ; Offset_0x1F338E
-		binclude	"data\lrz\rockspos.dat"
-LRz_Incomplete_Map_Part_2_2:                                   ; Offset_0x1F3EC4
-		binclude	"data\lrz\incm1_p2.dat"
-Left_Over_ALz_Map_2:                                           ; Offset_0x1F4456
-		binclude	"data\alz\lo_map.dat"
-Left_Over_BPz_Map_2:                                           ; Offset_0x1F45C2
-		binclude	"data\bpz\lo_map_2.dat"
-Left_Over_DPz_Map_2:                                           ; Offset_0x1F46A6
-		binclude	"data\dpz\lo_map_2.dat"
-Left_Over_CGz_Map_2:                                           ; Offset_0x1F478E
-		binclude	"data\cgz\lo_map_2.dat"
-Left_Over_EMz_Map_2:                                           ; Offset_0x1F4A56
-		binclude	"data\emz\lo_map.dat"
-Left_Over_BS_GM_Map_2:                                         ; Offset_0x1F4BAA
-		binclude	"data\bs_gm\lo_map.dat"
-;-------------------------------------------------------------------------------
-Left_Over_PalPointers_2:                                       ; Offset_0x1F4C8A
-		dc.l	Left_Over_Pal_S2_Sega_Bg_2             ; Offset_0x1F4E6A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Title_Screen_Miles_2  ; Offset_0x1F4EEA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Left_Over_Pal_S2B_Level_Select_Menu_2  ; Offset_0x1F4F0A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Level_Sonic_Miles_2      ; Offset_0x1F4F8A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Left_Over_Pal_Level_Select_Menu_2      ; Offset_0x1F4FCA
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Knuckles_2               ; Offset_0x1F504A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0007
-		dc.l	Left_Over_Pal_S2_Sega_Bg_2             ; Offset_0x1F4E6A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Sega_Bg_2             ; Offset_0x1F4E6A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Sega_Bg_2             ; Offset_0x1F4E6A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_S2_Sega_Bg_2             ; Offset_0x1F4E6A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Angel_Island_Act_1_2a    ; Offset_0x1F506A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Angel_Island_Act_2_2a    ; Offset_0x1F512A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Hydrocity_Act_1_2        ; Offset_0x1F52EA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Hydrocity_Act_2_2        ; Offset_0x1F534A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Marble_Garden_Act_1_2    ; Offset_0x1F542A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Marble_Garden_Act_2_2    ; Offset_0x1F542A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Carnival_Night_Act_1_2   ; Offset_0x1F548A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Carnival_Night_Act_2_2   ; Offset_0x1F548A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Flying_Battery_Act_1_2   ; Offset_0x1F54EA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Flying_Battery_Act_2_2   ; Offset_0x1F54EA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Icecap_Act_1_2           ; Offset_0x1F554A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Icecap_Act_2_2           ; Offset_0x1F55AA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Launch_Base_Act_1_2      ; Offset_0x1F560A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Launch_Base_Act_2_2      ; Offset_0x1F56EA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Mushroom_Valley_Act_1_2  ; Offset_0x1F582A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Mushroom_Valley_Act_2_2  ; Offset_0x1F582A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sandopolis_Act_1_2       ; Offset_0x1F588A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sandopolis_Act_2_2       ; Offset_0x1F588A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Lava_Reef_Act_1_2        ; Offset_0x1F58EA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Lava_Reef_Act_2_2        ; Offset_0x1F594A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sky_Sanctuary_Act_1_2    ; Offset_0x1F59AA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Sky_Sanctuary_Act_2_2    ; Offset_0x1F59AA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Death_Egg_Act_1_2        ; Offset_0x1F5A0A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Death_Egg_Act_2_2        ; Offset_0x1F5A0A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_The_Doomsday_Act_1_2     ; Offset_0x1F5A6A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_The_Doomsday_Act_2_2     ; Offset_0x1F5A6A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Ending_1_2               ; Offset_0x1F5ACA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Ending_2_2               ; Offset_0x1F5ACA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Azure_Lake_2             ; Offset_0x1F5ACA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Azure_Lake_2             ; Offset_0x1F5ACA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Balloon_Park             ; Offset_0x1F5B2A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Balloon_Park             ; Offset_0x1F5B2A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_Underwater_2 ; Offset_0x1F51EA
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Angel_Island_Act_2_Underwater_2 ; Offset_0x1F526A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Launch_Base_Act_1_Underwater_2  ; Offset_0x1F566A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Launch_Base_Act_2_Underwater_2_2a ; Offset_0x1F574A
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	LO_Pal_Launch_Base_Act_2_Underwater_2_2_2 ; Offset_0x1F57CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Angel_Island_Act_2_2_2   ; Offset_0x1F518A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Hydrocity_Act_1_Underwater_2 ; Offset_0x1F53AA
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Hydrocity_Act_2_Underwater_2 ; Offset_0x1F53AA
-		dc.w	S2_Palette_Row_0_Offset&$FFFF
-		dc.w	$001F
-		dc.l	Left_Over_Pal_Bonus_Stage_Gumball_Machine_2 ; Offset_0x1F5CAA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Pal_Desert_Palace        ; Offset_0x1F5B8A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	Left_Over_Pal_Chrome_Gadget            ; Offset_0x1F5BEA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_Before_Knuckles_2 ; Offset_0x1F5C4A
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-		dc.l	LO_Pal_Angel_Island_Act_1_After_Knuckles_2 ; Offset_0x1F50CA
-		dc.w	S2_Palette_Row_1_Offset&$FFFF
-		dc.w	$0017
-
-Left_Over_Pal_S2_Sega_Bg_2:                                    ; Offset_0x1F4E6A
-		binclude	"data\all\sega_bg.pal"
-Left_Over_Pal_S2_Title_Screen_Miles_2:                         ; Offset_0x1F4EEA
-		binclude	"data\all\ts_miles.pal"
-Left_Over_Pal_S2B_Level_Select_Menu_2:                         ; Offset_0x1F4F0A
-		binclude	"data\all\s2b_menu.pal"
-Left_Over_Pal_Level_Sonic_Miles_2:                             ; Offset_0x1F4F8A
-		binclude	"data\all\sonic.pal"
-Left_Over_Pal_Level_Select_Menu_2:                             ; Offset_0x1F4FCA
-		binclude	"data\menus\menu.pal"
-Left_Over_Pal_Knuckles_2:                                      ; Offset_0x1F504A
-		binclude	"data\all\knuckles.pal"
-
-; Offset_0x1F50CA:
-Left_Over_Pal_Angel_Island_Act_1_2a:		binclude	"Levels/Angel Island/Palettes/Act 1 - Knuckles (Earlier).bin"
-
-; Offset_0x1E9934:
-LO_Pal_Angel_Island_Act_1_After_Knuckles_2:	binclude	"Levels/Angel Island/Palettes/Act 1 - Normal (Earlier).bin"
-
-; Offset_0x1F512A:
-Left_Over_Pal_Angel_Island_Act_2_2a:		binclude	"Levels/Angel Island/Palettes/Act 2 - Normal (Earlier).bin"
-
-; Offset_0x1F518A:
-Left_Over_Pal_Angel_Island_Act_2_2_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Airship (Earlier).bin"
-
-; Offset_0x1F51EA:
-LO_Pal_Angel_Island_Act_1_Underwater_2:		binclude	"Levels/Angel Island/Palettes/Act 1 - Underwater (Earlier).bin"
-
-; Offset_0x1F526A:
-LO_Pal_Angel_Island_Act_2_Underwater_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Underwater (Earlier).bin"
-
-Left_Over_Pal_Hydrocity_Act_1_2:                               ; Offset_0x1F52EA
-		binclude	"data\hz\hz_1_lo2.pal"
-Left_Over_Pal_Hydrocity_Act_2_2:                               ; Offset_0x1F534A
-		binclude	"data\hz\hz_2_lo2.pal"
-Left_Over_Pal_Hydrocity_Act_1_Underwater_2:                    ; Offset_0x1F53AA
-Left_Over_Pal_Hydrocity_Act_2_Underwater_2:
-		binclude	"data\hz\hz_uwlo.pal"
-Left_Over_Pal_Marble_Garden_Act_1_2:                           ; Offset_0x1F542A
-Left_Over_Pal_Marble_Garden_Act_2_2:                           ; Offset_0x1F542A
-		binclude	"data\mgz\mgz.pal"
-Left_Over_Pal_Carnival_Night_Act_1_2:                          ; Offset_0x1F548A
-Left_Over_Pal_Carnival_Night_Act_2_2:                          ; Offset_0x1F548A
-		binclude	"data\cnz\cnz.pal"
-Left_Over_Pal_Flying_Battery_Act_1_2:                          ; Offset_0x1F54EA
-Left_Over_Pal_Flying_Battery_Act_2_2:                          ; Offset_0x1F54EA
-		binclude	"data\fbz\fbz.pal"
-Left_Over_Pal_Icecap_Act_1_2:                                  ; Offset_0x1F554A
-		binclude	"data\iz\iz_1_lo.pal"
-Left_Over_Pal_Icecap_Act_2_2:                                  ; Offset_0x1F55AA
-		binclude	"data\iz\iz_2_lo.pal"
-Left_Over_Pal_Launch_Base_Act_1_2:                             ; Offset_0x1F560A
-		binclude	"data\lbz\lbz_1_lo.pal"
-LO_Pal_Launch_Base_Act_1_Underwater_2:                         ; Offset_0x1F566A
-		binclude	"data\lbz\lbz_1_uw.pal"
-Left_Over_Pal_Launch_Base_Act_2_2:                             ; Offset_0x1F56EA
-		binclude	"data\lbz\lbz2_lo2.pal"
-LO_Pal_Launch_Base_Act_2_Underwater_2_2a:                      ; Offset_0x1F574A
-		binclude	"data\lbz\lbz_2_uw.pal"
-LO_Pal_Launch_Base_Act_2_Underwater_2_2_2:                     ; Offset_0x1F57CA
-		binclude	"data\lbz\lbz2_uw2.pal"
-Left_Over_Pal_Mushroom_Valley_Act_1_2:                         ; Offset_0x1F582A
-Left_Over_Pal_Mushroom_Valley_Act_2_2:                         ; Offset_0x1F582A
-		binclude	"data\mvz\mvz.pal"
-Left_Over_Pal_Sandopolis_Act_1_2:                              ; Offset_0x1F588A
-Left_Over_Pal_Sandopolis_Act_2_2:                              ; Offset_0x1F588A
-		binclude	"data\sz\sz.pal"
-Left_Over_Pal_Lava_Reef_Act_1_2:                               ; Offset_0x1F58EA
-		binclude	"data\lrz\lrz_1.pal"
-Left_Over_Pal_Lava_Reef_Act_2_2:                               ; Offset_0x1F594A
-		binclude	"data\lrz\lrz_2.pal"
-Left_Over_Pal_Sky_Sanctuary_Act_1_2:                           ; Offset_0x1F59AA
-Left_Over_Pal_Sky_Sanctuary_Act_2_2:                           ; Offset_0x1F59AA
-		binclude	"data\ssz\ssz.pal"
-Left_Over_Pal_Death_Egg_Act_1_2:                               ; Offset_0x1F5A0A
-Left_Over_Pal_Death_Egg_Act_2_2:                               ; Offset_0x1F5A0A
-		binclude	"data\dez\dez.pal"
-Left_Over_Pal_The_Doomsday_Act_1_2:                            ; Offset_0x1F5A6A
-Left_Over_Pal_The_Doomsday_Act_2_2:                            ; Offset_0x1F5A6A
-		binclude	"data\tdz\tdz.pal"
-Left_Over_Pal_Ending_1_2:                                      ; Offset_0x1F5ACA
-Left_Over_Pal_Ending_2_2:                                      ; Offset_0x1F5ACA
-Left_Over_Pal_Azure_Lake_2:                                    ; Offset_0x1F5ACA
-		binclude	"data\alz\alz_lo_2.pal"
-Left_Over_Pal_Balloon_Park:                                    ; Offset_0x1F5B2A
-		binclude	"data\bpz\bpz_lo.pal"
-Left_Over_Pal_Pal_Desert_Palace:                               ; Offset_0x1F5B8A
-		binclude	"data\dpz\dpz_lo.pal"
-Left_Over_Pal_Chrome_Gadget:                                   ; Offset_0x1F5BEA
-		binclude	"data\cgz\cgz_lo.pal"
-; Offset_0x1F5C4A:
-LO_Pal_Angel_Island_Act_1_Before_Knuckles_2:	binclude	"Levels/Angel Island/Palettes/Act 1 - Unused Introduction (Earlier).bin"
-
-Left_Over_Pal_Bonus_Stage_Gumball_Machine_2:                   ; Offset_0x1F5CAA
-		binclude	"data\bs_gm\bs_gm.pal"
-Left_Over_LRz_Rocks_Layout_2:                                  ; Offset_0x1F5D0A
-		binclude	"data\lrz\rockspos.dat"
-Left_Over_Incomplete_LRz_Rocks_Layout_2:                       ; Offset_0x1F6840
-		binclude	"data\lrz\incrockp.dat"
-Left_Over_LRz_Rocks_Layout_2a:                                ; Offset_0x1F5D0A
-		binclude	"data\lrz\rockpos2.dat"
 ;-------------------------------------------------------------------------------
 		align    $1000  ; $FF Fill
 ;-------------------------------------------------------------------------------
@@ -54090,14 +53184,8 @@ FBz_Rng_Act1:                                                  ; Offset_0x1FC99A
 		binclude	"data\fbz\rng_act1.dat"
 FBz_Rng_Act2:                                                  ; Offset_0x1FC9C2
 		binclude	"data\fbz\rng_act2.dat"
-; Offset_0x1FC9EA:
-		dc.w	$23B0, $8608, $2A00
-		dc.w	$23B0, $8610, $2A02
-		dc.w	$23B0, $8618, $2A04
-		dc.w	$23B0, $8620, $2A06
-		dc.w	$23B0, $8628, $2A08
-		dc.w	$FFFF, $0000, $0000
 ;-------------------------------------------------------------------------------
+		dc.w	$FFFF, $0000, $0000
 Iz_Obj_Act1:                                                   ; Offset_0x1FCA0E
 		binclude	"data\iz\obj_act1.dat"
 Iz_Obj_Act2:                                                   ; Offset_0x1FCDF8
@@ -54660,274 +53748,5 @@ DEz_Final_Boss_Rng:                                            ; Offset_0x1FFBCC
 		binclude	"data\dez\rng_act3.dat"
 HPz_Rng_2:                                                     ; Offset_0x1FFBD2
 		binclude	"data\hpz\rng_act2.dat"
-;-------------------------------------------------------------------------------
-; Offset_0x1FFBD8:
-		dc.w	$0948, $08E0
-		dc.w	$09A8, $04D0
-		dc.w	$09C0, $04D0
-		dc.w	$09D8, $04D0
-		dc.w	$0AA8, $04F0
-		dc.w	$0AC0, $04F0
-		dc.w	$0AD8, $04F0
-		dc.w	$0B28, $0290
-		dc.w	$0B40, $0290
-		dc.w	$0B58, $0290
-		dc.w	$0C50, $03E8
-		dc.w	$0C50, $0400
-		dc.w	$0C50, $0418
-		dc.w	$0C50, $03D0
-		dc.w	$0CE8, $0168
-		dc.w	$0CF0, $08F8
-		dc.w	$0D00, $0168
-		dc.w	$0D08, $08F8
-		dc.w	$0D18, $0168
-		dc.w	$0D20, $08F8
-		dc.w	$0D28, $0470
-		dc.w	$0D40, $0470
-		dc.w	$0D58, $0470
-		dc.w	$0EA8, $03A8
-		dc.w	$0EC0, $03A8
-		dc.w	$0ED8, $03A8
-		dc.w	$0FC8, $04E0
-		dc.w	$0FE0, $04E0
-		dc.w	$0FF8, $04E0
-		dc.w	$1110, $05D0
-		dc.w	$1128, $05D0
-		dc.w	$1140, $05D0
-		dc.w	$1158, $05D0
-		dc.w	$1168, $0890
-		dc.w	$1180, $0890
-		dc.w	$1198, $0890
-		dc.w	$11C0, $0270
-		dc.w	$11C8, $09C0
-		dc.w	$11D8, $0270
-		dc.w	$11E0, $09C0
-		dc.w	$11F0, $0270
-		dc.w	$11F8, $09C0
-		dc.w	$1248, $03F0
-		dc.w	$1260, $03F0
-		dc.w	$1270, $0670
-		dc.w	$1278, $03F0
-		dc.w	$1288, $0670
-		dc.w	$12A0, $0670
-		dc.w	$13B0, $05B8
-		dc.w	$13B0, $05D0
-		dc.w	$13B0, $0588
-		dc.w	$13B0, $05A0
-		dc.w	$1408, $0860
-		dc.w	$1420, $0860
-		dc.w	$1438, $0860
-		dc.w	$1448, $0108
-		dc.w	$1460, $0108
-		dc.w	$1478, $0108
-		dc.w	$1518, $0350
-		dc.w	$1530, $0350
-		dc.w	$1548, $0350
-		dc.w	$1568, $00D0
-		dc.w	$1574, $00B8
-		dc.w	$1580, $00D0
-		dc.w	$1580, $00A0
-		dc.w	$158C, $00B8
-		dc.w	$1598, $00D0
-		dc.w	$15D8, $0A40
-		dc.w	$15F0, $0A40
-		dc.w	$1608, $0A40
-		dc.w	$1728, $04D0
-		dc.w	$1740, $04D0
-		dc.w	$1758, $04D0
-		dc.w	$1768, $0268
-		dc.w	$1770, $04D0
-		dc.w	$1780, $0268
-		dc.w	$1798, $0268
-		dc.w	$17D0, $0588
-		dc.w	$17D0, $05A0
-		dc.w	$17D0, $0570
-		dc.w	$1898, $03E8
-		dc.w	$18C0, $03E8
-		dc.w	$18E8, $03E8
-		dc.w	$192C, $0058
-		dc.w	$193C, $0048
-		dc.w	$193C, $0068
-		dc.w	$194C, $0058
-		dc.w	$19E8, $0960
-		dc.w	$1A00, $0960
-		dc.w	$1A18, $0960
-		dc.w	$1BA0, $01D0
-		dc.w	$1BA8, $06D0
-		dc.w	$1BB8, $01D0
-		dc.w	$1BC0, $06D0
-		dc.w	$1BD0, $01D0
-		dc.w	$1BD8, $06D0
-		dc.w	$1BE8, $01D0
-		dc.w	$1C00, $01D0
-		dc.w	$1C90, $02B0
-		dc.w	$1CA8, $02B0
-		dc.w	$1CC0, $02B0
-		dc.w	$1CD8, $02B0
-		dc.w	$1CF0, $02B0
-		dc.w	$1D90, $00D0
-		dc.w	$1DA8, $00D0
-		dc.w	$1DC0, $00D0
-		dc.w	$1DD8, $00D0
-		dc.w	$1DF0, $00D0
-		dc.w	$1FA8, $0A20
-		dc.w	$1FC0, $0A20
-		dc.w	$1FD8, $0A20
-		dc.w	$23E0, $0530
-		dc.w	$23E0, $04D0
-		dc.w	$23E0, $04E8
-		dc.w	$23E0, $0500
-		dc.w	$23E0, $0518
-		dc.w	$2480, $09A0
-		dc.w	$2490, $0560
-		dc.w	$2498, $09A0
-		dc.w	$24A8, $0560
-		dc.w	$24B0, $09A0
-		dc.w	$24C0, $0560
-		dc.w	$2528, $0218
-		dc.w	$2528, $01D0
-		dc.w	$2528, $01E8
-		dc.w	$2528, $0200
-		dc.w	$2540, $0218
-		dc.w	$2540, $01D0
-		dc.w	$2540, $01E8
-		dc.w	$2540, $0200
-		dc.w	$25C8, $08C0
-		dc.w	$25E0, $08C0
-		dc.w	$25F8, $08C0
-		dc.w	$2614, $0528
-		dc.w	$262C, $0528
-		dc.w	$26E0, $02E8
-		dc.w	$26F8, $02E8
-		dc.w	$2710, $02E8
-		dc.w	$271C, $04D8
-		dc.w	$2730, $04D8
-		dc.w	$2730, $04C4
-		dc.w	$2730, $04EC
-		dc.w	$2744, $04D8
-		dc.w	$2808, $07A0
-		dc.w	$2820, $07A0
-		dc.w	$2838, $07A0
-		dc.w	$2890, $0850
-		dc.w	$2898, $0620
-		dc.w	$28A8, $0850
-		dc.w	$28B0, $0608
-		dc.w	$28C0, $0430
-		dc.w	$28C0, $0850
-		dc.w	$28C8, $05F0
-		dc.w	$28D8, $0430
-		dc.w	$28D8, $0850
-		dc.w	$28E0, $05D8
-		dc.w	$28F0, $0430
-		dc.w	$28F0, $0850
-		dc.w	$28F8, $05C0
-		dc.w	$2908, $0248
-		dc.w	$2920, $0248
-		dc.w	$2938, $0248
-		dc.w	$2968, $0340
-		dc.w	$2980, $0340
-		dc.w	$2988, $0A20
-		dc.w	$2998, $0340
-		dc.w	$29A0, $0A20
-		dc.w	$29B8, $0A20
-		dc.w	$29D0, $0930
-		dc.w	$29E8, $0930
-		dc.w	$2A00, $0930
-		dc.w	$2A18, $0930
-		dc.w	$2A30, $0930
-		dc.w	$2B30, $0068
-		dc.w	$2B30, $0080
-		dc.w	$2B30, $0020
-		dc.w	$2B30, $0038
-		dc.w	$2B30, $0050
-		dc.w	$2C20, $08D0
-		dc.w	$2C38, $08D0
-		dc.w	$2C50, $08D0
-		dc.w	$2C68, $08D0
-		dc.w	$2C80, $08D0
-		dc.w	$2D28, $09F0
-		dc.w	$2D40, $09F0
-		dc.w	$2D58, $09F0
-		dc.w	$2FE8, $0120
-		dc.w	$3000, $0120
-		dc.w	$3018, $0120
-		dc.w	$3128, $0290
-		dc.w	$3140, $0290
-		dc.w	$3158, $0290
-		dc.w	$3188, $0330
-		dc.w	$31A0, $0330
-		dc.w	$31B8, $0330
-		dc.w	$340C, $00D8
-		dc.w	$3420, $00C4
-		dc.w	$3420, $00EC
-		dc.w	$3420, $00D8
-		dc.w	$3434, $00D8
-		dc.w	$3440, $05D0
-		dc.w	$3458, $05D0
-		dc.w	$3470, $05D0
-		dc.w	$3488, $05D0
-		dc.w	$34A0, $05D0
-		dc.w	$3628, $0370
-		dc.w	$3638, $05E0
-		dc.w	$3640, $0370
-		dc.w	$3644, $05F4
-		dc.w	$3650, $05E0
-		dc.w	$3658, $0370
-		dc.w	$365C, $05F4
-		dc.w	$3668, $05E0
-		dc.w	$3674, $05F4
-		dc.w	$3680, $05E0
-		dc.w	$368C, $05F4
-		dc.w	$3698, $05E0
-		dc.w	$36A4, $05F4
-		dc.w	$36B0, $05E0
-		dc.w	$3730, $0080
-		dc.w	$3748, $0080
-		dc.w	$3760, $0080
-		dc.w	$3890, $06E0
-		dc.w	$3890, $06F8
-		dc.w	$38A8, $06E0
-		dc.w	$38A8, $06F8
-		dc.w	$38B0, $0460
-		dc.w	$38B0, $0478
-		dc.w	$38B0, $0490
-		dc.w	$38B0, $04A8
-		dc.w	$38B0, $04C0
-		dc.w	$38B0, $04D8
-		dc.w	$38C0, $06E0
-		dc.w	$38C0, $06F8
-		dc.w	$3A20, $0420
-		dc.w	$3A38, $0420
-		dc.w	$3A50, $0420
-		dc.w	$3D08, $00A8
-		dc.w	$3D20, $00A8
-		dc.w	$3D38, $00A8
-		dc.w	$3DE8, $00D0
-		dc.w	$3E00, $00D0
-		dc.w	$3E18, $00D0
-		dc.w	$3E70, $02D0
-		dc.w	$3E88, $02D0
-		dc.w	$3EA0, $02D0
-		dc.w	$3F18, $0280
-		dc.w	$3F30, $0298
-		dc.w	$3F30, $0280
-		dc.w	$3F30, $0268
-		dc.w	$3F48, $0280
-		dc.w	$FFFF, $FFFF
-;-------------------------------------------------------------------------------
-; Offset_0x1FFFC8:
-		dc.w	$0028, $3E40
-		dc.w	$0250, $3E40
-		dc.w	$0260, $3E50
-		dc.w	$0270, $3E90
-		dc.w	$0270, $3EA0
-		dc.w	$0260, $3EA0
-		dc.w	$0060, $3E90
-		dc.w	$0050, $3E50
-		dc.w	$0050, $3E40
-		dc.w	$0060, $3E40
-		dc.w	$00D0, $0028
-		dc.w	$3F40, $0250
-		dc.w	$3F40, $0260
-		dc.w	$3F30, $0270
+
 EndOfRom:

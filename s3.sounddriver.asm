@@ -3038,8 +3038,6 @@ zPlaySEGAPCM:
 		call	zStopAllSound
 		jp	zPlayDigitalAudio
 
-		binclude	"data\star trek\part9.bin"
-
 	if $ > 1200h
 		fatal "Your Z80 code won't fit before its tables. It's \{$-1200h}h bytes past the start of music data \{1200h}h"
 	endif
@@ -3128,8 +3126,6 @@ z80_VolEnvPointers:
 		dw	VolEnv_23
 		dw	VolEnv_24
 
-		binclude	"data\star trek\part10.bin"
-
 VolEnv_00:	db	2, 83h
 VolEnv_01:	db	0, 2, 4, 6, 8, 10h, 83h
 VolEnv_02:	db	2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
@@ -3201,10 +3197,9 @@ z80_SoundPriority:
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $A0 - $AF
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $B0 - $BF
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $C0 - $CF
-		; This table is missing entries $D0 to $FF. Uncomment the lines below to fix this.
-;		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $D0 - $DF
-;		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $E0 - $EF
-;		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $F0 - $FF
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $D0 - $DF
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $E0 - $EF
+		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $F0 - $FF
 
 zmake68kPtrs macro
 		irp op,ALLARGS
