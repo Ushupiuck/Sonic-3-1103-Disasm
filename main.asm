@@ -327,14 +327,24 @@ ChecksumCheck:
 		movea.l	#ROMEndLoc,a1
 		move.l	(a1),d0
 		moveq	#0,d1
+
+ChecksumLoop:
 		add.w	(a0)+,d1
 		cmp.l	a0,d0
+	if 0
+		bhs.s	ChecksumLoop
+	else
 		nop
 		nop
-		move.l	#Checksum,a1
-		cmp.w	(a1),d1
+	endif
+		move.l	#Checksum,a1	; read the checksum
+		cmp.w	(a1),d1		; compare correct checksum to the one in ROM
+	if 0
+		bne.w	ChecksumError	; if they don't match, branch
+	else
 		nop
 		nop
+	endif
 		lea	(CrossResetRAM).w,a6
 		moveq	#0,d7
 		move.w	#bytesToLcnt(CrossResetRAM_End-CrossResetRAM),d6
