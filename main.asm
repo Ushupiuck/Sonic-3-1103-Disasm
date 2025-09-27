@@ -541,7 +541,7 @@ VBlank_Lag:
 		beq.s	Offset_0x00050E
 
 		stopZ80
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 
 		bra.s	VBlank_Finalize
@@ -584,7 +584,7 @@ Offset_0x000570:
 
 Offset_0x000594:
 		move.w	(Horizontal_Int_Count_Cmd).w,(a5)
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 		bra.w	VBlank_Finalize
 ; ---------------------------------------------------------------------------
@@ -634,7 +634,7 @@ Offset_0x0005BE:
 		move.w	(DMA_Trigger).w,(a5)
 
 Offset_0x000646:
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 		bra.w	VBlank_Finalize
 ; ===========================================================================
@@ -789,7 +789,7 @@ Offset_0x000838:
 		move.l	(Vertical_Scroll_Value_P2).w,(Vertical_Scroll_Value_P2_2).w
 		jsr	(Special_Vint).l
 		jsr	(DrawLevel).l
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 		move	#$2300,sr
 		cmpi.b	#92,(Scanline_Counter).w
@@ -862,7 +862,7 @@ Offset_0x0008FE:
 		move.w	(DMA_Trigger).w,(A5)                        ; $FFFFF640
 		bsr.w	ProcessDMAQueue                            ; Offset_0x00135E
 		move.l	(Vertical_Scroll_Value_P2).w,(Vertical_Scroll_Value_P2_2).w ; $FFFFF61E, $FFFFEE3A
-		jsr	(SoundDriverInput_Null).l
+		jsr	(sndDriverInput).l
 		startZ80
 		bsr.w	ProcessDPLC                  ; Offset_0x0015AE
 		jmp	(Set_Kos_Bookmark).l                ; Offset_0x0019C6
@@ -902,7 +902,7 @@ VBlank_18:                                                     ; Offset_0x000984
 		move.w	#$83,(DMA_Trigger).w                      ; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)                        ; $FFFFF640
 		bsr.w	ProcessDMAQueue                            ; Offset_0x00135E
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 		rts
 ;-------------------------------------------------------------------------------
@@ -982,7 +982,7 @@ VBlank_16:                                                     ; Offset_0x000AD2
 		move.w	#$0083,(DMA_Trigger).w                      ; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)                        ; $FFFFF640
 		bsr.w	ProcessDMAQueue                            ; Offset_0x00135E
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 		bsr.w	ProcessDPLC                  ; Offset_0x0015AE
 		tst.w	(Demo_Timer).w                               ; $FFFFF614
@@ -1033,7 +1033,7 @@ Offset_0x000BE6:
 		move.w	#$0083,(DMA_Trigger).w                      ; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)                        ; $FFFFF640
 		bsr.w	ProcessDMAQueue                            ; Offset_0x00135E
-		bsr.w	SoundDriverInput_Null
+		bsr.w	sndDriverInput
 		startZ80
 		rts
 ;===============================================================================
@@ -1254,7 +1254,7 @@ HBlank_WaterHCZ:
 
 		movem.l	a0-a1,-(sp)
 		lea	(VDP_Data_Port).l,a1
-		move.w	#$8ADF,VDP_Control_Port-VDP_Data_Port(a1)
+		move.w	#$8A00+224-1,VDP_Control_Port-VDP_Data_Port(a1)
 		lea	(Palette_Underwater_Buffer).w,a0
 		move.l	#$C0000000,VDP_Control_Port-VDP_Data_Port(a1)
 	rept 32
@@ -1279,7 +1279,7 @@ Offset_0x000EAA:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Offset_0x000EBC: Null_Sub_1:
-SoundDriverInput_Null:
+sndDriverInput:
 		rts
 ; ---------------------------------------------------------------------------
 ; This appears to be the remnants of a 'sound input system' that Sonic 2 used,
@@ -1291,9 +1291,9 @@ SoundDriverInput_Null:
 		move.b	(Sound_Queue.SFX1).w,(Z80_RAM_Start+zSFXNumber1).l
 		move.b	(Sound_Queue.Music1).w,(Z80_RAM_Start+zPauseFlag).l
 		moveq	#0,d0
-		move.l	d0,(Sound_Queue).w
+		move.l	d0,(Sound_Queue).w	; clear whole queue
 		rts
-; End of function SoundDriverInput_Null
+; End of function sndDriverInput
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -1323,24 +1323,24 @@ Control_Ports_Read:                                            ; Offset_0x000F16
 		bsr.s	Offset_0x000F24
 		addq.w	#2,a1
 Offset_0x000F24:
-		move.b	#0,(A1)
+		move.b	#0,(a1)
 		nop
 		nop
-		move.b	(A1),d0
+		move.b	(a1),d0
 		lsl.b	#2,d0
 		andi.b	#$C0,d0
-		move.b	#$40,(A1)
+		move.b	#$40,(a1)
 		nop
 		nop
-		move.b	(A1),d1
+		move.b	(a1),d1
 		andi.b	#$3F,d1
-		or.b	D1,d0
-		not.b	D0
-		move.b	(A0),d1
-		eor.b	D0,d1
-		move.b	D0,(A0)+
-		and.b	D0,d1
-		move.b	D1,(A0)+
+		or.b	d1,d0
+		not.b	d0
+		move.b	(a0),d1
+		eor.b	d0,d1
+		move.b	d0,(a0)+
+		and.b	d0,d1
+		move.b	d1,(a0)+
 		rts
 ;===============================================================================
 ; Leitura das portas 0, 1 e expans�o
@@ -1352,21 +1352,21 @@ Offset_0x000F24:
 ; ->>>
 ;===============================================================================
 VDPRegSetup:                                                   ; Offset_0x000F52
-		lea	(VDP_Control_Port),A0                       ; $00C00004
-		lea	(VDP_Data_Port),A1                          ; $00C00000
-		lea	(VDPRegSetup_Array).l,A2                ; Offset_0x000FDC
-		moveq	#bytesToWcnt(VDPRegSetup_Array_End-VDPRegSetup_Array),D7
+		lea	(VDP_Control_Port),a0                       ; $00C00004
+		lea	(VDP_Data_Port),a1                          ; $00C00000
+		lea	(VDPRegSetup_Array).l,a2                ; Offset_0x000FDC
+		moveq	#bytesToWcnt(VDPRegSetup_Array_End-VDPRegSetup_Array),d7
 Offset_0x000F66:
-		move.w	(A2)+,(A0)
-		dbf	D7, Offset_0x000F66
-		move.w	(VDPRegSetup_Array+2).l,D0            ; Offset_0x000FDE
-		move.w	D0,(VDP_Register_1_Command).w               ; $FFFFF60E
-		move.w	#$8ADF,(Horizontal_Int_Count_Cmd).w         ; $FFFFF624
-		moveq	#0,D0
-		move.l	#$40000010,(VDP_Control_Port)               ; $00C00004
-		move.w	D0,(A1)
-		move.w	D0,(A1)
-		move.l	#$C0000000,(VDP_Control_Port)               ; $00C00004
+		move.w	(a2)+,(a0)
+		dbf	d7,Offset_0x000F66
+		move.w	(VDPRegSetup_Array+2).l,d0            ; Offset_0x000FDE
+		move.w	d0,(VDP_Register_1_Command).w               ; $FFFFF60E
+		move.w	#$8A00+224-1,(Horizontal_Int_Count_Cmd).w         ; $FFFFF624
+		moveq	#0,d0
+		move.l	#$40000010,(VDP_Control_Port).l               ; $00C00004
+		move.w	d0,(a1)
+		move.w	d0,(a1)
+		move.l	#$C0000000,(VDP_Control_Port).l               ; $00C00004
 		move.w	#bytesToWcnt($80),d7
 Offset_0x000F9A:
 		move.w	d0,(a1)
@@ -1374,12 +1374,12 @@ Offset_0x000F9A:
 		clr.l	(Vertical_Scroll_Value).w                    ; $FFFFF616
 		clr.l	(Vertical_Scroll_Value_3).w                  ; $FFFFF61A
 		move.l	d1,-(sp)
-		lea	(VDP_Control_Port),a5                       ; $00C00004
+		lea	(VDP_Control_Port).l,a5                       ; $00C00004
 		move.w	#$8F01,(A5)
 		move.l	#$94FF93FF,(A5)
 		move.w	#$9780,(A5)
 		move.l	#$40000080,(A5)
-		move.w	#0,(VDP_Data_Port)                      ; $00C00000
+		move.w	#0,(VDP_Data_Port).l                      ; $00C00000
 Offset_0x000FCC:
 		move.w	(A5),d1
 		btst	#1,d1
@@ -1581,23 +1581,23 @@ PlaySound:
 
 Offset_0x00118E:
 		stopZ80
-		tst.b	(Z80_RAM_Start+zMusicNumber).l
+		tst.b	(Z80_RAM+zMusicNumber).l
 		bne.s	PlaySound2
-		move.b	d0,(Z80_RAM_Start+zMusicNumber).l
+		move.b	d0,(Z80_RAM+zMusicNumber).l
 		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x0011B8:
 PlaySound2:
-		tst.b	(Z80_RAM_Start+zSFXNumber0).l
+		tst.b	(Z80_RAM+zSFXNumber0).l
 		bne.s	PlaySound3
-		move.b	d0,(Z80_RAM_Start+zSFXNumber0).l
+		move.b	d0,(Z80_RAM+zSFXNumber0).l
 		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x0011D0:
 PlaySound3:
-		move.b	d0,(Z80_RAM_Start+zSFXNumber1).l
+		move.b	d0,(Z80_RAM+zSFXNumber1).l
 		startZ80
 ; Offset_0x0011DE: Exit_Play_Music:
 PlaySound_Exit:
@@ -1621,7 +1621,7 @@ Pause:                                                         ; Offset_0x0011E0
 Pause_AlreadyPaused:                                           ; Offset_0x001200
 		move.w	#1,(Pause_Status).w                     ; $FFFFF63A
 		stopZ80
-		move.b	#1,(Z80_RAM_Start+zPauseFlag)
+		move.b	#1,(Z80_RAM+zPauseFlag).l
 		startZ80
 Pause_Loop:                                                    ; Offset_0x001228
 		move.b	#$10,(VBlank_Index).w                       ; $FFFFF62A
@@ -1645,7 +1645,7 @@ Pause_CheckStart:                                              ; Offset_0x00125A
 		beq.s	Pause_Loop                             ; Offset_0x001228
 Offset_0x001268:
 		stopZ80
-		move.b	#$80,(Z80_RAM_Start+zPauseFlag)
+		move.b	#$80,(Z80_RAM+zPauseFlag).l
 		startZ80
 Unpause:                                                       ; Offset_0x00128A
 		move.w	#0,(Pause_Status).w                     ; $FFFFF63A
@@ -1654,7 +1654,7 @@ Pause_DoNothing:                                               ; Offset_0x001290
 Pause_SlowMotion:                                              ; Offset_0x001292
 		move.w	#1,(Pause_Status).w                     ; $FFFFF63A
 		stopZ80
-		move.b	#$80,(Z80_RAM_Start+zPauseFlag)
+		move.b	#$80,(Z80_RAM+zPauseFlag).l
 		startZ80
 		rts
 ;===============================================================================
@@ -2229,6 +2229,22 @@ ProcessDPLC_Pop:
 Offset_0x00164E:
 		move.l	6(a0),(a0)+		; shift contents of PLC buffer up 6 bytes
 		dbf	d0,Offset_0x00164E	; repeat until (almost) everything has been shifted
+
+    if fixBugs
+	; The above code does not properly 'pop' the 16th PLC entry.
+	; Because of this, occupying the 16th slot will cause it to
+	; be repeatedly decompressed infinitely.
+	; Granted, this could be conisdered more of an optimisation
+	; than a bug: treating the 16th entry as a dummy that
+	; should never be occupied makes this code unnecessary.
+	; Still, the overhead of this code is minimal.
+    if (Plc_Buffer_Only_End-Plc_Buffer-6)&2
+		move.w	6(a0),(a0)
+    endif
+
+		clr.l	(Plc_Buffer_Only_End-6).w
+    endif
+
 		rts
 ; End of function ProcessDPLC
 
@@ -2267,7 +2283,7 @@ RunPLC_ROM_Loop:
 ; ->>>
 ;===============================================================================
 EnigmaDec:                                                     ; Offset_0x00168A
-		movem.l	D0-D7/A1-A5, -(sp)
+		movem.l	D0-D7/A1-A5,-(sp)
 		move.w	D0,a3
 		move.b	(A0)+,d0
 		ext.w	D0
@@ -2304,19 +2320,19 @@ Offset_0x0016C4:
 Enigma_Dec_00:                                                 ; Offset_0x0016D4
 		move.w	A2,(A1)+
 		addq.w	#1,a2
-		dbf	D2, Enigma_Dec_00                      ; Offset_0x0016D4
+		dbf	D2,Enigma_Dec_00                      ; Offset_0x0016D4
 		bra.s	EnigmaDec_Loop                         ; Offset_0x0016AA
 ;-------------------------------------------------------------------------------
 Enigma_Dec_01:                                                 ; Offset_0x0016DE
 		move.w	A4,(A1)+
-		dbf	D2, Enigma_Dec_01                      ; Offset_0x0016DE
+		dbf	D2,Enigma_Dec_01                      ; Offset_0x0016DE
 		bra.s	EnigmaDec_Loop                         ; Offset_0x0016AA
 ;-------------------------------------------------------------------------------
 Enigma_Dec_02:                                                 ; Offset_0x0016E6
 		bsr.w	Enigma_Dec_Fetch                       ; Offset_0x001748
 Offset_0x0016EA:
 		move.w	D1,(A1)+
-		dbf	D2, Offset_0x0016EA
+		dbf	D2,Offset_0x0016EA
 		bra.s	EnigmaDec_Loop                         ; Offset_0x0016AA
 ;-------------------------------------------------------------------------------
 Enigma_Dec_03:                                                 ; Offset_0x0016F2
@@ -2324,7 +2340,7 @@ Enigma_Dec_03:                                                 ; Offset_0x0016F2
 Offset_0x0016F6:
 		move.w	D1,(A1)+
 		addq.w	#1,d1
-		dbf	D2, Offset_0x0016F6
+		dbf	D2,Offset_0x0016F6
 		bra.s	EnigmaDec_Loop                         ; Offset_0x0016AA
 ;-------------------------------------------------------------------------------
 Enigma_Dec_04:                                                 ; Offset_0x001700
@@ -2332,7 +2348,7 @@ Enigma_Dec_04:                                                 ; Offset_0x001700
 Offset_0x001704:
 		move.w	D1,(A1)+
 		subq.w	#1,d1
-		dbf	D2, Offset_0x001704
+		dbf	D2,Offset_0x001704
 		bra.s	EnigmaDec_Loop                         ; Offset_0x0016AA
 ;-------------------------------------------------------------------------------
 Enigma_Dec_05:                                                 ; Offset_0x00170E
@@ -2341,7 +2357,7 @@ Enigma_Dec_05:                                                 ; Offset_0x00170E
 Offset_0x001714:
 		bsr.w	Enigma_Dec_Fetch                       ; Offset_0x001748
 		move.w	D1,(A1)+
-		dbf	D2, Offset_0x001714
+		dbf	D2,Offset_0x001714
 		bra.s	EnigmaDec_Loop                         ; Offset_0x0016AA
 ;-------------------------------------------------------------------------------
 Enigma_Dec_Routines                                            ; Offset_0x001720
