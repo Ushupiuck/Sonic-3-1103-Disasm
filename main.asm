@@ -58,21 +58,21 @@ Prog_Start_Vector:
 		dc.l	(7<<$18)|Check_Interrupt	; TRAPV exception
 		dc.l	(8<<$18)|Check_Interrupt	; Privilege violation
 		dc.l	(9<<$18)|Check_Interrupt	; TRACE exception
-		dc.l	Line1010Emu			; Line-A emulator
-		dc.l	Line1111Emu			; Line-F emulator
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Spurious exception
+		dc.l	ErrorTrap			; Line-A emulator
+		dc.l	ErrorTrap			; Line-F emulator
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Spurious exception
 		dc.l	ErrorTrap			; IRQ level 1
 		dc.l	ErrorTrap			; IRQ level 2
 		dc.l	ErrorTrap			; IRQ level 3
@@ -129,14 +129,9 @@ Notes:		dc.b	0, 1, 2, 3, 4, 5, 6, 7
 		dc.b	"                                "
 Region:		dc.b	"JUE             "
 EndOfHeader:
-
 ; ===========================================================================
 ; Offset_0x000200:
-ROM_Data_Start:
 ErrorTrap:
-Line1010Emu:
-Line1111Emu:
-ErrorException:
 		nop
 		nop
 		bra.s	ErrorTrap
