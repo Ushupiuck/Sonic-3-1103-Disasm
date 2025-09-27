@@ -2230,7 +2230,7 @@ Offset_0x00164E:
 		move.l	6(a0),(a0)+		; shift contents of PLC buffer up 6 bytes
 		dbf	d0,Offset_0x00164E	; repeat until (almost) everything has been shifted
 
-    if fixBugs
+    if FixBugs
 	; The above code does not properly 'pop' the 16th PLC entry.
 	; Because of this, occupying the 16th slot will cause it to
 	; be repeatedly decompressed infinitely.
@@ -2238,11 +2238,11 @@ Offset_0x00164E:
 	; than a bug: treating the 16th entry as a dummy that
 	; should never be occupied makes this code unnecessary.
 	; Still, the overhead of this code is minimal.
-    if (Plc_Buffer_Only_End-Plc_Buffer-6)&2
+    if (PLC_Data_Buffer_Only_End-PLC_Data_Buffer-6)&2
 		move.w	6(a0),(a0)
     endif
 
-		clr.l	(Plc_Buffer_Only_End-6).w
+		clr.l	(PLC_Data_Buffer_Only_End-6).w
     endif
 
 		rts
