@@ -2977,7 +2977,7 @@ Sine_Table:                                                    ; Offset_0x001B38
 ; ->>>
 ;===============================================================================
 CalcAngle:                                                     ; Offset_0x001DB8
-		movem.l	D3-D4, -(sp)
+		movem.l	D3-D4,-(sp)
 		moveq	#0,d3
 		moveq	#0,d4
 		move.w	D1,d3
@@ -34767,7 +34767,11 @@ PalCycle_SuperSonicIntro:
 		move.w	(Super_Sonic_Palette_Frame).w,d0
 		addq.w	#8,(Super_Sonic_Palette_Frame).w
 		cmpi.w	#$78,(Super_Sonic_Palette_Frame).w
+	if FixBugs
+		bls.s	Offset_0x035EFE
+	else
 		bcs.s	Offset_0x035EFE
+	endif
 		move.w	#$30,(Super_Sonic_Palette_Frame).w
 
 Offset_0x035EFE:
