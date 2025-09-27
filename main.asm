@@ -332,7 +332,7 @@ ChecksumLoop:
 		add.w	(a0)+,d1
 		cmp.l	a0,d0
 	if 0
-		bhs.s	ChecksumLoop
+		bhs.w	ChecksumLoop
 	else
 		nop
 		nop
