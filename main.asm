@@ -183,7 +183,7 @@ VDPInitLoop:
 WaitForZ80:
 		btst	d0,(a1)
 		bne.s	WaitForZ80
-		moveq	#Z80StartupCode_End-Z80StartupCode-1,d2
+		moveq	#Z80StartupCodeEnd-Z80StartupCodeBegin-1,d2
 ; Offset_0x00025A:
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
@@ -222,31 +222,81 @@ PortC_OK:
 ; ===========================================================================
 ; Offset_0x000298:
 InitValues:
-		dc.w	$8000, bytesToLcnt($10000), $100
+		dc.w	$8000
+		dc.w	bytesToLcnt($10000)
+		dc.w	$100
 
 		dc.l	Z80_RAM_Start
 		dc.l	Z80_Bus_Request
 		dc.l	Z80_Reset
-		dc.l	VDP_Data_Port, VDP_Control_Port
+		dc.l	VDP_Data_Port
+		dc.l	VDP_Control_Port
 
 	; values for VDP registers
 VDPInitValues:
-		dc.b	$04, $14, $30, $3C, $07, $6C, $00, $00
-		dc.b	$00, $00, $FF, $00, $81, $37, $00, $01
-		dc.b	$01, $00, $00, $FF, $FF, $00, $00, $80
+		dc.b	4
+		dc.b	$14
+		dc.b	$30
+		dc.b	$3C
+		dc.b	7
+		dc.b	$6C
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	0
+		dc.b	$FF
+		dc.b	0
+		dc.b	$81
+		dc.b	$37
+		dc.b	0
+		dc.b	1
+		dc.b	1
+		dc.b	0
+		dc.b	0
+		dc.b	$FF
+		dc.b	$FF
+		dc.b	0
+		dc.b	0
+		dc.b	$80
 VDPInitValues_End:
 
-		dc.b	$40, $00, $00, $80
+		dc.l	$40000080
 
-	; Z80 instructions (not the sound driver; that gets loaded later)
-Z80StartupCode:
-		dc.b	$AF, $01, $D9, $1F
-		dc.b	$11, $27, $00, $21, $26, $00, $F9, $77
-		dc.b	$ED, $B0, $DD, $E1, $FD, $E1, $ED, $47
-		dc.b	$ED, $4F, $D1, $E1, $F1, $08, $D9, $C1
-		dc.b	$D1, $E1, $F1, $F9, $F3, $ED, $56, $36
-		dc.b	$E9, $E9
-Z80StartupCode_End:
+; Z80 instructions (not the sound driver; that gets loaded later)
+Z80StartupCodeBegin:
+		cpu z80		; start assembling Z80 code
+		phase 0		; pretend we're at address 0
+
+		xor	a		; clear a to 0
+		ld	bc,((Z80_RAM_end-Z80_RAM)-zStartupCodeEndLoc)-1	; prepare to loop this many times
+		ld	de,zStartupCodeEndLoc+1	; initial destination address
+		ld	hl,zStartupCodeEndLoc	; initial source address
+		ld	sp,hl	; set the address the stack starts at
+		ld	(hl),a	; set first byte of the stack to 0
+		ldir		; loop to fill the stack (entire remaining available Z80 RAM) with 0
+		pop	ix		; clear ix
+		pop	iy		; clear iy
+		ld	i,a		; clear i
+		ld	r,a		; clear r
+		pop	de		; clear de
+		pop	hl		; clear hl
+		pop	af		; clear af
+		ex	af,af'	; swap af with af'
+		exx			; swap bc/de/hl with their shadow registers too
+		pop	bc		; clear bc
+		pop	de		; clear de
+		pop	hl		; clear hl
+		pop	af		; clear af
+		ld	sp,hl	; clear sp
+		di			; clear iff1 (for interrupt handler)
+		im	1		; interrupt handling mode = 1
+		ld	(hl),0E9h	; replace the first instruction with a jump to itself
+		jp	(hl)	; jump to the first instruction (to stay there forever)
+zStartupCodeEndLoc:
+		dephase		; stop pretending
+		cpu 68000
+		padding off
+Z80StartupCodeEnd:
 
 		dc.w	$8104			; value for VDP display mode
 		dc.w	$8F02			; value for VDP increment

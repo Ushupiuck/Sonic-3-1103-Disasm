@@ -626,7 +626,9 @@ Stop_SFx	= signextendB(cmd_StopSFX)
 Music_Normal_Speed	= $FC
 
 ; Z80  
-Z80_RAM_Start	= $A00000 
+Z80_RAM_Start	= $A00000
+Z80_RAM	= Z80_RAM_Start
+Z80_RAM_end	= $A02000
 
 ; I/O
 IO_Hardware_Version	= $A10001 
