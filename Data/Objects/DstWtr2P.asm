@@ -74,7 +74,7 @@ Offset_0x0101AC:
 				move.b	#$00, Obj_Ani_Number(A0)						 ; $0020
 				rts
 Offset_0x0101B4:
-				bra		DeleteObject						   ; Offset_0x011138
+				bra.w	DeleteObject						   ; Offset_0x011138
 Offset_0x0101B8:
 				move.w	Obj_Player_Last(A0), A2							 ; $0042
 				cmpi.b	#$0D, Obj_Ani_Number(A2)						 ; $0020

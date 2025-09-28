@@ -369,7 +369,7 @@ Offset_0x03B47C:
 				subq.b	#$01, Obj_Boss_Hit(A1)							 ; $0029
 Offset_0x03B4C2:
 				subq.b	#$01, Obj_Control_Var_0A(A0)					 ; $003A
-				bpl		Offset_0x03B08C
+				bpl.w	Offset_0x03B08C
 				bclr	#$02, Obj_Control_Var_08(A0)					 ; $0038
 				move.b	Obj_Ani_Time_2(A0), Obj_Col_Flags(A0)	  ; $0025, $0028
 Offset_0x03B4D6:

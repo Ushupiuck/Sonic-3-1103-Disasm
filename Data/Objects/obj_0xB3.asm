@@ -38,7 +38,7 @@ Offset_0x03DD26:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x03DD3C(PC, D0), D1
 				jsr		Offset_0x03DD3C(PC, D1)
-				bsr		Offset_0x03E366
+				bsr.w	Offset_0x03E366
 				jmp		Add_To_Response_List_And_Display(PC)   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x03DD3C:

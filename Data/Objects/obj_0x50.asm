@@ -26,7 +26,7 @@ Offset_0x029F98:
 ;-------------------------------------------------------------------------------
 Offset_0x029FC4:
 				btst	D6, Obj_Status(A0)								 ; $002A
-				bne		Offset_0x02A09C
+				bne.w	Offset_0x02A09C
 				tst.b	Obj_Flags(A2)									 ; $0004
 				beq.s	Offset_0x029FFE
 				subq.b	#$01, Obj_Flags(A2)								 ; $0004

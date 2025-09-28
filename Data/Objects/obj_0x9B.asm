@@ -48,7 +48,7 @@ Offset_0x044814:
 				move.w	#$0200, D0
 				moveq	#$10, D1
 				jsr		Chase_Object(PC)					   ; Offset_0x042E6C
-				bsr		Offset_0x04490A
+				bsr.w	Offset_0x04490A
 				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2

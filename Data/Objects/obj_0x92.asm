@@ -8,7 +8,7 @@
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04A41E(PC, D0), D1
 				jsr		Offset_0x04A41E(PC, D1)
-				bsr		Offset_0x04A636
+				bsr.w	Offset_0x04A636
 				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X).l ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x04A41E:
@@ -43,7 +43,7 @@ Offset_0x04A45E:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04A476(PC, D0), D1
 				jsr		Offset_0x04A476(PC, D1)
-				bsr		Offset_0x04A6B8
+				bsr.w	Offset_0x04A6B8
 				jmp		(Child_Display_Or_Delete).l			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
 Offset_0x04A476:

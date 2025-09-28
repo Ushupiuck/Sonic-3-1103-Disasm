@@ -1180,7 +1180,7 @@ Miles_RollSpeed:							   ; Offset_0x00DFC6
 		move.w	Deceleration(A4), D4					 ; $0004
 		asr.w	#$02, D4
 		tst.b	Obj_Player_Status(A0)					 ; $002F
-		bmi		Offset_0x00E064
+		bmi.w	Offset_0x00E064
 		tst.w	Obj_P_Horiz_Ctrl_Lock(A0)				 ; $0032
 		bne.s	Offset_0x00DFFC
 		btst	#$02, (Control_Ports_Logical_Data_2).w		 ; $FFFFF66A
@@ -2171,7 +2171,7 @@ Offset_0x00EB1A:
 		rts
 Offset_0x00EB2E:
 		subq.b	#$01,Obj_Ani_Time(A0)					 ; $0024
-		bpl		Offset_0x00E9CC
+		bpl.w	Offset_0x00E9CC
 		addq.b	#$01, D0
 		bne.s	Offset_0x00EBB4
 		move.w	Obj_Inertia(A0), D2				 ; $001C

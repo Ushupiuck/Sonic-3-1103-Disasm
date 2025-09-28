@@ -21236,7 +21236,7 @@ Offset_0x015B90:
 		bchg	#0,Obj_Status(A0)					; $002A
 		addq.b	#$01,Obj_Map_Id(A0)					; $0022
 Offset_0x015BA4:
-		bra	Offset_0x015D5E
+		bra.w	Offset_0x015D5E
 Offset_0x015BA8:
 		subq.b	#$01,Obj_Control_Var_08(A0)			; $0038
 Offset_0x015BAC:
@@ -35541,7 +35541,7 @@ Offset_0x038C9A:
 Offset_0x038CAE:
 		move.w	Obj_Speed_X(A0),Obj_Height_3(A0)		; $0018, $0044
 		clr.w	Obj_Speed_X(A0)					; $0018
-		bra	ScrewMobile_FanAttack
+		bra.w	ScrewMobile_FanAttack
 ;-------------------------------------------------------------------------------
 Offset_0x038CBC:
 		move.l	#Offset_0x038CE6,(A0)
@@ -35697,7 +35697,7 @@ Offset_0x038EA0:
 Offset_0x038EC6:
 		jsr	(SpeedToPos)				 ; Offset_0x01111E
 		jsr	(AnimateRaw)				; Offset_0x04208E
-		bra	Offset_0x0396FA
+		bra.w	Offset_0x0396FA
 ;-------------------------------------------------------------------------------
 Offset_0x038ED6:
 		move.b	#$06,Obj_Routine(A0)					; $0005
@@ -35722,7 +35722,7 @@ Offset_0x038F1C:
 		rts
 ;-------------------------------------------------------------------------------
 ; Offset_0x038F1E:
-		bra	Offset_0x0396FA
+		bra.w	Offset_0x0396FA
 ;-------------------------------------------------------------------------------
 Offset_0x038F22:
 		move.l	#Offset_0x038F3C,(A0)
@@ -35782,7 +35782,7 @@ Offset_0x038FB8:
 Offset_0x038FD8:
 		move.b	#$04,Obj_Routine(A0)					; $0005
 		move.w	Obj_Speed_X(A1),Obj_Speed_X(A0)		; $0018, $0018
-		bra	Offset_0x03957A
+		bra.w	Offset_0x03957A
 ;-------------------------------------------------------------------------------
 Offset_0x038FE8:
 		bsr.w	Offset_0x039382
@@ -35950,7 +35950,7 @@ Offset_0x039200:
 		move.w	#$0007,Obj_Timer(A0)					; $002E
 		move.l	#Offset_0x03923C,Obj_Child(A0)			; $0034
 		bsr.w	Offset_0x03935C
-		bra	Offset_0x039370
+		bra.w	Offset_0x039370
 Offset_0x039220:
 		move.b	Obj_Control_Var_10(A0),d0				; $0040
 		add.b	D0,Obj_Control_Var_12(A0)				; $0042

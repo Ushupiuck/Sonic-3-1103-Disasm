@@ -301,7 +301,7 @@ Offset_0x026080:
 				subi.w	#$0008, (Obj_Player_One+Obj_Y).w			 ; $FFFFB014
 				subi.w	#$0008, (Obj_Player_Two+Obj_Y).w			 ; $FFFFB05E
 				cmpi.w	#$0028, Obj_Control_Var_00(A0)					 ; $0030
-				bhi		Offset_0x026122
+				bhi.w	Offset_0x026122
 				move.b	#$1A, (Obj_Player_One+Obj_Ani_Number).w		 ; $FFFFB020
 				move.b	#$1A, (Obj_Player_Two+Obj_Ani_Number).w		 ; $FFFFB06A
 				move.l	#Offset_0x026154, (A0)

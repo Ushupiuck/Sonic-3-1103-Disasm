@@ -8,7 +8,7 @@
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x0495E8(PC, D0), D1
 				jsr		Offset_0x0495E8(PC, D1)
-				bsr		Offset_0x049860
+				bsr.w	Offset_0x049860
 				jmp		MarkObjectGone(PC)				; Offset_0x042A58
 ;-------------------------------------------------------------------------------
 Offset_0x0495E8:
