@@ -151,13 +151,15 @@ zSFX_PSG2:		zTrack
 zSFX_PSG3:		zTrack
 zTracksSFXEnd
 
-
 zTempVariablesEnd
+	if * > z80_stack_end	; Don't declare more space than the RAM can contain!
+		fatal "The RAM variable declarations are too large. It's \{*-z80_stack_end}h bytes past the start of the bottom of the stack, at \{z80_stack_end}h."
+	endif
 		dephase
 		!org	z80_SoundDriverStart
 
 		save
-		!org 0	; z80 Align, handled by the build process
+		!org	0	; z80 Align, handled by the build process
 		CPU Z80
 		listing purecode
 

@@ -543,7 +543,6 @@ sfx_Signpost	ds.b 1		; $D9
 sfx__End =			*		; next ID after the last sound effect
 
 	dephase
-	!org 0				; make sure we reset the ROM position to 0
 
 sfx_BigRingUnk =	$32
 sfx_S2Smash =	$B9
@@ -626,7 +625,9 @@ Stop_SFx	= signextendB(cmd_StopSFX)
 Music_Normal_Speed	= $FC
 
 ; Z80  
-Z80_RAM_Start	= $A00000 
+Z80_RAM_Start	= $A00000
+Z80_RAM	= Z80_RAM_Start
+Z80_RAM_end	= $A02000
 
 ; I/O
 IO_Hardware_Version	= $A10001 
