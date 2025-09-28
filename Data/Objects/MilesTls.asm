@@ -33,9 +33,9 @@ Offset_0x00F210:
 				move.b	Offset_0x00F234(PC, D0), Obj_Ani_Number(A0)		 ; $0020
 Offset_0x00F220:
 				lea		(Miles_Tails_Animate_Data).l, A1		 ; Offset_0x00F256
-				bsr		Miles_Animate_Sprite				   ; Offset_0x00E96C
-				bsr		Load_Miles_Tails_Dynamic_PLC		   ; Offset_0x00ED54
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				bsr.w	Miles_Animate_Sprite				   ; Offset_0x00E96C
+				bsr.w	Load_Miles_Tails_Dynamic_PLC		   ; Offset_0x00ED54
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x00F234:
 				dc.b	$00, $00, $03, $03, $09, $01, $00, $02

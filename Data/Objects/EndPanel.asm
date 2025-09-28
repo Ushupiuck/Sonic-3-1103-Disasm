@@ -9,7 +9,7 @@
 				jsr		Offset_0x04182E(PC, D1)
 				lea		Offset_0x041AAA(PC), A2
 				jsr		LoadDynamicPLC(PC)				  ; Offset_0x042A0A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x04182E:
 				dc.w	Offset_0x041838-Offset_0x04182E
@@ -44,12 +44,12 @@ Offset_0x04187A:
 Offset_0x04188C:
 				bsr.w	Offset_0x0419C0
 				addi.w	#$000C, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Offset_0x041A2E
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x0418CA
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x0418CA
 				add.w	D1, Obj_Y(A0)									 ; $0014
@@ -123,11 +123,11 @@ Offset_0x04197E:
 				move.w	#$0180, D1
 Offset_0x04198C:
 				move.w	D1, Obj_Priority(A0)							 ; $0008
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				lea		Offset_0x041AC4(PC), A1
 				jsr		Animate_Raw_A1(PC)					   ; Offset_0x042092
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x0419A8:
 				move.l	#Offset_0x0419B6, (A0)
@@ -136,7 +136,7 @@ Offset_0x0419A8:
 ;-------------------------------------------------------------------------------
 Offset_0x0419B6:
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016
-				jmp		(Child_Display_Or_Delete)			   ; Offset_0x04245C
+				jmp		(Child_Display_Or_Delete).l			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
 Offset_0x0419C0:
 				tst.b	Obj_Ani_Number(A0)								 ; $0020
@@ -188,7 +188,7 @@ Offset_0x041A2E:
 				cmp.w	Obj_X(A0), D0									 ; $0010
 				bcs.s	Offset_0x041A66
 				moveq	#$20, D3
-				jsr		(Object_HitWall_Right)				   ; Offset_0x009EEE
+				jsr		(Object_HitWall_Right).l				   ; Offset_0x009EEE
 				tst.w	D1
 				bmi.s	Offset_0x041A66
 				rts
@@ -197,7 +197,7 @@ Offset_0x041A50:
 				cmp.w	Obj_X(A0), D0									 ; $0010
 				bhi.s	Offset_0x041A66
 				moveq	#-$20, D3
-				jsr		(Object_HitWall_Left)				   ; Offset_0x00A138
+				jsr		(Object_HitWall_Left).l				   ; Offset_0x00A138
 				tst.w	D1
 				bpl.s	Offset_0x041A6A
 Offset_0x041A66:

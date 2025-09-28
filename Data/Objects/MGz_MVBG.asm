@@ -21,7 +21,7 @@ Obj_MGz_2_Move_Bg_Sonic_Path:								   ; Offset_0x032A7E
 Offset_0x032A94:
 				cmp.w	(Background_Events).w, D0					 ; $FFFFEED2
 				beq.s	Offset_0x032AA0
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x032AA0:
 				cmp.w	(Obj_Player_One+Obj_Y).w, D1				 ; $FFFFB014
 				bcc.s	Offset_0x032AAC
@@ -41,7 +41,7 @@ Offset_0x032AC8:
 				cmp.w	Obj_Timer(A0), D0								 ; $002E
 				bcs.s	Offset_0x032ADE
 				move.w	#$000E, (Earthquake_Flag).w					 ; $FFFFEECC
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x032ADE:
 				move.w	(Obj_Player_One+Obj_X).w, D2				 ; $FFFFB010
 				move.w	(Obj_Player_One+Obj_Y).w, D3				 ; $FFFFB014

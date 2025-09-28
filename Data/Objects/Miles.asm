@@ -142,7 +142,7 @@ Miles_Display:						   ; Offset_0x00D304
 		lsr.b	#$03, D0
 		bcc.s	Offset_0x00D318
 Offset_0x00D312:
-		jsr	(DisplaySprite)				   ; Offset_0x011148
+		jsr	(DisplaySprite).l				   ; Offset_0x011148
 Offset_0x00D318:
 		btst	#$01,Obj_Player_Status(A0)				 ; $002F
 		beq.s	Offset_0x00D354
@@ -667,7 +667,7 @@ Offset_0x00D9A8:
 		move.l	(A7)+, A2
 Offset_0x00D9BC:
 		movem.l A0-A6, -(A7)
-		move.l	A1, A0
+		movea.l	A1, A0
 		bsr.w	Sonic_Floor					   ; Offset_0x00BD7C
 		movem.l (A7)+, A0-A6
 		rts
@@ -787,7 +787,7 @@ Miles_MdNormal:						   ; Offset_0x00DB5A
 		bsr.w	Miles_Move					   ; Offset_0x00DCD4
 		bsr.w	Miles_Roll					   ; Offset_0x00E1D2
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
-		jsr	(SpeedToPos)				   ; Offset_0x01111E
+		jsr	(SpeedToPos).l				   ; Offset_0x01111E
 		bsr.w	Player_AnglePos				   ; Offset_0x009144
 		bsr.w	Miles_SlopeRepel			   ; Offset_0x00E54E
 		tst.b	(Background_Collision_Flag).w		 ; $FFFFF664
@@ -804,7 +804,7 @@ Miles_MdJump:						   ; Offset_0x00DB92
 		bsr.w	Miles_JumpHeight			   ; Offset_0x00E2F8
 		bsr.w	Miles_ChgJumpDir			   ; Offset_0x00E0EC
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
-		jsr	(ObjectFall)				   ; Offset_0x0110FE
+		jsr	(ObjectFall).l				   ; Offset_0x0110FE
 		btst	#$06,Obj_Status(A0)					 ; $002A
 		beq.s	Offset_0x00DBB8
 		subi.w	#$0028,Obj_Speed_Y(A0)					 ; $001A
@@ -816,7 +816,7 @@ Offset_0x00DBC2:
 		bsr.w	Tails_StartFlying
 		bsr.w	Miles_ChgJumpDir			   ; Offset_0x00E0EC
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
-		jsr	(SpeedToPos)				   ; Offset_0x01111E
+		jsr	(SpeedToPos).l				   ; Offset_0x01111E
 		bsr.w	Miles_JumpAngle				   ; Offset_0x00E590
 		movem.l A4-A6, -(A7)
 		bsr.w	Miles_Floor					   ; Offset_0x00E5F0
@@ -896,7 +896,7 @@ Offset_0x00DC7E:
 		bsr.w	Miles_RollRepel				   ; Offset_0x00E512
 		bsr.w	Miles_RollSpeed				   ; Offset_0x00DFC6
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
-		jsr	(SpeedToPos)				   ; Offset_0x01111E
+		jsr	(SpeedToPos).l				   ; Offset_0x01111E
 		bsr.w	Player_AnglePos				   ; Offset_0x009144
 		bsr.w	Miles_SlopeRepel			   ; Offset_0x00E54E
 		tst.b	(Background_Collision_Flag).w		 ; $FFFFF664
@@ -911,7 +911,7 @@ Miles_MdJump2:						   ; Offset_0x00DCAA
 		bsr.w	Miles_JumpHeight			   ; Offset_0x00E2F8
 		bsr.w	Miles_ChgJumpDir			   ; Offset_0x00E0EC
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
-		jsr	(ObjectFall)				   ; Offset_0x0110FE
+		jsr	(ObjectFall).l				   ; Offset_0x0110FE
 		btst	#$06,Obj_Status(A0)					 ; $002A
 		beq.s	Offset_0x00DCCA
 		subi.w	#$0028,Obj_Speed_Y(A0)					 ; $001A
@@ -962,7 +962,7 @@ Offset_0x00DD06:
 		bge.s	Offset_0x00DD70
 		bra.s	Offset_0x00DD8E
 Offset_0x00DD5C:
-		jsr	(Player_HitFloor)			   ; Offset_0x009CE0
+		jsr	(Player_HitFloor).l			   ; Offset_0x009CE0
 		cmpi.w	#$000C, D1
 		blt.s	Offset_0x00DD8E
 		cmpi.b	#$03,Obj_Player_Next_Tilt(A0)			 ; $003A
@@ -1363,7 +1363,7 @@ Offset_0x00E1A4:
 		blt.s	Offset_0x00E1B4
 		rts
 Offset_0x00E1B4:
-		jmp	(Kill_Player)				   ; Offset_0x00A4A4
+		jmp	(Kill_Player).l				   ; Offset_0x00A4A4
 Offset_0x00E1BA:
 		move.w	D0,Obj_X(A0)					 ; $0010
 		move.w	#$0000,Obj_Sub_X(A0)					 ; $0012
@@ -1934,7 +1934,7 @@ Offset_0x00E86C:
 		rts
 ;-------------------------------------------------------------------------------
 Miles_Hurt:							   ; Offset_0x00E86E
-		jsr	(SpeedToPos)				   ; Offset_0x01111E
+		jsr	(SpeedToPos).l				   ; Offset_0x01111E
 		addi.w	#$0030,Obj_Speed_Y(A0)					 ; $001A
 		btst	#$06,Obj_Status(A0)					 ; $002A
 		beq.s	Offset_0x00E888
@@ -1949,7 +1949,7 @@ Offset_0x00E898:
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
 		bsr.w	Sonic_RecordPos			; Offset_0x00ACA2
 		bsr.w	Miles_Animate				   ; Offset_0x00E952
-		jmp	(DisplaySprite)				   ; Offset_0x011148
+		jmp	(DisplaySprite).l				   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Miles_HurtStop:						   ; Offset_0x00E8AE
 		move.w	(Miles_Level_Limits_Max_Y).w, D0			 ; $FFFFEE22
@@ -1975,14 +1975,14 @@ Offset_0x00E902:
 		rts
 ;-------------------------------------------------------------------------------
 Kill_Miles:							   ; Offset_0x00E904
-		jmp	(Kill_Player)				   ; Offset_0x00A4A4
+		jmp	(Kill_Player).l				   ; Offset_0x00A4A4
 ;-------------------------------------------------------------------------------
 Miles_Death:						   ; Offset_0x00E90A
 		bsr.w	Player_GameOver				   ; Offset_0x00C126
-		jsr	(ObjectFall)				   ; Offset_0x0110FE
+		jsr	(ObjectFall).l				   ; Offset_0x0110FE
 		bsr.w	Sonic_RecordPos			; Offset_0x00ACA2
 		bsr.w	Miles_Animate				   ; Offset_0x00E952
-		jmp	(DisplaySprite)				   ; Offset_0x011148
+		jmp	(DisplaySprite).l				   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Miles_ResetLevel:							   ; Offset_0x00E922
 		tst.w	Obj_Player_Spdsh_Cnt(A0)				 ; $003E
@@ -2001,13 +2001,13 @@ Miles_Respawning:							   ; Offset_0x00E936
 		move.b	#$02,Obj_Routine(A0)					 ; $0005
 Offset_0x00E948:
 		bsr.w	Miles_Animate				   ; Offset_0x00E952
-		jmp	(DisplaySprite)				   ; Offset_0x011148
+		jmp	(DisplaySprite).l				   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Miles_Animate:						   ; Offset_0x00E952
 		tst.w	(Two_Player_Flag).w					 ; $FFFFFFD8
 		bne.s	Offset_0x00E95E
 		bsr.s	Offset_0x00E966
-		bra		Load_Miles_Dynamic_PLC		   ; Offset_0x00ED7C
+		bra.w	Load_Miles_Dynamic_PLC		   ; Offset_0x00ED7C
 Offset_0x00E95E:
 		bsr.w	Miles_Animate_Sprite_2P		   ; Offset_0x00EDD0
 		bra.w	Load_Miles_Dynamic_PLC_2P			   ; Offset_0x00F150

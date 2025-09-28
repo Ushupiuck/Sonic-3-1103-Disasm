@@ -13,9 +13,9 @@
 Offset_0x023E6E:
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bpl.w	Flickies_DeleteObject				   ; Offset_0x023B3C
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0018, Obj_Speed_Y(A0)							 ; $001A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;===============================================================================
 ; Pontos obtidos ao destruir alguns objetos
 ; <<<-

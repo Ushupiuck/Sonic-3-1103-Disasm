@@ -77,7 +77,7 @@ Offset_0x041C9A:
 				moveq	#$00, D0
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				lea		Offset_0x041CB6(PC), A1
-				adda.w	$00(A1, D0), A1
+				adda.w	(A1, D0), A1
 				move.b	(A1)+, Obj_Control_Var_09(A0)					 ; $0039
 				move.b	(A1)+, Obj_Control_Var_0A(A0)					 ; $003A
 				move.b	(A1)+, Obj_Routine(A0)							 ; $0005
@@ -133,11 +133,11 @@ Offset_0x041D10:
 				move.l	#Offset_0x041D34, (A0)
 				move.l	#Offset_0x041D4A, Obj_Child_Data(A0)			 ; $0030
 				move.l	#Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x041D34:
 				jsr		Animate_Raw_Multi_Delay(PC)			   ; Offset_0x04215C
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x041D3E:
 				dc.l	Boss_Explosion_Mappings				   ; Offset_0x10E5C0

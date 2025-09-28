@@ -68,8 +68,8 @@ Offset_0x010192:
 				bcs.s	Offset_0x0101AC
 Offset_0x01019A:
 				lea		(Dust_Water_Splash_2P_Animate_Data).l, A1 ; Offset_0x010246
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0101AC:
 				move.b	#$00, Obj_Ani_Number(A0)						 ; $0020
 				rts
@@ -87,7 +87,7 @@ Offset_0x0101D2:
 				subq.b	#$01, Obj_Control_Var_06(A0)					 ; $0036
 				bpl.s	Offset_0x010244
 				move.b	#$03, Obj_Control_Var_06(A0)					 ; $0036
-				bsr		AllocateObject						 ; Offset_0x011DD8
+				bsr.w	AllocateObject						 ; Offset_0x011DD8
 				bne.s	Offset_0x010244
 				move.l	(A0), (A1)
 				move.w	Obj_X(A2), Obj_X(A1)					  ; $0010, $0010
