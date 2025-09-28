@@ -243,7 +243,7 @@ Offset_0x01A2E2:
 				bra.w	Offset_0x01A38C
 Offset_0x01A302:
 				cmpi.w	#$1800, Obj_Control_Var_06(A0)					 ; $0036
-				beq		Offset_0x01A38C
+				beq.w	Offset_0x01A38C
 				addi.w	#$0800, Obj_Control_Var_06(A0)					 ; $0036
 				cmpi.w	#$1800, Obj_Control_Var_06(A0)					 ; $0036
 				bcs.s	Offset_0x01A38C

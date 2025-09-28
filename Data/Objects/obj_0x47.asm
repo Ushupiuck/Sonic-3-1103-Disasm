@@ -341,7 +341,7 @@ Offset_0x028826:
 				rts
 Offset_0x028828:
 				btst	D6, Obj_Status(A0)								 ; $002A
-				beq		Offset_0x0288E2
+				beq.w	Offset_0x0288E2
 				moveq	#$00, D0
 				move.b	$0001(A2), D0
 				jsr		(CalcSine).l							 ; Offset_0x001B20

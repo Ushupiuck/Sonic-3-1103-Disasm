@@ -27,7 +27,7 @@ Offset_0x01B362:
 				bra.s	Offset_0x01B3A6
 ;-------------------------------------------------------------------------------
 Offset_0x01B396:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B4AA
 Offset_0x01B3A0:
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
@@ -48,7 +48,7 @@ Offset_0x01B3A6:
 				moveq	#$00, D2
 				moveq	#$0D, D3
 Offset_0x01B3DC:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B4AA
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
 				bsr.w	Offset_0x01B4CA
@@ -67,7 +67,7 @@ Offset_0x01B3DC:
 				moveq	#$00, D2
 				moveq	#$0D, D3
 Offset_0x01B422:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B4AA
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
 				bsr.w	Offset_0x01B4CA
@@ -86,7 +86,7 @@ Offset_0x01B422:
 				moveq	#$00, D2
 				moveq	#$0D, D3
 Offset_0x01B468:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B4AA
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
 				bsr.w	Offset_0x01B4CA
@@ -150,7 +150,7 @@ Offset_0x01B520:
 				bra.s	Offset_0x01B564
 ;-------------------------------------------------------------------------------
 Offset_0x01B554:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B616
 Offset_0x01B55E:
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
@@ -170,7 +170,7 @@ Offset_0x01B564:
 				moveq	#$00, D2
 				moveq	#$0F, D3
 Offset_0x01B596:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B616
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
 				bsr.w	Offset_0x01B636
@@ -188,7 +188,7 @@ Offset_0x01B596:
 				moveq	#$00, D2
 				moveq	#$0F, D3
 Offset_0x01B5D8:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01B616
 				move.l	#Obj_Eosian_Sphere, (A1)			   ; Offset_0x01B75A
 				bsr.w	Offset_0x01B636
@@ -314,7 +314,7 @@ Offset_0x01B77C:
 				bne.s	Offset_0x01B788
 				move.w	#$0000, (Art_Scaling_Address).w				 ; $FFFFF75C
 Offset_0x01B788:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x01B78E:
 				move.l	Obj_Control_Var_0A(A0), A6						 ; $003A
 				move.w	Obj_Control_Var_04(A0), D1						 ; $0034
@@ -343,7 +343,7 @@ Offset_0x01B7E0:
 				lsl.w	#$06, D0
 				andi.w	#$0380, D0
 				move.w	D0, Obj_Priority(A0)							 ; $0008
-				jsr		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01B7F4:
 				rts
 ;-------------------------------------------------------------------------------

@@ -138,7 +138,7 @@ Offset_0x022554:
 				move.w	#$0008, D3
 Offset_0x022560:
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object_2)					   ; Offset_0x0135B6
+				jsr		(Solid_Object_2).l					   ; Offset_0x0135B6
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
@@ -168,7 +168,7 @@ Offset_0x0225B2:
 ;-------------------------------------------------------------------------------
 Offset_0x0225B8:
 				tst.b	Obj_Control_Var_06(A0)							 ; $0036
-				beq		Offset_0x02265A
+				beq.w	Offset_0x02265A
 				moveq	#$00, D0
 				moveq	#$00, D1
 				move.b	Obj_Control_Var_08(A0), D0						 ; $0038

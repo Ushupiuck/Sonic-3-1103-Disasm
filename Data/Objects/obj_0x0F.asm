@@ -174,7 +174,7 @@ Offset_0x015BBC:
 				move.b	Obj_Width(A0), D1								 ; $0007
 				move.w	#$0010, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				bra.w	MarkObjGone							   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x015BD4:
@@ -260,14 +260,14 @@ Offset_0x015CB0:
 				tst.b	Obj_Control_Var_0A(A0)							 ; $003A
 				bne.s	Offset_0x015CE0
 				subq.b	#$01, Obj_Control_Var_08(A0)					 ; $0038
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x015CC8:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.s	Offset_0x015CDA
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x015CDA:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x015CE0:
 				subq.b	#$01, Obj_Control_Var_08(A0)					 ; $0038
 				move.b	Obj_Control_Var_08(A0), D3						 ; $0038
@@ -355,7 +355,7 @@ Offset_0x015DA4:
 				move.b	(A4)+, Obj_Control_Var_08(A1)					 ; $0038
 				dbra	D1, Offset_0x015D9C
 Offset_0x015DDA:
-				jsr		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(DisplaySprite).l						   ; Offset_0x011148
 				moveq	#Smash_Sfx, D0									   ; $62
 				jmp		(Play_Music).l							 ; Offset_0x001176
 ;-------------------------------------------------------------------------------
