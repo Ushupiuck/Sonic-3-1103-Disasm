@@ -44023,9 +44023,9 @@ Offset_0x0ECFA6:
 Offset_0x0ECFD3:
 		include	"sound\sfx\8E - Slide Skid (Quiet).asm"
 Offset_0x0ECFE4:
-		binclude	"sound\0x8F.sfx"
+		include	"sound\sfx\8F - Ground Slide.asm"
 Offset_0x0ECFFC:
-		binclude	"sound\0x90.sfx"
+		include	"sound\sfx\90 - Spike Balls.asm"
 Frost_Puff_Sfx_Data:										   ; Offset_0x0ED032
 		binclude	"sound\0x91.sfx"
 Ice_Spike_Sfx_Data:											   ; Offset_0x0ED050
