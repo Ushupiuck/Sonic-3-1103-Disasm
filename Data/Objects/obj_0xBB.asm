@@ -91,7 +91,7 @@ Offset_0x046DDE:
 				subq.b	#$01, Obj_Control_Var_0A(A0)					 ; $003A
 				bpl.w	Offset_0x046DDC
 				move.b	#$02, Obj_Control_Var_0A(A0)					 ; $003A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x046DFA:
 				move.l	#Offset_0x046E0E, (A0)
@@ -153,8 +153,8 @@ Offset_0x046EA4:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x046EBE:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x046ED8
 				add.w	D1, Obj_Y(A0)									 ; $0014
@@ -167,12 +167,12 @@ Offset_0x046ED8:
 				bmi.s	Offset_0x046EFA
 				bsr.w	Offset_0x0470A2
 				bne.s	Offset_0x046F24
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x046EFA:
 				move.w	Obj_Height_3(A0), A1							 ; $0044
 				move.l	A0, A2
 				move.l	A1, A0
-				jsr		(Hurt_Player)						   ; Offset_0x00A3FA
+				jsr		(Hurt_Player).l						   ; Offset_0x00A3FA
 				cmpi.b	#$18, Obj_Ani_Number(A0)						 ; $0020
 				beq.s	Offset_0x046F22
 				move.w	#$0200, D0
@@ -190,7 +190,7 @@ Offset_0x046F24:
 				move.b	#$78, Obj_Child(A1)								 ; $0034
 				lea		Offset_0x04713A(PC), A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x046F46:
 				lea		Freezer_Setup_Data_4(PC), A1		   ; Offset_0x047106
@@ -239,7 +239,7 @@ Offset_0x046FD4:
 Offset_0x046FD8:
 				rts
 Offset_0x046FDA:
-				jsr		(DeleteObject)						   ; Offset_0x011138
+				jsr		(DeleteObject).l						   ; Offset_0x011138
 				addq.w	#$04, A7
 				rts
 ;-------------------------------------------------------------------------------

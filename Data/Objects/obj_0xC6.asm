@@ -12,7 +12,7 @@
 				moveq	#$18, D2
 				moveq	#$18, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				jmp		Display_Sprite_Check_X_2(PC)		   ; Offset_0x042D24
 ;-------------------------------------------------------------------------------
 Offset_0x0434B4:
@@ -43,7 +43,7 @@ Offset_0x0434DE:
 				subi.w	#$0040, D0
 				move.w	D0, Obj_Y(A0)									 ; $0014
 				move.w	#$0001, Obj_Control_Var_0A(A0)					 ; $003A
-				jsr		(Swing_Setup)						   ; Offset_0x03669A
+				jsr		(Swing_Setup).l						   ; Offset_0x03669A
 				lea		Offset_0x04399C(PC), A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 				lea		Offset_0x0439A4(PC), A2
@@ -62,7 +62,7 @@ Offset_0x04352A:
 				lea		Offset_0x0439D2(PC), A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 				lea		(Offset_0x041D62), A2
-				jsr		(SetupChildObject)				   ; Offset_0x041D9A
+				jsr		(SetupChildObject).l				   ; Offset_0x041D9A
 				move.b	#$08, Obj_Subtype(A1)							 ; $002C
 Offset_0x043558:
 				rts
@@ -110,7 +110,7 @@ Offset_0x0435C6:
 				bsr.w	Offset_0x04352A
 Offset_0x0435CE:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x0435D8:
 				move.b	#$0C, D0
@@ -118,7 +118,7 @@ Offset_0x0435D8:
 ;-------------------------------------------------------------------------------
 Offset_0x0435E0:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x0435EA:
 				move.b	#$10, D0
@@ -126,7 +126,7 @@ Offset_0x0435EA:
 ;-------------------------------------------------------------------------------
 Offset_0x0435F2:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x0435FC:
 				move.l	#Offset_0x04360A, (A0)
@@ -205,7 +205,7 @@ Offset_0x0436CC:
 				bsr.w	Offset_0x0438B2
 				moveq	#$04, D0
 				jsr		Set_Indexed_Velocity(PC)			   ; Offset_0x042D5A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x0436E2:
 				lea		Egg_Prison_Setup_Data_5(PC), A1		   ; Offset_0x04398E
@@ -223,7 +223,7 @@ Offset_0x043700:
 				move.l	#Offset_0x04371E, (A0)
 				move.b	#$08, Obj_Height_2(A0)							 ; $001E
 				bsr.w	Offset_0x0438C8
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x04371E:
 				subq.w	#$01, Obj_Timer(A0)								 ; $002E
@@ -235,7 +235,7 @@ Offset_0x043730:
 ;-------------------------------------------------------------------------------
 Offset_0x043734:
 				jsr		Move_Light_Gravity(PC)				   ; Offset_0x0426C2
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x043768
 				add.w	D1, Obj_Y(A0)									 ; $0014
@@ -277,7 +277,7 @@ Offset_0x043796:
 				move.w	#$FFD0, D4
 				sub.b	Obj_Subtype(A0), D4								 ; $002C
 				bsr.w	Offset_0x04384A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Offset_0x043956
 				tst.b	(Player_Control_Lock_Flag).w				 ; $FFFFFAA8
 				bne.s	Offset_0x0437D0
@@ -305,7 +305,7 @@ Offset_0x0437EE:
 				clr.w	Obj_Speed_X(A1)									 ; $0018
 				clr.w	Obj_Speed_Y(A1)									 ; $001A
 				clr.w	Obj_Inertia(A1)									 ; $001C
-				jsr		(AllocateObject)					 ; Offset_0x011DD8
+				jsr		(AllocateObject).l					 ; Offset_0x011DD8
 				bne.s	Offset_0x04381C
 				move.l	#Obj_LevelResults, (A1)				  ; Offset_0x0247D0
 Offset_0x04381C:
@@ -365,7 +365,7 @@ Offset_0x043890:
 				moveq	#$18, D2
 				moveq	#$18, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jmp		(Solid_Object)						   ; Offset_0x013556
+				jmp		(Solid_Object).l						   ; Offset_0x013556
 ;-------------------------------------------------------------------------------
 Offset_0x0438A2:
 				moveq	#$08, D2
@@ -373,7 +373,7 @@ Offset_0x0438A4:
 				moveq	#$1B, D1
 				moveq	#$09, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jmp		(Solid_Object)						   ; Offset_0x013556
+				jmp		(Solid_Object).l						   ; Offset_0x013556
 ;-------------------------------------------------------------------------------
 Offset_0x0438B2:
 				moveq	#$00, D0

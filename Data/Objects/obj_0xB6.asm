@@ -101,7 +101,7 @@ Offset_0x03CFB8:
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 Offset_0x03CFD0:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				jsr		(Find_Other_Object)					   ; Offset_0x04269E
+				jsr		(Find_Other_Object).l					   ; Offset_0x04269E
 				move.w	#$0100, D1
 				tst.w	D0
 				bne.s	Offset_0x03CFE4
@@ -140,7 +140,7 @@ Offset_0x03D01A:
 Offset_0x03D044:
 				move.w	D0, Obj_Speed_X(A0)								 ; $0018
 Offset_0x03D048:
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x03D04E:
 				move.b	#$08, Obj_Routine(A0)							 ; $0005
 				move.w	#$00BF, Obj_Timer(A0)							 ; $002E
@@ -179,15 +179,15 @@ Offset_0x03D09E:
 				move.l	#Offset_0x03D0F6, Obj_Child(A0)					 ; $0034
 				move.w	#$0100, Obj_Speed_X(A0)							 ; $0018
 Offset_0x03D0D8:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x03D0DE:
 				move.l	#MarkObjGone, (A0)					   ; Offset_0x011AF2
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03D0E6:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03D0F6:
 				move.l	#Offset_0x03D09E, (A0)
@@ -207,13 +207,13 @@ Offset_0x03D124:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$07, Obj_Status(A1)							 ; $002A
 				bne.s	Offset_0x03D136
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x03D136:
 				move.l	#MarkObjGone, (A0)					   ; Offset_0x011AF2
 				move.b	#$03, Obj_Map_Id(A0)							 ; $0022
-				lea		(Offset_0x041D62), A2
+				lea		(Offset_0x041D62).l, A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03D152:
 				lea		Barrier_Eggman_Setup_Data_6(PC), A1	   ; Offset_0x03D460
@@ -236,7 +236,7 @@ Offset_0x03D18C:
 				move.l	#Offset_0x03D1A6, (A0)
 				move.b	#$03, Obj_Map_Id(A0)							 ; $0022
 Offset_0x03D1A0:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03D1A6:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
@@ -252,13 +252,13 @@ Offset_0x03D1A6:
 				clr.b	Obj_Ani_Frame(A0)								 ; $0023
 				bset	#$00, Obj_Flags(A0)								 ; $0004
 Offset_0x03D1E2:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03D1E8:
 				lea		Offset_0x03D4B7(PC), A1
 				jsr		Animate_Raw_A1(PC)					   ; Offset_0x042092
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x03D1FC:
 				lea		Barrier_Eggman_Setup_Data_4(PC), A1	   ; Offset_0x03D452
@@ -291,12 +291,12 @@ Offset_0x03D234:
 				moveq	#$50, D2
 				move.w	#$0060, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				btst	#$00, (Vint_runcount+$03).w		  ; $FFFFFE0F
-				bne		Offset_0x03CF3E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				bne.w	Offset_0x03CF3E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x03D26E:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x03D274:
 				lea		Barrier_Eggman_Setup_Data_5(PC), A1	   ; Offset_0x03D458
@@ -350,7 +350,7 @@ Offset_0x03D31C:
 				move.l	#Offset_0x03D342, Obj_Child(A0)					 ; $0034
 				move.w	#$001F, Obj_Timer(A0)							 ; $002E
 				st		(Earthquake_Flag).w							 ; $FFFFEECC
-				lea		(Offset_0x041D62), A2
+				lea		(Offset_0x041D62).l, A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 				bne.s	Offset_0x03D340
 				addi.w	#$0060, Obj_Y(A1)								 ; $0014

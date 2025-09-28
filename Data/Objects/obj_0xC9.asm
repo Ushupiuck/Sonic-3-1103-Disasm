@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x035484:
 				lea		Knuckles_Switch_Setup_Data(PC), A1	   ; Offset_0x03555A
-				jsr		(SetupObjectAttributes)						 ; Offset_0x041D72
+				jsr		(SetupObjectAttributes).l						 ; Offset_0x041D72
 				move.l	#Offset_0x0354AA, (A0)
 				addq.w	#$04, Obj_Y(A0)									 ; $0014
 				lea		Knuckles_Switch_PLC_Data(PC), A1	   ; Offset_0x0354A2
@@ -44,7 +44,7 @@ Offset_0x0354AA:
 				move.w	Offset_0x03550A(PC, D0), D0
 				jsr		Offset_0x03550A(PC, D0)
 Offset_0x0354FC:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x035502:
 				dc.w	$FFE8, $0030, $FFE8, $0030
@@ -55,15 +55,15 @@ Offset_0x03550A:
 				dc.w	Offset_0x035536-Offset_0x03550A
 ;-------------------------------------------------------------------------------
 Offset_0x035510:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x035516:
 				clr.b	(Control_Locked_Flag_P1).w					 ; $FFFFF7CC
 				move.w	#$1000, D0
 				move.w	D0, (Target_Camera_Max_Y).w					 ; $FFFFFA98
 				move.w	D0, (Level_Limits_Max_Y).w					 ; $FFFFEE12
-				lea		(Level_Resize_Max_Y), A2			   ; Offset_0x04262E
-				jmp		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
+				lea		(Level_Resize_Max_Y).l, A2			   ; Offset_0x04262E
+				jmp		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
 ;-------------------------------------------------------------------------------
 Offset_0x035532:
 				st		(Level_Trigger_Array+$08).w					 ; $FFFFF7E8

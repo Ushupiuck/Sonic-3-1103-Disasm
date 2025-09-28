@@ -12,7 +12,7 @@
 				moveq	#$70, D2
 				moveq	#$70, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				jmp		MarkObjectGone(PC)				; Offset_0x042A58
 ;-------------------------------------------------------------------------------
 Offset_0x046B32:
@@ -87,8 +87,8 @@ Offset_0x046BCE:
 				ble.s	Offset_0x046BE0
 				move.w	D0, Obj_Speed_Y(A0)								 ; $001A
 Offset_0x046BE0:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(Object_HitCeiling)					   ; Offset_0x009FB4
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(Object_HitCeiling).l					   ; Offset_0x009FB4
 				tst.w	D1
 				bpl.w	Offset_0x046B84
 Offset_0x046BF2:
@@ -107,15 +107,15 @@ Offset_0x046C14:
 				bgt.s	Offset_0x046C26
 				move.w	D0, Obj_Speed_Y(A0)								 ; $001A
 Offset_0x046C26:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bmi.s	Offset_0x046BF2
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x046C38:
 				addq.w	#$08, Obj_Y(A0)									 ; $0014
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bmi.s	Offset_0x046BF2
 				rts

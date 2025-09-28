@@ -80,7 +80,7 @@ Offset_0x01AADA:
 				jsr		(QueueDMATransfer).l						; Offset_0x0012FC
 Offset_0x01AB32:
 				move.w	Obj_Control_Var_04(A0), D0						 ; $0034
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;-------------------------------------------------------------------------------
 Init_Art_Scaling:											   ; Offset_0x01AB3C
 				moveq	#$00, D1
@@ -184,13 +184,13 @@ Offset_0x01AC4E:
 				move.w	#$000F, D7
 				swap	D7
 				tst.w	D4
-				beq		Offset_0x01AF8A
+				beq.w	Offset_0x01AF8A
 				cmpi.w	#$0001, D4
 				bne.s	Offset_0x01AC9E
 				tst.w	D5
-				beq		Offset_0x01AF0E
+				beq.w	Offset_0x01AF0E
 				cmpi.w	#$2000, D5
-				beq		Offset_0x01AE88
+				beq.w	Offset_0x01AE88
 Offset_0x01AC9E:
 				move.w	D4, D2
 				swap	D2
@@ -246,40 +246,40 @@ Offset_0x01AD0E:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x01AD10:
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
-				move.b	$00(A1, D2), D1
-				add.w	D5, D3
-				addx.w	D4, D2
-				and.b	D6, D0
-				and.b	D7, D1
-				or.b	D1, D0
-				move.b	D0, (A4)+
-				move.b	$00(A1, D2), D0
-				add.w	D5, D3
-				addx.w	D4, D2
-				move.b	$00(A1, D2), D1
+				move.b	(A1, D2), D1
 				add.w	D5, D3
 				addx.w	D4, D2
 				and.b	D6, D0
 				and.b	D7, D1
 				or.b	D1, D0
 				move.b	D0, (A4)+
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
-				move.b	$00(A1, D2), D1
+				move.b	(A1, D2), D1
 				add.w	D5, D3
 				addx.w	D4, D2
 				and.b	D6, D0
 				and.b	D7, D1
 				or.b	D1, D0
 				move.b	D0, (A4)+
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
-				move.b	$00(A1, D2), D1
+				move.b	(A1, D2), D1
+				add.w	D5, D3
+				addx.w	D4, D2
+				and.b	D6, D0
+				and.b	D7, D1
+				or.b	D1, D0
+				move.b	D0, (A4)+
+				move.b	(A1, D2), D0
+				add.w	D5, D3
+				addx.w	D4, D2
+				move.b	(A1, D2), D1
 				add.w	D5, D3
 				addx.w	D4, D2
 				and.b	D6, D0
@@ -290,7 +290,7 @@ Offset_0x01AD10:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x01AD76:
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
 				cmpi.w	#$0040, D2
@@ -308,14 +308,14 @@ Offset_0x01AD9A:
 				and.b	D7, D1
 				or.b	D1, D0
 				move.b	D0, (A4)+
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
 				cmpi.w	#$0040, D2
 				bcs.s	Offset_0x01ADB4
 				move.b	#$00, D0
 Offset_0x01ADB4:
-				move.b	$00(A1, D2), D1
+				move.b	(A1, D2), D1
 				add.w	D5, D3
 				addx.w	D4, D2
 				cmpi.w	#$0040, D2
@@ -326,14 +326,14 @@ Offset_0x01ADC6:
 				and.b	D7, D1
 				or.b	D1, D0
 				move.b	D0, (A4)+
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
 				cmpi.w	#$0040, D2
 				bcs.s	Offset_0x01ADE0
 				move.b	#$00, D0
 Offset_0x01ADE0:
-				move.b	$00(A1, D2), D1
+				move.b	(A1, D2), D1
 				add.w	D5, D3
 				addx.w	D4, D2
 				cmpi.w	#$0040, D2
@@ -344,7 +344,7 @@ Offset_0x01ADF2:
 				and.b	D7, D1
 				or.b	D1, D0
 				move.b	D0, (A4)+
-				move.b	$00(A1, D2), D0
+				move.b	(A1, D2), D0
 				add.w	D5, D3
 				addx.w	D4, D2
 				cmpi.w	#$0040, D2
@@ -586,7 +586,7 @@ Offset_0x01AFE0:
 				rts
 Offset_0x01B00C:
 				cmpi.w	#$C000, D5
-				bne		Offset_0x01B096
+				bne.w	Offset_0x01B096
 				moveq	#$00, D3
 				lsl.w	#$06, D4
 				lea		Offset_0x01B074(PC), A6
@@ -652,7 +652,7 @@ Offset_0x01B074:
 				rts
 Offset_0x01B096:
 				cmpi.w	#$A000, D5
-				bne		Offset_0x01B130
+				bne.w	Offset_0x01B130
 				moveq	#$00, D3
 				lsl.w	#$06, D4
 				lea		Offset_0x01B11A(PC), A5

@@ -141,7 +141,7 @@ Offset_0x006A70:
 				add.w	D0, Obj_Control_Var_10(A0)						 ; $0040
 				move.b	Obj_Control_Var_10(A0), (Art_Scaling_Index_0+$01).w ; $0040, $FFFFF745
 				move.w	(Art_Scaling_Index_0).w, D0					 ; $FFFFF744
-				bsr		CalcSine							   ; Offset_0x001B20
+				bsr.w	CalcSine							   ; Offset_0x001B20
 				add.w	D0, D0
 				add.w	D1, D1
 				btst	#$02, D2
@@ -301,7 +301,7 @@ Offset_0x006C82:
 				lsl.w	#$06, D0
 				andi.w	#$0380, D0
 				move.w	D0, Obj_Priority(A0)							 ; $0008
-				jsr		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x006C96:
 				rts
 ;-------------------------------------------------------------------------------

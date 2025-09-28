@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x045262:
 				lea		Offset_0x04529A(PC), A1
-				jsr		(Check_Camera_In_Range)				   ; Offset_0x043392
+				jsr		(Check_Camera_In_Range).l				   ; Offset_0x043392
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x045286(PC, D0), D1
@@ -37,7 +37,7 @@ Offset_0x0452A2:
 				move.w	#$0E10, (Level_Limits_Max_Y).w				 ; $FFFFEE12
 				move.w	#$2E00, Obj_Control_Var_0A(A0)					 ; $003A
 				move.l	#Offset_0x04530E, Obj_Child(A0)					 ; $0034
-				jsr		(Swing_Setup)						   ; Offset_0x03669A
+				jsr		(Swing_Setup).l						   ; Offset_0x03669A
 				move.w	#$0078, Obj_Height_3(A0)						 ; $0044
 				bset	#$01, Obj_Control_Var_08(A0)					 ; $0038
 				lea		Offset_0x0457FA(PC), A2
@@ -48,9 +48,9 @@ Offset_0x0452A2:
 				jmp		(LoadPLC_Direct).l							 ; Offset_0x001502
 ;-------------------------------------------------------------------------------
 Offset_0x0452FC:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jmp		(Update_Sonic_Level_Limits_X_Y)		   ; Offset_0x0433B8
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jmp		(Update_Sonic_Level_Limits_X_Y).l		   ; Offset_0x0433B8
 ;-------------------------------------------------------------------------------
 Offset_0x04530E:
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
@@ -155,11 +155,11 @@ Offset_0x045462:
 				move.b	#$12, Obj_Routine(A0)							 ; $0005
 				move.w	#$003F, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x045490, Obj_Child(A0)					 ; $0034
-				jmp		(Swing_Setup)						   ; Offset_0x03669A
+				jmp		(Swing_Setup).l						   ; Offset_0x03669A
 ;-------------------------------------------------------------------------------
 Offset_0x04547C:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
@@ -175,9 +175,9 @@ Offset_0x0454A6:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0454B6:
-				jsr		(Obj_Load_End_Level_Art)			   ; Offset_0x043302
+				jsr		(Obj_Load_End_Level_Art).l			   ; Offset_0x043302
 				lea		Offset_0x045810(PC), A2
-				jmp		(SetupChildObject)				   ; Offset_0x041D9A
+				jmp		(SetupChildObject).l				   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x0454C6:
 				move.l	#Offset_0x0454D4, (A0)
@@ -189,9 +189,9 @@ Offset_0x0454D4:
 				btst	#$07, Obj_Status(A1)							 ; $002A
 				bne.s	Offset_0x0454EA
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 Offset_0x0454EA:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x0454F0:
 				lea		Tunnelbot_Debris_Setup_Data(PC), A1	   ; Offset_0x0457D0
@@ -232,7 +232,7 @@ Offset_0x045550:
 ;-------------------------------------------------------------------------------
 Offset_0x045570:
 				btst	#$04, Obj_Control_Var_08(A0)					 ; $0038
-				bne		Offset_0x04560C
+				bne.w	Offset_0x04560C
 				move.w	Obj_X(A0), -(A7)								 ; $0010
 				bsr.w	Offset_0x045640
 				moveq	#$00, D1
@@ -243,7 +243,7 @@ Offset_0x045570:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				swap	D6
 				andi.w	#$0003, D6
 				beq.s	Offset_0x0455F0
@@ -256,7 +256,7 @@ Offset_0x045570:
 				sub.w	Obj_Y(A0), D0									 ; $0014
 				addi.w	#$0028, D0
 				bmi.s	Offset_0x0455CC
-				jsr		(Hurt_Player_A1)					   ; Offset_0x01A71C
+				jsr		(Hurt_Player_A1).l					   ; Offset_0x01A71C
 Offset_0x0455CC:
 				andi.b	#$02, D6
 				beq.s	Offset_0x0455F0
@@ -266,7 +266,7 @@ Offset_0x0455CC:
 				sub.w	Obj_Y(A0), D0									 ; $0014
 				addi.w	#$0028, D0
 				bmi.s	Offset_0x0455F0
-				jsr		(Hurt_Player_A1)					   ; Offset_0x01A71C
+				jsr		(Hurt_Player_A1).l					   ; Offset_0x01A71C
 Offset_0x0455F0:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
 				bpl.s	Offset_0x045606
@@ -274,10 +274,10 @@ Offset_0x0455F0:
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				andi.b	#$03, Obj_Map_Id(A0)							 ; $0022
 Offset_0x045606:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x04560C:
 				jsr		Displace_Player_Offset(PC)			   ; Offset_0x04315A
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x045616:
 				lea		Tunnelbot_Setup_Data_2(PC), A1		   ; Offset_0x0457E8
@@ -309,14 +309,14 @@ Offset_0x04564E:
 Offset_0x045658:
 				subq.w	#$04, Obj_Y(A0)									 ; $0014
 				subq.w	#$01, Obj_Timer(A0)								 ; $002E
-				bpl		Offset_0x0451D2
+				bpl.w	Offset_0x0451D2
 				move.b	#$02, Obj_Routine(A0)							 ; $0005
 				move.w	#$003F, Obj_Timer(A0)							 ; $002E
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x045672:
 				subq.w	#$01, Obj_Timer(A0)								 ; $002E
-				bpl		Offset_0x0451D2
+				bpl.w	Offset_0x0451D2
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
 				move.w	#$0100, D0
 				btst	#$00, Obj_Flags(A0)								 ; $0004
@@ -334,16 +334,16 @@ Offset_0x04568E:
 ;-------------------------------------------------------------------------------
 Offset_0x0456B2:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				subq.w	#$01, Obj_Timer(A0)								 ; $002E
-				bpl		Offset_0x0451D2
+				bpl.w	Offset_0x0451D2
 				move.b	#$06, Obj_Routine(A0)							 ; $0005
 				move.w	#$003F, Obj_Timer(A0)							 ; $002E
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0456D2:
 				subq.w	#$01, Obj_Timer(A0)								 ; $002E
-				bpl		Offset_0x0451D2
+				bpl.w	Offset_0x0451D2
 				move.b	#$08, Obj_Routine(A0)							 ; $0005
 				rts
 ;-------------------------------------------------------------------------------
@@ -352,7 +352,7 @@ Offset_0x0456E2:
 				addq.w	#$02, D0
 				move.w	D0, Obj_Y(A0)									 ; $0014
 				cmp.w	Obj_Control_Var_0A(A0), D0						 ; $003A
-				bcs		Offset_0x0451D2
+				bcs.w	Offset_0x0451D2
 				bset	#$04, Obj_Control_Var_08(A0)					 ; $0038
 				rts
 ;-------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ Offset_0x04578E:
 				move.w	#$0040, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x0454B6, Obj_Child(A0)					 ; $0034
 				lea		(Offset_0x041D62).l, A2
-				jmp		(SetupChildObject)				   ; Offset_0x041D9A
+				jmp		(SetupChildObject).l				   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x0457B2:
 				dc.w	(Palette_Row_1_Offset+$18)						 ; $ED38

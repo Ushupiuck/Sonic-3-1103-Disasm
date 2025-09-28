@@ -23,14 +23,14 @@ Offset_0x047AFE:
                 move.w  Offset_0x047B2A-$02(PC, D0), A1
                 move.l  A0, A2
                 move.l  A1, A0
-                jsr     (Hurt_Player)                          ; Offset_0x00A3FA
+                jsr     (Hurt_Player).l                          ; Offset_0x00A3FA
                 move.l  A2, A0
                 lea     Offset_0x047B48(PC), A2
                 jsr     Load_Child_Object_Simple_A2(PC)        ; Offset_0x041F5A
                 jsr     Go_Delete_Object_A0(PC)                ; Offset_0x042D3E
                 moveq   #Ice_Spike_Sfx, D0                     ; -$6E
                 jsr     (Play_Music).l                           ; Offset_0x001176
-                jmp     (DisplaySprite)                        ; Offset_0x011148    
+                jmp     (DisplaySprite).l                        ; Offset_0x011148    
 ;-------------------------------------------------------------------------------
 Offset_0x047B2A:
                 dc.w    Obj_Player_One                                   ; $B000

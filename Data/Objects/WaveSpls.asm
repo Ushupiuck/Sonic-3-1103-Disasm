@@ -55,7 +55,7 @@ Offset_0x0149CA:
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
 Offset_0x0149E8:
 				move.b	Obj_Map_Id(A0), $0001(A2)						 ; $0022
-				bra		DisplaySprite						   ; Offset_0x011148
+				bra.w	DisplaySprite						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Wave_Splash_Mappings:										   ; Offset_0x0149F2
 				dc.w	Offset_0x014A00-Wave_Splash_Mappings

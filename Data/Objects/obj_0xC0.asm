@@ -25,7 +25,7 @@ Offset_0x04790C:
 				moveq	#$08, D2
 				moveq	#$08, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x047920:
