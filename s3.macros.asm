@@ -38,52 +38,48 @@ bytesToXcnt function n,x,n/x-1
 
 ; fills a region of 68k RAM with 0
 clearRAM macro startaddr,endaddr
-		if startaddr>endaddr
-			inform 3,"Starting address of clearRAM $%h is after ending address $%h.",startaddr,endaddr
-		elseif startaddr=endaddr
-			inform 1,"clearRAM is clearing zero bytes. Turning this into a nop instead."
-		mexit
-  		endif
-
-		if ((startaddr)&$8000)=0
-			lea	(startaddr).l,a1		; if start address is greater than $FFFF8000
-   		else
-			lea	(startaddr).w,a1		; if start address is less than $FFFF8000
-	   	endif
-			moveq	#0,d0
-    	if (startaddr&1)
-			move.b	d0,(a1)+			; clear the first byte if start address is odd
-	    endif
+    if startaddr>endaddr
+		fatal "Starting address of clearRAM \{startaddr} is after ending address \{endaddr}."
+    elseif startaddr=endaddr
+		warning "clearRAM is clearing zero bytes. Turning this into a nop instead."
+	exitm
+    endif
+	if ((startaddr)&$8000)=0
+		lea	(startaddr).l,a1		; if start address is greater than $FFFF8000
+	else
+		lea	(startaddr).w,a1		; if start address is less than $FFFF8000
+	endif
+		moveq	#0,d0
+	if (startaddr&1)
+		move.b	d0,(a1)+			; clear the first byte if start address is odd
+	endif
 		move.w	#bytesToLcnt((endaddr-startaddr)-(startaddr&1)),d1
 
 	.loop:
 		move.l	d0,(a1)+
 		dbf	d1,.loop
-	    if (((endaddr-startaddr)-((startaddr)&1))&2)
-			move.w	d0,(a1)+			; if amount to clear is not divisible by longword, clear the last whole word
-    	endif
-    	if (((endaddr-startaddr)-((startaddr)&1))&1)
-			move.b	d0,(a1)+			; if amount to clear is not divisible by word, clear the last byte
-    	endif
+	if (((endaddr-startaddr)-((startaddr)&1))&2)
+		move.w	d0,(a1)+			; if amount to clear is not divisible by longword, clear the last whole word
+	endif
+	if (((endaddr-startaddr)-((startaddr)&1))&1)
+		move.b	d0,(a1)+			; if amount to clear is not divisible by word, clear the last byte
+	endif
     	endm
 
 ; macros to create an entry for object data
-objdata macro pri,width,height,frame,collision,VRAM,mapping
-  if ("mapping"<>"")
-	dc.l	mapping
-	dc.w	VRAM, pri
-	dc.b	width, height, frame, collision
-  elseif ("VRAM"<>"")
-	dc.w	VRAM, pri
-	dc.b	width, height, frame, collision
-  elseif ("collision"<>"")
-	dc.w	pri
-	dc.b	width, height, frame, collision
-  endif
-	endm
+objdata macro pri,width,height,frame,collision,vram,mappings
+	if "mappings"<>""
+		dc.l	mappings
+	endif
+	if "vram"<>""
+		dc.w	vram
+	endif
+		dc.w	pri
+		dc.b	width, height, frame, collision
+		endm
 
-objdatasimple macro pri,width,height,VRAM
-	dc.w	VRAM, pri
+objdatasimple macro pri,width,height,vram
+	dc.w	vram, pri
 	dc.b	width, height
 	endm
 
