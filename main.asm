@@ -44033,7 +44033,7 @@ Ice_Spike_Sfx_Data:											   ; Offset_0x0ED050
 Offset_0x0ED07F:
 		include	"sound\sfx\93 - Light Tunnel.asm"
 Offset_0x0ED0B2:
-		binclude	"sound\0x94.sfx"
+		include	"sound\sfx\94 - Rumble.asm"
 Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
 		binclude	"sound\0x95.sfx"
 Offset_0x0ED12F:
