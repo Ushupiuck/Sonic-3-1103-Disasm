@@ -178,15 +178,15 @@ Offset_0x00D354:
 		move.w	#$0080, Deceleration(A4)				 ; $0004
 		bclr	#$02,Obj_Player_Status(A0)				 ; $002F
 		move.w	#Music_Normal_Speed, D0					 ; $00FC
-		jmp		(PlaySound).l					; Offset_0x001176
+		jmp	(PlaySound).l					; Offset_0x001176
 Offset_0x00D398:
 		rts
 Offset_0x00D39A:
-		lea		(Player_Start_Speed_Array), A1		   ; Offset_0x1F7000
+		lea	(Player_Start_Speed_Array), A1		   ; Offset_0x1F7000
 		moveq	#$00, D0
 		move.b	Obj_Player_Selected(A0), D0				 ; $0038
 		lsl.w	#$03, D0
-		lea		$00(A1, D0), A1
+		lea	$00(A1, D0), A1
 		move.w	(A1)+, (A4)
 		move.w	(A1)+, Acceleration(A4)					 ; $0002
 		move.w	(A1)+, Deceleration(A4)					 ; $0004
@@ -199,10 +199,10 @@ Miles_CPU_Control:							   ; Offset_0x00D3BE
 		beq.s	Offset_0x00D3CE
 		move.w	#$0258, (Miles_CPU_Ctrl_Auto_Timer).w		 ; $FFFFF702
 Offset_0x00D3CE:
-		lea		(Obj_Player_One).w, A1				 ; $FFFFB000
+		lea	(Obj_Player_One).w, A1				 ; $FFFFB000
 		move.w	(Miles_CPU_Routine).w, D0			 ; $FFFFF708
 		move.w	Miles_CPU_States(PC, D0), D0		   ; Offset_0x00D3DE
-		jmp		Miles_CPU_States(PC, D0)			   ; Offset_0x00D3DE
+		jmp	Miles_CPU_States(PC, D0)			   ; Offset_0x00D3DE
 ;-------------------------------------------------------------------------------
 Miles_CPU_States:							   ; Offset_0x00D3DE
 		dc.w	Miles_CPU_Init-Miles_CPU_States		   ; Offset_0x00D3EE
@@ -278,7 +278,7 @@ Miles_CPU_Flying:							   ; Offset_0x00D49C
 Offset_0x00D4DA:
 		move.w	#$0000, (Miles_CPU_Respawn_Timer).w			 ; $FFFFF704
 Offset_0x00D4E0:
-		lea		(Position_Table_Data).w, A2			 ; $FFFFE500
+		lea	(Position_Table_Data).w, A2			 ; $FFFFE500
 		move.w	#$0010, D2
 		lsl.b	#$02, D2
 		addq.b	#$04, D2
@@ -341,7 +341,7 @@ Offset_0x00D566:
 Offset_0x00D576:
 		add.w	D2,Obj_Y(A0)					 ; $0014
 Offset_0x00D57A:
-		lea		(Status_Table_Data).w, A2			 ; $FFFFE400
+		lea	(Status_Table_Data).w, A2			 ; $FFFFE400
 		move.b	$02(A2, D3), D2
 		andi.b	#$D2, D2
 		bne.s	Offset_0x00D5DA
@@ -387,7 +387,7 @@ Offset_0x00D60A:
 		bne.s	Offset_0x00D630
 		move.w	#$0008, (Miles_CPU_Routine).w		 ; $FFFFF708
 Offset_0x00D630:
-		lea		(Position_Table_Data).w, A1			 ; $FFFFE500
+		lea	(Position_Table_Data).w, A1			 ; $FFFFE500
 		move.w	#$0010, D1
 		lsl.b	#$02, D1
 		addq.b	#$04, D1
@@ -395,7 +395,7 @@ Offset_0x00D630:
 		sub.b	D1, D0
 		move.w	$00(A1, D0), D2
 		move.w	$02(A1, D0), D3
-		lea		(Status_Table_Data).w, A1			 ; $FFFFE400
+		lea	(Status_Table_Data).w, A1			 ; $FFFFE400
 		move.w	$00(A1, D0), D1
 		move.b	$02(A1, D0), D4
 		move.w	D1, D0
@@ -583,8 +583,8 @@ Offset_0x00D874:
 		bcs.s	Offset_0x00D896
 		move.w	#$000E, (Miles_CPU_Routine).w		 ; $FFFFF708
 Offset_0x00D896:
-		lea		(Carrying_Sonic_Data).w, A2			 ; $FFFFF73E
-		lea		(Obj_Player_One).w, A1				 ; $FFFFB000
+		lea	(Carrying_Sonic_Data).w, A2			 ; $FFFFF73E
+		lea	(Obj_Player_One).w, A1				 ; $FFFFB000
 		move.w	(Control_Ports_Buffer_Data).w, D0			 ; $FFFFF604
 		bsr.w	Offset_0x00D8C6
 		rts
@@ -594,8 +594,8 @@ Miles_CPU_0E:						   ; Offset_0x00D8A8:
 		bmi.s	Offset_0x00D8B4
 		move.w	#$0000, (Miles_CPU_Routine).w		 ; $FFFFF708
 Offset_0x00D8B4:
-		lea		(Carrying_Sonic_Data).w, A2			 ; $FFFFF73E
-		lea		(Obj_Player_One).w, A1				 ; $FFFFB000
+		lea	(Carrying_Sonic_Data).w, A2			 ; $FFFFF73E
+		lea	(Obj_Player_One).w, A1				 ; $FFFFB000
 		move.w	(Control_Ports_Buffer_Data).w, D0			 ; $FFFFF604
 		bsr.w	Offset_0x00D8C6
 		rts
@@ -748,7 +748,7 @@ Miles_InLevelWithWater:						   ; Offset_0x00DA90
 		beq.s	Offset_0x00DA8E
 		move.w	#$0100,Obj_Ani_Number(A6)				 ; $0020
 		move.w	#Water_Splash_Sfx, D0					 ; $0039
-		jmp		(PlaySound).l					; Offset_0x001176
+		jmp	(PlaySound).l					; Offset_0x001176
 ;-------------------------------------------------------------------------------
 Miles_NotInWater:							   ; Offset_0x00DAEC
 		bclr	#$06,Obj_Status(A0)					 ; $002A
@@ -778,7 +778,7 @@ Offset_0x00DB24:
 		move.w	#$F000,Obj_Speed_Y(A0)					 ; $001A
 Offset_0x00DB50:
 		move.w	#Water_Splash_Sfx, D0					 ; $0039
-		jmp		(PlaySound).l					; Offset_0x001176
+		jmp	(PlaySound).l					; Offset_0x001176
 ;-------------------------------------------------------------------------------
 Miles_MdNormal:						   ; Offset_0x00DB5A
 		bsr.w	Miles_Spindash				   ; Offset_0x00E39C
@@ -823,8 +823,8 @@ Offset_0x00DBC2:
 		movem.l (A7)+, A4-A6
 		cmpi.w	#$0000, (Player_Selected_Flag).w			 ; $FFFFFF08
 		bne.s	Offset_0x00DBFC
-		lea		(Carrying_Sonic_Data).w, A2			 ; $FFFFF73E
-		lea		(Obj_Player_One).w, A1				 ; $FFFFB000
+		lea	(Carrying_Sonic_Data).w, A2			 ; $FFFFF73E
+		lea	(Obj_Player_One).w, A1				 ; $FFFFB000
 		move.w	(Control_Ports_Buffer_Data).w, D0			 ; $FFFFF604
 		bsr.w	Offset_0x00D8C6
 Offset_0x00DBFC:
@@ -1363,7 +1363,7 @@ Offset_0x00E1A4:
 		blt.s	Offset_0x00E1B4
 		rts
 Offset_0x00E1B4:
-		jmp		(Kill_Player)				   ; Offset_0x00A4A4
+		jmp	(Kill_Player)				   ; Offset_0x00A4A4
 Offset_0x00E1BA:
 		move.w	D0,Obj_X(A0)					 ; $0010
 		move.w	#$0000,Obj_Sub_X(A0)					 ; $0012
@@ -1564,10 +1564,10 @@ Offset_0x00E3EC:
 		andi.w	#$1F00, D0
 		neg.w	D0
 		addi.w	#$2000, D0
-		lea		(Camera_X_Scroll_Delay).w, A1		 ; $FFFFEE24
+		lea	(Camera_X_Scroll_Delay).w, A1		 ; $FFFFEE24
 		cmpa.w	#Obj_Player_One, A0				 ; $B000
 		beq.s	Offset_0x00E444
-		lea		(Camera_X_Scroll_Delay_2P).w, A1			 ; $FFFFEE28
+		lea	(Camera_X_Scroll_Delay_2P).w, A1			 ; $FFFFEE28
 Offset_0x00E444:
 		move.w	D0, (A1)
 		btst	#$00,Obj_Status(A0)					 ; $002A
@@ -1949,7 +1949,7 @@ Offset_0x00E898:
 		bsr.w	Miles_LevelBoundaries		   ; Offset_0x00E17C
 		bsr.w	Sonic_RecordPos			; Offset_0x00ACA2
 		bsr.w	Miles_Animate				   ; Offset_0x00E952
-		jmp		(DisplaySprite)				   ; Offset_0x011148
+		jmp	(DisplaySprite)				   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Miles_HurtStop:						   ; Offset_0x00E8AE
 		move.w	(Miles_Level_Limits_Max_Y).w, D0			 ; $FFFFEE22
@@ -1975,14 +1975,14 @@ Offset_0x00E902:
 		rts
 ;-------------------------------------------------------------------------------
 Kill_Miles:							   ; Offset_0x00E904
-		jmp		(Kill_Player)				   ; Offset_0x00A4A4
+		jmp	(Kill_Player)				   ; Offset_0x00A4A4
 ;-------------------------------------------------------------------------------
 Miles_Death:						   ; Offset_0x00E90A
 		bsr.w	Player_GameOver				   ; Offset_0x00C126
 		jsr	(ObjectFall)				   ; Offset_0x0110FE
 		bsr.w	Sonic_RecordPos			; Offset_0x00ACA2
 		bsr.w	Miles_Animate				   ; Offset_0x00E952
-		jmp		(DisplaySprite)				   ; Offset_0x011148
+		jmp	(DisplaySprite)				   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Miles_ResetLevel:							   ; Offset_0x00E922
 		tst.w	Obj_Player_Spdsh_Cnt(A0)				 ; $003E
@@ -2001,7 +2001,7 @@ Miles_Respawning:							   ; Offset_0x00E936
 		move.b	#$02,Obj_Routine(A0)					 ; $0005
 Offset_0x00E948:
 		bsr.w	Miles_Animate				   ; Offset_0x00E952
-		jmp		(DisplaySprite)				   ; Offset_0x011148
+		jmp	(DisplaySprite)				   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Miles_Animate:						   ; Offset_0x00E952
 		tst.w	(Two_Player_Flag).w					 ; $FFFFFFD8
@@ -2012,7 +2012,7 @@ Offset_0x00E95E:
 		bsr.w	Miles_Animate_Sprite_2P		   ; Offset_0x00EDD0
 		bra		Load_Miles_Dynamic_PLC_2P			   ; Offset_0x00F150
 Offset_0x00E966:
-		lea		(Miles_Animate_Data).l, A1		 ; Offset_0x00EC08
+		lea	(Miles_Animate_Data).l, A1		 ; Offset_0x00EC08
 Miles_Animate_Sprite:						   ; Offset_0x00E96C
 		moveq	#$00, D0
 		move.b	Obj_Ani_Number(A0), D0					 ; $0020
@@ -2104,10 +2104,10 @@ Offset_0x00EA5C:
 		move.b	D0, D3
 		add.b	D3, D3
 		add.b	D3, D3
-		lea		(Offset_0x00EC4A).l, A1
+		lea	(Offset_0x00EC4A).l, A1
 		cmpi.w	#$0600, D2
 		bcs.s	Offset_0x00EA8A
-		lea		(Offset_0x00EC54).l, A1
+		lea	(Offset_0x00EC54).l, A1
 		move.b	D0, D1
 		lsr.b	#$01, D1
 		add.b	D1, D0
@@ -2115,7 +2115,7 @@ Offset_0x00EA5C:
 		move.b	D0, D3
 		cmpi.w	#$0700, D2
 		bcs.s	Offset_0x00EA8A
-		lea		(Offset_0x00ED45).l, A1
+		lea	(Offset_0x00ED45).l, A1
 Offset_0x00EA8A:
 		moveq	#$00, D1
 		move.b	Obj_Ani_Frame(A0), D1					 ; $0023
@@ -2178,10 +2178,10 @@ Offset_0x00EB2E:
 		bpl.s	Offset_0x00EB42
 		neg.w	D2
 Offset_0x00EB42:
-		lea		(Offset_0x00EC63).l, A1
+		lea	(Offset_0x00EC63).l, A1
 		cmpi.w	#$0600, D2
 		bcc.s	Offset_0x00EB54
-		lea		(Offset_0x00EC5E).l, A1
+		lea	(Offset_0x00EC5E).l, A1
 Offset_0x00EB54:
 		neg.w	D2
 		addi.w	#$0400, D2
@@ -2208,7 +2208,7 @@ Offset_0x00EB8A:
 Offset_0x00EB92:
 		lsr.w	#$06, D2
 		move.b	D2,Obj_Ani_Time(A0)					 ; $0024
-		lea		(Offset_0x00EC68).l, A1
+		lea	(Offset_0x00EC68).l, A1
 		move.b	Obj_Status(A0), D1				 ; $002A
 		andi.b	#$01, D1
 		andi.b	#$FC,Obj_Flags(A0)				 ; $0004
@@ -2237,7 +2237,7 @@ Offset_0x00EBDE:
 		lsr.b	#$03, D0
 		andi.b	#$0C, D0
 		move.b	D0, D3
-		lea		(Offset_0x00F27E).l, A1
+		lea	(Offset_0x00F27E).l, A1
 		move.b	#$03,Obj_Ani_Time(A0)					 ; $0024
 		bsr.w	Offset_0x00E9B4
 		add.b	D3,Obj_Map_Id(A0)				 ; $0022
@@ -2366,7 +2366,7 @@ Load_Miles_Tails_Dynamic_PLC:				   ; Offset_0x00ED54
 		cmp.b	(Miles_Tails_Previous_Frame).w, D0			 ; $FFFFF7DF
 		beq.s	Exit_Load_Miles_Dynamic_PLC			   ; Offset_0x00EDCE
 		move.b	D0, (Miles_Tails_Previous_Frame).w			 ; $FFFFF7DF
-		lea		(Miles_Dyn_Script).l, A2		 ; Offset_0x102866
+		lea	(Miles_Dyn_Script).l, A2		 ; Offset_0x102866
 		add.w	D0, D0
 		adda.w	$00(A2, D0), A2
 		move.w	(A2)+, D5
@@ -2381,7 +2381,7 @@ Load_Miles_Dynamic_PLC:						   ; Offset_0x00ED7C
 		cmp.b	(Miles_Previous_Frame).w, D0		 ; $FFFFF7DE
 		beq.s	Exit_Load_Miles_Dynamic_PLC			   ; Offset_0x00EDCE
 		move.b	D0, (Miles_Previous_Frame).w		 ; $FFFFF7DE
-		lea		(Miles_Dyn_Script).l, A2		 ; Offset_0x102866
+		lea	(Miles_Dyn_Script).l, A2		 ; Offset_0x102866
 		add.w	D0, D0
 		adda.w	$00(A2, D0), A2
 		move.w	(A2)+, D5
@@ -2407,7 +2407,7 @@ Exit_Load_Miles_Dynamic_PLC:				   ; Offset_0x00EDCE
 		rts
 ;-------------------------------------------------------------------------------
 Miles_Animate_Sprite_2P:					   ; Offset_0x00EDD0
-		lea		(Offset_0x00F060).l, A1
+		lea	(Offset_0x00F060).l, A1
 Miles_Animate_Sprite_2P_A1:					   ; Offset_0x00EDD6
 		moveq	#$00, D0
 		move.b	Obj_Ani_Number(A0), D0					 ; $0020
@@ -2497,10 +2497,10 @@ Offset_0x00EEBC:
 		add.w	D2, D2
 Offset_0x00EEC6:
 		move.b	D0, D3
-		lea		(Offset_0x00F0A8).l, A1
+		lea	(Offset_0x00F0A8).l, A1
 		cmpi.w	#$0600, D2
 		bcc.s	Offset_0x00EEDC
-		lea		(Offset_0x00F0A2).l, A1
+		lea	(Offset_0x00F0A2).l, A1
 		add.b	D0, D0
 Offset_0x00EEDC:
 		add.b	D0, D3
@@ -2565,10 +2565,10 @@ Offset_0x00EF82:
 		bpl.s	Offset_0x00EF96
 		neg.w	D2
 Offset_0x00EF96:
-		lea		(Offset_0x00F0B3).l, A1
+		lea	(Offset_0x00F0B3).l, A1
 		cmpi.w	#$0600, D2
 		bcc.s	Offset_0x00EFA8
-		lea		(Offset_0x00F0AE).l, A1
+		lea	(Offset_0x00F0AE).l, A1
 Offset_0x00EFA8:
 		neg.w	D2
 		addi.w	#$0400, D2
@@ -2595,7 +2595,7 @@ Offset_0x00EFDE:
 Offset_0x00EFE6:
 		lsr.w	#$06, D2
 		move.b	D2,Obj_Ani_Time(A0)					 ; $0024
-		lea		(Offset_0x00F0B8).l, A1
+		lea	(Offset_0x00F0B8).l, A1
 		move.b	Obj_Status(A0), D1				 ; $002A
 		andi.b	#$01, D1
 		andi.b	#$FC,Obj_Flags(A0)				 ; $0004
@@ -2626,7 +2626,7 @@ Offset_0x00F032:
 		move.b	D0, D3
 		add.b	D0, D0
 		add.b	D0, D3
-		lea		(Miles_Tails_2P_Ani_02).l, A1			 ; Offset_0x00F386
+		lea	(Miles_Tails_2P_Ani_02).l, A1			 ; Offset_0x00F386
 		move.b	#$03,Obj_Ani_Time(A0)					 ; $0024
 		bsr.w	Offset_0x00EE1E
 		add.b	D3,Obj_Map_Id(A0)				 ; $0022
@@ -2727,7 +2727,7 @@ Offset_0x00F11E:
 Load_Miles_Tails_Dynamic_PLC_2P:					   ; Offset_0x00F122
 		moveq	#$00, D0
 		move.b	Obj_Map_Id(A0), D0				 ; $0022
-		lea		(Miles_Tails_2P_Dyn_Script).l, A2		 ; Offset_0x103282
+		lea	(Miles_Tails_2P_Dyn_Script).l, A2		 ; Offset_0x103282
 		add.w	D0, D0
 		adda.w	$00(A2, D0), A2
 		move.w	(A2)+, D5
@@ -2743,7 +2743,7 @@ Load_Miles_Tails_Dynamic_PLC_2P:					   ; Offset_0x00F122
 Load_Miles_Dynamic_PLC_2P:					   ; Offset_0x00F150
 		moveq	#$00, D0
 		move.b	Obj_Map_Id(A0), D0				 ; $0022
-		lea		(Miles_Dyn_Script_2P).l, A2		 ; Offset_0x103174
+		lea	(Miles_Dyn_Script_2P).l, A2		 ; Offset_0x103174
 		add.w	D0, D0
 		adda.w	$00(A2, D0), A2
 		move.w	(A2)+, D5

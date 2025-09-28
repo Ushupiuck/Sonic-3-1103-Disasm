@@ -23,10 +23,10 @@ SegaSonic_Init:
 		lea	S2_Obj_0xB0_Setup_Data(pc),a1
 		jsr	(SetupObjectAttributes).l
 		move.b	#0,Obj_Flags(a0)
-		move.w  #$1E8,Obj_X(a0)
-		move.w  #$F0,Obj_Y(a0)
-		move.w  #$B,Obj_Timer(a0)
-		move.w  #2,(VBlank_Subroutine).w
+		move.w	#$1E8,Obj_X(a0)
+		move.w	#$F0,Obj_Y(a0)
+		move.w	#$B,Obj_Timer(a0)
+		move.w	#2,(VBlank_Subroutine).w
 		bset	#0,Obj_Flags(a0)
 		bset	#0,Obj_Status(a0)
 
