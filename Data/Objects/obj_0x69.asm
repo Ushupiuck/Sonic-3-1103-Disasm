@@ -57,7 +57,7 @@ Offset_0x02EF0A:
 				beq.s	Offset_0x02EF2A
 				rts
 Offset_0x02EF2A:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x02EF30:
 				moveq	#$00, D0
 				move.b	(A4), D0
@@ -65,12 +65,12 @@ Offset_0x02EF30:
 				jsr		Offset_0x02EF60(PC, D0)
 				tst.b	(A4)
 				beq.s	Offset_0x02EF5E
-				bsr		Offset_0x02F076
+				bsr.w	Offset_0x02F076
 				moveq	#$00, D0
 				move.w	$0002(A4), D0
 				divu.w	#$0060, D0
 				move.l	Obj_Control_Var_10(A0), A2						 ; $0040
-				move.b	$00(A2, D0), (A4)
+				move.b	(A2, D0), (A4)
 				bne.s	Offset_0x02EF5E
 				move.b	#$00, Obj_Timer(A1)								 ; $002E
 Offset_0x02EF5E:

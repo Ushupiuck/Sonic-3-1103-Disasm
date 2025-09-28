@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x04504A:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04507E(PC, D0), D1
@@ -52,7 +52,7 @@ Offset_0x0450C0:
 				clr.b	Obj_Ani_Frame(A0)								 ; $0023
 				clr.b	Obj_Ani_Time(A0)								 ; $0024
 Offset_0x0450F4:
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x0450FA:
 				jsr		Animate_Raw_Multi_Delay(PC)			   ; Offset_0x04215C
@@ -62,7 +62,7 @@ Offset_0x0450FA:
 				neg.w	Obj_Speed_X(A0)									 ; $0018
 				bchg	#00, Obj_Flags(A0)								 ; $0004
 Offset_0x045110:
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x045116:
 				move.b	#$02, Obj_Routine(A0)							 ; $0005

@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x04465C:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				lea		Jawz_Setup_Data(PC), A1				   ; Offset_0x0446C0
 				jsr		SetupObjectAttributes(PC)					 ; Offset_0x041D72
 				move.l	#Offset_0x044678, (A0)
@@ -11,7 +11,7 @@
 				jmp		Set_Velocity_X_Track_Player_One(PC)	   ; Offset_0x042E4C
 ;-------------------------------------------------------------------------------
 Offset_0x044678:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				lea		Offset_0x0446CC(PC), A1
 				jsr		Animate_Raw_A1(PC)					   ; Offset_0x042092
 				moveq	#$00, D0

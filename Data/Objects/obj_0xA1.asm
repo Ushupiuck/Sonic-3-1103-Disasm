@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x045E4A:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x045E62(PC, D0), D1
@@ -142,13 +142,13 @@ Offset_0x045F9C:
 Offset_0x045FAA:
 				add.w	D0, D1
 				move.w	D1, Obj_Speed_Y(A0)								 ; $001A
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x045FB6:
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x045FC2:
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Sparkle_Setup_Data:											   ; Offset_0x045FC8
 				dc.l	Sparkle_Mappings					   ; Offset_0x10EAE0

@@ -41,7 +41,7 @@ Offset_0x01C3EE:
 				bcc.s	Offset_0x01C464
 				lsl.w	#$02, D0
 				lea		(Oscillate_Data_Buffer+$2C).w, A2			 ; $FFFFFE8A
-				lea		$00(A2, D0), A2
+				lea		(A2, D0), A2
 				tst.w	(A2)
 				bpl.s	Offset_0x01C470
 				bchg	#00, Obj_Timer(A0)								 ; $002E
@@ -60,8 +60,8 @@ Offset_0x01C484:
 				moveq	#$00, D0
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				lea		(Offset_0x01BE36).l, A1
-				move.w	$00(A1, D0), D1
-				jsr		$00(A1, D1)
+				move.w	(A1, D0), D1
+				jsr		(A1, D1)
 				move.w	(A7)+, D4
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.s	Offset_0x01C4B8
@@ -70,21 +70,21 @@ Offset_0x01C484:
 				moveq	#$00, D3
 				move.b	Obj_Height(A0), D3								 ; $0006
 				addq.w	#$01, D3
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 Offset_0x01C4B8:
 				move.w	Obj_Height_3(A0), D0							 ; $0044
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmp.w	Obj_Control_Var_12(A0), D0						 ; $0042
 				bhi.w	Offset_0x01C4D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01C4D2:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x01C4DE
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x01C4DE:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 MGz_Floating_Platform_Mappings:								   ; Offset_0x01C4E4
 				dc.w	Offset_0x01C4E6-MGz_Floating_Platform_Mappings

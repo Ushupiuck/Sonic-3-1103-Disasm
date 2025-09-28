@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x04515C:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x045178(PC, D0), D1
@@ -23,13 +23,13 @@ Offset_0x045182:
 				jsr		SetupObjectAttributes(PC)					 ; Offset_0x041D72
 				move.b	#$FE, Obj_Boss_Hit(A0)							 ; $0029
 				move.b	#$28, Obj_Height_2(A0)							 ; $001E
-				jsr		(Swing_Setup)						   ; Offset_0x03669A
+				jsr		(Swing_Setup).l						   ; Offset_0x03669A
 				lea		Offset_0x0457FA(PC), A2
 				jmp		SetupChildObject(PC)			   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x0451A4:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Find_Player(PC)						   ; Offset_0x042634
 				cmpi.w	#$0060, D2
 				bcc.w	Offset_0x0451D2
@@ -40,8 +40,8 @@ Offset_0x0451D2:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0451D4:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Animate_Raw_Get_Faster(PC)			   ; Offset_0x042248
 ;-------------------------------------------------------------------------------
 Offset_0x0451E4:
@@ -53,7 +53,7 @@ Offset_0x0451E4:
 Offset_0x0451FC:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
 				subq.w	#$01, Obj_Y(A0)									 ; $0014
-				jsr		(Object_HitCeiling)					   ; Offset_0x009FB4
+				jsr		(Object_HitCeiling).l					   ; Offset_0x009FB4
 				tst.w	D1
 				bpl.s	Offset_0x045214
 				move.l	Obj_Child(A0), A1								 ; $0034
@@ -86,7 +86,7 @@ Offset_0x045250:
 Offset_0x045254:
 				clr.w	(Earthquake_Flag).w							 ; $FFFFEECC
 				st		(Level_Trigger_Array+$08).w					 ; $FFFFF7E8
-				jmp		(Go_Delete_Object_A0)				   ; Offset_0x042D3E
+				jmp		(Go_Delete_Object_A0).l				   ; Offset_0x042D3E
 ;===============================================================================
 ; Objeto 0xA4 - Mini chefe na Marble Garden (Cutscenes)
 ; <<<-

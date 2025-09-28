@@ -11,7 +11,7 @@
 				move.b	#$40, Obj_Width(A0)								 ; $0007
 				move.b	#$20, Obj_Height(A0)							 ; $0006
 				move.b	#$02, Obj_Map_Id(A0)							 ; $0022
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x0259E8
 				move.l	#Offset_0x025A72, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -37,7 +37,7 @@ Offset_0x0259F4:
 				move.b	#$00, (Wind_Tunnels_Flag).w					 ; $FFFFF7C7
 				move.b	#$01, (Palette_Cycle_Counters).w			 ; $FFFFF650
 Offset_0x025A18:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x025A1E:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
@@ -60,7 +60,7 @@ Offset_0x025A5E:
 				bcs.s	Offset_0x025A6C
 				move.w	#$7F00, Obj_X(A0)								 ; $0010
 Offset_0x025A6C:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x025A72:
 				tst.b	(Level_Trigger_Array).w						 ; $FFFFF7E0
@@ -80,8 +80,8 @@ Offset_0x025A92:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Water_Stream_Mappings:										   ; Offset_0x025AB6
 				dc.w	Offset_0x025B2E-Water_Stream_Mappings

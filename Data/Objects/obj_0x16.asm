@@ -20,7 +20,7 @@ Offset_0x01D31C:
 				add.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.b	#$7F, D0
 				bne.s	Offset_0x01D376
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01D376
 				move.l	#Offset_0x01D39A, (A1)
 				bsr.s	Offset_0x01D2EA
@@ -46,17 +46,17 @@ Offset_0x01D376:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x01D39A:
 				lea		(Flame_Thrower_Animate_Data).l, A1		 ; Offset_0x01D3B8
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				tst.b	Obj_Routine(A0)									 ; $0005
 				beq.s	Offset_0x01D3B2
 				move.w	#$7FFF, Obj_X(A0)								 ; $0010
 Offset_0x01D3B2:
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
 Flame_Thrower_Animate_Data:									   ; Offset_0x01D3B8
 				dc.w	Offset_0x01D3BA-Flame_Thrower_Animate_Data

@@ -17,10 +17,10 @@ Offset_0x027DEE:
 				move.w	#$0030, D1
 				move.w	#$0011, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				lea		(CNz_Platform_Animate_Data).l, A1		 ; Offset_0x027E12
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 CNz_Platform_Animate_Data:									   ; Offset_0x027E12
 				dc.w	Offset_0x027E18-CNz_Platform_Animate_Data
@@ -44,7 +44,7 @@ Offset_0x027E26:
 Offset_0x027E42:
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				beq.s	Offset_0x027E66
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0008, Obj_Speed_Y(A0)							 ; $001A
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x027E66
@@ -56,12 +56,12 @@ Offset_0x027E68:
 				move.b	Obj_Status(A0), D0								 ; $002A
 				andi.b	#$18, D0
 				beq.s	Offset_0x027EA2
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				cmpi.w	#$0200, Obj_Speed_Y(A0)							 ; $001A
 				bge.s	Offset_0x027E86
 				addi.w	#$0018, Obj_Speed_Y(A0)							 ; $001A
 Offset_0x027E86:
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x027EA0
 				add.w	D1, Obj_Y(A0)									 ; $0014

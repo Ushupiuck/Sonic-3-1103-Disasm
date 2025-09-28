@@ -34,20 +34,20 @@ Offset_0x01C598:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.w	Obj_Height_3(A0), D0							 ; $0044
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmp.w	Obj_Control_Var_12(A0), D0						 ; $0042
 				bhi.w	Offset_0x01C5D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01C5D2:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x01C5DE
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x01C5DE:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x01C5E4:
 				move.b	Obj_Control_Var_10(A0), D0						 ; $0040
 				bpl.s	Offset_0x01C60E

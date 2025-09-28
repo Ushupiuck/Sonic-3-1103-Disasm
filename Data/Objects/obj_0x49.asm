@@ -12,7 +12,7 @@ Offset_0x028C6E:
 				addq.w	#$01, A2
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				bsr.s	Offset_0x028C86
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x028C86:
 				moveq	#$00, D2
 				move.b	Obj_Control_Var_02(A0), D2						 ; $0032

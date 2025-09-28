@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x045B26:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x045B3E(PC, D0), D1
@@ -63,7 +63,7 @@ Offset_0x045BC2:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x045BC4:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x045BC2
 				jmp		Run_Object_Hit_Floor_A0(PC)			   ; Offset_0x0423E0

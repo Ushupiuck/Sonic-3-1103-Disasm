@@ -3,14 +3,14 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x049E50:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x049E74(PC, D0), D1
 				jsr		Offset_0x049E74(PC, D1)
 				lea		Cluckoid_PLC_Data(PC), A2			   ; Offset_0x049F96
-				jsr		(LoadDynamicPLC)				  ; Offset_0x042A0A
-				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X) ; Offset_0x042B3C
+				jsr		(LoadDynamicPLC).l				  ; Offset_0x042A0A
+				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X).l ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x049E74:
 				dc.w	Offset_0x049E7C-Offset_0x049E74
@@ -20,9 +20,9 @@ Offset_0x049E74:
 ;-------------------------------------------------------------------------------
 Offset_0x049E7C:
 				lea		Cluckoid_Setup_Data(PC), A1			   ; Offset_0x049F70
-				jsr		(SetupSlottedObjectAttributes)				; Offset_0x04298C
+				jsr		(SetupSlottedObjectAttributes).l				; Offset_0x04298C
 				lea		Offset_0x049F8E(PC), A2
-				jmp		(SetupChildObject)				   ; Offset_0x041D9A
+				jmp		(SetupChildObject).l				   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x049E90:
 				jsr		(Find_Player)						   ; Offset_0x042634
@@ -43,7 +43,7 @@ Offset_0x049EB4:
 				bsr.w	Offset_0x049F12
 Offset_0x049EC0:
 				lea		Offset_0x049F96(PC), A1
-				jmp		(Animate_Raw_Multi_Delay_A1)		   ; Offset_0x042160
+				jmp		(Animate_Raw_Multi_Delay_A1).l		   ; Offset_0x042160
 ;-------------------------------------------------------------------------------
 Offset_0x049ECA:
 				move.b	#$06, Obj_Routine(A0)							 ; $0005
@@ -64,7 +64,7 @@ Offset_0x049EEE:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x049F02(PC, D0), D1
 				jsr		Offset_0x049F02(PC, D1)
-				jmp		(Child_Display_Or_Delete)			   ; Offset_0x04245C
+				jmp		(Child_Display_Or_Delete).l			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
 Offset_0x049F02:
 				dc.w	Offset_0x049F06-Offset_0x049F02
@@ -72,7 +72,7 @@ Offset_0x049F02:
 ;-------------------------------------------------------------------------------
 Offset_0x049F06:
 				lea		Cluckoid_Setup_Data_2(PC), A1		   ; Offset_0x049F82
-				jmp		(SetupObjectAttributes)						 ; Offset_0x041D72
+				jmp		(SetupObjectAttributes).l						 ; Offset_0x041D72
 ;-------------------------------------------------------------------------------
 Offset_0x049F10:
 				rts
@@ -90,7 +90,7 @@ Offset_0x049F22:
 Offset_0x049F32:
 				rts
 Offset_0x049F34:
-				jsr		(Find_Other_Object)					   ; Offset_0x04269E
+				jsr		(Find_Other_Object).l					   ; Offset_0x04269E
 				cmpi.w	#$0100, D2
 				bcc.s	Offset_0x049F6E
 				cmpi.w	#$0040, D3

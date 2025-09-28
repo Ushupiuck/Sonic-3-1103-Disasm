@@ -27,15 +27,15 @@ Offset_0x014314:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				bsr		Solid_Object_2						   ; Offset_0x0135B6
+				bsr.w	Solid_Object_2						   ; Offset_0x0135B6
 				move.w	Obj_X(A0), D0									 ; $0010
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
-				bhi		Offset_0x014266
+				bhi.w	Offset_0x014266
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x014350
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x014350:
 				rts
 ;-------------------------------------------------------------------------------

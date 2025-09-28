@@ -23,21 +23,21 @@ Offset_0x02799C:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				moveq	#$03, D6
 				move.w	(Control_Ports_Logical_Data).w, D1			 ; $FFFFF602
-				bsr		Offset_0x027A92
+				bsr.w	Offset_0x027A92
 				addq.w	#$01, A2
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				moveq	#$04, D6
 				move.w	(Control_Ports_Logical_Data_2).w, D1		 ; $FFFFF66A
-				bsr		Offset_0x027A92
-				bsr		Offset_0x027BB6
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				bsr.w	Offset_0x027A92
+				bsr.w	Offset_0x027BB6
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x0279CA:
 				move.w	Obj_Control_Var_04(A0), D0						 ; $0034
 				bne.s	Offset_0x0279E2
 				move.w	#$0010, D1
 				move.w	#$0029, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jmp		(Platform_Object)					   ; Offset_0x013AF6
+				jmp		(Platform_Object).l					   ; Offset_0x013AF6
 Offset_0x0279E2:
 				subq.w	#$01, D0
 				bne.s	Offset_0x027A12
@@ -64,7 +64,7 @@ Offset_0x027A22:
 				move.b	(Level_Frame_Count+$01).w, D0				 ; $FFFFFE05
 				andi.b	#$03, D0
 				bne.s	Offset_0x027A6A
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x027A6A
 				move.l	#Obj_FireShield_Dissipate, (A1)		  ; Offset_0x013E28
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -130,7 +130,7 @@ Offset_0x027B18:
 				rts
 Offset_0x027B1A:
 				subq.b	#$01, D0
-				bne		Offset_0x027BA4
+				bne.w	Offset_0x027BA4
 				cmpi.w	#$0002, Obj_Control_Var_04(A0)					 ; $0034
 				beq.s	Offset_0x027B44
 				cmpi.w	#$0200, Obj_Control_Var_00(A0)					 ; $0030
@@ -182,7 +182,7 @@ Offset_0x027BB6:
 				move.b	D0, Obj_Timer(A0)								 ; $002E
 				lea		(CNz_Cannon_Dyn_Script).l, A2			 ; Offset_0x027D8E
 				add.w	D0, D0
-				adda.w	$00(A2, D0), A2
+				adda.w	(A2, D0), A2
 				move.w	(A2)+, D5
 				subq.w	#$01, D5
 				bmi.s	Offset_0x027C0E

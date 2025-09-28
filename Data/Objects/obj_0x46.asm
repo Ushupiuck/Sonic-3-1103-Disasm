@@ -61,7 +61,7 @@ Offset_0x028102:
 				jsr		(Play_Music).l							 ; Offset_0x001176
 Offset_0x02812A:
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;-------------------------------------------------------------------------------
 Offset_0x028134:
 				moveq	#$00, D6
@@ -77,7 +77,7 @@ Offset_0x028134:
 				moveq	#Hoverpad_Sfx, D0								  ; -$80
 				jsr		(Play_Music).l							 ; Offset_0x001176
 Offset_0x02815C:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x028162:
 				move.w	Obj_X(A1), D0									 ; $0010
 				sub.w	Obj_X(A0), D0									 ; $0010

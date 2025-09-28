@@ -67,24 +67,24 @@ Offset_0x01FE7C:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				swap	D6
 				andi.w	#$000C, D6
 				bne.s	Offset_0x01FEB4
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01FEB4:
 				move.b	D6, D0
 				andi.b	#$04, D0
 				beq.s	Offset_0x01FEC4
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x01FEC4:
 				andi.b	#$08, D6
 				beq.s	Offset_0x01FED2
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x01FED2:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Smashing_Spike_Mappins:										   ; Offset_0x01FED8
 				dc.w	Offset_0x01FEDA-Smashing_Spike_Mappins

@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x045C7A:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x045C9A(PC, D0), D1
@@ -84,7 +84,7 @@ Offset_0x045D4A:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x045D68:
-				bsr		Check_Player_Collision				   ; Offset_0x0430D4
+				bsr.w	Check_Player_Collision				   ; Offset_0x0430D4
 				beq.s	Offset_0x045D78
 				move.l	#Offset_0x045D7C, (A0)
 				bsr.w	Offset_0x045D8C

@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x046392:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x0463AA(PC, D0), D1
@@ -104,13 +104,13 @@ Offset_0x0464E4:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				beq.s	Offset_0x0464F8
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 Offset_0x0464F8:
 				move.b	#$08, Obj_Routine(A0)							 ; $0005
 				move.l	#Offset_0x04662E, Obj_Child_Data(A0)			 ; $0030
 				move.l	#Offset_0x046516, Obj_Child(A0)					 ; $0034
-				bra		Offset_0x04648E
+				bra.w	Offset_0x04648E
 ;-------------------------------------------------------------------------------
 Offset_0x046512:
 				jmp		Animate_Raw_Adjust_Flip_Y(PC)		   ; Offset_0x042126
@@ -155,7 +155,7 @@ Offset_0x046576:
 				add.w	D0, D0
 				move.w	Offset_0x04658C(PC, D0), Obj_Control_Var_12(A0)	 ; $0042
 				btst	#$05, Obj_Control_Var_08(A1)					 ; $0038
-				bne		Offset_0x04649E
+				bne.w	Offset_0x04649E
 				jmp		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
 ;-------------------------------------------------------------------------------
 Offset_0x04658C:
@@ -175,7 +175,7 @@ Offset_0x0465B0:
 				add.w	D0, D0
 				move.w	Offset_0x0465C6(PC, D0), Obj_Control_Var_12(A0)	 ; $0042
 				btst	#$05, Obj_Control_Var_08(A1)					 ; $0038
-				bne		Offset_0x04649E
+				bne.w	Offset_0x04649E
 				jmp		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
 ;-------------------------------------------------------------------------------
 Offset_0x0465C6:

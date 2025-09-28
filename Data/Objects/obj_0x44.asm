@@ -18,10 +18,10 @@ Offset_0x027F3A:
 				move.w	#$0020, D1
 				move.w	#$0009, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				lea		(Trapdoor_Animate_Data).l, A1			 ; Offset_0x027F9E
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x027F6A:
 				move.w	Obj_X(A0), D0									 ; $0010
 				sub.w	Obj_X(A1), D0									 ; $0010

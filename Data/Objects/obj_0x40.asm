@@ -28,8 +28,8 @@ Offset_0x014AEE:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				bsr		Solid_Object_2						   ; Offset_0x0135B6
-				bra		MarkObjGone							   ; Offset_0x011AF2
+				bsr.w	Solid_Object_2						   ; Offset_0x0135B6
+				bra.w	MarkObjGone							   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Hz_Block_Mappings:											   ; Offset_0x014B0E
 				dc.w	Offset_0x014B16-Hz_Block_Mappings

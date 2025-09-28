@@ -123,7 +123,7 @@ Offset_0x014114:
 				rts
 Offset_0x01413A:
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
-				bne		Offset_0x0141E0
+				bne.w	Offset_0x0141E0
 				move.w	Obj_Y(A0), D1									 ; $0014
 				lea		Obj_Control_Var_04(A0), A2						 ; $0034
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000

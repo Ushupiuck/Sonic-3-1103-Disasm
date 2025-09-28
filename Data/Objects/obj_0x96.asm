@@ -3,14 +3,14 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x049DCA:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x049DEE(PC, D0), D1
 				jsr		Offset_0x049DEE(PC, D1)
 				lea		Butterdroid_PLC_Data(PC), A2		   ; Offset_0x049E46
-				jsr		(LoadDynamicPLC)				  ; Offset_0x042A0A
-				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X) ; Offset_0x042B3C
+				jsr		(LoadDynamicPLC).l				  ; Offset_0x042A0A
+				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X).l ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x049DEE:
 				dc.w	Offset_0x049DF2-Offset_0x049DEE
@@ -18,12 +18,12 @@ Offset_0x049DEE:
 ;-------------------------------------------------------------------------------
 Offset_0x049DF2:
 				lea		Butterdroid_Setup_Data(PC), A1		   ; Offset_0x049E34
-				jsr		(SetupSlottedObjectAttributes)				; Offset_0x04298C
+				jsr		(SetupSlottedObjectAttributes).l				; Offset_0x04298C
 				move.l	#Offset_0x049E46, Obj_Child_Data(A0)			 ; $0030
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x049E06:
-				jsr		(Find_Player)						   ; Offset_0x042634
+				jsr		(Find_Player).l						   ; Offset_0x042634
 				bclr	#$00, Obj_Flags(A0)								 ; $0004
 				tst.w	D0
 				beq.s	Offset_0x049E1C
@@ -32,8 +32,8 @@ Offset_0x049E1C:
 				move.w	#$0100, D0
 				move.w	#$0004, D1
 				jsr		Chase_Object(PC)					   ; Offset_0x042E6C
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jmp		(AnimateRaw)						  ; Offset_0x04208E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jmp		(AnimateRaw).l						  ; Offset_0x04208E
 ;-------------------------------------------------------------------------------
 Butterdroid_Setup_Data:										   ; Offset_0x049E34
 				dc.w	$0003, $A512, $0009, $0000

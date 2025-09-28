@@ -16,7 +16,7 @@
 				move.w	#$C300, Obj_Art_VRAM(A0)						 ; $000A
 				move.b	#$03, Obj_Map_Id(A0)							 ; $0022
 				move.l	#DisplaySprite, (A0)				   ; Offset_0x011148
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02DF78:
 				move.l	#Offset_0x02DF7E, (A0)
 Offset_0x02DF7E:
@@ -24,7 +24,7 @@ Offset_0x02DF7E:
 				add.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.b	#$7F, D0
 				bne.s	Offset_0x02DFB6
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02DFB6
 				moveq	#$2C, D0
 Offset_0x02DF98:
@@ -36,12 +36,12 @@ Offset_0x02DF98:
 				move.b	#$01, Obj_Map_Id(A1)							 ; $0022
 				moveq	#$00, D0
 Offset_0x02DFB6:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02DFBC:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0008, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x02DFF6
 				move.l	#Offset_0x02E062, (A0)
@@ -63,11 +63,11 @@ Offset_0x02E006:
 				addi.w	#$0060, D0
 				cmp.w	Obj_Y(A0), D0									 ; $0014
 				bge.s	Offset_0x02E01A
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x02E01A:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02E020:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02E060
 				moveq	#$2C, D0
 Offset_0x02E02C:
@@ -89,13 +89,13 @@ Offset_0x02E060:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x02E062:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0008, Obj_Speed_Y(A0)							 ; $001A
 				subq.b	#$01, Obj_Control_Var_0C(A0)					 ; $003C
 				bne.s	Offset_0x02E07A
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x02E07A:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Dripper_Mappings:											   ; Offset_0x02E080
 				dc.w	Offset_0x02E088-Dripper_Mappings

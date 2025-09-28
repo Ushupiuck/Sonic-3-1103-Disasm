@@ -25,7 +25,7 @@ Offset_0x02A61E:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				beq.s	Offset_0x02A642
 				move.b	#$01, Obj_Control_Var_04(A0)					 ; $0034
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
@@ -59,7 +59,7 @@ Offset_0x02A680:
 				bra.w	Offset_0x02A736
 Offset_0x02A6A0:
 				move.w	#$003C, Obj_Control_Var_02(A0)					 ; $0032
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02A72E
 				move.l	#Offset_0x02A7F0, (A1)
 				tst.b	Obj_Col_Prop(A0)								 ; $0029
@@ -72,7 +72,7 @@ Offset_0x02A6A0:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				move.b	#$01, $00(A3, D0)
+				move.b	#$01,(A3, D0)
 Offset_0x02A6EC:
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
 				move.w	Obj_Y(A0), Obj_Y(A1)					  ; $0014, $0014
@@ -90,11 +90,11 @@ Offset_0x02A72E:
 				jsr		(Play_Music).l							 ; Offset_0x001176
 Offset_0x02A736:
 				lea		(Head_Trigger_Animate_Data).l, A1		 ; Offset_0x02A802
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				tst.b	Obj_Routine(A0)									 ; $0005
 				beq.w	Offset_0x02A7CC
 				clr.b	Obj_Routine(A0)									 ; $0005
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02A7CC
 				move.l	#Offset_0x02A7D2, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -119,21 +119,21 @@ Offset_0x02A7C4:
 				moveq	#Level_Projectile_Sfx, D0						   ; $75
 				jsr		(Play_Music).l							 ; Offset_0x001176
 Offset_0x02A7CC:
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
 Offset_0x02A7D2:
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.s	Offset_0x02A7EA
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02A7EA:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x02A7F0:
 				lea		(Head_Trigger_Animate_Data).l, A1		 ; Offset_0x02A802
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Head_Trigger_Animate_Data:									   ; Offset_0x02A802
 				dc.w	Offset_0x02A808-Head_Trigger_Animate_Data

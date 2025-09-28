@@ -14,13 +14,13 @@ Offset_0x02C812:
 				move.w	#$000C, D1
 				move.w	#$0002, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				lea		(Palette_Row_2_Offset+$1C).w, A2			 ; $FFFFED5C
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				lea		$00(A3, D0), A3
+				lea		(A3, D0), A3
 				moveq	#$00, D3
 				move.b	Obj_Status(A0), D0								 ; $002A
 				andi.b	#$18, D0
@@ -46,7 +46,7 @@ Offset_0x02C866:
 				bne.s	Offset_0x02C88E
 				move.l	#$0C2E0A0E, (A2)
 Offset_0x02C88E:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 DPz_Button_Mappings:										   ; Offset_0x02C894
 				dc.w	Offset_0x02C898-DPz_Button_Mappings

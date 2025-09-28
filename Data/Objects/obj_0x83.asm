@@ -36,7 +36,7 @@ Offset_0x043F7A:
 				jmp		Load_Child_Object_Link_List_Repeat_A2(PC) ; Offset_0x041EA0
 ;-------------------------------------------------------------------------------
 Offset_0x043F82:
-				jmp		(Animate_Raw_Wait)					   ; Offset_0x042F82
+				jmp		(Animate_Raw_Wait).l					   ; Offset_0x042F82
 ;-------------------------------------------------------------------------------
 Offset_0x043F88:
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
@@ -310,20 +310,20 @@ Offset_0x044246:
 				move.b	#$08, Obj_Height_2(A0)							 ; $001E
 				move.w	#$FE00, Obj_Speed_X(A0)							 ; $0018
 				move.w	#$FC00, Obj_Speed_Y(A0)							 ; $001A
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
 Offset_0x04427C:
-				jsr		(Move_Light_Gravity)				   ; Offset_0x0426C2
+				jsr		(Move_Light_Gravity).l				   ; Offset_0x0426C2
 				jsr		Animate_Raw_Multi_Delay(PC)			   ; Offset_0x04215C
 				jsr		Run_Object_Hit_Floor_A0(PC)			   ; Offset_0x0423E0
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
 Offset_0x044290:
 				move.l	#Offset_0x044298, (A0)
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x044298:
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
 ; Offset_0x04429E:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046

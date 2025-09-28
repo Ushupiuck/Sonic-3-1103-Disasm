@@ -12,7 +12,7 @@
 				move.w	Obj_X(A0), Obj_Control_Var_00(A0)		  ; $0010, $0030
 				move.w	Obj_Y(A0), Obj_Control_Var_02(A0)		  ; $0014, $0032
 				move.b	#$02, Obj_Map_Id(A0)							 ; $0022
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02A2BC
 				move.l	#Offset_0x02A30E, (A1)
 				move.l	#Swinging_Platform_Mappings, Obj_Map(A1) ; Offset_0x02A36C, $000C
@@ -52,12 +52,12 @@ Offset_0x02A2DA:
 				move.b	Obj_Height(A0), D3								 ; $0006
 				addq.w	#$01, D3
 				move.w	(A7)+, D4
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;-------------------------------------------------------------------------------
 Offset_0x02A30E:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x02A314:
 				move.b	Obj_Control_Var_04(A0), D0						 ; $0034

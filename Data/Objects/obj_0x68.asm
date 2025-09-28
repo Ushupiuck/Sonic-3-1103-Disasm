@@ -40,7 +40,7 @@ Offset_0x028A18:
 				move.w	#$0020, D2
 				move.w	#$0021, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
 				bpl.s	Offset_0x028A72
 				move.b	#$07, Obj_Ani_Time(A0)							 ; $0024
@@ -50,7 +50,7 @@ Offset_0x028A18:
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 Offset_0x028A72:
 				move.w	Obj_Timer(A0), D0								 ; $002E
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 Offset_0x028A7C:
 				move.w	Obj_Control_Var_0A(A0), D0						 ; $003A
 				move.w	Offset_0x028A88(PC, D0), D0

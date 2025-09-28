@@ -22,7 +22,7 @@ Offset_0x028014:
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				move.l	#Offset_0x02802A, (A0)
 Offset_0x02802A:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Light_Bulb_Mappings:										   ; Offset_0x028030
 				dc.w	Offset_0x028034-Light_Bulb_Mappings
