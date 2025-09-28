@@ -318,7 +318,7 @@ Offset_0x03F4D8:
 ;-------------------------------------------------------------------------------
 Offset_0x03F4F6:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
-				bsr		Offset_0x03F9B2
+				bsr.w	Offset_0x03F9B2
 				jmp		(DisplaySprite)						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03F504:

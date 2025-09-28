@@ -137,7 +137,7 @@ Offset_0x0172F0:
 				neg.w	D0
 Offset_0x01730E:
 				cmpi.w	#$0480, D0
-				bcs		Offset_0x017288
+				bcs.w	Offset_0x017288
 				bclr	#$06, Obj_Status(A0)							 ; $002A
 Offset_0x01731C:
 				move.w	D1, Obj_Speed_X(A1)								 ; $0018
@@ -167,7 +167,7 @@ Offset_0x017372:
 				move.b	Obj_Map_Id(A0), D0								 ; $0022
 				add.w	D0, D0
 				move.l	Obj_Map(A0), A3									 ; $000C
-				adda.w	$00(A3, D0), A3
+				adda.w	(A3, D0), A3
 				move.w	(A3)+, D1
 				subq.w	#$01, D1
 				bset	#$05, Obj_Flags(A0)								 ; $0004
@@ -256,8 +256,8 @@ Offset_0x0174A2:
 Offset_0x0174BA:
 				move.l	#Offset_0x017354, (A0)
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
-				bsr		Offset_0x017372
-				bra		Offset_0x017354
+				bsr.w	Offset_0x017372
+				bra.w	Offset_0x017354
 ;-------------------------------------------------------------------------------
 Offset_0x0174CC:
 				move.w	(Obj_Player_One+Obj_Speed_X).w, Obj_Control_Var_00(A0) ; $FFFFB018, $0030
@@ -323,8 +323,8 @@ Offset_0x0175A4:
 				bclr	#$05, Obj_Status(A1)							 ; $002A
 				move.l	#Offset_0x017354, (A0)
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
-				bsr		Offset_0x017372
-				bra		Offset_0x017354
+				bsr.w	Offset_0x017372
+				bra.w	Offset_0x017354
 ;-------------------------------------------------------------------------------
 Offset_0x0175C2:
 				dc.w	$0400, $FB00, $0600, $FA00, $0600, $FF00, $0800, $FE00

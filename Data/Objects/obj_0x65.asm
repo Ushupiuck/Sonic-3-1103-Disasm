@@ -64,17 +64,17 @@ Offset_0x02D242:
 				lea		Obj_Control_Var_04(A0), A2						 ; $0034
 				lea		(Competition_Lap_Count_P1).w, A3			 ; $FFFFFEFC
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Offset_0x02D324
+				bsr.w	Offset_0x02D324
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				lea		(Competition_Lap_Count_P2).w, A3			 ; $FFFFFEFD
-				bsr		Offset_0x02D324
+				bsr.w	Offset_0x02D324
 				lea		(Goal_Marker_Animate_Data).l, A1		 ; Offset_0x02D460
 				jsr		(AnimateSprite)						   ; Offset_0x01115E
 				jmp		(DisplaySprite)						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02D274:
 				subq.w	#$01, Obj_Control_Var_0C(A0)					 ; $003C
-				bne		Offset_0x02D312
+				bne.w	Offset_0x02D312
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				move.w	(Saved_Obj_X_P1).w, Obj_X(A1)		  ; $FFFFFE32, $0010
 				move.w	(Saved_Obj_Y_P1).w, Obj_Y(A1)		  ; $FFFFFE34, $0014
@@ -110,9 +110,9 @@ Offset_0x02D312:
 ;-------------------------------------------------------------------------------
 Offset_0x02D324:
 				tst.b	(A2)+
-				bne		Offset_0x02D3D0
+				bne.w	Offset_0x02D3D0
 				cmp.w	Obj_X(A1), D1									 ; $0010
-				bhi		Offset_0x02D41C
+				bhi.w	Offset_0x02D41C
 				move.b	#$01, -1(A2)
 				move.w	Obj_Y(A0), D2									 ; $0014
 				move.w	D2, D3
@@ -120,16 +120,16 @@ Offset_0x02D324:
 				addi.w	#$0014, D3
 				move.w	Obj_Y(A1), D4									 ; $0014
 				cmp.w	D2, D4
-				blt		Offset_0x02D41C
+				blt.w	Offset_0x02D41C
 				cmp.w	D3, D4
-				bge		Offset_0x02D41C
+				bge.w	Offset_0x02D41C
 				move.w	Obj_X(A1), D2									 ; $0010
 				sub.w	D1, D2
 				bcc.s	Offset_0x02D360
 				neg.w	D2
 Offset_0x02D360:
 				cmpi.w	#$0020, D2
-				bcc		Offset_0x02D41C
+				bcc.w	Offset_0x02D41C
 				cmpi.b	#$0C, Obj_Control_Var_16(A1)					 ; $0046
 				bne.s	Offset_0x02D39C
 				sub.w	Obj_Y(A0), D4									 ; $0014
@@ -143,7 +143,7 @@ Offset_0x02D360:
 				move.b	(A3), $0001(A2)
 				move.w	Obj_Control_Var_0A(A0), D0						 ; $003A
 				andi.w	#$000F, D0
-				bsr		Find_Object_2P						   ; Offset_0x02D41E
+				bsr.w	Find_Object_2P						   ; Offset_0x02D41E
 				addq.w	#$02, Obj_Control_Var_0A(A0)					 ; $003A
 Offset_0x02D39A:
 				addq.b	#$01, (A3)
@@ -707,10 +707,10 @@ Offset_0x02DC18:
 				bra.s	Offset_0x02DC18
 Offset_0x02DC22:
 				addi.w	#$000A, D0
-				move.l	$00(A1, D2), (A2)+
+				move.l	(A1, D2), (A2)+
 				addq.w	#$02, A2
 				lsl.w	#$02, D0
-				move.l	$00(A1, D0), (A2)+
+				move.l	(A1, D0), (A2)+
 				jmp		(DisplaySprite)						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Timer_Number_Mappings:										   ; Offset_0x02DC38

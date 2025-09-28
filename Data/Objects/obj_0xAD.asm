@@ -64,7 +64,7 @@ Offset_0x037EFC:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x037F14(PC, D0), D1
 				jsr		Offset_0x037F14(PC, D1)
-				bsr		Offset_0x0388F4
+				bsr.w	Offset_0x0388F4
 				jmp		(Add_To_Response_List_And_Display)	   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x037F14:
@@ -176,7 +176,7 @@ Offset_0x03807A:
 				jsr		(SpeedToPos)						   ; Offset_0x01111E
 				move.w	Obj_Y(A0), D0									 ; $0014
 				cmp.w	Obj_Height_3(A0), D0							 ; $0044
-				bls		Offset_0x037FC8
+				bls.w	Offset_0x037FC8
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x038092:
@@ -498,7 +498,7 @@ Offset_0x0384B2:
 				move.b	#$08, Obj_Routine(A0)							 ; $0005
 				bset	#$03, Obj_Control_Var_08(A0)					 ; $0038
 				move.l	#Offset_0x0384DA, Obj_Child(A0)					 ; $0034
-				bsr		Offset_0x03863A
+				bsr.w	Offset_0x03863A
 				jmp		(Animate_Raw_Multi_Delay)			   ; Offset_0x04215C
 ;-------------------------------------------------------------------------------
 Offset_0x0384D0:
@@ -788,7 +788,7 @@ Offset_0x038822:
 				move.b	D1, D0
 Offset_0x03882E:
 				lea		(Big_Shaker_Rocket_Twist_Lookup), A1   ; Offset_0x10F858
-				move.b	$00(A1, D0), D1
+				move.b	(A1, D0), D1
 				ext.w	D1
 				move.w	Obj_Child_Ref(A0), A2							 ; $0046
 				rts

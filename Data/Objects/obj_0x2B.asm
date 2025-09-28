@@ -30,7 +30,7 @@ Offset_0x021B5E:
 Offset_0x021B86:
 				move.b	D1, Obj_Control_Var_06(A0)						 ; $0036
 				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
-				bne		Offset_0x021C20
+				bne.w	Offset_0x021C20
 				move.l	#Offset_0x021C48, (A1)
 				move.l	#Flipping_Bridge_Mappings, Obj_Map(A1) ; Offset_0x021E78, $000C
 				move.w	#$42F0, Obj_Art_VRAM(A1)						 ; $000A

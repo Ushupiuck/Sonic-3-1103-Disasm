@@ -136,7 +136,7 @@ Offset_0x01E4B6:
 				add.w	D0, D0
 				move.l	Obj_Map(A0), A3									 ; $000C
 				lea		Obj_Speed_Y(A3), A2								 ; $001A
-				adda.w	$00(A3, D0), A2
+				adda.w	(A3, D0), A2
 				move.l	#Offset_0x01E476, D4
 				move.b	Obj_Flags(A0), D5								 ; $0004
 				moveq	#$0B, D1
@@ -166,7 +166,7 @@ Offset_0x01E4DC:
 				move.b	Obj_Map_Id(A0), D0								 ; $0022
 				add.w	D0, D0
 				move.l	Obj_Map(A0), A3									 ; $000C
-				adda.w	$00(A3, D0), A3
+				adda.w	(A3, D0), A3
 				move.w	(A3)+, D1
 				subq.w	#$01, D1
 				moveq	#$03, D1

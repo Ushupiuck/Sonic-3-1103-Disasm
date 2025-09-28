@@ -19,7 +19,7 @@
 				move.w	A1, Obj_Control_Var_0E(A0)						 ; $003E
 				move.b	#$01, Obj_Control_Var_0D(A0)					 ; $003D
 Offset_0x01C27E:
-				bra		Obj_0x11_LBz_Platform				   ; Offset_0x01BCFC
+				bra.w	Obj_0x11_LBz_Platform				   ; Offset_0x01BCFC
 ;-------------------------------------------------------------------------------
 Offset_0x01C282:
 				move.w	Obj_X(A0), D4									 ; $0010

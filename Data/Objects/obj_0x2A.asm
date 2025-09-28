@@ -37,7 +37,7 @@ Offset_0x02124A:
 				andi.b	#$10, D1
 				bne.s	Offset_0x02128A
 				move.l	#Offset_0x0214B0, (A0)
-				bra		Offset_0x0214B0
+				bra.w	Offset_0x0214B0
 Offset_0x02128A:
 				move.l	#Offset_0x021660, Obj_Control_Var_0C(A0)			   ; $003C
 				move.w	#$43B6, Obj_Art_VRAM(A0)						 ; $000A
@@ -54,7 +54,7 @@ Offset_0x0212C8:
 				tst.b	Obj_Subtype(A0)									 ; $002C
 				bne.s	Offset_0x0212D8
 				move.l	#Offset_0x0213F4, (A0)
-				bra		Offset_0x0213F4
+				bra.w	Offset_0x0213F4
 Offset_0x0212D8:
 				move.l	#Offset_0x0212DE, (A0)
 Offset_0x0212DE:
@@ -115,9 +115,9 @@ Offset_0x021388:
 				rts
 Offset_0x02139C:
 				andi.b	#$10, D0
-				beq		Offset_0x021318
+				beq.w	Offset_0x021318
 				cmpi.b	#$02, Obj_Control_Var_06(A0)					 ; $0036
-				bne		Offset_0x021318
+				bne.w	Offset_0x021318
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				bsr.s	Offset_0x02136A
 Offset_0x0213B4:
@@ -268,7 +268,7 @@ Offset_0x0215AA:
 				rts
 Offset_0x0215BE:
 				andi.b	#$10, D0
-				beq		Offset_0x0214EC
+				beq.w	Offset_0x0214EC
 				cmpi.b	#$02, Obj_Control_Var_06(A0)					 ; $0036
 				bne.s	Offset_0x0215DC
 				tst.b	Obj_Subtype(A0)									 ; $002C
@@ -278,21 +278,21 @@ Offset_0x0215BE:
 Offset_0x0215DC:
 				move.b	#$0C, (Obj_Player_Two+Obj_Player_Top_Solid).w ; $FFFFB090
 				move.b	#$0D, (Obj_Player_Two+Obj_Player_LRB_Solid).w ; $FFFFB091
-				bra		Offset_0x0214EC
+				bra.w	Offset_0x0214EC
 Offset_0x0215EC:
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				bsr.s	Offset_0x021592
 Offset_0x0215F2:
 				move.w	Obj_Control_Var_08(A0), (Enemy_Hit_Chain_Count).w ; $0038, $FFFFF7D0
 				andi.b	#$E7, Obj_Status(A0)							 ; $002A
-				lea		(Offset_0x021628), A4
+				lea		(Offset_0x021628).l, A4
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A0), D0								 ; $0022
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				move.l	D0, D1
 				add.w	D0, D0
 				add.w	D0, D0
-				lea		$00(A4, D0), A4
+				lea		(A4, D0), A4
 				move.l	#Offset_0x0213D4, (A0)
 				jsr		(Offset_0x017372)
 				bra.w	Offset_0x0213D4

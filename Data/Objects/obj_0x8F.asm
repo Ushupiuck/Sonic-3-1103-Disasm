@@ -334,7 +334,7 @@ Offset_0x03C648:
 				btst	#$00, Obj_Control_Var_08(A1)					 ; $0038
 				beq.s	Offset_0x03C684
 				btst	#$01, Obj_Control_Var_08(A1)					 ; $0038
-				bne		Offset_0x03C346
+				bne.w	Offset_0x03C346
 				move.b	#$0C, Obj_Routine(A0)							 ; $0005
 				bclr	#$02, Obj_Control_Var_08(A0)					 ; $0038
 				bset	#$01, Obj_Control_Var_08(A1)					 ; $0038
@@ -343,10 +343,10 @@ Offset_0x03C648:
 				rts
 Offset_0x03C684:
 				btst	#$06, Obj_Control_Var_08(A1)					 ; $0038
-				bne		Offset_0x03C346
+				bne.w	Offset_0x03C346
 				lea		(Obj_Player_One).w, A2						 ; $FFFFB000
 				tst.b	Obj_Control_Var_10(A2)							 ; $0040
-				bne		Offset_0x03C346
+				bne.w	Offset_0x03C346
 				move.w	Obj_X(A2), D0									 ; $0010
 				cmp.w	Obj_X(A1), D0									 ; $0010
 				bcc.s	Offset_0x03C6AE
@@ -355,7 +355,7 @@ Offset_0x03C684:
 				rts
 Offset_0x03C6AE:
 				btst	#$00, Obj_Flags(A0)								 ; $0004
-				beq		Offset_0x03C346
+				beq.w	Offset_0x03C346
 Offset_0x03C6B8:
 				move.b	#$12, Obj_Routine(A0)							 ; $0005
 				bclr	#$02, Obj_Control_Var_08(A0)					 ; $0038
@@ -384,7 +384,7 @@ Offset_0x03C700:
 ;-------------------------------------------------------------------------------
 Offset_0x03C718:
 				btst	#$02, Obj_Control_Var_08(A0)					 ; $0038
-				bne		Offset_0x03C5E2
+				bne.w	Offset_0x03C5E2
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03C724:
@@ -605,7 +605,7 @@ Offset_0x03C9C8:
 Offset_0x03C9D6:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$02, Obj_Control_Var_08(A1)					 ; $0038
-				bne		Offset_0x03C898
+				bne.w	Offset_0x03C898
 				bsr.w	Offset_0x03CC32
 				beq.s	Offset_0x03C9FC
 				cmpi.b	#$0A, Obj_Subtype(A0)							 ; $002C
@@ -640,7 +640,7 @@ Offset_0x03CA3E:
 				move.w	#$001F, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x03CA80, Obj_Child(A0)					 ; $0034
 				cmpi.b	#$0A, Obj_Subtype(A0)							 ; $002C
-				bne		Offset_0x03C346
+				bne.w	Offset_0x03C346
 				bra.w	Offset_0x03CC86
 ;-------------------------------------------------------------------------------
 Offset_0x03CA66:

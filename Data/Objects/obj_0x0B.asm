@@ -9,9 +9,9 @@
 				cmpi.b	#$01, Obj_Subtype(A0)							 ; $002C
 				beq.w	Offset_0x01B362
 				cmpi.b	#$02, Obj_Subtype(A0)							 ; $002C
-				beq		Offset_0x01B520
+				beq.w	Offset_0x01B520
 				tst.b	(Control_Ports_Buffer_Data+$02).w			 ; $FFFFF606
-				bne		Offset_0x01B520
+				bne.w	Offset_0x01B520
 Offset_0x01B362:
 				moveq	#$00, D2
 				moveq	#$0D, D3
@@ -111,7 +111,7 @@ Offset_0x01B4B8:
 				dbra	D0, Offset_0x01B4B8
 				moveq	#$09, D0
 				jsr		(LoadPLC).l								 ; Offset_0x0014D0
-				bra		Obj_Sphere_Test_Main				   ; Offset_0x01B696
+				bra.w	Obj_Sphere_Test_Main				   ; Offset_0x01B696
 ;-------------------------------------------------------------------------------
 Offset_0x01B4CA:
 				move.b	#$04, Obj_Flags(A1)								 ; $0004

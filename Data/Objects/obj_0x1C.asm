@@ -55,12 +55,12 @@ Offset_0x01E76E:
 				andi.b	#$08, D0
 				beq.s	Offset_0x01E788
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x01E788:
 				andi.b	#$10, D6
 				beq.s	Offset_0x01E796
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x01E796:
 				lea		(LBz_Unknow_Animate_Data).l, A1			 ; Offset_0x01E7B6
 				jsr		(AnimateSprite)						   ; Offset_0x01115E
