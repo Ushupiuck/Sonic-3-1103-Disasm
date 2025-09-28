@@ -44027,11 +44027,11 @@ Offset_0x0ECFE4:
 Offset_0x0ECFFC:
 		include	"sound\sfx\90 - Spike Balls.asm"
 Frost_Puff_Sfx_Data:										   ; Offset_0x0ED032
-		binclude	"sound\0x91.sfx"
+		include	"sound\sfx\91 - Frost Puff.asm"
 Ice_Spike_Sfx_Data:											   ; Offset_0x0ED050
-		binclude	"sound\0x92.sfx"
+		include	"sound\sfx\92 - Ice Spikes.asm"
 Offset_0x0ED07F:
-		binclude	"sound\0x93.sfx"
+		include	"sound\sfx\93 - Light Tunnel.asm"
 Offset_0x0ED0B2:
 		binclude	"sound\0x94.sfx"
 Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
