@@ -8,28 +8,28 @@
 ; Current editors: Alex Field
 ; ROM released by hiddenpalace.org on November 16, 2019, by drx
 ; ---------------------------------------------------------------------------
-; Dados n�o usados (left over ???):
+; Unused data (left over ???):
 ; 0x00F972 - Obj_Classic_Shield
 ; 0x010C60 - Obj_S1_0x4B_Big_Ring
 ; 0x010D26 - Obj_S1_0x7C_Big_Ring_Flash
 ; 0x010FC2 - Obj_S2_0xDC_Slot_Machine_Ring
 ; 0x024BCC - Obj_S2_0x6F_Special_Stage_Results
-; 0x04C3A6 - Itens n�o linkados na lista de objetos do debug da Lava Reef
+; 0x04C3A6 - Lava Reef's debug object list (unlinked)
 ; 0x080DE0 - Art_Invincibility
-; 0x0EF1DD - C�digo n�o linkado
+; 0x0EF1DD - Unlinked code
 ; 0x10687E - Art_Horizontal_Spring
 ; 0x106CB0 - Art_Head_Up_Display
 ; 0x109B4A - Art_Result_Font_2P
 ; 0x10ADA2 - Art_Seal
 ; 0x10AEBE - Art_Pig
-; 0x10DCE6 - Mapeamento n�o referenciado
-; 0x10DFC4 - Script din�mico n�o referenciado ( Obj 0x97 - Cluckoid )
-; 0x10E18E - Script din�mico n�o referenciado ( Obj 0x96 - Butterdroid )
-; 0x10E2C4 - Script din�mico n�o referenciado ( Obj 0x90 - Fireworm )
-; 0x10E5B6 - Ponteiro de mapeamento sobrescrito
+; 0x10DCE6 - Unreferenced mappings
+; 0x10DFC4 - Unreferenced dynamic script ( Obj 0x97 - Cluckoid )
+; 0x10E18E - Unreferenced dynamic script ( Obj 0x96 - Butterdroid )
+; 0x10E2C4 - Unreferenced dynamic script ( Obj 0x90 - Fireworm )
+; 0x10E5B6 - Partially overwritten mappings pointer
 ; 0x132802 - Art_Hz_Enemies
-; 0x1885CA - Chunks n�o usados na Launch Base
-; 0x1E9814 - Segunda linha da paleta do Sonic n�o � usada
+; 0x1885CA - Launch Base's unused chunks
+; 0x1E9814 - Unused Sonic 2nd palette line
 ; ---------------------------------------------------------------------------
 		CPU 68000
 		include "s3.macrosetup.asm"
@@ -57,21 +57,21 @@ Prog_Start_Vector:
 		dc.l	(7<<$18)|Check_Interrupt	; TRAPV exception
 		dc.l	(8<<$18)|Check_Interrupt	; Privilege violation
 		dc.l	(9<<$18)|Check_Interrupt	; TRACE exception
-		dc.l	Line1010Emu			; Line-A emulator
-		dc.l	Line1111Emu			; Line-F emulator
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Unused (reserved)
-		dc.l	ErrorException			; Spurious exception
+		dc.l	ErrorTrap			; Line-A emulator
+		dc.l	ErrorTrap			; Line-F emulator
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Spurious exception
 		dc.l	ErrorTrap			; IRQ level 1
 		dc.l	ErrorTrap			; IRQ level 2
 		dc.l	ErrorTrap			; IRQ level 3
@@ -128,19 +128,14 @@ Notes:		dc.b	0, 1, 2, 3, 4, 5, 6, 7
 		dc.b	"                                "
 Region:		dc.b	"JUE             "
 EndOfHeader:
-
 ; ===========================================================================
-; Offset_0x000200:
-ROM_Data_Start:
+
 ErrorTrap:
-Line1010Emu:
-Line1111Emu:
-ErrorException:
 		nop
 		nop
 		bra.s	ErrorTrap
 ; ===========================================================================
-; Offset_0x000206: ROM_Prog_Start:
+
 EntryPoint:
 		; You may have noticed above that the System Stack is not set in the header, but
 		; is rather handled in the boot code. This is actually a REALLY hackish work-
@@ -151,75 +146,75 @@ EntryPoint:
 		tst.l	(IO_Port_0_Control).l
 		bne.s	PortA_OK
 		tst.w	(IO_Expansion_Control).l
-; Offset_0x000218:
+
 PortA_OK:
-		bne.s	PortC_OK
+		bne.s	PortC_OK	; in case of a soft reset
 		lea	InitValues(pc),a5
 		movem.w	(a5)+,d5-d7
 		movem.l	(a5)+,a0-a4
-		move.b	-$10FF(a1),d0
+		move.b	-$10FF(a1),d0	; get hardware version
 		andi.b	#$F,d0
-		beq.s	SkipSecurity
-		move.l	#"SEGA",$2F00(a1)
-; Offset_0x000238:
+		beq.s	SkipSecurity	; branch if hardware is older than Genesis III
+		move.l	#'SEGA',$2F00(a1)	; satisfy the TMSS
+
 SkipSecurity:
-		move.w	(a4),d0
+		move.w	(a4),d0	; check if VDP works
 		moveq	#0,d0
 		move.l	d0,a6
-		move.l	a6,usp
+		move.l	a6,usp	; set usp to $0
 		moveq	#VDPInitValues_End-VDPInitValues-1,d1
-; Offset_0x000242:
+
 VDPInitLoop:
 		move.b	(a5)+,d5
 		move.w	d5,(a4)
 		add.w	d7,d5
-		dbf	d1,VDPInitLoop
-		move.l	(a5)+,(a4)
-		move.w	d0,(a3)
-		move.w	d7,(a1)
-		move.w	d7,(a2)
-; Offset_0x000254:
+		dbf	d1,VDPInitLoop	; set all 24 registers
+
+		move.l	(a5)+,(a4)	; set VRAM write mode
+		move.w	d0,(a3)	; clear the screen
+		move.w	d7,(a1)	; stop the Z80
+		move.w	d7,(a2)	; reset the Z80
+
 WaitForZ80:
-		btst	d0,(a1)
-		bne.s	WaitForZ80
+		btst	d0,(a1)	; has the Z80 stopped?
+		bne.s	WaitForZ80	; if not, branch
 		moveq	#Z80StartupCodeEnd-Z80StartupCodeBegin-1,d2
-; Offset_0x00025A:
+
 Z80InitLoop:
 		move.b	(a5)+,(a0)+
 		dbf	d2,Z80InitLoop
 		move.w	d0,(a2)
-		move.w	d0,(a1)
-		move.w	d7,(a2)
-; Offset_0x000266:
+		move.w	d0,(a1)	; start the Z80
+		move.w	d7,(a2)	; reset the Z80
+
 ClearRAMLoop:
-		move.l	d0,-(a6)
+		move.l	d0,-(a6)		; Clear normal RAM
 		dbf	d6,ClearRAMLoop
-		move.l	(a5)+,(a4)
-		move.l	(a5)+,(a4)
+		move.l	(a5)+,(a4)	; set VDP display mode and increment
+		move.l	(a5)+,(a4)	; set VDP to CRAM write
 		moveq	#$1F,d3
-; Offset_0x000272:
+
 ClearCRAMLoop:
-		move.l	d0,(a3)
+		move.l	d0,(a3)			; Clear CRAM
 		dbf	d3,ClearCRAMLoop
 		move.l	(a5)+,(a4)
 		moveq	#$13,d4
-; Offset_0x00027C:
+
 ClearVSRAMLoop:
-		move.l	d0,(a3)
+		move.l	d0,(a3)			; Clear VSRAM
 		dbf	d4,ClearVSRAMLoop
 		moveq	#PSGInitValues_End-PSGInitValues-1,d5
-; Offset_0x000284:
+
 PSGInitLoop:
-		move.b	(a5)+,$11(a3)
+		move.b	(a5)+,$11(a3)	; reset the PSG
 		dbf	d5,PSGInitLoop
 		move.w	d0,(a2)
-		movem.l	(a6),d0-d7/a0-a6
-		move	#$2700,sr
-; Offset_0x000296:
+		movem.l	(a6),d0-d7/a0-a6	; clear all registers
+		move	#$2700,sr	; set the sr
+
 PortC_OK:
 		bra.s	GameProgram
 ; ===========================================================================
-; Offset_0x000298:
 InitValues:
 		dc.w	$8000
 		dc.w	bytesToLcnt($10000)
@@ -231,32 +226,32 @@ InitValues:
 		dc.l	VDP_Data_Port
 		dc.l	VDP_Control_Port
 
-	; values for VDP registers
+; values for VDP registers
 VDPInitValues:
-		dc.b	4
-		dc.b	$14
-		dc.b	$30
-		dc.b	$3C
-		dc.b	7
-		dc.b	$6C
-		dc.b	0
-		dc.b	0
-		dc.b	0
-		dc.b	0
-		dc.b	$FF
-		dc.b	0
-		dc.b	$81
-		dc.b	$37
-		dc.b	0
-		dc.b	1
-		dc.b	1
-		dc.b	0
-		dc.b	0
-		dc.b	$FF
-		dc.b	$FF
-		dc.b	0
-		dc.b	0
-		dc.b	$80
+		dc.b	4		; Command $8004 - HInt off, Enable HV counter read
+		dc.b	$14		; Command $8114 - Display off, VInt off, DMA on, PAL off
+		dc.b	$30		; Command $8230 - Scroll A Address $C000
+		dc.b	$3C		; Command $833C - Window Address $F000
+		dc.b	7		; Command $8407 - Scroll B Address $E000
+		dc.b	$6C		; Command $856C - Sprite Table Address $D800
+		dc.b	0		; Command $8600 - Null
+		dc.b	0		; Command $8700 - Background color Pal 0 Color 0
+		dc.b	0		; Command $8800 - Null
+		dc.b	0		; Command $8900 - Null
+		dc.b	$FF		; Command $8AFF - Hint timing $FF scanlines
+		dc.b	0		; Command $8B00 - Ext Int off, VScroll full, HScroll full
+		dc.b	$81		; Command $8C81 - 40 cell mode, shadow/highlight off, no interlace
+		dc.b	$37		; Command $8D37 - HScroll Table Address $DC00
+		dc.b	0		; Command $8E00 - Null
+		dc.b	1		; Command $8F01 - VDP auto increment 1 byte
+		dc.b	1		; Command $9001 - 64x32 cell scroll size
+		dc.b	0		; Command $9100 - Window H left side, Base Point 0
+		dc.b	0		; Command $9200 - Window V upside, Base Point 0
+		dc.b	$FF		; Command $93FF - DMA Length Counter $FFFF
+		dc.b	$FF		; Command $94FF - See above
+		dc.b	0		; Command $9500 - DMA Source Address $0
+		dc.b	0		; Command $9600 - See above
+		dc.b	$80		; Command $9700 - See above + VRAM fill mode
 VDPInitValues_End:
 
 		dc.l	$40000080
@@ -270,9 +265,9 @@ Z80StartupCodeBegin:
 		ld	bc,((Z80_RAM_end-Z80_RAM)-zStartupCodeEndLoc)-1	; prepare to loop this many times
 		ld	de,zStartupCodeEndLoc+1	; initial destination address
 		ld	hl,zStartupCodeEndLoc	; initial source address
-		ld	sp,hl	; set the address the stack starts at
-		ld	(hl),a	; set first byte of the stack to 0
-		ldir		; loop to fill the stack (entire remaining available Z80 RAM) with 0
+		ld	sp,hl		; set the address the stack starts at
+		ld	(hl),a		; set first byte of the stack to 0
+		ldir			; loop to fill the stack (entire remaining available Z80 RAM) with 0
 		pop	ix		; clear ix
 		pop	iy		; clear iy
 		ld	i,a		; clear i
@@ -280,17 +275,17 @@ Z80StartupCodeBegin:
 		pop	de		; clear de
 		pop	hl		; clear hl
 		pop	af		; clear af
-		ex	af,af'	; swap af with af'
+		ex	af,af'		; swap af with af'
 		exx			; swap bc/de/hl with their shadow registers too
 		pop	bc		; clear bc
 		pop	de		; clear de
 		pop	hl		; clear hl
 		pop	af		; clear af
-		ld	sp,hl	; clear sp
+		ld	sp,hl		; clear sp
 		di			; clear iff1 (for interrupt handler)
 		im	1		; interrupt handling mode = 1
 		ld	(hl),0E9h	; replace the first instruction with a jump to itself
-		jp	(hl)	; jump to the first instruction (to stay there forever)
+		jp	(hl)		; jump to the first instruction (to stay there forever)
 zStartupCodeEndLoc:
 		dephase		; stop pretending
 		cpu 68000
@@ -308,19 +303,18 @@ PSGInitValues:
 PSGInitValues_End:
 
 ; ===========================================================================
-; Offset_0x000304:
+
 GameProgram:
 		tst.w	(VDP_Control_Port).l
-; Offset_00030A:
 WaitForVDP:
 		move.w	(VDP_Control_Port).l,d1
 		btst	#1,d1
 		bne.s	WaitForVDP
 		btst	#6,(IO_Expansion_Control+1).l
 		beq.s	ChecksumCheck
-		cmpi.l	#"init",(Init_Flag).w
+		cmpi.l	#'init',(Init_Flag).w
 		beq.w	AlreadyInit
-; Offset_00032C:
+
 ChecksumCheck:
 		movea.l	#EndOfHeader,a0
 		movea.l	#ROMEndLoc,a1
@@ -336,7 +330,7 @@ ChecksumLoop:
 		nop
 		nop
 	endif
-		move.l	#Checksum,a1	; read the checksum
+		movea.l	#Checksum,a1	; read the checksum
 		cmp.w	(a1),d1		; compare correct checksum to the one in ROM
 	if 0
 		bne.w	ChecksumError	; if they don't match, branch
@@ -347,21 +341,21 @@ ChecksumLoop:
 		lea	(CrossResetRAM).w,a6
 		moveq	#0,d7
 		move.w	#bytesToLcnt(CrossResetRAM_End-CrossResetRAM),d6
-; Offset_0x00035A:
+
 ClearSomeRAMLoop:
 		move.l	d7,(a6)+
-		dbf	d6,ClearSomeRAMLoop
+		dbf	d6,ClearSomeRAMLoop	; clear RAM from $FFFE00 to $FFFFFF
 		move.b	(IO_Hardware_Version),d0
 		andi.b	#$C0,d0
 		move.b	d0,(Hardware_Id).w
 		move.l	#"init",(Init_Flag).w
-; Offset_0x000376:
+
 AlreadyInit:
 		bsr.w	CheckVDPFrequency
 		lea	(RAM_Start&$FFFFFF).l,a6
 		moveq	#0,d7
 		move.w	#bytesToLcnt(CrossResetRAM-RAM_Start),d6
-; Offset_0x000386:
+
 ClearRemainingRAMLoop:
 		move.l	d7,(a6)+
 		dbf	d6,ClearRemainingRAMLoop
@@ -370,14 +364,13 @@ ClearRemainingRAMLoop:
 		bsr.w	SoundDriverLoad
 		bsr.w	JoypadInit
 		move.b	#gm_SEGALogo,(Game_Mode).w
-; Offset_0x00039E:
+
 MainGameLoop:
 		move.b	(Game_Mode).w,d0
 		andi.w	#$3C,d0
 		jsr	GameModeArray(pc,d0.w)
 		bra.s	MainGameLoop
 ; ===========================================================================
-; Offset_0x0003AC:
 GameModeArray:
 		bra.w	SegaScreen
 		bra.w	TitleScreen
@@ -393,7 +386,7 @@ GameModeArray:
 		bra.w	Special_Stage_Test_1
 		bra.w	Special_Stage_Test_2
 ; ===========================================================================
-; Offset_0x0003E0:
+
 S2_Special_Stage:
 S2_Continue:
 S2_Two_Player_Results:
@@ -406,12 +399,12 @@ Run_SEGA_Screen:
 ; cycle through the entire Genesis color palette, while the second is the
 ; classic red screen of death. Both still remain unused in the final,as
 ; the developers never restored the checksum check.
-; Offset_0x0003E8:
+
 ChecksumError:
 		move.l	d1,-(sp)
 		bsr.w	VDPRegSetup
 		move.l	(sp)+,d1
-; Offset_0x0003F0: ChecksumError_Inf_Loop:
+; ChecksumError_Inf_Loop:
 ChecksumError_Loop:
 		move.l	#Color_RAM_Address,(VDP_Control_Port).l
 		move.w	d7,(VDP_Data_Port).l
@@ -420,15 +413,15 @@ ChecksumError_Loop:
 ; End of function ChecksumError
 
 ; ---------------------------------------------------------------------------
-; Offset_0x000404: Show_Red_Screen:
+; Show_Red_Screen:
 ChecksumError2:
 		move.l	#Color_RAM_Address,(VDP_Control_Port).l
 		moveq	#bytesToWcnt($80),d7
-; Offset_0x000410:
+
 Fill_Red_Loop:
 		move.w	#$E,(VDP_Data_Port).l		; turn entire CRAM red
 		dbf	d7,Fill_Red_Loop
-; Offset_0x00041C: Show_Red_Screen_Inf_Loop
+; Show_Red_Screen_Inf_Loop
 ChecksumError2_Loop:
 		bra.s	ChecksumError2_Loop
 ; End of function ChecksumError2
@@ -439,27 +432,27 @@ ChecksumError2_Loop:
 ; detect PAL consoles so as to enable its regional H-int routines
 ; ---------------------------------------------------------------------------
 
-; Offset_0x00041E: Check_VDP_Frequency:
+; Check_VDP_Frequency:
 CheckVDPFrequency:
 		lea	(VDP_Control_Port).l,a5
 		move.w	#$8174,(a5)			; VDP Command $8174 - display on, V-int on, DMA on, PAL off
 		moveq	#0,d0
 
-Offset_0x00042A:
+$$waitForVBlankStart:
 		move.w	(a5),d1
 		andi.w	#8,d1
-		beq.s	Offset_0x00042A
+		beq.s	$$waitForVBlankStart
 
-Offset_0x000432:
+$$waitForVBlankEnd:
 		move.w	(a5),d1
 		andi.w	#8,d1
-		bne.s	Offset_0x000432			; run VBlank once
+		bne.s	$$waitForVBlankEnd	; Wait for VBlank to run once
 
-Offset_0x00043A:
+$$waitForNextVBlank:
 		addq.w	#1,d0
 		move.w	(a5),d1
 		andi.w	#8,d1
-		beq.s	Offset_0x00043A
+		beq.s	$$waitForNextVBlank
 		move.w	d0,(Vertical_Frequency).w	; count cycles between VBlanks to determine console
 		; (3420 cycles on NTSC, 4096 cycles on PAL)
 		rts
@@ -469,34 +462,32 @@ Offset_0x00043A:
 ; ---------------------------------------------------------------------------
 ; Vertical Interrupt (VBlank) master routine
 ; ---------------------------------------------------------------------------
-; Offset_0x00044A:
+
 VBlank:
 		nop
 		movem.l	d0-d7/a0-a6,-(sp)
 		tst.b	(VBlank_Index).w
 		beq.w	VBlank_Lag
 
-Offset_0x000458:
+loc_458:
 		move.w	(VDP_Control_Port).l,d0
 		andi.w	#8,d0
-		beq.s	Offset_0x000458
+		beq.s	loc_458
+
 		move.l	#$40000010,(VDP_Control_Port).l
 		move.l	(Vertical_Scroll_Value).w,(VDP_Data_Port).l
 		btst	#6,(Hardware_Id).w
-		beq.s	Offset_0x000486
+		beq.s	loc_486
 		move.w	#$700,d0
+		dbf	d0,*
 
-Offset_0x000482:
-		dbf	d0,Offset_0x000482
-
-Offset_0x000486:
+loc_486:
 		move.b	(VBlank_Index).w,d0
 		move.b	#0,(VBlank_Index).w
 		move.w	#1,(Horizontal_Interrupt_Flag).w
 		andi.w	#$3E,d0
 		move.w	VBlank_List(pc,d0.w),d0
 		jsr	VBlank_List(pc,d0.w)
-; Offset_0x0004A2:
 VBlank_Finalize:
 		addq.l	#1,(Vint_runcount).w
 		movem.l	(sp)+,d0-d7/a0-a6
@@ -504,7 +495,6 @@ VBlank_Finalize:
 ; End of function VBlank
 
 ; ===========================================================================
-; Offset_0x0004AC:
 VBlank_List:	dc.w VBlank_00-VBlank_List
 		dc.w VBlank_SEGA-VBlank_List
 		dc.w VBlank_Title-VBlank_List
@@ -524,10 +514,9 @@ VBlank_List:	dc.w VBlank_00-VBlank_List
 ; VBlank Routine 0 - run when a frame ends before it reaches WaitForVBlank
 ; (in other words, update when lag)
 ; ---------------------------------------------------------------------------
-; Offset_0x0004C8:
 VBlank_00:
 		addq.w	#4,sp
-; Offset_0x0004CA: Default_VBlank:
+; Default_VBlank:
 VBlank_Lag:
 		addq.w	#1,(VBlank_0_Run_Count).w
 		cmpi.b	#$80|gm_DemoMode,(Game_Mode).w
