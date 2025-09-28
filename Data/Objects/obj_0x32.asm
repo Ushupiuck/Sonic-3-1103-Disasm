@@ -28,7 +28,7 @@ Offset_0x0223B8:
 Offset_0x0223C6:
 				move.w	D1, Obj_Control_Var_04(A0)						 ; $0034
 				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
-				bne		Offset_0x022498
+				bne.w	Offset_0x022498
 				move.l	#Offset_0x0225B2, (A1)
 				move.l	Obj_Map(A0), Obj_Map(A1)				  ; $000C, $000C
 				move.w	Obj_Art_VRAM(A0), Obj_Art_VRAM(A1)		  ; $000A, $000A
@@ -112,7 +112,7 @@ Offset_0x02250C:
 				move.w	Obj_Control_Var_04(A0), D0						 ; $0034
 				add.w	D0, Obj_Control_Var_08(A0)						 ; $0038
 Offset_0x022514:
-				bsr		Offset_0x0225B8
+				bsr.w	Offset_0x0225B8
 				bra.s	Offset_0x022536
 ;-------------------------------------------------------------------------------
 Offset_0x02251A:
@@ -121,7 +121,7 @@ Offset_0x02251A:
 				move.l	#Offset_0x022684, (A0)
 				move.b	#$0E, Obj_Control_Var_04(A0)					 ; $0034
 				move.l	#Offset_0x02265C, D4
-				bra		Offset_0x0226BE
+				bra.w	Offset_0x0226BE
 Offset_0x022536:
 				move.w	#$0013, D1
 				move.w	#$0060, D2

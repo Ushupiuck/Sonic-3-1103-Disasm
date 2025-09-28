@@ -17,7 +17,7 @@
 				neg.w	D0
 Offset_0x02BF12:
 				move.w	D0, Obj_Speed_X(A0)								 ; $0018
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x02BF2E
 				move.l	#Obj_0x5B_MGz_Blue_Spinning_Platform, (A1) ; Offset_0x02B19A
 				move.b	#$01, Obj_Subtype(A1)							 ; $002C
@@ -36,7 +36,7 @@ Offset_0x02BF34:
 Offset_0x02BF58:
 				move.l	#Offset_0x02BF64, (A0)
 Offset_0x02BF5E:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x02BF64:
 				move.w	Obj_Control_Var_0E(A0), A1						 ; $003E
@@ -61,7 +61,7 @@ Offset_0x02BF9A:
 				bclr	#$01, Obj_Status(A1)							 ; $002A
 				move.b	#$00, Obj_Subtype(A1)							 ; $002C
 Offset_0x02BFB8:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;===============================================================================
 ; Objeto 0x5C - Base da plataforma em forma de pião giratória na Marble Garden.
 ; <<<-

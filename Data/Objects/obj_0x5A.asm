@@ -20,7 +20,7 @@
 				lsl.w	#$03, D0
 				move.w	D0, Obj_Control_Var_10(A0)						 ; $0040
 				move.w	D0, Obj_Control_Var_0C(A0)						 ; $003C
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02ADD2
 				move.l	#Offset_0x02B0C0, (A1)
 				move.l	Obj_Map(A0), Obj_Map(A1)				  ; $000C, $000C
@@ -112,7 +112,7 @@ Offset_0x02AE66:
 Offset_0x02AE6C:
 				bsr.w	Offset_0x02AFF4
 				bsr.w	Offset_0x02AE7A
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x02AE7A:
 				lea		Obj_Control_Var_08(A0), A2						 ; $0038
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
@@ -171,7 +171,7 @@ Offset_0x02AF32:
 				tst.b	$0002(A2)
 				beq.s	Offset_0x02AF40
 				subq.b	#$01, $0002(A2)
-				bne		Offset_0x02AFF2
+				bne.w	Offset_0x02AFF2
 Offset_0x02AF40:
 				move.w	Obj_X(A0), D2									 ; $0010
 				move.w	Obj_Y(A0), D3									 ; $0014
@@ -299,7 +299,7 @@ Offset_0x02B0A4:
 ;-------------------------------------------------------------------------------
 Offset_0x02B0C0:
 				move.w	Obj_Sub_X(A0), D0								 ; $0012
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;-------------------------------------------------------------------------------
 Pulley_Mappings:											   ; Offset_0x02B0CA
 				dc.w	Offset_0x02B0D8-Pulley_Mappings

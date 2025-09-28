@@ -86,7 +86,7 @@ Offset_0x0292BA:
 				moveq	#$01, D0
 				move.w	A1, A3
 				jsr		(Add_Points).l							 ; Offset_0x007AEC
-				jsr		(AllocateObject)					 ; Offset_0x011DD8
+				jsr		(AllocateObject).l					 ; Offset_0x011DD8
 				bne.s	Offset_0x0292E4
 				move.l	#Obj_Enemy_Points, (A1)				   ; Offset_0x023E42
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -96,21 +96,21 @@ Offset_0x0292E4:
 				rts
 Offset_0x0292E6:
 				lea		(Bumper_Animate_Data).l, A1				 ; Offset_0x0293C6
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
 				bhi.s	Offset_0x029310
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x029310:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x02931C
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x02931C:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x029322:
 				tst.b	Obj_Col_Prop(A0)								 ; $0029
 				beq.w	Offset_0x0293AE
@@ -152,9 +152,9 @@ Offset_0x02934E:
 				rts
 Offset_0x0293AE:
 				lea		(Bumper_Animate_Data).l, A1				 ; Offset_0x0293C6
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Bumper_Animate_Data:										   ; Offset_0x0293C6
 				dc.w	Offset_0x0293CA-Bumper_Animate_Data

@@ -161,7 +161,7 @@ Offset_0x034D62:
 Offset_0x034D64:
 		addq.b	#$02, Obj_Routine(A0)					; $0005
 		add.w	D1, Obj_Y(A0)					; $0014
-		bra		Offset_0x034CE2
+		bra.w	Offset_0x034CE2
 ;-------------------------------------------------------------------------------
 Offset_0x034D70:
 		jmp		(AnimateRaw)				  ; Offset_0x04208E
@@ -173,7 +173,7 @@ Knuckles_In_Carnival_Night_2_Lamp:					 ; Offset_0x034D76
 		move.b	Obj_Routine(A0), D0					  ; $0005
 		move.w	Offset_0x034DA2(PC, D0), D1
 		jsr		Offset_0x034DA2(PC, D1)
-		bsr		Offset_0x035538
+		bsr.w	Offset_0x035538
 		lea		Knuckles_PLC_Data(PC), A2			   ; Offset_0x0355A4
 		jsr		(LoadDynamicPLC)		  ; Offset_0x042A0A
 		jmp		(Check_Delete_Touch_Slotted)		   ; Offset_0x042C1E
@@ -222,7 +222,7 @@ Offset_0x034E04:
 ;-------------------------------------------------------------------------------
 Offset_0x034E2E:
 		subq.w	#$04, Obj_X(A0)				  ; $0010
-		lea		(Offset_0x0355B1), A1
+		lea		(Offset_0x0355B1).l, A1
 		jsr		(Animate_Raw_A1)			   ; Offset_0x042092
 		jmp		(Run_Object_Wait_Timer_A0)			   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
@@ -235,11 +235,11 @@ Offset_0x034E44:
 ;-------------------------------------------------------------------------------
 Offset_0x034E60:
 		move.b	#$08, Obj_Routine(A0)					; $0005
-		bra		Offset_0x034D0C
+		bra.w	Offset_0x034D0C
 ;-------------------------------------------------------------------------------
 Offset_0x034E6A:
 		tst.b	Obj_Flags(A0)					; $0004
-		bmi		Offset_0x034CF8
+		bmi.w	Offset_0x034CF8
 		lea		Knuckles_Palette_CNz_Lamp(PC), A1	   ; Offset_0x03560E
 		jsr		(Pal_Load_Line_1)			  ; Offset_0x04314C
 		lea		Offset_0x034E92(PC), A2
@@ -316,7 +316,7 @@ Offset_0x034F76:
 		bset	#$00, Obj_Flags(A0)					  ; $0004
 		move.w	#$FA00, Obj_Speed_Y(A0)				  ; $001A
 		move.w	#$0140, Obj_Speed_X(A0)				  ; $0018
-		bra		Offset_0x034D18
+		bra.w	Offset_0x034D18
 ;-------------------------------------------------------------------------------
 Offset_0x034F92:
 		jsr		(AnimateRaw)				  ; Offset_0x04208E
@@ -333,7 +333,7 @@ Offset_0x034F92:
 		move.l	Offset_0x034FF0(PC, D0), Obj_Speed_X(A0)		 ; $0018
 		addq.b	#$04, D0
 		move.b	D0, Obj_Control_Var_09(A0)			   ; $0039
-		bchg	#00, Obj_Flags(A0)					   ; $0004
+		bchg	#0, Obj_Flags(A0)					   ; $0004
 Offset_0x034FCC:
 		rts
 Offset_0x034FCE:
@@ -342,7 +342,7 @@ Offset_0x034FCE:
 		add.w	D1, Obj_Y(A0)					; $0014
 		move.w	#$003F, Obj_Timer(A0)					; $002E
 		move.l	#Offset_0x034FF8, Obj_Child(A0)		  ; $0034
-		bra		Offset_0x034CE2
+		bra.w	Offset_0x034CE2
 ;-------------------------------------------------------------------------------
 Offset_0x034FF0:
 		dc.w	$FF00, $FC00, $0100, $FC00
@@ -352,13 +352,13 @@ Offset_0x034FF8:
 		bset	#$00, Obj_Flags(A0)					  ; $0004
 		move.w	#$FA00, Obj_Speed_Y(A0)				  ; $001A
 		move.w	#$0400, Obj_Speed_X(A0)				  ; $0018
-		bra		Offset_0x034D18
+		bra.w	Offset_0x034D18
 ;-------------------------------------------------------------------------------
 Offset_0x035014:
 		jsr		(AnimateRaw)				  ; Offset_0x04208E
 		jsr		(ObjectFall)				   ; Offset_0x0110FE
 		tst.b	Obj_Flags(A0)					; $0004
-		bmi		Offset_0x034CF8
+		bmi.w	Offset_0x034CF8
 		lea		Knuckles_Palette_CNz_Boss(PC), A1	   ; Offset_0x03562E
 		jsr		(Pal_Load_Line_1)			  ; Offset_0x04314C
 		lea		Offset_0x03504E(PC), A2
@@ -454,7 +454,7 @@ Offset_0x03515E:
 		move.b	#$0A, Obj_Routine(A0)					; $0005
 		move.w	#$007F, Obj_Timer(A0)					; $002E
 		move.l	#Offset_0x035176, Obj_Child(A0)		  ; $0034
-		bra		Offset_0x034CE2
+		bra.w	Offset_0x034CE2
 ;-------------------------------------------------------------------------------
 Offset_0x035176:
 		move.b	#$0C, Obj_Routine(A0)					; $0005
@@ -596,7 +596,7 @@ Offset_0x035348:
 Offset_0x035352:
 		move.b	#$06, Obj_Routine(A0)					; $0005
 		bclr	#$00, Obj_Flags(A0)					  ; $0004
-		bra		Offset_0x034CE2
+		bra.w	Offset_0x034CE2
 ;-------------------------------------------------------------------------------
 Offset_0x035362:
 		tst.b	(Boss_Attack_Started).w			  ; $FFFFFAA2

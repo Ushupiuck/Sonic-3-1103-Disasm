@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x044490:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x0444A8(PC, D0), D1
@@ -31,8 +31,8 @@ Offset_0x0444C8:
 Offset_0x0444D8:
 				jsr		Swing_Up_And_Down_Count(PC)			   ; Offset_0x0423B6
 				bne.s	Offset_0x0444E8
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				bra		Offset_0x0445E8
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				bra.w	Offset_0x0445E8
 Offset_0x0444E8:
 				move.b	#$06, Obj_Routine(A0)							 ; $0005
 				move.w	#$0100, D0
@@ -50,15 +50,15 @@ Offset_0x044508:
 				neg.w	Obj_Speed_X(A0)									 ; $0018
 				bchg	#00, Obj_Flags(A0)								 ; $0004
 Offset_0x044520:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				bra		Offset_0x0445E8
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				bra.w	Offset_0x0445E8
 ;-------------------------------------------------------------------------------
 Offset_0x04452A:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
 				tst.w	D3
 				bne.s	Offset_0x0444C8
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				bra		Offset_0x0445E8
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				bra.w	Offset_0x0445E8
 ;-------------------------------------------------------------------------------
 Offset_0x04453C:
 				moveq	#$00, D0
@@ -66,7 +66,7 @@ Offset_0x04453C:
 				move.w	Offset_0x044552(PC, D0), D1
 				jsr		Offset_0x044552(PC, D1)
 				moveq	#$00, D0
-				jmp		(Child_Display_Touch_Or_Flicker_Move)  ; Offset_0x042520
+				jmp		(Child_Display_Touch_Or_Flicker_Move).l  ; Offset_0x042520
 ;-------------------------------------------------------------------------------
 Offset_0x044552:
 				dc.w	Offset_0x04455C-Offset_0x044552
@@ -110,20 +110,20 @@ Offset_0x044590:
 				move.w	D1, Obj_Timer(A0)								 ; $002E
 				move.l	#Offset_0x0445FE, Obj_Child(A0)					 ; $0034
 				move.w	#$FF00, Obj_Speed_X(A0)							 ; $0018
-				bra		Offset_0x0444C8
+				bra.w	Offset_0x0444C8
 ;-------------------------------------------------------------------------------
 Offset_0x0445BA:
 				lea		Offset_0x04463C(PC), A1
 				jsr		SetupObjectAttributes3(PC)					; Offset_0x041D7A
 				move.l	#Offset_0x0445D6, (A0)
 				move.l	#Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
-				jmp		(Child_Display_Or_Delete)			   ; Offset_0x04245C
+				jmp		(Child_Display_Or_Delete).l			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
 Offset_0x0445D6:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
 				lea		Offset_0x044652(PC), A1
 				jsr		Animate_Raw_Multi_Delay_A1(PC)		   ; Offset_0x042160
-				jmp		(Child_Display_Or_Delete)			   ; Offset_0x04245C
+				jmp		(Child_Display_Or_Delete).l			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
 Offset_0x0445E8:
 				cmpi.l	#Offset_0x04453C, (A0)

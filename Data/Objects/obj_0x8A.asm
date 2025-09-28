@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x048BCE:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x048BE6(PC, D0), D1
@@ -17,7 +17,7 @@ Offset_0x048BE6:
 ;-------------------------------------------------------------------------------
 Offset_0x048BEC:
 				lea		Corkey_Setup_Data(PC), A1			   ; Offset_0x048D86
-				jsr		(SetupObjectAttributes)						 ; Offset_0x041D72
+				jsr		(SetupObjectAttributes).l						 ; Offset_0x041D72
 				moveq	#-$01, D0
 				btst	#$00, Obj_Flags(A0)								 ; $0004
 				beq.s	Offset_0x048C02
@@ -30,7 +30,7 @@ Offset_0x048C02:
 				add.b	D0, D0
 				move.b	D0, Obj_Subtype(A0)								 ; $002C
 				lea		Offset_0x048DA0(PC), A2
-				jsr		(SetupChildObject)				   ; Offset_0x041D9A
+				jsr		(SetupChildObject).l				   ; Offset_0x041D9A
 Offset_0x048C26:
 				jsr		(PseudoRandomNumber).l					 ; Offset_0x001AFA
 				andi.w	#$003F, D0
@@ -82,7 +82,7 @@ Offset_0x048C96:
 ;-------------------------------------------------------------------------------
 Offset_0x048C9E:
 				lea		Corkey_Setup_Data_2(PC), A1			   ; Offset_0x048D92
-				jmp		(SetupObjectAttributes3)					; Offset_0x041D7A
+				jmp		(SetupObjectAttributes3).l					; Offset_0x041D7A
 ;-------------------------------------------------------------------------------
 Offset_0x048CA8:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
@@ -109,17 +109,17 @@ Offset_0x048CF0:
 				rts
 Offset_0x048CF2:
 				lea		Offset_0x048DA8(PC), A2
-				jsr		(SetupChildObject)				   ; Offset_0x041D9A
+				jsr		(SetupChildObject).l				   ; Offset_0x041D9A
 				move.l	#Offset_0x048DC5, Obj_Child_Data(A1)			 ; $0030
 				rts
 Offset_0x048D06:
 				lea		Offset_0x048DB0(PC), A2
-				jsr		(SetupChildObject)				   ; Offset_0x041D9A
+				jsr		(SetupChildObject).l				   ; Offset_0x041D9A
 				move.l	#Offset_0x048DCE, Obj_Child_Data(A1)			 ; $0030
 				rts
 Offset_0x048D1A:
 				lea		Offset_0x048DB8(PC), A2
-				jsr		(SetupChildObject)				   ; Offset_0x041D9A
+				jsr		(SetupChildObject).l				   ; Offset_0x041D9A
 				move.l	#Offset_0x048DD7, Obj_Child_Data(A1)			 ; $0030
 				rts
 ;-------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ Offset_0x048D4E:
 ;-------------------------------------------------------------------------------
 Offset_0x048D66:
 				lea		Corkey_Setup_Data_3(PC), A1			   ; Offset_0x048D98
-				jsr		(SetupObjectAttributes2)					; Offset_0x041D76
+				jsr		(SetupObjectAttributes2).l					; Offset_0x041D76
 				move.l	#Offset_0x048D7E, (A0)
 				move.l	#Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
 Offset_0x048D7E:

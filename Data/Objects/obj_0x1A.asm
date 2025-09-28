@@ -11,7 +11,7 @@
 				move.w	#$0200, Obj_Priority(A0)						 ; $0008
 				move.b	#$80, Obj_Control_Var_12(A0)					 ; $0042
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01E058
 				move.l	#Offset_0x01E0A8, (A1)
 				move.l	#Unknow_Controled_By_P2_Mappings, Obj_Map(A1) ; Offset_0x01E2AC, $000C
@@ -49,13 +49,13 @@ Offset_0x01E08E:
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
 				bsr.w	Offset_0x01E138
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x01E0A8:
 				move.w	Obj_Control_Var_0C(A0), A1						 ; $003C
 				move.b	Obj_Control_Var_12(A1), Obj_Control_Var_12(A0) ; $0042, $0042
 				bsr.w	Offset_0x01E0BC
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01E0BC:
 				move.b	Obj_Control_Var_12(A0), D0						 ; $0042
 				jsr		(CalcSine).l							 ; Offset_0x001B20
@@ -241,7 +241,7 @@ Offset_0x01E290:
 				sub.w	D0, (A2)
 				move.w	D5, D3
 				bsr.w	Offset_0x01E1B8
-				jmp		(Ride_Object_Set_Ride)				   ; Offset_0x013C80
+				jmp		(Ride_Object_Set_Ride).l				   ; Offset_0x013C80
 Offset_0x01E2AA:
 				rts
 ;-------------------------------------------------------------------------------

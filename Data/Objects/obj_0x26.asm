@@ -106,8 +106,8 @@ Offset_0x0140F6:
 				move.b	#$00, Obj_Player_Spdsh_Flag(A1)					 ; $003D
 Offset_0x0140FC:
 				tst.w	(Debug_Mode_Active).w						 ; $FFFFFFFA
-				beq		MarkObjGone_3						   ; Offset_0x011B3E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				beq.w	MarkObjGone_3						   ; Offset_0x011B3E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01410A:
 				btst	#$02, Obj_Status(A1)							 ; $002A
 				beq.s	Offset_0x014114
@@ -171,13 +171,13 @@ Offset_0x0141A2:
 				btst	#$00, Obj_Flags(A0)								 ; $0004
 				beq.s	Offset_0x0141DA
 				move.b	#$01, Obj_Player_Spdsh_Flag(A1)					 ; $003D
-				bra		Offset_0x01410A
+				bra.w	Offset_0x01410A
 Offset_0x0141DA:
 				move.b	#$00, Obj_Player_Spdsh_Flag(A1)					 ; $003D
 Offset_0x0141E0:
 				tst.w	(Debug_Mode_Active).w						 ; $FFFFFFFA
-				beq		MarkObjGone_3						   ; Offset_0x011B3E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				beq.w	MarkObjGone_3						   ; Offset_0x011B3E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;===============================================================================
 ; Objeto 0x26 - Objeto de controle de giro autom�tico nos t�neis
 ; <<<-

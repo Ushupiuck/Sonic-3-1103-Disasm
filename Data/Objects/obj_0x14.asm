@@ -19,7 +19,7 @@ Obj_0x14_LBz_Trigger_Bridge:								   ; Offset_0x01CBA2
 				tst.b	Obj_Control_Var_04(A0)							 ; $0034
 				bne.s	Offset_0x01CBBE
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				beq.s	Offset_0x01CBBE
 				addq.w	#$04, D0
 Offset_0x01CBBE:
@@ -68,10 +68,10 @@ Offset_0x01CC36:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object_2)					   ; Offset_0x0135B6
+				jsr		(Solid_Object_2).l					   ; Offset_0x0135B6
 Offset_0x01CC66:
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;-------------------------------------------------------------------------------
 Offset_0x01CC70:
 				dc.w	Offset_0x01CC7C-Offset_0x01CC70
@@ -85,12 +85,12 @@ Offset_0x01CC7C:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				beq.s	Offset_0x01CCD4
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				move.w	#$0007, Obj_Control_Var_08(A0)					 ; $0038
 				addq.w	#$02, Obj_Control_Var_06(A0)					 ; $0036
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01CCD4
 				move.l	#Obj_0x14_LBz_Trigger_Bridge, (A1)	   ; Offset_0x01CBA2
 				move.w	Obj_Control_Var_00(A0), Obj_X(A1)		  ; $0030, $0010
@@ -132,12 +132,12 @@ Offset_0x01CD0A:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				bne.s	Offset_0x01CD62
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				move.w	#$0007, Obj_Control_Var_08(A0)					 ; $0038
 				addq.w	#$02, Obj_Control_Var_06(A0)					 ; $0036
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01CD62
 				move.l	#Obj_0x14_LBz_Trigger_Bridge, (A1)	   ; Offset_0x01CBA2
 				move.w	Obj_Control_Var_00(A0), Obj_X(A1)		  ; $0030, $0010

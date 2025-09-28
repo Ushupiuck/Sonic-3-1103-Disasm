@@ -69,12 +69,12 @@ Offset_0x0212DE:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.b	Obj_Status(A0), D0								 ; $002A
 				andi.w	#$0018, D0
 				bne.s	Offset_0x02131E
 Offset_0x021318:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x02131E:
 				cmpi.b	#$18, D0
 				bne.s	Offset_0x02134C
@@ -126,15 +126,15 @@ Offset_0x0213B4:
 				move.l	Obj_Control_Var_0C(A0), A4						 ; $003C
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				move.l	#Offset_0x0213D4, (A0)
-				jsr		(Offset_0x017372)
+				jsr		(Offset_0x017372).l
 Offset_0x0213D4:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0018, Obj_Speed_Y(A0)							 ; $001A
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x0213EE
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0213EE:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x0213F4:
 				move.w	(Obj_Player_One+Obj_Speed_Y).w, Obj_Control_Var_00(A0) ; $FFFFB01A, $0030
 				move.w	(Obj_Player_Two+Obj_Speed_Y).w, Obj_Control_Var_02(A0) ; $FFFFB064, $0032
@@ -146,11 +146,11 @@ Offset_0x0213F4:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				swap	D6
 				andi.w	#$000C, D6
 				bne.s	Offset_0x02142C
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x02142C:
 				move.b	D6, D0
 				andi.b	#$04, D0
@@ -169,7 +169,7 @@ Offset_0x021450:
 				move.w	Obj_Control_Var_02(A0), Obj_Speed_Y(A1)	  ; $0032, $001A
 				bra.s	Offset_0x021468
 Offset_0x021462:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x021468:
 				btst	#$03, Obj_Status(A0)							 ; $002A
 				beq.s	Offset_0x021480
@@ -186,7 +186,7 @@ Offset_0x021498:
 				move.l	Obj_Control_Var_0C(A0), A4						 ; $003C
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				move.l	#Offset_0x0213D4, (A0)
-				jsr		(Offset_0x017372)
+				jsr		(Offset_0x017372).l
 				bra.w	Offset_0x0213D4
 Offset_0x0214B0:
 				move.w	(Enemy_Hit_Chain_Count).w, Obj_Control_Var_08(A0) ; $FFFFF7D0, $0038
@@ -199,12 +199,12 @@ Offset_0x0214B0:
 				moveq	#$00, D2
 				move.b	Obj_Height(A0), D2								 ; $0006
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object_4)					   ; Offset_0x0136C6
+				jsr		(Solid_Object_4).l					   ; Offset_0x0136C6
 				move.b	Obj_Status(A0), D0								 ; $002A
 				andi.b	#$18, D0
 				bne.s	Offset_0x0214F2
 Offset_0x0214EC:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x0214F2:
 				cmpi.b	#$18, D0
 				bne.s	Offset_0x021556
@@ -294,7 +294,7 @@ Offset_0x0215F2:
 				add.w	D0, D0
 				lea		(A4, D0), A4
 				move.l	#Offset_0x0213D4, (A0)
-				jsr		(Offset_0x017372)
+				jsr		(Offset_0x017372).l
 				bra.w	Offset_0x0213D4
 ;-------------------------------------------------------------------------------
 Offset_0x021628:

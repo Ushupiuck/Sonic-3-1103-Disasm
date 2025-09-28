@@ -17,7 +17,7 @@ Offset_0x01C8C2:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				lea		$00(A3, D0), A3
+				lea		(A3, D0), A3
 				moveq	#$00, D3
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				bclr	#$00, Obj_Col_Prop(A0)							 ; $0029
@@ -29,7 +29,7 @@ Offset_0x01C8EA:
 				beq.s	Offset_0x01C8F8
 				bsr.s	Offset_0x01C8FE
 Offset_0x01C8F8:
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 Offset_0x01C8FE:
 				cmpi.b	#$02, Obj_Ani_Number(A1)						 ; $0020
 				bne.s	Offset_0x01C924

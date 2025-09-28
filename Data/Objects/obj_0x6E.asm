@@ -22,7 +22,7 @@ Offset_0x02E0E6:
 				move.w	D0, Obj_Control_Var_00(A0)						 ; $0030
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.s	Offset_0x02E122
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02E122
 				moveq	#$2C, D0
 Offset_0x02E10A:
@@ -33,14 +33,14 @@ Offset_0x02E10A:
 				move.b	#$C7, Obj_Col_Flags(A1)							 ; $0028
 				moveq	#$00, D0
 Offset_0x02E122:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x02E128:
 				tst.b	Obj_Routine(A0)									 ; $0005
 				beq.s	Offset_0x02E162
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0008, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x02E162
 				add.w	D1, Obj_Y(A0)									 ; $0014
@@ -51,10 +51,10 @@ Offset_0x02E128:
 				clr.b	Obj_Ani_Frame(A0)								 ; $0023
 Offset_0x02E162:
 				lea		(Waterfall_Animate_Data).l, A1			 ; Offset_0x02E1D6
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				cmpi.b	#$04, Obj_Routine(A0)							 ; $0005
 				bne.s	Offset_0x02E17C
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x02E17C:
 				tst.b	Obj_Col_Prop(A0)								 ; $0029
 				beq.s	Offset_0x02E1A2
@@ -70,8 +70,8 @@ Offset_0x02E190:
 Offset_0x02E19E:
 				clr.b	Obj_Col_Prop(A0)								 ; $0029
 Offset_0x02E1A2:
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02E1AE:
 				cmpi.b	#$05, Obj_Ani_Number(A2)						 ; $0020
 				bne.s	Offset_0x02E1BC

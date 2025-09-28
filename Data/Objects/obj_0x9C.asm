@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x044946:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04495E(PC, D0), D1
@@ -56,7 +56,7 @@ Offset_0x0449DE:
 				beq.s	Offset_0x044A10
 Offset_0x0449E2:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 				jmp		Run_Object_Hit_Floor_D3_A0(PC)		   ; Offset_0x0423F8
 ;-------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ Offset_0x044A58:
 ;-------------------------------------------------------------------------------
 Offset_0x044A6E:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Hit_Floor_D3_A0(PC)		   ; Offset_0x0423F8
 ;-------------------------------------------------------------------------------
 Offset_0x044A7C:
@@ -163,7 +163,7 @@ Offset_0x044B08:
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X_Y(PC) ; Offset_0x042B96
 ;-------------------------------------------------------------------------------
 Offset_0x044B1E:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X_Y(PC) ; Offset_0x042B96
 ;-------------------------------------------------------------------------------
 Offset_0x044B28:
@@ -180,7 +180,7 @@ Offset_0x044B3A:
 				bsr.w	Offset_0x044B62
 				bchg	#00, Obj_Control_Var_08(A0)						 ; $0038
 				beq.w	Offset_0x044A0E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x044B5E:
 				jmp		Go_Delete_Object_A0(PC)				   ; Offset_0x042D3E
 Offset_0x044B62:
@@ -207,11 +207,11 @@ Offset_0x044B94:
 				move.l	#Offset_0x044BB8, (A0)
 				move.l	#Offset_0x044CA2, Obj_Child_Data(A0)			 ; $0030
 				move.l	#Go_Delete_Object_A0, Obj_Child(A0) ; Offset_0x042D3E, $0034
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x044BB8:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x044BC2:
 				lea		Turbo_Spiker_Setup_Data_5(PC), A1	   ; Offset_0x044C44
@@ -232,7 +232,7 @@ Offset_0x044BE0:
 ;-------------------------------------------------------------------------------
 Offset_0x044BF8:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x044C02:
 				move.l	#Offset_0x044C10, (A0)
@@ -245,7 +245,7 @@ Offset_0x044C10:
 				bne.s	Offset_0x044C20
 				jmp		Child_Display_Or_Delete(PC)			   ; Offset_0x04245C
 Offset_0x044C20:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Turbo_Spiker_Setup_Data:									   ; Offset_0x044C26
 				dc.l	Turbo_Spiker_Mappings				   ; Offset_0x10E1AC

@@ -20,12 +20,12 @@ Offset_0x01E306:
 				move.w	#$0020, D2
 				move.w	#$0021, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.b	Obj_Status(A0), D0								 ; $002A
 				andi.b	#$60, D0
 				bne.s	Offset_0x01E338
 Offset_0x01E332:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01E338:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				move.w	Obj_Control_Var_00(A0), D1						 ; $0030
@@ -83,7 +83,7 @@ Offset_0x01E3EA:
 				beq.s	Offset_0x01E44E
 				cmpi.b	#$1F, D1
 				beq.s	Offset_0x01E422
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01E44E
 				move.l	#Obj_Automatic_Tunnel_Delayed, (A1)	   ; Offset_0x0201B8
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -91,7 +91,7 @@ Offset_0x01E3EA:
 				move.b	#$07, Obj_Ani_Time(A1)							 ; $0024
 				move.b	D1, Obj_Subtype(A1)								 ; $002C
 Offset_0x01E422:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01E44E
 				move.l	#Obj_Tunnel_Exhaust_Control, (A1)	   ; Offset_0x02044E
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -103,13 +103,13 @@ Offset_0x01E44E:
 				move.l	#Offset_0x01E456, (A0)
 				bsr.s	Offset_0x01E4B6
 Offset_0x01E456:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0018, Obj_Speed_Y(A0)							 ; $001A
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x01E470
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01E470:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x01E476:
 				moveq	#$00, D0
@@ -119,11 +119,11 @@ Offset_0x01E476:
 				bcs.s	Offset_0x01E490
 				move.b	#$00, Obj_Ani_Frame(A0)							 ; $0023
 Offset_0x01E490:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0018, Obj_Speed_Y(A0)							 ; $001A
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x01E470
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x01E4AA:
 				dc.b	$00, $01, $02, $03, $05, $00
@@ -141,8 +141,8 @@ Offset_0x01E4B6:
 				move.b	Obj_Flags(A0), D5								 ; $0004
 				moveq	#$0B, D1
 Offset_0x01E4DC:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
-				bne		Offset_0x01E594
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
+				bne.w	Offset_0x01E594
 				move.l	D4, (A1)
 				move.l	A3, Obj_Map(A1)									 ; $000C
 				move.b	D5, Obj_Flags(A1)								 ; $0004
@@ -177,7 +177,7 @@ Offset_0x01E4DC:
 				bra.s	Offset_0x01E560
 ;-------------------------------------------------------------------------------
 Offset_0x01E556:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x01E594
 				addq.w	#$06, A3
 Offset_0x01E560:

@@ -62,7 +62,7 @@ Offset_0x01F6A0:
 				moveq	#$04, D6
 				bsr.w	Offset_0x01F784
 Offset_0x01F6B4:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01F6BA:
 				btst	#$00, Obj_Status(A0)							 ; $002A
 				bne.s	Offset_0x01F722

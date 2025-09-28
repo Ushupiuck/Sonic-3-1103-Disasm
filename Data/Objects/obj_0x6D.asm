@@ -23,7 +23,7 @@
 				move.w	Obj_Y(A0), (A2)+								 ; $0014
 				move.w	#$0505, (A2)+
 				move.l	#Offset_0x02E318, (A0)
-				bra		Offset_0x02E318
+				bra.w	Offset_0x02E318
 Offset_0x02E298:
 				move.l	#Water_Splash_Mappings, Obj_Map(A0) ; Offset_0x02E4D0, $000C
 				move.w	#$43B2, Obj_Art_VRAM(A0)						 ; $000A
@@ -56,7 +56,7 @@ Offset_0x02E2E0:
 				move.w	#$0180, D3
 				jsr		(QueueDMATransfer).l						; Offset_0x0012FC
 Offset_0x02E312:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x02E318:
 				move.w	(Obj_Player_One+Obj_X).w, Obj_X(A0)	  ; $FFFFB010, $0010
 				move.w	(Water_Level_Move).w, Obj_Y(A0)		  ; $FFFFF646, $0014
@@ -85,7 +85,7 @@ Offset_0x02E34A:
 				move.w	#$00C0, D3
 				jsr		(QueueDMATransfer).l						; Offset_0x0012FC
 Offset_0x02E376:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x02E37C:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				lea		Obj_Speed_X(A0), A2								 ; $0018

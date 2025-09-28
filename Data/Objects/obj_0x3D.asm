@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x019EA2:
-				bsr		Obj07_Springs						; Offset_0x01921A
+				bsr.w	Obj07_Springs						; Offset_0x01921A
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				lsr.w	#$03, D0
 				andi.w	#$000E, D0

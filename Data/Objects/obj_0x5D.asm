@@ -23,7 +23,7 @@ Offset_0x02902C:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				moveq	#$03, D6
 				movem.l D1-D4, -(A7)
-				jsr		(Solid_Object_2_A1)					   ; Offset_0x0135CC
+				jsr		(Solid_Object_2_A1).l					   ; Offset_0x0135CC
 				cmpi.b	#$01, D4
 				bne.s	Offset_0x029076
 				btst	#$01, Obj_Status(A1)							 ; $002A
@@ -41,7 +41,7 @@ Offset_0x029076:
 				movem.l (A7)+, D1-D4
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				moveq	#$04, D6
-				jsr		(Solid_Object_2_A1)					   ; Offset_0x0135CC
+				jsr		(Solid_Object_2_A1).l					   ; Offset_0x0135CC
 				cmpi.b	#$01, D4
 				bne.s	Offset_0x0290AE
 				btst	#$01, Obj_Status(A1)							 ; $002A

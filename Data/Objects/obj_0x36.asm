@@ -33,7 +33,7 @@ Obj_0x36_Hz_Breakable_Bar:									   ; Offset_0x0143B2
 				addq.b	#$04, D0
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
 				move.l	#Offset_0x0145F0, (A0)
-				bra		Offset_0x0145F0
+				bra.w	Offset_0x0145F0
 Offset_0x01441A:
 				moveq	#$00, D0
 				move.b	(A1)+, D0
@@ -52,7 +52,7 @@ Offset_0x01443C:
 				tst.w	(A2)
 				beq.s	Offset_0x014452
 				subq.w	#$01, Obj_Control_Var_00(A0)					 ; $0030
-				beq		Offset_0x014578
+				beq.w	Offset_0x014578
 Offset_0x014452:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				move.w	(Control_Ports_Buffer_Data).w, D1			 ; $FFFFF604
@@ -64,8 +64,8 @@ Offset_0x014452:
 				moveq	#$01, D2
 				bsr.s	Offset_0x014478
 				tst.b	Obj_Control_Var_0A(A0)							 ; $003A
-				bne		Offset_0x014578
-				bra		MarkObjGone							   ; Offset_0x011AF2
+				bne.w	Offset_0x014578
+				bra.w	MarkObjGone							   ; Offset_0x011AF2
 Offset_0x014478:
 				tst.b	(A2)
 				beq.s	Offset_0x0144DA
@@ -87,7 +87,7 @@ Offset_0x014498:
 				move.w	D0, Obj_Y(A1)									 ; $0014
 Offset_0x0144B0:
 				andi.w	#$0070, D1
-				beq		Offset_0x014576
+				beq.w	Offset_0x014576
 				clr.b	(A2)
 				move.b	#$3C, $0002(A2)
 				bclr	D2, (Wind_Tunnels_Flag).w					 ; $FFFFF7C7
@@ -169,19 +169,19 @@ Offset_0x014590:
 				move.b	Obj_Height(A0), D1								 ; $0006
 				lsr.w	#$02, D1
 				subq.w	#$01, D1
-				bsr		Offset_0x014814
+				bsr.w	Offset_0x014814
 Offset_0x0145CA:
 				tst.b	Obj_Control_Var_0F(A0)							 ; $003F
 				beq.s	Offset_0x0145D6
 				subq.b	#$01, Obj_Control_Var_0F(A0)					 ; $003F
 				bra.s	Offset_0x0145E2
 Offset_0x0145D6:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0008, Obj_Speed_Y(A0)							 ; $001A
 Offset_0x0145E2:
 				tst.b	Obj_Flags(A0)									 ; $0004
-				bpl		Offset_0x014266
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				bpl.w	Offset_0x014266
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0145F0:
 				lea		Obj_Control_Var_02(A0), A2						 ; $0032
 				tst.w	Obj_Control_Var_00(A0)							 ; $0030
@@ -189,7 +189,7 @@ Offset_0x0145F0:
 				tst.w	(A2)
 				beq.s	Offset_0x014606
 				subq.w	#$01, Obj_Control_Var_00(A0)					 ; $0030
-				beq		Offset_0x014726
+				beq.w	Offset_0x014726
 Offset_0x014606:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				move.w	(Control_Ports_Buffer_Data).w, D1			 ; $FFFFF604
@@ -201,8 +201,8 @@ Offset_0x014606:
 				moveq	#$01, D2
 				bsr.s	Offset_0x01462C
 				tst.b	Obj_Control_Var_0A(A0)							 ; $003A
-				bne		Offset_0x014726
-				bra		MarkObjGone							   ; Offset_0x011AF2
+				bne.w	Offset_0x014726
+				bra.w	MarkObjGone							   ; Offset_0x011AF2
 Offset_0x01462C:
 				tst.b	(A2)
 				beq.s	Offset_0x01468E
@@ -224,7 +224,7 @@ Offset_0x01464C:
 				move.w	D0, Obj_X(A1)									 ; $0010
 Offset_0x014664:
 				andi.w	#$0070, D1
-				beq		Offset_0x014724
+				beq.w	Offset_0x014724
 				clr.b	(A2)
 				move.b	#$3C, $0002(A2)
 				bclr	D2, (Wind_Tunnels_Flag).w					 ; $FFFFF7C7
@@ -305,8 +305,8 @@ Offset_0x01473E:
 				move.b	Obj_Width(A0), D1								 ; $0007
 				lsr.w	#$02, D1
 				subq.w	#$01, D1
-				bsr		Offset_0x014814
-				bra		Offset_0x0145CA
+				bsr.w	Offset_0x014814
+				bra.w	Offset_0x0145CA
 ;-------------------------------------------------------------------------------
 Offset_0x01477C:
 				dc.b	$07, $05, $02, $00, $01, $03, $04, $06
@@ -333,7 +333,7 @@ Offset_0x014814:
 				bra.s	Offset_0x01482C
 ;-------------------------------------------------------------------------------
 Offset_0x014824:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x014886
 Offset_0x01482C:
 				move.l	(A0), (A1)

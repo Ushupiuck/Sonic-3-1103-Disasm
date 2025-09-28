@@ -65,7 +65,7 @@ Offset_0x01F940:
 				addq.w	#$01, A2
 				move.w	(Control_Ports_Buffer_Data+$02).w, D0		 ; $FFFFF606
 				bsr.w	Offset_0x01F964
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01F964:
 				tst.b	(A2)
 				beq.w	Offset_0x01F9DC

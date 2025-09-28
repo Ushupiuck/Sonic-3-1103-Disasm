@@ -182,7 +182,7 @@ Offset_0x00D354:
 Offset_0x00D398:
 		rts
 Offset_0x00D39A:
-		lea	(Player_Start_Speed_Array), A1		   ; Offset_0x1F7000
+		lea	(Player_Start_Speed_Array).l, A1		   ; Offset_0x1F7000
 		moveq	#$00, D0
 		move.b	Obj_Player_Selected(A0), D0				 ; $0038
 		lsl.w	#$03, D0

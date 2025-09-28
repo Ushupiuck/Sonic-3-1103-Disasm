@@ -83,8 +83,8 @@ Offset_0x026FB0:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x026FD4:
 				move.w	Obj_X(A1), D0									 ; $0010
 				cmp.w	D2, D0
@@ -197,8 +197,8 @@ Offset_0x027116:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x02713A:
 				move.w	Obj_Y(A1), D0									 ; $0014
 				cmp.w	D2, D0

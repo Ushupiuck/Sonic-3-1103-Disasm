@@ -11,7 +11,7 @@
 				move.b	#$08, Obj_Height(A0)							 ; $0006
 				move.w	Obj_Y(A0), Obj_Control_Var_02(A0)		  ; $0014, $0032
 				bset	#$07, Obj_Status(A0)							 ; $002A
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02C054
 				move.l	#Offset_0x02C0D4, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -20,7 +20,7 @@
 				addi.w	#$000C, Obj_Y(A1)								 ; $0014
 				move.b	#$A6, Obj_Col_Flags(A1)							 ; $0028
 				move.w	A0, Obj_Control_Var_0E(A1)						 ; $003E
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02C054
 				move.l	#Offset_0x02C0EA, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -64,22 +64,22 @@ Offset_0x02C09A:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				andi.b	#$03, Obj_Map_Id(A0)							 ; $0022
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02C0D4:
 				move.w	Obj_Control_Var_0E(A0), A1						 ; $003E
 				move.w	Obj_Y(A1), Obj_Y(A0)					  ; $0014, $0014
 				addi.w	#$0008, Obj_Y(A0)								 ; $0014
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 ;-------------------------------------------------------------------------------
 Offset_0x02C0EA:
 				move.w	Obj_Control_Var_0E(A0), A1						 ; $003E
 				move.w	Obj_Y(A1), Obj_Y(A0)					  ; $0014, $0014
 				addi.w	#$0010, Obj_Y(A0)								 ; $0014
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 ;-------------------------------------------------------------------------------
 Blade_Platform_Mappings:									   ; Offset_0x02C100
 				dc.w	Offset_0x02C108-Blade_Platform_Mappings

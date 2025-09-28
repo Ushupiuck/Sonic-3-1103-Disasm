@@ -1274,10 +1274,10 @@ sndDriverInput:
 ; which handled its sound queues on the 68000-side; it seems like the devs
 ; retained this system when switching over to the new driver before a Z80-led
 ; sound input system could be implemented. Sonic CD uses a similar system.
-		move.b	(Sound_Queue.Music0).w,(Z80_RAM_Start+zMusicNumber).l
-		move.b	(Sound_Queue.SFX0).w,(Z80_RAM_Start+zSFXNumber0).l
-		move.b	(Sound_Queue.SFX1).w,(Z80_RAM_Start+zSFXNumber1).l
-		move.b	(Sound_Queue.Music1).w,(Z80_RAM_Start+zPauseFlag).l
+		move.b	(Sound_Queue.Music0).w,(Z80_RAM+zMusicNumber).l
+		move.b	(Sound_Queue.SFX0).w,(Z80_RAM+zSFXNumber0).l
+		move.b	(Sound_Queue.SFX1).w,(Z80_RAM+zSFXNumber1).l
+		move.b	(Sound_Queue.Music1).w,(Z80_RAM+zPauseFlag).l
 		moveq	#0,d0
 		move.l	d0,(Sound_Queue).w	; clear whole queue
 		rts
@@ -1340,8 +1340,8 @@ Offset_0x000F24:
 ; ->>>
 ;===============================================================================
 VDPRegSetup:												   ; Offset_0x000F52
-		lea	(VDP_Control_Port),a0						; $00C00004
-		lea	(VDP_Data_Port),a1							; $00C00000
+		lea	(VDP_Control_Port).l,a0						; $00C00004
+		lea	(VDP_Data_Port).l,a1							; $00C00000
 		lea	(VDPRegSetup_Array).l,a2				; Offset_0x000FDC
 		moveq	#bytesToWcnt(VDPRegSetup_Array_End-VDPRegSetup_Array),d7
 Offset_0x000F66:
@@ -1494,7 +1494,7 @@ SoundDriverLoad:
 		move.w	#$100,(Z80_Reset).l		; release Z80 reset
 		; load SMPS sound driver
 		lea	(Z80_Driver).l,a0
-		lea	(Z80_RAM_Start).l,a1
+		lea	(Z80_RAM).l,a1
 		move.w	#Z80_Driver_End-Z80_Driver-1,d0
 
 Offset_0x001128:
@@ -1502,7 +1502,7 @@ Offset_0x001128:
 		dbf	d0,Offset_0x001128
 		; load default variables
 		lea	(Z80_DefaultVariables).l,a0
-		lea	(Z80_RAM_Start+zDataStart).l,a1
+		lea	(Z80_RAM+zDataStart).l,a1
 		move.w	#Z80_DefaultVariables_End-Z80_DefaultVariables-1,d0
 
 Offset_0x00113E:
@@ -1512,7 +1512,7 @@ Offset_0x00113E:
 		; Detect PAL region consoles
 		btst	#6,(Hardware_Id).w
 		beq.s	.notpal
-		move.b	#1,(Z80_RAM_Start+zPalFlag).l
+		move.b	#1,(Z80_RAM+zPalFlag).l
 
 .notpal:
 	endif
