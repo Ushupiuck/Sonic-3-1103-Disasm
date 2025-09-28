@@ -216,7 +216,7 @@ Offset_0x03DF46:
 Offset_0x03DF58:
 				move.b	Obj_Speed_X(A0), D0								 ; $0018
 				add.b	D0, Obj_Control_Var_12(A0)						 ; $0042
-				move.b	(Obj_Speed_X+$01)(A0), D0						 ; $0019
+				move.b	Obj_Speed_X+$01(A0), D0						 ; $0019
 				add.b	D0, Obj_Control_Var_13(A0)						 ; $0043
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------

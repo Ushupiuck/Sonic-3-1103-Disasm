@@ -313,7 +313,7 @@ Offset_0x041406:
 Offset_0x04140E:
 				andi.w	#$0003, D0
 				add.w	D0, D0
-				move.w	(Offset_0x041446-$02)(PC, D0), A2
+				move.w	Offset_0x041446-$02(PC, D0), A2
 				neg.w	Obj_Speed_X(A2)									 ; $0018
 				neg.w	Obj_Speed_Y(A2)									 ; $001A
 				move.b	#$04, Obj_Routine(A0)							 ; $0005

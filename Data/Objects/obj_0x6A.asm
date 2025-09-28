@@ -38,7 +38,7 @@ Offset_0x014BBA:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				bsr		Solid_Object_2						   ; Offset_0x0135B6
+				bsr.w	Solid_Object_2						   ; Offset_0x0135B6
 				move.b	Obj_Status(A0), D6								 ; $002A
 				andi.b	#$18, D6
 				beq.s	Offset_0x014BFE
@@ -46,21 +46,21 @@ Offset_0x014BBA:
 				andi.b	#$08, D0
 				beq.s	Offset_0x014BF0
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x014BF0:
 				andi.b	#$10, D6
 				beq.s	Offset_0x014BFE
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x014BFE:
 				move.w	Obj_X(A0), D0									 ; $0010
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
-				bhi		Offset_0x014266
+				bhi.w	Offset_0x014266
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x014C1E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x014C1E:
 				rts
 ;-------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Offset_0x014C20:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				bsr		Solid_Object_2						   ; Offset_0x0135B6
+				bsr.w	Solid_Object_2						   ; Offset_0x0135B6
 				swap	D6
 				andi.w	#$0003, D6
 				beq.s	Offset_0x014C62
@@ -81,21 +81,21 @@ Offset_0x014C20:
 				andi.b	#$01, D0
 				beq.s	Offset_0x014C54
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x014C54:
 				andi.b	#$02, D6
 				beq.s	Offset_0x014C62
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x014C62:
 				move.w	Obj_X(A0), D0									 ; $0010
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
-				bhi		Offset_0x014266
+				bhi.w	Offset_0x014266
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x014C82
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x014C82:
 				rts
 ;-------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ Offset_0x014C84:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				bsr		Solid_Object_2						   ; Offset_0x0135B6
+				bsr.w	Solid_Object_2						   ; Offset_0x0135B6
 				swap	D6
 				andi.w	#$000C, D6
 				beq.s	Offset_0x014CC6
@@ -116,21 +116,21 @@ Offset_0x014C84:
 				andi.b	#$04, D0
 				beq.s	Offset_0x014CB8
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x014CB8:
 				andi.b	#$08, D6
 				beq.s	Offset_0x014CC6
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x014CC6:
 				move.w	Obj_X(A0), D0									 ; $0010
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
-				bhi		Offset_0x014266
+				bhi.w	Offset_0x014266
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x014CE6
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x014CE6:
 				rts
 ;-------------------------------------------------------------------------------

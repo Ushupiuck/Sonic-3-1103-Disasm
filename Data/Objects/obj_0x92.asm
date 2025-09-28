@@ -202,7 +202,7 @@ Offset_0x04A654:
 				clr.b	Obj_Col_Prop(A0)								 ; $0029
 				andi.w	#$0003, D0
 				lsl.w	#$02, D0
-				lea		(Offset_0x04A692-$04)(PC, D0), A1
+				lea		Offset_0x04A692-$04(PC, D0), A1
 				move.w	(A1)+, A2
 				cmpi.b	#$02, Obj_Ani_Number(A2)						 ; $0020
 				beq		Offset_0x04A45C

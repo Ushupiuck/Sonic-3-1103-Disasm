@@ -28,8 +28,8 @@ Offset_0x010D64:
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
-				bhi		DeleteObject						   ; Offset_0x011138
-				bra		DisplaySprite						   ; Offset_0x011148
+				bhi.w	DeleteObject						   ; Offset_0x011138
+				bra.w	DisplaySprite						   ; Offset_0x011148
 Offset_0x010D7E:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
 				bpl.s	Offset_0x010DC4
@@ -55,7 +55,7 @@ Offset_0x010DC6:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x010DD6:
-				bra		DeleteObject						   ; Offset_0x011138
+				bra.w	DeleteObject						   ; Offset_0x011138
 ;===============================================================================
 ; Objeto 0x7C - Flash do anel gigante usado no Sonic 1 para acesso ao
 ; <<<-			Special Stage não usado (Left over)

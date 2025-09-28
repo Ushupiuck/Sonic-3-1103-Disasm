@@ -268,7 +268,7 @@ Offset_0x0498D0:
 				clr.b	Obj_Col_Prop(A0)								 ; $0029
 				andi.w	#$0003, D0
 				add.w	D0, D0
-				lea		(Offset_0x04991E-$02)(PC, D0), A1
+				lea		Offset_0x04991E-$02(PC, D0), A1
 				move.w	(A1)+, A2
 				tst.b	Obj_Timer(A2)									 ; $002E
 				bne.s	Offset_0x04991C
@@ -296,7 +296,7 @@ Offset_0x049924:
 				clr.b	Obj_Col_Prop(A0)								 ; $0029
 				andi.w	#$0003, D0
 				add.w	D0, D0
-				lea		(Offset_0x04991E-$02)(PC, D0), A1
+				lea		Offset_0x04991E-$02(PC, D0), A1
 				move.w	(A1)+, A2
 				tst.b	Obj_Timer(A2)									 ; $002E
 				bne.s	Offset_0x049970

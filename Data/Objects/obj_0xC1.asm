@@ -20,7 +20,7 @@ Offset_0x047AF2:
                 jmp     Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 Offset_0x047AFE:
                 add.w   D0, D0
-                move.w  (Offset_0x047B2A-$02)(PC, D0), A1
+                move.w  Offset_0x047B2A-$02(PC, D0), A1
                 move.l  A0, A2
                 move.l  A1, A0
                 jsr     (Hurt_Player)                          ; Offset_0x00A3FA

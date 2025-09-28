@@ -143,7 +143,7 @@ Offset_0x044E68:
 				clr.b	Obj_Col_Prop(A0)								 ; $0029
 				andi.w	#$0003, D0
 				lsl.w	#$02, D0
-				lea		(Offset_0x044EFE-$04)(PC, D0), A2
+				lea		Offset_0x044EFE-$04(PC, D0), A2
 				move.w	(A2)+, A1
 				move.w	Obj_Y(A0), D1									 ; $0014
 				sub.w	Obj_Y(A1), D1									 ; $0014

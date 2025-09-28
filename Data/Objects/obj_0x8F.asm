@@ -718,7 +718,7 @@ Offset_0x03CB30:
 Offset_0x03CB3C:
 				moveq	#$00, D0
 				move.b	Obj_Subtype(A0), D0								 ; $002C
-				move.w	(Offset_0x03CB50-$02)(PC, D0), D0
+				move.w	Offset_0x03CB50-$02(PC, D0), D0
 				move.w	D0, Obj_Speed_X(A0)								 ; $0018
 				move.w	D0, Obj_Speed_Y(A0)								 ; $001A
 				rts
@@ -783,7 +783,7 @@ Offset_0x03CBC4:
 				lsr.w	#$01, D1
 				btst	#$00, Obj_Flags(A0)								 ; $0004
 				bne.s	Offset_0x03CBF2
-				move.b	(Offset_0x03CC28-$01)(PC, D1), D3
+				move.b	Offset_0x03CC28-$01(PC, D1), D3
 				sub.b	D2, D0
 				cmp.b	D3, D0
 				bls.s	Offset_0x03CBFC

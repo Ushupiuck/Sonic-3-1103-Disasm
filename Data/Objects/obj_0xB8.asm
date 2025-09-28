@@ -126,7 +126,7 @@ Offset_0x046C48:
 Offset_0x046C4C:
 				moveq	#$00, D0
 				move.b	Obj_Subtype(A0), D0								 ; $002C
-				move.b	(Offset_0x046C5A-$01)(PC, D0), Obj_Routine(A0)	 ; $0005
+				move.b	Offset_0x046C5A-$01(PC, D0), Obj_Routine(A0)	 ; $0005
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x046C5A:
