@@ -44172,10 +44172,12 @@ Offset_0x0EDEB4:
 		include	"sound\sfx\D8 - Slot Machine.asm"
 Offset_0x0EDEDC:
 		include	"sound\sfx\D9 - Signpost.asm"
+	if ~~FixMusicAndSFXDataBugs
 Offset_0x0EDF03:
 		binclude	"data\star trek\part12.bin"
 Left_Over_Code:												   ; Offset_0x0EF1DD
 		binclude	"data\star trek\part13.bin"
+	endif
 SndBank_End
 
 	if SndBank_End - SndBank > $8000
