@@ -44123,7 +44123,7 @@ Offset_0x0ED8FA:
 Offset_0x0ED927:
 		include	"sound\sfx\C0 - Unknown Saw.asm"
 Offset_0x0ED956:
-		binclude	"sound\0xC1.sfx"
+		include	"sound\sfx\C1.asm"
 Offset_0x0ED98E:
 		include	"sound\sfx\C2 - Gravity Lift.asm"
 Offset_0x0ED9BB:
