@@ -44049,17 +44049,17 @@ Offset_0x0ED1FE:
 Buzzer_Sfx_Data:											   ; Offset_0x0ED22B
 		include	"sound\sfx\9B - Alarm.asm"
 Offset_0x0ED258:
-		binclude	"sound\0x9C.sfx"
+		include	"sound\sfx\9C - Death Egg Rise (Loud).asm"
 Offset_0x0ED288:
-		binclude	"sound\0x9D.sfx"
+		include	"sound\sfx\9D - Wind (Quiet).asm"
 Offset_0x0ED2AE:
-		binclude	"sound\0x9E.sfx"
+		include	"sound\sfx\9E - Wind (Loud).asm"
 Offset_0x0ED2D4:
-		binclude	"sound\0x9F.sfx"
+		include	"sound\sfx\9F - Mushroom Bounce.asm"
 Offset_0x0ED30A:
-		binclude	"sound\0xA0.sfx"
+		include	"sound\sfx\A0 - Pulley Move.asm"
 Offset_0x0ED337:
-		binclude	"sound\0xA1.sfx"
+		include	"sound\sfx\A1 - Weather Machine.asm"
 Offset_0x0ED344:
 		binclude	"sound\0xA2.sfx"
 Offset_0x0ED378:
