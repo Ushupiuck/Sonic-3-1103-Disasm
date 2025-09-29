@@ -44075,15 +44075,15 @@ Offset_0x0ED42D:
 Offset_0x0ED45E:
 		include	"sound\sfx\A8 - Door Open.asm"
 Offset_0x0ED494:
-		binclude	"sound\0xA9.sfx"
+		include	"sound\sfx\A9 - Door Move.asm"
 Door_Close_Sfx_Data:										   ; Offset_0x0ED4C6
-		binclude	"sound\0xAA.sfx"
+		include	"sound\sfx\AA - Door Close.asm"
 Offset_0x0ED4FC:
-		binclude	"sound\0xAB.sfx"
+		include	"sound\sfx\AB - Ghost Appear.asm"
 Offset_0x0ED530:
-		binclude	"sound\0xAC.sfx"
+		include	"sound\sfx\AC - Boss Recovery.asm"
 Offset_0x0ED57A:
-		binclude	"sound\0xAD.sfx"
+		include	"sound\sfx\AD - Chain Tick.asm"
 Offset_0x0ED5A9:
 		binclude	"sound\0xAE.sfx"
 Offset_0x0ED5DC:
