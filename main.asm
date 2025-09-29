@@ -44085,13 +44085,13 @@ Offset_0x0ED530:
 Offset_0x0ED57A:
 		include	"sound\sfx\AD - Chain Tick.asm"
 Offset_0x0ED5A9:
-		binclude	"sound\0xAE.sfx"
+		include	"sound\sfx\AE - Gumball Tab.asm"
 Offset_0x0ED5DC:
-		binclude	"sound\0xAF.sfx"
+		include	"sound\sfx\AF - Boss Hand.asm"
 Slide_Thunk_Sfx_Data:										   ; Offset_0x0ED60B
-		binclude	"sound\0xB0.sfx"
+		include	"sound\sfx\B0 - Mecha Land.asm"
 Offset_0x0ED63F:
-		binclude	"sound\0xB1.sfx"
+		include	"sound\sfx\B1 - Enemy Breath.asm"
 Offset_0x0ED652:
 		binclude	"sound\0xB2.sfx"
 Offset_0x0ED688:
