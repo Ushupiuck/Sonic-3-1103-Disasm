@@ -44141,33 +44141,33 @@ Offset_0x0EDA87:
 Energy_Zap_Sfx_Data:										   ; Offset_0x0EDAB7
 		include	"sound\sfx\C9 - Energy Zap.asm"
 Offset_0x0EDAE1:
-		binclude	"sound\0xCA.sfx"
+		include	"sound\sfx\CA - Jump 2.asm"
 Offset_0x0EDAF7:
-		binclude	"sound\0xCB.sfx"
+		include	"sound\sfx\CB - Bumper.asm"
 Offset_0x0EDB52:
-		include	"sound\sfx\cc - spin dash.asm"
+		include	"sound\sfx\CC - Spin Dash.asm"
 Offset_0x0EDBA3:
-		binclude	"sound\0xCD.sfx"
+		include	"sound\sfx\CD - Continue.asm"
 Check_Point_Sfx_Data:										   ; Offset_0x0EDC15
-		binclude	"sound\0xCE.sfx"
+		include	"sound\sfx\CE - Star Post 2.asm"
 Offset_0x0EDC3F:
-		binclude	"sound\0xCF.sfx"
+		include	"sound\sfx\CF - Flipper.asm"
 Special_Stage_Entry_Sfx_Data:								   ; Offset_0x0EDC74
-		binclude	"sound\0xD0.sfx"
+		include	"sound\sfx\D0 - Enter Special Stage.asm"
 Offset_0x0EDCA1:
-		binclude	"sound\0xD1.sfx"
+		include	"sound\sfx\D1 - Register.asm"
 Spring_Sfx_Data:											   ; Offset_0x0EDD1C
-		binclude	"sound\0xD2.sfx"
+		include	"sound\sfx\D2 - Spring.asm"
 Error_Sfx_Data:												   ; Offset_0x0EDD71
-		binclude	"sound\0xD3.sfx"
+		include	"sound\sfx\D3 - Error.asm"
 Offset_0x0EDD9D:
-		binclude	"sound\0xD4.sfx"
+		include	"sound\sfx\D4 - Big Ring.asm"
 Offset_0x0EDE17:
-		binclude	"sound\0xD5.sfx"
+		include	"sound\sfx\D5 - Boss Hit 2.asm"
 Offset_0x0EDE4B:
-		binclude	"sound\0xD6.sfx"
+		include	"sound\sfx\D6 - Diamonds.asm"
 Offset_0x0EDE73:
-		binclude	"sound\0xD7.sfx"
+		include	"sound\sfx\D7 - Dash.asm"
 Offset_0x0EDEB4:
 		include	"sound\sfx\D8 - Slot Machine.asm"
 Offset_0x0EDEDC:
