@@ -44039,15 +44039,15 @@ Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
 Offset_0x0ED12F:
 		binclude	"sound\0x96.sfx"
 Bridge_Collapse_Sfx_Data:									   ; Offset_0x0ED14D
-		binclude	"sound\0x97.sfx"
+		include	"sound\sfx\97 - Bridge Collapse.asm"
 Offset_0x0ED199:
-		binclude	"sound\0x98.sfx"
+		include	"sound\sfx\98 - Big Rumble.asm"
 Offset_0x0ED1D1:
-		binclude	"sound\0x99.sfx"
+		include	"sound\sfx\99 - Unknown Power-Up.asm"
 Offset_0x0ED1FE:
-		binclude	"sound\0x9A.sfx"
+		include	"sound\sfx\9A - Unknown Power-Down.asm"
 Buzzer_Sfx_Data:											   ; Offset_0x0ED22B
-		binclude	"sound\0x9B.sfx"
+		include	"sound\sfx\9B - Alarm.asm"
 Offset_0x0ED258:
 		binclude	"sound\0x9C.sfx"
 Offset_0x0ED288:
