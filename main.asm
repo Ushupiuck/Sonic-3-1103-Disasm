@@ -44035,7 +44035,7 @@ Offset_0x0ED07F:
 Offset_0x0ED0B2:
 		include	"sound\sfx\94 - Rumble.asm"
 Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
-		binclude	"sound\0x95.sfx"
+		include	"sound\sfx\95 - Tube Launcher.asm"
 Offset_0x0ED12F:
 		binclude	"sound\0x96.sfx"
 Bridge_Collapse_Sfx_Data:									   ; Offset_0x0ED14D
