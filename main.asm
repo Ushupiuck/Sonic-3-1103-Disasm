@@ -44093,25 +44093,25 @@ Slide_Thunk_Sfx_Data:										   ; Offset_0x0ED60B
 Offset_0x0ED63F:
 		include	"sound\sfx\B1 - Enemy Breath.asm"
 Offset_0x0ED652:
-		binclude	"sound\0xB2.sfx"
+		include	"sound\sfx\B2 - Death Egg Rise (Quiet).asm"
 Offset_0x0ED688:
-		binclude	"sound\0xB3.sfx"
+		include	"sound\sfx\B3 - Boss Projectile.asm"
 Offset_0x0ED6D4:
 		binclude	"sound\0xB4.sfx"
 Offset_0x0ED6EA:
-		binclude	"sound\0xB5.sfx"
+		include	"sound\sfx\B5 - Lava Fall.asm"
 Offset_0x0ED720:
-		binclude	"sound\0xB6.sfx"
+		include	"sound\sfx\B6 - Spring Latch.asm"
 Offset_0x0ED73F:
-		binclude	"sound\0xB7.sfx"
+		include	"sound\sfx\B7 - Thump Boss.asm"
 Offset_0x0ED7A4:
-		binclude	"sound\0xB8.sfx"
+		include	"sound\sfx\B8 - Super Emerald.asm"
 Offset_0x0ED7DB:
-		binclude	"sound\0xB9.sfx"
+		include	"sound\sfx\B9 - Targeting.asm"
 Offset_0x0ED80F:
-		binclude	"sound\0xBA.sfx"
+		include	"sound\sfx\BA - Clank.asm"
 Super_Form_Change_Sfx_Data:									   ; Offset_0x0ED850
-		binclude	"sound\0xBB.sfx"
+		include	"sound\sfx\BB - Super Transform.asm"
 Offset_0x0ED88C:
 		binclude	"sound\0xBC.sfx"
 Offset_0x0ED8BA:
