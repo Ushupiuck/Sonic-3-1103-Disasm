@@ -220,7 +220,7 @@ InitValues:
 		dc.w	bytesToLcnt($10000)
 		dc.w	$100
 
-		dc.l	Z80_RAM_Start
+		dc.l	Z80_RAM
 		dc.l	Z80_Bus_Request
 		dc.l	Z80_Reset
 		dc.l	VDP_Data_Port
@@ -912,29 +912,29 @@ Offset_0x000A3E:
 		rts
 ;-------------------------------------------------------------------------------
 Offset_0x000A4C:
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.w	#$8F01,(A5)
 		move.l	#$941F93FF,(A5)
 		move.w	#$9780,(A5)
 		move.l	#$40000081,(A5)
-		move.w	#0,(VDP_Data_Port)						; $00C00000
+		move.w	#0,(VDP_Data_Port).l						; $00C00000
 Offset_0x000A6E:
 		move.w	(A5),d1
 		btst	#1,d1
 		bne.s	Offset_0x000A6E
 		move.w	#$8F02,(A5)
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.w	#$8F01,(A5)
 		move.l	#$941F93FF,(A5)
 		move.w	#$9780,(A5)
 		move.l	#$40000083,(A5)
-		move.w	#0,(VDP_Data_Port)						; $00C00000
+		move.w	#0,(VDP_Data_Port).l						; $00C00000
 Offset_0x000A9C:
 		move.w	(A5),d1
 		btst	#1,d1
 		bne.s	Offset_0x000A9C
 		move.w	#$8F02,(A5)
-		lea	(VDP_Control_Port),a6						; $00C00004
+		lea	(VDP_Control_Port).l,a6						; $00C00004
 		move.w	#$8B00,(A6)
 		move.w	#$8402,(A6)
 		move.w	#$9011,(A6)
@@ -948,21 +948,21 @@ Offset_0x000A9C:
 VBlank_16:													   ; Offset_0x000AD2
 		stopZ80
 		bsr.w	Control_Ports_Read					   ; Offset_0x000F16
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$94009340,(A5)
 		move.l	#$96F69580,(A5)
 		move.w	#$977F,(A5)
 		move.w	#$C000,(A5)
 		move.w	#$0080,(DMA_Trigger).w						; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$94019340,(A5)
 		move.l	#$96FC9500,(A5)
 		move.w	#$977F,(A5)
 		move.w	#$7800,(A5)
 		move.w	#$0083,(DMA_Trigger).w						; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$940193C0,(A5)
 		move.l	#$96F09500,(A5)
 		move.w	#$977F,(A5)
@@ -989,7 +989,7 @@ Offset_0x000B80:
 		bsr.w	Control_Ports_Read					   ; Offset_0x000F16
 		tst.b	(Underwater_Flag).w							 ; $FFFFF64E
 		bne.s	Offset_0x000BC2
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$94009340,(A5)
 		move.l	#$96F69580,(A5)
 		move.w	#$977F,(A5)
@@ -998,7 +998,7 @@ Offset_0x000B80:
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
 		bra.s	Offset_0x000BE6
 Offset_0x000BC2:
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$94009340,(A5)
 		move.l	#$96F89540,(A5)
 		move.w	#$977F,(A5)
@@ -1006,14 +1006,14 @@ Offset_0x000BC2:
 		move.w	#$0080,(DMA_Trigger).w						; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
 Offset_0x000BE6:
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$94019340,(A5)
 		move.l	#$96FC9500,(A5)
 		move.w	#$977F,(A5)
 		move.w	#$7800,(A5)
 		move.w	#$0083,(DMA_Trigger).w						; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$940193C0,(A5)
 		move.l	#$96F09500,(A5)
 		move.w	#$977F,(A5)
@@ -1052,7 +1052,7 @@ HBlank_Competition:
 		move.l	d0,-(sp)
 
 Offset_0x000C56:
-		move.w	(VDP_Control_Port),d0
+		move.w	(VDP_Control_Port).l,d0
 		andi.w	#4,d0
 		beq.s	Offset_0x000C56
 		move.w	(VDP_Register_1_Command).w,d0
@@ -1307,7 +1307,7 @@ JoypadInit:
 ;===============================================================================
 Control_Ports_Read:											   ; Offset_0x000F16
 		lea	(Control_Ports_Buffer_Data).w,a0			; $FFFFF604
-		lea	(IO_Joypad_Port_0),a1						; $00A10003
+		lea	(IO_Joypad_Port_0).l,a1						; $00A10003
 		bsr.s	Offset_0x000F24
 		addq.w	#2,a1
 Offset_0x000F24:
@@ -1533,7 +1533,7 @@ Offset_0x00113E:
 Z80_DefaultVariables:
 		dc.b	0	; unused 1
 		dc.b	0	; unused 2
-		dc.w	(z80_SoundDriverPointers)>>8	; zPointerTable (byte-swapped from $1200, where z80_SoundDriverPointers is located)
+		dc.w	little_endian(z80_SoundDriverPointers)	; zPointerTable (byte-swapped from $1200, where z80_SoundDriverPointers is located)
 		dc.b	0	; zSongBank
 		dc.b	0	; zCurrentTempo
 		dc.b	0	; zDACIndex
@@ -1820,13 +1820,13 @@ ProcessDMAQueue_Done:
 ; ->>>
 ;===============================================================================
 NemesisDec:													   ; Offset_0x001390
-		movem.l	D0-D7/A0/A1/A3-A5, -(sp)
+		movem.l	D0-D7/A0/A1/A3-A5,-(sp)
 		lea	(NemesisDec_Output).l,a3				; Offset_0x001452
-		lea	(VDP_Data_Port),a4							; $00C00000
+		lea	(VDP_Data_Port).l,a4							; $00C00000
 		bra.s	NemesisDec_Main						   ; Offset_0x0013AC
 ;-------------------------------------------------------------------------------
 NemesisDecToRAM:											   ; Offset_0x0013A2
-		movem.l	D0-D7/A0/A1/A3-A5, -(sp)
+		movem.l	D0-D7/A0/A1/A3-A5,-(sp)
 		lea	(NemesisDec_OutputToRAM).l,a3			; Offset_0x001468
 NemesisDec_Main:											   ; Offset_0x0013AC
 		lea	(NemesisDec_Data_Buffer).w,a1				; $FFFFAA00
@@ -4181,7 +4181,7 @@ SegaScreen:
 		move.w	d0,(VDP_Control_Port).l
 		bsr.w	ClearScreen
 
-		lea	(VDP_Control_Port),a5
+		lea	(VDP_Control_Port).l,a5
 		move.w	#$8F01,(a5)
 		move.l	#$941F93FF,(a5)
 		move.w	#$9780,(a5)
@@ -4261,7 +4261,7 @@ Offset_0x0031A4:
 		move.b	#gm_TitleScreen,(Game_Mode).w		   ; $04, $FFFFF600
 		rts
 Offset_0x0031B4:
-		lea	(VDP_Data_Port),a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6							; $00C00000
 		move.l	#$1000000,d4
 Offset_0x0031C0:
 		move.l	d0,4(a6)
@@ -5313,7 +5313,7 @@ Offset_0x003F38:
 		add.w	D0,(Tmp_FF7C).w								; $FFFFFF7C
 		bcc.s	Offset_0x003F8C
 		bsr.w	Pause								   ; Offset_0x0011E0
-		move.w	#$100,(Z80_Bus_Request)					   ; $00A11100
+		move.w	#$100,(Z80_Bus_Request).l					   ; $00A11100
 		bsr.w	Control_Ports_Read					   ; Offset_0x000F16
 		startZ80
 		move.w	#0,(DMA_Buffer_List).w					; $FFFFE700
@@ -6105,7 +6105,7 @@ Offset_0x004842:
 ; Offset_0x004844: ; Sonic 2 Left over
 		cmpi.b	#S2_EHz_Id,(Current_Zone).w				   ; $00, $FFFFFE10
 		bne.s	Offset_0x004882
-		lea	((Dev_RAM_Start+$C000)&$FFFFFF),a1			 ; $00FEC000
+		lea	((Dev_RAM_Start+$C000)&$FFFFFF).l,a1			 ; $00FEC000
 		move.w	(Demo_Button_Index_2P).w,d0					; $FFFFF732
 		adda.w	D0,a1
 		move.b	(Control_Ports_Buffer_Data+2).w,d0		  ; $FFFFF606
@@ -6603,9 +6603,9 @@ Offset_0x005174:
 		move.b	Offset_0x0051FA(PC),d0
 Offset_0x00519C:
 		lsl.w	#7,d0
-		lea	(RAM_Start),a1						   ; $FFFF0000
+		lea	(RAM_Start).l,a1						   ; $FFFF0000
 		lea	(A1,d0),a1
-		lea	(RAM_Start+$200),a2					  ; $FFFF0200
+		lea	(RAM_Start+$200).l,a2					  ; $FFFF0200
 		move.w	#bytesToWcnt($100),d0
 Offset_0x0051B2:
 		move.w	(A1)+,(A2)+
@@ -6619,9 +6619,9 @@ Offset_0x0051B2:
 		move.b	Offset_0x005214(PC),d0
 Offset_0x0051D2:
 		lsl.w	#7,d0
-		lea	(RAM_Start),a1						   ; $FFFF0000
+		lea	(RAM_Start).l,a1						   ; $FFFF0000
 		lea	(A1,d0),a1
-		lea	(RAM_Start+$F00),a2					  ; $FFFF0F00
+		lea	(RAM_Start+$F00).l,a2					  ; $FFFF0F00
 		move.w	#bytesToWcnt($80),d0
 Offset_0x0051E8:
 		move.w	(A1)+,(A2)+
@@ -6685,7 +6685,7 @@ S2_Menus:													   ; Offset_0x0052CC
 		andi.b	#$BF,d0
 		move.w	D0,(VDP_Control_Port)						; $00C00004
 		bsr.w	ClearScreen							   ; Offset_0x001002
-		lea	(VDP_Control_Port),a6						; $00C00004
+		lea	(VDP_Control_Port).l,a6						; $00C00004
 		move.w	#$8004,(A6)
 		move.w	#$8230,(A6)
 		move.w	#$8407,(A6)
@@ -7955,7 +7955,7 @@ Special_Stage_Test_1:										   ; Offset_0x00662A
 		bsr.w	ClearPLC							   ; Offset_0x001548
 		bsr.w	Pal_FadeToBlack							  ; Offset_0x002DE8
 		move	#$2700, SR
-		lea	(VDP_Control_Port),a6						; $00C00004
+		lea	(VDP_Control_Port).l,a6						; $00C00004
 		move.w	#$8004,(A6)
 		move.w	#$8230,(A6)
 		move.w	#$8407,(A6)
@@ -8069,7 +8069,7 @@ Special_Stage_Test_2:										   ; Offset_0x0070DC
 		bsr.w	ClearPLC							   ; Offset_0x001548
 		bsr.w	Pal_FadeToBlack							  ; Offset_0x002DE8
 		move	#$2700, SR
-		lea	(VDP_Control_Port),a6						; $00C00004
+		lea	(VDP_Control_Port).l,a6						; $00C00004
 		move.w	#$8004,(A6)
 		move.w	#$8230,(A6)
 		move.w	#$8407,(A6)
@@ -8283,7 +8283,7 @@ Offset_0x007B32:
 ;===============================================================================
 HUD_Update:													   ; Offset_0x007B34
 		nop
-		lea	(VDP_Data_Port),a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6							; $00C00000
 		tst.w	(Two_Player_Flag).w							 ; $FFFFFFD8
 		bne.w	Offset_0x007C9C
 		tst.w	(Debug_Mode_Active).w						 ; $FFFFFFFA
@@ -8509,7 +8509,7 @@ Offset_0x007DC0:
 		bra.s	Offset_0x007DF6
 ;-------------------------------------------------------------------------------
 Head_Up_Display_Base:										   ; Offset_0x007DD4
-		lea	(VDP_Data_Port),a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6							; $00C00000
 		bsr.w	HUD_Lives							   ; Offset_0x00804E
 		tst.w	(Two_Player_Flag).w							 ; $FFFFFFD8
 		bne.s	Offset_0x007E22
@@ -8634,7 +8634,7 @@ Offset_0x007EFE:
 ;-------------------------------------------------------------------------------
 Timer_Count_Down:											   ; Offset_0x007F0A
 		move.l	#$5F800003,(VDP_Control_Port)				; $00C00004
-		lea	(VDP_Data_Port),a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6							; $00C00000
 		lea	(HUD_Val_000010).l,a2					; Offset_0x007F72
 		moveq	#1,d6
 		moveq	#0,d4
@@ -28094,7 +28094,7 @@ DrawLevelC_Done:
 
 ;===============================================================================
 Special_Vint:												   ; Offset_0x02F6BC
-		lea	(VDP_Data_Port),a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6							; $00C00000
 		move.w	(Special_Vint_Routine).w,d0					; $FFFFEEA6
 		jmp	Special_Vint_Index(pc,d0.w)				; Offset_0x02F6CA
 Special_Vint_Index:											   ; Offset_0x02F6CA
@@ -34173,7 +34173,7 @@ Offset_0x03493A:
 		dc.w	Offset_0x034970-Offset_0x03493A
 ;-------------------------------------------------------------------------------
 Offset_0x03493E:
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.l	#$94169300,(A5)
 		move.l	#$96859580,(A5)
 		move.w	#$977F,(A5)
@@ -34185,7 +34185,7 @@ Offset_0x03493E:
 		bra.w	Offset_0x0349AC
 ;-------------------------------------------------------------------------------
 Offset_0x034970:
-		lea	(VDP_Control_Port),a5						; $00C00004
+		lea	(VDP_Control_Port).l,a5						; $00C00004
 		move.w	#$8F01,(A5)
 		move.l	#$941F93FF,(A5)
 		move.w	#$9780,(A5)
@@ -34200,7 +34200,7 @@ Offset_0x034992:
 		move.l	#$49A00003,d0
 		bra.w	Offset_0x0349AC
 Offset_0x0349AC:
-		lea	(VDP_Data_Port),a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6							; $00C00000
 		move.l	#$01000000,d6
 		moveq	#$07,d1
 		moveq	#$09,d2
