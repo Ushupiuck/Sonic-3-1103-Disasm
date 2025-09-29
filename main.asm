@@ -44037,7 +44037,7 @@ Offset_0x0ED0B2:
 Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
 		include	"sound\sfx\95 - Tube Launcher.asm"
 Offset_0x0ED12F:
-		binclude	"sound\0x96.sfx"
+		include	"sound\sfx\96.asm"
 Bridge_Collapse_Sfx_Data:									   ; Offset_0x0ED14D
 		include	"sound\sfx\97 - Bridge Collapse.asm"
 Offset_0x0ED199:
