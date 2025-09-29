@@ -44001,7 +44001,7 @@ Tunnel_Booster_Sfx_Data:									   ; Offset_0x0ECD66
 Rising_Platform_Sfx_Data:									   ; Offset_0x0ECD96
 		include	"sound\sfx\83 - Balloon Platform.asm"
 Wave_Hover_Sfx_Data:										   ; Offset_0x0ECDC5
-		binclude	"sound\0x84.sfx"
+		include	"sound\sfx\84.asm"
 Trapdoor_Sfx_Data:											   ; Offset_0x0ECDF6
 		include	"sound\sfx\85 - Trap Door.asm"
 Balloon_Pop_Sfx_Data:										   ; Offset_0x0ECE20
