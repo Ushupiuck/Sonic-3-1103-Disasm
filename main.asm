@@ -44221,107 +44221,107 @@ DAC_81_Setup:												   ; Offset_0x0F0036
 		dc.w	little_endian(DAC_81_Data_End-DAC_81_Data)
 		dc.w	k68z80Pointer(DAC_81_Data)
 DAC_82_Setup:												   ; Offset_0x0F003B
-		dc.b	$0E
+		dc.b	dpcmLoopCounter(11169)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_83_Setup:												   ; Offset_0x0F0040
-		dc.b	$14
+		dc.b	dpcmLoopCounter(8935)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_84_Setup:												   ; Offset_0x0F0045
-		dc.b	$1A
+		dc.b	dpcmLoopCounter(7483)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_85_Setup:												   ; Offset_0x0F004A
-		dc.b	$20
+		dc.b	dpcmLoopCounter(6478)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_86_Setup:												   ; Offset_0x0F004F
-		dc.b	$04
+		dc.b	dpcmLoopCounter(18790)
 		dc.w	little_endian(DAC_86_Data_End-DAC_86_Data)
 		dc.w	k68z80Pointer(DAC_86_Data)
 DAC_87_Setup:												   ; Offset_0x0F0054
-		dc.b	$04
+		dc.b	dpcmLoopCounter(18790)
 		dc.w	little_endian(DAC_87_Data_End-DAC_87_Data)
 		dc.w	k68z80Pointer(DAC_87_Data)
 DAC_88_Setup:												   ; Offset_0x0F0059
-		dc.b	$06
+		dc.b	dpcmLoopCounter(16534)
 		dc.w	little_endian(DAC_88_Data_End-DAC_88_Data)
 		dc.w	k68z80Pointer(DAC_88_Data)
 DAC_89_Setup:												   ; Offset_0x0F005E
-		dc.b	$0A
+		dc.b	dpcmLoopCounter(13332)
 		dc.w	little_endian(DAC_89_Data_End-DAC_89_Data)
 		dc.w	k68z80Pointer(DAC_89_Data)
 DAC_8A_Setup:												   ; Offset_0x0F0063
-		dc.b	$14
+		dc.b	dpcmLoopCounter(8983)
 		dc.w	little_endian(DAC_8A_8B_Data_End-DAC_8A_8B_Data)
 		dc.w	k68z80Pointer(DAC_8A_8B_Data)
 DAC_8B_Setup:												   ; Offset_0x0F0068
-		dc.b	$1B
+		dc.b	dpcmLoopCounter(7366)
 		dc.w	little_endian(DAC_8A_8B_Data_End-DAC_8A_8B_Data)
 		dc.w	k68z80Pointer(DAC_8A_8B_Data)
 DAC_8C_Setup:												   ; Offset_0x0F006D
-		dc.b	$08
+		dc.b	dpcmLoopCounter(14761)
 		dc.w	little_endian(DAC_8C_Data_End-DAC_8C_Data)
 		dc.w	k68z80Pointer(DAC_8C_Data)
 DAC_8D_Setup:												   ; Offset_0x0F0072
-		dc.b	$0B
+		dc.b	dpcmLoopCounter(12716)
 		dc.w	little_endian(DAC_8D_8E_Data_End-DAC_8D_8E_Data)
 		dc.w	k68z80Pointer(DAC_8D_8E_Data)
 DAC_8E_Setup:												   ; Offset_0x0F0077
-		dc.b	$11
+		dc.b	dpcmLoopCounter(9791)
 		dc.w	little_endian(DAC_8D_8E_Data_End-DAC_8D_8E_Data)
 		dc.w	k68z80Pointer(DAC_8D_8E_Data)
 DAC_8F_Setup:												   ; Offset_0x0F007C
-		dc.b	$08
+		dc.b	dpcmLoopCounter(14761)
 		dc.w	little_endian(DAC_8F_Data_End-DAC_8F_Data)
 		dc.w	k68z80Pointer(DAC_8F_Data)
 DAC_90_Setup:												   ; Offset_0x0F0081
-		dc.b	$03
+		dc.b	dpcmLoopCounter(20166)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_91_Setup:												   ; Offset_0x0F0086
-		dc.b	$07
+		dc.b	dpcmLoopCounter(15729)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_92_Setup:												   ; Offset_0x0F008B
-		dc.b	$0A
+		dc.b	dpcmLoopCounter(13309)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_93_Setup:												   ; Offset_0x0F0090
-		dc.b	$0E
+		dc.b	dpcmLoopCounter(11293)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_94_Setup:												   ; Offset_0x0F0095
-		dc.b	$06
+		dc.b	dpcmLoopCounter(16534)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_95_Setup:												   ; Offset_0x0F009A
-		dc.b	$0A
+		dc.b	dpcmLoopCounter(13062)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_96_Setup:												   ; Offset_0x0F009F
-		dc.b	$0D
+		dc.b	dpcmLoopCounter(11574)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_97_Setup:												   ; Offset_0x0F00A4
-		dc.b	$12
+		dc.b	dpcmLoopCounter(9590)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_98_Setup:												   ; Offset_0x0F00A9
-		dc.b	$0B
+		dc.b	dpcmLoopCounter(12716)
 		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
 		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
 DAC_99_Setup:												   ; Offset_0x0F00AE
-		dc.b	$13
+		dc.b	dpcmLoopCounter(9283)
 		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
 		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
 DAC_9A_Setup:												   ; Offset_0x0F00B3
-		dc.b	$16
+		dc.b	dpcmLoopCounter(8393)
 		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
 		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
 DAC_9B_Setup:												   ; Offset_0x0F00B8
-		dc.b	$12
+		dc.b	dpcmLoopCounter(9590)
 		dc.w	little_endian(DAC_9B_Data_End-DAC_9B_Data)
 		dc.w	k68z80Pointer(DAC_9B_Data)
 ;-------------------------------------------------------------------------------
