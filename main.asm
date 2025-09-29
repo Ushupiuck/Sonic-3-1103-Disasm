@@ -44097,7 +44097,7 @@ Offset_0x0ED652:
 Offset_0x0ED688:
 		include	"sound\sfx\B3 - Boss Projectile.asm"
 Offset_0x0ED6D4:
-		binclude	"sound\0xB4.sfx"
+		include	"sound\sfx\B4.asm"
 Offset_0x0ED6EA:
 		include	"sound\sfx\B5 - Lava Fall.asm"
 Offset_0x0ED720:
