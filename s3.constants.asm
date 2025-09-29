@@ -623,7 +623,7 @@ Volume_Down	= signextendB(cmd_FadeOut)
 Stop_Sound	= signextendB(cmd_Stop)
 PSG_Mute	= signextendB(cmd_MutePSG)
 Stop_SFx	= signextendB(cmd_StopSFX)
-Music_Normal_Speed	= $FC
+Music_Normal_Speed	= cmd_S2SlowDown
 
 ; Z80  
 Z80_RAM_Start	= $A00000

@@ -44187,35 +44187,6 @@ SndBank_End
 		fatal "Size_of_SndBank = $\{Size_of_SndBank}, but you have $\{SndBank_End-SndBank} bytes of sound effects."
 	endif
 
-DAC_81_Size			  equ (DAC_81_Data_End-DAC_81_Data)
-DAC_81_Data_Ptr		  equ (DAC_81_Data&$FFFF)|$8000
-DAC_82_To_85_Size	  equ (DAC_82_To_85_Data_End-DAC_82_To_85_Data)
-DAC_82_To_85_Data_Ptr equ (DAC_82_To_85_Data&$FFFF)|$8000
-DAC_86_Size			  equ (DAC_86_Data_End-DAC_86_Data)
-DAC_86_Data_Ptr		  equ (DAC_86_Data&$FFFF)|$8000
-DAC_87_Size			  equ (DAC_87_Data_End-DAC_87_Data)
-DAC_87_Data_Ptr		  equ (DAC_87_Data&$FFFF)|$8000
-DAC_88_Size			  equ (DAC_88_Data_End-DAC_88_Data)
-DAC_88_Data_Ptr		  equ (DAC_88_Data&$FFFF)|$8000
-DAC_89_Size			  equ (DAC_89_Data_End-DAC_89_Data)
-DAC_89_Data_Ptr		  equ (DAC_89_Data&$FFFF)|$8000
-DAC_8A_To_8B_Size	  equ (DAC_8A_To_8B_Data_End-DAC_8A_To_8B_Data)
-DAC_8A_To_8B_Data_Ptr equ (DAC_8A_To_8B_Data&$FFFF)|$8000
-DAC_8C_Size			  equ (DAC_8C_Data_End-DAC_8C_Data)
-DAC_8C_Data_Ptr		  equ (DAC_8C_Data&$FFFF)|$8000
-DAC_8D_To_8E_Size	  equ (DAC_8D_To_8E_Data_End-DAC_8D_To_8E_Data)
-DAC_8D_To_8E_Data_Ptr equ (DAC_8D_To_8E_Data&$FFFF)|$8000
-DAC_8F_Size			  equ (DAC_8F_Data_End-DAC_8F_Data)
-DAC_8F_Data_Ptr		  equ (DAC_8F_Data&$FFFF)|$8000
-DAC_90_To_93_Size	  equ (DAC_90_To_93_Data_End-DAC_90_To_93_Data)
-DAC_90_To_93_Data_Ptr equ (DAC_90_To_93_Data&$FFFF)|$8000
-DAC_94_To_97_Size	  equ (DAC_94_To_97_Data_End-DAC_94_To_97_Data)
-DAC_94_To_97_Data_Ptr equ (DAC_94_To_97_Data&$FFFF)|$8000
-DAC_98_To_9A_Size	  equ (DAC_98_To_9A_Data_End-DAC_98_To_9A_Data)
-DAC_98_To_9A_Data_Ptr equ (DAC_98_To_9A_Data&$FFFF)|$8000
-DAC_9B_Size			  equ (DAC_9B_Data_End-DAC_9B_Data)
-DAC_9B_Data_Ptr		  equ (DAC_9B_Data&$FFFF)|$8000
-
 DACBank:	startBank
 DAC_Table:													   ; Offset_0x0F0000
 		dc.w	z80_ptr(DAC_81_Setup)	 ; $8036
@@ -44246,113 +44217,113 @@ DAC_Table:													   ; Offset_0x0F0000
 		dc.w	z80_ptr(DAC_9A_Setup)	 ; $80B3
 		dc.w	z80_ptr(DAC_9B_Setup)	 ; $80B8
 DAC_81_Setup:												   ; Offset_0x0F0036
-		dc.b	$04
-		dc.w	(((DAC_81_Size>>$08)|(DAC_81_Size<<$08))&$FFFF)			; $0790
-		dc.w	(((DAC_81_Data_Ptr>>$08)|(DAC_81_Data_Ptr<<$08))&$FFFF) ; $83BD
+		dc.b	dpcmLoopCounter(18790)
+		dc.w	little_endian(DAC_81_Data_End-DAC_81_Data)
+		dc.w	k68z80Pointer(DAC_81_Data)
 DAC_82_Setup:												   ; Offset_0x0F003B
 		dc.b	$0E
-		dc.w	(((DAC_82_To_85_Size>>$08)|(DAC_82_To_85_Size<<$08))&$FFFF)			; $04C0
-		dc.w	(((DAC_82_To_85_Data_Ptr>>$08)|(DAC_82_To_85_Data_Ptr<<$08))&$FFFF) ; $8B4D
+		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
+		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_83_Setup:												   ; Offset_0x0F0040
 		dc.b	$14
-		dc.w	(((DAC_82_To_85_Size>>$08)|(DAC_82_To_85_Size<<$08))&$FFFF)			; $04C0
-		dc.w	(((DAC_82_To_85_Data_Ptr>>$08)|(DAC_82_To_85_Data_Ptr<<$08))&$FFFF) ; $8B4D
+		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
+		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_84_Setup:												   ; Offset_0x0F0045
 		dc.b	$1A
-		dc.w	(((DAC_82_To_85_Size>>$08)|(DAC_82_To_85_Size<<$08))&$FFFF)			; $04C0
-		dc.w	(((DAC_82_To_85_Data_Ptr>>$08)|(DAC_82_To_85_Data_Ptr<<$08))&$FFFF) ; $8B4D
+		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
+		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_85_Setup:												   ; Offset_0x0F004A
 		dc.b	$20
-		dc.w	(((DAC_82_To_85_Size>>$08)|(DAC_82_To_85_Size<<$08))&$FFFF)			; $04C0
-		dc.w	(((DAC_82_To_85_Data_Ptr>>$08)|(DAC_82_To_85_Data_Ptr<<$08))&$FFFF) ; $8B4D
+		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
+		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
 DAC_86_Setup:												   ; Offset_0x0F004F
 		dc.b	$04
-		dc.w	(((DAC_86_Size>>$08)|(DAC_86_Size<<$08))&$FFFF)			; $0300
-		dc.w	(((DAC_86_Data_Ptr>>$08)|(DAC_86_Data_Ptr<<$08))&$FFFF) ; $80BD
+		dc.w	little_endian(DAC_86_Data_End-DAC_86_Data)
+		dc.w	k68z80Pointer(DAC_86_Data)
 DAC_87_Setup:												   ; Offset_0x0F0054
 		dc.b	$04
-		dc.w	(((DAC_87_Size>>$08)|(DAC_87_Size<<$08))&$FFFF)			; $0740
-		dc.w	(((DAC_87_Data_Ptr>>$08)|(DAC_87_Data_Ptr<<$08))&$FFFF) ; $B8D8
+		dc.w	little_endian(DAC_87_Data_End-DAC_87_Data)
+		dc.w	k68z80Pointer(DAC_87_Data)
 DAC_88_Setup:												   ; Offset_0x0F0059
 		dc.b	$06
-		dc.w	(((DAC_88_Size>>$08)|(DAC_88_Size<<$08))&$FFFF)			; $1250
-		dc.w	(((DAC_88_Data_Ptr>>$08)|(DAC_88_Data_Ptr<<$08))&$FFFF) ; $9FED
+		dc.w	little_endian(DAC_88_Data_End-DAC_88_Data)
+		dc.w	k68z80Pointer(DAC_88_Data)
 DAC_89_Setup:												   ; Offset_0x0F005E
 		dc.b	$0A
-		dc.w	(((DAC_89_Size>>$08)|(DAC_89_Size<<$08))&$FFFF)			; $0A20
-		dc.w	(((DAC_89_Data_Ptr>>$08)|(DAC_89_Data_Ptr<<$08))&$FFFF) ; $C528
+		dc.w	little_endian(DAC_89_Data_End-DAC_89_Data)
+		dc.w	k68z80Pointer(DAC_89_Data)
 DAC_8A_Setup:												   ; Offset_0x0F0063
 		dc.b	$14
-		dc.w	(((DAC_8A_To_8B_Size>>$08)|(DAC_8A_To_8B_Size<<$08))&$FFFF)			; $0160
-		dc.w	(((DAC_8A_To_8B_Data_Ptr>>$08)|(DAC_8A_To_8B_Data_Ptr<<$08))&$FFFF) ; $B23D
+		dc.w	little_endian(DAC_8A_8B_Data_End-DAC_8A_8B_Data)
+		dc.w	k68z80Pointer(DAC_8A_8B_Data)
 DAC_8B_Setup:												   ; Offset_0x0F0068
 		dc.b	$1B
-		dc.w	(((DAC_8A_To_8B_Size>>$08)|(DAC_8A_To_8B_Size<<$08))&$FFFF)			; $0160
-		dc.w	(((DAC_8A_To_8B_Data_Ptr>>$08)|(DAC_8A_To_8B_Data_Ptr<<$08))&$FFFF) ; $B23D
+		dc.w	little_endian(DAC_8A_8B_Data_End-DAC_8A_8B_Data)
+		dc.w	k68z80Pointer(DAC_8A_8B_Data)
 DAC_8C_Setup:												   ; Offset_0x0F006D
 		dc.b	$08
-		dc.w	(((DAC_8C_Size>>$08)|(DAC_8C_Size<<$08))&$FFFF)			; $006B
-		dc.w	(((DAC_8C_Data_Ptr>>$08)|(DAC_8C_Data_Ptr<<$08))&$FFFF) ; $B39D
+		dc.w	little_endian(DAC_8C_Data_End-DAC_8C_Data)
+		dc.w	k68z80Pointer(DAC_8C_Data)
 DAC_8D_Setup:												   ; Offset_0x0F0072
 		dc.b	$0B
-		dc.w	(((DAC_8D_To_8E_Size>>$08)|(DAC_8D_To_8E_Size<<$08))&$FFFF)			; $04D0
-		dc.w	(((DAC_8D_To_8E_Data_Ptr>>$08)|(DAC_8D_To_8E_Data_Ptr<<$08))&$FFFF) ; $B408
+		dc.w	little_endian(DAC_8D_8E_Data_End-DAC_8D_8E_Data)
+		dc.w	k68z80Pointer(DAC_8D_8E_Data)
 DAC_8E_Setup:												   ; Offset_0x0F0077
 		dc.b	$11
-		dc.w	(((DAC_8D_To_8E_Size>>$08)|(DAC_8D_To_8E_Size<<$08))&$FFFF)			; $04D0
-		dc.w	(((DAC_8D_To_8E_Data_Ptr>>$08)|(DAC_8D_To_8E_Data_Ptr<<$08))&$FFFF) ; $B408
+		dc.w	little_endian(DAC_8D_8E_Data_End-DAC_8D_8E_Data)
+		dc.w	k68z80Pointer(DAC_8D_8E_Data)
 DAC_8F_Setup:												   ; Offset_0x0F007C
 		dc.b	$08
-		dc.w	(((DAC_8F_Size>>$08)|(DAC_8F_Size<<$08))&$FFFF)			; $0510
-		dc.w	(((DAC_8F_Data_Ptr>>$08)|(DAC_8F_Data_Ptr<<$08))&$FFFF) ; $C018
+		dc.w	little_endian(DAC_8F_Data_End-DAC_8F_Data)
+		dc.w	k68z80Pointer(DAC_8F_Data)
 DAC_90_Setup:												   ; Offset_0x0F0081
 		dc.b	$03
-		dc.w	(((DAC_90_To_93_Size>>$08)|(DAC_90_To_93_Size<<$08))&$FFFF)			; $0650
-		dc.w	(((DAC_90_To_93_Data_Ptr>>$08)|(DAC_90_To_93_Data_Ptr<<$08))&$FFFF) ; $999D
+		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
+		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_91_Setup:												   ; Offset_0x0F0086
 		dc.b	$07
-		dc.w	(((DAC_90_To_93_Size>>$08)|(DAC_90_To_93_Size<<$08))&$FFFF)			; $0650
-		dc.w	(((DAC_90_To_93_Data_Ptr>>$08)|(DAC_90_To_93_Data_Ptr<<$08))&$FFFF) ; $999D
+		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
+		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_92_Setup:												   ; Offset_0x0F008B
 		dc.b	$0A
-		dc.w	(((DAC_90_To_93_Size>>$08)|(DAC_90_To_93_Size<<$08))&$FFFF)			; $0650
-		dc.w	(((DAC_90_To_93_Data_Ptr>>$08)|(DAC_90_To_93_Data_Ptr<<$08))&$FFFF) ; $999D
+		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
+		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_93_Setup:												   ; Offset_0x0F0090
 		dc.b	$0E
-		dc.w	(((DAC_90_To_93_Size>>$08)|(DAC_90_To_93_Size<<$08))&$FFFF)			; $0650
-		dc.w	(((DAC_90_To_93_Data_Ptr>>$08)|(DAC_90_To_93_Data_Ptr<<$08))&$FFFF) ; $999D
+		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
+		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
 DAC_94_Setup:												   ; Offset_0x0F0095
 		dc.b	$06
-		dc.w	(((DAC_94_To_97_Size>>$08)|(DAC_94_To_97_Size<<$08))&$FFFF)			; $0990
-		dc.w	(((DAC_94_To_97_Data_Ptr>>$08)|(DAC_94_To_97_Data_Ptr<<$08))&$FFFF) ; $900D
+		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
+		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_95_Setup:												   ; Offset_0x0F009A
 		dc.b	$0A
-		dc.w	(((DAC_94_To_97_Size>>$08)|(DAC_94_To_97_Size<<$08))&$FFFF)			; $0990
-		dc.w	(((DAC_94_To_97_Data_Ptr>>$08)|(DAC_94_To_97_Data_Ptr<<$08))&$FFFF) ; $900D
+		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
+		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_96_Setup:												   ; Offset_0x0F009F
 		dc.b	$0D
-		dc.w	(((DAC_94_To_97_Size>>$08)|(DAC_94_To_97_Size<<$08))&$FFFF)			; $0990
-		dc.w	(((DAC_94_To_97_Data_Ptr>>$08)|(DAC_94_To_97_Data_Ptr<<$08))&$FFFF) ; $900D
+		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
+		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_97_Setup:												   ; Offset_0x0F00A4
 		dc.b	$12
-		dc.w	(((DAC_94_To_97_Size>>$08)|(DAC_94_To_97_Size<<$08))&$FFFF)			; $0990
-		dc.w	(((DAC_94_To_97_Data_Ptr>>$08)|(DAC_94_To_97_Data_Ptr<<$08))&$FFFF) ; $900D
+		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
+		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
 DAC_98_Setup:												   ; Offset_0x0F00A9
 		dc.b	$0B
-		dc.w	(((DAC_98_To_9A_Size>>$08)|(DAC_98_To_9A_Size<<$08))&$FFFF)			; $0D1F
-		dc.w	(((DAC_98_To_9A_Data_Ptr>>$08)|(DAC_98_To_9A_Data_Ptr<<$08))&$FFFF) ; $CF48
+		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
+		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
 DAC_99_Setup:												   ; Offset_0x0F00AE
 		dc.b	$13
-		dc.w	(((DAC_98_To_9A_Size>>$08)|(DAC_98_To_9A_Size<<$08))&$FFFF)			; $0D1F
-		dc.w	(((DAC_98_To_9A_Data_Ptr>>$08)|(DAC_98_To_9A_Data_Ptr<<$08))&$FFFF) ; $CF48
+		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
+		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
 DAC_9A_Setup:												   ; Offset_0x0F00B3
 		dc.b	$16
-		dc.w	(((DAC_98_To_9A_Size>>$08)|(DAC_98_To_9A_Size<<$08))&$FFFF)			; $0D1F
-		dc.w	(((DAC_98_To_9A_Data_Ptr>>$08)|(DAC_98_To_9A_Data_Ptr<<$08))&$FFFF) ; $CF48
+		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
+		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
 DAC_9B_Setup:												   ; Offset_0x0F00B8
 		dc.b	$12
-		dc.w	(((DAC_9B_Size>>$08)|(DAC_9B_Size<<$08))&$FFFF)			; $169D
-		dc.w	(((DAC_9B_Data_Ptr>>$08)|(DAC_9B_Data_Ptr<<$08))&$FFFF) ; $DC67
+		dc.w	little_endian(DAC_9B_Data_End-DAC_9B_Data)
+		dc.w	k68z80Pointer(DAC_9B_Data)
 ;-------------------------------------------------------------------------------
 DAC_86_Data:												   ; Offset_0x0F00BD
 		binclude	"Sound\DAC\dac_86.bin"
@@ -44362,33 +44333,33 @@ DAC_81_Data:												   ; Offset_0x0F03BD
 		binclude	"Sound\DAC\dac_81.bin"
 DAC_81_Data_End:
 ;-------------------------------------------------------------------------------
-DAC_82_To_85_Data:											   ; Offset_0x0F0B4D
+DAC_82_83_84_85_Data:											   ; Offset_0x0F0B4D
 		binclude	"Sound\DAC\dac82-85.bin"
-DAC_82_To_85_Data_End:
+DAC_82_83_84_85_Data_End:
 ;-------------------------------------------------------------------------------
-DAC_94_To_97_Data:											   ; Offset_0x0F100D
+DAC_94_95_96_97_Data:											   ; Offset_0x0F100D
 		binclude	"Sound\DAC\dac94-97.bin"
-DAC_94_To_97_Data_End:
+DAC_94_95_96_97_Data_End:
 ;-------------------------------------------------------------------------------
-DAC_90_To_93_Data:											   ; Offset_0x0F199D
+DAC_90_91_92_93_Data:											   ; Offset_0x0F199D
 		binclude	"Sound\DAC\dac90-93.bin"
-DAC_90_To_93_Data_End:
+DAC_90_91_92_93_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_88_Data:												   ; Offset_0x0F1FED
 		binclude	"Sound\DAC\dac_88.bin"
 DAC_88_Data_End:
 ;-------------------------------------------------------------------------------
-DAC_8A_To_8B_Data:											   ; Offset_0x0F323D
+DAC_8A_8B_Data:											   ; Offset_0x0F323D
 		binclude	"Sound\DAC\dac8A-8B.bin"
-DAC_8A_To_8B_Data_End:
+DAC_8A_8B_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_8C_Data:												   ; Offset_0x0F339D
 		binclude	"Sound\DAC\dac_8C.bin"
 DAC_8C_Data_End:
 ;-------------------------------------------------------------------------------
-DAC_8D_To_8E_Data:											   ; Offset_0x0F3408
+DAC_8D_8E_Data:											   ; Offset_0x0F3408
 		binclude	"Sound\DAC\dac8D-8E.bin"
-DAC_8D_To_8E_Data_End:
+DAC_8D_8E_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_87_Data:												   ; Offset_0x0F38D8
 		binclude	"Sound\DAC\dac_87.bin"
@@ -44402,9 +44373,9 @@ DAC_89_Data:												   ; Offset_0x0F4528
 		binclude	"Sound\DAC\dac_89.bin"
 DAC_89_Data_End:
 ;-------------------------------------------------------------------------------
-DAC_98_To_9A_Data:											   ; Offset_0x0F4F48
+DAC_98_99_9A_Data:											   ; Offset_0x0F4F48
 		binclude	"Sound\DAC\dac98-9A.bin"
-DAC_98_To_9A_Data_End:
+DAC_98_99_9A_Data_End:
 ;-------------------------------------------------------------------------------
 DAC_9B_Data:												   ; Offset_0x0F5C67
 		binclude	"Sound\DAC\dac_9B.bin"
