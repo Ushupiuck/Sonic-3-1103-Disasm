@@ -4377,7 +4377,7 @@ Offset_0x003300:
 	if 0
 		move.w	#$101,(Debug_Mode_Flag).w
 	else
-		; presumably,a previous build also enabled Debug Mode here
+		; presumably, a previous build also enabled Debug Mode here
 		nop
 		nop
 		nop
@@ -7387,9 +7387,14 @@ Offset_0x005AE0:
 		; unlike the final, this wasn't removed, in fact the debug flag was added
 		; here meaning the player didn't need to input 01 03 05 07 to enable it
 		move.w	#$101,(Level_Select_Flag).w
+	if 0
+		move.w	#$101,(Debug_Mode_Flag).w
+	else
+		; presumably, a previous build also enabled Debug Mode here
 		nop
 		nop
 		nop
+	endif
 		clr.w	(Secret_Code_Input_Entries).w
 		clr.w	(Secret_Code_Input_Entries_2).w
 		move.b	#$16,(VBlank_Index).w
