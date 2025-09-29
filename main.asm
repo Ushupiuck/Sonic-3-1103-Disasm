@@ -44061,19 +44061,19 @@ Offset_0x0ED30A:
 Offset_0x0ED337:
 		include	"sound\sfx\A1 - Weather Machine.asm"
 Offset_0x0ED344:
-		binclude	"sound\0xA2.sfx"
+		include	"sound\sfx\A2 - Bouncy.asm"
 Offset_0x0ED378:
-		binclude	"sound\0xA3.sfx"
+		include	"sound\sfx\A3 - Chop Tree.asm"
 Offset_0x0ED3AE:
-		binclude	"sound\0xA4.sfx"
+		include	"sound\sfx\A4 - Rising.asm"
 Offset_0x0ED3E2:
-		binclude	"sound\0xA5.sfx"
+		include	"sound\sfx\A5 - Chop Stuck.asm"
 Offset_0x0ED413:
-		binclude	"sound\0xA6.sfx"
+		include	"sound\sfx\A6 - Unknown Flutter.asm"
 Offset_0x0ED42D:
-		binclude	"sound\0xA7.sfx"
+		include	"sound\sfx\A7 - Unknown Revving.asm"
 Offset_0x0ED45E:
-		binclude	"sound\0xA8.sfx"
+		include	"sound\sfx\A8 - Door Open.asm"
 Offset_0x0ED494:
 		binclude	"sound\0xA9.sfx"
 Door_Close_Sfx_Data:										   ; Offset_0x0ED4C6
