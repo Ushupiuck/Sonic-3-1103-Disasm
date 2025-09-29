@@ -35,7 +35,7 @@ Offset_0x02A8E0:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				beq.s	Offset_0x02A926
 				moveq	#$02, D0
 				btst	#$00, Obj_Status(A0)							 ; $002A
@@ -59,14 +59,14 @@ Offset_0x02A926:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.w	Obj_Control_Var_06(A0), D0						 ; $0036
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 Offset_0x02A94E:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				beq.s	Offset_0x02A96C
 				tst.b	Obj_Control_Var_02(A0)							 ; $0032
 				bmi.s	Offset_0x02A99E
@@ -95,8 +95,8 @@ Offset_0x02A99E:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Trigger_Platform_Mappings:									   ; Offset_0x02A9C2
 				dc.w	Offset_0x02A9C6-Trigger_Platform_Mappings

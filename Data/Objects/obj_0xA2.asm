@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x046004:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04601C(PC, D0), D1
@@ -44,7 +44,7 @@ Offset_0x04605A:
 				move.w	#$0200, D0
 				moveq	#$08, D1
 				jsr		Chase_Object(PC)					   ; Offset_0x042E6C
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x046076:
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016

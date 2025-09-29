@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x044CC8:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x044CEA(PC, D0), D1
@@ -49,9 +49,9 @@ Offset_0x044D26:
 Offset_0x044D3C:
 				move.w	#$0200, D0
 				move.w	#$0008, D1
-				jsr		(Chase_Object_X_Only)				   ; Offset_0x042EC4
+				jsr		(Chase_Object_X_Only).l				   ; Offset_0x042EC4
 				jsr		Change_Flip_X_With_Velocity(PC)		   ; Offset_0x04268A
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x044D54:
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
 				move.w	#$0200, D4
@@ -78,7 +78,7 @@ Offset_0x044D7C:
 				move.w	D0, Obj_Speed_Y(A0)								 ; $001A
 				beq.s	Offset_0x044DAE
 				bmi.s	Offset_0x044DAE
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x044DAA:
 				jmp		Move_Light_Gravity(PC)				   ; Offset_0x0426C2
 Offset_0x044DAE:
@@ -222,7 +222,7 @@ Offset_0x044F6C:
 				move.l	A0, A2
 				move.w	Obj_Height_3(A0), A1							 ; $0044
 				move.l	A1, A0
-				jsr		(Kill_Player)						   ; Offset_0x00A4A4
+				jsr		(Kill_Player).l						   ; Offset_0x00A4A4
 				move.l	A2, A0
 				moveq	#$01, D0
 				rts

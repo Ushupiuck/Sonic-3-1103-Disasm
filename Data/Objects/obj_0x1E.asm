@@ -53,16 +53,16 @@ Offset_0x01F680:
 				lea		Obj_Timer(A0), A4								 ; $002E
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				moveq	#$03, D6
-				bsr		Offset_0x01F784
+				bsr.w	Offset_0x01F784
 Offset_0x01F6A0:
 				andi.b	#$10, D6
 				beq.s	Offset_0x01F6B4
 				lea		$002F(A0), A4
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				moveq	#$04, D6
-				bsr		Offset_0x01F784
+				bsr.w	Offset_0x01F784
 Offset_0x01F6B4:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01F6BA:
 				btst	#$00, Obj_Status(A0)							 ; $002A
 				bne.s	Offset_0x01F722
@@ -135,7 +135,7 @@ Offset_0x01F7E0:
 				sub.w	Obj_X(A0), D0									 ; $0010
 				neg.w	D0
 				cmpi.w	#$0020, D0
-				bcc		Offset_0x01F720
+				bcc.w	Offset_0x01F720
 				move.w	Obj_X(A0), D0									 ; $0010
 				subi.w	#$0010, D0
 				move.w	D0, Obj_X(A1)									 ; $0010

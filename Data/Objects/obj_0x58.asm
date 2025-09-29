@@ -13,7 +13,7 @@
 				move.w	Obj_Y(A0), Obj_Control_Var_02(A0)		  ; $0014, $0032
 				move.b	#$03, Obj_Map_Id(A0)							 ; $0022
 				move.b	#$8F, Obj_Col_Flags(A0)							 ; $0028
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02A444
 				move.l	#Offset_0x02A4C4, (A1)
 				move.l	#Swinging_Spiked_Ball_Mappings, Obj_Map(A1) ; Offset_0x02A582, $000C
@@ -59,7 +59,7 @@ Offset_0x02A480:
 				move.b	Obj_Control_Var_06(A0), D0						 ; $0036
 				add.b	D0, Obj_Control_Var_04(A0)						 ; $0034
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
-				jmp		(MarkObjGone_5_D0)					   ; Offset_0x011BD0
+				jmp		(MarkObjGone_5_D0).l					   ; Offset_0x011BD0
 Offset_0x02A49A:
 				move.w	Obj_Control_Var_0C(A0), A1						 ; $003C
 				bsr.w	Offset_0x02A526
@@ -72,10 +72,10 @@ Offset_0x02A4B0:
 Offset_0x02A4B6:
 				move.w	Obj_Control_Var_06(A0), D0						 ; $0036
 				add.w	D0, Obj_Control_Var_04(A0)						 ; $0034
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 ;-------------------------------------------------------------------------------
 Offset_0x02A4C4:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x02A4CA:
 				move.w	#$0200, Obj_Priority(A0)						 ; $0008

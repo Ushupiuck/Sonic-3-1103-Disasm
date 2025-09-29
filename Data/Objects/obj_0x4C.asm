@@ -14,7 +14,7 @@
 				beq.s	Offset_0x029428
 				rts
 Offset_0x029428:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x02942E:
 				moveq	#$00, D0
 				move.b	(A4), D0
@@ -151,7 +151,7 @@ Offset_0x0295B2:
 				andi.w	#$000F, D0
 				add.w	D0, D0
 				lea		(Offset_0x029660).l, A2
-				adda.w	$00(A2, D0), A2
+				adda.w	(A2, D0), A2
 				move.w	(A2)+, $0004(A4)
 				subq.w	#$04, $0004(A4)
 				move.w	(A2)+, D4

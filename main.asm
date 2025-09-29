@@ -1274,10 +1274,10 @@ sndDriverInput:
 ; which handled its sound queues on the 68000-side; it seems like the devs
 ; retained this system when switching over to the new driver before a Z80-led
 ; sound input system could be implemented. Sonic CD uses a similar system.
-		move.b	(Sound_Queue.Music0).w,(Z80_RAM_Start+zMusicNumber).l
-		move.b	(Sound_Queue.SFX0).w,(Z80_RAM_Start+zSFXNumber0).l
-		move.b	(Sound_Queue.SFX1).w,(Z80_RAM_Start+zSFXNumber1).l
-		move.b	(Sound_Queue.Music1).w,(Z80_RAM_Start+zPauseFlag).l
+		move.b	(Sound_Queue.Music0).w,(Z80_RAM+zMusicNumber).l
+		move.b	(Sound_Queue.SFX0).w,(Z80_RAM+zSFXNumber0).l
+		move.b	(Sound_Queue.SFX1).w,(Z80_RAM+zSFXNumber1).l
+		move.b	(Sound_Queue.Music1).w,(Z80_RAM+zPauseFlag).l
 		moveq	#0,d0
 		move.l	d0,(Sound_Queue).w	; clear whole queue
 		rts
@@ -1340,8 +1340,8 @@ Offset_0x000F24:
 ; ->>>
 ;===============================================================================
 VDPRegSetup:												   ; Offset_0x000F52
-		lea	(VDP_Control_Port),a0						; $00C00004
-		lea	(VDP_Data_Port),a1							; $00C00000
+		lea	(VDP_Control_Port).l,a0						; $00C00004
+		lea	(VDP_Data_Port).l,a1							; $00C00000
 		lea	(VDPRegSetup_Array).l,a2				; Offset_0x000FDC
 		moveq	#bytesToWcnt(VDPRegSetup_Array_End-VDPRegSetup_Array),d7
 Offset_0x000F66:
@@ -1494,7 +1494,7 @@ SoundDriverLoad:
 		move.w	#$100,(Z80_Reset).l		; release Z80 reset
 		; load SMPS sound driver
 		lea	(Z80_Driver).l,a0
-		lea	(Z80_RAM_Start).l,a1
+		lea	(Z80_RAM).l,a1
 		move.w	#Z80_Driver_End-Z80_Driver-1,d0
 
 Offset_0x001128:
@@ -1502,7 +1502,7 @@ Offset_0x001128:
 		dbf	d0,Offset_0x001128
 		; load default variables
 		lea	(Z80_DefaultVariables).l,a0
-		lea	(Z80_RAM_Start+zDataStart).l,a1
+		lea	(Z80_RAM+zDataStart).l,a1
 		move.w	#Z80_DefaultVariables_End-Z80_DefaultVariables-1,d0
 
 Offset_0x00113E:
@@ -1512,7 +1512,7 @@ Offset_0x00113E:
 		; Detect PAL region consoles
 		btst	#6,(Hardware_Id).w
 		beq.s	.notpal
-		move.b	#1,(Z80_RAM_Start+zPalFlag).l
+		move.b	#1,(Z80_RAM+zPalFlag).l
 
 .notpal:
 	endif
@@ -21236,7 +21236,7 @@ Offset_0x015B90:
 		bchg	#0,Obj_Status(A0)					; $002A
 		addq.b	#$01,Obj_Map_Id(A0)					; $0022
 Offset_0x015BA4:
-		bra	Offset_0x015D5E
+		bra.w	Offset_0x015D5E
 Offset_0x015BA8:
 		subq.b	#$01,Obj_Control_Var_08(A0)			; $0038
 Offset_0x015BAC:
@@ -35541,7 +35541,7 @@ Offset_0x038C9A:
 Offset_0x038CAE:
 		move.w	Obj_Speed_X(A0),Obj_Height_3(A0)		; $0018, $0044
 		clr.w	Obj_Speed_X(A0)					; $0018
-		bra	ScrewMobile_FanAttack
+		bra.w	ScrewMobile_FanAttack
 ;-------------------------------------------------------------------------------
 Offset_0x038CBC:
 		move.l	#Offset_0x038CE6,(A0)
@@ -35697,7 +35697,7 @@ Offset_0x038EA0:
 Offset_0x038EC6:
 		jsr	(SpeedToPos)				 ; Offset_0x01111E
 		jsr	(AnimateRaw)				; Offset_0x04208E
-		bra	Offset_0x0396FA
+		bra.w	Offset_0x0396FA
 ;-------------------------------------------------------------------------------
 Offset_0x038ED6:
 		move.b	#$06,Obj_Routine(A0)					; $0005
@@ -35722,7 +35722,7 @@ Offset_0x038F1C:
 		rts
 ;-------------------------------------------------------------------------------
 ; Offset_0x038F1E:
-		bra	Offset_0x0396FA
+		bra.w	Offset_0x0396FA
 ;-------------------------------------------------------------------------------
 Offset_0x038F22:
 		move.l	#Offset_0x038F3C,(A0)
@@ -35782,7 +35782,7 @@ Offset_0x038FB8:
 Offset_0x038FD8:
 		move.b	#$04,Obj_Routine(A0)					; $0005
 		move.w	Obj_Speed_X(A1),Obj_Speed_X(A0)		; $0018, $0018
-		bra	Offset_0x03957A
+		bra.w	Offset_0x03957A
 ;-------------------------------------------------------------------------------
 Offset_0x038FE8:
 		bsr.w	Offset_0x039382
@@ -35950,7 +35950,7 @@ Offset_0x039200:
 		move.w	#$0007,Obj_Timer(A0)					; $002E
 		move.l	#Offset_0x03923C,Obj_Child(A0)			; $0034
 		bsr.w	Offset_0x03935C
-		bra	Offset_0x039370
+		bra.w	Offset_0x039370
 Offset_0x039220:
 		move.b	Obj_Control_Var_10(A0),d0				; $0040
 		add.b	D0,Obj_Control_Var_12(A0)				; $0042
@@ -43993,19 +43993,19 @@ Offset_0x0ECFA6:
 Offset_0x0ECFD3:
 		include	"sound\sfx\8E - Slide Skid (Quiet).asm"
 Offset_0x0ECFE4:
-		binclude	"sound\0x8F.sfx"
+		include	"sound\sfx\8F - Ground Slide.asm"
 Offset_0x0ECFFC:
-		binclude	"sound\0x90.sfx"
+		include	"sound\sfx\90 - Spike Balls.asm"
 Frost_Puff_Sfx_Data:										   ; Offset_0x0ED032
-		binclude	"sound\0x91.sfx"
+		include	"sound\sfx\91 - Frost Puff.asm"
 Ice_Spike_Sfx_Data:											   ; Offset_0x0ED050
-		binclude	"sound\0x92.sfx"
+		include	"sound\sfx\92 - Ice Spikes.asm"
 Offset_0x0ED07F:
-		binclude	"sound\0x93.sfx"
+		include	"sound\sfx\93 - Light Tunnel.asm"
 Offset_0x0ED0B2:
-		binclude	"sound\0x94.sfx"
+		include	"sound\sfx\94 - Rumble.asm"
 Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
-		binclude	"sound\0x95.sfx"
+		include	"sound\sfx\95 - Tube Launcher.asm"
 Offset_0x0ED12F:
 		binclude	"sound\0x96.sfx"
 Bridge_Collapse_Sfx_Data:									   ; Offset_0x0ED14D

@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x04663E:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 Obj_0xB9_Iz_Platform_2:										   ; Offset_0x046644
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
@@ -14,9 +14,9 @@ Obj_0xB9_Iz_Platform_2:										   ; Offset_0x046644
 				moveq	#$14, D2
 				moveq	#$14, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				bsr		Obj_0xB9_Sub_0x046A94				   ; Offset_0x046A94
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				bsr.w	Obj_0xB9_Sub_0x046A94				   ; Offset_0x046A94
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x04666E:
 				dc.w	Offset_0x046682-Offset_0x04666E
@@ -41,7 +41,7 @@ Offset_0x046682:
 				lsr.w	#$01, D0
 				move.b	Offset_0x0466B6(PC, D0), Obj_Routine(A0)		 ; $0005
 				tst.w	D0
-				bne		Offset_0x046738
+				bne.w	Offset_0x046738
 				lea		Offset_0x046AFA(PC), A2
 				jmp		SetupChildObject(PC)			   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
@@ -97,8 +97,8 @@ Offset_0x046738:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x04673A:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				cmpi.w	#$0008, D1
 				bge.s	Offset_0x046792
 				move.b	D3, Obj_Angle(A0)								 ; $0026
@@ -114,24 +114,24 @@ Offset_0x04675A:
 				ext.w	D3
 				asr.w	#$01, D3
 				add.w	D3, D0
-				bsr		Obj_0xB9_Sub_0x046A2A				   ; Offset_0x046A2A
+				bsr.w	Obj_0xB9_Sub_0x046A2A				   ; Offset_0x046A2A
 Offset_0x046770:
 				tst.w	Obj_Speed_X(A0)									 ; $0018
 				bmi.s	Offset_0x046784
 				moveq	#$1C, D3
-				jsr		(Object_HitWall_Right)				   ; Offset_0x009EEE
+				jsr		(Object_HitWall_Right).l				   ; Offset_0x009EEE
 				tst.w	D1
 				bmi.s	Offset_0x04679E
 				rts
 Offset_0x046784:
 				moveq	#-$1C, D3
-				jsr		(Object_HitWall_Left)				   ; Offset_0x00A138
+				jsr		(Object_HitWall_Left).l				   ; Offset_0x00A138
 				tst.w	D1
 				bmi.s	Offset_0x04679E
 				rts
 Offset_0x046792:
 				move.b	#$0A, Obj_Routine(A0)							 ; $0005
-				bsr		Offset_0x046A56
+				bsr.w	Offset_0x046A56
 				rts
 Offset_0x04679E:
 				move.b	#$0C, Obj_Routine(A0)							 ; $0005
@@ -140,7 +140,7 @@ Offset_0x04679E:
 				beq.w	Offset_0x046738
 				lea		Offset_0x046AEE(PC), A2
 				jsr		Load_Child_Object_Simple_A2(PC)		   ; Offset_0x041F5A
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x0467D8
 				move.l	#Obj07_Springs, (A1)				; Offset_0x01921A
 				move.w	#$5D6A, Obj_X(A1)								 ; $0010
@@ -154,22 +154,22 @@ Offset_0x0467D8:
 				dc.w	$FFC8, $FFD0, $FFD8, $FFE0, $FFE8, $FFF0, $FFF8, $0000
 ;-------------------------------------------------------------------------------
 Offset_0x0467FC:
-				bsr		Offset_0x046A3C
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				bsr.w	Offset_0x046A3C
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bmi.s	Offset_0x04683E
 				tst.w	Obj_Speed_X(A0)									 ; $0018
 				beq.s	Offset_0x04683C
 				bmi.s	Offset_0x046828
 				moveq	#$20, D3
-				jsr		(Object_HitWall_Right)				   ; Offset_0x009EEE
+				jsr		(Object_HitWall_Right).l				   ; Offset_0x009EEE
 				tst.w	D1
 				bmi.s	Offset_0x046834
 				bra.w	Offset_0x04683C
 Offset_0x046828:
 				moveq	#-$20, D3
-				jsr		(Object_HitWall_Left)				   ; Offset_0x00A138
+				jsr		(Object_HitWall_Left).l				   ; Offset_0x00A138
 				tst.w	D1
 				bpl.s	Offset_0x04683C
 Offset_0x046834:
@@ -213,7 +213,7 @@ Offset_0x046882:
 ;-------------------------------------------------------------------------------
 Offset_0x04688E:
 				addi.w	#$FFE0, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.w	Obj_Y(A0), D0									 ; $0014
 				cmp.w	Obj_Control_Var_0A(A0), D0						 ; $003A
 				bls.s	Offset_0x0468A6

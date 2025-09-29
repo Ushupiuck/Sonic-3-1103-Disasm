@@ -84,15 +84,15 @@ Offset_0x00FE5E:
 ;-------------------------------------------------------------------------------
 Offset_0x00FE66:
 				lea		(Dust_Water_Splash_Animate_Data).l, A1	 ; Offset_0x00FF72
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				bsr		Offset_0x00FF1E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				bsr.w	Offset_0x00FF1E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x00FE7C:
 				move.b	#$00, Obj_Ani_Number(A0)						 ; $0020
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x00FE84:
-				bra		DeleteObject						   ; Offset_0x011138
+				bra.w	DeleteObject						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x00FE88:
 				move.w	Obj_Player_Last(A0), A2							 ; $0042
@@ -105,7 +105,7 @@ Offset_0x00FEA2:
 				subq.b	#$01, Obj_Control_Var_06(A0)					 ; $0036
 				bpl.s	Offset_0x00FF1A
 				move.b	#$03, Obj_Control_Var_06(A0)					 ; $0036
-				bsr		AllocateObject						 ; Offset_0x011DD8
+				bsr.w	AllocateObject						 ; Offset_0x011DD8
 				bne.s	Offset_0x00FF1A
 				move.l	(A0), (A1)
 				move.w	Obj_X(A2), Obj_X(A1)					  ; $0010, $0010
@@ -139,7 +139,7 @@ Offset_0x00FF1E:
 				move.b	D0, Obj_Control_Var_04(A0)						 ; $0034
 				lea		(Dust_Water_Splash_Dyn_Script).l, A2	 ; Offset_0x010066
 				add.w	D0, D0
-				adda.w	$00(A2, D0), A2
+				adda.w	(A2, D0), A2
 				move.w	(A2)+, D5
 				subq.w	#$01, D5
 				bmi.s	Offset_0x00FF70

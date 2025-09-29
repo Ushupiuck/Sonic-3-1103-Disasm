@@ -40,7 +40,7 @@ Offset_0x01BD2E:
 				bcc.s	Offset_0x01BD92
 				lsl.w	#$02, D0
 				lea		(Oscillate_Data_Buffer+$2C).w, A2			 ; $FFFFFE8A
-				lea		$00(A2, D0), A2
+				lea		(A2, D0), A2
 				tst.w	(A2)
 				bpl.s	Offset_0x01BD9E
 				bchg	#00, Obj_Timer(A0)								 ; $002E
@@ -66,26 +66,26 @@ Offset_0x01BDB2:
 				moveq	#$00, D1
 				move.b	Obj_Width(A0), D1								 ; $0007
 				move.w	#$0009, D3
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 Offset_0x01BDDC:
 				move.w	Obj_Height_3(A0), D0							 ; $0044
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmp.w	Obj_Control_Var_12(A0), D0						 ; $0042
 				bhi.w	Offset_0x01BDF6
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01BDF6:
 				tst.b	Obj_Control_Var_0D(A0)							 ; $003D
 				beq.s	Offset_0x01BE06
 				move.w	Obj_Control_Var_0E(A0), A1						 ; $003E
-				jsr		(Delete_A1_Object)					   ; Offset_0x01113A
+				jsr		(Delete_A1_Object).l					   ; Offset_0x01113A
 Offset_0x01BE06:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x01BE12
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x01BE12:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x01BE18:
 				dc.w	Offset_0x01BE50-Offset_0x01BE18
@@ -341,7 +341,7 @@ Offset_0x01C06E:
 				move.w	#$7F00, Obj_X(A0)								 ; $0010
 				move.w	#$7F00, Obj_Height_3(A0)						 ; $0044
 Offset_0x01C0A0:
-				bra		Offset_0x01BDDC
+				bra.w	Offset_0x01BDDC
 ;-------------------------------------------------------------------------------
 Offset_0x01C0A4:
 				tst.b	Obj_Control_Var_0C(A0)							 ; $003C
@@ -354,7 +354,7 @@ Offset_0x01C0A4:
 Offset_0x01C0C0:
 				rts
 Offset_0x01C0C2:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				moveq	#$08, D1
 				move.w	Obj_Control_Var_04(A0), D0						 ; $0034
 				subi.w	#$0080, D0
@@ -363,7 +363,7 @@ Offset_0x01C0C2:
 				neg.w	D1
 				add.w	D1, Obj_Speed_Y(A0)								 ; $001A
 Offset_0x01C0DE:
-				jsr		(Object_HitCeiling)					   ; Offset_0x009FB4
+				jsr		(Object_HitCeiling).l					   ; Offset_0x009FB4
 				tst.w	D1
 				bpl.s	Offset_0x01C0F6
 				sub.w	D1, Obj_Y(A0)									 ; $0014
@@ -375,10 +375,10 @@ Offset_0x01C0F6:
 				beq.s	Offset_0x01C116
 				move.l	A0, -(A7)
 				lea		(Obj_Player_One).w, A0						 ; $FFFFB000
-				jsr		(Offset_0x009C92)
+				jsr		(Offset_0x009C92).l
 				tst.w	D1
 				bpl.s	Offset_0x01C114
-				jsr		(Kill_Player)						   ; Offset_0x00A4A4
+				jsr		(Kill_Player).l						   ; Offset_0x00A4A4
 Offset_0x01C114:
 				move.l	(A7)+, A0
 Offset_0x01C116:
@@ -386,10 +386,10 @@ Offset_0x01C116:
 				beq.s	Offset_0x01C136
 				move.l	A0, -(A7)
 				lea		(Obj_Player_Two).w, A0						 ; $FFFFB04A
-				jsr		(Offset_0x009C92)
+				jsr		(Offset_0x009C92).l
 				tst.w	D1
 				bpl.s	Offset_0x01C134
-				jsr		(Kill_Player)						   ; Offset_0x00A4A4
+				jsr		(Kill_Player).l						   ; Offset_0x00A4A4
 Offset_0x01C134:
 				move.l	(A7)+, A0
 Offset_0x01C136:

@@ -35,7 +35,7 @@ Offset_0x01E72E:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				moveq	#$03, D6
 				movem.l D1-D4, -(A7)
-				jsr		(Solid_Object_2_A1)					   ; Offset_0x0135CC
+				jsr		(Solid_Object_2_A1).l					   ; Offset_0x0135CC
 				cmpi.w	#$FFFE, D4
 				bne.s	Offset_0x01E756
 				bsr.s	Offset_0x01E7A8
@@ -43,7 +43,7 @@ Offset_0x01E756:
 				movem.l (A7)+, D1-D4
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				moveq	#$04, D6
-				jsr		(Solid_Object_2_A1)					   ; Offset_0x0135CC
+				jsr		(Solid_Object_2_A1).l					   ; Offset_0x0135CC
 				cmpi.w	#$FFFE, D4
 				bne.s	Offset_0x01E76E
 				bsr.s	Offset_0x01E7A8
@@ -55,16 +55,16 @@ Offset_0x01E76E:
 				andi.b	#$08, D0
 				beq.s	Offset_0x01E788
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x01E788:
 				andi.b	#$10, D6
 				beq.s	Offset_0x01E796
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
-				bsr		Hurt_Player_A1						   ; Offset_0x01A71C
+				bsr.w	Hurt_Player_A1						   ; Offset_0x01A71C
 Offset_0x01E796:
 				lea		(LBz_Unknow_Animate_Data).l, A1			 ; Offset_0x01E7B6
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01E7A8:
 				move.w	#$FFC0, Obj_Speed_Y(A0)							 ; $001A
 				move.b	#$01, Obj_Timer(A0)								 ; $002E

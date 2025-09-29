@@ -36,7 +36,7 @@ Offset_0x014ED6:
 Offset_0x014EEE:
 				addq.w	#$04, (Sonic_Level_Limits_Max_X).w			 ; $FFFFEE16
 Offset_0x014EF2:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x014EF8:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				lea		Obj_Control_Var_00(A0), A2						 ; $0030
@@ -69,11 +69,11 @@ Offset_0x014F10:
 				blt.s	Offset_0x014F90
 				tst.b	Obj_Player_Control(A1)							 ; $002E
 				bne.s	Offset_0x014F90
-				bsr		Ride_Object_Set_Ride				   ; Offset_0x013C80
+				bsr.w	Ride_Object_Set_Ride				   ; Offset_0x013C80
 				move.l	#$00000000, (A2)
 				bset	#$06, Obj_Player_Control(A1)					 ; $002E
 				bset	#$01, Obj_Player_Control(A1)					 ; $002E
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x014F7E
 				move.l	#Obj_AIz_Tree_Reveal_Control, (A1)	   ; Offset_0x03064C
 Offset_0x014F7E:
@@ -121,7 +121,7 @@ Offset_0x014FFE:
 				bra.s	Offset_0x014FBC
 Offset_0x015010:
 				btst	#$03, Obj_Status(A1)							 ; $002A
-				beq		Offset_0x014F90
+				beq.w	Offset_0x014F90
 				move.w	Obj_Inertia(A1), D0								 ; $001C
 				ext.l	D0
 				lsl.l	#$08, D0
@@ -160,7 +160,7 @@ Offset_0x015038:
 				move.b	Offset_0x015096(PC, D0), Obj_Map_Id(A1)			 ; $0022
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A1), D0								 ; $0022
-				jmp		(Load_Sonic_Dynamic_PLC_D0)			   ; Offset_0x00C7F0
+				jmp		(Load_Sonic_Dynamic_PLC_D0).l			   ; Offset_0x00C7F0
 ;-------------------------------------------------------------------------------
 Offset_0x015096:
 				dc.b	$D6, $D7, $D8, $E4, $D9, $D9, $DA, $DA

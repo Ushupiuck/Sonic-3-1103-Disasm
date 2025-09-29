@@ -3,14 +3,14 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x048DF8:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x048E1A(PC, D0), D1
 				jsr		Offset_0x048E1A(PC, D1)
 				lea		Flybot_767_PLC_Data(PC), A2			   ; Offset_0x048F78
 				jsr		LoadDynamicPLC(PC)				  ; Offset_0x042A0A
-				jmp		(Check_Delete_Touch_Slotted)		   ; Offset_0x042C1E
+				jmp		(Check_Delete_Touch_Slotted).l		   ; Offset_0x042C1E
 ;-------------------------------------------------------------------------------
 Offset_0x048E1A:
 				dc.w	Offset_0x048E26-Offset_0x048E1A
@@ -37,7 +37,7 @@ Offset_0x048E42:
 ;-------------------------------------------------------------------------------
 Offset_0x048E5C:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Find_Player(PC)						   ; Offset_0x042634
 				cmpi.w	#$0080, D2
 				bcc.s	Offset_0x048E78
@@ -56,7 +56,7 @@ Offset_0x048E7C:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x048EA6:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		AnimateRaw(PC)						  ; Offset_0x04208E
 ;-------------------------------------------------------------------------------
 Offset_0x048EB0:
@@ -83,11 +83,11 @@ Offset_0x048EE8:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x048EFC:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.w	Obj_Y(A0), D0									 ; $0014
 				cmp.w	Obj_Height_3(A0), D0							 ; $0044
 				bcs.s	Offset_0x048F12
-				jmp		(AnimateRaw)						  ; Offset_0x04208E
+				jmp		(AnimateRaw).l						  ; Offset_0x04208E
 Offset_0x048F12:
 				move.b	#$0A, Obj_Routine(A0)							 ; $0005
 				move.l	#Offset_0x048F80, Obj_Child_Data(A0)			 ; $0030
@@ -107,7 +107,7 @@ Offset_0x048F48:
 				neg.w	Obj_Speed_X(A0)									 ; $0018
 				bchg	#00, Obj_Flags(A0)								 ; $0004
 Offset_0x048F56:
-				bra		Offset_0x048E42
+				bra.w	Offset_0x048E42
 ;-------------------------------------------------------------------------------
 Offset_0x048F5A:
 				jmp		Swing_Up_And_Down_Animate_Raw_Wait(PC) ; Offset_0x042F78

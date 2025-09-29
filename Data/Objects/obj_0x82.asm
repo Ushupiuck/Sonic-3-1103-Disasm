@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x043C2A:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x043C4A(PC, D0), D1
@@ -39,22 +39,22 @@ Offset_0x043C86:
 ;-------------------------------------------------------------------------------
 Offset_0x043C98:
 				lea		Offset_0x043D58(PC), A3
-				bsr		Offset_0x043E6A
+				bsr.w	Offset_0x043E6A
 				lea		Offset_0x043D3A(PC), A3
-				bsr		Offset_0x043E90
+				bsr.w	Offset_0x043E90
 				move.w	Obj_Control_Var_10(A0), D0						 ; $0040
 				add.w	D0, Obj_Speed_X(A0)								 ; $0018
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				bsr		Offset_0x043DBE
-				bra		Offset_0x043DE2
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				bsr.w	Offset_0x043DBE
+				bra.w	Offset_0x043DE2
 ;-------------------------------------------------------------------------------
 Offset_0x043CBE:
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x043CC2:
 				lea		Offset_0x043DAE(PC), A3
-				bsr		Offset_0x043E90
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				bsr.w	Offset_0x043E90
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x043CD0:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
@@ -129,7 +129,7 @@ Offset_0x043DA8:
 Offset_0x043DAE:
 				move.b	#$02, Obj_Routine(A0)							 ; $0005
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
-				bra		Offset_0x043D3A
+				bra.w	Offset_0x043D3A
 ;-------------------------------------------------------------------------------
 Offset_0x043DBE:
 				move.w	Obj_Speed_X(A0), D0								 ; $0018
@@ -219,7 +219,7 @@ Offset_0x043E9C:
 				move.w	Obj_X(A0), D3									 ; $0010
 				add.w	D0, D3
 				move.l	A3, -(A7)
-				jsr		(ObjHitFloor_D3)					   ; Offset_0x009D88
+				jsr		(ObjHitFloor_D3).l					   ; Offset_0x009D88
 				move.l	(A7)+, A3
 				cmpi.w	#$FFFF, D1
 				blt.s	Offset_0x043EBE

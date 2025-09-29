@@ -260,7 +260,7 @@ Offset_0x0075B2:
 				lsl.w	#$06, D0
 				andi.w	#$0380, D0
 				move.w	D0, Obj_Priority(A0)							 ; $0008
-				jsr		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0075C6:
 				rts
 ;-------------------------------------------------------------------------------

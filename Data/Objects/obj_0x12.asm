@@ -43,9 +43,9 @@ Offset_0x01C706:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 Offset_0x01C736:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x01C73C:
 				dc.w	Offset_0x01C744-Offset_0x01C73C
@@ -84,7 +84,7 @@ Offset_0x01C78E:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				tst.b	$00(A3, D0)
+				tst.b	(A3, D0)
 				bne.s	Offset_0x01C7AA
 				move.w	#$8000, Obj_Sub_Y(A0)							 ; $0016
 				addq.w	#$02, Obj_Control_Var_06(A0)					 ; $0036

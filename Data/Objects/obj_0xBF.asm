@@ -7,7 +7,7 @@
 				move.l	#Offset_0x0479A2, (A0)
 				lea		Ice_Cube_Setup_Data(PC), A1			   ; Offset_0x047A72
 				jsr		SetupObjectAttributes(PC)					 ; Offset_0x041D72
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x0479A2:
 				move.b	(Obj_Player_One+Obj_Ani_Number).w, Obj_Control_Var_0A(A0) ; $FFFFB020, $003A
@@ -16,9 +16,9 @@ Offset_0x0479A2:
 				moveq	#$10, D2
 				moveq	#$10, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				bsr.w	Offset_0x0479C8
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x0479C8:
 				move.b	Obj_Status(A0), D0								 ; $002A
 				btst	#$03, D0
@@ -45,7 +45,7 @@ Offset_0x0479F0:
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 				moveq	#Boss_Hit_Sfx, D0								   ; $7C
 				jsr		(Play_Music).l							 ; Offset_0x001176
-				jsr		(Go_Delete_Object_A0)				   ; Offset_0x042D3E
+				jsr		(Go_Delete_Object_A0).l				   ; Offset_0x042D3E
 Offset_0x047A36:
 				rts
 ;-------------------------------------------------------------------------------

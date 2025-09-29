@@ -15,7 +15,7 @@
 Offset_0x00A574:
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x00A59C
-				jmp		(Debug_Mode)						   ; Offset_0x04B1B2
+				jmp		(Debug_Mode).l						   ; Offset_0x04B1B2
 Offset_0x00A580:
 				lea		(Miles_Max_Speed).w, A4						 ; $FFFFFEC0
 				lea		(Distance_From_Top_P2).w, A5				 ; $FFFFEE2E
@@ -48,16 +48,16 @@ Offset_0x00A5B6:
 				move.b	#$0C, Obj_Width(A0)								 ; $0007
 				move.b	#$0C, Obj_Height(A0)							 ; $0006
 				move.b	#$04, Obj_Flags(A0)								 ; $0004
-				lea		(Player_Start_Speed_Array), A1		   ; Offset_0x1F7000
+				lea		(Player_Start_Speed_Array).l, A1		   ; Offset_0x1F7000
 				moveq	#$00, D0
 				move.b	Obj_Player_Selected(A0), D0						 ; $0038
 				lsl.w	#$03, D0
-				lea		$00(A1, D0), A1
+				lea		(A1, D0), A1
 				move.w	(A1)+, (A4)
 				move.w	(A1)+, Acceleration(A4)							 ; $0002
 				move.w	(A1)+, Deceleration(A4)							 ; $0004
 				tst.b	(Saved_Level_Flag).w						 ; $FFFFFE30
-				bne		Offset_0x00A6B2
+				bne.w	Offset_0x00A6B2
 				move.b	#$0C, Obj_Player_Top_Solid(A0)					 ; $0046
 				move.b	#$0D, Obj_Player_LRB_Solid(A0)					 ; $0047
 				cmpa.w	#Obj_Player_One, A0								 ; $B000
@@ -99,7 +99,7 @@ Offset_0x00A6B2:
 				move.b	#$04, Obj_Player_Flip_Speed(A0)					 ; $0031
 				move.b	#$00, (Super_Sonic_flag).w					 ; $FFFFFE19
 				move.b	#$1E, Obj_Subtype(A0)							 ; $002C
-				bsr		ResetPlayerPositionArray			; Offset_0x00ACEC
+				bsr.w	ResetPlayerPositionArray			; Offset_0x00ACEC
 				move.w	#$0000, (Dropdash_flag).w	   ; $FFFFFE5A
 Offset_0x00A6D4:
 				tst.w	(Debug_Mode_Active).w						 ; $FFFFFFFA
@@ -123,7 +123,7 @@ Offset_0x00A708:
 				bne.s	Offset_0x00A714
 				move.w	(Control_Ports_Buffer_Data+$0002).w, (Control_Ports_Logical_Data).w ; $FFFFF606, $FFFFF602
 Offset_0x00A714:
-				bsr		Sonic_Display						   ; Offset_0x00ABD2
+				bsr.w	Sonic_Display						   ; Offset_0x00ABD2
 				btst	#$00, Obj_Player_Control(A0)					 ; $002E
 				bne.s	Offset_0x00A732
 				moveq	#$00, D0
@@ -140,13 +140,13 @@ Offset_0x00A742:
 				move.w	(Screen_Wrap_X).w, D0						 ; $FFFFEEA8
 				and.w	D0, Obj_X(A0)									 ; $0010
 				addi.w	#$0400, Obj_X(A0)								 ; $0010
-				bsr		Sonic_RecordPos					; Offset_0x00ACA2
+				bsr.w	Sonic_RecordPos					; Offset_0x00ACA2
 				move.b	(Primary_Angle).w, Obj_Player_Next_Tilt(A0) ; $FFFFF768, $003A
 				move.b	(Secondary_Angle).w, Obj_Player_Tilt(A0)	; $FFFFF76A, $003B
 				btst	#$01, Obj_Player_Control(A0)					 ; $002E
 				bne.s	Offset_0x00A770
-				bsr		Sonic_Or_Knuckles_Animate_Sprite_2P	   ; Offset_0x00C83E
-				bsr		LoadSonicDynamicPLC_2P				; Offset_0x00CBA2
+				bsr.w	Sonic_Or_Knuckles_Animate_Sprite_2P	   ; Offset_0x00C83E
+				bsr.w	LoadSonicDynamicPLC_2P				; Offset_0x00CBA2
 Offset_0x00A770:
 				move.b	Obj_Player_Control(A0), D0						 ; $002E
 				andi.b	#$A0, D0
@@ -173,7 +173,7 @@ Offset_0x00A78A:
 				bne.s	Offset_0x00A7D8
 				cmpi.b	#$1E, Obj_Ani_Frame(A0)							 ; $0023
 				bcs.s	Offset_0x00A7D8
-				bsr		Sonic_SlopeResist					   ; Offset_0x00BC36
+				bsr.w	Sonic_SlopeResist					   ; Offset_0x00BC36
 				move.b	(Control_Ports_Logical_Data).w, D0			 ; $FFFFF602
 				andi.b	#$7F, D0
 				beq.s	Offset_0x00A7F2
@@ -183,55 +183,55 @@ Offset_0x00A78A:
 				move.b	#$0B, Obj_Ani_Number(A0)						 ; $0020
 				bra.s	Offset_0x00A7F2
 Offset_0x00A7D8:
-				bsr		Offset_0x00A8E0
-				bsr		Sonic_Jump							   ; Offset_0x00B61C
-				bsr		Sonic_SlopeResist					   ; Offset_0x00BC36
-				bsr		Sonic_Move							   ; Offset_0x00AF42
-				bsr		Offset_0x00A87A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				bsr.w	Offset_0x00A8E0
+				bsr.w	Sonic_Jump							   ; Offset_0x00B61C
+				bsr.w	Sonic_SlopeResist					   ; Offset_0x00BC36
+				bsr.w	Sonic_Move							   ; Offset_0x00AF42
+				bsr.w	Offset_0x00A87A
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x00A7F2:
-				bsr		Player_AnglePos						   ; Offset_0x009144
-				bsr		Sonic_SlopeRepel					   ; Offset_0x00BCBA
+				bsr.w	Player_AnglePos						   ; Offset_0x009144
+				bsr.w	Sonic_SlopeRepel					   ; Offset_0x00BCBA
 Offset_0x00A7FA:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x00A7FC:
-				bsr		Sonic_JumpHeight					   ; Offset_0x00B6FA
-				bsr		Sonic_ChgJumpDir					   ; Offset_0x00B4D0
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				bsr.w	Sonic_JumpHeight					   ; Offset_0x00B6FA
+				bsr.w	Sonic_ChgJumpDir					   ; Offset_0x00B4D0
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				btst	#$06, Obj_Status(A0)							 ; $002A
 				beq.s	Offset_0x00A818
 				subi.w	#$0028, Obj_Speed_Y(A0)							 ; $001A
 Offset_0x00A818:
-				bsr		Sonic_JumpAngle						   ; Offset_0x00BD1C
+				bsr.w	Sonic_JumpAngle						   ; Offset_0x00BD1C
 				movem.l A4-A6, -(A7)
-				bsr		Sonic_Floor							   ; Offset_0x00BD7C
+				bsr.w	Sonic_Floor							   ; Offset_0x00BD7C
 				movem.l (A7)+, A4-A6
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x00A82A:
 				tst.b	Obj_Player_Spdsh_Flag(A0)						 ; $003D
 				bne.s	Offset_0x00A834
-				bsr		Sonic_Jump							   ; Offset_0x00B61C
+				bsr.w	Sonic_Jump							   ; Offset_0x00B61C
 Offset_0x00A834:
-				bsr		Sonic_RollRepel						   ; Offset_0x00BC7E
-				bsr		Sonic_RollSpeed						   ; Offset_0x00B3AC
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				bsr		Player_AnglePos						   ; Offset_0x009144
-				bsr		Sonic_SlopeRepel					   ; Offset_0x00BCBA
+				bsr.w	Sonic_RollRepel						   ; Offset_0x00BC7E
+				bsr.w	Sonic_RollSpeed						   ; Offset_0x00B3AC
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				bsr.w	Player_AnglePos						   ; Offset_0x009144
+				bsr.w	Sonic_SlopeRepel					   ; Offset_0x00BCBA
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x00A84C:
-				bsr		Sonic_JumpHeight					   ; Offset_0x00B6FA
-				bsr		Sonic_ChgJumpDir					   ; Offset_0x00B4D0
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				bsr.w	Sonic_JumpHeight					   ; Offset_0x00B6FA
+				bsr.w	Sonic_ChgJumpDir					   ; Offset_0x00B4D0
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				btst	#$06, Obj_Status(A0)							 ; $002A
 				beq.s	Offset_0x00A868
 				subi.w	#$0028, Obj_Speed_Y(A0)							 ; $001A
 Offset_0x00A868:
-				bsr		Sonic_JumpAngle						   ; Offset_0x00BD1C
+				bsr.w	Sonic_JumpAngle						   ; Offset_0x00BD1C
 				movem.l A4-A6, -(A7)
-				bsr		Sonic_Floor							   ; Offset_0x00BD7C
+				bsr.w	Sonic_Floor							   ; Offset_0x00BD7C
 				movem.l (A7)+, A4-A6
 				rts
 ;-------------------------------------------------------------------------------
@@ -287,13 +287,13 @@ Offset_0x00A8E0:
 				bcs.s	Offset_0x00A926
 				move.b	#$02, Obj_Ani_Number(A6)						 ; $0020
 Offset_0x00A926:
-				bsr		Player_AnglePos						   ; Offset_0x009144
+				bsr.w	Player_AnglePos						   ; Offset_0x009144
 Offset_0x00A92A:
 				rts
 Offset_0x00A92C:
 				move.b	(Control_Ports_Logical_Data).w, D0			 ; $FFFFF602
 				btst	#$01, D0
-				bne		Offset_0x00A9DA
+				bne.w	Offset_0x00A9DA
 				move.b	#$07, Obj_Height_2(A0)							 ; $001E
 				move.b	#$03, Obj_Width_2(A0)							 ; $001F
 				move.b	#$02, Obj_Ani_Number(A0)						 ; $0020
@@ -365,7 +365,7 @@ Offset_0x00AA22:
 Offset_0x00AA2E:
 				subq.w	#$02, (A5)
 Offset_0x00AA30:
-				bsr		Player_AnglePos						   ; Offset_0x009144
+				bsr.w	Player_AnglePos						   ; Offset_0x009144
 				rts
 ;===============================================================================
 ; Objeto Sonic, Knuckles no modo 2 jogadores

@@ -27,7 +27,7 @@ Offset_0x0269A4:
 				bcs.s	Offset_0x0269C6
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 Offset_0x0269C6:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0269CC:
 				cmpi.b	#$04, Obj_Routine(A1)							 ; $0005
 				bcc.w	Offset_0x026A4E

@@ -41,7 +41,7 @@ Offset_0x029B86:
 				moveq	#Wave_Hover_Sfx, D0								  ; -$7C
 				jsr		(Play_Music).l							 ; Offset_0x001176
 Offset_0x029BD6:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
 ; Offset_0x029BDC:
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
@@ -49,7 +49,7 @@ Offset_0x029BD6:
 				addq.b	#$01, D6
 				move.w	(Control_Ports_Logical_Data_2).w, D5		 ; $FFFFF66A
 				bsr.s	Offset_0x029BF2
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
 Offset_0x029BF2:
 				btst	D6, Obj_Status(A0)								 ; $002A
@@ -186,7 +186,7 @@ Offset_0x029DA4:
 				move.b	Offset_0x029DC6(PC, D0), Obj_Map_Id(A1)			 ; $0022
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A1), D0								 ; $0022
-				jmp		(Load_Sonic_Dynamic_PLC_D0)			   ; Offset_0x00C7F0
+				jmp		(Load_Sonic_Dynamic_PLC_D0).l			   ; Offset_0x00C7F0
 ;-------------------------------------------------------------------------------
 ; Offset_0x029DC4:
 				rts
@@ -281,7 +281,7 @@ Offset_0x029EF4:
 				move.b	Offset_0x029F16(PC, D0), Obj_Map_Id(A1)			 ; $0022
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A1), D0								 ; $0022
-				jmp		(Load_Sonic_Dynamic_PLC_D0)			   ; Offset_0x00C7F0
+				jmp		(Load_Sonic_Dynamic_PLC_D0).l			   ; Offset_0x00C7F0
 ;-------------------------------------------------------------------------------
 ; Offset_0x029F14:
 				rts
@@ -308,10 +308,10 @@ Offset_0x029F3E:
 				bne.s	Offset_0x029F6C
 				cmpi.w	#Miles_Alone, (Player_Selected_Flag).w	; $0002, $FFFFFF08
 				beq.s	Offset_0x029F6C
-				jsr		(Sonic_ResetOnFloor)				   ; Offset_0x00BF76
+				jsr		(Sonic_ResetOnFloor).l				   ; Offset_0x00BF76
 				bra.s	Offset_0x029F72
 Offset_0x029F6C:
-				jsr		(Miles_ResetOnFloor)				   ; Offset_0x00E7EE
+				jsr		(Miles_ResetOnFloor).l				   ; Offset_0x00E7EE
 Offset_0x029F72:
 				move.l	(A7)+, A0
 Offset_0x029F74:

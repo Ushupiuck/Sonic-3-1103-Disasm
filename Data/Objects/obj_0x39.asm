@@ -14,9 +14,9 @@
 				bcs.s	Offset_0x026762
 Offset_0x026756:
 				move.b	#$03, (Wind_Tunnels_Flag).w					 ; $FFFFF7C7
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x026762:
-				lea		(Art_Hz_Large_Fan), A1				   ; Offset_0x12F9EE
+				lea		(Art_Hz_Large_Fan).l, A1				   ; Offset_0x12F9EE
 				move.w	#$A000, D2
 				jsr		(Queue_Kos_Module).l				 ; Offset_0x0018A8
 				move.l	#Offset_0x026778, (A0)
@@ -49,7 +49,7 @@ Offset_0x0267C8:
 				bcs.s	Offset_0x0267E8
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 Offset_0x0267E8:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Fan_Mappings:												   ; Offset_0x0267EE
 				dc.w	Offset_0x0267F8-Fan_Mappings

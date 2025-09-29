@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x04A29C:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04A2B6(PC, D0), D1
@@ -17,10 +17,10 @@ Offset_0x04A2B6:
 ;-------------------------------------------------------------------------------
 Offset_0x04A2BC:
 				lea		Iwamodock_Setup_Data(PC), A1		   ; Offset_0x04A334
-				jmp		(SetupObjectAttributes)						 ; Offset_0x041D72
+				jmp		(SetupObjectAttributes).l						 ; Offset_0x041D72
 ;-------------------------------------------------------------------------------
 Offset_0x04A2C6:
-				jsr		(Find_Player)						   ; Offset_0x042634
+				jsr		(Find_Player).l						   ; Offset_0x042634
 				cmpi.w	#$0080, D2
 				bcs.s	Offset_0x04A2D4
 				rts
@@ -31,27 +31,27 @@ Offset_0x04A2D4:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x04A2EC:
-				jmp		(Animate_Raw_Multi_Delay)			   ; Offset_0x04215C
+				jmp		(Animate_Raw_Multi_Delay).l			   ; Offset_0x04215C
 ;-------------------------------------------------------------------------------
 Offset_0x04A2F2:
 				move.l	#Obj_Explosion, (A0)					  ; Offset_0x013D7C
 				clr.b	Obj_Routine(A0)									 ; $0005
 				lea		Offset_0x04A346(PC), A2
-				jmp		(SetupChildObject_Complex)		   ; Offset_0x041DEA
+				jmp		(SetupChildObject_Complex).l		   ; Offset_0x041DEA
 ;-------------------------------------------------------------------------------
 Offset_0x04A306:
 				move.l	Obj_Control_Var_0E(A0), A1						 ; $003E
-				jsr		(SetupObjectAttributes3)					; Offset_0x041D7A
+				jsr		(SetupObjectAttributes3).l					; Offset_0x041D7A
 				move.l	#Offset_0x043B32, (A0)
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				lsr.b	#$02, D0
 				addq.b	#$06, D0
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
-				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X_Y) ; Offset_0x042B96
+				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X_Y).l ; Offset_0x042B96
 ;-------------------------------------------------------------------------------
 Offset_0x04A328:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
-				jmp		(AnimateRaw)						  ; Offset_0x04208E
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
+				jmp		(AnimateRaw).l						  ; Offset_0x04208E
 ;-------------------------------------------------------------------------------
 Iwamodock_Setup_Data:										   ; Offset_0x04A334
 				dc.l	Iwamodock_Mappings					   ; Offset_0x10E46E

@@ -23,22 +23,22 @@ Offset_0x046926:
 ;-------------------------------------------------------------------------------
 Offset_0x046938:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Obj_0xBA_Iz_Breakable_Wall:									   ; Offset_0x04694C
 				lea		Breakable_Wall_Setup_Data(PC), A1	   ; Offset_0x046ACA
 				jsr		SetupObjectAttributes(PC)					 ; Offset_0x041D72
 				move.l	#Offset_0x046960, (A0)
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x046960:
 				moveq	#$2B, D1
 				moveq	#$40, D2
 				moveq	#$70, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.w	(Obj_Knuckles_Mem_Address).w, A1			 ; $FFFFFAA4
 				cmpi.l	#Obj_0xB9_Iz_Platform_2, (A1)		   ; Offset_0x046644
 				bne.s	Offset_0x0469AC
@@ -61,14 +61,14 @@ Offset_0x046960:
 				cmp.w	D3, D1
 				bcs.s	Offset_0x0469B2
 Offset_0x0469AC:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x0469B2:
 				lea		Offset_0x046AF4(PC), A2
 				jsr		Load_Child_Object_Simple_A2(PC)		   ; Offset_0x041F5A
 				jsr		Go_Delete_Object_A0(PC)				   ; Offset_0x042D3E
 				moveq	#Smash_Sfx, D0									   ; $62
 				jsr		(Play_Music).l							 ; Offset_0x001176
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x0469CC:
 				dc.w	$FFD0, $0060, $FFC0, $0080

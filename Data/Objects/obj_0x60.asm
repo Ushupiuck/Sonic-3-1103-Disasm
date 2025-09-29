@@ -53,8 +53,8 @@ Offset_0x02C1F0:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02C20E:
 				bsr.w	Offset_0x02C266
 				lea		Obj_Speed_X(A0), A2								 ; $0018
@@ -80,8 +80,8 @@ Offset_0x02C248:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02C266:
 				tst.b	Obj_Control_Var_0A(A0)							 ; $003A
 				bne.s	Offset_0x02C288

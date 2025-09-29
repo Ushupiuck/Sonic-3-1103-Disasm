@@ -12,11 +12,11 @@ Obj_0x3E_Conveyor_Belt_Attributes:							   ; Offset_0x0271C4
 				lea		(Conveyor_Belt_Data_Array).w, A1			 ; $FFFFCFE0
 				moveq	#$00, D0
 				move.b	Obj_Subtype(A0), D0								 ; $002C
-				tst.b	$00(A1, D0)
+				tst.b	(A1, D0)
 				beq.s	Offset_0x0271DA
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x0271DA:
-				move.b	#$01, $00(A1, D0)
+				move.b	#$01,(A1, D0)
 				andi.w	#$000F, D0
 				lsl.w	#$02, D0
 				lea		Offset_0x027184(PC, D0), A1
@@ -61,13 +61,13 @@ Offset_0x027258:
 				lea		(Conveyor_Belt_Data_Array).w, A1			 ; $FFFFCFE0
 				moveq	#$00, D0
 				move.b	Obj_Subtype(A0), D0								 ; $002C
-				move.b	#$00, $00(A1, D0)
+				move.b	#$00,(A1, D0)
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x027274
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x027274:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x02727A:
 				tst.b	(A2)
 				beq.s	Offset_0x0272D8

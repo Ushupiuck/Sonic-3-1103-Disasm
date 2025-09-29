@@ -31,20 +31,20 @@ Offset_0x010FD6:
 				sub.l	D0, Obj_Control_Var_08(A0)						 ; $0038
 				move.w	Obj_Control_Var_08(A0), Obj_Y(A0)		  ; $0038, $0014
 				lea		Slot_Machine_Rings_Animate_Data(PC), A1 ; Offset_0x01103A
-				bsr		AnimateSprite						   ; Offset_0x01115E
+				bsr.w	AnimateSprite						   ; Offset_0x01115E
 				subq.w	#$01, Obj_Control_Var_10(A0)					 ; $0040
-				bne		DisplaySprite						   ; Offset_0x011148
+				bne.w	DisplaySprite						   ; Offset_0x011148
 				move.l	Obj_Timer(A0), A1								 ; $002E
 				subq.w	#$01, (A1)
-				bsr		CollectRing			   ; Offset_0x010A20
+				bsr.w	CollectRing			   ; Offset_0x010A20
 				addi.b	#$02, Obj_Routine(A0)							 ; $0005
 ;-------------------------------------------------------------------------------
 Offset_0x01102A:
 				lea		Rings_Animate_Data(PC), A1			   ; Offset_0x010DDA
-				bsr		AnimateSprite						   ; Offset_0x01115E
-				bra		DisplaySprite						   ; Offset_0x011148
+				bsr.w	AnimateSprite						   ; Offset_0x01115E
+				bra.w	DisplaySprite						   ; Offset_0x011148
 Offset_0x011036:
-				bra		DeleteObject						   ; Offset_0x011138
+				bra.w	DeleteObject						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Slot_Machine_Rings_Animate_Data:							   ; Offset_0x01103A
 				dc.w	Offset_0x01103C-Slot_Machine_Rings_Animate_Data

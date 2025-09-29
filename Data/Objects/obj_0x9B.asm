@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x0447A6:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 Offset_0x0447AC:
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
@@ -48,8 +48,8 @@ Offset_0x044814:
 				move.w	#$0200, D0
 				moveq	#$10, D1
 				jsr		Chase_Object(PC)					   ; Offset_0x042E6C
-				bsr		Offset_0x04490A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				bsr.w	Offset_0x04490A
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ Offset_0x044892:
 				moveq	#$20, D1
 				jsr		Chase_Object(PC)					   ; Offset_0x042E6C
 				bsr.w	Offset_0x04490A
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x0448A6:
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
 				move.w	Obj_X(A0), D0									 ; $0010
@@ -104,7 +104,7 @@ Offset_0x0448C8:
 ;-------------------------------------------------------------------------------
 Offset_0x0448CE:
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x0448D8:
 				lea		(Obj_04_Mem_Address).w, A2					 ; $FFFFB128
 				move.w	#$0059, D0

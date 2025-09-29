@@ -29,8 +29,8 @@ Offset_0x021B5E:
 				subq.b	#$01, Obj_Control_Var_07(A0)					 ; $0037
 Offset_0x021B86:
 				move.b	D1, Obj_Control_Var_06(A0)						 ; $0036
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
-				bne		Offset_0x021C20
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
+				bne.w	Offset_0x021C20
 				move.l	#Offset_0x021C48, (A1)
 				move.l	#Flipping_Bridge_Mappings, Obj_Map(A1) ; Offset_0x021E78, $000C
 				move.w	#$42F0, Obj_Art_VRAM(A1)						 ; $000A
@@ -76,10 +76,10 @@ Offset_0x021C26:
 				move.l	Obj_Control_Var_02(A0), A2						 ; $0032
 				move.w	Obj_X(A0), D4									 ; $0010
 				jsr		(Offset_0x021D8E).l
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
 Offset_0x021C48:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x021C4E:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
@@ -183,7 +183,7 @@ Offset_0x021DDA:
 				cmpi.b	#$05, D0
 				bcs.s	Offset_0x021DC6
 				move.w	D4, D2
-				jsr		(Solid_Object_Sloped_2)				   ; Offset_0x013A90
+				jsr		(Solid_Object_Sloped_2).l				   ; Offset_0x013A90
 				moveq	#$00, D4
 				rts
 Offset_0x021DFA:
@@ -231,7 +231,7 @@ Offset_0x021E1E:
 				add.w	D0, D2
 				addq.w	#$03, D2
 				move.w	D2, Obj_Y(A1)									 ; $0014
-				jmp		(Ride_Object_Set_Ride)				   ; Offset_0x013C80
+				jmp		(Ride_Object_Set_Ride).l				   ; Offset_0x013C80
 Offset_0x021E76:
 				rts
 ;-------------------------------------------------------------------------------

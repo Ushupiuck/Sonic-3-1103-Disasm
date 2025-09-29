@@ -27,7 +27,7 @@ Offset_0x03D4FE:
 				moveq	#$6F, D0
 				jsr		(LoadPLC).l								 ; Offset_0x0014D0
 				lea		Pal_Hang_Mobile(PC), A1				   ; Offset_0x03DC90
-				jsr		(Pal_Load_Line_1)					   ; Offset_0x04314C
+				jsr		(Pal_Load_Line_1).l					   ; Offset_0x04314C
 				move.w	#$0078, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x03D56E, Obj_Child(A0)					 ; $0034
 				moveq	#Volume_Down, D0								  ; -$20
@@ -100,7 +100,7 @@ Offset_0x03D5F6:
 Offset_0x03D618:
 				move.b	Obj_Control_Var_10(A0), D0						 ; $0040
 				add.b	D0, Obj_Control_Var_0C(A0)						 ; $003C
-				lea		(Hang_Mobile_Angle_Y_Lookup_Data), A2  ; Offset_0x10F8D8
+				lea		(Hang_Mobile_Angle_Y_Lookup_Data).l, A2  ; Offset_0x10F8D8
 				jsr		Move_Sprite_Angle_Y_Lookup(PC)		   ; Offset_0x0427CE
 				bsr.w	Offset_0x03DAE8
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
@@ -114,10 +114,10 @@ Offset_0x03D63C:
 				beq.s	Offset_0x03D65E
 				move.b	Obj_Control_Var_10(A0), D0						 ; $0040
 				add.b	D0, Obj_Control_Var_0C(A0)						 ; $003C
-				lea		(Hang_Mobile_Angle_Y_Lookup_Data), A2  ; Offset_0x10F8D8
+				lea		(Hang_Mobile_Angle_Y_Lookup_Data).l, A2  ; Offset_0x10F8D8
 				jsr		Move_Sprite_Angle_Y_Lookup(PC)		   ; Offset_0x0427CE
 				bsr.w	Offset_0x03DAE8
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x03D65E:
 				move.l	#Display_Sprite_Wait, (A0)			   ; Offset_0x042F8E
 				move.w	#$0280, Obj_Priority(A0)						 ; $0008
@@ -140,14 +140,14 @@ Offset_0x03D6A4:
 				st		(Player_Control_Lock_Flag).w				 ; $FFFFFAA8
 				move.w	#$007F, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x03D6C2, Obj_Child(A0)					 ; $0034
-				jmp		(Restore_LevelMusic)					 ; Offset_0x0432CA
+				jmp		(Restore_LevelMusic).l					 ; Offset_0x0432CA
 ;-------------------------------------------------------------------------------
 Offset_0x03D6C2:
 				move.l	#Offset_0x03D6DE, (A0)
 				clr.b	(Boss_Flag).w								 ; $FFFFF7AA
 				move.w	#$3170, (Target_Camera_Max_X).w				 ; $FFFFFA92
-				lea		(Level_Resize_Max_X), A2			   ; Offset_0x04261C
-				jmp		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
+				lea		(Level_Resize_Max_X).l, A2			   ; Offset_0x04261C
+				jmp		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
 ;-------------------------------------------------------------------------------
 Offset_0x03D6DE:
 				tst.b	(Control_Ports_Buffer_Data+$03).w			 ; $FFFFF607
@@ -159,9 +159,9 @@ Offset_0x03D6F2:
 				clr.b	(Player_Control_Lock_Flag).w				 ; $FFFFFAA8
 				jsr		Restore_PlayerControl(PC)			  ; Offset_0x0432EE
 				move.w	#$6000, (Target_Camera_Max_X).w				 ; $FFFFFA92
-				lea		(Level_Resize_Max_X), A2			   ; Offset_0x04261C
-				jsr		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
-				jmp		(Go_Delete_Object_A0_2)				   ; Offset_0x042D4C
+				lea		(Level_Resize_Max_X).l, A2			   ; Offset_0x04261C
+				jsr		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
+				jmp		(Go_Delete_Object_A0_2).l				   ; Offset_0x042D4C
 ;-------------------------------------------------------------------------------
 Offset_0x03D712:
 				moveq	#$00, D0
@@ -229,7 +229,7 @@ Offset_0x03D7B6:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03D7CC:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03D7D6:
@@ -279,7 +279,7 @@ Offset_0x03D83A:
 Offset_0x03D856:
 				move.w	Obj_Height_3(A0), A1							 ; $0044
 				move.b	Obj_Control_Var_0C(A1), Obj_Control_Var_0C(A0) ; $003C, $003C
-				lea		(Hang_Mobile_Angle_Y_Lookup_Data_2), A2 ; Offset_0x10F918
+				lea		(Hang_Mobile_Angle_Y_Lookup_Data_2).l, A2 ; Offset_0x10F918
 				jsr		Move_Sprite_Angle_Y_Lookup(PC)		   ; Offset_0x0427CE
 				bsr.w	Offset_0x03DB1A
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
@@ -342,13 +342,13 @@ Offset_0x03D8E8:
 				jsr		Load_Child_Object_Simple_A2(PC)		   ; Offset_0x041F5A
 Offset_0x03D918:
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x03D922:
 				move.l	#Offset_0x03D93C, (A0)
 				move.w	Obj_Control_Var_0E(A1), Obj_Child_Ref(A0) ; $003E, $0046
 				subq.b	#$04, Obj_Control_Var_13(A0)					 ; $0043
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03D93C:
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016

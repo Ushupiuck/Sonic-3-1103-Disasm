@@ -147,13 +147,13 @@ Intro_Surfboard_Move:										   ; Offset_0x018806
 Offset_0x018816:
 				add.w	D1, Obj_Speed_X(A0)								 ; $0018
 				moveq	#$00, D2
-				lea		(Offset_0x018894), A1
+				lea		(Offset_0x018894).l, A1
 				move.w	#$0003, D1
 				move.w	(Obj_Player_One+Obj_Y).w, D0				 ; $FFFFB014
 				cmp.w	Obj_Y(A0), D0									 ; $0014
 				bcc.s	Offset_0x01883E
 				moveq	#$01, D2
-				lea		(Offset_0x01889E), A1
+				lea		(Offset_0x01889E).l, A1
 				move.w	#$0004, D1
 				neg.w	D1
 Offset_0x01883E:
@@ -200,7 +200,7 @@ Intro_Surfboard_Load_PLC:									   ; Offset_0x0188A8
 				move.b	D0, (Sonic_Previous_Frame).w				 ; $FFFFF766
 				lea		(Intro_Surfboard_Dyn_Script).l, A2		 ; Offset_0x0189D8
 				add.w	D0, D0
-				adda.w	$00(A2, D0), A2
+				adda.w	(A2, D0), A2
 				move.w	(A2)+, D5
 				subq.w	#$01, D5
 				bmi.s	Offset_0x0188FA
@@ -453,7 +453,7 @@ Offset_0x018C1A:
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A1), D0								 ; $0022
 				add.w	D0, D0
-				move.b	$00(A2, D0), D1
+				move.b	(A2, D0), D1
 				ext.w	D1
 				moveq	#$01, D2
 				cmp.w	Obj_Control_Var_02(A0), D1						 ; $0032

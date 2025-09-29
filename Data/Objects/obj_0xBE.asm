@@ -37,8 +37,8 @@ Offset_0x04781E:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x04782C:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
-				jsr		(Object_HitCeiling)					   ; Offset_0x009FB4
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
+				jsr		(Object_HitCeiling).l					   ; Offset_0x009FB4
 				tst.w	D1
 				bpl.s	Offset_0x047856
 				move.l	#Offset_0x04785A, (A0)
@@ -73,7 +73,7 @@ Offset_0x04789C:
 				moveq	#$20, D2
 				moveq	#$20, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jmp		(Solid_Object)						   ; Offset_0x013556
+				jmp		(Solid_Object).l						   ; Offset_0x013556
 ;-------------------------------------------------------------------------------
 Stalactite_Setup_Data:										   ; Offset_0x0478AC
 				dc.l	Crushing_Column_Mappings			   ; Offset_0x110938

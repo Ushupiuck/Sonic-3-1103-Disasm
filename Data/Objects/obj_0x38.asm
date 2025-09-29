@@ -8,7 +8,7 @@
 				move.l	A0, A1
 				tst.b	Obj_Subtype(A0)									 ; $002C
 				bpl.s	Offset_0x02648A
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x0264D4
 				move.l	#Offset_0x02669C, (A0)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -98,7 +98,7 @@ Offset_0x02657A:
 				move.b	(Level_Frame_Count+$01).w, D0				 ; $FFFFFE05
 				andi.b	#$03, D0
 				bne.s	Offset_0x0265E2
-				jsr		(AllocateObject)					 ; Offset_0x011DD8
+				jsr		(AllocateObject).l					 ; Offset_0x011DD8
 				bne.s	Offset_0x0265E2
 				move.l	#Offset_0x026680, (A1)
 				move.l	#Sonic_Underwater_Mappings, Obj_Map(A1) ; Offset_0x025872, $000C
@@ -116,7 +116,7 @@ Offset_0x02657A:
 				move.w	#$F800, Obj_Speed_Y(A1)							 ; $001A
 Offset_0x0265E2:
 				move.w	Obj_Control_Var_10(A0), D0						 ; $0040
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 Offset_0x0265EC:
 				cmpi.b	#$04, Obj_Routine(A1)							 ; $0005
 				bcc.w	Offset_0x026676
@@ -165,10 +165,10 @@ Offset_0x026680:
 				move.w	(Water_Level_Move).w, D0					 ; $FFFFF646
 				cmp.w	Obj_Y(A0), D0									 ; $0014
 				bcc.s	Offset_0x026696
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x026696:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x02669C:
 				move.w	Obj_Control_Var_0C(A0), A1						 ; $003C
@@ -215,9 +215,9 @@ Offset_0x026702:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.w	Obj_Control_Var_10(A0), D0						 ; $0040
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;===============================================================================
 ; Objeto 0x38 - Ventiladores na Hydrocity
 ; <<<-

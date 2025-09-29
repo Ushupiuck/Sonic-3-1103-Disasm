@@ -32,7 +32,7 @@ Offset_0x0275B6:
 				bsr.s	Offset_0x0275FC
 Offset_0x0275C4:
 				lea		(Balloon_Animate_Data).l, A1			 ; Offset_0x0276A6
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				tst.b	(Prog_Start_Vector+$01).w			   ; Offset_0x000005
 				beq.s	Offset_0x0275DC
 				move.w	#$7F00, Obj_X(A0)								 ; $0010
@@ -44,7 +44,7 @@ Offset_0x0275DC:
 				asr.w	#$05, D0
 				add.w	Obj_Control_Var_02(A0), D0						 ; $0032
 				move.w	D0, Obj_Y(A0)									 ; $0014
-				jmp		(MarkObjGone_5)						   ; Offset_0x011BCC
+				jmp		(MarkObjGone_5).l						   ; Offset_0x011BCC
 Offset_0x0275FC:
 				move.w	#$F900, Obj_Speed_Y(A1)							 ; $001A
 				bset	#$01, Obj_Status(A1)							 ; $002A
@@ -74,7 +74,7 @@ Offset_0x027650:
 Offset_0x027664:
 				rts
 Offset_0x027666:
-				jsr		(AllocateObject)					 ; Offset_0x011DD8
+				jsr		(AllocateObject).l					 ; Offset_0x011DD8
 				bne.s	Offset_0x0276A0
 				move.l	#Obj_0x54_Oxygen_Bubbles, (A1)		   ; Offset_0x025500
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010

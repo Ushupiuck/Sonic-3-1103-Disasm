@@ -37,7 +37,7 @@ Offset_0x02C4E6:
 				move.b	#$01, Obj_Ani_Number(A0)						 ; $0020
 Offset_0x02C50A:
 				lea		(Dissolving_Sand_Bar_Animate_Data).l, A1 ; Offset_0x02C58A
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A0), D0								 ; $0022
 				move.b	Offset_0x02C56A(PC, D0), D3
@@ -59,9 +59,9 @@ Offset_0x02C554:
 				moveq	#$00, D1
 				move.b	Obj_Width(A0), D1								 ; $0007
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 Offset_0x02C564:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02C56A:
 				dc.b	$11, $11, $11, $11, $10, $0F, $0E, $0D

@@ -25,7 +25,7 @@ Offset_0x020138:
 				bsr.s	Offset_0x020166
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				bsr.s	Offset_0x020166
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x020166:
 				move.w	Obj_X(A1), D0									 ; $0010
 				cmp.w	D1, D0

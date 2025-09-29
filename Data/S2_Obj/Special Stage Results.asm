@@ -76,7 +76,7 @@ Offset_0x024C6C:
 		move.b	#$1C, Obj_Routine(A0)
 		move.w	#$00B4, Obj_Ani_Time(A0)
 Offset_0x024C82:
-		bra		S2Obj6F_SSResults
+		bra.w	S2Obj6F_SSResults
 ;-------------------------------------------------------------------------------
 Offset_0x024C86:
 		cmpi.b	#$07, (Emeralds_Count).w
@@ -122,7 +122,7 @@ Offset_0x024CC4:
 		beq.w	Offset_0x024BC4
 		btst	#$00, (Vint_runcount+$03).w		  ; $FFFFFE0F
 		beq.s	Offset_0x024CDE
-		jsr		(DisplaySprite)				; Offset_0x011148
+		jsr		(DisplaySprite).l				; Offset_0x011148
 Offset_0x024CDE:
 		rts
 ;-------------------------------------------------------------------------------
@@ -183,10 +183,10 @@ Offset_0x024D64:
 		bne.s	Offset_0x024D6E
 		addq.b	#$02, Obj_Routine(A0)					; $0005
 Offset_0x024D6E:
-		jmp		(DisplaySprite)				; Offset_0x011148
+		jmp		(DisplaySprite).l				; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x024D74:
-		jsr		(DisplaySprite)				; Offset_0x011148
+		jsr		(DisplaySprite).l				; Offset_0x011148
 		move.b	#$01, (HUD_Results_Refresh_Flag).w			 ; $FFFFF7D6
 		moveq	#$00, D0
 		tst.w	(Level_Results_Time_Bonus).w		 ; $FFFFF7D2
@@ -235,10 +235,10 @@ Offset_0x024DF8:
 ;-------------------------------------------------------------------------------
 Offset_0x024E12:
 		move.w	#$0001, (Restart_Level_Flag).w				 ; $FFFFFE02
-		jmp		(DisplaySprite)				; Offset_0x011148
+		jmp		(DisplaySprite).l				; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x024E1E:
-		jsr		(DisplaySprite)				; Offset_0x011148
+		jsr		(DisplaySprite).l				; Offset_0x011148
 		move.b	#$01, (HUD_Results_Refresh_Flag).w			 ; $FFFFF7D6
 		moveq	#$00, D0
 		tst.w	(Level_Results_Time_Bonus).w		 ; $FFFFF7D2
@@ -276,7 +276,7 @@ Offset_0x024E8C:
 		moveq	#$15, D0
 Offset_0x024E98:
 		move.b	D0, Obj_Map_Id(A0)					   ; $0022
-		jmp		(DisplaySprite)				; Offset_0x011148
+		jmp		(DisplaySprite).l				; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x024EA2:
 		move.b	#$32, Obj_Size+Obj_Routine(A0)		   ; $004F
@@ -297,7 +297,7 @@ Offset_0x024EA2:
 		move.b	#$1C, Obj_Map_Id(A1)					 ; $0022
 		move.l	#Special_Stage_Results_Mappings, Obj_Map(A1) ; Offset_0x02540C, $000C
 		move.b	#$78, Obj_Width(A1)					  ; $0007
-		jmp		(DisplaySprite)				; Offset_0x011148
+		jmp		(DisplaySprite).l				; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x024F04:
 		moveq	#$20, D0
@@ -311,7 +311,7 @@ Offset_0x024F14:
 		cmpi.w	#$0200, Obj_X(A0)				; $0010
 		bhi.s	Offset_0x024F26
 Offset_0x024F20:
-		jmp		(DisplaySprite)				; Offset_0x011148
+		jmp		(DisplaySprite).l				; Offset_0x011148
 Offset_0x024F26:
 		rts
 ;-------------------------------------------------------------------------------

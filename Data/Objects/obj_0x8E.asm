@@ -24,7 +24,7 @@ Offset_0x03B026:
 				moveq	#$5D, D0
 				jsr		(LoadPLC).l								 ; Offset_0x0014D0
 				lea		Bowling_Spin_Palette(PC), A1		   ; Offset_0x03B980
-				jmp		(Pal_Load_Line_1)					   ; Offset_0x04314C
+				jmp		(Pal_Load_Line_1).l					   ; Offset_0x04314C
 ;-------------------------------------------------------------------------------
 Offset_0x03B07E:
 				move.l	#Offset_0x03B08E, (A0)
@@ -67,7 +67,7 @@ Offset_0x03B0C2:
 				jmp		SetupChildObject(PC)			   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03B0F8:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03B102:
@@ -80,7 +80,7 @@ Offset_0x03B102:
 ;-------------------------------------------------------------------------------
 Offset_0x03B124:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03B132:
@@ -153,7 +153,7 @@ Offset_0x03B1DC:
 ;-------------------------------------------------------------------------------
 Offset_0x03B20E:
 				clr.b	(Boss_Flag).w								 ; $FFFFF7AA
-				jsr		(Restore_LevelMusic)					 ; Offset_0x0432CA
+				jsr		(Restore_LevelMusic).l					 ; Offset_0x0432CA
 				jsr		After_Boss_Clean_Up(PC)				   ; Offset_0x041ACA
 				jmp		Go_Delete_Object_A0_2(PC)			   ; Offset_0x042D4C
 ;-------------------------------------------------------------------------------
@@ -204,17 +204,17 @@ Offset_0x03B29C:
 				btst	#$07, Obj_Status(A1)							 ; $002A
 				bne.w	Offset_0x03B41A
 				move.w	Obj_X(A0), -(A7)								 ; $0010
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				moveq	#$13, D1
 				moveq	#$0C, D2
 				moveq	#$08, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
 				tst.w	Obj_Speed_X(A0)									 ; $0018
 				bmi.s	Offset_0x03B2FA
 				moveq	#$10, D3
-				jsr		(Object_HitWall_Right)				   ; Offset_0x009EEE
+				jsr		(Object_HitWall_Right).l				   ; Offset_0x009EEE
 				tst.w	D1
 				bmi.w	Offset_0x03B396
 				move.w	Obj_X(A0), D0									 ; $0010
@@ -227,7 +227,7 @@ Offset_0x03B29C:
 				bra.w	Offset_0x03B324
 Offset_0x03B2FA:
 				moveq	#-$10, D3
-				jsr		(Object_HitWall_Left)				   ; Offset_0x00A138
+				jsr		(Object_HitWall_Left).l				   ; Offset_0x00A138
 				tst.w	D1
 				bmi.w	Offset_0x03B396
 				move.w	Obj_X(A0), D0									 ; $0010
@@ -242,7 +242,7 @@ Offset_0x03B324:
 				bne.w	Offset_0x03B414
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x03B368
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bmi.w	Offset_0x03B3DC
 				move.w	Obj_X(A0), D0									 ; $0010
@@ -258,7 +258,7 @@ Offset_0x03B324:
 				bne.w	Offset_0x03B414
 				rts
 Offset_0x03B368:
-				jsr		(Object_HitCeiling)					   ; Offset_0x009FB4
+				jsr		(Object_HitCeiling).l					   ; Offset_0x009FB4
 				tst.w	D1
 				bmi.s	Offset_0x03B3DC
 				move.w	Obj_X(A0), D0									 ; $0010
@@ -369,18 +369,18 @@ Offset_0x03B47C:
 				subq.b	#$01, Obj_Boss_Hit(A1)							 ; $0029
 Offset_0x03B4C2:
 				subq.b	#$01, Obj_Control_Var_0A(A0)					 ; $003A
-				bpl		Offset_0x03B08C
+				bpl.w	Offset_0x03B08C
 				bclr	#$02, Obj_Control_Var_08(A0)					 ; $0038
 				move.b	Obj_Ani_Time_2(A0), Obj_Col_Flags(A0)	  ; $0025, $0028
 Offset_0x03B4D6:
 				move.b	#$70, Obj_Boss_Hit(A0)							 ; $0029
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 Offset_0x03B4E2:
 				move.l	#Offset_0x03B4F6, (A0)
 				move.b	#$A9, Obj_Col_Flags(A0)							 ; $0028
 				rts
 Offset_0x03B4F0:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x03B4F6:
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016
@@ -388,8 +388,8 @@ Offset_0x03B4F6:
 				btst	#$07, Obj_Status(A1)							 ; $002A
 				bne.s	Offset_0x03B4F0
 				btst	#$06, Obj_Control_Var_08(A1)					 ; $0038
-				beq		Offset_0x03B462
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				beq.w	Offset_0x03B462
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 ;-------------------------------------------------------------------------------
 Offset_0x03B516:
 				move.l	#Offset_0x03B524, (A0)
@@ -398,7 +398,7 @@ Offset_0x03B516:
 ;-------------------------------------------------------------------------------
 Offset_0x03B524:
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 ;-------------------------------------------------------------------------------
 Offset_0x03B52E:
 				lea		Bowling_Spin_Setup_Data_3(PC), A1	   ; Offset_0x03B8BA
@@ -443,7 +443,7 @@ Offset_0x03B5A6:
 Offset_0x03B5B2:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$06, Obj_Control_Var_08(A1)					 ; $0038
-				beq		Offset_0x03B4F0
+				beq.w	Offset_0x03B4F0
 				jsr		Refresh_Child_Position(PC)			   ; Offset_0x042016
 				jsr		Animate_Raw_Multi_Delay(PC)			   ; Offset_0x04215C
 				jmp		Child_Display_Touch_Or_Delete(PC)	   ; Offset_0x042472

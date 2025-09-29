@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x048A94:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x048AAC(PC, D0), D1
@@ -24,15 +24,15 @@ Offset_0x048AB0:
 Offset_0x048AC6:
 				move.w	D0, Obj_Speed_X(A0)								 ; $0018
 				lea		Offset_0x048BAA(PC), A2
-				jmp		(SetupChildObject)				   ; Offset_0x041D9A
+				jmp		(SetupChildObject).l				   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x048AD4:
 				tst.b	Obj_Subtype(A0)									 ; $002C
 				bne.s	Offset_0x048AE2
-				bsr		Offset_0x048B7A
-				beq		Offset_0x048B96
+				bsr.w	Offset_0x048B7A
+				beq.w	Offset_0x048B96
 Offset_0x048AE2:
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 ;-------------------------------------------------------------------------------
 Offset_0x048AE8:
 				lea		Offset_0x048BA4(PC), A1

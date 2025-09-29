@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x0482D2:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				lea		Star_Pointer_Setup_Data(PC), A1		   ; Offset_0x048416
 				jsr		SetupObjectAttributes(PC)					 ; Offset_0x041D72
 				move.l	#Offset_0x048318, (A0)
@@ -23,7 +23,7 @@ Offset_0x048310:
 				dc.w	$FFC0, $FFA0, $FF80, $FF00
 ;-------------------------------------------------------------------------------
 Offset_0x048318:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Find_Player(PC)						   ; Offset_0x042634
 				cmpi.w	#$0080, D2
 				bcc.s	Offset_0x048336
@@ -41,7 +41,7 @@ Offset_0x04833A:
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x04834A:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x048354:
@@ -88,7 +88,7 @@ Offset_0x0483DC:
 				jmp		Child_Display_Touch_Or_Delete(PC)	   ; Offset_0x042472
 ;-------------------------------------------------------------------------------
 Offset_0x0483E6:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.l	Obj_Child_Data(A0), A1							 ; $0030
 				move.w	Obj_Height_3(A0), D3							 ; $0044
 				jsr		(A1)

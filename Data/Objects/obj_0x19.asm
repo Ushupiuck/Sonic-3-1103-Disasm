@@ -19,7 +19,7 @@
 Offset_0x01DF5A:
 				move.l	#Offset_0x01DF60, (A0)
 Offset_0x01DF60:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Cup_Elevator_Mappings:										   ; Offset_0x01DF66
 				dc.w	Offset_0x01DF70-Cup_Elevator_Mappings

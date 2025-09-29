@@ -18,7 +18,7 @@ Offset_0x0296B6:
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				addq.b	#$01, D6
 				bsr.s	Offset_0x0296D2
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x0296D2:
 				btst	D6, Obj_Status(A0)								 ; $002A
 				bne.w	Offset_0x0297EA
@@ -200,7 +200,7 @@ Offset_0x0298DC:
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				addq.b	#$01, D6
 				bsr.s	Offset_0x0298F8
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x0298F8:
 				btst	D6, Obj_Status(A0)								 ; $002A
 				bne.w	Offset_0x029A0C
@@ -241,7 +241,7 @@ Offset_0x029956:
 				bcc.s	Offset_0x02997C
 				move.w	#$0001, Obj_Flags(A2)							 ; $0004
 Offset_0x02997C:
-				bsr		Offset_0x029B00
+				bsr.w	Offset_0x029B00
 				move.b	#$E0, Obj_Angle(A1)								 ; $0026
 Offset_0x029986:
 				rts
@@ -390,10 +390,10 @@ Offset_0x029B10:
 				bne.s	Offset_0x029B44
 				cmpi.w	#Miles_Alone, (Player_Selected_Flag).w ; $0002, $FFFFFF08
 				beq.s	Offset_0x029B44
-				jsr		(Sonic_ResetOnFloor)				   ; Offset_0x00BF76
+				jsr		(Sonic_ResetOnFloor).l				   ; Offset_0x00BF76
 				bra.s	Offset_0x029B4A
 Offset_0x029B44:
-				jsr		(Miles_ResetOnFloor)				   ; Offset_0x00E7EE
+				jsr		(Miles_ResetOnFloor).l				   ; Offset_0x00E7EE
 Offset_0x029B4A:
 				move.l	(A7)+, A0
 Offset_0x029B4C:

@@ -11,9 +11,9 @@ Offset_0x025C3E:
 				move.w	(Obj_Player_One+Obj_Y).w, D0				 ; $FFFFB014
 				cmpi.w	#$0500, D0
 				bcc.s	Offset_0x025C4E
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x025C4E:
-				lea		(Art_Hz_Geyser_Horizontal), A1		   ; Offset_0x12FCF0
+				lea		(Art_Hz_Geyser_Horizontal).l, A1		   ; Offset_0x12FCF0
 				move.w	#$A000, D2
 				jsr		(Queue_Kos_Module).l				 ; Offset_0x0018A8
 				move.l	#Offset_0x025C64, (A0)
@@ -49,7 +49,7 @@ Offset_0x025CB6:
 				move.w	Obj_Y(A0), D3									 ; $0014
 				moveq	#$07, D1
 Offset_0x025CE8:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x025D40
 				move.l	#Offset_0x025E54, (A1)
 				move.l	#Water_Wall_Debris_Mappings, Obj_Map(A1) ; Offset_0x0263B8, $000C
@@ -71,7 +71,7 @@ Offset_0x025CE8:
 				move.b	D1, Obj_Map_Id(A1)								 ; $0022
 				dbra	D1, Offset_0x025CE8
 Offset_0x025D40:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x025D46:
 				dc.b	$00, $E8
@@ -97,7 +97,7 @@ Offset_0x025D76:
 				subq.w	#$01, Obj_Control_Var_00(A0)					 ; $0030
 				addq.w	#$08, Obj_X(A0)									 ; $0010
 Offset_0x025D84:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x025E02
 				move.l	#Offset_0x025F18, (A1)
 				move.l	Obj_Map(A0), Obj_Map(A1)				  ; $000C, $000C
@@ -139,15 +139,15 @@ Offset_0x025E02:
 				move.l	#Offset_0x025E40, (A0)
 				rts
 Offset_0x025E3A:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x025E40:
 				subq.w	#$01, Obj_Control_Var_00(A0)					 ; $0030
 				bmi.s	Offset_0x025E48
 				rts
 Offset_0x025E48:
-				jsr		(Level_Load_Enemies_Art)			   ; Offset_0x024F46
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jsr		(Level_Load_Enemies_Art).l			   ; Offset_0x024F46
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x025E54:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
@@ -156,7 +156,7 @@ Offset_0x025E54:
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				andi.b	#$07, Obj_Map_Id(A0)							 ; $0022
 Offset_0x025E6A:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0038, Obj_Speed_Y(A0)							 ; $001A
 				move.w	(Water_Level_Move).w, D0					 ; $FFFFF646
 				cmp.w	Obj_Y(A0), D0									 ; $0014
@@ -165,7 +165,7 @@ Offset_0x025E6A:
 				asr.w	Obj_Speed_X(A0)									 ; $0018
 				asr.w	Obj_Speed_X(A0)									 ; $0018
 				move.l	#Offset_0x025EE2, (A0)
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x025EDC
 				move.l	#Offset_0x025F78, (A1)
 				move.l	#Water_Wall_Mappings, Obj_Map(A1) ; Offset_0x0262BA, $000C
@@ -178,7 +178,7 @@ Offset_0x025E6A:
 				move.b	#$18, Obj_Height(A1)							 ; $0006
 				move.b	#$08, Obj_Ani_Number(A1)						 ; $0020
 Offset_0x025EDC:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x025EE2:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
@@ -187,16 +187,16 @@ Offset_0x025EE2:
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				andi.b	#$07, Obj_Map_Id(A0)							 ; $0022
 Offset_0x025EF8:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0008, Obj_Speed_Y(A0)							 ; $001A
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x025F12
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x025F12:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x025F18:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0028, Obj_Speed_Y(A0)							 ; $001A
 				move.w	(Water_Level_Move).w, D0					 ; $FFFFF646
 				cmp.w	Obj_Y(A0), D0									 ; $0014
@@ -208,26 +208,26 @@ Offset_0x025F3C:
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x025F12
 				lea		(Water_Wall_Animate_Data).l, A1			 ; Offset_0x025F9A
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x025F56:
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x025F12
 				lea		(Water_Wall_Animate_Data).l, A1			 ; Offset_0x025F9A
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				tst.b	Obj_Routine(A0)									 ; $0005
 				bne.w	Offset_0x025F12
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x025F78:
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.w	Offset_0x025F12
 				lea		(Water_Wall_Animate_Data).l, A1			 ; Offset_0x025F9A
-				jsr		(AnimateSprite_2)					   ; Offset_0x0111FE
+				jsr		(AnimateSprite_2).l					   ; Offset_0x0111FE
 				tst.b	Obj_Routine(A0)									 ; $0005
 				bne.w	Offset_0x025F12
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Water_Wall_Animate_Data:									   ; Offset_0x025F9A
 				dc.w	Offset_0x025FAC-Water_Wall_Animate_Data
@@ -266,9 +266,9 @@ Offset_0x025FCE:
 				cmpi.w	#$0010, D0
 				bcs.s	Offset_0x025FF8
 Offset_0x025FF2:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x025FF8:
-				lea		(Art_Hz_Geyser_Vertical), A1		   ; Offset_0x130482
+				lea		(Art_Hz_Geyser_Vertical).l, A1		   ; Offset_0x130482
 				move.w	#$A000, D2
 				jsr		(Queue_Kos_Module).l				 ; Offset_0x0018A8
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
@@ -301,7 +301,7 @@ Offset_0x026080:
 				subi.w	#$0008, (Obj_Player_One+Obj_Y).w			 ; $FFFFB014
 				subi.w	#$0008, (Obj_Player_Two+Obj_Y).w			 ; $FFFFB05E
 				cmpi.w	#$0028, Obj_Control_Var_00(A0)					 ; $0030
-				bhi		Offset_0x026122
+				bhi.w	Offset_0x026122
 				move.b	#$1A, (Obj_Player_One+Obj_Ani_Number).w		 ; $FFFFB020
 				move.b	#$1A, (Obj_Player_Two+Obj_Ani_Number).w		 ; $FFFFB06A
 				move.l	#Offset_0x026154, (A0)
@@ -314,7 +314,7 @@ Offset_0x026080:
 				subi.w	#$0080, D3
 				moveq	#$07, D1
 Offset_0x0260CA:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x026122
 				move.l	#Offset_0x025E54, (A1)
 				move.l	#Water_Wall_Debris_Mappings, Obj_Map(A1) ; Offset_0x0263B8, $000C

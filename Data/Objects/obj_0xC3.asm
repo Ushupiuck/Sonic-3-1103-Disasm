@@ -112,7 +112,7 @@ Offset_0x047E6A:
 				move.w	D3, D2
 Offset_0x047E6C:
 				move.w	D2, Obj_Speed_Y(A0)								 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				cmpi.w	#$0050, D1
 				bcs.s	Offset_0x047E82
 				move.w	#$FF00, Obj_Speed_Y(A0)							 ; $001A
@@ -147,7 +147,7 @@ Offset_0x047EC8:
 				moveq	#$14, D2
 				moveq	#$0B, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				move.l	(A7)+, D0
 				move.b	Obj_Status(A0), D1								 ; $002A
 				move.b	Obj_Control_Var_0A(A0), D2						 ; $003A

@@ -3,7 +3,7 @@
 ; ->>>			na Launch Base
 ;===============================================================================
 ; Offset_0x01C228:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01C27E
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
 				move.w	Obj_Y(A0), Obj_Y(A1)					  ; $0014, $0014
@@ -19,7 +19,7 @@
 				move.w	A1, Obj_Control_Var_0E(A0)						 ; $003E
 				move.b	#$01, Obj_Control_Var_0D(A0)					 ; $003D
 Offset_0x01C27E:
-				bra		Obj_0x11_LBz_Platform				   ; Offset_0x01BCFC
+				bra.w	Obj_0x11_LBz_Platform				   ; Offset_0x01BCFC
 ;-------------------------------------------------------------------------------
 Offset_0x01C282:
 				move.w	Obj_X(A0), D4									 ; $0010
@@ -28,7 +28,7 @@ Offset_0x01C282:
 				move.w	Obj_Y(A1), Obj_Y(A0)					  ; $0014, $0014
 				sub.w	Obj_X(A1), D4									 ; $0010
 				bsr.s	Offset_0x01C2A2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01C2A2:
 				lea		Obj_Control_Var_03(A0), A2						 ; $0033
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A

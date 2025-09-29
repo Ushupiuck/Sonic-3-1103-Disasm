@@ -47,7 +47,7 @@ Offset_0x02AB0C:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				swap	D6
 				andi.w	#$0003, D6
 				beq.s	Offset_0x02AB88
@@ -60,7 +60,7 @@ Offset_0x02AB0C:
 				sub.w	Obj_Y(A0), D0									 ; $0014
 				addi.w	#$0028, D0
 				bmi.s	Offset_0x02AB64
-				jsr		(Hurt_Player_A1)					   ; Offset_0x01A71C
+				jsr		(Hurt_Player_A1).l					   ; Offset_0x01A71C
 Offset_0x02AB64:
 				andi.b	#$02, D6
 				beq.s	Offset_0x02AB88
@@ -70,7 +70,7 @@ Offset_0x02AB64:
 				sub.w	Obj_Y(A0), D0									 ; $0014
 				addi.w	#$0028, D0
 				bmi.s	Offset_0x02AB88
-				jsr		(Hurt_Player_A1)					   ; Offset_0x01A71C
+				jsr		(Hurt_Player_A1).l					   ; Offset_0x01A71C
 Offset_0x02AB88:
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
 				bpl.s	Offset_0x02AB9E
@@ -79,7 +79,7 @@ Offset_0x02AB88:
 				andi.b	#$03, Obj_Map_Id(A0)							 ; $0022
 Offset_0x02AB9E:
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;-------------------------------------------------------------------------------
 Moving_Spike_Platform_Mappings:								   ; Offset_0x02ABA8
 				dc.w	Offset_0x02ABB0-Moving_Spike_Platform_Mappings

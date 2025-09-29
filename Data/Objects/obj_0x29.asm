@@ -50,13 +50,13 @@ Offset_0x020F64:
 				move.b	#$00, Obj_Control_Var_06(A0)					 ; $0036
 Offset_0x020F80:
 				lea		(AIz_Disappearing_Platform_Animate_Data).l, A1 ; Offset_0x021030
-				jsr		(AnimateSprite_2)					   ; Offset_0x0111FE
+				jsr		(AnimateSprite_2).l					   ; Offset_0x0111FE
 				cmpi.b	#$05, Obj_Map_Id(A0)							 ; $0022
 				bne.s	Offset_0x020FE6
 				tst.b	Obj_Control_Var_06(A0)							 ; $0036
 				bne.s	Offset_0x020FE6
 				move.b	#$01, Obj_Control_Var_06(A0)					 ; $0036
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x020FE6
 				move.l	#Offset_0x020FEC, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -69,7 +69,7 @@ Offset_0x020F80:
 				move.w	#$0200, Obj_Priority(A1)						 ; $0008
 				move.w	A0, Obj_Control_Var_0C(A1)						 ; $003C
 Offset_0x020FE6:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x020FEC:
 				move.w	Obj_Control_Var_0C(A0), A1						 ; $003C
@@ -87,8 +87,8 @@ Offset_0x021014:
 				move.w	#$0018, D2
 				move.w	#$0019, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 AIz_Disappearing_Platform_Animate_Data:						   ; Offset_0x021030
 				dc.w	Offset_0x021036-AIz_Disappearing_Platform_Animate_Data

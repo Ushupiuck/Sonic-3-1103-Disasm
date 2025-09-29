@@ -11,7 +11,7 @@
 				move.w	#$0200, Obj_Priority(A0)						 ; $0008
 				move.w	Obj_Y(A0), Obj_Control_Var_00(A0)		  ; $0014, $0030
 				move.b	(Water_Entered_Counter).w, Obj_Control_Var_06(A0) ; $FFFFF64D, $0036
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x022AD4
 				move.l	#Offset_0x022C14, (A1)
 				move.b	#$04, Obj_Flags(A1)								 ; $0004
@@ -96,25 +96,25 @@ Offset_0x022BBC:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.w	Obj_X(A0), D0									 ; $0010
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
 				bhi.w	Offset_0x022BF4
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x022BF4:
 				move.w	Obj_Control_Var_0C(A0), D0						 ; $003C
 				beq.s	Offset_0x022C02
 				move.w	D0, A1
-				jsr		(Delete_A1_Object)					   ; Offset_0x01113A
+				jsr		(Delete_A1_Object).l					   ; Offset_0x01113A
 Offset_0x022C02:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x022C0E
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x022C0E:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x022C14:
 				move.w	Obj_Control_Var_0C(A0), A1						 ; $003C
@@ -126,7 +126,7 @@ Offset_0x022C14:
 				beq.s	Offset_0x022C3C
 				ext.w	D0
 				add.w	D0, Obj_Y(A0)									 ; $0014
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 Offset_0x022C3C:
 				rts
 ;-------------------------------------------------------------------------------

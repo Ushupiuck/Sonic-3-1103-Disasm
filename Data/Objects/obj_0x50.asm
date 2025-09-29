@@ -14,7 +14,7 @@ Offset_0x029F98:
 				moveq	#$03, D6
 				move.w	(Control_Ports_Logical_Data).w, D5			 ; $FFFFF602
 				bsr.s	Offset_0x029FC4
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
 ; Offset_0x029FAE:
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
@@ -22,11 +22,11 @@ Offset_0x029F98:
 				addq.b	#$01, D6
 				move.w	(Control_Ports_Logical_Data_2).w, D5		 ; $FFFFF66A
 				bsr.s	Offset_0x029FC4
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 ;-------------------------------------------------------------------------------
 Offset_0x029FC4:
 				btst	D6, Obj_Status(A0)								 ; $002A
-				bne		Offset_0x02A09C
+				bne.w	Offset_0x02A09C
 				tst.b	Obj_Flags(A2)									 ; $0004
 				beq.s	Offset_0x029FFE
 				subq.b	#$01, Obj_Flags(A2)								 ; $0004
@@ -52,7 +52,7 @@ Offset_0x029FFE:
 				add.w	D1, D0
 				add.w	D1, D1
 				cmp.w	D1, D0
-				bcc		Offset_0x02A09A
+				bcc.w	Offset_0x02A09A
 				move.w	Obj_Y(A1), D0									 ; $0014
 				sub.w	Obj_Y(A0), D0									 ; $0014
 				cmpi.w	#$0020, D0
@@ -71,7 +71,7 @@ Offset_0x029FFE:
 				move.w	(A2), D0
 				sub.w	Obj_Y(A0), D0									 ; $0014
 				move.w	D0, (A2)
-				bsr		Offset_0x029F2E
+				bsr.w	Offset_0x029F2E
 				move.b	#$C0, Obj_Angle(A1)								 ; $0026
 				bclr	#$00, Obj_Flags(A1)								 ; $0004
 				move.b	#$80, Obj_Routine(A2)							 ; $0005
@@ -89,7 +89,7 @@ Offset_0x02A09A:
 				rts
 Offset_0x02A09C:
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
-				bne		Offset_0x02A148
+				bne.w	Offset_0x02A148
 				andi.w	#$0070, D5
 				beq.s	Offset_0x02A0EA
 				move.b	#$08, Obj_Flags(A2)								 ; $0004
@@ -191,7 +191,7 @@ Offset_0x02A1EA:
 				move.b	Offset_0x02A20C(PC, D2), Obj_Map_Id(A1)			 ; $0022
 				moveq	#$00, D0
 				move.b	Obj_Map_Id(A1), D0								 ; $0022
-				jmp		(Load_Sonic_Dynamic_PLC_D0)			   ; Offset_0x00C7F0
+				jmp		(Load_Sonic_Dynamic_PLC_D0).l			   ; Offset_0x00C7F0
 ;-------------------------------------------------------------------------------
 ; Offset_0x02A20A:
 				rts

@@ -3,9 +3,9 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x045864:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$0A, D0
-				bsr		Offset_0x045A94
+				bsr.w	Offset_0x045A94
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x045882(PC, D0), D1

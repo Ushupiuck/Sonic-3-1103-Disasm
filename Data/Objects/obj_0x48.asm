@@ -16,7 +16,7 @@ Offset_0x028294:
 				bsr.w	Offset_0x0282AA
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				bsr.w	Offset_0x0282AA
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x0282AA:
 				move.w	Obj_X(A1), D0									 ; $0010
 				sub.w	Obj_X(A0), D0									 ; $0010
@@ -73,7 +73,7 @@ Offset_0x02833C:
 				addq.w	#$01, A2
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				bsr.w	Offset_0x028358
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x028358:
 				move.b	(A2), D0
 				bne.w	Offset_0x0283DA

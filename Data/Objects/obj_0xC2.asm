@@ -59,7 +59,7 @@ Offset_0x047BD0:
 				move.w	A3, Obj_Height_3(A0)							 ; $0044
 				lea		Offset_0x047CF8(PC), A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
-				jsr		(Go_Delete_Object_A0)				   ; Offset_0x042D3E
+				jsr		(Go_Delete_Object_A0).l				   ; Offset_0x042D3E
 				addq.w	#$04, A7
 				rts
 ;-------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ Offset_0x047C0A:
 				move.w	#$0800, Obj_Speed_X(A1)							 ; $0018
 				move.w	#$0800, Obj_Inertia(A1)							 ; $001C
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
-				jmp		(Go_Delete_Object_A0)				   ; Offset_0x042D3E
+				jmp		(Go_Delete_Object_A0).l				   ; Offset_0x042D3E
 ;-------------------------------------------------------------------------------
 Offset_0x047C22:
 				lea		Offset_0x047C3C(PC), A1
@@ -109,7 +109,7 @@ Offset_0x047C44:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
 Offset_0x047C62:
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 
 Offset_0x047C6C:
@@ -127,7 +127,7 @@ Offset_0x047C7C:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				move.w	D0, Obj_Timer(A0)								 ; $002E
 				add.w	D0, D0
-				move.l	$00(A3, D0), Obj_Speed_X(A0)					 ; $0018
+				move.l	(A3, D0), Obj_Speed_X(A0)					 ; $0018
 				btst	#$00, Obj_Flags(A2)								 ; $0004
 				beq.s	Offset_0x047CB2
 				bset	#$00, Obj_Flags(A0)								 ; $0004

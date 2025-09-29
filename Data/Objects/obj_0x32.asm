@@ -27,8 +27,8 @@ Offset_0x0223B8:
 				neg.w	D1
 Offset_0x0223C6:
 				move.w	D1, Obj_Control_Var_04(A0)						 ; $0034
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
-				bne		Offset_0x022498
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
+				bne.w	Offset_0x022498
 				move.l	#Offset_0x0225B2, (A1)
 				move.l	Obj_Map(A0), Obj_Map(A1)				  ; $000C, $000C
 				move.w	Obj_Art_VRAM(A0), Obj_Art_VRAM(A1)		  ; $000A, $000A
@@ -52,7 +52,7 @@ Offset_0x022418:
 				move.w	Obj_Control_Var_00(A1), Obj_X(A1)		  ; $0030, $0010
 				move.w	Obj_Control_Var_02(A1), Obj_Y(A1)		  ; $0032, $0014
 				move.w	A1, Obj_Control_Var_0C(A0)						 ; $003C
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x022498
 				move.l	#Offset_0x0225B2, (A1)
 				move.l	Obj_Map(A0), Obj_Map(A1)				  ; $000C, $000C
@@ -112,7 +112,7 @@ Offset_0x02250C:
 				move.w	Obj_Control_Var_04(A0), D0						 ; $0034
 				add.w	D0, Obj_Control_Var_08(A0)						 ; $0038
 Offset_0x022514:
-				bsr		Offset_0x0225B8
+				bsr.w	Offset_0x0225B8
 				bra.s	Offset_0x022536
 ;-------------------------------------------------------------------------------
 Offset_0x02251A:
@@ -121,7 +121,7 @@ Offset_0x02251A:
 				move.l	#Offset_0x022684, (A0)
 				move.b	#$0E, Obj_Control_Var_04(A0)					 ; $0034
 				move.l	#Offset_0x02265C, D4
-				bra		Offset_0x0226BE
+				bra.w	Offset_0x0226BE
 Offset_0x022536:
 				move.w	#$0013, D1
 				move.w	#$0060, D2
@@ -138,37 +138,37 @@ Offset_0x022554:
 				move.w	#$0008, D3
 Offset_0x022560:
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object_2)					   ; Offset_0x0135B6
+				jsr		(Solid_Object_2).l					   ; Offset_0x0135B6
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
 				bhi.w	Offset_0x022584
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x022584:
 				move.w	Obj_Control_Var_0C(A0), D0						 ; $003C
 				beq.s	Offset_0x022592
 				move.w	D0, A1
-				jsr		(Delete_A1_Object)					   ; Offset_0x01113A
+				jsr		(Delete_A1_Object).l					   ; Offset_0x01113A
 Offset_0x022592:
 				move.w	Obj_Control_Var_0E(A0), D0						 ; $003E
 				beq.s	Offset_0x0225A0
 				move.w	D0, A1
-				jsr		(Delete_A1_Object)					   ; Offset_0x01113A
+				jsr		(Delete_A1_Object).l					   ; Offset_0x01113A
 Offset_0x0225A0:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x0225AC
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x0225AC:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x0225B2:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x0225B8:
 				tst.b	Obj_Control_Var_06(A0)							 ; $0036
-				beq		Offset_0x02265A
+				beq.w	Offset_0x02265A
 				moveq	#$00, D0
 				moveq	#$00, D1
 				move.b	Obj_Control_Var_08(A0), D0						 ; $0038
@@ -230,14 +230,14 @@ Offset_0x02265C:
 				tst.b	Obj_Control_Var_04(A0)							 ; $0034
 				beq.s	Offset_0x02266C
 				subq.b	#$01, Obj_Control_Var_04(A0)					 ; $0034
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02266C:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.s	Offset_0x02267E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02267E:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x022684:
 				tst.b	Obj_Control_Var_04(A0)							 ; $0034
@@ -255,7 +255,7 @@ Offset_0x0226A4:
 				bclr	#$03, (Obj_Player_Two+Obj_Status).w			 ; $FFFFB074
 				bset	#$01, (Obj_Player_Two+Obj_Status).w			 ; $FFFFB074
 Offset_0x0226B8:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x0226BE:
 				move.w	Obj_Control_Var_0C(A0), D0						 ; $003C
 				beq.s	Offset_0x0226C8
@@ -278,7 +278,7 @@ Offset_0x0226D4:
 				bra.s	Offset_0x0226F6
 ;-------------------------------------------------------------------------------
 Offset_0x0226EE:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x02275A
 Offset_0x0226F6:
 				move.l	D4, (A1)
@@ -295,7 +295,7 @@ Offset_0x0226F6:
 				move.b	D0, Obj_Map_Id(A1)								 ; $0022
 				move.b	(A4)+, Obj_Control_Var_04(A1)					 ; $0034
 				move.l	A1, A5
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x02275A
 				move.l	#Obj_Dissipate, (A1)				   ; Offset_0x013E86
 				move.w	Obj_X(A5), Obj_X(A1)					  ; $0010, $0010

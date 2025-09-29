@@ -56,7 +56,7 @@ Offset_0x03ECA0:
 				moveq	#$05, D6
 Offset_0x03ECB8:
 				move.b	(A1)+, (A2)+
-				dbra.w	D6, Offset_0x03ECB8
+				dbra	D6, Offset_0x03ECB8
 				move.l	#(Boss_Data_Buffer+$02), Obj_Child_Data(A0) ; $FFFFFA82, $0030
 				move.b	#$10, Obj_Ani_Time(A0)							 ; $0024
 				move.l	#Offset_0x03ECE4, Obj_Child(A0)					 ; $0034
@@ -83,7 +83,7 @@ Offset_0x03ECF8:
 				jsr		Find_Other_Object(PC)				   ; Offset_0x04269E
 				move.w	Offset_0x03ED20(PC, D0), Obj_Speed_X(A0)		 ; $0018
 				move.w	Offset_0x03ED20(PC, D1), Obj_Speed_Y(A0)		 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x03ED1C:
 				jmp		AnimateRaw(PC)						  ; Offset_0x04208E
 ;-------------------------------------------------------------------------------
@@ -184,11 +184,11 @@ Offset_0x03EE0E:
 				move.b	Obj_Control_Var_0D(A0), D0						 ; $003D
 				add.b	D0, Obj_Control_Var_0C(A0)						 ; $003C
 				move.w	Obj_Control_Var_0E(A0), D2						 ; $003E
-				jsr		(Move_Sprite_Circular_Simple)		   ; Offset_0x0426E2
+				jsr		(Move_Sprite_Circular_Simple).l		   ; Offset_0x0426E2
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 Offset_0x03EE2C:
 				move.w	Obj_Control_Var_0E(A0), D2						 ; $003E
-				jmp		(Move_Sprite_Circular_Simple)		   ; Offset_0x0426E2
+				jmp		(Move_Sprite_Circular_Simple).l		   ; Offset_0x0426E2
 ;-------------------------------------------------------------------------------
 Offset_0x03EE36:
 				bsr.w	Offset_0x03EF9E
@@ -208,7 +208,7 @@ Offset_0x03EE68:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				move.b	Obj_Control_Var_0C(A1), Obj_Control_Var_0C(A0) ; $003C, $003C
 				move.w	Obj_Control_Var_0E(A0), D2						 ; $003E
-				jsr		(Move_Sprite_Circular_Simple)		   ; Offset_0x0426E2
+				jsr		(Move_Sprite_Circular_Simple).l		   ; Offset_0x0426E2
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$01, Obj_Control_Var_08(A1)					 ; $0038
 				beq.s	Offset_0x03EE8A
@@ -248,7 +248,7 @@ Offset_0x03EEEA:
 				addq.w	#$04, D1
 Offset_0x03EEF2:
 				move.l	Offset_0x03EEFE(PC, D1), A1
-				move.b	$00(A1, D0), Obj_Control_Var_0C(A0)				 ; $003C
+				move.b	(A1, D0), Obj_Control_Var_0C(A0)				 ; $003C
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03EEFE:
@@ -263,9 +263,9 @@ Offset_0x03EF0E:
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03EF1A:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03EF2A:
 				moveq	#$00, D0

@@ -22,13 +22,13 @@ Offset_0x018EDE:
 				move.l	#Offset_0x018F10, (A0)
 Offset_0x018EF8:
 				lea		(Knuckles_Animate_Data).l, A1			 ; Offset_0x018F48
-				jsr		(AnimateSprite_2)					   ; Offset_0x0111FE
-				jsr		(Load_Knuckles_Dynamic_PLC)			   ; Offset_0x018F76
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(AnimateSprite_2).l					   ; Offset_0x0111FE
+				jsr		(Load_Knuckles_Dynamic_PLC).l			   ; Offset_0x018F76
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x018F10:
 				lea		(Knuckles_Animate_Data).l, A1			 ; Offset_0x018F48
-				jsr		(AnimateSprite_2)					   ; Offset_0x0111FE
+				jsr		(AnimateSprite_2).l					   ; Offset_0x0111FE
 				tst.b	Obj_Routine(A0)									 ; $0005
 				beq.s	Offset_0x018F34
 				move.b	#$02, Obj_Ani_Number(A0)						 ; $0020
@@ -36,10 +36,10 @@ Offset_0x018F10:
 				move.l	#Offset_0x018F40, (A0)
 Offset_0x018F34:
 				jsr		(Load_Knuckles_Dynamic_PLC).l			 ; Offset_0x018F76
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x018F40:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bra.s	Offset_0x018EF8
 ;-------------------------------------------------------------------------------
 Knuckles_Animate_Data:										   ; Offset_0x018F48
@@ -65,7 +65,7 @@ Load_Knuckles_Dynamic_PLC:									   ; Offset_0x018F76
 				move.b	D0, Obj_Player_Control(A0)						 ; $002E
 				lea		(Knuckles_Dyn_Script).l, A2				 ; Offset_0x019166
 				add.w	D0, D0
-				adda.w	$00(A2, D0), A2
+				adda.w	(A2, D0), A2
 				move.w	(A2)+, D5
 				subq.w	#$01, D5
 				bmi.s	Offset_0x018FC8

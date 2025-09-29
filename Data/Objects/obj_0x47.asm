@@ -44,24 +44,24 @@ Offset_0x0284B0:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				moveq	#$03, D6
 				move.w	(Control_Ports_Logical_Data).w, D5			 ; $FFFFF602
-				bsr		Offset_0x0287E4
+				bsr.w	Offset_0x0287E4
 				addq.w	#$04, A2
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				moveq	#$04, D6
 				move.w	(Control_Ports_Logical_Data_2).w, D5		 ; $FFFFF66A
-				bsr		Offset_0x0287E4
+				bsr.w	Offset_0x0287E4
 				move.w	#$002B, D1
 				move.w	#$0020, D2
 				move.w	#$0021, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				subq.b	#$01, Obj_Ani_Time(A0)							 ; $0024
 				bpl.s	Offset_0x028500
 				move.b	#$01, Obj_Ani_Time(A0)							 ; $0024
 				addq.b	#$01, Obj_Map_Id(A0)							 ; $0022
 				andi.b	#$03, Obj_Map_Id(A0)							 ; $0022
 Offset_0x028500:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x028506:
 				move.w	Obj_Control_Var_0A(A0), D0						 ; $003A
 				move.w	Offset_0x028512(PC, D0), D0
@@ -108,7 +108,7 @@ Offset_0x02854C:
 				bgt.s	Offset_0x028578
 				move.w	D0, Obj_Speed_Y(A0)								 ; $001A
 Offset_0x028578:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				moveq	#$00, D5
 				btst	#$03, Obj_Status(A0)							 ; $002A
 				beq.s	Offset_0x02858C
@@ -341,7 +341,7 @@ Offset_0x028826:
 				rts
 Offset_0x028828:
 				btst	D6, Obj_Status(A0)								 ; $002A
-				beq		Offset_0x0288E2
+				beq.w	Offset_0x0288E2
 				moveq	#$00, D0
 				move.b	$0001(A2), D0
 				jsr		(CalcSine).l							 ; Offset_0x001B20

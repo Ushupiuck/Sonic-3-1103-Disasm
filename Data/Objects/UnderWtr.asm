@@ -63,11 +63,11 @@ Offset_0x00F440:
 				addq.b	#$01, Obj_Angle(A0)								 ; $0026
 				andi.w	#$007F, D0
 				lea		(Offset_0x00F546).l, A1
-				move.b	$00(A1, D0), D0
+				move.b	(A1, D0), D0
 				ext.w	D0
 				add.w	Obj_P_Invunerblt_Time(A0), D0					 ; $0034
 				move.w	D0, Obj_X(A0)									 ; $0010
-				bsr		Offset_0x00F4FA
+				bsr.w	Offset_0x00F4FA
 				jsr		(SpeedToPos)						   ; Offset_0x01111E
 				tst.b	Obj_Flags(A0)									 ; $0004
 				bpl.s	Offset_0x00F476
@@ -233,7 +233,7 @@ Offset_0x00F712:
 				jsr		(PlaySound).l							; Offset_0x001176
 Offset_0x00F720:
 				subq.b	#$01, Obj_Subtype(A2)							 ; $002C
-				bcc		Offset_0x00F7AE
+				bcc.w	Offset_0x00F7AE
 				move.b	#$81, Obj_Player_Control(A2)					 ; $002E
 				move.w	#Drowning_Sfx, D0								 ; $003B
 				jsr		(PlaySound).l							; Offset_0x001176
@@ -241,10 +241,10 @@ Offset_0x00F720:
 				move.w	#$0001, Obj_Player_Next_Tilt(A0)				 ; $003A
 				move.w	#$0078, Obj_P_Flips_Remaining(A0)				 ; $0030
 				move.l	A2, A1
-				bsr		ResumeMusic							  ; Offset_0x00F89E
+				bsr.w	ResumeMusic							  ; Offset_0x00F89E
 				move.l	A0, -(A7)
 				move.l	A2, A0
-				bsr		Sonic_ResetOnFloor					   ; Offset_0x00BF76
+				bsr.w	Sonic_ResetOnFloor					   ; Offset_0x00BF76
 				move.b	#$17, Obj_Ani_Number(A0)						 ; $0020
 				bset	#$01, Obj_Status(A0)							 ; $002A
 				bset	#$07, Obj_Art_VRAM(A0)							 ; $000A
@@ -265,7 +265,7 @@ Offset_0x00F78C:
 Offset_0x00F79A:
 				move.l	A0, -(A7)
 				move.l	A2, A0
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				addi.w	#$0010, Obj_Speed_Y(A0)							 ; $001A
 				move.l	(A7)+, A0
 				bra.s	Offset_0x00F7B0

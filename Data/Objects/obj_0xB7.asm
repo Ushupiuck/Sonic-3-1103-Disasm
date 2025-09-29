@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x0493CC:
 				lea		Egg_Mobile_Setup_Data(PC), A1		   ; Offset_0x0495AE
-				jsr		(SetupObjectAttributes)						 ; Offset_0x041D72
+				jsr		(SetupObjectAttributes).l						 ; Offset_0x041D72
 				move.l	#Offset_0x0493E8, (A0)
 				move.w	Obj_Y(A0), Obj_Control_Var_0A(A0)		  ; $0014, $003A
 				bset	#$00, Obj_Flags(A0)								 ; $0004
@@ -22,20 +22,20 @@ Offset_0x0493E8:
 				bclr	#$00, Obj_Status(A1)							 ; $002A
 				move.b	#$00, Obj_Ani_Number(A1)						 ; $0020
 				move.l	#Offset_0x049444, (A0)
-				jsr		(Swing_Setup)						   ; Offset_0x03669A
+				jsr		(Swing_Setup).l						   ; Offset_0x03669A
 				move.w	#$0100, Obj_Speed_X(A0)							 ; $0018
 				move.w	#$01DF, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x04945E, Obj_Child(A0)					 ; $0034
-				lea		(LBz_Robotnik_Ship_Data_2), A2		   ; Offset_0x03659E
+				lea		(LBz_Robotnik_Ship_Data_2).l, A2		   ; Offset_0x03659E
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 Offset_0x049440:
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x049444:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Offset_0x049592
-				jsr		(Run_Object_Wait_Timer_A0)			   ; Offset_0x0423D2
+				jsr		(Run_Object_Wait_Timer_A0).l			   ; Offset_0x0423D2
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x04945E:
@@ -50,8 +50,8 @@ Offset_0x049472:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x049480:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Offset_0x049592
 				move.w	(Obj_Knuckles_Mem_Address).w, A1			 ; $FFFFFAA4
 				move.w	Obj_X(A1), D0									 ; $0010
@@ -72,7 +72,7 @@ Offset_0x0494C0:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0494D4:
-				jsr		(Move_Light_Gravity)				   ; Offset_0x0426C2
+				jsr		(Move_Light_Gravity).l				   ; Offset_0x0426C2
 				bsr.w	Offset_0x049592
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x049514
@@ -85,15 +85,15 @@ Offset_0x0494D4:
 				clr.w	Obj_Speed_X(A0)									 ; $0018
 				move.w	#$00FF, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x049532, Obj_Child(A0)						   ; $0034
-				jsr		(Swing_Setup)						   ; Offset_0x03669A
+				jsr		(Swing_Setup).l						   ; Offset_0x03669A
 Offset_0x049514:
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 ; Offset_0x049518:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Offset_0x049592
-				jsr		(Run_Object_Wait_Timer_A0)			   ; Offset_0x0423D2
+				jsr		(Run_Object_Wait_Timer_A0).l			   ; Offset_0x0423D2
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x049532:
@@ -109,8 +109,8 @@ Offset_0x04954E:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x04955A:
-				jsr		(Swing_Up_And_Down)					   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Swing_Up_And_Down).l					   ; Offset_0x04232E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Offset_0x049592
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------

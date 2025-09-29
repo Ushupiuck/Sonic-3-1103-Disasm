@@ -7,7 +7,7 @@
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x041094(PC, D0), D1
 				jsr		Offset_0x041094(PC, D1)
-				bsr		Offset_0x04166C
+				bsr.w	Offset_0x04166C
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X(PC) ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x041094:
@@ -105,7 +105,7 @@ Offset_0x04117E:
 				jmp		SetupChildObject_Repeat(PC)		   ; Offset_0x041E4E
 ;-------------------------------------------------------------------------------
 Offset_0x0411A0:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x0411AA:
@@ -127,7 +127,7 @@ Offset_0x0411D4:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0411E8:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				lea		Offset_0x04174B(PC), A1
 				jsr		Animate_Raw_Multi_Delay_A1(PC)		   ; Offset_0x042160
 				tst.w	D2
@@ -148,10 +148,10 @@ Offset_0x041218:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x041228:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
-				bmi		Offset_0x041116
-				jmp		(Run_Object_Hit_Floor_A0)			   ; Offset_0x0423E0
+				bmi.w	Offset_0x041116
+				jmp		(Run_Object_Hit_Floor_A0).l			   ; Offset_0x0423E0
 ;-------------------------------------------------------------------------------
 Offset_0x04123C:
 				move.b	#$10, Obj_Routine(A0)							 ; $0005
@@ -181,7 +181,7 @@ Offset_0x041288:
 				move.b	Obj_Map_Id(A0), Obj_Control_Var_09(A0)	  ; $0022, $0039
 				move.b	Obj_Control_Var_0A(A0), Obj_Map_Id(A0)	  ; $003A, $0022
 				lea		Offset_0x041658(PC), A1
-				bsr		Offset_0x041634
+				bsr.w	Offset_0x041634
 Offset_0x0412A6:
 				rts
 ;-------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ Offset_0x04135C:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x041364:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Animate_Raw_Multi_Delay(PC)			   ; Offset_0x04215C
 				tst.w	D2
 				beq.s	Offset_0x041396
@@ -259,7 +259,7 @@ Offset_0x041364:
 Offset_0x041388:
 				move.b	Obj_Control_Var_0A(A0), Obj_Map_Id(A0)	  ; $003A, $0022
 				lea		Offset_0x041658(PC), A1
-				bsr		Offset_0x041634
+				bsr.w	Offset_0x041634
 Offset_0x041396:
 				rts
 ;-------------------------------------------------------------------------------
@@ -285,8 +285,8 @@ Offset_0x0413CA:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				moveq	#$08, D0
 				btst	#$06, Obj_Status(A1)							 ; $002A
-				bne		Run_Flicker_Move					   ; Offset_0x0424F4
-				bsr		Offset_0x041482
+				bne.w	Run_Flicker_Move					   ; Offset_0x0424F4
+				bsr.w	Offset_0x041482
 				jmp		Child_Display_Touch_Or_Delete(PC)	   ; Offset_0x042472
 ;-------------------------------------------------------------------------------
 Offset_0x0413E2:

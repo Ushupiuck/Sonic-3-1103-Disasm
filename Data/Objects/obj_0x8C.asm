@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x03FE88:
 				lea		Offset_0x03FEB6(PC), A1
-				jsr		(Check_Camera_In_Range)				   ; Offset_0x043392
+				jsr		(Check_Camera_In_Range).l				   ; Offset_0x043392
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x03FEA8(PC, D0), D1
@@ -43,7 +43,7 @@ Offset_0x03FEBE:
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 				moveq	#$77, D0
 				jsr		(LoadPLC).l								 ; Offset_0x0014D0
-				lea		(Art_Ball_Shooter), A1				   ; Offset_0x1224EC
+				lea		(Art_Ball_Shooter).l, A1				   ; Offset_0x1224EC
 				move.w	#$84A0, D2
 				jsr		(Queue_Kos_Module).l				 ; Offset_0x0018A8
 				lea		Ball_Shooter_Palette(PC), A1		   ; Offset_0x0406E4
@@ -85,7 +85,7 @@ Offset_0x03FF78:
 				jmp		SetupChildObject(PC)			   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03FF9A:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03FFA4:
@@ -116,9 +116,9 @@ Offset_0x03FFE4:
 ;-------------------------------------------------------------------------------
 Offset_0x03FFEE:
 				addi.w	#$0020, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x040004:
 				bset	#$05, Obj_Control_Var_08(A0)					 ; $0038
@@ -164,7 +164,7 @@ Offset_0x040078:
 ;-------------------------------------------------------------------------------
 Offset_0x040088:
 				addi.w	#$0020, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Hit_Floor_A0(PC)			   ; Offset_0x0423E0
 ;-------------------------------------------------------------------------------
 Offset_0x040098:
@@ -182,7 +182,7 @@ Offset_0x0400B0:
 				beq.s	Offset_0x0400C6
 				addi.w	#$0010, Obj_Speed_X(A0)							 ; $0018
 Offset_0x0400C6:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.w	Obj_Speed_X(A0), D0								 ; $0018
 				addi.w	#$0200, D0
 				cmpi.w	#$0400, D0
@@ -218,9 +218,9 @@ Offset_0x040132:
 Offset_0x04013E:
 				addq.w	#$01, Obj_Timer(A0)								 ; $002E
 				bmi.w	Offset_0x03FF60
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		AnimateRaw(PC)						  ; Offset_0x04208E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x040156:
 				lea		Ball_Shooter_Setup_Data_9(PC), A1	   ; Offset_0x04061E
@@ -281,7 +281,7 @@ Offset_0x0401D8:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				move.w	Offset_0x0401FE(PC, D0), Obj_Speed_X(A0)		 ; $0018
 				move.w	#$FE00, Obj_Speed_Y(A0)							 ; $001A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x0401FE:
 				dc.w	$FF00, $0200, $FE00
@@ -367,7 +367,7 @@ Offset_0x0402CE:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x0402E2(PC, D0), D1
 				jsr		Offset_0x0402E2(PC, D1)
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x0402E2:
 				dc.w	Offset_0x0402E8-Offset_0x0402E2
@@ -408,7 +408,7 @@ Offset_0x040350:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x040368(PC, D0), D1
 				jsr		Offset_0x040368(PC, D1)
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x040368:
 				dc.w	Offset_0x040370-Offset_0x040368
@@ -452,7 +452,7 @@ Offset_0x0403CA:
 				bne.s	Offset_0x0403D8
 				rts
 Offset_0x0403D8:
-				jmp		(Go_Delete_Object_A0)				   ; Offset_0x042D3E
+				jmp		(Go_Delete_Object_A0).l				   ; Offset_0x042D3E
 ;-------------------------------------------------------------------------------
 Offset_0x0403DE:
 				lea		Ball_Shooter_Setup_Data_4(PC), A1	   ; Offset_0x0405F6
@@ -470,11 +470,11 @@ Offset_0x0403EE:
 				moveq	#$14, D2
 				moveq	#$08, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(Solid_Object).l						   ; Offset_0x013556
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x040414:
 				jsr		Displace_Player_Offset(PC)			   ; Offset_0x04315A
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x04041E:
 				lea		Offset_0x040676(PC), A2
@@ -535,7 +535,7 @@ Offset_0x0404CE:
 				moveq	#$07, D2
 				moveq	#$07, D3
 				move.w	(A7)+, D4
-				jmp		(Platform_Object)					   ; Offset_0x013AF6
+				jmp		(Platform_Object).l					   ; Offset_0x013AF6
 ;-------------------------------------------------------------------------------
 Offset_0x0404E2:
 				tst.l	(A0)
@@ -585,7 +585,7 @@ Offset_0x04058A:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$07, Obj_Status(A1)							 ; $002A
 				bne.s	Offset_0x04059C
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x04059C:
 				move.l	#ObjectFall_Delete_Sprite_Check_X_Y, (A0) ; Offset_0x042FB6
 				bset	#$07, Obj_Status(A0)							 ; $002A
@@ -595,7 +595,7 @@ Offset_0x04059C:
 				move.w	Offset_0x0405CA(PC, D0), Obj_Speed_X(A0)		 ; $0018
 				move.w	#$FE00, Obj_Speed_Y(A0)							 ; $001A
 				jsr		Displace_Player_Offset(PC)			   ; Offset_0x04315A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x0405CA:
 				dc.w	$0300, $0200, $FE00, $FD00

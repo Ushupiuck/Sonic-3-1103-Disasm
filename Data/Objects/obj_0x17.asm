@@ -29,7 +29,7 @@ Obj_0x17_LBz_Hooked_Ride:									   ; Offset_0x01D4FC
 				move.l	LBz_Hooked_Ride_Range(PC, D0), Obj_Control_Var_04(A0) ; Offset_0x01D4C8, $0034
 				move.l	#Hooked_Ride_Mappings, Obj_Map(A0) ; Offset_0x01D8F8, $000C
 				move.w	#$2433, Obj_Art_VRAM(A0)						 ; $000A
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x01D5A2
 				move.l	#Offset_0x01D6CA, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -55,8 +55,8 @@ Offset_0x01D588:
 Offset_0x01D5A2:
 				move.l	#Offset_0x01D5A8, (A0)
 Offset_0x01D5A8:
-				bsr		Offset_0x01D7F6
-				bsr		Offset_0x01D6D0
+				bsr.w	Offset_0x01D7F6
+				bsr.w	Offset_0x01D6D0
 				tst.w	Obj_Control_Var_00(A0)							 ; $0030
 				beq.s	Offset_0x01D5C4
 				cmpi.w	#$0028, Obj_Control_Var_0A(A0)					 ; $003A
@@ -68,14 +68,14 @@ Offset_0x01D5C4:
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
 				bhi.w	Offset_0x01D5DE
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01D5DE:
 				move.w	Obj_Control_Var_08(A0), D0						 ; $0038
 				andi.w	#$FF80, D0
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
 				bhi.w	Offset_0x01D5F8
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01D5F8:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x01D604
@@ -85,9 +85,9 @@ Offset_0x01D604:
 				move.w	Obj_Control_Var_0C(A0), D0						 ; $003C
 				beq.s	Offset_0x01D612
 				move.w	D0, A1
-				jsr		(Delete_A1_Object)					   ; Offset_0x01113A
+				jsr		(Delete_A1_Object).l					   ; Offset_0x01113A
 Offset_0x01D612:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x01D618:
 				jsr		(SpeedToPos)						   ; Offset_0x01111E
@@ -147,7 +147,7 @@ Offset_0x01D6C8:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x01D6CA:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x01D6D0:
 				move.w	Obj_Control_Var_0C(A0), A3						 ; $003C

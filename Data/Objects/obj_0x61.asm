@@ -57,14 +57,14 @@ Offset_0x02C372:
 				jmp		(Play_Music).l							 ; Offset_0x001176
 Offset_0x02C390:
 				lea		(BPz_Balloon_Animate_Data).l, A1		 ; Offset_0x02C3B8
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				cmpi.b	#$05, Obj_Map_Id(A0)							 ; $0022
 				bcs.s	Offset_0x02C3B2
 				cmpi.b	#$07, Obj_Map_Id(A0)							 ; $0022
 				bcc.s	Offset_0x02C3B2
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 Offset_0x02C3B2:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 BPz_Balloon_Animate_Data:									   ; Offset_0x02C3B8
 				dc.w	Offset_0x02C3C0-BPz_Balloon_Animate_Data

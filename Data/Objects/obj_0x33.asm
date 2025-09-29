@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x023662:
 				tst.w	(Two_Player_Flag).w							 ; $FFFFFFD8
-				bne		Obj_0x33_Switch_2P					   ; Offset_0x0237AA
+				bne.w	Obj_0x33_Switch_2P					   ; Offset_0x0237AA
 				move.l	#Switch_Mappings, Obj_Map(A0)	; Offset_0x023832, $000C
 				move.w	#$0456, Obj_Art_VRAM(A0)						 ; $000A
 				cmpi.b	#Hz_Id, (Current_Zone).w					; $01, $FFFFFE10
@@ -35,12 +35,12 @@ Offset_0x0236D2:
 				move.w	#$0004, D2
 				move.w	#$0005, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				lea		$00(A3, D0), A3
+				lea		(A3, D0), A3
 				moveq	#$00, D3
 				btst	#$06, Obj_Subtype(A0)							 ; $002C
 				beq.s	Offset_0x023710
@@ -62,7 +62,7 @@ Offset_0x023732:
 				bset	D3, (A3)
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
 Offset_0x02373A:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x023740:
 				tst.b	Obj_Flags(A0)									 ; $0004
@@ -70,12 +70,12 @@ Offset_0x023740:
 				move.w	#$0010, D1
 				move.w	#$0006, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				lea		$00(A3, D0), A3
+				lea		(A3, D0), A3
 				moveq	#$00, D3
 				btst	#$06, Obj_Subtype(A0)							 ; $002C
 				beq.s	Offset_0x02377A
@@ -97,7 +97,7 @@ Offset_0x02379C:
 				bset	D3, (A3)
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
 Offset_0x0237A4:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Obj_0x33_Switch_2P:											   ; Offset_0x0237AA
 				move.l	#Switch_Mappings_2P, Obj_Map(A0) ; Offset_0x0238BC, $000C
@@ -112,12 +112,12 @@ Offset_0x0237D4:
 				move.w	#$0004, D2
 				move.w	#$0005, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				lea		$00(A3, D0), A3
+				lea		(A3, D0), A3
 				moveq	#$00, D3
 				move.b	Obj_Status(A0), D0								 ; $002A
 				andi.b	#$18, D0
@@ -135,7 +135,7 @@ Offset_0x023824:
 				bset	D3, (A3)
 				move.b	#$01, Obj_Map_Id(A0)							 ; $0022
 Offset_0x02382C:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Switch_Mappings:											   ; Offset_0x023832
 				dc.w	Offset_0x023838-Switch_Mappings

@@ -50,7 +50,7 @@ Offset_0x03124A:
 				asr.w	#$02, D1
 				andi.w	#$000F, D1
 				lea		AIz_Battleship_Bobbing_Motion(PC), A1  ; Offset_0x031A5C
-				move.b	$00(A1, D1), D1
+				move.b	(A1, D1), D1
 				add.w	(AIz_Flying_Battery_Rounded_Y).w, D1		 ; $FFFFEEA2
 				move.w	D1, (AIz_Flying_Battery_Y).w				 ; $FFFFEE9C
 Offset_0x031260:
@@ -139,7 +139,7 @@ AIz_FBz_Ship_Bomb_Drop:										   ; Offset_0x031358
 				move.w	#$0010, (Earthquake_Flag).w					 ; $FFFFEECC
 				moveq	#sfx_MissileExplode, D0							; $52
 				jsr		(Play_Music).l							 ; Offset_0x001176
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x0313D0
 				lea		AIz_FBz_Bomb_Explosion_Data(PC), A2	   ; Offset_0x031AC2
 				moveq	#$07, D1

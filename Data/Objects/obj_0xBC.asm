@@ -90,7 +90,7 @@ Offset_0x0472A2:
 				moveq	#$10, D2
 				moveq	#$10, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jmp		(Solid_Object)						   ; Offset_0x013556
+				jmp		(Solid_Object).l						   ; Offset_0x013556
 Offset_0x0472B2:
 				btst	D1, Obj_Status(A0)								 ; $002A
 				beq.s	Offset_0x0472FE
@@ -122,7 +122,7 @@ Offset_0x047300:
 				move.w	Obj_Height_3(A0), A1							 ; $0044
 				btst	#$04, Obj_Control_Var_08(A1)					 ; $0038
 				bne.w	Go_Delete_Object_A0_2				   ; Offset_0x042D4C
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Segmented_Column_Setup_Data:								   ; Offset_0x047314
 				dc.l	Crushing_Column_Mappings			   ; Offset_0x110938

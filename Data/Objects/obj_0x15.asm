@@ -58,12 +58,12 @@ Offset_0x01D0D8:
 				lea		Obj_Control_Var_0A(A0), A2						 ; $003A
 				bsr.w	Offset_0x01D112
 Offset_0x01D10C:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01D112:
 				tst.w	(A2)
 				bne.s	Offset_0x01D140
 				move.l	A1, -(A7)
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01D13E
 				move.l	#Offset_0x01D1BC, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -130,7 +130,7 @@ Offset_0x01D20C:
 				move.w	Offset_0x01D222(PC, D0), D1
 				jsr		Offset_0x01D222(PC, D1)
 				bsr.w	Offset_0x01D258
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x01D222:
 				dc.w	Offset_0x01D226-Offset_0x01D222

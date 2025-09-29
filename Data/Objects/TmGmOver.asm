@@ -25,7 +25,7 @@ Offset_0x024488:
 				neg.w	D1
 Offset_0x024496:
 				add.w	D1, Obj_X(A0)									 ; $0010
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0244A0:
 				move.w	#$02D0, Obj_Ani_Time(A0)						 ; $0024
 				move.l	#Offset_0x0244AE, (A0)
@@ -41,7 +41,7 @@ Offset_0x0244AE:
 				tst.w	Obj_Ani_Time(A0)								 ; $0024
 				beq.s	Offset_0x0244D6
 				subq.w	#$01, Obj_Ani_Time(A0)							 ; $0024
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x0244D6:
 				tst.b	(Time_Over_flag).w							 ; $FFFFFE1A
 				bne.s	Offset_0x0244F6
@@ -74,7 +74,7 @@ Offset_0x024500:
 Offset_0x02453C:
 				move.b	#$FE, (A4)
 Offset_0x024540:
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;===============================================================================
 ; Objeto Game Over / Time Over
 ; <<<-

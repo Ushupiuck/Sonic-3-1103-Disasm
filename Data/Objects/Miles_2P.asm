@@ -15,7 +15,7 @@
 Offset_0x00CC2C:
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x00CC54
-				jmp		(Debug_Mode)						   ; Offset_0x04B1B2
+				jmp		(Debug_Mode).l						   ; Offset_0x04B1B2
 Offset_0x00CC38:
 				lea		(Miles_Max_Speed).w, A4						 ; $FFFFFEC0
 				lea		(Distance_From_Top_P2).w, A5				 ; $FFFFEE2E
@@ -54,7 +54,7 @@ Offset_0x00CC6E:
 				moveq	#$00, D0
 				move.b	Obj_Player_Selected(A0), D0						 ; $0038
 				lsl.w	#$03, D0
-				lea		$00(A1, D0), A1
+				lea		(A1, D0), A1
 				move.w	(A1)+, (A4)
 				move.w	(A1)+, $0002(A4)
 				move.w	(A1)+, Obj_Flags(A4)							 ; $0004
@@ -164,7 +164,7 @@ Offset_0x00CE3E:
 				bsr.w	Miles_SlopeResist					   ; Offset_0x00E4DC
 				bsr.w	Miles_Move							   ; Offset_0x00DCD4
 				bsr.w	Offset_0x00CF7C
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Player_AnglePos						   ; Offset_0x009144
 				bsr.w	Miles_SlopeRepel					   ; Offset_0x00E54E
 				rts
@@ -174,7 +174,7 @@ Offset_0x00CE62:
 				bne.s	Offset_0x00CE96
 				bsr.w	Miles_JumpHeight					   ; Offset_0x00E2F8
 				bsr.w	Miles_ChgJumpDir					   ; Offset_0x00E0EC
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				btst	#$06, Obj_Status(A0)							 ; $002A
 				beq.s	Offset_0x00CE84
 				subi.w	#$0028, Obj_Speed_Y(A0)							 ; $001A
@@ -187,7 +187,7 @@ Offset_0x00CE84:
 Offset_0x00CE96:
 				bsr.w	Offset_0x00CEB6
 				bsr.w	Miles_ChgJumpDir					   ; Offset_0x00E0EC
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Miles_JumpAngle						   ; Offset_0x00E590
 				movem.l A4-A6, -(A7)
 				bsr.w	Miles_Floor							   ; Offset_0x00E5F0
@@ -239,7 +239,7 @@ Offset_0x00CF2C:
 Offset_0x00CF36:
 				bsr.w	Miles_RollRepel						   ; Offset_0x00E512
 				bsr.w	Miles_RollSpeed						   ; Offset_0x00DFC6
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				bsr.w	Player_AnglePos						   ; Offset_0x009144
 				bsr.w	Miles_SlopeRepel					   ; Offset_0x00E54E
 				rts
@@ -247,7 +247,7 @@ Offset_0x00CF36:
 Offset_0x00CF4E:
 				bsr.w	Miles_JumpHeight					   ; Offset_0x00E2F8
 				bsr.w	Miles_ChgJumpDir					   ; Offset_0x00E0EC
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				btst	#$06, Obj_Status(A0)							 ; $002A
 				beq.s	Offset_0x00CF6A
 				subi.w	#$0028, Obj_Speed_Y(A0)							 ; $001A

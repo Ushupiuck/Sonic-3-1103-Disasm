@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x03E48C:
 				lea		Offset_0x03E4E6(PC), A1
-				jsr		(Check_Camera_In_Range)				   ; Offset_0x043392
+				jsr		(Check_Camera_In_Range).l				   ; Offset_0x043392
 				move.l	#Offset_0x03E4EE, (A0)
 				move.b	#$01, (Boss_Flag).w							 ; $FFFFF7AA
 				moveq	#Volume_Down, D0								  ; -$20
@@ -53,7 +53,7 @@ Offset_0x03E518:
 				move.w	#$0080, Obj_Speed_Y(A0)							 ; $001A
 				move.w	#$00CF, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x03E55E, Obj_Child(A0)					 ; $0034
-				lea		(Offset_0x03EB68), A2
+				lea		(Offset_0x03EB68).l, A2
 				jsr		SetupChildObject(PC)			   ; Offset_0x041D9A
 				bne.s	Offset_0x03E54C
 				move.b	#$09, Obj_Subtype(A1)							 ; $002C
@@ -81,7 +81,7 @@ Offset_0x03E57E:
 				bchg	#00, Obj_Flags(A0)								 ; $0004
 				move.w	#$017F, Obj_Height_3(A0)						 ; $0044
 Offset_0x03E598:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03E5A2:
@@ -138,10 +138,10 @@ Offset_0x03E652:
 				move.l	#Offset_0x03E678, (A0)
 				st		(Player_Control_Lock_Flag).w				 ; $FFFFFAA8
 				clr.b	(Boss_Flag).w								 ; $FFFFF7AA
-				jsr		(Restore_LevelMusic)					 ; Offset_0x0432CA
+				jsr		(Restore_LevelMusic).l					 ; Offset_0x0432CA
 				move.w	#$44C0, (Target_Camera_Max_X).w				 ; $FFFFFA92
-				lea		(Level_Resize_Max_X), A2			   ; Offset_0x04261C
-				jmp		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
+				lea		(Level_Resize_Max_X).l, A2			   ; Offset_0x04261C
+				jmp		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
 ;-------------------------------------------------------------------------------
 Offset_0x03E678:
 				tst.b	(Control_Ports_Buffer_Data+$03).w			 ; $FFFFF607
@@ -154,9 +154,9 @@ Offset_0x03E68C:
 				jsr		Restore_PlayerControl(PC)			  ; Offset_0x0432EE
 				move.w	(Target_Camera_Max_Y).w, (Level_Limits_Max_Y).w ; $FFFFFA98, $FFFFEE12
 				move.w	#$47C0, (Target_Camera_Max_X).w				 ; $FFFFFA92
-				lea		(Level_Resize_Max_X), A2			   ; Offset_0x04261C
-				jsr		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
-				jmp		(Go_Delete_Object_A0_2)				   ; Offset_0x042D4C
+				lea		(Level_Resize_Max_X).l, A2			   ; Offset_0x04261C
+				jsr		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
+				jmp		(Go_Delete_Object_A0_2).l				   ; Offset_0x042D4C
 ;-------------------------------------------------------------------------------
 Offset_0x03E6B2:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
@@ -207,7 +207,7 @@ Offset_0x03E718:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				tst.b	Obj_Control_Var_0B(A1)							 ; $003B
 				bne.w	Run_Flicker_Move					   ; Offset_0x0424F4
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03E73E:
 				dc.w	Offset_0x03E748-Offset_0x03E73E
@@ -269,12 +269,12 @@ Offset_0x03E7B8:
 				moveq	#$04, D2
 				moveq	#$0A, D3
 				move.w	(A7)+, D4
-				jsr		(Solid_Object)						   ; Offset_0x013556
+				jsr		(Solid_Object).l						   ; Offset_0x013556
 				moveq	#$00, D0
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				tst.b	Obj_Control_Var_0B(A1)							 ; $003B
 				bne.s	Offset_0x03E7EE
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x03E7EE:
 				jsr		Displace_Player_Offset(PC)			   ; Offset_0x04315A
 				jmp		Run_Flicker_Move(PC)				   ; Offset_0x0424F4
@@ -348,7 +348,7 @@ Offset_0x03E8B2:
 				cmpi.b	#$08, Obj_Ani_Frame(A0)							 ; $0023
 				bhi.s	Offset_0x03E8D4
 				lea		Offset_0x03E8D8(PC), A1
-				jsr		(Offset_0x047030)
+				jsr		(Offset_0x047030).l
 Offset_0x03E8D4:
 				jmp		Child_Display_Or_Delete(PC)			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
@@ -363,7 +363,7 @@ Offset_0x03E8E0:
 				cmpi.b	#$08, Obj_Ani_Frame(A0)							 ; $0023
 				bhi.s	Offset_0x03E902
 				lea		Offset_0x03E906(PC), A1
-				jsr		(Offset_0x047030)
+				jsr		(Offset_0x047030).l
 Offset_0x03E902:
 				jmp		Child_Display_Or_Delete(PC)			   ; Offset_0x04245C
 ;-------------------------------------------------------------------------------
@@ -380,9 +380,9 @@ Offset_0x03E91C:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$07, Obj_Status(A1)							 ; $002A
 				bne.s	Offset_0x03E932
-				jmp		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jmp		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 Offset_0x03E932:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x03E938:
 				lea		Freezer_Mobile_Setup_Data_6(PC), A1	   ; Offset_0x03EB62
@@ -410,7 +410,7 @@ Offset_0x03E97A:
 				move.b	Obj_Control_Var_0A(A0), D0						 ; $003A
 				andi.w	#$000F, D0
 				lea		Offset_0x03EC02(PC), A1
-				move.b	$00(A1, D0), Obj_Flip_Angle(A0)					 ; $0027
+				move.b	(A1, D0), Obj_Flip_Angle(A0)					 ; $0027
 				addq.b	#$01, D0
 				move.b	D0, Obj_Control_Var_0A(A0)						 ; $003A
 				rts
@@ -423,18 +423,18 @@ Offset_0x03E9A8:
 				moveq	#$00, D1
 				move.b	Obj_Subtype(A0), D1								 ; $002C
 				lea		Offset_0x03EA34(PC), A2
-				move.w	$00(A2, D0), D2
+				move.w	(A2, D0), D2
 				adda.w	D2, A2
-				move.w	$00(A2, D1), Obj_Control_Var_12(A0)				 ; $0042
+				move.w	(A2, D1), Obj_Control_Var_12(A0)				 ; $0042
 				lea		Offset_0x03EA6C(PC), A2
-				move.w	$00(A2, D0), D2
+				move.w	(A2, D0), D2
 				adda.w	D2, A2
-				move.b	$00(A2, D1), D2
+				move.b	(A2, D1), D2
 				or.b	D2, Obj_Flags(A0)								 ; $0004
 				lea		Offset_0x03EA02(PC), A2
-				move.w	$00(A2, D0), D2
+				move.w	(A2, D0), D2
 				adda.w	D2, A2
-				move.w	$00(A2, D1), Obj_Timer(A0)						 ; $002E
+				move.w	(A2, D1), Obj_Timer(A0)						 ; $002E
 				cmpi.b	#$06, D0
 				beq.s	Offset_0x03E9F8
 				add.w	D1, D1

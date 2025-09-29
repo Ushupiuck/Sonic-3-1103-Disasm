@@ -32,7 +32,7 @@ Offset_0x01423E:
 Offset_0x014258:
 				tst.w	(Debug_Mode_Flag_Index).w					 ; $FFFFFE08
 				beq.s	Offset_0x014264
-				jsr		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x014264:
 				rts
 Offset_0x014266:
@@ -41,7 +41,7 @@ Offset_0x014266:
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x014272:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Lava_Attributes_Mappings_No_Display:						   ; Offset_0x014278
 				dc.w	Offset_0x01427E-Lava_Attributes_Mappings_No_Display

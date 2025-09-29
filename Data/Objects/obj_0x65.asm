@@ -25,35 +25,35 @@
 				clr.l	(Time_Count_Address_P2).w					 ; $FFFFFED2
 				clr.w	(Ring_count).w						 ; $FFFFFE20
 				clr.w	(Ring_Count_Address_P2).w					 ; $FFFFFED0
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Offset_0x02DCD6, (A1)
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Offset_0x02DCD6, (A1)
 				move.b	#$01, Obj_Subtype(A1)							 ; $002C
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Obj_Lap_Number, (A1)				   ; Offset_0x02D4A8
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Obj_Lap_Number, (A1)				   ; Offset_0x02D4A8
 				move.b	#$01, Obj_Subtype(A1)							 ; $002C
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Obj_Neon_Display, (A1)				   ; Offset_0x02D588
 				move.w	#$0120, Obj_X(A1)								 ; $0010
 				move.w	#$00B8, Obj_Y(A1)								 ; $0014
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Obj_Timer_P1, (A1)					   ; Offset_0x02DAE6
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Obj_Timer_P2, (A1)					   ; Offset_0x02DB48
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Offset_0x02DDF4, (A1)
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D23C
 				move.l	#Offset_0x02DDF4, (A1)
 				move.b	#$01, Obj_Subtype(A1)							 ; $002C
@@ -64,17 +64,17 @@ Offset_0x02D242:
 				lea		Obj_Control_Var_04(A0), A2						 ; $0034
 				lea		(Competition_Lap_Count_P1).w, A3			 ; $FFFFFEFC
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
-				bsr		Offset_0x02D324
+				bsr.w	Offset_0x02D324
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				lea		(Competition_Lap_Count_P2).w, A3			 ; $FFFFFEFD
-				bsr		Offset_0x02D324
+				bsr.w	Offset_0x02D324
 				lea		(Goal_Marker_Animate_Data).l, A1		 ; Offset_0x02D460
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02D274:
 				subq.w	#$01, Obj_Control_Var_0C(A0)					 ; $003C
-				bne		Offset_0x02D312
+				bne.w	Offset_0x02D312
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				move.w	(Saved_Obj_X_P1).w, Obj_X(A1)		  ; $FFFFFE32, $0010
 				move.w	(Saved_Obj_Y_P1).w, Obj_Y(A1)		  ; $FFFFFE34, $0014
@@ -105,14 +105,14 @@ Offset_0x02D274:
 				move.l	#Offset_0x02D242, (A0)
 Offset_0x02D312:
 				lea		(Goal_Marker_Animate_Data).l, A1		 ; Offset_0x02D460
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02D324:
 				tst.b	(A2)+
-				bne		Offset_0x02D3D0
+				bne.w	Offset_0x02D3D0
 				cmp.w	Obj_X(A1), D1									 ; $0010
-				bhi		Offset_0x02D41C
+				bhi.w	Offset_0x02D41C
 				move.b	#$01, -1(A2)
 				move.w	Obj_Y(A0), D2									 ; $0014
 				move.w	D2, D3
@@ -120,16 +120,16 @@ Offset_0x02D324:
 				addi.w	#$0014, D3
 				move.w	Obj_Y(A1), D4									 ; $0014
 				cmp.w	D2, D4
-				blt		Offset_0x02D41C
+				blt.w	Offset_0x02D41C
 				cmp.w	D3, D4
-				bge		Offset_0x02D41C
+				bge.w	Offset_0x02D41C
 				move.w	Obj_X(A1), D2									 ; $0010
 				sub.w	D1, D2
 				bcc.s	Offset_0x02D360
 				neg.w	D2
 Offset_0x02D360:
 				cmpi.w	#$0020, D2
-				bcc		Offset_0x02D41C
+				bcc.w	Offset_0x02D41C
 				cmpi.b	#$0C, Obj_Control_Var_16(A1)					 ; $0046
 				bne.s	Offset_0x02D39C
 				sub.w	Obj_Y(A0), D4									 ; $0014
@@ -143,7 +143,7 @@ Offset_0x02D360:
 				move.b	(A3), $0001(A2)
 				move.w	Obj_Control_Var_0A(A0), D0						 ; $003A
 				andi.w	#$000F, D0
-				bsr		Find_Object_2P						   ; Offset_0x02D41E
+				bsr.w	Find_Object_2P						   ; Offset_0x02D41E
 				addq.w	#$02, Obj_Control_Var_0A(A0)					 ; $003A
 Offset_0x02D39A:
 				addq.b	#$01, (A3)
@@ -259,7 +259,7 @@ Offset_0x02D4F8:
 				bcc.s	Offset_0x02D4F8
 				addi.b	#$0A, D0
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02D50C:
 				move.b	(Competition_Lap_Count_P2).w, D0			 ; $FFFFFEFD
 Offset_0x02D510:
@@ -267,7 +267,7 @@ Offset_0x02D510:
 				bcc.s	Offset_0x02D510
 				addi.b	#$0A, D0
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Lap_Number_Mappings:										   ; Offset_0x02D524
 				dc.w	Offset_0x02D538-Lap_Number_Mappings
@@ -320,9 +320,9 @@ Obj_Neon_Display:											   ; Offset_0x02D588
 				move.l	#Offset_0x02D5AE, (A0)
 Offset_0x02D5AE:
 				lea		(Neon_Display_Animate_Data).l, A1		 ; Offset_0x02D6CE
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
 				bsr.s	Offset_0x02D5C2
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02D5C2:
 				move.b	Obj_Control_Var_0A(A0), D0						 ; $003A
 				bne.s	Offset_0x02D5F8
@@ -391,7 +391,7 @@ Offset_0x02D684:
 Offset_0x02D6A2:
 				rts
 Offset_0x02D6A4:
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x02D6CC
 				move.l	#Obj_Neon_Display, (A1)				   ; Offset_0x02D588
 				move.w	#$0120, Obj_X(A1)								 ; $0010
@@ -679,7 +679,7 @@ Offset_0x02DBDC:
 				moveq	#$00, D0
 				move.b	(A3)+, D0
 				lsl.w	#$02, D0
-				move.l	$00(A1, D0), (A2)+
+				move.l	(A1, D0), (A2)+
 				addq.w	#$08, A2
 				moveq	#$00, D0
 				move.b	(A3)+, D0
@@ -691,10 +691,10 @@ Offset_0x02DBF2:
 				bra.s	Offset_0x02DBF2
 Offset_0x02DBFC:
 				addi.w	#$000A, D0
-				move.l	$00(A1, D2), (A2)+
+				move.l	(A1, D2), (A2)+
 				addq.w	#$02, A2
 				lsl.w	#$02, D0
-				move.l	$00(A1, D0), (A2)+
+				move.l	(A1, D0), (A2)+
 				addq.w	#$08, A2
 				moveq	#$00, D0
 				move.b	(A3)+, D0
@@ -707,11 +707,11 @@ Offset_0x02DC18:
 				bra.s	Offset_0x02DC18
 Offset_0x02DC22:
 				addi.w	#$000A, D0
-				move.l	$00(A1, D2), (A2)+
+				move.l	(A1, D2), (A2)+
 				addq.w	#$02, A2
 				lsl.w	#$02, D0
-				move.l	$00(A1, D0), (A2)+
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				move.l	(A1, D0), (A2)+
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Timer_Number_Mappings:										   ; Offset_0x02DC38
 				dc.w	$F805, $0008
@@ -781,7 +781,7 @@ Offset_0x02DD2C:
 				moveq	#$02, D0
 Offset_0x02DD40:
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02DD4A:
 				moveq	#$00, D0
 				tst.w	(Ring_Count_Address_P2).w					 ; $FFFFFED0
@@ -796,7 +796,7 @@ Offset_0x02DD54:
 				moveq	#$02, D0
 Offset_0x02DD68:
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x02DD72:
 				dc.w	Offset_0x02DD7A-Offset_0x02DD72
@@ -876,8 +876,8 @@ Offset_0x02DE8A:
 				addi.w	#$0090, D0
 				move.w	D0, Obj_X(A0)									 ; $0010
 				lea		(Offset_0x02DEB0).l, A1
-				jsr		(AnimateSprite)						   ; Offset_0x01115E
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(AnimateSprite).l						   ; Offset_0x01115E
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x02DEAA:
 				move.w	(Obj_Player_Two+Obj_X).w, D0				 ; $FFFFB05A
 				bra.s	Offset_0x02DE62

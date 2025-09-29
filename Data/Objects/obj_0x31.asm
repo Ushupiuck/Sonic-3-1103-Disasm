@@ -19,7 +19,7 @@ Offset_0x023528:
 				lea		(Miles_LBz_Cylinder_Angle).w, A2			 ; $FFFFF7B3
 				addq.b	#$01, D6
 				bsr.s	Offset_0x023546
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x023546:
 				btst	D6, Obj_Status(A0)								 ; $002A
 				bne.w	Offset_0x0235BC
@@ -51,7 +51,7 @@ Offset_0x023598:
 				bcs.s	Offset_0x0235A2
 				move.b	#$01, (A2)
 Offset_0x0235A2:
-				jsr		(Ride_Object_Set_Ride)				   ; Offset_0x013C80
+				jsr		(Ride_Object_Set_Ride).l				   ; Offset_0x013C80
 				move.w	#$0001, Obj_Ani_Number(A1)						 ; $0020
 				tst.w	Obj_Inertia(A1)									 ; $001C
 				bne.s	Offset_0x0235BA

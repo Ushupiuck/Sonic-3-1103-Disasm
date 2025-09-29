@@ -21,7 +21,7 @@ Offset_0x01C978:
 				move.w	#$0010, D2
 				move.w	Obj_X(A0), D4									 ; $0010
 				lea		(Offset_0x01CAEA).l, A2
-				jsr		(Solid_Object_3)					   ; Offset_0x01360E
+				jsr		(Solid_Object_3).l					   ; Offset_0x01360E
 				swap	D6
 				andi.w	#$0033, D6
 				beq.s	Offset_0x01C9FE
@@ -57,7 +57,7 @@ Offset_0x01C9FE:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				lea		$00(A3, D0), A3
+				lea		(A3, D0), A3
 				subq.w	#$01, Obj_Control_Var_00(A0)					 ; $0030
 				bne.s	Offset_0x01CA26
 				move.b	#$00, (A3)
@@ -93,7 +93,7 @@ Offset_0x01CA68:
 Offset_0x01CA76:
 				move.b	#$04, Obj_Map_Id(A0)							 ; $0022
 Offset_0x01CA7C:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01CA82:
 				move.w	Obj_X(A0), D1									 ; $0010
 				subi.w	#$0010, D1

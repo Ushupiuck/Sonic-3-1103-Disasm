@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x03B9A0:
 				lea		Offset_0x03B9FA(PC), A1
-				jsr		(Check_Camera_In_Range)				   ; Offset_0x043392
+				jsr		(Check_Camera_In_Range).l				   ; Offset_0x043392
 				move.l	#Offset_0x03BA02, (A0)
 				move.b	#$01, (Boss_Flag).w							 ; $FFFFF7AA
 				moveq	#Volume_Down, D0								  ; -$20
@@ -25,7 +25,7 @@ Offset_0x03B9FA:
 				dc.w	$0180, $0300, $4780, $4900
 ;-------------------------------------------------------------------------------
 Offset_0x03BA02:
-				jmp		(Update_Sonic_Level_Limits_X_Y_Play_Music) ; Offset_0x0433DE
+				jmp		(Update_Sonic_Level_Limits_X_Y_Play_Music).l ; Offset_0x0433DE
 ;-------------------------------------------------------------------------------
 Offset_0x03BA08:
 				move.l	#Offset_0x03BA10, (A0)
@@ -72,7 +72,7 @@ Offset_0x03BA78:
 ;-------------------------------------------------------------------------------
 Offset_0x03BA88:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03BA96:
@@ -107,7 +107,7 @@ Offset_0x03BADC:
 ;-------------------------------------------------------------------------------
 Offset_0x03BAEE:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				btst	#$01, Obj_Control_Var_08(A0)					 ; $0038
 				beq.s	Offset_0x03BB02
 				rts
@@ -118,7 +118,7 @@ Offset_0x03BB02:
 ;-------------------------------------------------------------------------------
 Offset_0x03BB0E:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.w	Obj_X(A0), D0									 ; $0010
 				move.w	Obj_Height_3(A0), A1							 ; $0044
 				cmp.w	Obj_X(A1), D0									 ; $0010
@@ -203,10 +203,10 @@ Offset_0x03BC20:
 				move.l	#Offset_0x03BC46, (A0)
 				st		(Player_Control_Lock_Flag).w				 ; $FFFFFAA8
 				clr.b	(Boss_Flag).w								 ; $FFFFF7AA
-				jsr		(Restore_LevelMusic)					 ; Offset_0x0432CA
+				jsr		(Restore_LevelMusic).l					 ; Offset_0x0432CA
 				move.w	#$48F0, (Target_Camera_Max_X).w				 ; $FFFFFA92
-				lea		(Level_Resize_Max_X), A2			   ; Offset_0x04261C
-				jmp		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
+				lea		(Level_Resize_Max_X).l, A2			   ; Offset_0x04261C
+				jmp		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
 ;-------------------------------------------------------------------------------
 Offset_0x03BC46:
 				tst.b	(Control_Ports_Buffer_Data+$03).w			 ; $FFFFF607
@@ -218,12 +218,12 @@ Offset_0x03BC5A:
 				clr.b	(Player_Control_Lock_Flag).w				 ; $FFFFFAA8
 				jsr		Restore_PlayerControl(PC)			  ; Offset_0x0432EE
 				move.w	#$0000, (Target_Camera_Min_Y).w				 ; $FFFFFA96
-				lea		(Level_Resize_Min_Y), A2			   ; Offset_0x042628
-				jsr		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
+				lea		(Level_Resize_Min_Y).l, A2			   ; Offset_0x042628
+				jsr		(Load_Child_Object_Simple_A2).l		   ; Offset_0x041F5A
 				move.w	#$4A70, (Target_Camera_Max_X).w				 ; $FFFFFA92
-				lea		(Level_Resize_Max_X), A2			   ; Offset_0x04261C
+				lea		(Level_Resize_Max_X).l, A2			   ; Offset_0x04261C
 				jsr		(Load_Child_Object_Simple_A2)		   ; Offset_0x041F5A
-				jmp		(Go_Delete_Object_A0_2)				   ; Offset_0x042D4C
+				jmp		(Go_Delete_Object_A0_2).l				   ; Offset_0x042D4C
 ;-------------------------------------------------------------------------------
 Offset_0x03BC8C:
 				moveq	#$00, D0
@@ -267,7 +267,7 @@ Offset_0x03BCF4:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03BCFA:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.w	Offset_0x03BA0E
 				jmp		Run_Object_Hit_Floor_A0(PC)			   ; Offset_0x0423E0
@@ -333,7 +333,7 @@ Offset_0x03BDAA:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x03BDD2(PC, D0), D1
 				jsr		Offset_0x03BDD2(PC, D1)
-				lea		(Graviton_Mobile_Magnetic_Angle_X_Lookup_Data), A1 ; Offset_0x10DAA2
+				lea		(Graviton_Mobile_Magnetic_Angle_X_Lookup_Data).l, A1 ; Offset_0x10DAA2
 				jsr		Move_Sprite_Angle_X_Lookup_Offset(PC)  ; Offset_0x04282C
 				bsr.w	Offset_0x03BFEA
 				bsr.w	Offset_0x03C002
@@ -507,7 +507,7 @@ Offset_0x03BFC2:
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
 				moveq	#$00, D0
 				jsr		Set_Indexed_Velocity(PC)			   ; Offset_0x042D5A
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x03BFEA:
 				move.b	Obj_Control_Var_0C(A0), D0						 ; $003C

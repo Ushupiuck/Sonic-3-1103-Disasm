@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x04611C:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x046134(PC, D0), D1
@@ -41,7 +41,7 @@ Offset_0x046164:
 				jmp		Set_Velocity_X_Track_Player_One(PC)	   ; Offset_0x042E4C
 ;-------------------------------------------------------------------------------
 Offset_0x04618C:
-				bsr		Offset_0x0462EE
+				bsr.w	Offset_0x0462EE
 				jsr		Find_Player(PC)						   ; Offset_0x042634
 				cmpi.w	#$0060, D2
 				bcc.s	Offset_0x0461A8
@@ -54,7 +54,7 @@ Offset_0x0461A4:
 Offset_0x0461A8:
 				lea		Offset_0x046374(PC), A1
 				jsr		Animate_Raw_Multi_Delay_A1(PC)		   ; Offset_0x042160
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Run_Object_Hit_Floor_D3_A0(PC)		   ; Offset_0x0423F8
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 Offset_0x0461BE:
@@ -72,7 +72,7 @@ Offset_0x0461E0:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0461F6:
-				bsr		Offset_0x0462EE
+				bsr.w	Offset_0x0462EE
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x0461FE:
@@ -93,7 +93,7 @@ Offset_0x04621E:
 				jmp		Load_Child_Object_Complex_Adjusted_A2(PC) ; Offset_0x041EE0
 ;-------------------------------------------------------------------------------
 Offset_0x04623C:
-				bsr		Offset_0x0462EE
+				bsr.w	Offset_0x0462EE
 				lea		Offset_0x04637E(PC), A1
 				jsr		Animate_Raw_Multi_Delay_A1(PC)		   ; Offset_0x042160
 				tst.w	D2
@@ -107,8 +107,8 @@ Offset_0x04625C:
 ;-------------------------------------------------------------------------------
 Offset_0x04625E:
 				addi.w	#$FFE0, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(Object_HitCeiling)					   ; Offset_0x009FB4
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(Object_HitCeiling).l					   ; Offset_0x009FB4
 				tst.w	D1
 				bmi.s	Offset_0x046276
 				rts
@@ -128,8 +128,8 @@ Offset_0x04628E:
 ;-------------------------------------------------------------------------------
 Offset_0x046296:
 				addi.w	#$0020, Obj_Speed_Y(A0)							 ; $001A
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bmi.s	Offset_0x0462AE
 				rts
@@ -151,7 +151,7 @@ Offset_0x0462DC:
 				jsr		Refresh_Child_Position_Adjusted(PC)	   ; Offset_0x04203C
 				lea		Offset_0x046379(PC), A1
 				jsr		Animate_Raw_A1(PC)					   ; Offset_0x042092
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 ;-------------------------------------------------------------------------------
 Offset_0x0462EE:
 				tst.b	Obj_Control_Var_0C(A0)							 ; $003C

@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x044F90:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x044FA8(PC, D0), D1
@@ -37,7 +37,7 @@ Offset_0x044FAC:
 ;-------------------------------------------------------------------------------
 Offset_0x044FFA:
 				jsr		Swing_Up_And_Down(PC)				   ; Offset_0x04232E
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Animate_Raw_Multi_Delay(PC)			   ; Offset_0x04215C
 				jsr		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 				move.b	#$0A, Obj_Col_Flags(A0)							 ; $0028

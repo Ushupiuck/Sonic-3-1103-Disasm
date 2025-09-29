@@ -13,7 +13,7 @@
 				move.b	#$06, Obj_Map_Id(A0)							 ; $0022
 				move.w	#$0050, Obj_Control_Var_00(A0)					 ; $0030
 				bset	#$07, Obj_Status(A0)							 ; $002A
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.s	Offset_0x026B02
 				move.l	#Offset_0x026D8C, (A1)
 				move.l	#Hand_Launcher_Mappings, Obj_Map(A1) ; Offset_0x026DB8, $000C
@@ -78,8 +78,8 @@ Offset_0x026B92:
 				move.w	#$0020, D1
 				move.w	#$0011, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x026BB6:
 				tst.w	Obj_Control_Var_06(A0)							 ; $0036
@@ -110,9 +110,9 @@ Offset_0x026BF8:
 				move.w	#$0020, D1
 				move.w	#$0011, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Platform_Object)					   ; Offset_0x013AF6
+				jsr		(Platform_Object).l					   ; Offset_0x013AF6
 Offset_0x026C1E:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x026C24:
 				lea		(Obj_Player_One).w, A1						 ; $FFFFB000
 				moveq	#$03, D6
@@ -175,7 +175,7 @@ Offset_0x026CF4:
 				rts
 Offset_0x026CF6:
 				btst	D6, Obj_Status(A0)								 ; $002A
-				beq		Offset_0x026D8A
+				beq.w	Offset_0x026D8A
 				tst.b	Obj_Control_Var_04(A0)							 ; $0034
 				bne.s	Offset_0x026D16
 				move.w	Obj_X(A1), D0									 ; $0010
@@ -226,7 +226,7 @@ Offset_0x026DA0:
 				bcs.s	Offset_0x026DB2
 				move.b	#$00, Obj_Map_Id(A0)							 ; $0022
 Offset_0x026DB2:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Hand_Launcher_Mappings:										   ; Offset_0x026DB8
 				dc.w	Offset_0x026DC8-Hand_Launcher_Mappings

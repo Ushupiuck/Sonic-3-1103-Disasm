@@ -11,7 +11,7 @@
 				move.b	#$10, Obj_Height(A0)							 ; $0006
 				move.w	Obj_X(A0), Obj_Control_Var_00(A0)		  ; $0010, $0030
 				move.w	Obj_Y(A0), Obj_Control_Var_02(A0)		  ; $0014, $0032
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01DA02
 				move.l	#Offset_0x01DEA8, (A1)
 				move.l	#Cup_Elevator_Mappings, Obj_Map(A1) ; Offset_0x01DF66, $000C
@@ -25,7 +25,7 @@
 				move.b	#$02, Obj_Map_Id(A1)							 ; $0022
 				move.w	A0, Obj_Control_Var_10(A1)						 ; $0040
 				move.w	A1, Obj_Control_Var_10(A0)						 ; $0040
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01DA02
 				move.l	#Offset_0x01DEB8, (A1)
 				move.l	#Cup_Elevator_Mappings, Obj_Map(A1) ; Offset_0x01DF66, $000C
@@ -294,7 +294,7 @@ Offset_0x01DD06:
 				move.b	(Level_Frame_Count+$01).w, D0				 ; $FFFFFE05
 				andi.b	#$01, D0
 				beq.s	Offset_0x01DD16
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 Offset_0x01DD16:
 				rts
 Offset_0x01DD18:
@@ -303,7 +303,7 @@ Offset_0x01DD18:
 				sub.w	(Camera_X_Left).w, D0						 ; $FFFFF7DA
 				cmpi.w	#$0280, D0
 				bhi.w	Offset_0x01DD32
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x01DD32:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x01DD3E
@@ -316,7 +316,7 @@ Offset_0x01DD3E:
 				lea		(Obj_Player_Two).w, A1						 ; $FFFFB04A
 				moveq	#$04, D6
 				bsr.s	Offset_0x01DD54
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 Offset_0x01DD54:
 				bclr	D6, Obj_Status(A0)								 ; $002A
 				beq.w	Offset_0x01DD78
@@ -339,7 +339,7 @@ Offset_0x01DD8A:
 				subi.b	#$20, D0
 				cmpi.b	#$40, D0
 				bcs.w	Offset_0x01DEA6
-				jsr		(Solid_Object_2_A1)					   ; Offset_0x0135CC
+				jsr		(Solid_Object_2_A1).l					   ; Offset_0x0135CC
 				btst	D6, Obj_Status(A0)								 ; $002A
 				beq.w	Offset_0x01DEA6
 				tst.w	Obj_Control_Var_04(A0)							 ; $0034
@@ -411,7 +411,7 @@ Offset_0x01DEA6:
 Offset_0x01DEA8:
 				move.w	Obj_Control_Var_10(A0), A1						 ; $0040
 				move.w	Obj_Y(A1), Obj_Y(A0)					  ; $0014, $0014
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x01DEB8:
 				move.w	Obj_Control_Var_10(A0), A1						 ; $0040
@@ -436,7 +436,7 @@ Offset_0x01DEEC:
 				add.w	Obj_Control_Var_00(A0), D1						 ; $0030
 				move.w	D1, Obj_X(A0)									 ; $0010
 				move.w	Obj_Control_Var_00(A0), D0						 ; $0030
-				jmp		(MarkObjGone_2)						   ; Offset_0x011B1A
+				jmp		(MarkObjGone_2).l						   ; Offset_0x011B1A
 ;===============================================================================
 ; Objeto 0x18 - Elevator em forma de xícara na Launch Base
 ; <<<-

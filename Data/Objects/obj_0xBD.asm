@@ -95,10 +95,10 @@ Offset_0x04743A:
 				jmp		Delete_Sprite_Clear_Respaw_Flag_Check_X_2(PC) ; Offset_0x042B5C
 ;-------------------------------------------------------------------------------
 Offset_0x04743E:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x047472
-				jsr		(ObjHitFloor)						   ; Offset_0x009D84
+				jsr		(ObjHitFloor).l						   ; Offset_0x009D84
 				tst.w	D1
 				bpl.s	Offset_0x047472
 				add.w	D1, Obj_Y(A0)									 ; $0014
@@ -131,7 +131,7 @@ Offset_0x047494:
 				bmi.s	Offset_0x0474C8
 				move.w	D0, Obj_Speed_X(A0)								 ; $0018
 				move.w	Obj_X(A0), D1									 ; $0010
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.w	Obj_X(A0), D0									 ; $0010
 				eor.w	D0, D1
 				btst	#$03, D1
@@ -335,7 +335,7 @@ Offset_0x047686:
 				moveq	#$08, D2
 				moveq	#$08, D3
 				move.w	(A7)+, D4
-				jmp		(Solid_Object)						   ; Offset_0x013556
+				jmp		(Solid_Object).l						   ; Offset_0x013556
 ;-------------------------------------------------------------------------------
 Offset_0x04769C:
 				move.w	Obj_X(A0), -(A7)								 ; $0010
@@ -344,7 +344,7 @@ Offset_0x04769C:
 				moveq	#$08, D2
 				moveq	#$08, D3
 				move.w	(A7)+, D4
-				jmp		(Solid_Object)						   ; Offset_0x013556
+				jmp		(Solid_Object).l						   ; Offset_0x013556
 ;-------------------------------------------------------------------------------
 Offset_0x0476B2:
 				move.b	Obj_Status(A0), Obj_Control_Var_09(A0)	  ; $002A, $0039

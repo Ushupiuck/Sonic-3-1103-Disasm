@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x0446D0:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x0446EC(PC, D0), D1
@@ -53,7 +53,7 @@ Offset_0x044746:
 				move.b	Obj_Subtype(A0), D0								 ; $002C
 				andi.w	#$000F, D0
 				lea		(Level_Trigger_Array).w, A3					 ; $FFFFF7E0
-				st		$00(A3, D0)
+				st		(A3, D0)
 				jmp		Enemy_Defeat_Score(PC)				   ; Offset_0x043018
 ;-------------------------------------------------------------------------------
 Blastoid_Setup_Data:										   ; Offset_0x044762

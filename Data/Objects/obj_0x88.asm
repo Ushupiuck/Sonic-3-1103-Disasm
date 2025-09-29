@@ -3,7 +3,7 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x048756:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x04876E(PC, D0), D1
@@ -71,7 +71,7 @@ Offset_0x048802:
 				move.b	#$F0, Obj_Control_Var_13(A0)					 ; $0043
 				move.w	Obj_X(A0), Obj_Control_Var_0E(A0)		  ; $0010, $003E
 				move.w	Obj_Y(A0), Obj_Control_Var_10(A0)		  ; $0014, $0040
-				bra		Offset_0x0489FC
+				bra.w	Offset_0x0489FC
 ;-------------------------------------------------------------------------------
 Offset_0x048826:
 				move.w	Offset_0x04882E(PC, D2), D3
@@ -133,7 +133,7 @@ Offset_0x0488A0:
 				sub.w	Obj_Control_Var_10(A0), D0						 ; $0040
 				cmpi.w	#$0080, D0
 				bcc.s	Offset_0x0488D4
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.w	Offset_0x0488EC
 				jmp		Run_Object_Hit_Floor_A0(PC)			   ; Offset_0x0423E0
@@ -155,7 +155,7 @@ Offset_0x0488EC:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x0488EE:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x0488F8:
@@ -202,7 +202,7 @@ Offset_0x048944:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x048962:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x04896C:

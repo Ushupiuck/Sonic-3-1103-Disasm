@@ -4,7 +4,7 @@
 ;===============================================================================
 ; Offset_0x03DCB0:
 				lea		Offset_0x03DD10(PC), A1
-				jsr		(Check_Camera_In_Range)				   ; Offset_0x043392
+				jsr		(Check_Camera_In_Range).l				   ; Offset_0x043392
 				move.l	#Offset_0x03DD18, (A0)
 				move.b	#$01, (Boss_Flag).w							 ; $FFFFF7AA
 				moveq	#Volume_Down, D0								  ; -$20
@@ -38,7 +38,7 @@ Offset_0x03DD26:
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x03DD3C(PC, D0), D1
 				jsr		Offset_0x03DD3C(PC, D1)
-				bsr		Offset_0x03E366
+				bsr.w	Offset_0x03E366
 				jmp		Add_To_Response_List_And_Display(PC)   ; Offset_0x042450
 ;-------------------------------------------------------------------------------
 Offset_0x03DD3C:
@@ -67,7 +67,7 @@ Offset_0x03DD50:
 				jmp		SetupChildObject(PC)			   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
 Offset_0x03DD88:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03DD92:
@@ -110,12 +110,12 @@ Offset_0x03DDF6:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03DE12:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jsr		Run_Palette_Rotation_Script(PC)		   ; Offset_0x043196
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03DE20:
-				bsr		Offset_0x03E2E0
+				bsr.w	Offset_0x03E2E0
 Offset_0x03DE24:
 				move.b	#$0A, Obj_Routine(A0)							 ; $0005
 				move.w	#$0300, Obj_Speed_Y(A0)							 ; $001A
@@ -129,7 +129,7 @@ Offset_0x03DE42:
 				subq.w	#$01, Obj_Timer(A0)								 ; $002E
 				bmi.s	Offset_0x03DE58
 				addi.w	#$FFF0, Obj_Speed_Y(A0)							 ; $001A
-				jmp		(SpeedToPos)						   ; Offset_0x01111E
+				jmp		(SpeedToPos).l						   ; Offset_0x01111E
 Offset_0x03DE58:
 				move.b	#$0C, Obj_Routine(A0)							 ; $0005
 				move.w	#$003F, Obj_Timer(A0)							 ; $002E
@@ -158,7 +158,7 @@ Offset_0x03DEA0:
 				bclr	#$02, Obj_Control_Var_08(A0)					 ; $0038
 				move.l	#Offset_0x03DEC2, (Palette_Rotation_Custom).w ; $FFFFFADA
 				lea		(Big_Icedus_Palette_Rotation_Script_2).l, A1 ; Offset_0x110210
-				bra		Offset_0x03DDCC
+				bra.w	Offset_0x03DDCC
 ;-------------------------------------------------------------------------------
 Offset_0x03DEBE:
 				jmp		Run_Palette_Rotation_Script(PC)		   ; Offset_0x043196
@@ -179,7 +179,7 @@ Offset_0x03DEE8:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03DEFE:
-				jsr		(Obj_Load_End_Level_Art)			   ; Offset_0x043302
+				jsr		(Obj_Load_End_Level_Art).l			   ; Offset_0x043302
 				lea		Offset_0x03E442(PC), A2
 				jmp		SetupChildObject(PC)			   ; Offset_0x041D9A
 ;-------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ Offset_0x03DF24:
 Offset_0x03DF2C:
 				lea		Big_Icedus_Setup_Data_2(PC), A1		   ; Offset_0x03E3FE
 				jsr		SetupObjectAttributes3(PC)					; Offset_0x041D7A
-				bra		Offset_0x03E14E
+				bra.w	Offset_0x03E14E
 ;-------------------------------------------------------------------------------
 Offset_0x03DF38:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
@@ -211,7 +211,7 @@ Offset_0x03DF38:
 Offset_0x03DF46:
 				move.b	#$04, Obj_Routine(A0)							 ; $0005
 				move.l	#Offset_0x03DF6C, Obj_Child(A0)					 ; $0034
-				bra		Offset_0x03E164
+				bra.w	Offset_0x03E164
 ;-------------------------------------------------------------------------------
 Offset_0x03DF58:
 				move.b	Obj_Speed_X(A0), D0								 ; $0018
@@ -252,7 +252,7 @@ Offset_0x03DF8A:
 Offset_0x03DFA2:
 				lea		Big_Icedus_Setup_Data_3(PC), A1		   ; Offset_0x03E404
 				jsr		SetupObjectAttributes(PC)					 ; Offset_0x041D72
-				bra		Offset_0x03E190
+				bra.w	Offset_0x03E190
 ;-------------------------------------------------------------------------------
 Offset_0x03DFAE:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
@@ -273,19 +273,19 @@ Offset_0x03DFD8:
 				neg.w	D0
 Offset_0x03DFE4:
 				add.w	D0, Obj_X(A0)									 ; $0010
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03DFF2:
 				move.b	#$06, Obj_Routine(A0)							 ; $0005
 				move.w	#$0180, Obj_Priority(A0)						 ; $0008
-				bsr		Offset_0x03E1D6
+				bsr.w	Offset_0x03E1D6
 				move.w	#$001F, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x03E01C, Obj_Child(A0)					 ; $0034
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x03E012:
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
 ;-------------------------------------------------------------------------------
 Offset_0x03E01C:
@@ -297,7 +297,7 @@ Offset_0x03E02A:
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$01, Obj_Control_Var_08(A1)					 ; $0038
 				bne.s	Offset_0x03E03A
-				bra		Offset_0x03E232
+				bra.w	Offset_0x03E232
 Offset_0x03E03A:
 				move.b	#$0A, Obj_Routine(A0)							 ; $0005
 				rts
@@ -311,7 +311,7 @@ Offset_0x03E042:
 Offset_0x03E050:
 				cmp.b	Obj_Control_Var_0D(A0), D0						 ; $003D
 				beq.s	Offset_0x03E05A
-				bra		Offset_0x03E232
+				bra.w	Offset_0x03E232
 Offset_0x03E05A:
 				move.b	#$0C, Obj_Routine(A0)							 ; $0005
 				rts
@@ -321,33 +321,33 @@ Offset_0x03E062:
 				lea		(Big_Icedus_Angle_Lookup).l, A2			 ; Offset_0x11027C
 				jsr		Move_Sprite_At_Angle_Lookup(PC)		   ; Offset_0x042742
 				moveq	#$00, D0
-				bsr		Offset_0x03E24A
+				bsr.w	Offset_0x03E24A
 				move.w	Obj_Child_Ref(A0), A1							 ; $0046
 				btst	#$01, Obj_Control_Var_08(A1)					 ; $0038
 				beq.s	Offset_0x03E09C
 				tst.b	Obj_Subtype(A0)									 ; $002C
-				bne		Offset_0x03DD24
+				bne.w	Offset_0x03DD24
 				moveq	#$00, D0
 				tst.b	Obj_Control_Var_13(A1)							 ; $0043
 				bne.s	Offset_0x03E094
 				moveq	#-$80, D0
 Offset_0x03E094:
 				cmp.b	Obj_Control_Var_0C(A0), D0						 ; $003C
-				bne		Offset_0x03DD24
+				bne.w	Offset_0x03DD24
 Offset_0x03E09C:
 				move.b	#$0E, Obj_Routine(A0)							 ; $0005
 				bclr	#$01, Obj_Control_Var_08(A1)					 ; $0038
-				bra		Offset_0x03E2FC
+				bra.w	Offset_0x03E2FC
 ;-------------------------------------------------------------------------------
 Offset_0x03E0AC:
 				move.b	Obj_Control_Var_0C(A0), D0						 ; $003C
 				cmp.b	Obj_Control_Var_12(A0), D0						 ; $0042
 				beq.s	Offset_0x03E0CA
 				addq.b	#$04, Obj_Control_Var_0C(A0)					 ; $003C
-				lea		(Big_Icedus_Angle_Lookup), A2		   ; Offset_0x11027C
+				lea		(Big_Icedus_Angle_Lookup).l, A2		   ; Offset_0x11027C
 				jsr		Move_Sprite_At_Angle_Lookup(PC)		   ; Offset_0x042742
 				moveq	#$00, D0
-				bra		Offset_0x03E24A
+				bra.w	Offset_0x03E24A
 Offset_0x03E0CA:
 				move.b	#$10, Obj_Routine(A0)							 ; $0005
 				move.w	#$003F, Obj_Timer(A0)							 ; $002E
@@ -358,7 +358,7 @@ Offset_0x03E0E0:
 				move.b	#$12, Obj_Routine(A0)							 ; $0005
 				move.w	#$007F, Obj_Timer(A0)							 ; $002E
 				move.l	#Offset_0x03E0FC, Obj_Child(A0)					 ; $0034
-				bra		Offset_0x03E35C
+				bra.w	Offset_0x03E35C
 Offset_0x03E0F8:
 ;-------------------------------------------------------------------------------
 				jmp		Run_Object_Wait_Timer_A0(PC)		   ; Offset_0x0423D2
@@ -569,7 +569,7 @@ Offset_0x03E33C:
 ;-------------------------------------------------------------------------------
 Offset_0x03E35C:
 				move.w	#$0278, Obj_Y(A0)								 ; $0014
-				bra		Offset_0x03E196
+				bra.w	Offset_0x03E196
 ;-------------------------------------------------------------------------------
 Offset_0x03E366:
 				tst.b	Obj_Col_Flags(A0)								 ; $0028

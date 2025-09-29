@@ -8,7 +8,7 @@
 				andi.w	#$000F, D0
 				lsl.w	#$02, D0
 				lea		Offset_0x027184(PC), A1
-				lea		$00(A1, D0), A1
+				lea		(A1, D0), A1
 				move.w	(A1)+, Obj_Control_Var_06(A0)					 ; $0036
 				move.w	(A1)+, Obj_Control_Var_08(A0)					 ; $0038
 				move.l	#Spikes_On_Conveyor_Belt_Mappings, Obj_Map(A0) ; Offset_0x027548, $000C
@@ -47,7 +47,7 @@ Offset_0x0273E2:
 				move.l	#Offset_0x027416, (A0)
 Offset_0x0273F8:
 				lea		Offset_0x0274A8(PC), A1
-				move.w	$00(A1, D0), D1
+				move.w	(A1, D0), D1
 				move.w	$20(A1, D0), D2
 				add.w	Obj_Control_Var_00(A0), D1						 ; $0030
 				add.w	Obj_Control_Var_02(A0), D2						 ; $0032
@@ -73,7 +73,7 @@ Offset_0x027432:
 				move.l	#Offset_0x0273C4, (A0)
 Offset_0x02744E:
 				lea		Offset_0x0274A8(PC), A1
-				move.w	$00(A1, D0), D1
+				move.w	(A1, D0), D1
 				move.w	$20(A1, D0), D2
 				add.w	Obj_Control_Var_00(A0), D1						 ; $0030
 				add.w	Obj_Control_Var_02(A0), D2						 ; $0032
@@ -90,15 +90,15 @@ Offset_0x02746A:
 				andi.w	#$FF80, D0
 				cmp.w	D0, D1
 				bhi.s	Offset_0x027496
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
-				jmp		(DisplaySprite)						   ; Offset_0x011148
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
+				jmp		(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x027496:
 				move.w	Obj_Respaw_Ref(A0), D0							 ; $0048
 				beq.s	Offset_0x0274A2
 				move.w	D0, A2
 				bclr	#$07, (A2)
 Offset_0x0274A2:
-				jmp		(DeleteObject)						   ; Offset_0x011138
+				jmp		(DeleteObject).l						   ; Offset_0x011138
 ;-------------------------------------------------------------------------------
 Offset_0x0274A8:
 				dc.w	$0000, $0002, $0004, $0006, $0009, $000B, $000D, $000F

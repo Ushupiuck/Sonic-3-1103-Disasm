@@ -110,10 +110,10 @@ Offset_0x02B2FE:
 				asr.w	#$03, D0
 				andi.w	#$0001, D0
 				move.b	D0, Obj_Map_Id(A0)								 ; $0022
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x02B32E:
-				jsr		(ObjectFall)						   ; Offset_0x0110FE
+				jsr		(ObjectFall).l						   ; Offset_0x0110FE
 				addq.w	#$04, Obj_Ani_Time(A0)							 ; $0024
 				move.w	Obj_Ani_Time(A0), D0							 ; $0024
 				asr.w	#$03, D0
@@ -123,7 +123,7 @@ Offset_0x02B32E:
 				bmi.s	Offset_0x02B352
 				move.w	#$7F00, Obj_X(A0)								 ; $0010
 Offset_0x02B352:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Offset_0x02B358:
 				move.b	#$40, D1
@@ -138,7 +138,7 @@ Offset_0x02B366:
 				move.b	#$13, Obj_Height_2(A0)							 ; $001E
 				move.b	#$18, Obj_Width_2(A0)							 ; $001F
 				subi.w	#$000C, Obj_Y(A0)								 ; $0014
-				jsr		(Player_WalkSpeed)					   ; Offset_0x009B1A
+				jsr		(Player_WalkSpeed).l					   ; Offset_0x009B1A
 				addi.w	#$000C, Obj_Y(A0)								 ; $0014
 				move.w	(A7)+, D0
 				tst.w	D1
@@ -185,7 +185,7 @@ Offset_0x02B40A:
 				moveq	#$03, D0
 				move.b	D0, (Primary_Angle).w						 ; $FFFFF768
 				move.b	D0, (Secondary_Angle).w						 ; $FFFFF76A
-				jsr		(Player_Check_Floor)				   ; Offset_0x009BD4
+				jsr		(Player_Check_Floor).l				   ; Offset_0x009BD4
 				tst.b	D3
 				bpl.s	Offset_0x02B436
 				cmpi.b	#$E2, D3
@@ -245,7 +245,7 @@ Offset_0x02B49A:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object_A1)					   ; Offset_0x013574
+				jsr		(Solid_Object_A1).l					   ; Offset_0x013574
 				btst	D6, Obj_Status(A0)								 ; $002A
 				bne.s	Offset_0x02B4C0
 				rts
@@ -272,7 +272,7 @@ Offset_0x02B4E2:
 				move.w	D2, D3
 				addq.w	#$01, D3
 				move.w	Obj_X(A0), D4									 ; $0010
-				jsr		(Solid_Object_A1)					   ; Offset_0x013574
+				jsr		(Solid_Object_A1).l					   ; Offset_0x013574
 Offset_0x02B500:
 				btst	D6, Obj_Status(A0)								 ; $002A
 				bne.s	Offset_0x02B508
@@ -333,8 +333,8 @@ Offset_0x02B5B0:
 				beq.s	Offset_0x02B5D0
 				jsr		(Offset_0x02BA48).l
 Offset_0x02B5D0:
-				jsr		(Sonic_LevelBoundaries)				   ; Offset_0x00B560
-				jsr		(SpeedToPos)						   ; Offset_0x01111E
+				jsr		(Sonic_LevelBoundaries).l				   ; Offset_0x00B560
+				jsr		(SpeedToPos).l						   ; Offset_0x01111E
 				move.l	(A7)+, A0
 				cmpi.b	#$10, Obj_Ani_Number(A1)						 ; $0020
 				bne.s	Offset_0x02B606
@@ -495,13 +495,13 @@ Offset_0x02B7C2:
 				beq.w	Offset_0x02B9BE
 				move.b	#$0C, Obj_Height_2(A0)							 ; $001E
 				move.b	#$18, Obj_Width_2(A0)							 ; $001F
-				jsr		(Offset_0x00A054)
+				jsr		(Offset_0x00A054).l
 				tst.w	D1
 				bpl.s	Offset_0x02B814
 				sub.w	D1, Obj_X(A0)									 ; $0010
 				move.w	#$0000, Obj_Speed_X(A0)							 ; $0018
 Offset_0x02B814:
-				jsr		(Offset_0x009E66)
+				jsr		(Offset_0x009E66).l
 				tst.w	D1
 				bpl.s	Offset_0x02B828
 				add.w	D1, Obj_X(A0)									 ; $0010
@@ -509,7 +509,7 @@ Offset_0x02B814:
 Offset_0x02B828:
 				move.b	#$1F, Obj_Height_2(A0)							 ; $001E
 				move.b	#$0A, Obj_Width_2(A0)							 ; $001F
-				jsr		(Player_Check_Floor)				   ; Offset_0x009BD4
+				jsr		(Player_Check_Floor).l				   ; Offset_0x009BD4
 				tst.w	D1
 				bpl.s	Offset_0x02B8B0
 				move.b	Obj_Speed_Y(A0), D2								 ; $001A
@@ -553,7 +553,7 @@ Offset_0x02B8B0:
 Offset_0x02B8B2:
 				move.b	#$0C, Obj_Height_2(A0)							 ; $001E
 				move.b	#$18, Obj_Width_2(A0)							 ; $001F
-				jsr		(Offset_0x00A054)
+				jsr		(Offset_0x00A054).l
 				tst.w	D1
 				bpl.s	Offset_0x02B8E2
 				sub.w	D1, Obj_X(A0)									 ; $0010
@@ -565,7 +565,7 @@ Offset_0x02B8B2:
 Offset_0x02B8E2:
 				move.b	#$1F, Obj_Height_2(A0)							 ; $001E
 				move.b	#$0A, Obj_Width_2(A0)							 ; $001F
-				jsr		(Player_DontRunOnWalls)				   ; Offset_0x009F1C
+				jsr		(Player_DontRunOnWalls).l				   ; Offset_0x009F1C
 				tst.w	D1
 				bpl.s	Offset_0x02B90A
 				sub.w	D1, Obj_Y(A0)									 ; $0014
@@ -577,7 +577,7 @@ Offset_0x02B908:
 Offset_0x02B90A:
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x02B93A
-				jsr		(Player_Check_Floor)				   ; Offset_0x009BD4
+				jsr		(Player_Check_Floor).l				   ; Offset_0x009BD4
 				tst.w	D1
 				bpl.s	Offset_0x02B93A
 				add.w	D1, Obj_Y(A0)									 ; $0014
@@ -591,13 +591,13 @@ Offset_0x02B93A:
 Offset_0x02B93C:
 				move.b	#$0C, Obj_Height_2(A0)							 ; $001E
 				move.b	#$18, Obj_Width_2(A0)							 ; $001F
-				jsr		(Offset_0x00A054)
+				jsr		(Offset_0x00A054).l
 				tst.w	D1
 				bpl.s	Offset_0x02B95C
 				sub.w	D1, Obj_X(A0)									 ; $0010
 				move.w	#$0000, Obj_Speed_X(A0)							 ; $0018
 Offset_0x02B95C:
-				jsr		(Offset_0x009E66)
+				jsr		(Offset_0x009E66).l
 				tst.w	D1
 				bpl.s	Offset_0x02B970
 				add.w	D1, Obj_X(A0)									 ; $0010
@@ -605,7 +605,7 @@ Offset_0x02B95C:
 Offset_0x02B970:
 				move.b	#$1F, Obj_Height_2(A0)							 ; $001E
 				move.b	#$0A, Obj_Width_2(A0)							 ; $001F
-				jsr		(Player_DontRunOnWalls)				   ; Offset_0x009F1C
+				jsr		(Player_DontRunOnWalls).l				   ; Offset_0x009F1C
 				tst.w	D1
 				bpl.s	Offset_0x02B9BC
 				sub.w	D1, Obj_Y(A0)									 ; $0014
@@ -628,7 +628,7 @@ Offset_0x02B9BC:
 Offset_0x02B9BE:
 				move.b	#$0C, Obj_Height_2(A0)							 ; $001E
 				move.b	#$18, Obj_Width_2(A0)							 ; $001F
-				jsr		(Offset_0x009E66)
+				jsr		(Offset_0x009E66).l
 				tst.w	D1
 				bpl.s	Offset_0x02B9EE
 				add.w	D1, Obj_X(A0)									 ; $0010
@@ -640,7 +640,7 @@ Offset_0x02B9BE:
 Offset_0x02B9EE:
 				move.b	#$1F, Obj_Height_2(A0)							 ; $001E
 				move.b	#$0A, Obj_Width_2(A0)							 ; $001F
-				jsr		(Player_DontRunOnWalls)				   ; Offset_0x009F1C
+				jsr		(Player_DontRunOnWalls).l				   ; Offset_0x009F1C
 				tst.w	D1
 				bpl.s	Offset_0x02BA16
 				sub.w	D1, Obj_Y(A0)									 ; $0014
@@ -652,7 +652,7 @@ Offset_0x02BA14:
 Offset_0x02BA16:
 				tst.w	Obj_Speed_Y(A0)									 ; $001A
 				bmi.s	Offset_0x02BA46
-				jsr		(Player_Check_Floor)				   ; Offset_0x009BD4
+				jsr		(Player_Check_Floor).l				   ; Offset_0x009BD4
 				tst.w	D1
 				bpl.s	Offset_0x02BA46
 				add.w	D1, Obj_Y(A0)									 ; $0014

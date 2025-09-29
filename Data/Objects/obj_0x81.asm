@@ -3,12 +3,12 @@
 ; ->>>
 ;===============================================================================
 ; Offset_0x043B3E:
-				jsr		(Object_Check_Range)				   ; Offset_0x04326E
+				jsr		(Object_Check_Range).l				   ; Offset_0x04326E
 				moveq	#$00, D0
 				move.b	Obj_Routine(A0), D0								 ; $0005
 				move.w	Offset_0x043B58(PC, D0), D1
 				jsr		Offset_0x043B58(PC, D1)
-				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X) ; Offset_0x042B3C
+				jmp		(Delete_Sprite_Clear_Respaw_Flag_Check_X).l ; Offset_0x042B3C
 ;-------------------------------------------------------------------------------
 Offset_0x043B58:
 				dc.w	Offset_0x043B5E-Offset_0x043B58

@@ -25,10 +25,10 @@ Offset_0x01FF76:
 				subq.w	#$01, Obj_Control_Var_00(A0)					 ; $0030
 				bpl.s	Offset_0x01FFBA
 				move.w	Obj_Control_Var_02(A0), Obj_Control_Var_00(A0) ; $0032, $0030
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01FFBA
 				bsr.s	Offset_0x01FFC0
-				jsr		(AllocateObjectAfterCurrent)				  ; Offset_0x011DE0
+				jsr		(AllocateObjectAfterCurrent).l				  ; Offset_0x011DE0
 				bne.w	Offset_0x01FFBA
 				bsr.s	Offset_0x01FFC0
 				move.w	#$0080, Obj_Priority(A1)						 ; $0008
@@ -38,7 +38,7 @@ Offset_0x01FF76:
 				moveq	#Energy_Zap_Sfx, D0								  ; -$37
 				jsr		(PlaySound).l							; Offset_0x001176
 Offset_0x01FFBA:
-				jmp		(MarkObjGone_3)						   ; Offset_0x011B3E
+				jmp		(MarkObjGone_3).l						   ; Offset_0x011B3E
 Offset_0x01FFC0:
 				move.l	#Offset_0x02000C, (A1)
 				move.w	Obj_X(A0), Obj_X(A1)					  ; $0010, $0010
@@ -54,7 +54,7 @@ Offset_0x01FFC0:
 				rts
 ;-------------------------------------------------------------------------------
 Offset_0x020006:
-				jsr		(Add_SpriteToCollisionResponseList)		  ; Offset_0x00A540
+				jsr		(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 Offset_0x02000C:
 				move.b	(Level_Frame_Count+$01).w, D0				 ; $FFFFFE05
 				andi.b	#$01, D0
@@ -67,7 +67,7 @@ Offset_0x02001C:
 				bcs.s	Offset_0x020030
 				move.w	#$7FF0, Obj_X(A0)								 ; $0010
 Offset_0x020030:
-				jmp		(MarkObjGone)						   ; Offset_0x011AF2
+				jmp		(MarkObjGone).l						   ; Offset_0x011AF2
 ;-------------------------------------------------------------------------------
 Gate_Laser_Mappings:										   ; Offset_0x020036
 				dc.w	Offset_0x02003C-Gate_Laser_Mappings
