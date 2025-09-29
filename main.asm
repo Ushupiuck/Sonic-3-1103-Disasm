@@ -44113,33 +44113,33 @@ Offset_0x0ED80F:
 Super_Form_Change_Sfx_Data:									   ; Offset_0x0ED850
 		include	"sound\sfx\BB - Super Transform.asm"
 Offset_0x0ED88C:
-		binclude	"sound\0xBC.sfx"
+		include	"sound\sfx\BC - Unknown Zap.asm"
 Offset_0x0ED8BA:
-		binclude	"sound\0xBD.sfx"
+		include	"sound\sfx\BD - Missile Shoot.asm"
 Offset_0x0ED8D2:
-		binclude	"sound\0xBE.sfx"
+		include	"sound\sfx\BE - Unknown Ominous.asm"
 Offset_0x0ED8FA:
-		binclude	"sound\0xBF.sfx"
+		include	"sound\sfx\BF - Conveyor Platform.asm"
 Offset_0x0ED927:
-		binclude	"sound\0xC0.sfx"
+		include	"sound\sfx\C0 - Unknown Saw.asm"
 Offset_0x0ED956:
 		binclude	"sound\0xC1.sfx"
 Offset_0x0ED98E:
-		binclude	"sound\0xC2.sfx"
+		include	"sound\sfx\C2 - Gravity Lift.asm"
 Offset_0x0ED9BB:
-		binclude	"sound\0xC3.sfx"
+		include	"sound\sfx\C3 - Mecha Transform.asm"
 Offset_0x0ED9E8:
-		binclude	"sound\0xC4.sfx"
+		include	"sound\sfx\C4 - Unknown Rise.asm"
 Offset_0x0EDA15:
-		binclude	"sound\0xC5.sfx"
+		include	"sound\sfx\C5 - Magnetic Spike.asm"
 Offset_0x0EDA42:
-		binclude	"sound\0xC6.sfx"
+		include	"sound\sfx\C6 - Leaf Blower.asm"
 Offset_0x0EDA6F:
-		binclude	"sound\0xC7.sfx"
+		include	"sound\sfx\C7 - Launch Grab.asm"
 Offset_0x0EDA87:
-		binclude	"sound\0xC8.sfx"
+		include	"sound\sfx\C8 - Launch Ready.asm"
 Energy_Zap_Sfx_Data:										   ; Offset_0x0EDAB7
-		binclude	"sound\0xC9.sfx"
+		include	"sound\sfx\C9 - Energy Zap.asm"
 Offset_0x0EDAE1:
 		binclude	"sound\0xCA.sfx"
 Offset_0x0EDAF7:
