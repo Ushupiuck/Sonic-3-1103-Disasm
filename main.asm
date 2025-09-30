@@ -52017,6 +52017,9 @@ Art_Fire_Breath:
 		even
 Art_Flame_Mobile:
 		binclude	"data\aiz\flamembl.kmd"
+		binclude	"data\aiz\flamembl_1.kos"
+		binclude	"data\aiz\flamembl_2.kos"
+		binclude	"data\aiz\flamembl_3.kos"
 Art_Fire_Breath_Small:
 		binclude	"data\aiz\firebtsm.nem"
 		even
