@@ -39981,7 +39981,7 @@ Obj90_Fireworm:
 ; Offset_0x049FD0:
 Fireworm_Index:	dc.w Fireworm_Init-Fireworm_Index
 		dc.w Fireworm_Main-Fireworm_Index
-		dc.w Fireworm_Action-2-Fireworm_Index
+		dc.w return_4A008-Fireworm_Index
 ; ===========================================================================
 ; Offset_0x049FD6:
 Fireworm_Init:
@@ -40000,12 +40000,14 @@ Offset_0x049FEE:
 		move.b	#4,Obj_Routine(a0)
 		lea	Offset_0x04A256(pc),a2
 		jsr	(SetupChildObject).l
-		bne.s	Offset_0x04A006
+		bne.s	return_4A006
 		move.b	Obj_Subtype(a0),Obj_Subtype(a1)
 
-Offset_0x04A006:
+return_4A006:
 		rts
 ; ---------------------------------------------------------------------------
+
+return_4A008:
 		rts
 ; ===========================================================================
 ; Offset_0x04A008:
@@ -40032,7 +40034,6 @@ Fireworm_Init2:
 		jsr	(SetupSlottedObjectAttributes)
 ; Offset_0x04A03C:
 Fireworm_TrackSonic:
-		jmp	(Run_Object_Wait_Timer_A0).l	; this was seemingly added to crash the game if it loads...
 		move.b	#4,Obj_Routine(a0)
 		move.w	#3,Obj_Timer(a0)
 		move.l	#Fireworm_LoadChild,Obj_Child(a0)
