@@ -52022,13 +52022,16 @@ Art_Rhinobot:
 		binclude	"data\aiz\rhinobot.dat"
 Art_Tulipon:
 		binclude	"data\aiz\tulipon.kmd"
-		dc.w	$0000
+		align0 $4
+;		dc.w	$0000
 Art_Monkey_Dude:
 		binclude	"data\aiz\monkdude.kmd"
+;		cannot be replaced by align0
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Catakiller_Jr:
 		binclude	"data\aiz\catakljr.kmd"
-		dc.w	$0000, $0000
+		align0 $6
+;		dc.w	$0000, $0000
 Art_Big_Shaker:
 		binclude	"data\hz\bigshakr.nem"
 		even
@@ -52045,6 +52048,7 @@ Art_Mega_Chopper:
 		dc.w	$0000, $0000, $0000
 Art_Blastoid:
 		binclude	"data\hz\blastoid.kmd"
+;		cannot be replaced by align0
 		dc.w	$0000, $0000
 Art_Turbo_Spiker:
 		binclude	"data\hz\turbospk.kmd"
