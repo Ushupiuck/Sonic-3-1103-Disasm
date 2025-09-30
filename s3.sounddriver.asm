@@ -80,9 +80,7 @@ zROMWindow:		= $8000
 zDataStart:		= $1C00
 
 		phase zDataStart
-	if fix_sndbugs
-			ds.b	1	; unused
-	else
+	if ~~fix_sndbugs
 			ds.b	2	; unused
 	endif
 zPointerTable:		ds.w	1	; the 68000 SoundDriverLoad routine sets this to 1200h in Z80 memory

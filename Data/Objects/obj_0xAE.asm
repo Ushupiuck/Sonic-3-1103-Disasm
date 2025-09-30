@@ -309,7 +309,7 @@ Offset_0x04934C:
 				tst.b	Obj_Ani_Number(A0)								 ; $0020
 				bne.s	Offset_0x04936C
 				move.b	#$20, Obj_Ani_Number(A0)						 ; $0020
-				moveq	#$7C, D0
+				moveq	#sfx_BossHit, D0
 				jsr		(Play_Music).l							 ; Offset_0x001176
 				bset	#$06, Obj_Status(A0)							 ; $002A
 Offset_0x04936C:

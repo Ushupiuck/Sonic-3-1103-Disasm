@@ -42,7 +42,7 @@ Offset_0x043B9A:
 				cmpi.b	#$0E, D0
 				bne.s	Offset_0x043B74
 Offset_0x043BAC:
-				moveq	#$51, D0
+				moveq	#sfx_Projectile, D0
 				jsr		(Play_Music).l							 ; Offset_0x001176
 				lea		Offset_0x043BFE(PC), A2
 				jsr		SetupChildObject_Complex(PC)	   ; Offset_0x041DEA

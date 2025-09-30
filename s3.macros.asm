@@ -88,6 +88,11 @@ pcmLoopCounterBase function sampleRate,baseCycles, 1+(Z80_Clock/(sampleRate)-(ba
 pcmLoopCounter function sampleRate, pcmLoopCounterBase(sampleRate,68) ; 68 is the number of cycles zPlaySEGAPCM takes to deliver one sample.
 dpcmLoopCounter function sampleRate, pcmLoopCounterBase(sampleRate,303/2) ; 303 is the number of cycles zPlayDigitalAudio takes to deliver two samples.
 
+little_endian function x,(x)<<8&$FF00|(x)>>8&$FF
+
+; Function to make a little endian (z80) pointer
+k68z80Pointer function addr,little_endian((addr#$8000)+$8000)
+
 startBank macro {INTLABEL}
 	align	$8000
 __LABEL__ label *

@@ -316,6 +316,7 @@ mus__End =			*		; next ID after last music
 	dephase
 
 mus_SuperSonicUnk =	$0A
+mus_ExtraLifeUnk =	$34
 mus_S2ExtraLife =	$98
 mus_S2Drowning =	$9F
 
@@ -409,7 +410,7 @@ sfx_FlamethrowerQuiet		ds.b 1		; $53
 sfx_LargeShip		ds.b 1		; $54
 sfx_BossActivate		ds.b 1		; $55
 sfx_MissileThrow		ds.b 1		; $56
-		ds.b 1		; $57
+sfx_RobotnikSiren		ds.b 1		; $57
 sfx_SpikeMove		ds.b 1		; $58
 sfx_Charging		ds.b 1		; $59
 sfx_BossLaser		ds.b 1		; $5A
@@ -572,7 +573,7 @@ Missile_Explosion_Sfx    = sfx_MissileExplode
 Flame_Sfx                = sfx_FlamethrowerQuiet
 Flying_Battery_Move_Sfx  = sfx_LargeShip
 Missile_Throw_Sfx        = sfx_MissileThrow
-Robotnik_Buzzer_Sfx      = $0057
+Robotnik_Buzzer_Sfx      = sfx_RobotnikSiren
 Spike_Move_Sfx           = sfx_SpikeMove
 Draw_Bridge_Move_Sfx     = sfx_FlipBridge
 Geyser_Sfx               = sfx_Geyser
@@ -622,7 +623,7 @@ Volume_Down	= signextendB(cmd_FadeOut)
 Stop_Sound	= signextendB(cmd_Stop)
 PSG_Mute	= signextendB(cmd_MutePSG)
 Stop_SFx	= signextendB(cmd_StopSFX)
-Music_Normal_Speed	= $FC
+Music_Normal_Speed	= cmd_S2SlowDown
 
 ; Z80  
 Z80_RAM_Start	= $A00000
