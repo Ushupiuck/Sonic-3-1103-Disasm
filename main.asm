@@ -52210,10 +52210,8 @@ Art_Hz_Large_Fan:
 		binclude	"data\hz\largefan.kmd"
 Art_Hz_Geyser_Horizontal:
 		binclude	"data\hz\geyser_h.kmd"
-		dc.w	$0000, $0000
 Art_Hz_Geyser_Vertical:
 		binclude	"data\hz\geyser_v.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Art_Hz_Sliding_Tube:
 		binclude	"data\hz\slidtube.nem"
 		even
@@ -52293,49 +52291,34 @@ Art_EMz_Rock_And_Miscellaneous:
 ;-------------------------------------------------------------------------------
 Angel_Island_2_Boss_Ship:
 		binclude	"data\aiz\bossship.kmd"
-		dc.w	$0000
 Level_Results_Sonic:
 		binclude	"data\art\lr_sonic.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Level_Results_Miles:
 		binclude	"data\art\lr_miles.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Level_Results_Tails:
 		binclude	"data\art\lr_tails.kmd"
-		dc.w	$0000
 Level_Results_Knuckles:
 		binclude	"data\art\lr_kte.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Title_Card_Results:
 		binclude	"data\art\tc_res.kmd"
-		dc.w	$0000, $0000, $0000
 Title_Card_Number_1:										   ; Offset_0x13AB6C
 		binclude	"data\art\tc_1.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Title_Card_Number_2:										   ; Offset_0x13AC2E
 		binclude	"data\art\tc_2.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Title_Card_ZONE_ACT:										   ; Offset_0x13AD10
 		binclude	"data\art\tc_zone.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 TC_Angel_Island:											   ; Offset_0x13AEF2
 		binclude	"data\art\tc_aiz.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 TC_Hidrocity:												   ; Offset_0x13B004
 		binclude	"data\art\tc_hz.kmd"
-		dc.w	$0000, $0000, $0000
 TC_Marble_Garden:											   ; Offset_0x13B156
 		binclude	"data\art\tc_mgz.kmd"
-		dc.w	$0000
 TC_Carnival_Night:											   ; Offset_0x13B318
 		binclude	"data\art\tc_cnz.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 TC_Flying_Battery:											   ; Offset_0x13B4AA
 		binclude	"data\art\tc_fbz.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 TC_Icecap:													   ; Offset_0x13B60C
 		binclude	"data\art\tc_iz.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 TC_Launch_Base:												   ; Offset_0x13B6DE
 TC_Mushroom_Valley:											   ; Offset_0x13B6DE
 TC_Sandopolis:												   ; Offset_0x13B6DE
@@ -52344,7 +52327,6 @@ TC_Sky_Sanctuary:											   ; Offset_0x13B6DE
 TC_Death_Egg:												   ; Offset_0x13B6DE
 TC_The_Doomsday:											   ; Offset_0x13B6DE
 		binclude	"data\art\tc_lbz.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_1_Blocks:										   ; Offset_0x13B830
 		binclude	"data\aiz\bl_act1.kos"
 Angel_Island_1_Blocks_2:									   ; Offset_0x13BA30
@@ -52362,7 +52344,6 @@ Angel_Island_1_Chunks_2:									   ; Offset_0x143D96
 		binclude	"data\aiz\ck_act1.kos"
 Angel_Island_1_Flames:										   ; Offset_0x1476A6
 		binclude	"data\aiz\flames.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_2_Blocks:										   ; Offset_0x148128
 		binclude	"data\aiz\bl_act2.kos"
 Angel_Island_2_Blocks_2:									   ; Offset_0x1489A8
@@ -52538,59 +52519,44 @@ Balloon_Park_Blocks:										   ; Offset_0x197B30
 		binclude	"data\bpz\blocks.kos"
 Balloon_Park_Tiles:											   ; Offset_0x198400
 		binclude	"data\bpz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Balloon_Park_Chunks:										   ; Offset_0x19A3E2
 		binclude	"data\bpz\chunks.kos"
-		dc.w	$0000
 Desert_Palace_Blocks:										   ; Offset_0x19AAD2
 		binclude	"data\dpz\blocks.kos"
 Desert_Palace_Tiles:										   ; Offset_0x19B4B2
 		binclude	"data\dpz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Desert_Palace_Chunks:										   ; Offset_0x19CFA4
 		binclude	"data\dpz\chunks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Chrome_Gadget_Blocks:										   ; Offset_0x19D5D4
 		binclude	"data\cgz\blocks.kos"
-		dc.w	$0000, $0000, $0000, $0000
 Chrome_Gadget_Tiles:										   ; Offset_0x19DD24
 		binclude	"data\cgz\tiles.kmd"
-		dc.w	$0000, $0000
 Chrome_Gadget_Chunks:										   ; Offset_0x1A02C6
 		binclude	"data\cgz\chunks.kos"
 Endless_Mine_Blocks:										   ; Offset_0x1A0786
 		binclude	"data\emz\blocks.kos"
 Endless_Mine_Tiles:											   ; Offset_0x1A1236
 		binclude	"data\emz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Endless_Mine_Chunks:										   ; Offset_0x1A3E68
 		binclude	"data\emz\chunks.kos"
-		dc.w	$0000, $0000
 BS_Gumball_Machine_Blocks:									   ; Offset_0x1A4578
 		binclude	"data\bs_gm\blocks.kos"
-		dc.w	$0000, $0000, $0000
 BS_Gumball_Machine_Tiles:									   ; Offset_0x1A4938
 		binclude	"data\bs_gm\tiles.kmd"
 BS_Gumball_Machine_Chunks:									   ; Offset_0x1A52AA
 		binclude	"data\bs_gm\chunks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 BS_Glowing_Spheres_Blocks:									   ; Offset_0x1A55FA
 		binclude	"data\bs_gs\blocks.kos"
-		dc.w	$0000
 BS_Glowing_Spheres_Tiles:									   ; Offset_0x1A589A
 		binclude	"data\bs_gs\tiles.kmd"
 BS_Glowing_Spheres_Chunks:									   ; Offset_0x1A680C
 		binclude	"data\bs_gs\chunks.kos"
-		dc.w	$0000, $0000
 BS_Slot_Machine_Blocks:										   ; Offset_0x1A6B0C
 		binclude	"data\bs_sm\blocks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 BS_Slot_Machine_Tiles:										   ; Offset_0x1A77CC
 		binclude	"data\bs_sm\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 BS_Slot_Machine_Chunks:										   ; Offset_0x1AA46E
 		binclude	"data\bs_sm\chunks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 ;-------------------------------------------------------------------------------
 ; Offset_0x1AACAE:
 		binclude	"data\unknown\unkdata.kos"
@@ -52618,77 +52584,56 @@ Left_Over_Azure_Lake_Chunks:								   ; Offset_0x1B8EE8
 		binclude	"data\alz\chunks_1.kos"
 ; Offset_0x1B9568:
 		binclude	"data\unknown\blocks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 ; Offset_0x1B95D8:
 		binclude	"data\unknown\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1B99FA:
 		binclude	"data\unknown\chunks.kos"
 ; Offset_0x1B9B7A:
 		binclude	"data\unknown\blocks_2.kos"
-		dc.w	$0000, $0000, $0000
 ; Offset_0x1B9C0A:
 		binclude	"data\unknown\tiles_2.kmd"
-		dc.w	$0000, $0000
 ; Offset_0x1BA05C:
 		binclude	"data\unknown\chunks_2.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 ; Offset_0x1BA24C:
 		binclude	"data\unknown\blocks_3.kos"
-		dc.w	$0000
 ; Offset_0x1BA29C:
 		binclude	"data\unknown\tiles_3.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1BA6BE:
 		binclude	"data\unknown\chunks_3.kos"
 ; Offset_0x1BA82E:
 		binclude	"data\unknown\blocks_4.kos"
 ; Offset_0x1BA8DE:
 		binclude	"data\unknown\tiles_4.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1BAD00:
 		binclude	"data\unknown\chunks_4.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Left_Over_BS_Gumball_Machine_Blocks:						   ; Offset_0x1BAF10
 		binclude	"data\bs_gm\blocks_1.kos"
-		dc.w	$0000, $0000, $0000
 Left_Over_BS_Gumball_Machine_Tiles:							   ; Offset_0x1BB2D0
 		binclude	"data\bs_gm\tiles_1.kmd"
 Left_Over_BS_Gumball_Machine_Chunks:						   ; Offset_0x1BBC42
 		binclude	"data\bs_gm\chunks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 ; Offset_0x1BBF92:
 		binclude	"data\unknown\unkdata6.bin"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1BC81C:
 		binclude	"data\unknown\tiles_5.kos"
 ; Offset_0x1BCF2C:
 		binclude	"data\unknown\tiles5a.kos"
-		dc.w	$0000, $0000, $0000
 ; Offset_0x1BD43C:
 		binclude	"data\unknown\chunks_5.kos"
-		dc.w	$0000, $0000, $0000
 Left_Over_Balloon_Park_Blocks:								   ; Offset_0x1BDABC
 		binclude	"data\bpz\blocks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Left_Over_Balloon_Park_Tiles:								   ; Offset_0x1BE39C
 		binclude	"data\bpz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Left_Over_Balloon_Park_Chunks:								   ; Offset_0x1C037E
 		binclude	"data\bpz\chunks_1.kos"
-		dc.w	$0000
 Left_Over_Desert_Palace_Blocks:								   ; Offset_0x1C0A6E
 		binclude	"data\dpz\blocks_1.kos"
-		dc.w	$0000, $0000, $0000
 Left_Over_Desert_Palace_Tiles:								   ; Offset_0x1C142E
 		binclude	"data\dpz\tiles_1.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Left_Over_Desert_Palace_Chunks:								   ; Offset_0x1C2E20
 		binclude	"data\dpz\chunks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1C3430:
 		binclude	"data\unknown\blocks_6.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 ; Offset_0x1C3B80:
 		binclude	"data\unknown\unkdata7.bin"
 Left_Over_Water_Surface_Scroll_Data:						   ; Offset_0x1C4000
