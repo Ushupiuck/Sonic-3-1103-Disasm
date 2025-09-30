@@ -52294,6 +52294,7 @@ Art_EMz_Rock_And_Miscellaneous:
 ;-------------------------------------------------------------------------------
 Angel_Island_2_Boss_Ship:
 		binclude	"data\aiz\bossship.kmd"
+		binclude	"data\aiz\bossship_1.kos"
 Level_Results_Sonic:
 		binclude	"data\art\lr_sonic.kmd"
 Level_Results_Miles:
