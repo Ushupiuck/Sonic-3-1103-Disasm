@@ -7928,12 +7928,16 @@ LevelSelect_Names:
 Palette_S2LevelIcons:		binclude	"data/menus/lvsicons.pal"
 ; Offset_0x006410:
 Vs_Level_Select_Frame_Mappings:	binclude	"data/menus/vsslctmn.eni"
+		even
 ; Offset_0x006462:
 Options_Frame_Mappings:		binclude	"data/menus/optframe.eni"
+		even
 ; Offset_0x00648E:
 S2_Menu_Level_Select_Text:	binclude	"data/menus/menutext.eni"
+		even
 ; Offset_0x0065E2:
 Menu_Icons_Mappings:		binclude	"data/menus/iconsmap.eni"
+		even
 
 ; with the two player results removed, the animation script has been moved here
 ; Offset_0x006614: Menu_Animate:
@@ -46825,104 +46829,149 @@ Offset_0x1035F4:
 ;-------------------------------------------------------------------------------
 Art_Intro_Water_Waves:										   ; Offset_0x1035F8
 		binclude	"data\aiz\wtrwaves.nem"
+		even
 Art_Intro_Small_Water_Waves:								   ; Offset_0x103B38
 		binclude	"data\aiz\smallwav.nem"
+		even
 Art_Surfboard:												   ; Offset_0x103DD0
 		binclude	"data\aiz\surfbrd.nem"
+		even
 Art_SEGA:													   ; Offset_0x10417A
 		binclude	"data\art\sega.nem"
+		even
 Art_SEGA_Some_Blocks:										   ; Offset_0x1045FA
 		binclude	"data\art\segablck.nem"
+		even
 SEGA_Mappings:												   ; Offset_0x104612
 		binclude	"data\mappings\sega.eni"
+		even
 Art_Title_Screen_Sonic_3:									   ; Offset_0x1046CA
 		binclude	"data\art\titlscrn.kos"
 Art_Title_Screen_Sonic:										   ; Offset_0x1051AA
 		binclude	"data\art\ts_sonic.kos"
 Map_Title_Screen_Sonic_3:									   ; Offset_0x1065DA
 		binclude	"data\mappings\titlscrn.eni"
+		even
 Map_Title_Screen_Sonic:										   ; Offset_0x106650
 		binclude	"data\mappings\ts_sonic.eni"
+		even
 Pal_Title_Screen_Sonic_3:									   ; Offset_0x1066F6
 		binclude	"data\all\titlscrn.pal"
 Pal_Title_Screen_Sonic:										   ; Offset_0x106776
 		binclude	"data\all\ts_sonic.pal"
 Art_Switch:													   ; Offset_0x1067F6
 		binclude	"data\art\switch.nem"
+		even
 Art_Horizontal_Spring:	; N�o usado ; Left over ???			   ; Offset_0x10687E
 		binclude	"data\art\h_spring.nem"
+		even
 Art_Diagonal_Spring:										   ; Offset_0x106AC8
 		binclude	"data\art\d_spring.nem"
+		even
 Art_Head_Up_Display:	; N�o usado ; Left over ???			   ; Offset_0x106CB0
 		binclude	"data\art\hud.nem"
+		even
 Art_Head_Up_Display_Sonic:									   ; Offset_0x106DDC
 		binclude	"data\art\hudsonic.nem"
+		even
 Art_Head_Up_Display_Miles:									   ; Offset_0x106EF4
 		binclude	"data\art\hudmiles.nem"
+		even
 Art_Head_Up_Display_Knuckles:								   ; Offset_0x106FE4
 		binclude	"data\art\hud_kte.nem"
+		even
 Art_Rings:													   ; Offset_0x1070E2
 		binclude	"data\art\rings.nem"
+		even
 Art_Monitors:												   ; Offset_0x1071DA
 		binclude	"data\art\monitors.nem"
+		even
 Art_Vertical_Spikes:										   ; Offset_0x107634
 		binclude	"data\art\v_spikes.nem"
+		even
 Art_Horizontal_Spikes:										   ; Offset_0x107690
 		binclude	"data\art\h_spikes.nem"
+		even
 Art_Enemy_Points:											   ; Offset_0x1076F8
 		binclude	"data\art\enemypts.nem"
+		even
 Art_Star_Post:												   ; Offset_0x10779E
 		binclude	"data\art\starpost.nem"
+		even
 Art_End_Panel:												   ; Offset_0x107956
 		binclude	"data\art\endpanel.nem"
+		even
 Art_Oxygen_Bubbles:											   ; Offset_0x1080F8
 		binclude	"data\art\oxygen.nem"
+		even
 Art_Game_Over_Time_Over:									   ; Offset_0x108396
 		binclude	"data\art\gt_over.nem"
+		even
 Art_Explosion:												   ; Offset_0x108528
 		binclude	"data\art\explosn.nem"
+		even
 Art_Miles_In_Continue_Screen:								   ; Offset_0x1088CE
 		binclude	"data\art\cntmiles.nem"
+		even
 Art_Mini_Sonic_In_Level_Results:							   ; Offset_0x108BBA
 		binclude	"data\art\m_sonic.nem"
+		even
 Art_Mini_Miles_In_Level_Results:							   ; Offset_0x108D1C
 		binclude	"data\art\m_miles.nem"
+		even
 Art_Spikes_Springs:											   ; Offset_0x108E64
 		binclude	"data\art\spkspngs.nem"
+		even
 Art_Main_Head_Up_Display_Rings:								   ; Offset_0x109154
 		binclude	"data\art\hudrings.nem"
+		even
 Art_Enemy_Points_Star_Post:									   ; Offset_0x109392
 		binclude	"data\art\epntpost.nem"
+		even
 Art_Menu_Font:												   ; Offset_0x1095D6
 		binclude	"data\menus\menufont.nem"
+		even
 Art_Result_Font_2P:		; N�o usado ; Left over ???			   ; Offset_0x109B4A
 		binclude	"data\menus\resfnt2p.nem"
+		even
 Versus_Menu_Bg_Mappings:									   ; Offset_0x109D1C
 		binclude	"data\menus\vsmenubg.eni"
+		even
 Art_Menu_Frame:												   ; Offset_0x109EC8
 		binclude	"data\menus\menu_frm.nem"
+		even
 Art_Level_Icons:											   ; Offset_0x109F48
 		binclude	"data\menus\levelico.nem"
+		even
 Art_Seal:				; N�o usado ; Left over ???			   ; Offset_0x10ADA2
 		binclude	"data\art\seal.nem"
+		even
 Art_Pig:				; N�o usado ; Left over ???			   ; Offset_0x10AEBE
 		binclude	"data\art\pig.nem"
+		even
 Art_Blue_Bird:												   ; Offset_0x10B00A
 		binclude	"data\art\bluebird.nem"
+		even
 Art_Chicken:												   ; Offset_0x10B13C
 		binclude	"data\art\chicken.nem"
+		even
 Art_Penguin:												   ; Offset_0x10B28A
 		binclude	"data\art\penguin.nem"
+		even
 Art_Squirrel:												   ; Offset_0x10B3DC
 		binclude	"data\art\squirrel.nem"
+		even
 Art_Rabbit:													   ; Offset_0x10B53A
 		binclude	"data\art\rabbit.nem"
+		even
 Art_Scaled_Spheres:											   ; Offset_0x10B68E
 		binclude	"data\ss_test\spheres.nem"
+		even
 Special_Stage_Globe_Mappings:								   ; Offset_0x10BFEE
 		binclude	"data\ss_test\globe.dat"
 Art_Special_Stage_Globe:									   ; Offset_0x10C8AE
 		binclude	"data\ss_test\globe.nem"
+		even
 ;-------------------------------------------------------------------------------
 Robotnik_Ship_Mappings:										   ; Offset_0x10D020
 		dc.w	Offset_0x10D03A-Robotnik_Ship_Mappings
@@ -51923,10 +51972,12 @@ Offset_0x110E86:
 ;-------------------------------------------------------------------------------
 Art_Fire_Breath:											   ; Offset_0x110E8E
 		binclude	"data\aiz\firebrth.nem"
+		even
 Art_Flame_Mobile:											   ; Offset_0x1114FC
 		binclude	"data\aiz\flamembl.kmd"
 Art_Fire_Breath_Small:										   ; Offset_0x11343E
 		binclude	"data\aiz\firebtsm.nem"
+		even
 Art_Rhinobot:												   ; Offset_0x1135C6
 		binclude	"data\aiz\rhinobot.dat"
 Art_Tulipon:												   ; Offset_0x114066
@@ -51940,10 +51991,13 @@ Art_Catakiller_Jr:											   ; Offset_0x11449A
 		dc.w	$0000, $0000
 Art_Big_Shaker:												   ; Offset_0x11469C
 		binclude	"data\hz\bigshakr.nem"
+		even
 Art_Screw_Mobile:											   ; Offset_0x11553A
 		binclude	"data\hz\screwmob.nem"
+		even
 Art_Buggernaut:												   ; Offset_0x11667C
 		binclude	"data\hz\buggernt.nem"
+		even
 Art_Jawz:													   ; Offset_0x116750
 		binclude	"data\hz\jawz.kmd"
 Art_Mega_Chopper:											   ; Offset_0x1168C2
@@ -51962,8 +52016,10 @@ Art_Tunnelbot:												   ; Offset_0x11722A
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Spire:													   ; Offset_0x1174CC
 		binclude	"data\mgz\spire.nem"
+		even
 Art_Drill_Mobile:											   ; Offset_0x11753E
 		binclude	"data\mgz\drillmob.nem"
+		even
 Art_Drill_Mobile_Scaling:									   ; Offset_0x1187B6
 		binclude	"data\mgz\drillmob.dat"
 Art_Rocks:													   ; Offset_0x1197B6
@@ -51979,8 +52035,10 @@ Art_Mantis:													   ; Offset_0x11A51A
 		dc.w	$0000
 Art_Bowling_Spin:											   ; Offset_0x11A78C
 		binclude	"data\cnz\bowlspin.nem"
+		even
 Art_Graviton_Mobile:										   ; Offset_0x11AC48
 		binclude	"data\cnz\graviton.nem"
+		even
 Art_Clamer:													   ; Offset_0x11B15C
 		binclude	"data\cnz\clamer.dat"
 Art_Spikeball:												   ; Offset_0x11C29C
@@ -52002,6 +52060,7 @@ Art_Laser_Beam:                                                ; Offset_0x11CEBA
 		even
 Art_Hang_Mobile:                                               ; Offset_0x11D3BC
 		binclude	"data\fbz\hangmobl.nem"
+		even
 Art_Blaster:												   ; Offset_0x11D79E
 		binclude	"data\fbz\blaster.kmd"
 		dc.w	$0000
@@ -52010,14 +52069,19 @@ Art_Technosqueek:											   ; Offset_0x11DAA0
 		dc.w	$0000, $0000, $0000, $0000
 Art_Iz_Ice_Platform_And_Miscellaneous:						   ; Offset_0x11DD52
 		binclude	"data\iz\ptfrmisc.nem"
+		even
 Art_Iz_Ice_Rock_And_Miscellaneous:							   ; Offset_0x11E976
 		binclude	"data\iz\rockmisc.nem"
+		even
 Art_Iz_SnowSlip_And_Miscellaneous:							   ; Offset_0x11EDF8
 		binclude	"data\iz\snslmisc.nem"
+		even
 Art_Freezer_Mobile:											   ; Offset_0x11F1B8
 		binclude	"data\iz\fzrmobil.nem"
+		even
 Art_Big_Icedus:												   ; Offset_0x11FF66
 		binclude	"data\iz\bigicdus.nem"
+		even
 Art_Penguinator:											   ; Offset_0x1203EE
 		binclude	"data\iz\pengntor.dat"
 Art_Ice_Block:												   ; Offset_0x1213CE
@@ -52028,8 +52092,10 @@ Art_Orbinaut:												   ; Offset_0x121460
 		dc.w	$0000, $0000, $0000, $0000, $0000
 Art_Twin_Hammer:											   ; Offset_0x1215F2
 		binclude	"data\lbz\twinhamr.nem"
+		even
 Art_Beam_Rocket:											   ; Offset_0x121946
 		binclude	"data\lbz\beamrckt.nem"
+		even
 Art_Ball_Shooter:											   ; Offset_0x1224EC
 		binclude	"data\lbz\ballshtr.kmd"
 		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
@@ -52049,17 +52115,22 @@ Art_Flybot_767:												   ; Offset_0x122D46
 		binclude	"data\lbz\flybt767.dat"
 Art_Twin_Hammer_Box:										   ; Offset_0x124066
 		binclude	"data\lbz\twinhbox.nem"
+		even
 Art_LBz_Knuckles_Bomb:										   ; Offset_0x1244C6
 		binclude	"data\lbz\kte_bomb.nem"
+		even
 Art_Boss_Explosion:											   ; Offset_0x124504
 		binclude	"data\art\bexplosn.nem"
+		even
 Art_Fire_Breath_Flames:										   ; Offset_0x124854
 		binclude	"data\aiz\firebtfm.nem"
+		even
 Art_FBz_Boss_Flames:										   ; Offset_0x124DA6
 		binclude	"data\fbz\bossflms.nem"
 		even
 Art_Robotnik_In_Egg_Mobile:                                    ; Offset_0x125122
 		binclude	"data\art\rbtnkegm.nem"
+		even
 Art_FBz_Robotnik_Faces:										   ; Offset_0x12567E
 		binclude	"data\fbz\rbtkface.nem"
 		even
@@ -52068,39 +52139,55 @@ Art_FBz_Robotnik_Stand:                                        ; Offset_0x1258F0
 		even
 Art_FBz_Robotnik:                                              ; Offset_0x125D06
 		binclude	"data\fbz\robotnik.nem"
+		even
 Art_End_Panel_Dynamic:										   ; Offset_0x12616A
 		binclude	"data\art\endpanel.dat"
+		even
 Art_End_Panel_Post											   ; Offset_0x126E6A
 		binclude	"data\art\post.nem"
+		even
 Art_Egg_Prison:												   ; Offset_0x126E84
 		binclude	"data\art\eggprisn.nem"
+		even
 Art_Knuckles_2:												   ; Offset_0x127328
 		binclude	"data\art\knuckls2.dat"
+		even
 Art_Tornado:												   ; Offset_0x12C208
 		binclude	"data\art\tornado.kmd"
 		dc.w	$0000
 Art_AIz_Swinging_Vine:										   ; Offset_0x12C9AA
 		binclude	"data\aiz\swngvine.nem"
+		even
 Art_AIz_Slide_Rope:											   ; Offset_0x12CB10
 		binclude	"data\aiz\sliderop.nem"
+		even
 Art_AIz_Background_Tree:									   ; Offset_0x12CC34
 		binclude	"data\aiz\bg_tree.nem"
+		even
 Art_AIz_Rocks_And_Tree:										   ; Offset_0x12CD7E
 		binclude	"data\aiz\rocktree.nem"
+		even
 Art_AIz_Cork_Floor:											   ; Offset_0x12D5C6
 		binclude	"data\aiz\corkflr.nem"
+		even
 Art_AIz_Miscellaneous:										   ; Offset_0x12D84E
 		binclude	"data\aiz\misclns.nem"
+		even
 Art_Hz_Spiked_Ball:											   ; Offset_0x12EBDA
 		binclude	"data\hz\spikball.nem"
+		even
 Art_Hz_Water_Surface:										   ; Offset_0x12ECA2
 		binclude	"data\hz\wsurface.nem"
+		even
 Art_Hz_Switch:												   ; Offset_0x12EDC2
 		binclude	"data\hz\switch.nem"
+		even
 Art_Hz_Miscellaneous:										   ; Offset_0x12EE76
 		binclude	"data\hz\misclns.nem"
+		even
 Art_Hz_Water_Rush:											   ; Offset_0x12F436
 		binclude	"data\hz\waterush.nem"
+		even
 Art_Hz_Large_Fan:											   ; Offset_0x12F9EE
 		binclude	"data\hz\largefan.kmd"
 		dc.w	$0000, $0000, $0000
@@ -52112,49 +52199,67 @@ Art_Hz_Geyser_Vertical:										   ; Offset_0x130482
 		dc.w	$0000, $0000, $0000, $0000
 Art_Hz_Sliding_Tube:										   ; Offset_0x130C24
 		binclude	"data\hz\slidtube.nem"
+		even
 Art_Hz_Bridge_And_Blocks:									   ; Offset_0x13113A
 		binclude	"data\hz\bridgebk.nem"
+		even
 Art_Water_Splash:											   ; Offset_0x131482
 		binclude	"data\art\waterspl.dat"
+		even
 Art_Water_Splash_2:											   ; Offset_0x131C02
 		binclude	"data\art\watersp2.dat"
-Art_Hz_Enemies:			; N�o usado ; Left over ???			   ; Offset_0x132802
-		binclude	"data\hz\enemies.nem"
+		even
 Art_Hz_Block_Wall:											   ; Offset_0x1330E4
 		binclude	"data\hz\blckwall.nem"
+		even
 Art_MGz_Wheel_And_Miscellaneous:							   ; Offset_0x1331FE
 		binclude	"data\mgz\wheelmsc.nem"
+		even
 Art_MGz_Spiked_Platform_And_Miscellaneous:					   ; Offset_0x133C3C
 		binclude	"data\mgz\spkptmsc.nem"
+		even
 Art_MGz_Direction_Indicators:								   ; Offset_0x13424C
 		binclude	"data\mgz\dirindic.nem"
+		even
 Art_CNz_Balloons_Bumpers_And_Miscellaneous:					   ; Offset_0x134486
 		binclude	"data\cnz\blbpmisc.nem"
+		even
 Art_CNz_Platform:											   ; Offset_0x135244
 		binclude	"data\cnz\platform.nem"
+		even
 Art_LBz_Miscellaneous:										   ; Offset_0x1353AE
 		binclude	"data\lbz\misclns.nem"
+		even
 Art_LBz_Tube_Elevator:										   ; Offset_0x135ECC
 		binclude	"data\lbz\tubelevt.nem"
+		even
 Art_LBz_Spin_Launcher_And_Miscellaneous:					   ; Offset_0x136150
 		binclude	"data\lbz\spnlmisc.nem"
+		even
 Art_LRz_Rocks:												   ; Offset_0x13658C
 		binclude	"data\lrz\rocks.nem"
 		even
 Art_H_Springs_Switch_2P:                                       ; Offset_0x1366D4
 		binclude	"data\art\hspng_2p.nem"
+		even
 Art_V_Springs_Spikes_2P:									   ; Offset_0x136848
 		binclude	"data\art\vspng_2p.nem"
+		even
 Art_Items_2P:												   ; Offset_0x136A3A
 		binclude	"data\art\items_2p.nem"
+		even
 Art_Goal_Marker_2P:											   ; Offset_0x136F1E
 		binclude	"data\art\goalmark.nem"
+		even
 Art_Head_up_display_Sprites_2P:								   ; Offset_0x137096
 		binclude	"data\art\hud_2p.nem"
+		even
 Art_Lap_Numbers_2P:											   ; Offset_0x1376F0
 		binclude	"data\art\number2p.nem"
+		even
 Art_Point_And_Arrows_2P:									   ; Offset_0x137BB0
 		binclude	"data\art\pointarw.nem"
+		even
 Art_BPz_Ballons_And_Miscellaneous:							   ; Offset_0x137C4A
 		binclude	"data\bpz\balloons.nem"
 		even
