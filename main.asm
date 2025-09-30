@@ -52026,12 +52026,8 @@ Art_Tulipon:
 		binclude	"data\aiz\tulipon.kmd"
 Art_Monkey_Dude:
 		binclude	"data\aiz\monkdude.kmd"
-;		cannot be replaced by align0
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Catakiller_Jr:
 		binclude	"data\aiz\catakljr.kmd"
-		align0 $6
-;		dc.w	$0000, $0000
 Art_Big_Shaker:
 		binclude	"data\hz\bigshakr.nem"
 		even
@@ -52045,19 +52041,14 @@ Art_Jawz:
 		binclude	"data\hz\jawz.kmd"
 Art_Mega_Chopper:
 		binclude	"data\hz\megachpr.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Blastoid:
 		binclude	"data\hz\blastoid.kmd"
-;		cannot be replaced by align0
-		dc.w	$0000, $0000
 Art_Turbo_Spiker:
 		binclude	"data\hz\turbospk.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Pointdexter:
 		binclude	"data\hz\pntdexter.kmd"
 Art_Tunnelbot:
 		binclude	"data\mgz\tunnelbt.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Spire:
 		binclude	"data\mgz\spire.nem"
 		even
@@ -52068,15 +52059,12 @@ Art_Drill_Mobile_Scaling:
 		binclude	"data\mgz\drillmob.dat"
 Art_Rocks:
 		binclude	"data\mgz\rocks.kmd"
-		dc.w	$0000, $0000
 Art_Bubbles:
 		binclude	"data\mgz\bubbles.dat"
 Art_Spiker:
 		binclude	"data\mgz\spiker.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Mantis:
 		binclude	"data\mgz\mantis.kmd"
-		dc.w	$0000
 Art_Bowling_Spin:
 		binclude	"data\cnz\bowlspin.nem"
 		even
@@ -52089,13 +52077,10 @@ Art_Spikeball:
 		binclude	"data\cnz\spikball.kmd"
 Art_Sparkle:
 		binclude	"data\cnz\sparkle.kmd"
-		dc.w	$0000, $0000
 Art_Batbot:
 		binclude	"data\cnz\batbot.kmd"
-		dc.w	$0000, $0000
 Art_Balloon:
 		binclude	"data\cnz\balloon.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Gapsule:
 		binclude	"data\fbz\gapsule.nem"
 		even
@@ -52107,10 +52092,8 @@ Art_Hang_Mobile:
 		even
 Art_Blaster:
 		binclude	"data\fbz\blaster.kmd"
-		dc.w	$0000
 Art_Technosqueek:
 		binclude	"data\fbz\technosq.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Art_Iz_Ice_Platform_And_Miscellaneous:
 		binclude	"data\iz\ptfrmisc.nem"
 		even
@@ -52130,10 +52113,8 @@ Art_Penguinator:
 		binclude	"data\iz\pengntor.dat"
 Art_Ice_Block:
 		binclude	"data\iz\iceblock.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Art_Orbinaut:
 		binclude	"data\iz\orbinaut.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Art_Twin_Hammer:
 		binclude	"data\lbz\twinhamr.nem"
 		even
@@ -52142,19 +52123,14 @@ Art_Beam_Rocket:
 		even
 Art_Ball_Shooter:
 		binclude	"data\lbz\ballshtr.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Snale_Blaster:
 		binclude	"data\lbz\snalebst.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Ribot:
 		binclude	"data\lbz\ribot.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Orbinaut_2:
 		binclude	"data\lbz\orbinaut.kmd"
-		dc.w	$0000
 Art_Corkey:
 		binclude	"data\lbz\corkey.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Flybot_767:
 		binclude	"data\lbz\flybt767.dat"
 Art_Twin_Hammer_Box:
@@ -52196,7 +52172,6 @@ Art_Knuckles_2:
 		binclude	"data\art\knuckls2.dat"
 Art_Tornado:
 		binclude	"data\art\tornado.kmd"
-		dc.w	$0000
 Art_AIz_Swinging_Vine:
 		binclude	"data\aiz\swngvine.nem"
 		even
@@ -52232,7 +52207,6 @@ Art_Hz_Water_Rush:
 		even
 Art_Hz_Large_Fan:
 		binclude	"data\hz\largefan.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Hz_Geyser_Horizontal:
 		binclude	"data\hz\geyser_h.kmd"
 		dc.w	$0000, $0000
