@@ -52017,6 +52017,9 @@ Art_Fire_Breath:
 		even
 Art_Flame_Mobile:
 		binclude	"data\aiz\flamembl.kmd"
+		binclude	"data\aiz\flamembl_1.kos"
+		binclude	"data\aiz\flamembl_2.kos"
+		binclude	"data\aiz\flamembl_3.kos"
 Art_Fire_Breath_Small:
 		binclude	"data\aiz\firebtsm.nem"
 		even
@@ -52291,6 +52294,7 @@ Art_EMz_Rock_And_Miscellaneous:
 ;-------------------------------------------------------------------------------
 Angel_Island_2_Boss_Ship:
 		binclude	"data\aiz\bossship.kmd"
+		binclude	"data\aiz\bossship_1.kos"
 Level_Results_Sonic:
 		binclude	"data\art\lr_sonic.kmd"
 Level_Results_Miles:
@@ -52335,6 +52339,7 @@ Angel_Island_1_Blocks_3:									   ; Offset_0x13C680
 		binclude	"data\aiz\bl3_act1.kos"
 Angel_Island_1_Tiles:										   ; Offset_0x13D750
 		binclude	"data\aiz\tl_act1.kmd"
+		binclude	"data\aiz\tl_act1_1.kos"
 Angel_Island_1_Tiles_2:										   ; Offset_0x13E552
 		binclude	"data\aiz\tl2_act1.kmd"
 Angel_Island_1_Tiles_3:										   ; Offset_0x141584
