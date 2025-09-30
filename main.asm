@@ -52339,6 +52339,7 @@ Angel_Island_1_Blocks_3:									   ; Offset_0x13C680
 		binclude	"data\aiz\bl3_act1.kos"
 Angel_Island_1_Tiles:										   ; Offset_0x13D750
 		binclude	"data\aiz\tl_act1.kmd"
+		binclude	"data\aiz\tl_act1_1.kos"
 Angel_Island_1_Tiles_2:										   ; Offset_0x13E552
 		binclude	"data\aiz\tl2_act1.kmd"
 Angel_Island_1_Tiles_3:										   ; Offset_0x141584
