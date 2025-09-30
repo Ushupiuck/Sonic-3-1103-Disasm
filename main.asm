@@ -27006,9 +27006,9 @@ Offset_0x024BC4:
 ; Rotina para carregar os inimigos ap�s a exibi��o dos Title Cards
 ; ->>>
 ;-------------------------------------------------------------------------------
-Level_Load_Enemies_Art:										   ; Offset_0x024F46
-		lea	ArtLoadCues_KM(PC),a6				  ; Offset_0x02540C
-		move.w	(Apparent_ZoneAndAct).w,d0							 ; $FFFFEE54
+Level_Load_Enemies_Art:
+		lea	ArtLoadCues_KM(PC),a6
+		move.w	(Apparent_ZoneAndAct).w,d0
 		ror.b	#1,d0
 		lsr.w	#6,d0
 		adda.w	(A6,d0),a6
@@ -27017,7 +27017,7 @@ Level_Load_Enemies_Art:										   ; Offset_0x024F46
 Offset_0x024F5A:
 		move.l	(A6)+,a1
 		move.w	(A6)+,d2
-		jsr	(Queue_Kos_Module).l				 ; Offset_0x0018A8
+		jsr	(Queue_Kos_Module).l
 		dbf	D6, Offset_0x024F5A
 Offset_0x024F68:
 		rts
@@ -27474,8 +27474,15 @@ PLC_Mushroom_Valley_Act_1_Enemies:							   ; Offset_0x0254E6
 PLC_Mushroom_Valley_Act_2_Enemies:							   ; Offset_0x0254E6
 PLC_Sandopolis_Act_1_Enemies:								   ; Offset_0x0254E6
 PLC_Sandopolis_Act_2_Enemies:								   ; Offset_0x0254E6
+;-------------------------------------------------------------------------------
 PLC_Lava_Reef_Act_1_Enemies:								   ; Offset_0x0254E6
-PLC_Lava_Reef_Act_2_Enemies:								   ; Offset_0x0254E6
+PLC_Lava_Reef_Act_2_Enemies:
+		dc.w	(((PLCE_LRZ_End-PLCE_LRZ)/$06)-$01)
+PLCE_LRZ:
+		dc.l	Art_Fireworm_segments
+		dc.w	$A240
+PLCE_LRZ_End:
+;-------------------------------------------------------------------------------
 PLC_Sky_Sanctuary_Act_1_Enemies:							   ; Offset_0x0254E6
 PLC_Sky_Sanctuary_Act_2_Enemies:							   ; Offset_0x0254E6
 PLC_Death_Egg_Act_1_Enemies:								   ; Offset_0x0254E6
@@ -40032,7 +40039,7 @@ Fireworm_Init2:
 		jsr	(SetupSlottedObjectAttributes)
 ; Offset_0x04A03C:
 Fireworm_TrackSonic:
-		jmp	(Run_Object_Wait_Timer_A0).l	; this was seemingly added to crash the game if it loads...
+	;	jmp	(Run_Object_Wait_Timer_A0).l	; this was seemingly added to crash the game if it loads...
 		move.b	#4,Obj_Routine(a0)
 		move.w	#3,Obj_Timer(a0)
 		move.l	#Fireworm_LoadChild,Obj_Child(a0)
@@ -40248,9 +40255,9 @@ Offset_0x04A278:
 		dc.l	Fireworm_Flame
 		dc.b	$00, $F2
 ;-------------------------------------------------------------------------------
-Fireworm_PLC_Data:							; Offset_0x04A280
-		;dc.l	Art_Fireworm
-		;dc.l	Fireworm_Dyn_Script			; Offset_0x10E2C4
+Fireworm_PLC_Data:
+		dc.l	Art_Fireworm
+		dc.l	Fireworm_Dyn_Script
 ;-------------------------------------------------------------------------------
 Offset_0x04A280:
 		dc.b	$01, $03, $01, $06, $02, $08, $03, $01
@@ -51982,16 +51989,10 @@ Art_Rhinobot:
 		binclude	"data\aiz\rhinobot.dat"
 Art_Tulipon:
 		binclude	"data\aiz\tulipon.kmd"
-		align0 $4
-;		dc.w	$0000
 Art_Monkey_Dude:
 		binclude	"data\aiz\monkdude.kmd"
-;		cannot be replaced by align0
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Catakiller_Jr:
 		binclude	"data\aiz\catakljr.kmd"
-		align0 $6
-;		dc.w	$0000, $0000
 Art_Big_Shaker:
 		binclude	"data\hz\bigshakr.nem"
 		even
@@ -52005,19 +52006,14 @@ Art_Jawz:
 		binclude	"data\hz\jawz.kmd"
 Art_Mega_Chopper:
 		binclude	"data\hz\megachpr.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Blastoid:
 		binclude	"data\hz\blastoid.kmd"
-;		cannot be replaced by align0
-		dc.w	$0000, $0000
 Art_Turbo_Spiker:
 		binclude	"data\hz\turbospk.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Pointdexter:
 		binclude	"data\hz\pntdexter.kmd"
 Art_Tunnelbot:
 		binclude	"data\mgz\tunnelbt.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Spire:
 		binclude	"data\mgz\spire.nem"
 		even
@@ -52028,15 +52024,12 @@ Art_Drill_Mobile_Scaling:
 		binclude	"data\mgz\drillmob.dat"
 Art_Rocks:
 		binclude	"data\mgz\rocks.kmd"
-		dc.w	$0000, $0000
 Art_Bubbles:
 		binclude	"data\mgz\bubbles.dat"
 Art_Spiker:
 		binclude	"data\mgz\spiker.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Mantis:
 		binclude	"data\mgz\mantis.kmd"
-		dc.w	$0000
 Art_Bowling_Spin:
 		binclude	"data\cnz\bowlspin.nem"
 		even
@@ -52049,13 +52042,10 @@ Art_Spikeball:
 		binclude	"data\cnz\spikball.kmd"
 Art_Sparkle:
 		binclude	"data\cnz\sparkle.kmd"
-		dc.w	$0000, $0000
 Art_Batbot:
 		binclude	"data\cnz\batbot.kmd"
-		dc.w	$0000, $0000
 Art_Balloon:
 		binclude	"data\cnz\balloon.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Art_Gapsule:
 		binclude	"data\fbz\gapsule.nem"
 		even
@@ -52067,10 +52057,8 @@ Art_Hang_Mobile:
 		even
 Art_Blaster:
 		binclude	"data\fbz\blaster.kmd"
-		dc.w	$0000
 Art_Technosqueek:
 		binclude	"data\fbz\technosq.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Art_Iz_Ice_Platform_And_Miscellaneous:
 		binclude	"data\iz\ptfrmisc.nem"
 		even
@@ -52090,10 +52078,8 @@ Art_Penguinator:
 		binclude	"data\iz\pengntor.dat"
 Art_Ice_Block:
 		binclude	"data\iz\iceblock.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Art_Orbinaut:
 		binclude	"data\iz\orbinaut.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Art_Twin_Hammer:
 		binclude	"data\lbz\twinhamr.nem"
 		even
@@ -52102,19 +52088,14 @@ Art_Beam_Rocket:
 		even
 Art_Ball_Shooter:
 		binclude	"data\lbz\ballshtr.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Art_Snale_Blaster:
 		binclude	"data\lbz\snalebst.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Ribot:
 		binclude	"data\lbz\ribot.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Orbinaut_2:
 		binclude	"data\lbz\orbinaut.kmd"
-		dc.w	$0000
 Art_Corkey:
 		binclude	"data\lbz\corkey.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Flybot_767:
 		binclude	"data\lbz\flybt767.dat"
 Art_Twin_Hammer_Box:
@@ -52123,6 +52104,12 @@ Art_Twin_Hammer_Box:
 Art_LBz_Knuckles_Bomb:
 		binclude	"data\lbz\kte_bomb.nem"
 		even
+Art_Fireworm:
+		binclude	"data\lrz\Fireworm.unc"
+Art_Fireworm_segments:
+		binclude	"data\lrz\Fireworm Segments.kmd"
+		even
+
 Art_Boss_Explosion:
 		binclude	"data\art\bexplosn.nem"
 		even
@@ -52156,7 +52143,6 @@ Art_Knuckles_2:
 		binclude	"data\art\knuckls2.dat"
 Art_Tornado:
 		binclude	"data\art\tornado.kmd"
-		dc.w	$0000
 Art_AIz_Swinging_Vine:
 		binclude	"data\aiz\swngvine.nem"
 		even
@@ -52192,13 +52178,10 @@ Art_Hz_Water_Rush:
 		even
 Art_Hz_Large_Fan:
 		binclude	"data\hz\largefan.kmd"
-		dc.w	$0000, $0000, $0000
 Art_Hz_Geyser_Horizontal:
 		binclude	"data\hz\geyser_h.kmd"
-		dc.w	$0000, $0000
 Art_Hz_Geyser_Vertical:
 		binclude	"data\hz\geyser_v.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Art_Hz_Sliding_Tube:
 		binclude	"data\hz\slidtube.nem"
 		even
@@ -52275,49 +52258,34 @@ Art_EMz_Rock_And_Miscellaneous:
 ;-------------------------------------------------------------------------------
 Angel_Island_2_Boss_Ship:
 		binclude	"data\aiz\bossship.kmd"
-		dc.w	$0000
 Level_Results_Sonic:
 		binclude	"data\art\lr_sonic.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 Level_Results_Miles:
 		binclude	"data\art\lr_miles.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Level_Results_Tails:
 		binclude	"data\art\lr_tails.kmd"
-		dc.w	$0000
 Level_Results_Knuckles:
 		binclude	"data\art\lr_kte.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Title_Card_Results:
 		binclude	"data\art\tc_res.kmd"
-		dc.w	$0000, $0000, $0000
 Title_Card_Number_1:										   ; Offset_0x13AB6C
 		binclude	"data\art\tc_1.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Title_Card_Number_2:										   ; Offset_0x13AC2E
 		binclude	"data\art\tc_2.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 Title_Card_ZONE_ACT:										   ; Offset_0x13AD10
 		binclude	"data\art\tc_zone.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 TC_Angel_Island:											   ; Offset_0x13AEF2
 		binclude	"data\art\tc_aiz.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 TC_Hidrocity:												   ; Offset_0x13B004
 		binclude	"data\art\tc_hz.kmd"
-		dc.w	$0000, $0000, $0000
 TC_Marble_Garden:											   ; Offset_0x13B156
 		binclude	"data\art\tc_mgz.kmd"
-		dc.w	$0000
 TC_Carnival_Night:											   ; Offset_0x13B318
 		binclude	"data\art\tc_cnz.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 TC_Flying_Battery:											   ; Offset_0x13B4AA
 		binclude	"data\art\tc_fbz.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 TC_Icecap:													   ; Offset_0x13B60C
 		binclude	"data\art\tc_iz.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 TC_Launch_Base:												   ; Offset_0x13B6DE
 TC_Mushroom_Valley:											   ; Offset_0x13B6DE
 TC_Sandopolis:												   ; Offset_0x13B6DE
@@ -52326,7 +52294,6 @@ TC_Sky_Sanctuary:											   ; Offset_0x13B6DE
 TC_Death_Egg:												   ; Offset_0x13B6DE
 TC_The_Doomsday:											   ; Offset_0x13B6DE
 		binclude	"data\art\tc_lbz.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_1_Blocks:										   ; Offset_0x13B830
 		binclude	"data\aiz\bl_act1.kos"
 Angel_Island_1_Blocks_2:									   ; Offset_0x13BA30
@@ -52344,7 +52311,6 @@ Angel_Island_1_Chunks_2:									   ; Offset_0x143D96
 		binclude	"data\aiz\ck_act1.kos"
 Angel_Island_1_Flames:										   ; Offset_0x1476A6
 		binclude	"data\aiz\flames.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Angel_Island_2_Blocks:										   ; Offset_0x148128
 		binclude	"data\aiz\bl_act2.kos"
 Angel_Island_2_Blocks_2:									   ; Offset_0x1489A8
@@ -52520,59 +52486,44 @@ Balloon_Park_Blocks:										   ; Offset_0x197B30
 		binclude	"data\bpz\blocks.kos"
 Balloon_Park_Tiles:											   ; Offset_0x198400
 		binclude	"data\bpz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Balloon_Park_Chunks:										   ; Offset_0x19A3E2
 		binclude	"data\bpz\chunks.kos"
-		dc.w	$0000
 Desert_Palace_Blocks:										   ; Offset_0x19AAD2
 		binclude	"data\dpz\blocks.kos"
 Desert_Palace_Tiles:										   ; Offset_0x19B4B2
 		binclude	"data\dpz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Desert_Palace_Chunks:										   ; Offset_0x19CFA4
 		binclude	"data\dpz\chunks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000
 Chrome_Gadget_Blocks:										   ; Offset_0x19D5D4
 		binclude	"data\cgz\blocks.kos"
-		dc.w	$0000, $0000, $0000, $0000
 Chrome_Gadget_Tiles:										   ; Offset_0x19DD24
 		binclude	"data\cgz\tiles.kmd"
-		dc.w	$0000, $0000
 Chrome_Gadget_Chunks:										   ; Offset_0x1A02C6
 		binclude	"data\cgz\chunks.kos"
 Endless_Mine_Blocks:										   ; Offset_0x1A0786
 		binclude	"data\emz\blocks.kos"
 Endless_Mine_Tiles:											   ; Offset_0x1A1236
 		binclude	"data\emz\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 Endless_Mine_Chunks:										   ; Offset_0x1A3E68
 		binclude	"data\emz\chunks.kos"
-		dc.w	$0000, $0000
 BS_Gumball_Machine_Blocks:									   ; Offset_0x1A4578
 		binclude	"data\bs_gm\blocks.kos"
-		dc.w	$0000, $0000, $0000
 BS_Gumball_Machine_Tiles:									   ; Offset_0x1A4938
 		binclude	"data\bs_gm\tiles.kmd"
 BS_Gumball_Machine_Chunks:									   ; Offset_0x1A52AA
 		binclude	"data\bs_gm\chunks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 BS_Glowing_Spheres_Blocks:									   ; Offset_0x1A55FA
 		binclude	"data\bs_gs\blocks.kos"
-		dc.w	$0000
 BS_Glowing_Spheres_Tiles:									   ; Offset_0x1A589A
 		binclude	"data\bs_gs\tiles.kmd"
 BS_Glowing_Spheres_Chunks:									   ; Offset_0x1A680C
 		binclude	"data\bs_gs\chunks.kos"
-		dc.w	$0000, $0000
 BS_Slot_Machine_Blocks:										   ; Offset_0x1A6B0C
 		binclude	"data\bs_sm\blocks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
 BS_Slot_Machine_Tiles:										   ; Offset_0x1A77CC
 		binclude	"data\bs_sm\tiles.kmd"
-		dc.w	$0000, $0000, $0000, $0000
 BS_Slot_Machine_Chunks:										   ; Offset_0x1AA46E
 		binclude	"data\bs_sm\chunks.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000
 ;-------------------------------------------------------------------------------
 Left_Over_Lava_Reef_Blocks:
 		binclude	"data\lrz\Blocks.kos"
@@ -52587,21 +52538,19 @@ Left_Over_Azure_Lake_Tiles:
 Left_Over_Azure_Lake_Chunks:
 		binclude	"data\alz\chunks_1.kos"
 ;-------------------------------------------------------------------------------
-Left_Over_BS_Gumball_Machine_Blocks:                           ; Offset_0x1BAF10
+Left_Over_BS_Gumball_Machine_Blocks:
 		binclude	"data\bs_gm\blocks_1.kos"
-		dc.w	$0000, $0000, $0000
-Left_Over_BS_Gumball_Machine_Tiles:							   ; Offset_0x1BB2D0
+Left_Over_BS_Gumball_Machine_Tiles:
 		binclude	"data\bs_gm\tiles_1.kmd"
-Left_Over_BS_Gumball_Machine_Chunks:						   ; Offset_0x1BBC42
+Left_Over_BS_Gumball_Machine_Chunks:
 		binclude	"data\bs_gm\chunks_1.kos"
-		dc.w	$0000, $0000, $0000, $0000, $0000, $0000, $0000
-Water_Surface_Scroll_Data:                                     ; Offset_0x1C8000
+Water_Surface_Scroll_Data:
 		binclude	"data\hz\wsurfscr.dat"
-AngleMap:													   ; Offset_0x1C9040
+AngleMap:
 		binclude	"data\all\anglemap.dat"
-Collision_Array_1:											   ; Offset_0x1C9240
+Collision_Array_1:
 		binclude	"data\all\c_array1.dat"
-Collision_Array_2:											   ; Offset_0x1CB240
+Collision_Array_2:
 		binclude	"data\all\c_array2.dat"
 ;-------------------------------------------------------------------------------
 ; Offset_0x1CD240:
@@ -53009,56 +52958,59 @@ Palette_HCZ2Water:	binclude	"Levels/Hydrocity/Palettes/Act 2 - Underwater.bin"
 ; Offset_0x1E9D14:
 Palette_MGZ:		binclude	"Levels/Marble Garden/Palettes/Normal.bin"
 ; Offset_0x1E9D74:
-Palette_CNZ:		binclude	"Levels/Carnival Night/Palettes/Normal.bin"
+Palette_CNZ:
+		binclude	"Levels/Carnival Night/Palettes/Normal.bin"
 
-Pal_Flying_Battery_Act_1:									   ; Offset_0x1E9DD4
-Pal_Flying_Battery_Act_2:									   ; Offset_0x1E9DD4
+Pal_Flying_Battery_Act_1:									; Offset_0x1E9DD4
+Pal_Flying_Battery_Act_2:									; Offset_0x1E9DD4
 		binclude	"data\fbz\fbz.pal"
 
 ; Offset_0x1E9E34: See "Iz_1_Set_Indoor_Pal" as well
-Palette_ICZIndoors:	binclude	"Levels/IceCap/Palettes/Indoors.bin"
+Palette_ICZIndoors:
+		binclude	"Levels/IceCap/Palettes/Indoors.bin"
 ; Offset_0x1E9E94: See "Iz_1_Set_Intro_Pal" as well
-Palette_ICZOutdoors:	binclude	"Levels/IceCap/Palettes/Outdoors.bin"
+Palette_ICZOutdoors:
+		binclude	"Levels/IceCap/Palettes/Outdoors.bin"
 
-Pal_Launch_Base_Act_1:										   ; Offset_0x1E9EF4
+Pal_Launch_Base_Act_1:										; Offset_0x1E9EF4
 		binclude	"data\lbz\lbz_1.pal"
-Pal_Launch_Base_Act_1_Underwater:							   ; Offset_0x1E9F54
+Pal_Launch_Base_Act_1_Underwater:							; Offset_0x1E9F54
 		binclude	"data\lbz\lbz_1_uw.pal"
-Pal_Launch_Base_Act_2:										   ; Offset_0x1E9FD4
+Pal_Launch_Base_Act_2:										; Offset_0x1E9FD4
 		binclude	"data\lbz\lbz_2.pal"
-Pal_Launch_Base_Act_2_Underwater:							   ; Offset_0x1EA034
+Pal_Launch_Base_Act_2_Underwater:							; Offset_0x1EA034
 		binclude	"data\lbz\lbz_2_uw.pal"
-Pal_Launch_Base_Act_2_Underwater_2:							   ; Offset_0x1EA0B4
+Pal_Launch_Base_Act_2_Underwater_2:							; Offset_0x1EA0B4
 		binclude	"data\lbz\lbz2_uw2.pal"
-Pal_Mushroom_Valley_Act_1:									   ; Offset_0x1EA114
-Pal_Mushroom_Valley_Act_2:									   ; Offset_0x1EA114
-Pal_Sandopolis_Act_1:										   ; Offset_0x1EA114
-Pal_Sandopolis_Act_2:										   ; Offset_0x1EA114
-Pal_Lava_Reef_Act_1:										   ; Offset_0x1EA114
-Pal_Lava_Reef_Act_2:										   ; Offset_0x1EA114
-Pal_Sky_Sanctuary_Act_1:									   ; Offset_0x1EA114
-Pal_Sky_Sanctuary_Act_2:									   ; Offset_0x1EA114
-Pal_Death_Egg_Act_1:										   ; Offset_0x1EA114
-Pal_Death_Egg_Act_2:										   ; Offset_0x1EA114
-Pal_The_Doomsday_Act_1:										   ; Offset_0x1EA114
-Pal_The_Doomsday_Act_2:										   ; Offset_0x1EA114
-Pal_Ending_1:												   ; Offset_0x1EA114
-Pal_Ending_2:												   ; Offset_0x1EA114
-Pal_Azure_Lake:												   ; Offset_0x1EA114
+Pal_Mushroom_Valley_Act_1:									; Offset_0x1EA114
+Pal_Mushroom_Valley_Act_2:									; Offset_0x1EA114
+Pal_Sandopolis_Act_1:										; Offset_0x1EA114
+Pal_Sandopolis_Act_2:										; Offset_0x1EA114
+Pal_Lava_Reef_Act_1:										; Offset_0x1EA114
+Pal_Lava_Reef_Act_2:										; Offset_0x1EA114
+Pal_Sky_Sanctuary_Act_1:									; Offset_0x1EA114
+Pal_Sky_Sanctuary_Act_2:									; Offset_0x1EA114
+Pal_Death_Egg_Act_1:										; Offset_0x1EA114
+Pal_Death_Egg_Act_2:										; Offset_0x1EA114
+Pal_The_Doomsday_Act_1:										; Offset_0x1EA114
+Pal_The_Doomsday_Act_2:										; Offset_0x1EA114
+Pal_Ending_1:											; Offset_0x1EA114
+Pal_Ending_2:											; Offset_0x1EA114
+Pal_Azure_Lake:											; Offset_0x1EA114
 		binclude	"data\alz\alz.pal"
-Pal_Balloon_Park:											   ; Offset_0x1EA174
+Pal_Balloon_Park:										; Offset_0x1EA174
 		binclude	"data\bpz\bpz.pal"
-Pal_Desert_Palace:											   ; Offset_0x1EA1D4
+Pal_Desert_Palace:										; Offset_0x1EA1D4
 		binclude	"data\dpz\dpz.pal"
-Pal_Chrome_Gadget:											   ; Offset_0x1EA234
+Pal_Chrome_Gadget:										; Offset_0x1EA234
 		binclude	"data\cgz\cgz.pal"
-Pal_Endless_Mine:											   ; Offset_0x1EA294
+Pal_Endless_Mine:										; Offset_0x1EA294
 		binclude	"data\emz\emz.pal"
-Pal_Bonus_Stage_Gumball_Machine:							   ; Offset_0x1EA2F4
+Pal_Bonus_Stage_Gumball_Machine:							; Offset_0x1EA2F4
 		binclude	"data\bs_gm\bs_gm.pal"
-Pal_Bonus_Stage_Glowing_Spheres:							   ; Offset_0x1EA354
+Pal_Bonus_Stage_Glowing_Spheres:							; Offset_0x1EA354
 		binclude	"data\bs_gs\bs_gs.pal"
-Pal_Bonus_Stage_Slot_Machine:								   ; Offset_0x1EA3B4
+Pal_Bonus_Stage_Slot_Machine:								; Offset_0x1EA3B4
 		binclude	"data\bs_sm\bs_sm.pal"
 ;-------------------------------------------------------------------------------
 LRz_Rocks_Layout:
@@ -53124,7 +53076,7 @@ Player_Start_Position_Array:								   ; Offset_0x1F7018
 ; Array do posicionamento dos objetos das fases
 ; ->>>
 ;===============================================================================
-Objects_Layout:												   ; Offset_0x1F70D8
+Objects_Layout:
 		dc.l	AIz_Obj_Act1						   ; Offset_0x1F72DE
 		dc.l	AIz_Obj_Act2						   ; Offset_0x1F75C6
 		dc.l	Hz_Obj_Act1							   ; Offset_0x1F7F46
@@ -53182,7 +53134,7 @@ Objects_Layout:												   ; Offset_0x1F70D8
 ; Array do posicionamento dos an�is das fases
 ; ->>>
 ;===============================================================================
-Rings_Layout:												   ; Offset_0x1F7198
+Rings_Layout:
 		dc.l	AIz_Rng_Act1						   ; Offset_0x1F7A4C
 		dc.l	AIz_Rng_Act2						   ; Offset_0x1F7BE4
 		dc.l	Hz_Rng_Act1							   ; Offset_0x1F8FA8
@@ -53240,7 +53192,7 @@ Rings_Layout:												   ; Offset_0x1F7198
 ; Ponteiro para origem e destino dos tuneis trasportadores usados na LBz de
 ; ->>>	   acordo com o sub-tipo do objeto
 ;===============================================================================
-LBz_Automatic_Tunnel_From_To_Data:							   ; Offset_0x1F7258
+LBz_Automatic_Tunnel_From_To_Data:
 		dc.l	Teleport_Data_0x00					   ; Offset_0x1FF0C8
 		dc.l	Teleport_Data_0x01					   ; Offset_0x1FF0F2
 		dc.l	Teleport_Data_0x02					   ; Offset_0x1FF11C
