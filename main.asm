@@ -6013,58 +6013,14 @@ Unused_Water_Transistion_End
 ; Rotina de controle autom�tico do jogador usado no modo de demonstra��o
 ; ->>>
 ;===============================================================================
-Init_Demo_Control:											   ; Offset_0x0047F6
-		tst.w	(Auto_Control_Player_Flag).w				 ; $FFFFFFF0
-		bne.w	Run_Demo_Mode						   ; Offset_0x004884
+Init_Demo_Control:
+		tst.w	(Auto_Control_Player_Flag).w
+		beq.w	return_48DC
 		rts
 ;-------------------------------------------------------------------------------
-; Offset_0x004800: ; Sonic 2 Left over
-		lea	(Demo_Index).l,a1						; Offset_0x00491E
-		moveq	#0,d0
-		move.b	(Current_Zone).w,d0								; $FFFFFE10
-		lsl.w	#2,d0
-		move.l	(A1,d0),a1
-		move.w	(Demo_Button_Index).w,d0					; $FFFFF790
-		adda.w	D0,a1
-		move.b	(Control_Ports_Buffer_Data).w,d0			; $FFFFF604
-		cmp.b	(A1),d0
-		bne.s	Offset_0x00482E
-		addq.b	#1,1(A1)
-		cmpi.b	#$FF,1(A1)
-		beq.s	Offset_0x00482E
-		bra.s	Offset_0x004842
-Offset_0x00482E:
-		move.b	d0,2(A1)
-		move.b	#0,3(A1)
-		addq.w	#2,(Demo_Button_Index).w				  ; $FFFFF790
-		andi.w	#$3FF,(Demo_Button_Index).w				   ; $FFFFF790
-Offset_0x004842:
-		rts
-;-------------------------------------------------------------------------------
-; Offset_0x004844: ; Sonic 2 Left over
-		cmpi.b	#S2_EHz_Id,(Current_Zone).w				   ; $00, $FFFFFE10
-		bne.s	Offset_0x004882
-		lea	((Dev_RAM_Start+$C000)&$FFFFFF).l,a1			 ; $00FEC000
-		move.w	(Demo_Button_Index_2P).w,d0					; $FFFFF732
-		adda.w	D0,a1
-		move.b	(Control_Ports_Buffer_Data+2).w,d0		  ; $FFFFF606
-		cmp.b	(A1),d0
-		bne.s	Offset_0x00486E
-		addq.b	#1,1(A1)
-		cmpi.b	#$FF,1(A1)
-		beq.s	Offset_0x00486E
-		bra.s	Offset_0x004882
-Offset_0x00486E:
-		move.b	d0,2(A1)
-		move.b	#0,3(A1)
-		addq.w	#2,(Demo_Button_Index_2P).w				  ; $FFFFF732
-		andi.w	#$3FF,(Demo_Button_Index_2P).w			   ; $FFFFF732
-Offset_0x004882:
-		rts
-;-------------------------------------------------------------------------------
-Run_Demo_Mode:												   ; Offset_0x004884
-		move.b	(Control_Ports_Buffer_Data+1).w,d0		  ; $FFFFF605
-		or.b	(Control_Ports_Buffer_Data+3).w,d0		  ; $FFFFF607
+Run_Demo_Mode:
+		move.b	(Control_Ports_Buffer_Data+1).w,d0
+		or.b	(Control_Ports_Buffer_Data+3).w,d0
 		andi.b	#button_start_mask,d0
 		beq.s	Offset_0x00489E
 		tst.w	(Auto_Control_Player_Flag).w
