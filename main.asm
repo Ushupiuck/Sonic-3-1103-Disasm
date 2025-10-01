@@ -53610,23 +53610,17 @@ Left_Over_Pal_Angel_Island_Act_1_2:		binclude	"Levels/Angel Island/Palettes/Act 
 Left_Over_Pal_Bonus_Stage_Gumball_Machine:					   ; Offset_0x1F326E
 		binclude	"data\bs_gm\bs_gm.pal"
 Offset_0x1F32CE:
-		dc.w	$0886, $0EEE, $04AE, $026E, $024A, $00EE, $000E, $0224
-		dc.w	$00AE, $008E, $08AE, $0020, $0ECC, $0CAA, $0866, $0020
+		binclude	"temp\Unknown palette 1.bin"
 Offset_0x1F32EE:
-		dc.w	$0EE0, $0EEE, $006E, $004A, $0028, $00EE, $0000, $00E0
-		dc.w	$00A0, $0060, $0020, $0020, $0EA8, $0A60, $0640, $0000
+		binclude	"temp\CNZ boss (earlier).pal"
 Offset_0x1F330E:
-		dc.w	$0EE0, $0EEE, $0CCC, $0888, $0666, $00EE, $000E, $0224
-		dc.w	$00CE, $00AE, $004A, $0222, $0AAA, $0864, $0642, $0000
+		binclude	"temp\LBZ miniboss (earlier).pal"
 Offset_0x1F332E:
-		dc.w	$00EE, $0EEE, $068C, $046A, $0246, $00EE, $0088, $0000
-		dc.w	$08AC, $068C, $0448, $0222, $02AC, $004A, $0224, $0222
+		binclude	"temp\Unknown palette 4.bin"
 Offset_0x1F334E:
-		dc.w	$00EE, $0EEE, $0000, $0000, $0000, $0000, $0000, $0224
-		dc.w	$06AE, $004C, $0228, $0222, $0EAA, $0A64, $0642, $0020
+		binclude	"temp\Unknown palette 5.bin"
 Offset_0x1F336E:
-		dc.w	$0886, $0EEE, $0000, $0000, $00E0, $00EE, $000E, $0224
-		dc.w	$00AE, $008E, $024A, $0222, $0EAA, $0A64, $0642, $0000
+		binclude	"temp\Unknown palette 6.bin"
 Offset_0x1F338E:
 ;-------------------------------------------------------------------------------
 Left_Over_LRz_Rocks_Layout:									   ; Offset_0x1F338E
