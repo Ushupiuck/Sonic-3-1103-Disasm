@@ -40041,7 +40041,6 @@ Fireworm_Init2:
 		jsr	(SetupSlottedObjectAttributes).l
 ; Offset_0x04A03C:
 Fireworm_TrackSonic:
-	;	jmp	(Run_Object_Wait_Timer_A0).l	; this was seemingly added to crash the game if it loads...
 		move.b	#4,Obj_Routine(a0)
 		move.w	#3,Obj_Timer(a0)
 		move.l	#Fireworm_LoadChild,Obj_Child(a0)
