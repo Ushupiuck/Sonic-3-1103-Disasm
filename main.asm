@@ -39988,7 +39988,7 @@ Obj90_Fireworm:
 ; Offset_0x049FD0:
 Fireworm_Index:	dc.w Fireworm_Init-Fireworm_Index
 		dc.w Fireworm_Main-Fireworm_Index
-		dc.w Fireworm_Action-2-Fireworm_Index
+		dc.w return_4A008-Fireworm_Index
 ; ===========================================================================
 ; Offset_0x049FD6:
 Fireworm_Init:
@@ -40007,12 +40007,14 @@ Offset_0x049FEE:
 		move.b	#4,Obj_Routine(a0)
 		lea	Offset_0x04A256(pc),a2
 		jsr	(SetupChildObject).l
-		bne.s	Offset_0x04A006
+		bne.s	return_4A006
 		move.b	Obj_Subtype(a0),Obj_Subtype(a1)
 
-Offset_0x04A006:
+return_4A006:
 		rts
 ; ---------------------------------------------------------------------------
+
+return_4A008:
 		rts
 ; ===========================================================================
 ; Offset_0x04A008:
@@ -40036,7 +40038,7 @@ Fireworm_Index2:
 ; Offset_0x04A032:
 Fireworm_Init2:
 		lea	Fireworm_Setup_Data_2(pc),a1
-		jsr	(SetupSlottedObjectAttributes)
+		jsr	(SetupSlottedObjectAttributes).l
 ; Offset_0x04A03C:
 Fireworm_TrackSonic:
 	;	jmp	(Run_Object_Wait_Timer_A0).l	; this was seemingly added to crash the game if it loads...
@@ -52143,6 +52145,7 @@ Art_Knuckles_2:
 		binclude	"data\art\knuckls2.dat"
 Art_Tornado:
 		binclude	"data\art\tornado.kmd"
+		binclude	"data\art\intro plane shadows.kos"
 Art_AIz_Swinging_Vine:
 		binclude	"data\aiz\swngvine.nem"
 		even
@@ -53021,23 +53024,17 @@ LRz_Map_Act_1:
 		binclude	"data\lrz\Level Layout - Act 1.dat"
 ;-------------------------------------------------------------------------------
 Offset_0x1F32CE:
-		dc.w	$0886, $0EEE, $04AE, $026E, $024A, $00EE, $000E, $0224
-		dc.w	$00AE, $008E, $08AE, $0020, $0ECC, $0CAA, $0866, $0020
+		binclude	"temp\LRZ object palette (earlier).pal"
 Offset_0x1F32EE:
-		dc.w	$0EE0, $0EEE, $006E, $004A, $0028, $00EE, $0000, $00E0
-		dc.w	$00A0, $0060, $0020, $0020, $0EA8, $0A60, $0640, $0000
+		binclude	"temp\CNZ boss (earlier).pal"
 Offset_0x1F330E:
-		dc.w	$0EE0, $0EEE, $0CCC, $0888, $0666, $00EE, $000E, $0224
-		dc.w	$00CE, $00AE, $004A, $0222, $0AAA, $0864, $0642, $0000
+		binclude	"temp\LBZ miniboss (earlier).pal"
 Offset_0x1F332E:
-		dc.w	$00EE, $0EEE, $068C, $046A, $0246, $00EE, $0088, $0000
-		dc.w	$08AC, $068C, $0448, $0222, $02AC, $004A, $0224, $0222
+		binclude	"temp\LBZ miniboss (earliest).pal"
 Offset_0x1F334E:
-		dc.w	$00EE, $0EEE, $0000, $0000, $0000, $0000, $0000, $0224
-		dc.w	$06AE, $004C, $0228, $0222, $0EAA, $0A64, $0642, $0020
+		binclude	"temp\LBZ boss 1 (earlier).pal"
 Offset_0x1F336E:
-		dc.w	$0886, $0EEE, $0000, $0000, $00E0, $00EE, $000E, $0224
-		dc.w	$00AE, $008E, $024A, $0222, $0EAA, $0A64, $0642, $0000
+		binclude	"temp\MVZ miniboss (earlier).pal"
 ;-------------------------------------------------------------------------------
 		align	 $1000	; $FF Fill
 ;-------------------------------------------------------------------------------

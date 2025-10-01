@@ -1,6 +1,6 @@
 ; Constants
-Compiler_Place_Holder	= 0
-Check_Interrupt	= $20800C
+Compiler_Place_Holder		= 0
+Check_Interrupt			= $20800C
 Size_of_Snd_driver_guess	= $1852
 
 ; ---------------------------------------------------------------------------
@@ -20,12 +20,12 @@ PSG_Sample_Rate = Z80_Clock/16
 ; so switching them around is considerably more difficult
 
 ; GAME MODE
-gm_SEGALogo	= 0
-gm_TitleScreen	= 4
-gm_DemoMode	= 8
-gm_PlayMode	= $C
+gm_SEGALogo		= 0
+gm_TitleScreen		= 4
+gm_DemoMode		= 8
+gm_PlayMode		= $C
 gm_S2_SpecialStage	= $10
-gm_Continue	= $14
+gm_Continue		= $14
 gm_S2_Versus_Mode_Menu	= $1C
 gm_S2_Options_Menu	= $24
 gm_Level_Select_Menu	= $28
@@ -76,10 +76,10 @@ Obj_Height	= $06     ; Byte
 Obj_Width	= $07     ; Byte          ; 19          ; 07
 Obj_Priority	= $08     ; Word          ; 18          ; 08..09
 Obj_Art_VRAM	= $0A     ; Word          ; 02..03      ; 0A..0B
-Obj_Map	= $0C     ; Longword      ; 04..07      ; 0C..0F
-Obj_X	= $10     ; Word          ; 08..09      ; 10..11
+Obj_Map		= $0C     ; Longword      ; 04..07      ; 0C..0F
+Obj_X		= $10     ; Word          ; 08..09      ; 10..11
 Obj_Sub_X	= $12     ; Word          ; 0A..0B      ; 12..13  ; Fixed position
-Obj_Y	= $14     ; Word          ; 0C..0D      ; 14..15
+Obj_Y		= $14     ; Word          ; 0C..0D      ; 14..15
 Obj_Sub_Y	= $16     ; Word          ; 0E..0F      ; 16..17
 Obj_Speed_X	= $18     ; Longword      ; 10..13      ; 18..1B
 Obj_Speed_Y	= $1A     ; complemento do $18 as vezes referenciado em word ; 12..13 ; 1A..1B
@@ -95,19 +95,19 @@ Obj_Ani_Time_2	= $25     ; Byte          ; 1F          ; 25   ; Usado por alguns
 Obj_Angle	= $26     ; Byte          ; $26         ; $26
 Obj_Flip_Angle	= $27     ; Byte          ; $27         ; $27
 Obj_Col_Flags	= $28     ; Byte          ; 20          ; 28   ; Collision Flags
-Obj_Col_Prop	= $29     ; Byte          ; 21          ; 29 
+Obj_Col_Prop	= $29     ; Byte          ; 21          ; 29
 Obj_Status	= $2A     ; Byte          ; 22          ; 2A
 Obj_Status_2	= $2B     ; Byte
 Obj_Subtype	= $2C     ; Byte          ; 28          ; 2C
 Obj_Flags_2	= $2D     ; Byte          ; 29          ; 2D
 Obj_Timer	= $2E     ; Word          ; 2A..2B      ; 2E..2F
-Obj_Timer_2	= $2F 
-Obj_Child_Data	= $30  
-Obj_Child	= $34 
+Obj_Timer_2	= $2F
+Obj_Child_Data	= $30
+Obj_Child	= $34
 Obj_Destr_Flag	= $3D     ; Byte          ; 39          ; 3D
-Obj_Parent_Ref	= $3E     ; Word          ; 3E..3F      ; 3E..3F     
-Obj_Height_3	= $44 
-Obj_Width_3	= $45 
+Obj_Parent_Ref	= $3E     ; Word          ; 3E..3F      ; 3E..3F
+Obj_Height_3	= $44
+Obj_Width_3	= $45
 Obj_Child_Ref	= $46
 Obj_Respaw_Ref	= $48     ; Word          ; None        ; 48..49
 
@@ -118,7 +118,7 @@ Obj_Control_Var_00	= $30
 Obj_Control_Var_01	= $31
 Obj_Control_Var_02	= $32
 Obj_Control_Var_03	= $33
-Obj_Control_Var_04	= $34 
+Obj_Control_Var_04	= $34
 Obj_Control_Var_05	= $35
 Obj_Control_Var_06	= $36
 Obj_Control_Var_07	= $37
@@ -134,34 +134,34 @@ Obj_Player_One_Or_Two	= $3F
 Obj_Control_Var_10	= $40
 Obj_Control_Var_11	= $41
 Obj_Control_Var_12	= $42
-Obj_Control_Var_13	= $43  
+Obj_Control_Var_13	= $43
 Obj_Player_One_Or_Two_2	= $43
-Obj_Control_Var_14	= $44  
-Obj_Control_Var_16	= $46  
+Obj_Control_Var_14	= $44
+Obj_Control_Var_16	= $46
 
 ; Variaveis usadas pelos jogadores
-Obj_Player_Flip_Flag  = $2D     ; Byte          ; 29          ; 2D
-Obj_Player_Control    = $2E     ; Byte          ; 2A          ; 2E 
-Obj_Player_Status     = $2F     ; Byte          ; 2B          ; 2F
-Obj_P_Flips_Remaining = $30     ; Byte          ; 2C          ; 30   
-Obj_Player_Flip_Speed = $31     ; Byte          ; 2D          ; 31
-Obj_P_Horiz_Ctrl_Lock = $32     ; Word          ; 2E..2F      ; 32..33  
-Obj_P_Invunerblt_Time = $34     ; Word / Byte   ; 30..31      ; 34
-Obj_P_Invcbility_Time = $35     ; Word / Byte   ; 32..33      ; 35
-Obj_P_Spd_Shoes_Time  = $36     ; Word / Byte   ; 34..35      ; 36
-Obj_Player_Hit_Flag   = $37     ; Byte                        ; 37
-Obj_Player_Selected   = $38     ; Byte                        ; 38  0 Sonic 1 Miles 2 Knuckles
-Obj_Look_Up_Down_Time = $39     ; Byte                        ; 39 
-Obj_Player_Next_Tilt  = $3A     ; Byte          ; 36          ; 3A
-Obj_Player_Tilt       = $3B     ; Byte          ; 37          ; 3B
-Obj_Player_St_Convex  = $3C     ; Byte          ; 38          ; 3C
-Obj_Player_Spdsh_Flag = $3D     ; Byte          ; 39          ; 3D
-Obj_Player_Spdsh_Cnt  = $3E     ; Byte          ; 3A          ; 3E
-Obj_Player_Jump       = $40     ; Byte          ; 3C          ; 40   
-Obj_Player_Angle_Flag = $41
-Obj_Player_Last       = $42     ; Byte / Word   ; 3D          ; 42..43
-Obj_Player_Top_Solid  = $46     ; Byte          ; 3E          ; 46
-Obj_Player_LRB_Solid  = $47     ; Byte          ; 3F          ; 47 ; Left / Right / Bottom
+Obj_Player_Flip_Flag	= $2D     ; Byte          ; 29          ; 2D
+Obj_Player_Control	= $2E     ; Byte          ; 2A          ; 2E
+Obj_Player_Status	= $2F     ; Byte          ; 2B          ; 2F
+Obj_P_Flips_Remaining	= $30     ; Byte          ; 2C          ; 30
+Obj_Player_Flip_Speed	= $31     ; Byte          ; 2D          ; 31
+Obj_P_Horiz_Ctrl_Lock	= $32     ; Word          ; 2E..2F      ; 32..33
+Obj_P_Invunerblt_Time	= $34     ; Word / Byte   ; 30..31      ; 34
+Obj_P_Invcbility_Time	= $35     ; Word / Byte   ; 32..33      ; 35
+Obj_P_Spd_Shoes_Time	= $36     ; Word / Byte   ; 34..35      ; 36
+Obj_Player_Hit_Flag	= $37     ; Byte                        ; 37
+Obj_Player_Selected	= $38     ; Byte                        ; 38  0 Sonic 1 Miles 2 Knuckles
+Obj_Look_Up_Down_Time	= $39     ; Byte                        ; 39
+Obj_Player_Next_Tilt	= $3A     ; Byte          ; 36          ; 3A
+Obj_Player_Tilt		= $3B     ; Byte          ; 37          ; 3B
+Obj_Player_St_Convex	= $3C     ; Byte          ; 38          ; 3C
+Obj_Player_Spdsh_Flag	= $3D     ; Byte          ; 39          ; 3D
+Obj_Player_Spdsh_Cnt	= $3E     ; Byte          ; 3A          ; 3E
+Obj_Player_Jump		= $40     ; Byte          ; 3C          ; 40
+Obj_Player_Angle_Flag	= $41
+Obj_Player_Last		= $42     ; Byte / Word   ; 3D          ; 42..43
+Obj_Player_Top_Solid	= $46     ; Byte          ; 3E          ; 46
+Obj_Player_LRB_Solid	= $47     ; Byte          ; 3F          ; 47 ; Left / Right / Bottom
 
 ; Variables used by bosses
 Obj_LeftLock		= $1C
@@ -170,16 +170,16 @@ Obj_Boss_Hit		= $29
 Obj_BossMusicTimer	= $2E
 
 ; Status dos jogadores. Também usado pelos escudos para proteção
-Classic_Type       = 0
-Invincibility_Type = 1
-Speed_Type         = 2
-Projectile_Type    = 3 
-Fire_Type          = 4 
-Lightning_Type     = 5 
-Water_Type         = 6
+Classic_Type		= 0
+Invincibility_Type	= 1
+Speed_Type		= 2
+Projectile_Type		= 3
+Fire_Type		= 4
+Lightning_Type		= 5
+Water_Type		= 6
 
-Acceleration = 2
-Deceleration = 4
+Acceleration		= 2
+Deceleration		= 4
 
 Max_Dynamic_Objects   = ((Obj_Dynamic_RAM_End-Obj_Dynamic_RAM)/Obj_Size)-1
 
@@ -256,7 +256,7 @@ cmd_StopSEGA =			$FE		; $FE - Stop SEGA sound
 cmd_SEGA =			$FF		; $FF - Play SEGA sound
 	dephase
 
-cmd_FadeOutUnk =	$D0
+cmd_FadeOutUnk =		$D0
 
 ; ---------------------------------------------------------------------------
 ; Music ID's list. These do not affect the sound driver, be careful.
@@ -286,32 +286,32 @@ mus_LRZ2			ds.b 1		; $14
 mus_SSZ				ds.b 1		; $15
 mus_DEZ1			ds.b 1		; $16
 mus_DEZ2			ds.b 1		; $17
-mus_Miniboss		ds.b 1		; $18
+mus_Miniboss			ds.b 1		; $18
 mus_EndBoss			ds.b 1		; $19
 mus_DDZ				ds.b 1		; $1A
-mus_Pachinko		ds.b 1		; $1B
-mus_SpecialStage	ds.b 1		; $1C
+mus_Pachinko			ds.b 1		; $1B
+mus_SpecialStage		ds.b 1		; $1C
 mus_Slots			ds.b 1		; $1D
 mus_Gumball			ds.b 1		; $1E
-mus_Knuckles		ds.b 1		; $1F
+mus_Knuckles			ds.b 1		; $1F
 mus_ALZ				ds.b 1		; $20
 mus_BPZ				ds.b 1		; $21
 mus_DPZ				ds.b 1		; $22
 mus_CGZ				ds.b 1		; $23
 mus_EMZ				ds.b 1		; $24
-mus_TitleScreen		ds.b 1		; $25
+mus_TitleScreen			ds.b 1		; $25
 mus_Credits			ds.b 1		; $26
-mus_GameOver		ds.b 1		; $27
-mus_Continue		ds.b 1		; $28
-mus_GotThroughAct	ds.b 1		; $29
-mus_ExtraLife		ds.b 1		; $2A
+mus_GameOver			ds.b 1		; $27
+mus_Continue			ds.b 1		; $28
+mus_GotThroughAct		ds.b 1		; $29
+mus_ExtraLife			ds.b 1		; $2A
 mus_Emerald			ds.b 1		; $2B
-mus_Invincibility	ds.b 1		; $2C
+mus_Invincibility		ds.b 1		; $2C
 mus_CompetitionMenu		ds.b 1		; $2D
 mus_Unused			ds.b 1		; $2E
-mus_DataSelect		ds.b 1		; $2F
-mus_FinalBoss		ds.b 1		; $30
-mus_Drowning		ds.b 1		; $31
+mus_DataSelect			ds.b 1		; $2F
+mus_FinalBoss			ds.b 1		; $30
+mus_Drowning			ds.b 1		; $31
 mus__End =			*		; next ID after last music
 	dephase
 
@@ -320,7 +320,7 @@ mus_ExtraLifeUnk =	$34
 mus_S2ExtraLife =	$98
 mus_S2Drowning =	$9F
 
-; Músicas 
+; Músicas
 Angel_Island_1_Snd       = mus_AIZ1
 Angel_Island_2_Snd       = mus_AIZ2
 Hydrocity_1_Snd          = mus_HCZ1
@@ -400,155 +400,155 @@ sfx_FlyTired			ds.b 1		; $49
 sfx_Blast			ds.b 1		; $4A
 sfx_Thump			ds.b 1		; $4B
 sfx_Grab			ds.b 1		; $4C
-sfx_Waterfall		ds.b 1		; $4D
+sfx_Waterfall			ds.b 1		; $4D
 sfx_SlideSkidLoud		ds.b 1		; $4E
 sfx_WaterfallSplash		ds.b 1		; $4F
 sfx_GlideLand			ds.b 1		; $50
 sfx_Projectile			ds.b 1		; $51
 sfx_MissileExplode		ds.b 1		; $52
 sfx_FlamethrowerQuiet		ds.b 1		; $53
-sfx_LargeShip		ds.b 1		; $54
+sfx_LargeShip			ds.b 1		; $54
 sfx_BossActivate		ds.b 1		; $55
 sfx_MissileThrow		ds.b 1		; $56
 sfx_RobotnikSiren		ds.b 1		; $57
-sfx_SpikeMove		ds.b 1		; $58
-sfx_Charging		ds.b 1		; $59
-sfx_BossLaser		ds.b 1		; $5A
+sfx_SpikeMove			ds.b 1		; $58
+sfx_Charging			ds.b 1		; $59
+sfx_BossLaser			ds.b 1		; $5A
 sfx_BlockConveyor		ds.b 1		; $5B
-sfx_FlipBridge		ds.b 1		; $5C
-sfx_Geyser		ds.b 1		; $5D
-sfx_BossRotate		ds.b 1		; $5E
-sfx_FanBig		ds.b 1		; $5F
-sfx_FanSmall		ds.b 1		; $60
-sfx_FanLatch		ds.b 1		; $61
-sfx_Collapse		ds.b 1		; $62
+sfx_FlipBridge			ds.b 1		; $5C
+sfx_Geyser			ds.b 1		; $5D
+sfx_BossRotate			ds.b 1		; $5E
+sfx_FanBig			ds.b 1		; $5F
+sfx_FanSmall			ds.b 1		; $60
+sfx_FanLatch			ds.b 1		; $61
+sfx_Collapse			ds.b 1		; $62
 sfx_UnknownCharge		ds.b 1		; $63
-sfx_Switch		ds.b 1		; $64
+sfx_Switch			ds.b 1		; $64
 sfx_FlamethrowerLoud		ds.b 1		; $65
-sfx_MechaSpark		ds.b 1		; $66
-		ds.b 1		; $67
-sfx_FloorThump		ds.b 1		; $68
-sfx_Laser		ds.b 1		; $69
-sfx_BossPanic		ds.b 1		; $6A
-sfx_UnknownSpin		ds.b 1		; $6B
-sfx_Crash		ds.b 1		; $6C
-sfx_BossZoom		ds.b 1		; $6D
+sfx_MechaSpark			ds.b 1		; $66
+				ds.b 1		; $67
+sfx_FloorThump			ds.b 1		; $68
+sfx_Laser			ds.b 1		; $69
+sfx_BossPanic			ds.b 1		; $6A
+sfx_UnknownSpin			ds.b 1		; $6B
+sfx_Crash			ds.b 1		; $6C
+sfx_BossZoom			ds.b 1		; $6D
 sfx_BossHitFloor		ds.b 1		; $6E
 sfx_BossHitFloor2		ds.b 1		; $6F
-sfx_Jump		ds.b 1		; $70
-sfx_Starpost	ds.b 1		; $71
-sfx_PulleyGrab	ds.b 1		; $72
-sfx_Death2		ds.b 1		; $73
-sfx_Skid2		ds.b 1		; $74
-sfx_LevelProjectile	ds.b 1		; $75
-sfx_SpikeHit2	ds.b 1		; $76
-sfx_PushBlock	ds.b 1		; $77
-sfx_Goal		ds.b 1		; $78
-sfx_ActionBlock	ds.b 1		; $79
-sfx_Splash2		ds.b 1		; $7A
-sfx_UnknownShift	ds.b 1		; $7B
-sfx_BossHit		ds.b 1		; $7C
-sfx_Bubble2		ds.b 1		; $7D
-sfx_LavaBall	ds.b 1		; $7E
-sfx_Shield2		ds.b 1		; $7F
-sfx_Hoverpad	ds.b 1		; $80
-sfx_Transporter	ds.b 1		; $81
-sfx_TunnelBooster	ds.b 1		; $82
-sfx_BalloonPlatform	ds.b 1		; $83
-		ds.b 1		; $84
-sfx_TrapDoor	ds.b 1		; $85
-sfx_Balloon		ds.b 1		; $86
-sfx_CannonTurn	ds.b 1		; $87
-sfx_GravityMachine	ds.b 1		; $88
-sfx_Lightning	ds.b 1		; $89
-sfx_BossMagma	ds.b 1		; $8A
-sfx_SmallBumpers	ds.b 1		; $8B
-sfx_ChainTension	ds.b 1		; $8C
-sfx_UnknownPump		ds.b 1		; $8D
-sfx_SlideSkidQuiet	ds.b 1		; $8E
-sfx_GroundSlide		ds.b 1		; $8F
-sfx_SpikeBalls	ds.b 1		; $90
-sfx_FrostPuff	ds.b 1		; $91
-sfx_IceSpikes	ds.b 1		; $92
-sfx_LightTunnel	ds.b 1		; $93
-sfx_Rumble	ds.b 1		; $94
-sfx_TubeLauncher	ds.b 1		; $95
-		ds.b 1		; $96
-sfx_BridgeCollapse	ds.b 1		; $97
-sfx_BigRumble	ds.b 1		; $98
-sfx_UnknownPowerUp	ds.b 1		; $99
-sfx_UnknownPowerDown	ds.b 1		; $9A
-sfx_Alarm	ds.b 1		; $9B
-sfx_DeathEggRiseLoud	ds.b 1		; $9C
-sfx_WindQuiet	ds.b 1		; $9D
-sfx_WindLoud	ds.b 1		; $9E
-sfx_MushroomBounce	ds.b 1		; $9F
-sfx_PulleyMove	ds.b 1		; $A0
-sfx_WeatherMachine	ds.b 1		; $A1
-sfx_Bouncy	ds.b 1		; $A2
-sfx_ChopTree	ds.b 1		; $A3
-sfx_Rising	ds.b 1		; $A4
-sfx_ChopStuck	ds.b 1		; $A5
-sfx_UnknownFlutter	ds.b 1		; $A6
-sfx_UnknownRevving	ds.b 1		; $A7
-sfx_DoorOpen	ds.b 1		; $A8
-sfx_DoorMove	ds.b 1		; $A9
-sfx_DoorClose	ds.b 1		; $AA
-sfx_GhostAppear	ds.b 1		; $AB
-sfx_BossRecovery	ds.b 1		; $AC
-sfx_ChainTick	ds.b 1		; $AD
-sfx_GumballTab	ds.b 1		; $AE
-sfx_BossHand	ds.b 1		; $AF
-sfx_MechaLand	ds.b 1		; $B0
-sfx_EnemyBreath	ds.b 1		; $B1
-sfx_DeathEggRiseQuiet	ds.b 1		; $B2
-sfx_BossProjectile	ds.b 1		; $B3
-		ds.b 1		; $B4
-sfx_LavaFall	ds.b 1		; $B5
-sfx_SpringLatch	ds.b 1		; $B6
-sfx_ThumpBoss	ds.b 1		; $B7
-sfx_SuperEmerald	ds.b 1		; $B8
-sfx_Targeting	ds.b 1		; $B9
-sfx_Clank	ds.b 1		; $BA
-sfx_SuperTransform	ds.b 1		; $BB
-sfx_UnknownZap	ds.b 1		; $BC
-sfx_MissileShoot	ds.b 1		; $BD
-sfx_UnknownOminous	ds.b 1		; $BE
-sfx_ConveyorPlatform	ds.b 1		; $BF
-sfx_UnknownSaw	ds.b 1		; $C0
-		ds.b 1		; $C1
-sfx_GravityLift	ds.b 1		; $C2
-sfx_MechaTransform	ds.b 1		; $C3
-sfx_UnknownRise	ds.b 1		; $C4
-sfx_MagneticSpike	ds.b 1		; $C5
-sfx_LeafBlower	ds.b 1		; $C6
-sfx_LaunchGrab	ds.b 1		; $C7
-sfx_LaunchReady	ds.b 1		; $C8
-sfx_EnergyZap	ds.b 1		; $C9
-sfx_Jump2		ds.b 1		; $CA
-sfx_Bumper		ds.b 1		; $CB
-sfx_Spindash	ds.b 1		; $CC
-sfx_Continue	ds.b 1		; $CD
-sfx_Starpost2	ds.b 1		; $CE
-sfx_Flipper		ds.b 1		; $CF
-sfx_EnterSS		ds.b 1		; $D0
-sfx_Register	ds.b 1		; $D1
-sfx_Spring		ds.b 1		; $D2
-sfx_Error		ds.b 1		; $D3
-sfx_BigRing		ds.b 1		; $D4
-sfx_BossHit2	ds.b 1		; $D5
-sfx_Diamonds	ds.b 1		; $D6
-sfx_Dash	ds.b 1		; $D7
-sfx_SlotMachine	ds.b 1		; $D8
-sfx_Signpost	ds.b 1		; $D9
+sfx_Jump			ds.b 1		; $70
+sfx_Starpost			ds.b 1		; $71
+sfx_PulleyGrab			ds.b 1		; $72
+sfx_Death2			ds.b 1		; $73
+sfx_Skid2			ds.b 1		; $74
+sfx_LevelProjectile		ds.b 1		; $75
+sfx_SpikeHit2			ds.b 1		; $76
+sfx_PushBlock			ds.b 1		; $77
+sfx_Goal			ds.b 1		; $78
+sfx_ActionBlock			ds.b 1		; $79
+sfx_Splash2			ds.b 1		; $7A
+sfx_UnknownShift		ds.b 1		; $7B
+sfx_BossHit			ds.b 1		; $7C
+sfx_Bubble2			ds.b 1		; $7D
+sfx_LavaBall			ds.b 1		; $7E
+sfx_Shield2			ds.b 1		; $7F
+sfx_Hoverpad			ds.b 1		; $80
+sfx_Transporter			ds.b 1		; $81
+sfx_TunnelBooster		ds.b 1		; $82
+sfx_BalloonPlatform		ds.b 1		; $83
+				ds.b 1		; $84
+sfx_TrapDoor			ds.b 1		; $85
+sfx_Balloon			ds.b 1		; $86
+sfx_CannonTurn			ds.b 1		; $87
+sfx_GravityMachine		ds.b 1		; $88
+sfx_Lightning			ds.b 1		; $89
+sfx_BossMagma			ds.b 1		; $8A
+sfx_SmallBumpers		ds.b 1		; $8B
+sfx_ChainTension		ds.b 1		; $8C
+sfx_UnknownPump			ds.b 1		; $8D
+sfx_SlideSkidQuiet		ds.b 1		; $8E
+sfx_GroundSlide			ds.b 1		; $8F
+sfx_SpikeBalls			ds.b 1		; $90
+sfx_FrostPuff			ds.b 1		; $91
+sfx_IceSpikes			ds.b 1		; $92
+sfx_LightTunnel			ds.b 1		; $93
+sfx_Rumble			ds.b 1		; $94
+sfx_TubeLauncher		ds.b 1		; $95
+				ds.b 1		; $96
+sfx_BridgeCollapse		ds.b 1		; $97
+sfx_BigRumble			ds.b 1		; $98
+sfx_UnknownPowerUp		ds.b 1		; $99
+sfx_UnknownPowerDown		ds.b 1		; $9A
+sfx_Alarm			ds.b 1		; $9B
+sfx_DeathEggRiseLoud		ds.b 1		; $9C
+sfx_WindQuiet			ds.b 1		; $9D
+sfx_WindLoud			ds.b 1		; $9E
+sfx_MushroomBounce		ds.b 1		; $9F
+sfx_PulleyMove			ds.b 1		; $A0
+sfx_WeatherMachine		ds.b 1		; $A1
+sfx_Bouncy			ds.b 1		; $A2
+sfx_ChopTree			ds.b 1		; $A3
+sfx_Rising			ds.b 1		; $A4
+sfx_ChopStuck			ds.b 1		; $A5
+sfx_UnknownFlutter		ds.b 1		; $A6
+sfx_UnknownRevving		ds.b 1		; $A7
+sfx_DoorOpen			ds.b 1		; $A8
+sfx_DoorMove			ds.b 1		; $A9
+sfx_DoorClose			ds.b 1		; $AA
+sfx_GhostAppear			ds.b 1		; $AB
+sfx_BossRecovery		ds.b 1		; $AC
+sfx_ChainTick			ds.b 1		; $AD
+sfx_GumballTab			ds.b 1		; $AE
+sfx_BossHand			ds.b 1		; $AF
+sfx_MechaLand			ds.b 1		; $B0
+sfx_EnemyBreath			ds.b 1		; $B1
+sfx_DeathEggRiseQuiet		ds.b 1		; $B2
+sfx_BossProjectile		ds.b 1		; $B3
+				ds.b 1		; $B4
+sfx_LavaFall			ds.b 1		; $B5
+sfx_SpringLatch			ds.b 1		; $B6
+sfx_ThumpBoss			ds.b 1		; $B7
+sfx_SuperEmerald		ds.b 1		; $B8
+sfx_Targeting			ds.b 1		; $B9
+sfx_Clank			ds.b 1		; $BA
+sfx_SuperTransform		ds.b 1		; $BB
+sfx_UnknownZap			ds.b 1		; $BC
+sfx_MissileShoot		ds.b 1		; $BD
+sfx_UnknownOminous		ds.b 1		; $BE
+sfx_ConveyorPlatform		ds.b 1		; $BF
+sfx_UnknownSaw			ds.b 1		; $C0
+				ds.b 1		; $C1
+sfx_GravityLift			ds.b 1		; $C2
+sfx_MechaTransform		ds.b 1		; $C3
+sfx_UnknownRise			ds.b 1		; $C4
+sfx_MagneticSpike		ds.b 1		; $C5
+sfx_LeafBlower			ds.b 1		; $C6
+sfx_LaunchGrab			ds.b 1		; $C7
+sfx_LaunchReady			ds.b 1		; $C8
+sfx_EnergyZap			ds.b 1		; $C9
+sfx_Jump2			ds.b 1		; $CA
+sfx_Bumper			ds.b 1		; $CB
+sfx_Spindash			ds.b 1		; $CC
+sfx_Continue			ds.b 1		; $CD
+sfx_Starpost2			ds.b 1		; $CE
+sfx_Flipper			ds.b 1		; $CF
+sfx_EnterSS			ds.b 1		; $D0
+sfx_Register			ds.b 1		; $D1
+sfx_Spring			ds.b 1		; $D2
+sfx_Error			ds.b 1		; $D3
+sfx_BigRing			ds.b 1		; $D4
+sfx_BossHit2			ds.b 1		; $D5
+sfx_Diamonds			ds.b 1		; $D6
+sfx_Dash			ds.b 1		; $D7
+sfx_SlotMachine			ds.b 1		; $D8
+sfx_Signpost			ds.b 1		; $D9
 sfx__End =			*		; next ID after the last sound effect
 
 	dephase
 
 sfx_BigRingUnk =	$32
-sfx_S2Smash =	$B9
+sfx_S2Smash =		$B9
 sfx_S2LargeBumper =	$D9
-sfx_S2Error	=	$ED
+sfx_S2Error =		$ED
 
 ; Efeitos especiais
 Ring_Sfx                 = sfx_RingRight
@@ -559,7 +559,7 @@ Skidding_Sfx             = sfx_Skid ; Stopping_Sfx
 Collect_Oxygen_Sfx       = sfx_Bubble
 Water_Splash_Sfx         = sfx_Splash
 Drowning_Sfx             = sfx_Drown
-Rolling_Sfx              = sfx_Roll ; Spin_Sfx     
+Rolling_Sfx              = sfx_Roll ; Spin_Sfx
 Object_Hit_Sfx           = sfx_Break
 Got_Fire_Shield_Sfx      = sfx_FireShield
 Got_Water_Shield_Sfx     = sfx_BubbleShield
@@ -627,21 +627,21 @@ Music_Normal_Speed	= cmd_S2SlowDown
 
 ; Z80  
 Z80_RAM_Start	= $A00000
-Z80_RAM	= Z80_RAM_Start
+Z80_RAM		= Z80_RAM_Start
 Z80_RAM_end	= $A02000
 
 ; I/O
-IO_Hardware_Version	= $A10001 
+IO_Hardware_Version	= $A10001
 IO_Joypad_Port_0	= $A10003
 IO_Port_0_Control	= $A10008
 IO_Port_1_Control	= $A1000A
 IO_Expansion_Control	= $A1000C
 
-Z80_Bus_Request	= $A11100 
-Z80_Reset	= $A11200 
+Z80_Bus_Request	= $A11100
+Z80_Reset	= $A11200
 
 ; VDP
-VDP_Data_Port	= $C00000
+VDP_Data_Port		= $C00000
 VDP_Control_Port	= $C00004
 
 ; sign-extends a 32-bit integer to 64-bit
