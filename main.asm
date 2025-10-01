@@ -94,7 +94,7 @@ Prog_Start_Vector:
 		dc.l	ErrorTrap			; TRAP #$0C exception
 		dc.l	ErrorTrap			; TRAP #$0D exception
 		dc.l	ErrorTrap			; TRAP #$0E exception
-		dc.l	Trap_0x0F			; TRAP #$0F exception
+		dc.l	ErrorTrap			; TRAP #$0F exception
 		dc.l	ErrorTrap				; Unused (reserved)
 		dc.l	ErrorTrap				; Unused (reserved)
 		dc.l	ErrorTrap				; Unused (reserved)
@@ -528,10 +528,6 @@ VBlank_Lag:
 		cmpi.b	#gm_PlayMode,(Game_Mode).w
 		beq.s	Offset_0x00050E
 
-		stopZ80
-		bsr.w	sndDriverInput
-		startZ80
-
 		bra.s	VBlank_Finalize
 ; ---------------------------------------------------------------------------
 
@@ -572,7 +568,6 @@ Offset_0x000570:
 
 Offset_0x000594:
 		move.w	(Horizontal_Int_Count_Cmd).w,(a5)
-		bsr.w	sndDriverInput
 		startZ80
 		bra.w	VBlank_Finalize
 ; ---------------------------------------------------------------------------
@@ -622,7 +617,6 @@ Offset_0x0005BE:
 		move.w	(DMA_Trigger).w,(a5)
 
 Offset_0x000646:
-		bsr.w	sndDriverInput
 		startZ80
 		bra.w	VBlank_Finalize
 ; ===========================================================================
@@ -678,8 +672,7 @@ Offset_0x0006E0:
 		rts
 ;-------------------------------------------------------------------------------
 VBlank_06:													   ; Offset_0x0006E2
-		bsr.w	Offset_0x000B80
-		rts
+		bra.w	Offset_0x000B80
 ;-------------------------------------------------------------------------------
 VBlank_08:													   ; Offset_0x0006E8
 VBlank_10:
@@ -777,7 +770,6 @@ Offset_0x000838:
 		move.l	(Vertical_Scroll_Value_P2).w,(Vertical_Scroll_Value_P2_2).w
 		jsr	(Special_Vint).l
 		jsr	(DrawLevel).l
-		bsr.w	sndDriverInput
 		startZ80
 		move	#$2300,sr
 		cmpi.b	#92,(Scanline_Counter).w
@@ -850,7 +842,6 @@ Offset_0x0008FE:
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
 		bsr.w	ProcessDMAQueue							   ; Offset_0x00135E
 		move.l	(Vertical_Scroll_Value_P2).w,(Vertical_Scroll_Value_P2_2).w ; $FFFFF61E, $FFFFEE3A
-		jsr	(sndDriverInput).l
 		startZ80
 		bsr.w	ProcessDPLC					 ; Offset_0x0015AE
 		jmp	(Set_Kos_Bookmark).l				; Offset_0x0019C6
@@ -890,7 +881,6 @@ VBlank_18:													   ; Offset_0x000984
 		move.w	#$83,(DMA_Trigger).w					  ; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
 		bsr.w	ProcessDMAQueue							   ; Offset_0x00135E
-		bsr.w	sndDriverInput
 		startZ80
 		rts
 ;-------------------------------------------------------------------------------
@@ -942,8 +932,7 @@ Offset_0x000A9C:
 		move.l	#$50AC0003,d0
 		moveq	#23-1,d1
 		moveq	#15-1,d2
-		jsr	(PlaneMapToVRAM_H40).l						; Offset_0x0012BC
-		rts
+		jmp	(PlaneMapToVRAM_H40).l						; Offset_0x0012BC
 ;-------------------------------------------------------------------------------
 VBlank_16:													   ; Offset_0x000AD2
 		stopZ80
@@ -970,7 +959,6 @@ VBlank_16:													   ; Offset_0x000AD2
 		move.w	#$0083,(DMA_Trigger).w						; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
 		bsr.w	ProcessDMAQueue							   ; Offset_0x00135E
-		bsr.w	sndDriverInput
 		startZ80
 		bsr.w	ProcessDPLC					 ; Offset_0x0015AE
 		tst.w	(Demo_Timer).w								 ; $FFFFF614
@@ -981,8 +969,7 @@ Offset_0x000B74:
 ;-------------------------------------------------------------------------------
 VBlank_1A:													   ; Offset_0x000B76
 		bsr.w	Offset_0x000B80
-		bsr.w	ProcessDPLC					 ; Offset_0x0015AE
-		rts
+		bra.w	ProcessDPLC					 ; Offset_0x0015AE
 ;-------------------------------------------------------------------------------
 Offset_0x000B80:
 		stopZ80
@@ -1021,7 +1008,6 @@ Offset_0x000BE6:
 		move.w	#$0083,(DMA_Trigger).w						; $FFFFF640
 		move.w	(DMA_Trigger).w,(A5)						; $FFFFF640
 		bsr.w	ProcessDMAQueue							   ; Offset_0x00135E
-		bsr.w	sndDriverInput
 		startZ80
 		rts
 ;===============================================================================
@@ -1263,25 +1249,6 @@ Offset_0x000EAA:
 		movem.l	(sp)+,d0-d7/a0-a6
 		rte
 ; End of function HBlank_WaterHCZ
-
-; ===========================================================================
-; ---------------------------------------------------------------------------
-; Offset_0x000EBC: Null_Sub_1:
-sndDriverInput:
-		rts
-; ---------------------------------------------------------------------------
-; This appears to be the remnants of a 'sound input system' that Sonic 2 used,
-; which handled its sound queues on the 68000-side; it seems like the devs
-; retained this system when switching over to the new driver before a Z80-led
-; sound input system could be implemented. Sonic CD uses a similar system.
-		move.b	(Sound_Queue.Music0).w,(Z80_RAM+zMusicNumber).l
-		move.b	(Sound_Queue.SFX0).w,(Z80_RAM+zSFXNumber0).l
-		move.b	(Sound_Queue.SFX1).w,(Z80_RAM+zSFXNumber1).l
-		move.b	(Sound_Queue.Music1).w,(Z80_RAM+zPauseFlag).l
-		moveq	#0,d0
-		move.l	d0,(Sound_Queue).w	; clear whole queue
-		rts
-; End of function sndDriverInput
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -3066,7 +3033,6 @@ PalCycle_Load:
 		lsr.w	#6,d0
 		move.w	PalCycle_Index(pc,d0.w),d0
 		jmp	PalCycle_Index(pc,d0.w)
-		rts
 ; ===========================================================================
 ; Offset_0x001F30: PalCycle_Load_List:
 PalCycle_Index:
@@ -5220,7 +5186,6 @@ Level_MainLoop:
 		jsr	(DeformBgLayer).l
 		jsr	(Run_TileDrawing).l
 		bsr.w	WaterEffects
-		bsr.w	UpdateWaterSurface
 		jsr	(Load_Ring_Pos).l
 		cmpi.b	#S2_CNz_Id,(Current_Zone).w
 		bne.s	Offset_0x003E10
@@ -5497,31 +5462,6 @@ Obj_Clear_Collision_Response_List:							   ; Offset_0x004184
 		rts
 
 ; ---------------------------------------------------------------------------
-; Subroutine to move the water or oil surface sprites to where the screen is at
-; Leftover from Sonic 2,and useless since the objects themselves handle this now
-; ---------------------------------------------------------------------------
-
-; Offset_0x00418A: S2_Change_Water_Surface_Pos:
-UpdateWaterSurface:
-		rts
-; ---------------------------------------------------------------------------
-		tst.b	(Water_Level_Flag).w
-		beq.s	Offset_0x0041AE
-		move.w	(Camera_X).w,d1
-		btst	#0,(Level_frame_counter+1).w
-		beq.s	Offset_0x0041A4
-		addi.w	#$20,d1
-
-Offset_0x0041A4:
-		move.w	d1,d0
-		addi.w	#$60,d0
-		addi.w	#$120,d1
-
-Offset_0x0041AE:
-		rts
-; End of function UpdateWaterSurface
-
-; ---------------------------------------------------------------------------
 ; Subroutine to do special water effects
 ; ---------------------------------------------------------------------------
 
@@ -5584,8 +5524,7 @@ Offset_0x004232:
 		move.b	d0,(Scanline_Counter).w
 
 Offset_0x004236:
-		bsr.w	Level_Slides
-		rts
+		bra.w	Level_Slides
 ; End of function WaterEffects
 
 ;-------------------------------------------------------------------------------
@@ -6128,62 +6067,39 @@ Run_Demo_Mode:												   ; Offset_0x004884
 		or.b	(Control_Ports_Buffer_Data+3).w,d0		  ; $FFFFF607
 		andi.b	#button_start_mask,d0
 		beq.s	Offset_0x00489E
-		tst.w	(Auto_Control_Player_Flag).w				 ; $FFFFFFF0
+		tst.w	(Auto_Control_Player_Flag).w
 		bmi.s	Offset_0x00489E
-		move.b	#gm_TitleScreen,(Game_Mode).w		   ; $04, $FFFFF600
+		move.b	#gm_TitleScreen,(Game_Mode).w
+
 Offset_0x00489E:
-		lea	(Demo_Index).l,a1						; Offset_0x00491E
+		lea	(Demo_Index).l,a1
 		moveq	#0,d0
-		move.b	(Current_Zone).w,d0								; $FFFFFE10
+		move.b	(Current_Zone).w,d0
 		lsl.w	#2,d0
-		move.l	(A1,d0),a1
-		move.w	(Demo_Button_Index).w,d0					; $FFFFF790
-		adda.w	D0,a1
-		move.b	(A1),d0
+		move.l	(a1,d0),a1
+		move.w	(Demo_Button_Index).w,d0
+		adda.w	d0,a1
+		move.b	(a1),d0
 		andi.b	#$7F,d0
-		lea	(Control_Ports_Buffer_Data).w,a0			; $FFFFF604
-		move.b	D0,d1
+		lea	(Control_Ports_Buffer_Data).w,a0
+		move.b	d0,d1
 		moveq	#0,d2
-		eor.b	D2,d0
-		move.b	D1,(A0)+
-		and.b	D1,d0
-		move.b	D0,(A0)+
-		subq.b	#1,(Demo_Button_Press_Counter).w		  ; $FFFFF792
-		bcc.s	Offset_0x0048DC
-		move.b	3(A1),(Demo_Button_Press_Counter).w		; $FFFFF792
-		addq.w	#2,(Demo_Button_Index).w				  ; $FFFFF790
-Offset_0x0048DC:
-		rts
-;-------------------------------------------------------------------------------
-; Offset_0x0048DE: ; Sonic 2 Left Over
-		cmpi.b	#S2_EHz_Id,(Current_Zone).w				   ; $00, $FFFFFE10
-		bne.s	Offset_0x004916
-		lea	(Demo_Angel_Island).l,a1				; Offset_0x004BEA
-		move.w	(Demo_Button_Index_2P).w,d0					; $FFFFF732
-		adda.w	D0,a1
-		move.b	(A1),d0
-		lea	(Control_Ports_Buffer_Data+2).w,a0		  ; $FFFFF606
-		move.b	D0,d1
-		moveq	#0,d2
-		eor.b	D2,d0
-		move.b	D1,(A0)+
-		and.b	D1,d0
-		move.b	D0,(A0)+
-		subq.b	#1,(Demo_Button_Press_Counter_2P).w		  ; $FFFFF734
-		bcc.s	Offset_0x004914
-		move.b	3(A1),(Demo_Button_Press_Counter_2P).w	; $FFFFF734
-		addq.w	#2,(Demo_Button_Index_2P).w				  ; $FFFFF732
-Offset_0x004914:
-		rts
-Offset_0x004916:
-		move.w	#0,(Control_Ports_Buffer_Data+2).w	  ; $FFFFF606
+		eor.b	d2,d0
+		move.b	d1,(a0)+
+		and.b	d1,d0
+		move.b	d0,(a0)+
+		subq.b	#1,(Demo_Button_Press_Counter).w
+		bcc.s	return_48DC
+		move.b	3(a1),(Demo_Button_Press_Counter).w
+		addq.w	#2,(Demo_Button_Index).w
+return_48DC:
 		rts
 ;===============================================================================
 ; Rotina de controle autom�tico do jogador usado no modo de demonstra��o
 ; <<<-
 ;===============================================================================
 
-Demo_Index:													   ; Offset_0x00491E
+Demo_Index:
 		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
 		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
 		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
@@ -7120,7 +7036,7 @@ OptionsMenu_PlaySound:
 		lea	(S214Continues_Cheat).l,a2
 		lea	(Level_Select_Flag).w,a1
 		moveq	#0,d2
-		bsr.w	Menus_CheckCheats
+		bra.w	Menus_CheckCheats
 
 Offset_0x005872:
 		rts
@@ -7470,8 +7386,8 @@ LevelSelect_Levels:
 		dc.w	FBz_Act_1,	FBz_Act_2	; FLYING BATTERY
 		dc.w	Iz_Act_1,	Iz_Act_2	; ICECAP
 		dc.w	LBz_Act_1,	LBz_Act_2	; LAUNCH BASE
-		dc.w	$5555,		$5555		; MUSHROOM VALLEY
-		dc.w	$5555,		$5555		; SANDOPOLIS
+		dc.w	$0700,		$0701		; MUSHROOM VALLEY
+		dc.w	$0800,		$0801		; SANDOPOLIS
 		dc.w	Alz_Act_1,	BPz_Act_1	; 2P VS
 		dc.w	DPz_Act_1,	CGz_Act_1	; 2P VS
 		dc.w	EMz_Act_1,	GM_BS_Act_1	; 2P VS
@@ -33991,185 +33907,6 @@ Level_Deform:
 ; End of function Level_Deform
 
 ; ===========================================================================
-; ---------------------------------------------------------------------------
-; Trap routine 0x0F
-; This was used by SNASM68K for something related to errors, but now just
-; points to a bunch of common routines; it *technically* still is present
-; in the final, but all the function calls were removed
-; ---------------------------------------------------------------------------
-; Offset_0x034200:
-Trap_0x0F:
-		move.l	Trap_Routines_List(pc,d6.w),a6
-		jsr	(a6)
-		nop
-		nop
-		move	sr,d5
-		move.w	(sp),d6
-		andi.w	#$1F,d5
-		andi.w	#$FFE0,d6
-		or.w	d5,d6
-		move.w	d6,(sp)
-		nop
-		nop
-		rte
-; ===========================================================================
-; Offset_0x034220:
-Trap_Routines_List:
-		dc.l	Hit_Boss_Flash
-		dc.l	Set_Boss_Flag_Timed
-		dc.l	Inc_Level_Gradual_Max_X
-		dc.l	Add_To_Response_List_And_Display
-		dc.l	Add_To_Response_List_And_Display
-		dc.l	Check_Player_Collision
-		dc.l	MarkObjectGone
-		dc.l	Delete_Sprite_Check_X_2
-		dc.l	Delete_Sprite_Check_X_3
-		dc.l	Delete_Sprite_Check_X_Y
-		dc.l	Delete_Sprite_Clear_Respaw_Flag_Check_X
-		dc.l	Delete_Sprite_Clear_Respaw_Flag_Check_X_2
-		dc.l	Delete_Sprite_Clear_Respaw_Flag_Check_X_3
-		dc.l	Delete_Sprite_Clear_Respaw_Flag_Check_X_Y
-		dc.l	Delete_Sprite_Slotted_Check_X
-		dc.l	Delete_Slotted_Check_X
-		dc.l	Check_Delete_Touch_Slotted
-		dc.l	Check_Delete_Touch_Slotted_2
-		dc.l	Change_Flip_X
-		dc.l	Change_Flip_X_With_Velocity
-		dc.l	Check_Left_Right_Controller_Shake
-		dc.l	Child_Display_Or_Delete
-		dc.l	Child_Display_Or_Delete_2
-		dc.l	Child_Display_Touch_Or_Delete
-		dc.l	Child_Display_Touch_Or_Delete_2
-		dc.l	Child_Display_Or_Delete_Remember
-		dc.l	Displace_Player_Offset
-		dc.l	Child_Display_Or_Flicker_Move
-		dc.l	Child_Display_Or_Flicker_Move_2
-		dc.l	Child_Display_Touch_Or_Flicker_Move
-		dc.l	Child_Display_Touch_Or_Flicker_Move_2
-		dc.l	Find_Player
-		dc.l	Find_Other_Object
-		dc.l	Move_Sprite_Circular_Simple
-		dc.l	Move_Sprite_Circular_Simple_Offset
-		dc.l	Move_Sprite_At_Angle_Lookup
-		dc.l	Run_Object_Wait_Timer_A0
-		dc.l	Run_Palette_Rotation_Script
-		dc.l	Run_Object_Hit_Floor_D3_A0
-		dc.l	Run_Object_Hit_Floor_A0
-		dc.l	Obj_Fade_Selected_From_Black
-		dc.l	MarkObjectGone_Respawn
-		dc.l	Run_Object_Hit_Wall_Right_A0
-		dc.l	Run_Object_Hit_Wall_Left_A0
-		dc.l	SetupSlottedObjectAttributes
-		dc.l	SetupObjectAttributes
-		dc.l	SetupObjectAttributes2
-		dc.l	SetupObjectAttributes3
-		dc.l	Swing_Left_And_Right
-		dc.l	Chase_Object
-		dc.l	Chase_Object_X_Only
-		dc.l	Refresh_Child_Position
-		dc.l	Refresh_Child_Position_Adjusted
-		dc.l	Find_Player_Eight_Way
-		dc.l	Animate_Raw_Get_Faster
-		dc.l	Animate_Raw_Get_Faster_A1
-		dc.l	Animate_Raw_Get_Slower
-		dc.l	Animate_Raw_Get_Slower_A1
-		dc.l	Swing_Up_And_Down_Animate_Raw_Wait
-		dc.l	Swing_Up_And_Down_Wait
-		dc.l	AnimateRaw
-		dc.l	Animate_Raw_A1
-		dc.l	Animate_Raw_Adjust_Flip_X
-		dc.l	Animate_Raw_Adjust_Flip_X_A1
-		dc.l	Animate_Raw_Adjust_Flip_Y
-		dc.l	Animate_Raw_Adjust_Flip_Y_A1
-		dc.l	Animate_Raw_Wait
-		dc.l	Swing_Up_And_Down
-		dc.l	Swing_Up_And_Down_Count
-		dc.l	SetupChildObject
-		dc.l	SetupChildObject_Complex
-		dc.l	SetupChildObject_Repeat
-		dc.l	Load_Child_Object_Link_List_Repeat_A2
-		dc.l	Load_Child_Object_Complex_Adjusted_A2
-		dc.l	Load_Child_Object_Simple_A2
-		dc.l	Set_Indexed_Velocity
-		dc.l	Set_Indexed_Velocity_D0
-		dc.l	Pal_Load_Line_1
-		dc.l	Enemy_Defeat_Score
-		dc.l	Go_Delete_Object_A0
-		dc.l	Go_Delete_Object_A0_2
-		dc.l	Run_Flicker_Move
-		dc.l	LoadDynamicPLC
-		dc.l	Set_Velocity_X_Track_Player_One
-		dc.l	Move_Sprite_Angle_X_Lookup_Offset
-		dc.l	Move_Sprite_Angle_Y_Lookup_Offset
-		dc.l	SpeedToPos_Animate_Raw
-		dc.l	SpeedToPos_Animate_Raw
-		dc.l	Move_Light_Gravity_Animate_Raw
-		dc.l	Move_Light_Gravity
-		dc.l	ObjectFall_Delete_Sprite_Check_X_Y
-		dc.l	SpeedToPos_Animate_Raw_Wait
-		dc.l	SpeedToPos_Wait
-		dc.l	SpeedToPos_Touch_Wait
-		dc.l	Delete_Sprite_Timed
-		dc.l	Delete_Sprite_Timed_Or_Fall
-		dc.l	Delete_Sprite_Timed_Or_Speed
-		dc.l	Animate_Raw_Multi_Delay
-		dc.l	Animate_Raw_Multi_Delay_A1
-		dc.l	Animate_Raw_Multi_Delay_Flip_X
-		dc.l	Animate_Raw_Multi_Delay_Flip_X_A1
-		dc.l	Animate_Raw_Multi_Delay_Flip_Y
-		dc.l	Animate_Raw_Multi_Delay_Flip_Y_A1
-		dc.l	Display_Sprite_Wait
-		dc.l	Animate_Raw_Multi_Delay_Touch
-		dc.l	Go_Delete_Slotted_3
-		dc.l	LBz_Robotnik_Ship
-		dc.l	QueueDMATransfer
-		dc.l	AllocateObjectAfterCurrent
-		dc.l	ObjectFall
-		dc.l	SpeedToPos
-		dc.l	DisplaySprite
-		dc.l	Object_HitCeiling
-		dc.l	ObjHitFloor
-		dc.l	ObjHitFloor_D3
-		dc.l	Object_HitWall_Right
-		dc.l	Object_HitWall_Left
-		dc.l	DeleteObject
-		dc.l	MarkObjGone
-		dc.l	Obj_Explosion
-		dc.l	CalcSine
-		dc.l	Obj_Explosions
-		dc.l	PlaySound
-		dc.l	PlaySound
-		dc.l	Solid_Object
-		dc.l	Platform_Object
-		dc.l	Add_SpriteToCollisionResponseList
-		dc.l	PseudoRandomNumber
-		dc.l	Add_Points
-		dc.l	LoadPLC
-		dc.l	Object_Settings_Check_X_Y
-		dc.l	MarkObjGone_2
-		dc.l	Perform_Scaling
-		dc.l	Init_Art_Scaling
-		dc.l	Hz_Robotnik_Ship
-		dc.l	Refresh_Child_Position_Wait
-		dc.l	Refresh_Animate_Raw_Multi_Delay_Touch
-		dc.l	Move_Sprite_Angle_Y_Lookup
-		dc.l	Child_Get_Priority
-		dc.l	Move_0x08_Bytes_A2_A1
-		dc.l	Swing_Setup
-		dc.l	AllocateObject
-		dc.l	Load_Child_Object_A2_2
-		dc.l	Animate_Raw_Touch
-		dc.l	Move_0x06_Bytes_A2_A1
-		dc.l	Animate_Raw_Wait_2
-		dc.l	Object_Check_Range
-		dc.l	Check_Player_In_Range
-		dc.l	Hurt_Player
-		dc.l	Animate_Raw_Delete_Sprite_Check_X_Y
-		dc.l	Load_Child_Object_Tree_List_Repeated_A2
-		dc.l	Animate_Raw_Display_Sprite
-		dc.l	ObjectFall_Delete_Sprite_Check_X_Y_2
-		dc.l	Animate_Raw_Delete_Sprite_Check_X_Y_2
-; ===========================================================================
 ; Offset_0x034488: Obj_S2_0xB0_Sonic_Sega_Logo: Obj_SegaSonic:
 		include	"data/S2_Obj/Sonic on the Sega Screen.asm"
 ; Offset_0x0346BC: Obj_S2_0xB1_Sonic_Sega_Logo: Obj_SegaTM:
@@ -43514,48 +43251,6 @@ Object_List:												   ; Offset_0x04C964
 		dc.l	Obj_0xC8_Iz_Trampoline_Support		   ; Offset_0x046A00 ; $C8
 		dc.l	Obj_0xC9_Knuckles_Switch			   ; Offset_0x035484
 		dc.l	ObjCA_AIZPlaneIntro
-;-------------------------------------------------------------------------------
-; Left over - Parte de ponteiros de objetos de uma compila��o anterior
-; ->>>
-;-------------------------------------------------------------------------------
-Offset_0x04CC90:
-		dc.w	((Obj_0xAB_Iz_Star_Pointer+$7E)&$FFFF) ; Offset_0x048350
-		dc.l	(Obj_0xAC_AIz_Fire_Breath+$7E)		   ; Offset_0x036B32
-		dc.l	(Obj_0xAD_Hz_Big_Shaker+$7E)		   ; Offset_0x037EAA
-		dc.l	(Obj_0xAE_LBz_Robotnik+$7E)			   ; Offset_0x04902A
-		dc.l	(Obj_0xAF_MGz_Drill_Mobile+$7E)		   ; Offset_0x03999E
-		dc.l	(Obj_0xB0_MGz_Drill_Mobile+$7E)		   ; Offset_0x039CFC
-		dc.l	(Obj_0xB1_MGz_Drill_Mobile+$7E)		   ; Offset_0x03A01C
-		dc.l	(Obj_0xB2_Iz_Freezer_Mobile+$7E)	   ; Offset_0x03E50A
-		dc.l	(Obj_0xB3_Iz_Big_Icedus+$7E)		   ; Offset_0x03DD2E
-		dc.l	(Obj_0xB4_FBz_Hang_Mobile+$7E)		   ; Offset_0x03D55C
-		dc.l	ObjB5_ScrewMobile+$7E
-		dc.l	(Obj_0xB6_Barrier_Eggman+$7E)		   ; Offset_0x03CF14
-		dc.l	(Obj_0xB7_LBz_Egg_Mobile+$7E)		   ; Offset_0x04944A
-		dc.l	(Obj_0xB8_Iz_Crushing_Column+$7E)	   ; Offset_0x046B8C
-		dc.l	(Obj_0xB9_Iz_Platform+$7E)			   ; Offset_0x0466BC
-		dc.l	(Obj_0xBA_Iz_Breakable_Wall+$7E)	   ; Offset_0x0469CA
-		dc.l	(Obj_0xBB_Iz_Freezer+$7E)			   ; Offset_0x046D70
-		dc.l	(Obj_0xBC_Iz_Segmented_Column+$7E)	   ; Offset_0x04721C
-		dc.l	(Obj_0xBD_Iz_Swinging_Platform+$7E)	   ; Offset_0x0473B4
-		dc.l	(Obj_0xBE_Iz_Stalactite+$7E)		   ; Offset_0x047844
-		dc.l	(Obj_0xBF_Iz_Ice_Cube+$7E)			   ; Offset_0x047A08
-		dc.l	(Obj_0xC0_Iz_Ice_Spikes+$7E)		   ; Offset_0x047950
-		dc.l	(Obj_0xC1_Iz_Ice_Spiked_Ball+$7E)	   ; Offset_0x047B4E
-		dc.l	(Obj_0xC2_Iz_Snow_Pile+$7E)			   ; Offset_0x047BCC
-		dc.l	(Obj_0xC3_Iz_Trampoline+$7E)		   ; Offset_0x047DC4
-		dc.l	(Obj_0xC4_MGz_Tunnelbot+$7E)		   ; Offset_0x0452E0
-		dc.l	ObjC5_HiddenMonitor+$7E
-		dc.l	(Obj_0xC6_Egg_Prison+$7E)			   ; Offset_0x04350E
-		dc.l	ObjC7_CutsceneKnuckles+$7E
-		dc.l	(Obj_0xC8_Iz_Trampoline_Support+$7E)   ; Offset_0x046A7E
-		dc.l	(Obj_0xC9_Knuckles_Switch+$7E)		   ; Offset_0x035502
-		dc.l	ObjCA_AIZPlaneIntro+$7E
-;-------------------------------------------------------------------------------
-Offset_0x04CD0E:
-		dc.w	((Obj_0xC8_Iz_Trampoline_Support+$88)&$FFFF) ; Offset_0x046A88
-		dc.l	(Obj_0xC9_Knuckles_Switch+$88)		   ; Offset_0x03550C
-		dc.l	(ObjCA_AIZPlaneIntro+$88)	; Offset_0x035B5A
 ;===============================================================================
 ; Lista de objetos das fases
 ; <<<-
