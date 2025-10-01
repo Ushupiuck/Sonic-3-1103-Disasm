@@ -53610,17 +53610,17 @@ Left_Over_Pal_Angel_Island_Act_1_2:		binclude	"Levels/Angel Island/Palettes/Act 
 Left_Over_Pal_Bonus_Stage_Gumball_Machine:					   ; Offset_0x1F326E
 		binclude	"data\bs_gm\bs_gm.pal"
 Offset_0x1F32CE:
-		binclude	"temp\LRZ object palette (earlier).pal"
+		binclude	"Palettes\LRZ object palette (earlier).pal"
 Offset_0x1F32EE:
-		binclude	"temp\CNZ boss (earlier).pal"
+		binclude	"Palettes\CNZ boss (earlier).pal"
 Offset_0x1F330E:
-		binclude	"temp\LBZ miniboss (earlier).pal"
+		binclude	"Palettes\LBZ miniboss (earlier).pal"
 Offset_0x1F332E:
-		binclude	"temp\LBZ miniboss (earliest).pal"
+		binclude	"Palettes\LBZ miniboss (earliest).pal"
 Offset_0x1F334E:
-		binclude	"temp\LBZ boss 1 (earlier).pal"
+		binclude	"Palettes\LBZ boss 1 (earlier).pal"
 Offset_0x1F336E:
-		binclude	"temp\MVZ miniboss (earlier).pal"
+		binclude	"Palettes\MVZ miniboss (earlier).pal"
 Offset_0x1F338E:
 ;-------------------------------------------------------------------------------
 Left_Over_LRz_Rocks_Layout:									   ; Offset_0x1F338E
