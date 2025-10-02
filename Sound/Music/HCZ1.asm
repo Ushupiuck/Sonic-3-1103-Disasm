@@ -66,12 +66,12 @@ s3p3_FM1:
 	smpsSetvoice        $0A
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nRst, $10, nBb5, $02, nRst, $06, nD5, $02, nEb5, $0E
 	smpsSetvoice        $06
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nRst, $20, nFs3, $02, nRst, nF3, $06, nRst, $02, nEb3, nRst, $0E
 	dc.b	nC3, $06, nRst, $02, nBb2, nBb2, nEb4, $0A, nRst, $02, nBb3, $06
 	dc.b	nRst, $02, nF3, nRst, $0E, nA3, $06, nRst, $02, nG3, nRst, $0A
@@ -79,12 +79,12 @@ s3p3_FM1:
 	smpsSetvoice        $0A
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nG4, $16, nRst, $02, nF4, $18
 	smpsSetvoice        $06
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nRst, $20, nBb3, $02, nRst, nA3, $06, nRst, $02, nG3, nRst, $0E
 	dc.b	nEb3, $06, nRst, $02, nC3, nC3, nBb4, $0A, nRst, $02, nEb4, $06
 	dc.b	nRst, $02, nC4, nRst, $0E, nBb3, $06, nRst, $02, nA3, nRst, $0A
@@ -92,12 +92,12 @@ s3p3_FM1:
 	smpsSetvoice        $0A
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nRst, $10, nBb5, $02, nRst, $06, nD5, $02, nEb5, $0E
 	smpsSetvoice        $06
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nRst, $20, nFs3, $02, nRst, nF3, $06, nRst, $02, nEb3, nRst, $0E
 	dc.b	nC3, $06, nRst, $02, nBb2, nBb2, nEb4, $0A, nRst, $02, nBb3, $06
 	dc.b	nRst, $02, nF3, nRst, $0E, nA3, $06, nRst, $02, nG3, nRst, $0A
@@ -105,12 +105,12 @@ s3p3_FM1:
 	smpsSetvoice        $0A
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nG4, $16, nRst, $02, nF4, $18
 	smpsSetvoice        $06
 	smpsDetune          $01
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nEb4, $0C, nBb2, $08, nC3, $04, nRst, $08, nC3, $04, nFs3, $08
 	dc.b	nFs3, $04, nFs4, $18, nEb4, nRst, $0C, nFs3, $06, nRst, $02, nF3
 	dc.b	nRst, $0A, nEb3, $02, nRst, nF3, $06, nRst, $02, nEb3, nRst, $1A
@@ -181,13 +181,13 @@ s3p3_FM2:
 	smpsSetvoice        $0A
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nF4, $02, nRst, nFs4, $06, nRst, $02, nG4, nRst, nF5, nRst, $06
 	dc.b	nBb4, $10
 	smpsSetvoice        $06
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nEb4, $08, nC4, $04, nRst, $14, nEb3, $02, nRst, nD3, $06, nRst
 	dc.b	$02, nC3, nRst, $0E, nA2, $06, nRst, $02, nG2, nG2, nBb3, $0A
 	dc.b	nRst, $02, nF3, $06, nRst, $02, nD3, nRst, $0A, nC3, $02, nRst
@@ -196,12 +196,12 @@ s3p3_FM2:
 	smpsSetvoice        $0A
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nEb4, $16, nRst, $02, nD4, $18
 	smpsSetvoice        $06
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nEb4, $08, nC4, $04, nRst, $14, nG3, $02, nRst, nF3, $06, nRst
 	dc.b	$02, nEb3, nRst, $0E, nC3, $06, nRst, $02, nG2, nG2, nF4, $0A
 	dc.b	nRst, $02, nBb3, $06, nRst, $02, nA3, nRst, $0A, nC3, $02, nRst
@@ -210,13 +210,13 @@ s3p3_FM2:
 	smpsSetvoice        $0A
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nF4, $02, nRst, nFs4, $06, nRst, $02, nG4, nRst, nF5, nRst, $06
 	dc.b	nBb4, $10
 	smpsSetvoice        $06
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nEb4, $08, nC4, $04, nRst, $14, nEb3, $02, nRst, nD3, $06, nRst
 	dc.b	$02, nC3, nRst, $0E, nA2, $06, nRst, $02, nG2, nG2, nBb3, $0A
 	dc.b	nRst, $02, nF3, $06, nRst, $02, nD3, nRst, $0A, nC3, $02, nRst
@@ -225,12 +225,12 @@ s3p3_FM2:
 	smpsSetvoice        $0A
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nEb4, $16, nRst, $02, nD4, $18
 	smpsSetvoice        $06
 	smpsDetune          $FF
 	smpsModSet          $0A, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nC4, $0C, nFs2, $08, nAb2, $04, nRst, $08, nAb2, $04, nEb3, $08
 	dc.b	nEb3, $04, nEb4, $18, nC4, nRst, $08, nAb2, $02, nRst, nEb3, $06
 	dc.b	nRst, $02, nCs3, nRst, $0A, nC3, $02, nRst, nCs3, $06, nRst, $02

@@ -253,7 +253,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $08, $08, $08, $08
-	smpsVcTotalLevel    $84, $23, $23, $25
+	smpsVcTotalLevel    $04, $23, $23, $25
 
 ;	Voice $01
 ;	$38
@@ -271,7 +271,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $1E, $1A, $19
+	smpsVcTotalLevel    $01, $1E, $1A, $19
 
 ;	Voice $02
 ;	$02
@@ -289,7 +289,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $85, $23, $1D, $0A
+	smpsVcTotalLevel    $05, $23, $1D, $0A
 
 ;	Voice $03
 ;	$3D
@@ -307,7 +307,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $00, $09, $00, $08
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $08, $09, $08, $09
-	smpsVcTotalLevel    $89, $8D, $8B, $19
+	smpsVcTotalLevel    $09, $0D, $0B, $19
 
 ;	Voice $04
 ;	$03
@@ -325,7 +325,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $01, $05, $01, $05
 	smpsVcDecayLevel    $0C, $0D, $00, $0C
 	smpsVcReleaseRate   $09, $09, $0C, $09
-	smpsVcTotalLevel    $83, $17, $19, $18
+	smpsVcTotalLevel    $03, $17, $19, $18
 
 ;	Voice $05
 ;	$02
@@ -343,7 +343,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $0B, $0C, $13, $0C
 	smpsVcDecayLevel    $08, $0D, $0E, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $23, $18, $32
+	smpsVcTotalLevel    $01, $23, $18, $32
 
 ;	Voice $06
 ;	$38
@@ -361,7 +361,7 @@ s3p18_Voices:
 	smpsVcDecayRate2    $07, $04, $06, $00
 	smpsVcDecayLevel    $0E, $0F, $0E, $01
 	smpsVcReleaseRate   $08, $0F, $0C, $0F
-	smpsVcTotalLevel    $85, $15, $11, $2C
+	smpsVcTotalLevel    $05, $15, $11, $2C
 
 ;	Voice $07
 ;	$24
@@ -379,5 +379,5 @@ s3p18_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $05, $05, $05, $05
 	smpsVcReleaseRate   $08, $07, $08, $07
-	smpsVcTotalLevel    $83, $32, $89, $19
+	smpsVcTotalLevel    $03, $32, $09, $19
 

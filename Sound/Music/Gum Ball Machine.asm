@@ -62,7 +62,7 @@ s3p30_Jump05:
 	smpsPan             panLeft, $00
 	smpsSetvoice        $02
 	smpsModSet          $07, $01, $03, $05
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsFMAlterVol      $F6
 	dc.b	nRst, $0C, nD5, $18, $07, nRst, $05, nF5, $12, nRst, $06, nF5
 	dc.b	$11, nRst, $07, nE5, $12, nRst, $06, nE5, $0F, nRst, $09, nE5
@@ -74,7 +74,7 @@ s3p30_Jump05:
 	dc.b	$09, nF5, $30, smpsNoAttack, $05, nRst, $07, nD5, $12, nRst, $06, nD5
 	dc.b	nRst, nD5, nRst, nD5, nRst, nD5, nRst, nD5, $05, nRst, $07, nE5
 	dc.b	$08, nRst, $10, nE5, $18, nE5, $18, nE5, $18
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsSetvoice        $01
 	smpsFMAlterVol      $0A
 	smpsJump            s3p30_Jump05
@@ -126,7 +126,7 @@ s3p30_Jump04:
 	smpsPan             panRight, $00
 	smpsSetvoice        $02
 	smpsModSet          $07, $01, $03, $05
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsFMAlterVol      $F6
 	dc.b	nRst, $0C, nD5, $18, $07, nRst, $05, nF5, $12, nRst, $06, nF5
 	dc.b	$11, nRst, $07, nE5, $12, nRst, $06, nE5, $0F, nRst, $09, nE5
@@ -138,7 +138,7 @@ s3p30_Jump04:
 	dc.b	$09, nF5, $30, smpsNoAttack, $05, nRst, $07, nD5, $12, nRst, $06, nD5
 	dc.b	nRst, nD5, nRst, nD5, nRst, nD5, nRst, nD5, $05, nRst, $07, nE5
 	dc.b	$08, nRst, $10, nE5, $18, nE5, $18, nE5, $18
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsSetvoice        $01
 	smpsFMAlterVol      $0A
 	smpsJump            s3p30_Jump04

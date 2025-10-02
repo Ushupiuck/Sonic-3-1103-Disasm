@@ -233,7 +233,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $84, $26, $13, $22
+	smpsVcTotalLevel    $04, $26, $13, $22
 
 ;	Voice $01
 ;	$00
@@ -251,7 +251,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $83, $1C, $17, $1A
+	smpsVcTotalLevel    $03, $1C, $17, $1A
 
 ;	Voice $02
 ;	$34
@@ -269,7 +269,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $88, $10, $88, $17
+	smpsVcTotalLevel    $08, $10, $08, $17
 
 ;	Voice $03
 ;	$2C
@@ -287,7 +287,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $00, $09, $00, $08
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $08, $09, $08, $09
-	smpsVcTotalLevel    $89, $0C, $8F, $17
+	smpsVcTotalLevel    $09, $0C, $0F, $17
 
 ;	Voice $04
 ;	$3D
@@ -305,7 +305,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $01, $05, $01, $05
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $87, $88, $8A, $1D
+	smpsVcTotalLevel    $07, $08, $0A, $1D
 
 ;	Voice $05
 ;	$07
@@ -323,7 +323,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $0B, $0C, $13, $0C
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $89, $85, $86, $8E
+	smpsVcTotalLevel    $09, $05, $06, $8E
 
 ;	Voice $06
 ;	$3D
@@ -341,7 +341,7 @@ s3p25_Voices:
 	smpsVcDecayRate2    $07, $04, $06, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $08, $0F, $0C, $0F
-	smpsVcTotalLevel    $86, $86, $88, $1D
+	smpsVcTotalLevel    $06, $06, $08, $1D
 
 ;	Voice $07
 ;	$10
@@ -359,5 +359,5 @@ s3p25_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $05, $05, $05, $05
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $8B, $1F, $0A, $25
+	smpsVcTotalLevel    $0B, $1F, $0A, $25
 
