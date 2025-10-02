@@ -44,7 +44,7 @@ Offset_0x0344E2:
 		dbf	d6,Offset_0x0344E2
 		lea	SegaSonic_Frames(pc),a1
 		lea	(Art_Sonic).l,a3
-		lea	(M68K_RAM_Start).l,a5
+		lea	(RAM_Start).l,a5
 		moveq	#4-1,d5				; there are 4 mapping frames to loop over
 
 ; this copies the tiles that we want to scale up from ROM to RAM
@@ -82,7 +82,7 @@ CopyAllPixelsToTempBuffer:
 		move.w	d7,-(sp)
 		moveq	#0,d0
 		moveq	#0,d1
-		lea	SegaScreenScaledSpriteDataStart(pc),a6
+		lea	SonicRunningSpriteScaleData(pc),a6
 		moveq	#4*2-1,d7			; there are 4 sprite mapping frames with 2 pieces each
 
 Offset_0x034538:
@@ -101,24 +101,29 @@ SegaSonic_Frames:
 		dc.l	Offset_0x10199A
 		dc.l	Offset_0x1019A0
 		dc.l	Offset_0x1019A6
+
+map_piece macro width,height
+	dc.l copysrc,copydst
+	dc.b width-1,height-1
+copysrc := copysrc + tiles_to_bytes(width * height)
+copydst := copydst + tiles_to_bytes(width * height) * 2 * 2
+    endm
+
 ; Offset_0x03455C:
-SegaScreenScaledSpriteDataStart:
-		dc.l	$FFFF0000, $FFFF0B00
-		dc.b	$02, $01
-		dc.l	$FFFF00C0, $FFFF0E00
-		dc.b	$03, $03
-		dc.l	$FFFF02C0, $FFFF1600
-		dc.b	$02, $01
-		dc.l	$FFFF0380, $FFFF1900
-		dc.b	$03, $03
-		dc.l	$FFFF0580, $FFFF2100
-		dc.b	$02, $01
-		dc.l	$FFFF0640, $FFFF2400
-		dc.b	$03, $03
-		dc.l	$FFFF0840, $FFFF2C00
-		dc.b	$02, $01
-		dc.l	$FFFF0900, $FFFF2F00
-		dc.b	$03, $03
+SonicRunningSpriteScaleData:
+copysrc := RAM_Start
+copydst := RAM_Start + $B00
+SegaScreenScaledSpriteDataStart = copydst
+	rept 4 ; repeat 4 times since there are 4 frames to scale up
+		; piece 1 of each frame (the smaller top piece):
+		map_piece 3,2
+		; piece 2 of each frame (the larger bottom piece):
+		map_piece 4,4
+	endm
+SegaScreenScaledSpriteDataEnd = copydst
+	if copysrc > SegaScreenScaledSpriteDataStart
+		fatal "Scale copy source overran allocated size. Try changing the initial value of copydst to RAM_Start+$\{copysrc-RAM_Start}"
+	endif
 ; ===========================================================================
 ; Offset_0x0345AC:
 SegaSonic_RunLeft:
