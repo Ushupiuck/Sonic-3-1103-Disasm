@@ -1,5 +1,5 @@
 s3p13_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p13_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $10
@@ -371,18 +371,18 @@ s3p13_Jump07:
 s3p13_PSG1:
 	smpsPSGvoice        sTone_0A
 	smpsDetune          $FF
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsCall            s3p13_Call06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsJump            s3p13_Jump06
 
 ; PSG2 Data
 s3p13_PSG2:
 	smpsPSGvoice        sTone_0A
 	smpsDetune          $00
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsCall            s3p13_Call06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsJump            s3p13_Jump06
 
 s3p13_Call06:

@@ -1,5 +1,5 @@
 s3p7_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p7_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $41
@@ -760,7 +760,7 @@ s3p7_Jump05:
 	dc.b	nE4, $06, nC4, $04, nRst, $0C, nBb3, $08, nBb3, $04, nRst, $08
 	dc.b	nBb3, $04, nRst, $08, nBb3, $04, nRst, $08, nBb3, $04, nBb3, $0C
 	dc.b	nA3, nRst, $08, nA3, $02, nA3, nBb3, $0C
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nRst, $18, nC4, $02, nRst, $0A, nG3, $02, nRst, $06, nC4, $02
 	dc.b	nRst, $0A, nC4, $04, nC5, $12, nRst, $3E, nF4, $02, nRst, nBb4
 	dc.b	nRst, $0A, nA4, $02, nRst, $0A, nA4, $02, nRst, $0A, nA4, $02
@@ -814,7 +814,7 @@ s3p7_Jump05:
 	dc.b	nRst, nB4, nRst, $06, nB3, $02, nRst, nB3, nRst, $06, nB4, $02
 	dc.b	nRst, nB3, nRst, $06, nB3, $02, nRst, nB4, nRst, $06, nB3, $02
 	dc.b	nRst, nB3, nRst, $22
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsJump            s3p7_Jump05
 
 ; Unreachable
@@ -835,7 +835,7 @@ s3p7_Jump04:
 	dc.b	nE4, $06, nC4, $04, nRst, $0C, nBb3, $08, nBb3, $04, nRst, $08
 	dc.b	nBb3, $04, nRst, $08, nBb3, $04, nRst, $08, nBb3, $04, nBb3, $0C
 	dc.b	nA3, nRst, $08, nA3, $02, nA3, nBb3, $0C
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nRst, $18, nC4, $02, nRst, $0A, nG3, $02, nRst, $06, nC4, $02
 	dc.b	nRst, $0A, nC4, $04, nC5, $12, nRst, $3E, nF4, $02, nRst, nBb4
 	dc.b	nRst, $0A, nA4, $02, nRst, $0A, nA4, $02, nRst, $0A, nA4, $02
@@ -889,7 +889,7 @@ s3p7_Jump04:
 	dc.b	nRst, nB4, nRst, $06, nB3, $02, nRst, nB3, nRst, $06, nB4, $02
 	dc.b	nRst, nB3, nRst, $06, nB3, $02, nRst, nB4, nRst, $06, nB3, $02
 	dc.b	nRst, nB3, nRst, $22
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsJump            s3p7_Jump04
 
 ; Unreachable
@@ -1108,4 +1108,4 @@ s3p7_Voices:
 	smpsVcDecayRate2    $08, $06, $06, $07
 	smpsVcDecayLevel    $0F, $01, $01, $02
 	smpsVcReleaseRate   $08, $00, $00, $00
-	smpsVcTotalLevel    $80, $13, $37, $19
+	smpsVcTotalLevel    $00, $13, $37, $19

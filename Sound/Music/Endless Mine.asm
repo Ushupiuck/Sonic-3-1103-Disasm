@@ -1,5 +1,5 @@
 s3p36_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p36_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $1C
@@ -281,7 +281,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $08, $08, $08, $08
-	smpsVcTotalLevel    $8C, $8C, $8D, $13
+	smpsVcTotalLevel    $0C, $0C, $0D, $13
 
 ;	Voice $01
 ;	$0C
@@ -299,7 +299,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $15, $81, $17
+	smpsVcTotalLevel    $01, $15, $01, $17
 
 ;	Voice $02
 ;	$03
@@ -317,7 +317,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $82, $2B, $23, $15
+	smpsVcTotalLevel    $02, $2B, $23, $15
 
 ;	Voice $03
 ;	$3D
@@ -335,7 +335,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $00, $09, $00, $08
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $8C, $8C, $8C, $23
+	smpsVcTotalLevel    $0C, $0C, $0C, $23
 
 ;	Voice $04
 ;	$03
@@ -353,7 +353,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $01, $05, $01, $05
 	smpsVcDecayLevel    $0C, $0D, $00, $0C
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $14, $1E, $1D
+	smpsVcTotalLevel    $01, $14, $1E, $1D
 
 ;	Voice $05
 ;	$02
@@ -371,7 +371,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $0B, $0C, $13, $0C
 	smpsVcDecayLevel    $08, $0D, $0E, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $85, $17, $15, $1B
+	smpsVcTotalLevel    $05, $17, $15, $1B
 
 ;	Voice $06
 ;	$10
@@ -389,7 +389,7 @@ s3p36_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $08, $08, $08, $08
-	smpsVcTotalLevel    $88, $1C, $25, $20
+	smpsVcTotalLevel    $08, $1C, $25, $20
 
 ;	Voice $07
 ;	$10
@@ -407,5 +407,5 @@ s3p36_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $08, $08, $08, $08
-	smpsVcTotalLevel    $86, $1C, $25, $20
+	smpsVcTotalLevel    $06, $1C, $25, $20
 

@@ -1,5 +1,5 @@
 s3p34_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p34_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $23
@@ -126,7 +126,7 @@ s3p34_FM2:
 	smpsSetvoice        $17
 	smpsDetune          $00
 	smpsModSet          $0F, $01, $06, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nE5, $18, smpsNoAttack, $16, nRst, $02, nF5, $10, nRst, $02, nF5, $04
 	dc.b	nRst, $02, nG5, $16, nRst, $02, nC6, $10, nRst, $02, nB5, $06
 	dc.b	smpsNoAttack, $0A, nRst, $02, nA5, $0A, nRst, $02, nG5, $10, nRst, $02
@@ -146,7 +146,7 @@ s3p34_FM2:
 	smpsSetvoice        $19
 	smpsDetune          $FD
 	smpsModSet          $00, $01, $03, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nE3, $04, nRst, $08, nE3, $04, nRst, $02, nRst, $0C, nE3, $04
 	dc.b	nRst, $08, nRst, $0C, nE3, $0A, nRst, $02, nRst, $18, nRst, $06
 	dc.b	nD3, $04, nRst, $08, nD3, $04, nRst, $02, nRst, $0C, nD3, $04

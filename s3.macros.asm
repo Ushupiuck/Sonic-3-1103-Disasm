@@ -18,6 +18,8 @@ rom_ptr_z80 macro addr
 	dc.w	z80_ptr(addr)
     endm
 
+tiles_to_bytes function addr,((addr&$7FF)<<5)
+
 ; macro formatting text for the game's menus
 menutxt	macro	text
 	dc.b	strlen(text)-1

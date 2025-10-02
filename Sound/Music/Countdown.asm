@@ -1,5 +1,5 @@
 s3p49_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p49_Voices
 	smpsHeaderChan      $06, $00
 	smpsHeaderTempo     $01, $7F

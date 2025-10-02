@@ -1,5 +1,5 @@
 s3p4_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p4_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $25
@@ -261,7 +261,7 @@ s3p4_FM3:
 	smpsSetvoice        $0E
 	smpsDetune          $01
 	smpsModSet          $0F, $01, $06, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nF3, $06, nFs3, $02, nG3, $04, nBb3, $06, nEb4, nF4, nG4, nBb4
 	dc.b	nD5, $02, nEb5, $08, nRst, $02, nF5, $04, nRst, $02, nFs5, nG5
 	dc.b	$08, nRst, $02, nC5, $0A, nRst, $02, nFs5, nG5, $26, nRst, $02
@@ -281,7 +281,7 @@ s3p4_FM3:
 	smpsSetvoice        $03
 	smpsDetune          $FE
 	smpsModSet          $0F, $01, $06, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nC4, $04, nRst, $02, nD4, $04, nRst, $02, nEb4, $0C, nD4, $02
 	dc.b	nC4, nBb3, nAb3, nG3, nF3, nC4, $0A, nRst, $02, nEb4, $04, nRst
 	dc.b	$02, nE4, nF4, nRst, $08, nD4, $10, nRst, $02, nC4, $04, nRst
@@ -410,7 +410,7 @@ s3p4_Jump00:
 	smpsSetvoice        $0E
 	smpsDetune          $FF
 	smpsModSet          $0F, $01, $06, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	dc.b	nF3, $06, nFs3, $02, nG3, $04, nBb3, $06, nEb4, nF4, nG4, nBb4
 	dc.b	nD5, $02, nEb5, $08, nRst, $02, nF5, $04, nRst, $02, nFs5, nG5
 	dc.b	$08, nRst, $02, nC5, $0A, nRst, $02, nFs5, nG5, $26, nRst, $02
@@ -430,7 +430,7 @@ s3p4_Jump00:
 	smpsSetvoice        $03
 	smpsDetune          $02
 	smpsModSet          $0F, $01, $06, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nC4, $04, nRst, $02, nD4, $04, nRst, $02, nEb4, $0C, nD4, $02
 	dc.b	nC4, nBb3, nAb3, nG3, nF3, nC4, $0A, nRst, $02, nEb4, $04, nRst
 	dc.b	$02, nE4, nF4, nRst, $08, nD4, $10, nRst, $02, nC4, $04, nRst

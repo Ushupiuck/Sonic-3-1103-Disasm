@@ -1,5 +1,5 @@
 s3p27_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p27_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $16
@@ -263,7 +263,7 @@ s3p27_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $24, $12, $2A
+	smpsVcTotalLevel    $01, $24, $12, $2A
 
 ;	Voice $01
 ;	$33
@@ -281,7 +281,7 @@ s3p27_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $22, $17, $22
+	smpsVcTotalLevel    $01, $22, $17, $22
 
 ;	Voice $02
 ;	$3B
@@ -299,7 +299,7 @@ s3p27_Voices:
 	smpsVcDecayRate2    $07, $04, $06, $00
 	smpsVcDecayLevel    $0E, $0F, $0E, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $83, $13, $26, $21
+	smpsVcTotalLevel    $03, $13, $26, $21
 
 ;	Voice $03
 ;	$35
@@ -317,5 +317,5 @@ s3p27_Voices:
 	smpsVcDecayRate2    $00, $09, $00, $08
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $8A, $88, $88, $17
+	smpsVcTotalLevel    $0A, $08, $08, $17
 

@@ -1,5 +1,5 @@
 s3p38_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p38_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $30
@@ -36,14 +36,14 @@ s3p38_Jump01:
 	dc.b	nEb3, $12, nRst, $06, nC4, $30, nRst, $0C, nC4, nCs4, nEb4, nEb4
 	dc.b	$24, nD4, $24, nBb3, $12, nRst, $06, nBb3, $24, nAb3, $24, nG3
 	dc.b	$12, nRst, $06, nBb3, $1E, nRst, $06, nAb3, $36, nRst, $06
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsSetvoice        $03
 	dc.b	nFs3, $30, nBb3, $30, nC4, $30, nFs4, $30, nAb4, $30, nEb4, $18
 	dc.b	nC4, $18, nD4, $12, nEb4, $12, nD4, $0C, nBb3, $2A, nRst, $06
 	dc.b	nFs3, $30, nBb3, $30, nC4, $30, nFs4, $2A, nRst, $06, nAb4, $2A
 	dc.b	nRst, $06, nEb5, $2A, nRst, $06, nD5, $12, nEb5, $12, nF5, $06
 	dc.b	nRst, $06, nBb4, $2A, nRst, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsFMAlterVol      $02
 
 s3p38_Loop04:
@@ -126,7 +126,7 @@ s3p38_FM3:
 	smpsSetvoice        $01
 	smpsPan             panLeft, $00
 	smpsFMAlterVol      $04
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nFs2, $06, nBb2, nC3, nCs3, nFs3, nBb3, nC4, nCs4, nFs4, nBb4, nC5
 	dc.b	nCs5, nFs5, nCs5, nBb4, nFs4, nG4, nEb4, nC4, nAb3, nG3, nEb3, nC3
 	dc.b	nAb2, nC3, nEb3, nG3, nAb3, nC4, nEb4, nG4, nAb4, nF4, nEb4, nC4
@@ -151,7 +151,7 @@ s3p38_FM3:
 	dc.b	nC4, nC4, nCs4, nCs4, nFs3, nFs3, nC4, nC4, nCs4, nCs4, nFs3, nFs3
 	dc.b	nC4, nC4, nCs4, nCs4, nEb4, nEb4, nAb3, nAb3, nC4, nC4, nEb4, nEb4
 	dc.b	nAb3, nAb3, nC4, nC4, nEb4, nEb4, nAb3, nAb3
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsFMAlterVol      $FC
 	smpsJump            s3p38_FM3
 

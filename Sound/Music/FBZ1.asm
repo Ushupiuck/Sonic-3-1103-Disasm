@@ -1,5 +1,5 @@
 s3p9_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p9_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $00
@@ -165,7 +165,7 @@ s3p9_Jump00:
 	dc.b	nA6
     if  ~~FixMusicAndSFXDataBugs
 	; This stray note causes the FM5 channel to slowly desync with the rest of the song.
-	; This was fixed Sonic & Knuckles' version of the song.
+	; This was fixed in the Sonic & Knuckles' version of the song.
 	dc.b	nA0
     endif
 	dc.b	$7F, smpsNoAttack, nA6, $0B, nG6, $06, nE6, nD6, nE6, nD6
@@ -254,7 +254,7 @@ s3p9_Voices:
 	smpsVcDecayRate2    $00, $00, $0F, $00
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $23, $13, $28
+	smpsVcTotalLevel    $01, $23, $13, $28
 
 ;	Voice $01
 ;	$3B
@@ -272,7 +272,7 @@ s3p9_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0E, $0E, $0E, $0E
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $15, $12, $24
+	smpsVcTotalLevel    $01, $15, $12, $24
 
 ;	Voice $02
 ;	$3B
@@ -290,7 +290,7 @@ s3p9_Voices:
 	smpsVcDecayRate2    $07, $04, $06, $00
 	smpsVcDecayLevel    $0E, $0F, $0E, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $10, $29, $23
+	smpsVcTotalLevel    $01, $10, $29, $23
 
 ;	Voice $03
 ;	$34
@@ -308,7 +308,7 @@ s3p9_Voices:
 	smpsVcDecayRate2    $00, $09, $00, $08
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $86, $17, $85, $19
+	smpsVcTotalLevel    $06, $17, $05, $19
 
 ;	Voice $04
 ;	$1B
@@ -326,7 +326,7 @@ s3p9_Voices:
 	smpsVcDecayRate2    $01, $05, $01, $05
 	smpsVcDecayLevel    $0C, $0D, $00, $0C
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $26, $19, $21
+	smpsVcTotalLevel    $01, $26, $19, $21
 
 ;	Voice $05
 ;	$38
@@ -344,5 +344,5 @@ s3p9_Voices:
 	smpsVcDecayRate2    $0B, $0C, $13, $0C
 	smpsVcDecayLevel    $08, $0D, $0E, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $85, $1D, $2F, $2F
+	smpsVcTotalLevel    $05, $1D, $2F, $2F
 

@@ -4841,7 +4841,6 @@ TitleSonic_Frames:
 		dc.l	Art_Title_Screen_Sonic
 		dc.l	Pal_Title_Screen_Sonic
 		dc.l	Map_Title_Screen_Sonic
-
 ;===============================================================================
 ; Modo de jogo ou demonstra��o das fases
 ; ->>>
@@ -5460,7 +5459,6 @@ Pal_Level_2P:												   ; Offset_0x004164
 Obj_Clear_Collision_Response_List:							   ; Offset_0x004184
 		move.w	#0,(Collision_Response_List).w			; $FFFFE380
 		rts
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to do special water effects
 ; ---------------------------------------------------------------------------
@@ -9976,10 +9974,10 @@ Offset_0x009784:
 Offset_0x009792:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x009784
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D3,d1
 		btst	#$A,d4
@@ -9996,7 +9994,7 @@ Offset_0x0097C6:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1).l,a2				; Offset_0x1C9240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$B,d4
@@ -10042,10 +10040,10 @@ Offset_0x009828:
 Offset_0x009836:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x009828
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D3,d1
 		btst	#$A,d4
@@ -10062,7 +10060,7 @@ Offset_0x00986A:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1).l,a2				; Offset_0x1C9240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$B,d4
@@ -10100,7 +10098,7 @@ Object_FindFloor:											   ; Offset_0x0098AC
 		beq.s	Offset_0x0098E6
 		bsr.s	Offset_0x0098E6
 		move.b	(A4),1(A4)
-		move.w	D1, -(sp)
+		move.w	D1,-(sp)
 		sub.w	(Camera_X_Difference).w,d3					; $FFFFEE3E
 		sub.w	(Camera_Y_Difference).w,d2					; $FFFFEE40
 		lea	(Floor_Check_Tile).l,a5					; Offset_0x0094C6
@@ -10128,10 +10126,10 @@ Offset_0x0098F6:
 Offset_0x0098FC:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x0098F6
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D3,d1
 		btst	#$A,d4
@@ -10148,7 +10146,7 @@ Offset_0x009930:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1).l,a2				; Offset_0x1C9240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$B,d4
@@ -10239,10 +10237,10 @@ Offset_0x0099F0:
 Offset_0x0099FE:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x0099F0
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D2,d1
 		btst	#$B,d4
@@ -10259,7 +10257,7 @@ Offset_0x009A32:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_2).l,a2				; Offset_0x1CB240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$A,d4
@@ -10306,10 +10304,10 @@ Offset_0x009A94:
 Offset_0x009AA2:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x009A94
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D2,d1
 		btst	#$B,d4
@@ -10326,7 +10324,7 @@ Offset_0x009AD6:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_2).l,a2				; Offset_0x1CB240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$A,d4
@@ -10693,7 +10691,7 @@ Player_DontRunOnWallsR:										   ; Offset_0x009E06
 		move.w	#0,d6
 		bsr.w	FindWall							   ; Offset_0x009982
 		move.w	(sp)+,d0
-		move.b	#$C0,d2
+		move.b	#-$40,d2
 		bra.w	Offset_0x009C48
 ;-------------------------------------------------------------------------------
 Offset_0x009E66:
@@ -10725,7 +10723,7 @@ Offset_0x009E66:
 		move.w	#0,d6
 		bsr.w	FindWall							   ; Offset_0x009982
 		move.w	(sp)+,d0
-		move.b	#$C0,d2
+		move.b	#-$40,d2
 		bra.w	Offset_0x009C48
 ;-------------------------------------------------------------------------------
 Offset_0x009EC6:
@@ -10739,7 +10737,7 @@ Offset_0x009ECE:
 		move.w	#$10,a3
 		move.w	#0,d6
 		bsr.w	FindWall							   ; Offset_0x009982
-		move.b	#$C0,d2
+		move.b	#-$40,d2
 		bra.w	Offset_0x009C84
 ;===============================================================================
 ; Rotina para detectar se o objeto tocou a parede a direita
@@ -11144,7 +11142,7 @@ Touch_Monitor:												   ; Offset_0x00A2C4
 		cmp.w	Obj_Y(A1),d0									; $0014
 		bcs.s	Offset_0x00A312
 		neg.w	Obj_Speed_Y(A0)									 ; $001A
-		move.w	#$FE80,Obj_Speed_Y(A1)							; $001A
+		move.w	#-$180,Obj_Speed_Y(A1)							; $001A
 		tst.b	Obj_Player_St_Convex(A1)						 ; $003C
 		bne.s	Offset_0x00A312
 		move.b	#4,Obj_Player_St_Convex(A1)					  ; $003C
@@ -11203,7 +11201,7 @@ Offset_0x00A384:
 		move.w	Enemy_Points(pc,d0.w),d0			   ; Offset_0x00A3D6
 		cmpi.w	#$20,(Enemy_Hit_Chain_Count).w			  ; $FFFFF7D0
 		bcs.s	Offset_0x00A39E
-		move.w	#$3E8,d0	   ; 10000
+		move.w	#1000,d0	   ; 10000
 		move.w	#$A,Obj_Player_Spdsh_Cnt(A1)				 ; $003E
 Offset_0x00A39E:
 		move.w	A0,a3
@@ -11225,10 +11223,10 @@ Offset_0x00A3CE:
 		rts
 ;-------------------------------------------------------------------------------
 Enemy_Points:												   ; Offset_0x00A3D6
-		dc.w	$000A	   ;  100
-		dc.w	$0014	   ;  200
-		dc.w	$0032	   ;  500
-		dc.w	$0064	   ; 1000
+		dc.w	10	   ;  100
+		dc.w	20	   ;  200
+		dc.w	50	   ;  500
+		dc.w	100	   ; 1000
 ;-------------------------------------------------------------------------------
 ; Offset_0x00A3DE ; Sonic 2 Left over
 		bset	#7,Obj_Status(A1)							  ; $002A
@@ -11301,7 +11299,7 @@ Kill_Player:												   ; Offset_0x00A4A4
 		move.b	#6,Obj_Routine(A0)							  ; $0005
 		jsr	(Sonic_ResetOnFloor).l				   ; Offset_0x00BF76
 		bset	#1,Obj_Status(A0)							  ; $002A
-		move.w	#$F900,Obj_Speed_Y(A0)							; $001A
+		move.w	#-$700,Obj_Speed_Y(A0)							; $001A
 		move.w	#0,Obj_Speed_X(A0)							; $0018
 		move.w	#0,Obj_Inertia(A0)							; $001C
 		move.b	#$18,Obj_Ani_Number(A0)							; $0020
@@ -11612,7 +11610,7 @@ Sonic_RecordPos:
 Offset_0x00ACD2:
 		move.w	(Position_Table_Index_2P).w,d0				; $FFFFEE2A
 		lea	(Position_Table_Data_P2).w,a1				; $FFFFE600
-		lea	(A1,d0),a1
+		lea	(A1,d0.w),a1
 		move.w	Obj_X(A0),(A1)+				 ; $0010
 		move.w	Obj_Y(A0),(A1)+				 ; $0014
 		addq.b	#4,(Position_Table_Index_2P+$01).w		  ; $FFFFEE2B
@@ -13860,7 +13858,7 @@ Offset_0x00C3FC:
 		move.b	D0,d3
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x00C41A
 		move.b	#0,Obj_Ani_Frame(A0)
@@ -13899,7 +13897,7 @@ Offset_0x00C458:
 		move.b	D0,d3
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1					; $0023
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x00C474
 		move.b	#0,Obj_Ani_Frame(A0)				  ; $0023
@@ -14254,7 +14252,7 @@ Sonic_Or_Knuckles_Animate_Sprite_2P_A1:				; Offset_0x00C850
 		bclr	#5,Obj_Status(A0)					 ; $002A
 Offset_0x00C872:
 		add.w	D0,d0
-		adda.w	(A1,d0),a1
+		adda.w	(A1,d0.w),a1
 		move.b	(A1),d0
 		bmi.s	Offset_0x00C8E2
 		move.b	Obj_Status(A0),d1					   ; $002A
@@ -14267,7 +14265,7 @@ Offset_0x00C872:
 Offset_0x00C898:
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1					; $0023
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FC,d0
 		bcc.s	Offset_0x00C8B2
 Offset_0x00C8A8:
@@ -14284,15 +14282,15 @@ Offset_0x00C8B2:
 Offset_0x00C8C2:
 		addq.b	#1,d0
 		bne.s	Offset_0x00C8D6
-		move.b	2(A1,d1),d0
+		move.b	2(A1,d1.w),d0
 		sub.b	D0,Obj_Ani_Frame(A0)					; $0023
 		sub.b	D0,d1
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		bra.s	Offset_0x00C8A8
 Offset_0x00C8D6:
 		addq.b	#1,d0
 		bne.s	Offset_0x00C8E0
-		move.b	2(A1,d1),Obj_Ani_Number(A0)		  ; $0020
+		move.b	2(A1,d1.w),Obj_Ani_Number(A0)		  ; $0020
 Offset_0x00C8E0:
 		rts
 Offset_0x00C8E2:
@@ -14341,7 +14339,7 @@ Offset_0x00C956:
 		add.b	D0,d3
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1					; $0023
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x00C972
 		move.b	#0,Obj_Ani_Frame(A0)				  ; $0023
@@ -52278,58 +52276,58 @@ Collision_Index:
 		dc.l	Collision_SlotMachine,		Collision_SlotMachine
 
 ; Offset_0x1CD300: Angel_Island_1_Collision:
-Collision_AIZ1:		binclude	"Levels/Angel Island/Collision - Act 1.bin"
+Collision_AIZ1:		binclude	"Levels\AIZ\Collision - Act 1.bin"
 
 ; Offset_0x1CDF00: Angel_Island_2_Collision:
-Collision_AIZ2:		binclude	"Levels/Angel Island/Collision - Act 2.bin"
+Collision_AIZ2:		binclude	"Levels\AIZ\Collision - Act 2.bin"
 
 ; Offset_0x1CEB00: Hydrocity_1_Collision:
-Collision_HCZ1:		binclude	"Levels/Hydrocity/Collision - Act 1.bin"
+Collision_HCZ1:		binclude	"Levels/HCZ/Collision - Act 1.bin"
 
 ; Offset_0x1CF700: Hydrocity_2_Collision:
-Collision_HCZ2:		binclude	"Levels/Hydrocity/Collision - Act 2.bin"
+Collision_HCZ2:		binclude	"Levels/HCZ/Collision - Act 2.bin"
 
 ; Offset_0x1D0300: Marble_Garden_1_Collision:
-Collision_MGZ1:		binclude	"Levels/Marble Garden/Collision - Act 1.bin"
+Collision_MGZ1:		binclude	"Levels/MGZ/Collision - Act 1.bin"
 
 ; Offset_0x1D0F00: Marble_Garden_2_Collision:
-Collision_MGZ2:		binclude	"Levels/Marble Garden/Collision - Act 2.bin"
+Collision_MGZ2:		binclude	"Levels/MGZ/Collision - Act 2.bin"
 
 ; Offset_0x1D1B00: Carnival_Night_Collision:
-Collision_CNZ:		binclude	"Levels/Carnival Night/Collision.bin"
+Collision_CNZ:		binclude	"Levels/CNZ/Collision.bin"
 
 ; Offset_0x1D2700: Flying_Battery_1_Collision:
-Collision_FBZ1:		binclude	"Levels/Flying Battery/Collision - Act 1.bin"
+Collision_FBZ1:		binclude	"Levels/FBZ/Collision - Act 1.bin"
 
 ; Offset_0x1D3300: Flying_Battery_2_Collision:
-Collision_FBZ2:		binclude	"Levels/Flying Battery/Collision - Act 2.bin"
+Collision_FBZ2:		binclude	"Levels/FBZ/Collision - Act 2.bin"
 
 ; Offset_0x1D3F00: Icecap_1_Collision:
-Collision_ICZ1:		binclude	"Levels/IceCap/Collision - Act 1.bin"
+Collision_ICZ1:		binclude	"Levels/ICZ/Collision - Act 1.bin"
 
 ; Offset_0x1D4B00: Icecap_2_Collision:
-Collision_ICZ2:		binclude	"Levels/IceCap/Collision - Act 2.bin"
+Collision_ICZ2:		binclude	"Levels/ICZ/Collision - Act 2.bin"
 
 ; Offset_0x1D5700: Launch_Base_1_Collision:
-Collision_LBZ1:		binclude	"Levels/Launch Base/Collision - Act 1.bin"
+Collision_LBZ1:		binclude	"Levels/LBZ/Collision - Act 1.bin"
 
 ; Offset_0x1D6300: Launch_Base_2_Collision:
-Collision_LBZ2:		binclude	"Levels/Launch Base/Collision - Act 2.bin"
+Collision_LBZ2:		binclude	"Levels/LBZ/Collision - Act 2.bin"
 
 ; Offset_0x1D6F00: Azure_Lake_Collision:
-Collision_ALZ:		binclude	"Levels/Azure Lake/Collision.bin"
+Collision_ALZ:		binclude	"Levels/ALZ/Collision.bin"
 
 ; Offset_0x1D7B00: Balloon_Park_Collision:
-Collision_BPZ:		binclude	"Levels/Balloon Park/Collision.bin"
+Collision_BPZ:		binclude	"Levels/BPZ/Collision.bin"
 
 ; Offset_0x1D8700: Desert_Palace_Collision:
-Collision_DPZ:		binclude	"Levels/Desert Palace/Collision.bin"
+Collision_DPZ:		binclude	"Levels/DPZ/Collision.bin"
 
 ; Offset_0x1D9300: Chrome_Gadget_Collision:
-Collision_CGZ:		binclude	"Levels/Chrome Gadget/Collision.bin"
+Collision_CGZ:		binclude	"Levels/CGZ/Collision.bin"
 
 ; Offset_0x1D9F00: Endless_Mine_Collision:
-Collision_EMZ:		binclude	"Levels/Endless Mine/Collision.bin"
+Collision_EMZ:		binclude	"Levels/EMZ/Collision.bin"
 
 ; Offset_0x1DAB00: BS_Gumball_Machine_Collision:
 Collision_GumblMachine:	binclude	"Levels/Bonus Stages/Collision - Gumball Machine.bin"
@@ -52371,61 +52369,61 @@ Level_Index:	dc.l	LevelLayout_AIZ1,	LevelLayout_AIZ2
 		dc.l	LevelLayout_Slots,	LevelLayout_Slots
 
 ; Offset_0x1DCFC0: AIz_Map_Act1:
-LevelLayout_AIZ1:	binclude	"Levels/Angel Island/Level Layout - Act 1.bin"
+LevelLayout_AIZ1:	binclude	"Levels\AIZ\Level Layout - Act 1.bin"
 
 ; Offset_0x1DD80C: AIz_Map_Act2:
-LevelLayout_AIZ2:	binclude	"Levels/Angel Island/Level Layout - Act 2.bin"
+LevelLayout_AIZ2:	binclude	"Levels\AIZ\Level Layout - Act 2.bin"
 
 ; Offset_0x1DE572: Hz_Map_Act1:
-LevelLayout_HCZ1:	binclude	"Levels/Hydrocity/Level Layout - Act 1.bin"
+LevelLayout_HCZ1:	binclude	"Levels/HCZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1DF0FA: Hz_Map_Act2:
-LevelLayout_HCZ2:	binclude	"Levels/Hydrocity/Level Layout - Act 2.bin"
+LevelLayout_HCZ2:	binclude	"Levels/HCZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1DFFA2: MGz_Map_Act1:
-LevelLayout_MGZ1:	binclude	"Levels/Marble Garden/Level Layout - Act 1.bin"
+LevelLayout_MGZ1:	binclude	"Levels/MGZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E0C32: MGz_Map_Act2:
-LevelLayout_MGZ2:	binclude	"Levels/Marble Garden/Level Layout - Act 2.bin"
+LevelLayout_MGZ2:	binclude	"Levels/MGZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E19E2: CNz_Map_Act1:
-LevelLayout_CNZ1:	binclude	"Levels/Carnival Night/Level Layout - Act 1.bin"
+LevelLayout_CNZ1:	binclude	"Levels/CNZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E2518: CNz_Map_Act2:
-LevelLayout_CNZ2:	binclude	"Levels/Carnival Night/Level Layout - Act 2.bin"
+LevelLayout_CNZ2:	binclude	"Levels/CNZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E340E: FBz_Map_Act1:
-LevelLayout_FBZ1:	binclude	"Levels/Flying Battery/Level Layout - Act 1.bin"
+LevelLayout_FBZ1:	binclude	"Levels/FBZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E4278: FBz_Map_Act2:
-LevelLayout_FBZ2:	binclude	"Levels/Flying Battery/Level Layout - Act 2.bin"
+LevelLayout_FBZ2:	binclude	"Levels/FBZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E4EB2: Iz_Map_Act1:
-LevelLayout_LCZ1:	binclude	"Levels/IceCap/Level Layout - Act 1.bin"
+LevelLayout_LCZ1:	binclude	"Levels/ICZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E5E7A: Iz_Map_Act2:
-LevelLayout_LCZ2:	binclude	"Levels/IceCap/Level Layout - Act 2.bin"
+LevelLayout_LCZ2:	binclude	"Levels/ICZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E6CCA: LBz_Map_Act1:
-LevelLayout_LBZ1:	binclude	"Levels/Launch Base/Level Layout - Act 1.bin"
+LevelLayout_LBZ1:	binclude	"Levels/LBZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E7C76: LBz_Map_Act2:
-LevelLayout_LBZ2:	binclude	"Levels/Launch Base/Level Layout - Act 2.bin"
+LevelLayout_LBZ2:	binclude	"Levels/LBZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E8B9E: ALz_Map:
-LevelLayout_ALZ:	binclude	"Levels/Azure Lake/Level Layout.bin"
+LevelLayout_ALZ:	binclude	"Levels/ALZ/Level Layout.bin"
 
 ; Offset_0x1E8D6A: BPz_Map:
-LevelLayout_BPZ:	binclude	"Levels/Balloon Park/Level Layout.bin"
+LevelLayout_BPZ:	binclude	"Levels/BPZ/Level Layout.bin"
 
 ; Offset_0x1E8EBE: DPz_Map:
-LevelLayout_DPZ:	binclude	"Levels/Desert Palace/Level Layout.bin"
+LevelLayout_DPZ:	binclude	"Levels/DPZ/Level Layout.bin"
 
 ; Offset_0x1E8FB6: CGz_Map:
-LevelLayout_CGZ:	binclude	"Levels/Chrome Gadget/Level Layout.bin"
+LevelLayout_CGZ:	binclude	"Levels/CGZ/Level Layout.bin"
 
 ; Offset_0x1E90AE: EMz_Map:
-LevelLayout_EMZ:	binclude	"Levels/Endless Mine/Level Layout.bin"
+LevelLayout_EMZ:	binclude	"Levels/EMZ/Level Layout.bin"
 
 ; Offset_0x1E91A6: BS_GM_Map:
 LevelLayout_Gumball:	binclude	"Levels/Bonus Stages/Level Layout - Gumball Machine.bin"
@@ -52633,41 +52631,38 @@ Pal_Knuckles:												   ; Offset_0x1E98B4
 		binclude	"data\all\knuckles.pal"
 
 ; Offset_0x1E98D4:
-Palette_AIZ1Intro:	binclude	"Levels/Angel Island/Palettes/Act 1 - Knuckles.bin"
+Palette_AIZ1Intro:	binclude	"Levels\AIZ\Palettes/Act 1 - Knuckles.bin"
 ; Offset_0x1E9934:
-Palette_AIZ1:		binclude	"Levels/Angel Island/Palettes/Act 1 - Normal.bin"
+Palette_AIZ1:		binclude	"Levels\AIZ\Palettes/Act 1 - Normal.bin"
 ; Offset_0x1E9994:
-Palette_AIZ2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Normal.bin"
+Palette_AIZ2:		binclude	"Levels\AIZ\Palettes/Act 2 - Normal.bin"
 ; Offset_0x1E99F4:
-Palette_AIZ2Ship:	binclude	"Levels/Angel Island/Palettes/Act 2 - Airship.bin"
+Palette_AIZ2Ship:	binclude	"Levels\AIZ\Palettes/Act 2 - Airship.bin"
 ; Offset_0x1E9AD4:
-Palette_AIZ1Water:	binclude	"Levels/Angel Island/Palettes/Act 1 - Underwater.bin"
+Palette_AIZ1Water:	binclude	"Levels\AIZ\Palettes/Act 1 - Underwater.bin"
 ; Offset_0x1E9A54:
-Palette_AIZ2Water:	binclude	"Levels/Angel Island/Palettes/Act 2 - Underwater.bin"
+Palette_AIZ2Water:	binclude	"Levels\AIZ\Palettes/Act 2 - Underwater.bin"
 ; Offset_0x1E9B54:
-Palette_HCZ1:		binclude	"Levels/Hydrocity/Palettes/Act 1 - Normal.bin"
+Palette_HCZ1:		binclude	"Levels/HCZ/Palettes/Act 1 - Normal.bin"
 ; Offset_0x1E9BB4:
-Palette_HCZ2:		binclude	"Levels/Hydrocity/Palettes/Act 2 - Normal.bin"
+Palette_HCZ2:		binclude	"Levels/HCZ/Palettes/Act 2 - Normal.bin"
 ; Offset_0x1E9C14:
-Palette_HCZ1Water:	binclude	"Levels/Hydrocity/Palettes/Act 1 - Underwater.bin"
+Palette_HCZ1Water:	binclude	"Levels/HCZ/Palettes/Act 1 - Underwater.bin"
 ; Offset_0x1E9C94:
-Palette_HCZ2Water:	binclude	"Levels/Hydrocity/Palettes/Act 2 - Underwater.bin"
+Palette_HCZ2Water:	binclude	"Levels/HCZ/Palettes/Act 2 - Underwater.bin"
 ; Offset_0x1E9D14:
-Palette_MGZ:		binclude	"Levels/Marble Garden/Palettes/Normal.bin"
+Palette_MGZ:		binclude	"Levels/MGZ/Palettes/Normal.bin"
 ; Offset_0x1E9D74:
-Palette_CNZ:
-		binclude	"Levels/Carnival Night/Palettes/Normal.bin"
+Palette_CNZ:		binclude	"Levels/CNZ/Palettes/Normal.bin"
 
 Pal_Flying_Battery_Act_1:									; Offset_0x1E9DD4
 Pal_Flying_Battery_Act_2:									; Offset_0x1E9DD4
 		binclude	"data\fbz\fbz.pal"
 
 ; Offset_0x1E9E34: See "Iz_1_Set_Indoor_Pal" as well
-Palette_ICZIndoors:
-		binclude	"Levels/IceCap/Palettes/Indoors.bin"
+Palette_ICZIndoors:	binclude	"Levels/ICZ/Palettes/Indoors.bin"
 ; Offset_0x1E9E94: See "Iz_1_Set_Intro_Pal" as well
-Palette_ICZOutdoors:
-		binclude	"Levels/IceCap/Palettes/Outdoors.bin"
+Palette_ICZOutdoors:	binclude	"Levels/ICZ/Palettes/Outdoors.bin"
 
 Pal_Launch_Base_Act_1:										; Offset_0x1E9EF4
 		binclude	"data\lbz\lbz_1.pal"
@@ -52738,8 +52733,8 @@ Player_Start_Speed_Array:									   ; Offset_0x1F7000
 		dc.w	$0580, $0010, $0200, $0000
 ;-------------------------------------------------------------------------------
 Player_Start_Position_Array:								   ; Offset_0x1F7018
-		binclude	"Levels/Angel Island/Starting Position - Act 1.bin"
-		binclude	"Levels/Angel Island/Starting Position - Act 2.bin"
+		binclude	"Levels\AIZ\Starting Position - Act 1.bin"
+		binclude	"Levels\AIZ\Starting Position - Act 2.bin"
 		dc.w	$0280, $0020, $0220, $082C	; Hz
 		dc.w	$0040, $0070, $0060, $08BE	; MGz
 		dc.w	$0060, $06CC, $0060, $022C	; CNz
@@ -52924,15 +52919,15 @@ LBz_Automatic_Tunnel_From_To_Data:
 		dc.w	$FFFF, 0, 0
 ; ---------------------------------------------------------------------------
 ; Offset_0x1F72DE:
-AIz_Obj_Act1:	binclude	"Levels/Angel Island/Object Layout - Act 1.bin"
+AIz_Obj_Act1:	binclude	"Levels\AIZ\Object Layout - Act 1.bin"
 		dc.w	$FFFF, 0, 0
 ; Offset_0x1F75C6:
-AIz_Obj_Act2:	binclude	"Levels/Angel Island/Object Layout - Act 2.bin"
+AIz_Obj_Act2:	binclude	"Levels\AIZ\Object Layout - Act 2.bin"
 		dc.w	$FFFF, 0, 0
 ; Offset_0x1F7A4C:
-AIz_Rng_Act1:	binclude	"Levels/Angel Island/Ring Layout - Act 1.bin"
+AIz_Rng_Act1:	binclude	"Levels\AIZ\Ring Layout - Act 1.bin"
 ; Offset_0x1F7BE4:
-AIz_Rng_Act2:	binclude	"Levels/Angel Island/Ring Layout - Act 2.bin"
+AIz_Rng_Act2:	binclude	"Levels\AIZ\Ring Layout - Act 2.bin"
 
 ;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000

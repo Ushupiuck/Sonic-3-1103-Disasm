@@ -1,5 +1,5 @@
 s3p12_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p12_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $23
@@ -17,13 +17,13 @@ s3p12_Header:
 ; FM1 Data
 s3p12_FM1:
 	smpsSetvoice        $02
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsFMAlterVol      $05
 	dc.b	nF5, $06, nRst, $02, nF5, $06, nRst, nF5, $04, nF5, $06, nRst
 	dc.b	nF5, $06, nRst, $02, nF5, $06, nRst, nF5, $04, nF5, $06, nRst
 	dc.b	nF5, $06, nRst, nF5, nRst, nD5, nRst, $2A, nD5, $06, nRst, $02
 	dc.b	nD5, $06, nRst, nD5, nRst, nD5, $04, nD5, $06, nRst
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsFMAlterVol      $FB
 
 s3p12_Jump01:
@@ -37,7 +37,7 @@ s3p12_Jump01:
 	dc.b	nB4, $06, nRst, nA4, $60, smpsNoAttack, $48
 	smpsLoop            $00, $02, s3p12_Jump01
 	smpsSetvoice        $02
-	smpsChangeTransposition $E8
+	smpsAlterPitch      $E8
 	dc.b	nRst, $08, nG4, $04, nA4, nRst, nG4, nA4, nRst, nG4, nRst, $08
 	dc.b	nAb4, $03, smpsNoAttack, nA4, $0D, nG4, $04, nRst, $28, nG4, $04, nA4
 	dc.b	nRst, nG4, nA4, nRst, nG4, nRst, $08, nB4, $03, smpsNoAttack, nC5, $0D
@@ -52,7 +52,7 @@ s3p12_Jump01:
 	dc.b	$04, nRst, $0C, nEb5, $03, smpsNoAttack, nE5, $2D, nRst, $0C, nA4, $04
 	dc.b	nG4, nA4, nB4, nA4, nB4, nC5, nB4, nC5, nD5, nC5, nD5, nE5
 	dc.b	nD5, nE5, nF5, nE5, nF5, nG5, nF5, nG5, nA5, nG5, nA5
-	smpsChangeTransposition $18
+	smpsAlterPitch      $18
 	dc.b	nRst, $60, nRst, nRst, nRst, nRst, nRst, nRst, nRst
 	smpsJump            s3p12_Jump01
 
@@ -300,7 +300,7 @@ s3p12_Voices:
 	smpsVcDecayRate2    $06, $06, $06, $01
 	smpsVcDecayLevel    $01, $01, $01, $03
 	smpsVcReleaseRate   $0A, $08, $0A, $05
-	smpsVcTotalLevel    $80, $82, $82, $12
+	smpsVcTotalLevel    $00, $02, $02, $12
 
 ;	Voice $01
 ;	$3A
@@ -318,7 +318,7 @@ s3p12_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $07
 	smpsVcDecayLevel    $0F, $0F, $0F, $0C
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $18, $22, $1C
+	smpsVcTotalLevel    $00, $18, $22, $1C
 
 ;	Voice $02
 ;	$3D
@@ -336,5 +336,5 @@ s3p12_Voices:
 	smpsVcDecayRate2    $04, $04, $04, $07
 	smpsVcDecayLevel    $01, $01, $01, $02
 	smpsVcReleaseRate   $0A, $0A, $0A, $05
-	smpsVcTotalLevel    $80, $80, $80, $15
+	smpsVcTotalLevel    $00, $00, $00, $15
 

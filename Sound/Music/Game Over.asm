@@ -1,5 +1,5 @@
 s3p39_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p39_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $05
@@ -56,13 +56,13 @@ s3p39_FM3:
 s3p39_FM4:
 	smpsPan             panLeft, $00
 	smpsSetvoice        $03
-	smpsChangeTransposition $E8
+	smpsAlterPitch      $E8
 	smpsModSet          $07, $01, $03, $05
 	dc.b	nC5, $30, nF5, $20, nC5, $10, nB4, $30, nF5, $20, nB4, $10
 	dc.b	nBb4, $08, nEb5, nBb4, nA4, nD5, nA4, nAb4, nCs5, nAb4, nG4, nC5
 	dc.b	nG4
 	smpsSetvoice        $01
-	smpsChangeTransposition $18
+	smpsAlterPitch      $18
 	smpsModSet          $07, $01, $0F, $05
 	smpsPan             panRight, $00
 	dc.b	nG5, $08, nG4, nD5
@@ -158,7 +158,7 @@ s3p39_Voices:
 	smpsVcDecayRate2    $08, $07, $07, $07
 	smpsVcDecayLevel    $02, $01, $01, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $14, $32, $17
+	smpsVcTotalLevel    $00, $14, $32, $17
 
 ;	Voice $01
 ;	$3A
@@ -176,7 +176,7 @@ s3p39_Voices:
 	smpsVcDecayRate2    $02, $00, $00, $00
 	smpsVcDecayLevel    $01, $00, $00, $00
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $22, $24, $18
+	smpsVcTotalLevel    $01, $22, $24, $18
 
 ;	Voice $02
 ;	$3C
@@ -194,7 +194,7 @@ s3p39_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $00, $00, $02
 	smpsVcReleaseRate   $07, $02, $08, $03
-	smpsVcTotalLevel    $87, $1D, $80, $15
+	smpsVcTotalLevel    $07, $1D, $00, $15
 
 ;	Voice $03
 ;	$3A
@@ -212,7 +212,7 @@ s3p39_Voices:
 	smpsVcDecayRate2    $07, $00, $00, $00
 	smpsVcDecayLevel    $00, $01, $0F, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $27, $28, $1C
+	smpsVcTotalLevel    $00, $27, $28, $1C
 
 ;	Voice $04
 ;	$1F
@@ -230,5 +230,5 @@ s3p39_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $00, $00, $00, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $8B, $8A, $8D, $8C
+	smpsVcTotalLevel    $0B, $0A, $0D, $8C
 

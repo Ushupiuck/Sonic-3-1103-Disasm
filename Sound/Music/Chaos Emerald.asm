@@ -61,7 +61,7 @@ s3p43_Loop01:
 
 ; PSG1 Data
 s3p43_PSG1:
-	smpsFade            $01
+	smpsNop             $01
 	dc.b	nRst, $02, nRst, $2D
 
 s3p43_Loop00:
@@ -73,7 +73,7 @@ s3p43_Loop00:
 s3p43_DAC:
 ; PSG3 Data
 s3p43_PSG3:
-	smpsFade            $01
+	smpsNop             $01
 	smpsStop
 
 s3p43_Voices:
