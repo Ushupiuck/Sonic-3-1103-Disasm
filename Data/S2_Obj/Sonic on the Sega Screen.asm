@@ -57,9 +57,15 @@ CopySpriteTilesToRAMForSegaScreen:
 CopySpritePiecesForSegaScreen:
 		move.w	(a2)+,d0
 		move.w	d0,d1
+    if FixBugs
+		andi.l	#$FFF,d0
+		lsl.l	#5,d0
+		lea	(a3,d0.l),a4 ; source ROM address of tiles to copy
+    else
 		andi.w	#$FFF,d0
 		lsl.w	#5,d0
-		lea	(a3,d0.w),a4			; source ROM address of tiles to copy
+		lea	(a3,d0.w),a4 ; source ROM address of tiles to copy
+    endif
 		andi.w	#$F000,d1
 		rol.w	#4,d1
 		addq.w	#1,d1
@@ -154,9 +160,13 @@ Offset_0x034604:
 		bchg	#0,Obj_Flags(a0)
 		bchg	#0,Obj_Status(a0)
 
+    if FixBugs
+		clearRAM	Horizontal_Scroll_Buffer,Horizontal_Scroll_Buffer_End
+    else
 		; The loop counter here is erroniously set to $400 instead of ($400/4)-1; this didn't cause issues
 		; in Sonic 2, but in Sonic 3, it causes the entire color RAM to be cleared.
 		clearRAM	Horizontal_Scroll_Buffer,Palette_Underwater_Target+4
+    endif
 
 		lea	(Horizontal_Scroll_Buffer+$13C).w,a1
 		lea	Offset_0x034A08(pc),a2

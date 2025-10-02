@@ -10060,10 +10060,10 @@ Offset_0x009784:
 Offset_0x009792:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x009784
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D3,d1
 		btst	#$A,d4
@@ -10080,7 +10080,7 @@ Offset_0x0097C6:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1).l,a2				; Offset_0x1C9240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$B,d4
@@ -10126,10 +10126,10 @@ Offset_0x009828:
 Offset_0x009836:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x009828
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D3,d1
 		btst	#$A,d4
@@ -10146,7 +10146,7 @@ Offset_0x00986A:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1).l,a2				; Offset_0x1C9240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$B,d4
@@ -10184,7 +10184,7 @@ Object_FindFloor:											   ; Offset_0x0098AC
 		beq.s	Offset_0x0098E6
 		bsr.s	Offset_0x0098E6
 		move.b	(A4),1(A4)
-		move.w	D1, -(sp)
+		move.w	D1,-(sp)
 		sub.w	(Camera_X_Difference).w,d3					; $FFFFEE3E
 		sub.w	(Camera_Y_Difference).w,d2					; $FFFFEE40
 		lea	(Floor_Check_Tile).l,a5					; Offset_0x0094C6
@@ -10212,10 +10212,10 @@ Offset_0x0098F6:
 Offset_0x0098FC:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x0098F6
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D3,d1
 		btst	#$A,d4
@@ -10232,7 +10232,7 @@ Offset_0x009930:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_1).l,a2				; Offset_0x1C9240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$B,d4
@@ -10323,10 +10323,10 @@ Offset_0x0099F0:
 Offset_0x0099FE:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x0099F0
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D2,d1
 		btst	#$B,d4
@@ -10343,7 +10343,7 @@ Offset_0x009A32:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_2).l,a2				; Offset_0x1CB240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$A,d4
@@ -10390,10 +10390,10 @@ Offset_0x009A94:
 Offset_0x009AA2:
 		move.l	(Current_Collision_Ptr).w,a2				; $FFFFF796
 		add.w	D0,d0
-		move.w	(A2,d0),d0
+		move.w	(A2,d0.w),d0
 		beq.s	Offset_0x009A94
 		lea	(AngleMap).l,a2							; Offset_0x1C9040
-		move.b	(A2,d0),(A4)
+		move.b	(A2,d0.w),(A4)
 		lsl.w	#4,d0
 		move.w	D2,d1
 		btst	#$B,d4
@@ -10410,7 +10410,7 @@ Offset_0x009AD6:
 		andi.w	#$F,d1
 		add.w	D0,d1
 		lea	(Collision_Array_2).l,a2				; Offset_0x1CB240
-		move.b	(A2,d1),d0
+		move.b	(A2,d1.w),d0
 		ext.w	D0
 		eor.w	D6,d4
 		btst	#$A,d4
@@ -10777,7 +10777,7 @@ Player_DontRunOnWallsR:										   ; Offset_0x009E06
 		move.w	#0,d6
 		bsr.w	FindWall							   ; Offset_0x009982
 		move.w	(sp)+,d0
-		move.b	#$C0,d2
+		move.b	#-$40,d2
 		bra.w	Offset_0x009C48
 ;-------------------------------------------------------------------------------
 Offset_0x009E66:
@@ -10809,7 +10809,7 @@ Offset_0x009E66:
 		move.w	#0,d6
 		bsr.w	FindWall							   ; Offset_0x009982
 		move.w	(sp)+,d0
-		move.b	#$C0,d2
+		move.b	#-$40,d2
 		bra.w	Offset_0x009C48
 ;-------------------------------------------------------------------------------
 Offset_0x009EC6:
@@ -10823,7 +10823,7 @@ Offset_0x009ECE:
 		move.w	#$10,a3
 		move.w	#0,d6
 		bsr.w	FindWall							   ; Offset_0x009982
-		move.b	#$C0,d2
+		move.b	#-$40,d2
 		bra.w	Offset_0x009C84
 ;===============================================================================
 ; Rotina para detectar se o objeto tocou a parede a direita
@@ -11228,7 +11228,7 @@ Touch_Monitor:												   ; Offset_0x00A2C4
 		cmp.w	Obj_Y(A1),d0									; $0014
 		bcs.s	Offset_0x00A312
 		neg.w	Obj_Speed_Y(A0)									 ; $001A
-		move.w	#$FE80,Obj_Speed_Y(A1)							; $001A
+		move.w	#-$180,Obj_Speed_Y(A1)							; $001A
 		tst.b	Obj_Player_St_Convex(A1)						 ; $003C
 		bne.s	Offset_0x00A312
 		move.b	#4,Obj_Player_St_Convex(A1)					  ; $003C
@@ -11287,7 +11287,7 @@ Offset_0x00A384:
 		move.w	Enemy_Points(pc,d0.w),d0			   ; Offset_0x00A3D6
 		cmpi.w	#$20,(Enemy_Hit_Chain_Count).w			  ; $FFFFF7D0
 		bcs.s	Offset_0x00A39E
-		move.w	#$3E8,d0	   ; 10000
+		move.w	#1000,d0	   ; 10000
 		move.w	#$A,Obj_Player_Spdsh_Cnt(A1)				 ; $003E
 Offset_0x00A39E:
 		move.w	A0,a3
@@ -11309,10 +11309,10 @@ Offset_0x00A3CE:
 		rts
 ;-------------------------------------------------------------------------------
 Enemy_Points:												   ; Offset_0x00A3D6
-		dc.w	$000A	   ;  100
-		dc.w	$0014	   ;  200
-		dc.w	$0032	   ;  500
-		dc.w	$0064	   ; 1000
+		dc.w	10	   ;  100
+		dc.w	20	   ;  200
+		dc.w	50	   ;  500
+		dc.w	100	   ; 1000
 ;-------------------------------------------------------------------------------
 ; Offset_0x00A3DE ; Sonic 2 Left over
 		bset	#7,Obj_Status(A1)							  ; $002A
@@ -11385,7 +11385,7 @@ Kill_Player:												   ; Offset_0x00A4A4
 		move.b	#6,Obj_Routine(A0)							  ; $0005
 		jsr	(Sonic_ResetOnFloor).l				   ; Offset_0x00BF76
 		bset	#1,Obj_Status(A0)							  ; $002A
-		move.w	#$F900,Obj_Speed_Y(A0)							; $001A
+		move.w	#-$700,Obj_Speed_Y(A0)							; $001A
 		move.w	#0,Obj_Speed_X(A0)							; $0018
 		move.w	#0,Obj_Inertia(A0)							; $001C
 		move.b	#$18,Obj_Ani_Number(A0)							; $0020
@@ -11696,7 +11696,7 @@ Sonic_RecordPos:
 Offset_0x00ACD2:
 		move.w	(Position_Table_Index_2P).w,d0				; $FFFFEE2A
 		lea	(Position_Table_Data_P2).w,a1				; $FFFFE600
-		lea	(A1,d0),a1
+		lea	(A1,d0.w),a1
 		move.w	Obj_X(A0),(A1)+				 ; $0010
 		move.w	Obj_Y(A0),(A1)+				 ; $0014
 		addq.b	#4,(Position_Table_Index_2P+$01).w		  ; $FFFFEE2B
@@ -13944,7 +13944,7 @@ Offset_0x00C3FC:
 		move.b	D0,d3
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x00C41A
 		move.b	#0,Obj_Ani_Frame(A0)
@@ -13983,7 +13983,7 @@ Offset_0x00C458:
 		move.b	D0,d3
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1					; $0023
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x00C474
 		move.b	#0,Obj_Ani_Frame(A0)				  ; $0023
@@ -14338,7 +14338,7 @@ Sonic_Or_Knuckles_Animate_Sprite_2P_A1:				; Offset_0x00C850
 		bclr	#5,Obj_Status(A0)					 ; $002A
 Offset_0x00C872:
 		add.w	D0,d0
-		adda.w	(A1,d0),a1
+		adda.w	(A1,d0.w),a1
 		move.b	(A1),d0
 		bmi.s	Offset_0x00C8E2
 		move.b	Obj_Status(A0),d1					   ; $002A
@@ -14351,7 +14351,7 @@ Offset_0x00C872:
 Offset_0x00C898:
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1					; $0023
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FC,d0
 		bcc.s	Offset_0x00C8B2
 Offset_0x00C8A8:
@@ -14368,15 +14368,15 @@ Offset_0x00C8B2:
 Offset_0x00C8C2:
 		addq.b	#1,d0
 		bne.s	Offset_0x00C8D6
-		move.b	2(A1,d1),d0
+		move.b	2(A1,d1.w),d0
 		sub.b	D0,Obj_Ani_Frame(A0)					; $0023
 		sub.b	D0,d1
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		bra.s	Offset_0x00C8A8
 Offset_0x00C8D6:
 		addq.b	#1,d0
 		bne.s	Offset_0x00C8E0
-		move.b	2(A1,d1),Obj_Ani_Number(A0)		  ; $0020
+		move.b	2(A1,d1.w),Obj_Ani_Number(A0)		  ; $0020
 Offset_0x00C8E0:
 		rts
 Offset_0x00C8E2:
@@ -14425,7 +14425,7 @@ Offset_0x00C956:
 		add.b	D0,d3
 		moveq	#0,d1
 		move.b	Obj_Ani_Frame(A0),d1					; $0023
-		move.b	1(A1,d1),d0
+		move.b	1(A1,d1.w),d0
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x00C972
 		move.b	#0,Obj_Ani_Frame(A0)				  ; $0023
