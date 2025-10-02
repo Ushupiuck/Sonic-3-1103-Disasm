@@ -51677,18 +51677,18 @@ Art_Fire_Breath:
 		binclude	"data\aiz\firebrth.nem"
 		even
 Art_Flame_Mobile:
-		binclude	"data\aiz\flamembl.kmd"
+		binclude	"data\aiz\flamembl.kosm"
 Art_Fire_Breath_Small:
 		binclude	"data\aiz\firebtsm.nem"
 		even
 Art_Rhinobot:
 		binclude	"data\aiz\rhinobot.dat"
 Art_Tulipon:
-		binclude	"data\aiz\tulipon.kmd"
+		binclude	"data\aiz\tulipon.kosm"
 Art_Monkey_Dude:
-		binclude	"data\aiz\monkdude.kmd"
+		binclude	"data\aiz\monkdude.kosm"
 Art_Catakiller_Jr:
-		binclude	"data\aiz\catakljr.kmd"
+		binclude	"data\aiz\catakljr.kosm"
 Art_Big_Shaker:
 		binclude	"data\hz\bigshakr.nem"
 		even
@@ -51699,17 +51699,17 @@ Art_Buggernaut:
 		binclude	"data\hz\buggernt.nem"
 		even
 Art_Jawz:
-		binclude	"data\hz\jawz.kmd"
+		binclude	"data\hz\jawz.kosm"
 Art_Mega_Chopper:
-		binclude	"data\hz\megachpr.kmd"
+		binclude	"data\hz\megachpr.kosm"
 Art_Blastoid:
-		binclude	"data\hz\blastoid.kmd"
+		binclude	"data\hz\blastoid.kosm"
 Art_Turbo_Spiker:
-		binclude	"data\hz\turbospk.kmd"
+		binclude	"data\hz\turbospk.kosm"
 Art_Pointdexter:
-		binclude	"data\hz\pntdexter.kmd"
+		binclude	"data\hz\pntdexter.kosm"
 Art_Tunnelbot:
-		binclude	"data\mgz\tunnelbt.kmd"
+		binclude	"data\mgz\tunnelbt.kosm"
 Art_Spire:
 		binclude	"data\mgz\spire.nem"
 		even
@@ -51719,13 +51719,13 @@ Art_Drill_Mobile:
 Art_Drill_Mobile_Scaling:
 		binclude	"data\mgz\drillmob.dat"
 Art_Rocks:
-		binclude	"data\mgz\rocks.kmd"
+		binclude	"data\mgz\rocks.kosm"
 Art_Bubbles:
 		binclude	"data\mgz\bubbles.dat"
 Art_Spiker:
-		binclude	"data\mgz\spiker.kmd"
+		binclude	"data\mgz\spiker.kosm"
 Art_Mantis:
-		binclude	"data\mgz\mantis.kmd"
+		binclude	"data\mgz\mantis.kosm"
 Art_Bowling_Spin:
 		binclude	"data\cnz\bowlspin.nem"
 		even
@@ -51735,13 +51735,13 @@ Art_Graviton_Mobile:
 Art_Clamer:
 		binclude	"data\cnz\clamer.dat"
 Art_Spikeball:
-		binclude	"data\cnz\spikball.kmd"
+		binclude	"data\cnz\spikball.kosm"
 Art_Sparkle:
-		binclude	"data\cnz\sparkle.kmd"
+		binclude	"data\cnz\sparkle.kosm"
 Art_Batbot:
-		binclude	"data\cnz\batbot.kmd"
+		binclude	"data\cnz\batbot.kosm"
 Art_Balloon:
-		binclude	"data\cnz\balloon.kmd"
+		binclude	"data\cnz\balloon.kosm"
 Art_Gapsule:
 		binclude	"data\fbz\gapsule.nem"
 		even
@@ -51752,9 +51752,9 @@ Art_Hang_Mobile:
 		binclude	"data\fbz\hangmobl.nem"
 		even
 Art_Blaster:
-		binclude	"data\fbz\blaster.kmd"
+		binclude	"data\fbz\blaster.kosm"
 Art_Technosqueek:
-		binclude	"data\fbz\technosq.kmd"
+		binclude	"data\fbz\technosq.kosm"
 Art_Iz_Ice_Platform_And_Miscellaneous:
 		binclude	"data\iz\ptfrmisc.nem"
 		even
@@ -51773,9 +51773,9 @@ Art_Big_Icedus:
 Art_Penguinator:
 		binclude	"data\iz\pengntor.dat"
 Art_Ice_Block:
-		binclude	"data\iz\iceblock.kmd"
+		binclude	"data\iz\iceblock.kosm"
 Art_Orbinaut:
-		binclude	"data\iz\orbinaut.kmd"
+		binclude	"data\iz\orbinaut.kosm"
 Art_Twin_Hammer:
 		binclude	"data\lbz\twinhamr.nem"
 		even
@@ -51783,15 +51783,15 @@ Art_Beam_Rocket:
 		binclude	"data\lbz\beamrckt.nem"
 		even
 Art_Ball_Shooter:
-		binclude	"data\lbz\ballshtr.kmd"
+		binclude	"data\lbz\ballshtr.kosm"
 Art_Snale_Blaster:
-		binclude	"data\lbz\snalebst.kmd"
+		binclude	"data\lbz\snalebst.kosm"
 Art_Ribot:
-		binclude	"data\lbz\ribot.kmd"
+		binclude	"data\lbz\ribot.kosm"
 Art_Orbinaut_2:
-		binclude	"data\lbz\orbinaut.kmd"
+		binclude	"data\lbz\orbinaut.kosm"
 Art_Corkey:
-		binclude	"data\lbz\corkey.kmd"
+		binclude	"data\lbz\corkey.kosm"
 Art_Flybot_767:
 		binclude	"data\lbz\flybt767.dat"
 Art_Twin_Hammer_Box:
@@ -51838,7 +51838,7 @@ Art_Egg_Prison:
 Art_Knuckles_2:
 		binclude	"data\art\knuckls2.dat"
 Art_Tornado:
-		binclude	"data\art\tornado.kmd"
+		binclude	"data\art\tornado.kosm"
 		binclude	"data\art\intro plane shadows.kos"
 Art_AIz_Swinging_Vine:
 		binclude	"data\aiz\swngvine.nem"
@@ -51874,11 +51874,11 @@ Art_Hz_Water_Rush:
 		binclude	"data\hz\waterush.nem"
 		even
 Art_Hz_Large_Fan:
-		binclude	"data\hz\largefan.kmd"
+		binclude	"data\hz\largefan.kosm"
 Art_Hz_Geyser_Horizontal:
-		binclude	"data\hz\geyser_h.kmd"
+		binclude	"data\hz\geyser_h.kosm"
 Art_Hz_Geyser_Vertical:
-		binclude	"data\hz\geyser_v.kmd"
+		binclude	"data\hz\geyser_v.kosm"
 Art_Hz_Sliding_Tube:
 		binclude	"data\hz\slidtube.nem"
 		even
@@ -51954,35 +51954,35 @@ Art_EMz_Rock_And_Miscellaneous:
 		even
 ;-------------------------------------------------------------------------------
 Angel_Island_2_Boss_Ship:
-		binclude	"data\aiz\bossship.kmd"
+		binclude	"data\aiz\bossship.kosm"
 Level_Results_Sonic:
-		binclude	"data\art\lr_sonic.kmd"
+		binclude	"data\art\lr_sonic.kosm"
 Level_Results_Miles:
-		binclude	"data\art\lr_miles.kmd"
+		binclude	"data\art\lr_miles.kosm"
 Level_Results_Tails:
-		binclude	"data\art\lr_tails.kmd"
+		binclude	"data\art\lr_tails.kosm"
 Level_Results_Knuckles:
-		binclude	"data\art\lr_kte.kmd"
+		binclude	"data\art\lr_kte.kosm"
 Title_Card_Results:
-		binclude	"data\art\tc_res.kmd"
+		binclude	"data\art\tc_res.kosm"
 Title_Card_Number_1:										   ; Offset_0x13AB6C
-		binclude	"data\art\tc_1.kmd"
+		binclude	"data\art\tc_1.kosm"
 Title_Card_Number_2:										   ; Offset_0x13AC2E
-		binclude	"data\art\tc_2.kmd"
+		binclude	"data\art\tc_2.kosm"
 Title_Card_ZONE_ACT:										   ; Offset_0x13AD10
-		binclude	"data\art\tc_zone.kmd"
+		binclude	"data\art\tc_zone.kosm"
 TC_Angel_Island:											   ; Offset_0x13AEF2
-		binclude	"data\art\tc_aiz.kmd"
+		binclude	"data\art\tc_aiz.kosm"
 TC_Hidrocity:												   ; Offset_0x13B004
-		binclude	"data\art\tc_hz.kmd"
+		binclude	"data\art\tc_hz.kosm"
 TC_Marble_Garden:											   ; Offset_0x13B156
-		binclude	"data\art\tc_mgz.kmd"
+		binclude	"data\art\tc_mgz.kosm"
 TC_Carnival_Night:											   ; Offset_0x13B318
-		binclude	"data\art\tc_cnz.kmd"
+		binclude	"data\art\tc_cnz.kosm"
 TC_Flying_Battery:											   ; Offset_0x13B4AA
-		binclude	"data\art\tc_fbz.kmd"
+		binclude	"data\art\tc_fbz.kosm"
 TC_Icecap:													   ; Offset_0x13B60C
-		binclude	"data\art\tc_iz.kmd"
+		binclude	"data\art\tc_iz.kosm"
 TC_Launch_Base:												   ; Offset_0x13B6DE
 TC_Mushroom_Valley:											   ; Offset_0x13B6DE
 TC_Sandopolis:												   ; Offset_0x13B6DE
@@ -51990,7 +51990,7 @@ TC_Lava_Reef:												   ; Offset_0x13B6DE
 TC_Sky_Sanctuary:											   ; Offset_0x13B6DE
 TC_Death_Egg:												   ; Offset_0x13B6DE
 TC_The_Doomsday:											   ; Offset_0x13B6DE
-		binclude	"data\art\tc_lbz.kmd"
+		binclude	"data\art\tc_lbz.kosm"
 Angel_Island_1_Blocks:										   ; Offset_0x13B830
 		binclude	"data\aiz\bl_act1.kos"
 Angel_Island_1_Blocks_2:									   ; Offset_0x13BA30
@@ -51998,16 +51998,16 @@ Angel_Island_1_Blocks_2:									   ; Offset_0x13BA30
 Angel_Island_1_Blocks_3:									   ; Offset_0x13C680
 		binclude	"data\aiz\bl3_act1.kos"
 Angel_Island_1_Tiles:										   ; Offset_0x13D750
-		binclude	"data\aiz\tl_act1.kmd"
+		binclude	"data\aiz\tl_act1.kosm"
 Angel_Island_1_Tiles_2:										   ; Offset_0x13E552
-		binclude	"data\aiz\tl2_act1.kmd"
+		binclude	"data\aiz\tl2_act1.kosm"
 Angel_Island_1_Tiles_3:										   ; Offset_0x141584
-		binclude	"data\aiz\tl3_act1.kmd"
+		binclude	"data\aiz\tl3_act1.kosm"
 Angel_Island_1_Chunks:										   ; Offset_0x143D96
 Angel_Island_1_Chunks_2:									   ; Offset_0x143D96
 		binclude	"data\aiz\ck_act1.kos"
 Angel_Island_1_Flames:										   ; Offset_0x1476A6
-		binclude	"data\aiz\flames.kmd"
+		binclude	"data\aiz\flames.kosm"
 Angel_Island_2_Blocks:										   ; Offset_0x148128
 		binclude	"data\aiz\bl_act2.kos"
 Angel_Island_2_Blocks_2:									   ; Offset_0x1489A8
@@ -52015,11 +52015,11 @@ Angel_Island_2_Blocks_2:									   ; Offset_0x1489A8
 Angel_Island_2_Blocks_3:									   ; Offset_0x149448
 		binclude	"data\aiz\bl3_act2.kos"
 Angel_Island_2_Tiles:										   ; Offset_0x1496B8
-		binclude	"data\aiz\tl_act2.kmd"
+		binclude	"data\aiz\tl_act2.kosm"
 Angel_Island_2_Tiles_2:										   ; Offset_0x14A1BA
-		binclude	"data\aiz\tl2_act2.kmd"
+		binclude	"data\aiz\tl2_act2.kosm"
 Angel_Island_2_Tiles_3:										   ; Offset_0x14CA3C
-		binclude	"data\aiz\tl3_act2.kmd"
+		binclude	"data\aiz\tl3_act2.kosm"
 Angel_Island_2_Chunks:										   ; Offset_0x14EA6E
 Angel_Island_2_Chunks_2:									   ; Offset_0x14EA6E
 		binclude	"data\aiz\ck_act2.kos"
@@ -52028,20 +52028,20 @@ Hydrocity_2_Blocks:											   ; Offset_0x152B8E
 		binclude	"data\hz\blocks.kos"
 Hydrocity_1_Tiles:											   ; Offset_0x152F7E
 Hydrocity_2_Tiles:											   ; Offset_0x152F7E
-		binclude	"data\hz\tiles.kmd"
+		binclude	"data\hz\tiles.kosm"
 Hydrocity_1_Chunks:											   ; Offset_0x153B70
 Hydrocity_2_Chunks:											   ; Offset_0x153B70
 		binclude	"data\hz\chunks.kos"
 Hydrocity_1_Blocks_2:										   ; Offset_0x153E60
 		binclude	"data\hz\bl2_act1.kos"
 Hydrocity_1_Tiles_2:										   ; Offset_0x1546F0
-		binclude	"data\hz\tl2_act1.kmd"
+		binclude	"data\hz\tl2_act1.kosm"
 Hydrocity_1_Chunks_2:										   ; Offset_0x156742
 		binclude	"data\hz\ck2_act1.kos"
 Hydrocity_2_Blocks_2:										   ; Offset_0x158562
 		binclude	"data\hz\bl2_act2.kos"
 Hydrocity_2_Tiles_2:										   ; Offset_0x158DF2
-		binclude	"data\hz\tl2_act2.kmd"
+		binclude	"data\hz\tl2_act2.kosm"
 Hydrocity_2_Chunks_2:										   ; Offset_0x15AC74
 		binclude	"data\hz\ck2_act2.kos"
 Marble_Garden_1_Blocks:										   ; Offset_0x15C744
@@ -52049,20 +52049,20 @@ Marble_Garden_2_Blocks:										   ; Offset_0x15C744
 		binclude	"data\mgz\blocks.kos"
 Marble_Garden_1_Tiles:										   ; Offset_0x15D0A4
 Marble_Garden_2_Tiles:										   ; Offset_0x15D0A4
-		binclude	"data\mgz\tiles.kmd"
+		binclude	"data\mgz\tiles.kosm"
 Marble_Garden_1_Chunks:										   ; Offset_0x15F926
 Marble_Garden_2_Chunks:										   ; Offset_0x15F926
 		binclude	"data\mgz\chunks.kos"
 Marble_Garden_1_Blocks_2:									   ; Offset_0x161C56
 		binclude	"data\mgz\bl2_act1.kos"
 Marble_Garden_1_Tiles_2:									   ; Offset_0x161F56
-		binclude	"data\mgz\tl2_act1.kmd"
+		binclude	"data\mgz\tl2_act1.kosm"
 Marble_Garden_1_Chunks_2:									   ; Offset_0x162628
 		binclude	"data\mgz\ck2_act1.kos"
 Marble_Garden_2_Blocks_2:									   ; Offset_0x162E58
 		binclude	"data\mgz\bl2_act2.kos"
 Marble_Garden_2_Tiles_2:									   ; Offset_0x1632A8
-		binclude	"data\mgz\tl2_act2.kmd"
+		binclude	"data\mgz\tl2_act2.kosm"
 Marble_Garden_2_Chunks_2:									   ; Offset_0x16403A
 		binclude	"data\mgz\ck2_act2.kos"
 Marble_Garden_2_Dynamic_Chunks:								   ; Offset_0x1649DA
@@ -52076,7 +52076,7 @@ Carnival_Night_1_Tiles:										   ; Offset_0x166A9A
 Carnival_Night_1_Tiles_2:									   ; Offset_0x166A9A
 Carnival_Night_2_Tiles:										   ; Offset_0x166A9A
 Carnival_Night_2_Tiles_2:									   ; Offset_0x166A9A
-		binclude	"data\cnz\tiles.kmd"
+		binclude	"data\cnz\tiles.kosm"
 Carnival_Night_1_Chunks:									   ; Offset_0x169CBC
 Carnival_Night_1_Chunks_2:									   ; Offset_0x169CBC
 Carnival_Night_2_Chunks:									   ; Offset_0x169CBC
@@ -52087,7 +52087,7 @@ Flying_Battery_1_Blocks_2:									   ; Offset_0x16CDCC
 		binclude	"data\fbz\bl_act1.kos"
 Flying_Battery_1_Tiles:										   ; Offset_0x16DB1C
 Flying_Battery_1_Tiles_2:									   ; Offset_0x16DB1C
-		binclude	"data\fbz\tl_act1.kmd"
+		binclude	"data\fbz\tl_act1.kosm"
 Flying_Battery_1_Chunks:									   ; Offset_0x1705EE
 Flying_Battery_1_Chunks_2:									   ; Offset_0x1705EE
 		binclude	"data\fbz\ck_act1.kos"
@@ -52096,7 +52096,7 @@ Flying_Battery_2_Blocks_2:									   ; Offset_0x17315E
 		binclude	"data\fbz\bl_act2.kos"
 Flying_Battery_2_Tiles:										   ; Offset_0x173E9E
 Flying_Battery_2_Tiles_2:									   ; Offset_0x173E9E
-		binclude	"data\fbz\tl_act2.kmd"
+		binclude	"data\fbz\tl_act2.kosm"
 Flying_Battery_2_Chunks:									   ; Offset_0x176ED0
 Flying_Battery_2_Chunks_2:									   ; Offset_0x176ED0
 		binclude	"data\fbz\ck_act2.kos"
@@ -52105,20 +52105,20 @@ Icecap_2_Blocks:											   ; Offset_0x179A00
 		binclude	"data\iz\blocks.kos"
 Icecap_1_Tiles:												   ; Offset_0x179CF0
 Icecap_2_Tiles:												   ; Offset_0x179CF0
-		binclude	"data\iz\tiles.kmd"
+		binclude	"data\iz\tiles.kosm"
 Icecap_1_Chunks:											   ; Offset_0x17B102
 Icecap_2_Chunks:											   ; Offset_0x17B102
 		binclude	"data\iz\chunks.kos"
 Icecap_1_Blocks_2:											   ; Offset_0x17B412
 		binclude	"data\iz\bl2_act1.kos"
 Icecap_1_Tiles_2:											   ; Offset_0x17BF62
-		binclude	"data\iz\tl2_act1.kmd"
+		binclude	"data\iz\tl2_act1.kosm"
 Icecap_1_Chunks_2:											   ; Offset_0x17DEF4
 		binclude	"data\iz\ck2_act1.kos"
 Icecap_2_Blocks_2:											   ; Offset_0x17FB24
 		binclude	"data\iz\bl2_act2.kos"
 Icecap_2_Tiles_2:											   ; Offset_0x180734
-		binclude	"data\iz\tl2_act2.kmd"
+		binclude	"data\iz\tl2_act2.kosm"
 Icecap_2_Chunks_2:											   ; Offset_0x182746
 		binclude	"data\iz\ck2_act2.kos"
 Launch_Base_1_Blocks:										   ; Offset_0x184196
@@ -52128,9 +52128,9 @@ Launch_Base_1_Blocks_2:										   ; Offset_0x184646
 		binclude	"data\lbz\bl2_act1.kos"
 Launch_Base_1_Tiles:										   ; Offset_0x185206
 Launch_Base_2_Tiles:										   ; Offset_0x185206
-		binclude	"data\lbz\tiles.kmd"
+		binclude	"data\lbz\tiles.kosm"
 Launch_Base_1_Tiles_2:										   ; Offset_0x186688
-		binclude	"data\lbz\tl2_act1.kmd"
+		binclude	"data\lbz\tl2_act1.kosm"
 Launch_Base_Unreferenced_Chunks:	; N�o usado ; Left over ???   ; Offset_0x1885CA
 		binclude	"data\lbz\cnkunref.kos"
 Launch_Base_1_Chunks:										   ; Offset_0x18872A
@@ -52141,9 +52141,9 @@ Launch_Base_2_Blocks_2:										   ; Offset_0x18B6DA
 Launch_Base_2_Blocks_3:										   ; Offset_0x18C21A
 		binclude	"data\lbz\bl3_act2.kos"
 Launch_Base_2_Tiles_2:										   ; Offset_0x18D03A
-		binclude	"data\lbz\tl2_act2.kmd"
+		binclude	"data\lbz\tl2_act2.kosm"
 Launch_Base_2_Tiles_3:										   ; Offset_0x18EB6C
-		binclude	"data\lbz\tl3_act2.kmd"
+		binclude	"data\lbz\tl3_act2.kosm"
 Launch_Base_2_Chunks:										   ; Offset_0x190A3E
 Launch_Base_2_Chunks_2:										   ; Offset_0x190A3E
 		binclude	"data\lbz\ck_act2.kos"
@@ -52176,63 +52176,63 @@ Lava_Reef_2_Chunks_2:										   ; Offset_0x193C2E
 Azure_Lake_Blocks:											   ; Offset_0x193C2E
 		binclude	"data\alz\blocks.kos"
 Azure_Lake_Tiles:											   ; Offset_0x1946EE
-		binclude	"data\alz\tiles.kmd"
+		binclude	"data\alz\tiles.kosm"
 Azure_Lake_Chunks:											   ; Offset_0x1974A0
 		binclude	"data\alz\chunks.kos"
 Balloon_Park_Blocks:										   ; Offset_0x197B30
 		binclude	"data\bpz\blocks.kos"
 Balloon_Park_Tiles:											   ; Offset_0x198400
-		binclude	"data\bpz\tiles.kmd"
+		binclude	"data\bpz\tiles.kosm"
 Balloon_Park_Chunks:										   ; Offset_0x19A3E2
 		binclude	"data\bpz\chunks.kos"
 Desert_Palace_Blocks:										   ; Offset_0x19AAD2
 		binclude	"data\dpz\blocks.kos"
 Desert_Palace_Tiles:										   ; Offset_0x19B4B2
-		binclude	"data\dpz\tiles.kmd"
+		binclude	"data\dpz\tiles.kosm"
 Desert_Palace_Chunks:										   ; Offset_0x19CFA4
 		binclude	"data\dpz\chunks.kos"
 Chrome_Gadget_Blocks:										   ; Offset_0x19D5D4
 		binclude	"data\cgz\blocks.kos"
 Chrome_Gadget_Tiles:										   ; Offset_0x19DD24
-		binclude	"data\cgz\tiles.kmd"
+		binclude	"data\cgz\tiles.kosm"
 Chrome_Gadget_Chunks:										   ; Offset_0x1A02C6
 		binclude	"data\cgz\chunks.kos"
 Endless_Mine_Blocks:										   ; Offset_0x1A0786
 		binclude	"data\emz\blocks.kos"
 Endless_Mine_Tiles:											   ; Offset_0x1A1236
-		binclude	"data\emz\tiles.kmd"
+		binclude	"data\emz\tiles.kosm"
 Endless_Mine_Chunks:										   ; Offset_0x1A3E68
 		binclude	"data\emz\chunks.kos"
 BS_Gumball_Machine_Blocks:									   ; Offset_0x1A4578
 		binclude	"data\bs_gm\blocks.kos"
 BS_Gumball_Machine_Tiles:									   ; Offset_0x1A4938
-		binclude	"data\bs_gm\tiles.kmd"
+		binclude	"data\bs_gm\tiles.kosm"
 BS_Gumball_Machine_Chunks:									   ; Offset_0x1A52AA
 		binclude	"data\bs_gm\chunks.kos"
 BS_Glowing_Spheres_Blocks:									   ; Offset_0x1A55FA
 		binclude	"data\bs_gs\blocks.kos"
 BS_Glowing_Spheres_Tiles:									   ; Offset_0x1A589A
-		binclude	"data\bs_gs\tiles.kmd"
+		binclude	"data\bs_gs\tiles.kosm"
 BS_Glowing_Spheres_Chunks:									   ; Offset_0x1A680C
 		binclude	"data\bs_gs\chunks.kos"
 BS_Slot_Machine_Blocks:										   ; Offset_0x1A6B0C
 		binclude	"data\bs_sm\blocks.kos"
 BS_Slot_Machine_Tiles:										   ; Offset_0x1A77CC
-		binclude	"data\bs_sm\tiles.kmd"
+		binclude	"data\bs_sm\tiles.kosm"
 BS_Slot_Machine_Chunks:										   ; Offset_0x1AA46E
 		binclude	"data\bs_sm\chunks.kos"
 ;-------------------------------------------------------------------------------
 Left_Over_Lava_Reef_Blocks:
 		binclude	"data\lrz\Blocks.kos"
-Left_Over_Lava_Reef_Tiles:
-		binclude	"data\lrz\tiles_1.kmd"
-Left_Over_Lava_Reef_Chunks_2:
+Left_Over_Lava_Reef_Tiles:									   ; Offset_0x1AEF34
+		binclude	"data\lrz\tiles_1.kosm"
+Left_Over_Lava_Reef_Chunks_2:								   ; Offset_0x1B2ED6
 		binclude	"data\lrz\chunks_2.kos"
 Left_Over_Azure_Lake_Blocks:
 		binclude	"data\alz\blocks_1.kos"
-Left_Over_Azure_Lake_Tiles:
-		binclude	"data\alz\tiles_1.kmd"
-Left_Over_Azure_Lake_Chunks:
+Left_Over_Azure_Lake_Tiles:									   ; Offset_0x1B66D6
+		binclude	"data\alz\tiles_1.kosm"
+Left_Over_Azure_Lake_Chunks:								   ; Offset_0x1B8EE8
 		binclude	"data\alz\chunks_1.kos"
 ;-------------------------------------------------------------------------------
 Left_Over_BS_Gumball_Machine_Blocks:
@@ -52718,17 +52718,17 @@ LRz_Map_Act_1:
 		binclude	"data\lrz\Level Layout - Act 1.dat"
 ;-------------------------------------------------------------------------------
 Offset_0x1F32CE:
-		binclude	"temp\LRZ object palette (earlier).pal"
+		binclude	"Palettes\LRZ object palette (earlier).pal"
 Offset_0x1F32EE:
-		binclude	"temp\CNZ boss (earlier).pal"
+		binclude	"Palettes\CNZ boss (earlier).pal"
 Offset_0x1F330E:
-		binclude	"temp\LBZ miniboss (earlier).pal"
+		binclude	"Palettes\LBZ miniboss (earlier).pal"
 Offset_0x1F332E:
-		binclude	"temp\LBZ miniboss (earliest).pal"
+		binclude	"Palettes\LBZ miniboss (earliest).pal"
 Offset_0x1F334E:
-		binclude	"temp\LBZ boss 1 (earlier).pal"
+		binclude	"Palettes\LBZ boss 1 (earlier).pal"
 Offset_0x1F336E:
-		binclude	"temp\MVZ miniboss (earlier).pal"
+		binclude	"Palettes\MVZ miniboss (earlier).pal"
 ;-------------------------------------------------------------------------------
 		align	 $1000	; $FF Fill
 ;-------------------------------------------------------------------------------
