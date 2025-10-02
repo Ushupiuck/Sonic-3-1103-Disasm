@@ -52613,7 +52613,7 @@ Left_Over_BS_Gumball_Machine_Tiles:							   ; Offset_0x1BB2D0
 Left_Over_BS_Gumball_Machine_Chunks:						   ; Offset_0x1BBC42
 		binclude	"data\bs_gm\chunks_1.kos"
 ; Offset_0x1BBF92:
-		binclude	"data\unknown\unkdata6.bin"
+		binclude	"Levels\ALZ\Leftovers\Tiles (Earliest).kosm"
 ; Offset_0x1BC81C:
 		binclude	"data\unknown\tiles_5.kos"
 ; Offset_0x1BCF2C:
@@ -52682,58 +52682,58 @@ Collision_Index:
 		dc.l	Collision_SlotMachine,		Collision_SlotMachine
 
 ; Offset_0x1CD300: Angel_Island_1_Collision:
-Collision_AIZ1:		binclude	"Levels/Angel Island/Collision - Act 1.bin"
+Collision_AIZ1:		binclude	"Levels\AIZ\Collision - Act 1.bin"
 
 ; Offset_0x1CDF00: Angel_Island_2_Collision:
-Collision_AIZ2:		binclude	"Levels/Angel Island/Collision - Act 2.bin"
+Collision_AIZ2:		binclude	"Levels\AIZ\Collision - Act 2.bin"
 
 ; Offset_0x1CEB00: Hydrocity_1_Collision:
-Collision_HCZ1:		binclude	"Levels/Hydrocity/Collision - Act 1.bin"
+Collision_HCZ1:		binclude	"Levels/HCZ/Collision - Act 1.bin"
 
 ; Offset_0x1CF700: Hydrocity_2_Collision:
-Collision_HCZ2:		binclude	"Levels/Hydrocity/Collision - Act 2.bin"
+Collision_HCZ2:		binclude	"Levels/HCZ/Collision - Act 2.bin"
 
 ; Offset_0x1D0300: Marble_Garden_1_Collision:
-Collision_MGZ1:		binclude	"Levels/Marble Garden/Collision - Act 1.bin"
+Collision_MGZ1:		binclude	"Levels/MGZ/Collision - Act 1.bin"
 
 ; Offset_0x1D0F00: Marble_Garden_2_Collision:
-Collision_MGZ2:		binclude	"Levels/Marble Garden/Collision - Act 2.bin"
+Collision_MGZ2:		binclude	"Levels/MGZ/Collision - Act 2.bin"
 
 ; Offset_0x1D1B00: Carnival_Night_Collision:
-Collision_CNZ:		binclude	"Levels/Carnival Night/Collision.bin"
+Collision_CNZ:		binclude	"Levels/CNZ/Collision.bin"
 
 ; Offset_0x1D2700: Flying_Battery_1_Collision:
-Collision_FBZ1:		binclude	"Levels/Flying Battery/Collision - Act 1.bin"
+Collision_FBZ1:		binclude	"Levels/FBZ/Collision - Act 1.bin"
 
 ; Offset_0x1D3300: Flying_Battery_2_Collision:
-Collision_FBZ2:		binclude	"Levels/Flying Battery/Collision - Act 2.bin"
+Collision_FBZ2:		binclude	"Levels/FBZ/Collision - Act 2.bin"
 
 ; Offset_0x1D3F00: Icecap_1_Collision:
-Collision_ICZ1:		binclude	"Levels/IceCap/Collision - Act 1.bin"
+Collision_ICZ1:		binclude	"Levels/ICZ/Collision - Act 1.bin"
 
 ; Offset_0x1D4B00: Icecap_2_Collision:
-Collision_ICZ2:		binclude	"Levels/IceCap/Collision - Act 2.bin"
+Collision_ICZ2:		binclude	"Levels/ICZ/Collision - Act 2.bin"
 
 ; Offset_0x1D5700: Launch_Base_1_Collision:
-Collision_LBZ1:		binclude	"Levels/Launch Base/Collision - Act 1.bin"
+Collision_LBZ1:		binclude	"Levels/LBZ/Collision - Act 1.bin"
 
 ; Offset_0x1D6300: Launch_Base_2_Collision:
-Collision_LBZ2:		binclude	"Levels/Launch Base/Collision - Act 2.bin"
+Collision_LBZ2:		binclude	"Levels/LBZ/Collision - Act 2.bin"
 
 ; Offset_0x1D6F00: Azure_Lake_Collision:
-Collision_ALZ:		binclude	"Levels/Azure Lake/Collision.bin"
+Collision_ALZ:		binclude	"Levels/ALZ/Collision.bin"
 
 ; Offset_0x1D7B00: Balloon_Park_Collision:
-Collision_BPZ:		binclude	"Levels/Balloon Park/Collision.bin"
+Collision_BPZ:		binclude	"Levels/BPZ/Collision.bin"
 
 ; Offset_0x1D8700: Desert_Palace_Collision:
-Collision_DPZ:		binclude	"Levels/Desert Palace/Collision.bin"
+Collision_DPZ:		binclude	"Levels/DPZ/Collision.bin"
 
 ; Offset_0x1D9300: Chrome_Gadget_Collision:
-Collision_CGZ:		binclude	"Levels/Chrome Gadget/Collision.bin"
+Collision_CGZ:		binclude	"Levels/CGZ/Collision.bin"
 
 ; Offset_0x1D9F00: Endless_Mine_Collision:
-Collision_EMZ:		binclude	"Levels/Endless Mine/Collision.bin"
+Collision_EMZ:		binclude	"Levels/EMZ/Collision.bin"
 
 ; Offset_0x1DAB00: BS_Gumball_Machine_Collision:
 Collision_GumblMachine:	binclude	"Levels/Bonus Stages/Collision - Gumball Machine.bin"
@@ -52775,61 +52775,61 @@ Level_Index:	dc.l	LevelLayout_AIZ1,	LevelLayout_AIZ2
 		dc.l	LevelLayout_Slots,	LevelLayout_Slots
 
 ; Offset_0x1DCFC0: AIz_Map_Act1:
-LevelLayout_AIZ1:	binclude	"Levels/Angel Island/Level Layout - Act 1.bin"
+LevelLayout_AIZ1:	binclude	"Levels\AIZ\Level Layout - Act 1.bin"
 
 ; Offset_0x1DD80C: AIz_Map_Act2:
-LevelLayout_AIZ2:	binclude	"Levels/Angel Island/Level Layout - Act 2.bin"
+LevelLayout_AIZ2:	binclude	"Levels\AIZ\Level Layout - Act 2.bin"
 
 ; Offset_0x1DE572: Hz_Map_Act1:
-LevelLayout_HCZ1:	binclude	"Levels/Hydrocity/Level Layout - Act 1.bin"
+LevelLayout_HCZ1:	binclude	"Levels/HCZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1DF0FA: Hz_Map_Act2:
-LevelLayout_HCZ2:	binclude	"Levels/Hydrocity/Level Layout - Act 2.bin"
+LevelLayout_HCZ2:	binclude	"Levels/HCZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1DFFA2: MGz_Map_Act1:
-LevelLayout_MGZ1:	binclude	"Levels/Marble Garden/Level Layout - Act 1.bin"
+LevelLayout_MGZ1:	binclude	"Levels/MGZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E0C32: MGz_Map_Act2:
-LevelLayout_MGZ2:	binclude	"Levels/Marble Garden/Level Layout - Act 2.bin"
+LevelLayout_MGZ2:	binclude	"Levels/MGZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E19E2: CNz_Map_Act1:
-LevelLayout_CNZ1:	binclude	"Levels/Carnival Night/Level Layout - Act 1.bin"
+LevelLayout_CNZ1:	binclude	"Levels/CNZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E2518: CNz_Map_Act2:
-LevelLayout_CNZ2:	binclude	"Levels/Carnival Night/Level Layout - Act 2.bin"
+LevelLayout_CNZ2:	binclude	"Levels/CNZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E340E: FBz_Map_Act1:
-LevelLayout_FBZ1:	binclude	"Levels/Flying Battery/Level Layout - Act 1.bin"
+LevelLayout_FBZ1:	binclude	"Levels/FBZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E4278: FBz_Map_Act2:
-LevelLayout_FBZ2:	binclude	"Levels/Flying Battery/Level Layout - Act 2.bin"
+LevelLayout_FBZ2:	binclude	"Levels/FBZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E4EB2: Iz_Map_Act1:
-LevelLayout_LCZ1:	binclude	"Levels/IceCap/Level Layout - Act 1.bin"
+LevelLayout_LCZ1:	binclude	"Levels/ICZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E5E7A: Iz_Map_Act2:
-LevelLayout_LCZ2:	binclude	"Levels/IceCap/Level Layout - Act 2.bin"
+LevelLayout_LCZ2:	binclude	"Levels/ICZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E6CCA: LBz_Map_Act1:
-LevelLayout_LBZ1:	binclude	"Levels/Launch Base/Level Layout - Act 1.bin"
+LevelLayout_LBZ1:	binclude	"Levels/LBZ/Level Layout - Act 1.bin"
 
 ; Offset_0x1E7C76: LBz_Map_Act2:
-LevelLayout_LBZ2:	binclude	"Levels/Launch Base/Level Layout - Act 2.bin"
+LevelLayout_LBZ2:	binclude	"Levels/LBZ/Level Layout - Act 2.bin"
 
 ; Offset_0x1E8B9E: ALz_Map:
-LevelLayout_ALZ:	binclude	"Levels/Azure Lake/Level Layout.bin"
+LevelLayout_ALZ:	binclude	"Levels/ALZ/Level Layout.bin"
 
 ; Offset_0x1E8D6A: BPz_Map:
-LevelLayout_BPZ:	binclude	"Levels/Balloon Park/Level Layout.bin"
+LevelLayout_BPZ:	binclude	"Levels/BPZ/Level Layout.bin"
 
 ; Offset_0x1E8EBE: DPz_Map:
-LevelLayout_DPZ:	binclude	"Levels/Desert Palace/Level Layout.bin"
+LevelLayout_DPZ:	binclude	"Levels/DPZ/Level Layout.bin"
 
 ; Offset_0x1E8FB6: CGz_Map:
-LevelLayout_CGZ:	binclude	"Levels/Chrome Gadget/Level Layout.bin"
+LevelLayout_CGZ:	binclude	"Levels/CGZ/Level Layout.bin"
 
 ; Offset_0x1E90AE: EMz_Map:
-LevelLayout_EMZ:	binclude	"Levels/Endless Mine/Level Layout.bin"
+LevelLayout_EMZ:	binclude	"Levels/EMZ/Level Layout.bin"
 
 ; Offset_0x1E91A6: BS_GM_Map:
 LevelLayout_Gumball:	binclude	"Levels/Bonus Stages/Level Layout - Gumball Machine.bin"
@@ -53037,38 +53037,38 @@ Pal_Knuckles:												   ; Offset_0x1E98B4
 		binclude	"data\all\knuckles.pal"
 
 ; Offset_0x1E98D4:
-Palette_AIZ1Intro:	binclude	"Levels/Angel Island/Palettes/Act 1 - Knuckles.bin"
+Palette_AIZ1Intro:	binclude	"Levels\AIZ\Palettes/Act 1 - Knuckles.bin"
 ; Offset_0x1E9934:
-Palette_AIZ1:		binclude	"Levels/Angel Island/Palettes/Act 1 - Normal.bin"
+Palette_AIZ1:		binclude	"Levels\AIZ\Palettes/Act 1 - Normal.bin"
 ; Offset_0x1E9994:
-Palette_AIZ2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Normal.bin"
+Palette_AIZ2:		binclude	"Levels\AIZ\Palettes/Act 2 - Normal.bin"
 ; Offset_0x1E99F4:
-Palette_AIZ2Ship:	binclude	"Levels/Angel Island/Palettes/Act 2 - Airship.bin"
+Palette_AIZ2Ship:	binclude	"Levels\AIZ\Palettes/Act 2 - Airship.bin"
 ; Offset_0x1E9AD4:
-Palette_AIZ1Water:	binclude	"Levels/Angel Island/Palettes/Act 1 - Underwater.bin"
+Palette_AIZ1Water:	binclude	"Levels\AIZ\Palettes/Act 1 - Underwater.bin"
 ; Offset_0x1E9A54:
-Palette_AIZ2Water:	binclude	"Levels/Angel Island/Palettes/Act 2 - Underwater.bin"
+Palette_AIZ2Water:	binclude	"Levels\AIZ\Palettes/Act 2 - Underwater.bin"
 ; Offset_0x1E9B54:
-Palette_HCZ1:		binclude	"Levels/Hydrocity/Palettes/Act 1 - Normal.bin"
+Palette_HCZ1:		binclude	"Levels/HCZ/Palettes/Act 1 - Normal.bin"
 ; Offset_0x1E9BB4:
-Palette_HCZ2:		binclude	"Levels/Hydrocity/Palettes/Act 2 - Normal.bin"
+Palette_HCZ2:		binclude	"Levels/HCZ/Palettes/Act 2 - Normal.bin"
 ; Offset_0x1E9C14:
-Palette_HCZ1Water:	binclude	"Levels/Hydrocity/Palettes/Act 1 - Underwater.bin"
+Palette_HCZ1Water:	binclude	"Levels/HCZ/Palettes/Act 1 - Underwater.bin"
 ; Offset_0x1E9C94:
-Palette_HCZ2Water:	binclude	"Levels/Hydrocity/Palettes/Act 2 - Underwater.bin"
+Palette_HCZ2Water:	binclude	"Levels/HCZ/Palettes/Act 2 - Underwater.bin"
 ; Offset_0x1E9D14:
-Palette_MGZ:		binclude	"Levels/Marble Garden/Palettes/Normal.bin"
+Palette_MGZ:		binclude	"Levels/MGZ/Palettes/Normal.bin"
 ; Offset_0x1E9D74:
-Palette_CNZ:		binclude	"Levels/Carnival Night/Palettes/Normal.bin"
+Palette_CNZ:		binclude	"Levels/CNZ/Palettes/Normal.bin"
 
 Pal_Flying_Battery_Act_1:									   ; Offset_0x1E9DD4
 Pal_Flying_Battery_Act_2:									   ; Offset_0x1E9DD4
 		binclude	"data\fbz\fbz.pal"
 
 ; Offset_0x1E9E34: See "Iz_1_Set_Indoor_Pal" as well
-Palette_ICZIndoors:	binclude	"Levels/IceCap/Palettes/Indoors.bin"
+Palette_ICZIndoors:	binclude	"Levels/ICZ/Palettes/Indoors.bin"
 ; Offset_0x1E9E94: See "Iz_1_Set_Intro_Pal" as well
-Palette_ICZOutdoors:	binclude	"Levels/IceCap/Palettes/Outdoors.bin"
+Palette_ICZOutdoors:	binclude	"Levels/ICZ/Palettes/Outdoors.bin"
 
 Pal_Launch_Base_Act_1:										   ; Offset_0x1E9EF4
 		binclude	"data\lbz\lbz_1.pal"
@@ -53533,22 +53533,22 @@ Left_Over_Pal_Knuckles:										   ; Offset_0x1F278E
 		binclude	"data\all\knuckles.pal"
 
 ; Offset_0x1F27AE:
-Left_Over_Pal_Angel_Island_Act_1:		binclude	"Levels/Angel Island/Palettes/Act 1 - Knuckles (Earliest).bin"
+Left_Over_Pal_Angel_Island_Act_1:		binclude	"Levels\AIZ\Palettes/Act 1 - Knuckles (Earliest).bin"
 
 ; Offset_0x1F280E:
-LO_Pal_Angel_Island_Act_1_After_Knuckles:	binclude	"Levels/Angel Island/Palettes/Act 1 - Normal (Earliest).bin"
+LO_Pal_Angel_Island_Act_1_After_Knuckles:	binclude	"Levels\AIZ\Palettes/Act 1 - Normal (Earliest).bin"
 
 ; Offset_0x1F286E:
-Left_Over_Pal_Angel_Island_Act_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Normal (Earliest).bin"
+Left_Over_Pal_Angel_Island_Act_2:		binclude	"Levels\AIZ\Palettes/Act 2 - Normal (Earliest).bin"
 
 ; Offset_0x1F28CE:
-Left_Over_Pal_Angel_Island_Act_2_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Airship (Earliest).bin"
+Left_Over_Pal_Angel_Island_Act_2_2:		binclude	"Levels\AIZ\Palettes/Act 2 - Airship (Earliest).bin"
 
 ; Offset_0x1F292E:
-LO_Pal_Angel_Island_Act_1_Underwater:		binclude	"Levels/Angel Island/Palettes/Act 1 - Underwater (Earliest).bin"
+LO_Pal_Angel_Island_Act_1_Underwater:		binclude	"Levels\AIZ\Palettes/Act 1 - Underwater (Earliest).bin"
 
 ; Offset_0x1F29AE:
-LO_Pal_Angel_Island_Act_2_Underwater:		binclude	"Levels/Angel Island/Palettes/Act 2 - Underwater (Earliest).bin"
+LO_Pal_Angel_Island_Act_2_Underwater:		binclude	"Levels\AIZ\Palettes/Act 2 - Underwater (Earliest).bin"
 
 Left_Over_Pal_Hydrocity_Act_1:								   ; Offset_0x1F2A2E
 		binclude	"data\hz\hz_1_lo.pal"
@@ -53605,7 +53605,7 @@ Left_Over_Pal_Azure_Lake:									   ; Offset_0x1F31AE
 		binclude	"data\alz\alz_lo.pal"
 
 ; Offset_0x1F320E:
-Left_Over_Pal_Angel_Island_Act_1_2:		binclude	"Levels/Angel Island/Palettes/Act 1 - Unused Introduction (Earliest).bin"
+Left_Over_Pal_Angel_Island_Act_1_2:		binclude	"Levels\AIZ\Palettes/Act 1 - Unused Introduction (Earliest).bin"
 
 Left_Over_Pal_Bonus_Stage_Gumball_Machine:					   ; Offset_0x1F326E
 		binclude	"data\bs_gm\bs_gm.pal"
@@ -53836,22 +53836,22 @@ Left_Over_Pal_Knuckles_2:									   ; Offset_0x1F504A
 		binclude	"data\all\knuckles.pal"
 
 ; Offset_0x1F50CA:
-Left_Over_Pal_Angel_Island_Act_1_2a:		binclude	"Levels/Angel Island/Palettes/Act 1 - Knuckles (Earlier).bin"
+Left_Over_Pal_Angel_Island_Act_1_2a:		binclude	"Levels\AIZ\Palettes/Act 1 - Knuckles (Earlier).bin"
 
 ; Offset_0x1E9934:
-LO_Pal_Angel_Island_Act_1_After_Knuckles_2:	binclude	"Levels/Angel Island/Palettes/Act 1 - Normal (Earlier).bin"
+LO_Pal_Angel_Island_Act_1_After_Knuckles_2:	binclude	"Levels\AIZ\Palettes/Act 1 - Normal (Earlier).bin"
 
 ; Offset_0x1F512A:
-Left_Over_Pal_Angel_Island_Act_2_2a:		binclude	"Levels/Angel Island/Palettes/Act 2 - Normal (Earlier).bin"
+Left_Over_Pal_Angel_Island_Act_2_2a:		binclude	"Levels\AIZ\Palettes/Act 2 - Normal (Earlier).bin"
 
 ; Offset_0x1F518A:
-Left_Over_Pal_Angel_Island_Act_2_2_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Airship (Earlier).bin"
+Left_Over_Pal_Angel_Island_Act_2_2_2:		binclude	"Levels\AIZ\Palettes/Act 2 - Airship (Earlier).bin"
 
 ; Offset_0x1F51EA:
-LO_Pal_Angel_Island_Act_1_Underwater_2:		binclude	"Levels/Angel Island/Palettes/Act 1 - Underwater (Earlier).bin"
+LO_Pal_Angel_Island_Act_1_Underwater_2:		binclude	"Levels\AIZ\Palettes/Act 1 - Underwater (Earlier).bin"
 
 ; Offset_0x1F526A:
-LO_Pal_Angel_Island_Act_2_Underwater_2:		binclude	"Levels/Angel Island/Palettes/Act 2 - Underwater (Earlier).bin"
+LO_Pal_Angel_Island_Act_2_Underwater_2:		binclude	"Levels\AIZ\Palettes/Act 2 - Underwater (Earlier).bin"
 
 Left_Over_Pal_Hydrocity_Act_1_2:							   ; Offset_0x1F52EA
 		binclude	"data\hz\hz_1_lo2.pal"
@@ -53913,7 +53913,7 @@ Left_Over_Pal_Pal_Desert_Palace:							   ; Offset_0x1F5B8A
 Left_Over_Pal_Chrome_Gadget:								   ; Offset_0x1F5BEA
 		binclude	"data\cgz\cgz_lo.pal"
 ; Offset_0x1F5C4A:
-LO_Pal_Angel_Island_Act_1_Before_Knuckles_2:	binclude	"Levels/Angel Island/Palettes/Act 1 - Unused Introduction (Earlier).bin"
+LO_Pal_Angel_Island_Act_1_Before_Knuckles_2:	binclude	"Levels\AIZ\Palettes/Act 1 - Unused Introduction (Earlier).bin"
 
 Left_Over_Pal_Bonus_Stage_Gumball_Machine_2:				   ; Offset_0x1F5CAA
 		binclude	"data\bs_gm\bs_gm.pal"
@@ -53932,8 +53932,8 @@ Player_Start_Speed_Array:									   ; Offset_0x1F7000
 		dc.w	$0580, $0010, $0200, $0000
 ;-------------------------------------------------------------------------------
 Player_Start_Position_Array:								   ; Offset_0x1F7018
-		binclude	"Levels/Angel Island/Starting Position - Act 1.bin"
-		binclude	"Levels/Angel Island/Starting Position - Act 2.bin"
+		binclude	"Levels\AIZ\Starting Position - Act 1.bin"
+		binclude	"Levels\AIZ\Starting Position - Act 2.bin"
 		dc.w	$0280, $0020, $0220, $082C	; Hz
 		dc.w	$0040, $0070, $0060, $08BE	; MGz
 		dc.w	$0060, $06CC, $0060, $022C	; CNz
@@ -54118,15 +54118,15 @@ LBz_Automatic_Tunnel_From_To_Data:							   ; Offset_0x1F7258
 		dc.w	$FFFF, 0, 0
 ; ---------------------------------------------------------------------------
 ; Offset_0x1F72DE:
-AIz_Obj_Act1:	binclude	"Levels/Angel Island/Object Layout - Act 1.bin"
+AIz_Obj_Act1:	binclude	"Levels\AIZ\Object Layout - Act 1.bin"
 		dc.w	$FFFF, 0, 0
 ; Offset_0x1F75C6:
-AIz_Obj_Act2:	binclude	"Levels/Angel Island/Object Layout - Act 2.bin"
+AIz_Obj_Act2:	binclude	"Levels\AIZ\Object Layout - Act 2.bin"
 		dc.w	$FFFF, 0, 0
 ; Offset_0x1F7A4C:
-AIz_Rng_Act1:	binclude	"Levels/Angel Island/Ring Layout - Act 1.bin"
+AIz_Rng_Act1:	binclude	"Levels\AIZ\Ring Layout - Act 1.bin"
 ; Offset_0x1F7BE4:
-AIz_Rng_Act2:	binclude	"Levels/Angel Island/Ring Layout - Act 2.bin"
+AIz_Rng_Act2:	binclude	"Levels\AIZ\Ring Layout - Act 2.bin"
 
 ;-------------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
