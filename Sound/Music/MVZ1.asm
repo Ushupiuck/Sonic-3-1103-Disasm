@@ -1,5 +1,5 @@
 s3p15_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     s3p15_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $39
