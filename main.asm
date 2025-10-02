@@ -4875,7 +4875,6 @@ TitleSonic_Frames:
 		dc.l	Art_Title_Screen_Sonic
 		dc.l	Pal_Title_Screen_Sonic
 		dc.l	Map_Title_Screen_Sonic
-
 ;===============================================================================
 ; Modo de jogo ou demonstra��o das fases
 ; ->>>
@@ -5495,7 +5494,6 @@ Pal_Level_2P:												   ; Offset_0x004164
 Obj_Clear_Collision_Response_List:							   ; Offset_0x004184
 		move.w	#0,(Collision_Response_List).w			; $FFFFE380
 		rts
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to move the water or oil surface sprites to where the screen is at
 ; Leftover from Sonic 2,and useless since the objects themselves handle this now
