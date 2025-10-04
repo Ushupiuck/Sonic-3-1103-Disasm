@@ -28450,7 +28450,7 @@ Get_Chunk_Addr:												   ; Offset_0x02FA1A
 		move.w	D0,d3
 		asr.w	#5,d3
 		and.w	(Level_Layout_Wrap_Row).w,d3				; $FFFFEEAE
-		movea.w	(A3,d3).w,a4
+		movea.w	(A3,d3.w),a4
 Offset_0x02FA26:
 		moveq	#-1,d3
 		clr.w	D3
