@@ -734,11 +734,13 @@ Palette_Row_0_Offset	= Palette_Buffer
 Palette_Row_1_Offset	= Palette_Buffer+$20
 Palette_Row_2_Offset	= Palette_Buffer+$40
 Palette_Row_3_Offset	= Palette_Buffer+$60
+Palette_Buffer_End
 
 Palette_Data_Target:		ds.b	$80
 Palette_Row_1_Data_Target	= Palette_Data_Target+$20
 Palette_Row_2_Data_Target	= Palette_Data_Target+$40
-Palette_Row_3_Data_Target	= Palette_Data_Target+$60                            
+Palette_Row_3_Data_Target	= Palette_Data_Target+$60
+Palette_Data_Target_End
 
 Camera_RAM:
 Horizontal_Scrolling:		ds.w	1

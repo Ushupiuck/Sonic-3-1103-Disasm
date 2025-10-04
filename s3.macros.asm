@@ -1,3 +1,47 @@
+; >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+; simplifying macros and functions
+
+; makes a VDP address difference
+vdpCommDelta function addr,((addr&$3FFF)<<16)|((addr&$C000)>>14)
+
+; makes a VDP command
+vdpComm function addr,type,rwd,(((type&rwd)&3)<<30)|((addr&$3FFF)<<16)|(((type&rwd)&$FC)<<2)|((addr&$C000)>>14)
+
+; values for the type argument
+VRAM = %100001
+CRAM = %101011
+VSRAM = %100101
+
+; values for the rwd argument
+READ = %001100
+WRITE = %000111
+DMA = %100111
+
+; tells the VDP to copy a region of 68k memory to VRAM or CRAM or VSRAM
+dma68kToVDP macro source,dest,length,type
+	lea	(VDP_control_port).l,a5
+	move.l	#(($9400|((((length)>>1)&$FF00)>>8))<<16)|($9300|(((length)>>1)&$FF)),(a5)
+	move.l	#(($9600|((((source)>>1)&$FF00)>>8))<<16)|($9500|(((source)>>1)&$FF)),(a5)
+	move.w	#$9700|(((((source)>>1)&$FF0000)>>16)&$7F),(a5)
+	move.w	#((vdpComm(dest,type,DMA)>>16)&$FFFF),(a5)
+	move.w	#(vdpComm(dest,type,DMA)&$FFFF),(DMA_data_thunk).w
+	move.w	(DMA_data_thunk).w,(a5)
+    endm
+
+; tells the VDP to fill a region of VRAM with a certain byte
+dmaFillVRAM macro byte,addr,length
+	lea	(VDP_control_port).l,a5
+	move.w	#$8F01,(a5) ; VRAM pointer increment: $0001
+	move.l	#(($9400|((((length)-1)&$FF00)>>8))<<16)|($9300|(((length)-1)&$FF)),(a5) ; DMA length ...
+	move.w	#$9780,(a5) ; VRAM fill
+	move.l	#vdpComm(addr,VRAM,DMA),(a5) ; Start at ...
+	move.w	#(byte)|((byte)<<8),(VDP_data_port).l ; Fill with byte
+.loop:	move.w	(a5),d1
+	btst	#1,d1
+	bne.s	.loop ; busy loop until the VDP is finished filling...
+	move.w	#$8F02,(a5) ; VRAM pointer increment: $0002
+    endm
+
 ; tells the Z80 to stop, and waits for it to finish stopping (acquire bus)
 stopZ80 macro
 	move.w	#$100,(Z80_Bus_Request).l	; stop the Z80
