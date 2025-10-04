@@ -903,7 +903,7 @@ Offset_0x000A1C:
 		move.l	#$941F93FF,(A5)
 		move.w	#$9780,(A5)
 		move.l	#$40000083,(A5)
-		move.w	#0,(VDP_Data_Port)						; $00C00000
+		move.w	#0,(VDP_Data_Port).l						; $00C00000
 Offset_0x000A3E:
 		move.w	(A5),d1
 		btst	#1,d1
@@ -938,7 +938,7 @@ Offset_0x000A9C:
 		move.w	#$8B00,(A6)
 		move.w	#$8402,(A6)
 		move.w	#$9011,(A6)
-		lea	(RAM_Start),a1						   ; $FFFF0000
+		lea	(RAM_Start).l,a1						   ; $FFFF0000
 		move.l	#$50AC0003,d0
 		moveq	#23-1,d1
 		moveq	#15-1,d2
@@ -975,7 +975,7 @@ VBlank_16:													   ; Offset_0x000AD2
 		bsr.w	ProcessDPLC					 ; Offset_0x0015AE
 		tst.w	(Demo_Timer).w								 ; $FFFFF614
 		beq.w	Offset_0x000B74
-		subq.w	#$01,(Demo_Timer).w							; $FFFFF614
+		subq.w	#1,(Demo_Timer).w							; $FFFFF614
 Offset_0x000B74:
 		rts
 ; ---------------------------------------------------------------------------
@@ -3741,7 +3741,6 @@ Pal_SuperSonic_Underwater_Cyc:								   ; Offset_0x002C20
 		dc.w	$0ECC, $0ECC, $0ECC, $0ECC, $0ECC, $0ECC, $0ECC, $0ECC
 		dc.w	$0ECC, $0ECC, $0ECC, $0ECC, $0ECC, $0ECC, $0ECC, $0ECC
 		dc.w	$0ECA, $0ECC, $0ECC, $0ECC, $0EA8, $0ECC, $0ECC, $0ECC
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to fade in from black
@@ -3762,7 +3761,6 @@ Pal_FadeFromBlack:
 		bsr.w	RunPLC_RAM
 		dbf	d4,.loop
 		rts
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to update all colours once
 ; ---------------------------------------------------------------------------
@@ -3795,7 +3793,6 @@ Pal_FadeIn:
 
 Offset_0x002D82:
 		rts
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to update a single colour once
 ; ---------------------------------------------------------------------------
@@ -3833,7 +3830,6 @@ Pal_NoAdd:
 		rts
 ; End of function Pal_FadeFromBlack
 
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to clear the color RAM (make the entire screen black)
@@ -3858,7 +3854,6 @@ Pal_Clear:
 		rts
 ; End of function Pal_Clear
 
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to run the palette timer
@@ -3875,7 +3870,6 @@ AnimatePalette:
 Run_PaletteCycle:
 		jmp	(PalCycle_Load).l
 ; End of function AnimatePalette
-
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -3896,7 +3890,6 @@ Pal_FadeToBlack:
 		bsr.w	RunPLC_RAM
 		dbf	d4,.loop
 		rts
-
 ; ---------------------------------------------------------------------------
 Pal_FadeOut:												   ; Offset_0x002E08
 		moveq	#0,d0
@@ -4304,7 +4297,7 @@ TitleScreen:
 		clearRAM	Misc_Variables,Misc_Variables_End
 		clearRAM	Camera_RAM,Camera_RAM+$100
 		jsr	(Init_Sprite_Table).l
-		clearRAM	Palette_Buffer,Palette_Buffer+$100
+		clearRAM	Palette_Buffer,Palette_Data_Target_End
 
 		move.b	#0,(Saved_Level_Flag).w
 		move.b	#0,(Saved_Level_Flag_P2).w
@@ -4531,7 +4524,6 @@ S2_Demo_Mode_Level_Array:									   ; Offset_0x00354C
 		dc.w	S2_CPz_Act_1  ; Chemical Plant S2 Left over		 ; $0D00
 		dc.w	S2_ARz_Act_1  ; Aquatic Ruin Left over			 ; $0F00
 		dc.w	S2_CNz_Act_1  ; Casino Night S2 Left over		 ; $0C00
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to check if the player has entered the level select cheat
@@ -5137,9 +5129,9 @@ Level_FromCheckpoint:
 		move.b	#1,(HUD_Timer_Refresh_Flag_P2).w
 		tst.w	(Auto_Control_Player_Flag).w
 		beq.s	Offset_0x003CCC
-		tst.w	(Current_ZoneAndAct).w
-		bne.s	Offset_0x003CCC
-		move.l	#Obj_AIz_Intro_Surfboard,(Obj_05_Mem_Address).w
+		tst.w	(Current_ZoneAndAct).w	; is this AIZ Act 1?
+		bne.s	Offset_0x003CCC	; if not equal, branch
+		move.l	#Obj_AIz_Intro_Surfboard,(Obj_05_Mem_Address).w	; load the surfboard intro object
 
 Offset_0x003CCC:
 		jsr	(ObjectsManager).l
@@ -6773,7 +6765,7 @@ Offset_0x005466:
 		bsr.w	Wait_For_VSync						   ; Offset_0x001AEE
 		move.w	(VDP_Register_1_Command).w,d0				; $FFFFF60E
 		ori.b	#$40,d0
-		move.w	D0,(VDP_Control_Port)						; $00C00004
+		move.w	D0,(VDP_Control_Port).l						; $00C00004
 		bsr.w	Pal_FadeFromBlack							  ; Offset_0x002D20
 Offset_0x00549C:
 		move.b	#$16,(VBlank_Index).w						; $FFFFF62A
@@ -6939,7 +6931,6 @@ Level_Select_Text_2P:										   ; Offset_0x00567C
 		dc.l	Text2P_Special							  ; Offset_0x006143
 		dc.l	Text2P_Stage							  ; Offset_0x006156
 		dc.w	$47AC, $0003, $0CFF, $0450
-
 ; ---------------------------------------------------------------------------
 ; Common menu screen subroutine for transferring text to RAM
 
@@ -7052,7 +7043,6 @@ OptionsMenu_2PGame:
 OptionsMenu_Exit:
 		move.b	#gm_SEGALogo,(Game_Mode).w
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutine to move around the options menu
@@ -7278,7 +7268,6 @@ OptionsText_TwoPlayerItems:
 ; Offset_0x0059EC: Map_Sound_Test_Idx:
 OptionsText_SoundTest:
 		dc.l	TextOptScr_0
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; (SUB) GAME MODE - Level Select
@@ -7772,9 +7761,22 @@ LevelSelect_DrawIcon:
 		lsl.w	#5,d0
 		lea	(a1,d0.w),a1
 		lea	(Palette_Row_2_Offset).w,a2
+    if FixBugs
+		; When the icon changes, the colours are briefly incorrect. This is
+		; because there's a delay between the icon being updated and the
+		; colours being updated, due to the colours being uploaded to the VDP
+		; during V-Int. To avoid this we can upload the colours ourselves right
+		; here.
+		; Prepare the VDP for data transfer.
+		move.l  #vdpComm(2*16*2,CRAM,WRITE),VDP_control_port-VDP_data_port(a6)
+    endif
 		moveq	#bytesToLcnt($20),d1
 
 Offset_0x005F1E:
+    if FixBugs
+		; Upload colours to the VDP.
+		move.l	(a1),(a6)
+    endif
 		move.l	(a1)+,(a2)+
 		dbf	d1,Offset_0x005F1E
 		rts
@@ -7953,7 +7955,6 @@ Anim_SonicMilesBG:
 		dc.b	$14, 5
 		dc.b	$A, 5
 		even
-
 ;===============================================================================
 ; Modo de teste para o Special Stage
 ; ->>>
