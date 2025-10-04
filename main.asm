@@ -52228,7 +52228,7 @@ Left_Over_Azure_Lake_Chunks:								   ; Offset_0x1B8EE8
 Left_Over_BS_Gumball_Machine_Blocks:
 		binclude	"data\bs_gm\blocks_1.kos"
 Left_Over_BS_Gumball_Machine_Tiles:
-		binclude	"data\bs_gm\tiles_1.kmd"
+		binclude	"data\bs_gm\tiles_1.kosm"
 Left_Over_BS_Gumball_Machine_Chunks:
 		binclude	"data\bs_gm\chunks_1.kos"
 Water_Surface_Scroll_Data:
