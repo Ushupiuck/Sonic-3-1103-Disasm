@@ -28441,30 +28441,30 @@ Offset_0x02FA02:
 		addq.w	#1,d1
 		bsr.s	Offset_0x02FA26
 Offset_0x02FA12:
-		dbf	D6, Offset_0x02F9C4
-		clr.w	(A0)
+		dbf	d6,Offset_0x02F9C4
+		clr.w	(a0)
 Offset_0x02FA18:
 		rts
 ; ---------------------------------------------------------------------------
-Get_Chunk_Addr:												   ; Offset_0x02FA1A
-		move.w	D0,d3
+Get_Chunk_Addr:
+		move.w	d0,d3
 		asr.w	#5,d3
 		and.w	(Level_Layout_Wrap_Row).w,d3				; $FFFFEEAE
-		movea.w	(A3,d3).w,a4
+		movea.w	(a3,d3.w),a4
 Offset_0x02FA26:
 		moveq	#-1,d3
-		clr.w	D3
-		move.b	(A4,d1.w),d3
+		clr.w	d3
+		move.b	(a4,d1.w),d3
 		lsl.w	#7,d3
-		move.w	D0,d4
+		move.w	d0,d4
 		andi.w	#$70,d4
-		add.w	D4,d3
-		move.l	D3,a5
+		add.w	d4,d3
+		move.l	d3,a5
 		rts
 ; ---------------------------------------------------------------------------
 Offset_0x02FA3C:
 		asr.w	#3,d1
-		move.w	D1,d2
+		move.w	d1,d2
 		asr.w	#4,d1
 		andi.w	#$E,d2
 		cmpi.w	#$100,(VRAM_Add).w							; $FFFFEEB0
@@ -28476,76 +28476,76 @@ Offset_0x02FA56:
 		moveq	#5,d3
 		move.w	#$1F00,d4
 Offset_0x02FA5C:
-		move.w	D0,d5
-		lsl.w	D3,d5
-		and.w	D4,d5
-		add.w	D7,d5
-		move.w	D5,(A0)+
-		move.w	D6,d5
+		move.w	d0,d5
+		lsl.w	d3,d5
+		and.w	d4,d5
+		add.w	d7,d5
+		move.w	d5,(a0)+
+		move.w	d6,d5
 		subq.w	#1,d6
-		move.w	D6,(A0)+
-		lea	(A0),a1
-		add.w	D5,d5
-		add.w	D5,d5
-		adda.w	D5,a0
-		jsr	Get_Chunk_Addr(PC)					   ; Offset_0x02FA1A
+		move.w	d6,(a0)+
+		lea	(a0),a1
+		add.w	d5,d5
+		add.w	d5,d5
+		adda.w	d5,a0
+		jsr	Get_Chunk_Addr(pc)					   ; Offset_0x02FA1A
 		bra.w	Offset_0x02F9C4
 ; ---------------------------------------------------------------------------
 Refresh_Plane_Full:											   ; Offset_0x02FA7C
 		moveq	#$F,d2
 Offset_0x02FA7E:
-		movem.l	D0-D2/A0,-(sp)
+		movem.l	d0-d2/a0,-(sp)
 		moveq	#$20,d6
-		jsr	Setup_Tile_Row_Draw(PC)				   ; Offset_0x02F93E
+		jsr	Setup_Tile_Row_Draw(pc)				   ; Offset_0x02F93E
 		jsr	DrawLevel(PC)					 ; Offset_0x02F636
-		movem.l	(sp)+,d0-D2/A0
+		movem.l	(sp)+,d0-d2/a0
 		addi.w	#$10,d0
-		dbf	D2, Offset_0x02FA7E
+		dbf	d2,Offset_0x02FA7E
 		rts
 ; ---------------------------------------------------------------------------
 Refresh_Plane_Tile_Deform:									   ; Offset_0x02FA9A
-		move.w	(A4)+,d2
+		move.w	(a4)+,d2
 		moveq	#$F,d3
 Offset_0x02FA9E:
-		cmp.w	D2,d0
+		cmp.w	d2,d0
 		bmi.s	Offset_0x02FAA8
-		add.w	(A4)+,d2
+		add.w	(a4)+,d2
 		addq.w	#4,a5
 		bra.s	Offset_0x02FA9E
 Offset_0x02FAA8:
-		move.w	(A5),d1
+		move.w	(a5),d1
 		moveq	#$20,d6
-		movem.l	D0/D2-D3/A0/A4-A5,-(sp)
-		jsr	Setup_Tile_Row_Draw(PC)				   ; Offset_0x02F93E
-		jsr	DrawLevel(PC)					 ; Offset_0x02F636
-		movem.l	(sp)+,d0/D2-D3/A0/A4-A5
+		movem.l	d0/d2-d3/a0/a4-a5,-(sp)
+		jsr	Setup_Tile_Row_Draw(pc)
+		jsr	DrawLevel(pc)
+		movem.l	(sp)+,d0/d2-d3/a0/a4-a5
 		addi.w	#$10,d0
-		dbf	D3, Offset_0x02FA9E
+		dbf	d3,Offset_0x02FA9E
 		rts
 ; ---------------------------------------------------------------------------
 Offset_0x02FAC6:
-		movem.l	D0-D2/D6/A0,-(sp)
-		jsr	Offset_0x02FA3C(PC)
-		jsr	DrawLevel_Competition(PC)
-		movem.l	(sp)+,d0-D2/D6/A0
+		movem.l	d0-d2/d6/a0,-(sp)
+		jsr	Offset_0x02FA3C(pc)
+		jsr	DrawLevel_Competition(pc)
+		movem.l	(sp)+,d0-d2/d6/a0
 		addi.w	#$10,d0
-		dbf	D2, Offset_0x02FAC6
+		dbf	d2,Offset_0x02FAC6
 		rts
 ; ---------------------------------------------------------------------------
 Refresh_Plane_Screen_Direct:								   ; Offset_0x02FAE0
-		move	#$2700,SR
+		move	#$2700,sr
 		move.w	(Screen_Pos_Buffer_Y).w,d0					; $FFFFEE84
 		move.w	(Screen_Pos_Buffer_X).w,d1					; $FFFFEE80
 		moveq	#$E,d2
 Offset_0x02FAEE:
-		movem.l	D0-D2/A0,-(sp)
+		movem.l	d0-d2/a0,-(sp)
 		moveq	#$15,d6
-		jsr	Setup_Tile_Row_Draw(PC)				   ; Offset_0x02F93E
+		jsr	Setup_Tile_Row_Draw(pc)				   ; Offset_0x02F93E
 		jsr	DrawLevel(PC)					 ; Offset_0x02F636
-		movem.l	(sp)+,d0-D2/A0
+		movem.l	(sp)+,d0-d2/a0
 		addi.w	#$10,d0
-		dbf	D2, Offset_0x02FAEE
-		move	#$2300,SR
+		dbf	d2,Offset_0x02FAEE
+		move	#$2300,sr
 		rts
 ; ---------------------------------------------------------------------------
 ; Subroutine to load foreground tiles as the player moves
@@ -28579,25 +28579,25 @@ LoadTilesAsYouMove_Background:
 		jmp	DrawBlockRow(pc)
 ; ---------------------------------------------------------------------------
 ; Offset_0x02FB56:
-		movem.l	D5/A4-A5,-(sp)
-		lea	(Screen_Pos_Buffer_Y).w,a6					; $FFFFEE84
-		jsr	Get_Deform_Draw_Position_Vertical(PC)  ; Offset_0x02FBF4
-		lea	(Screen_Pos_Rounded_Y).w,a5					; $FFFFEE8A
-		jsr	Draw_Tile_Row_2(PC)					   ; Offset_0x02F8F4
-		movem.l	(sp)+,d5/A4/A6
-		move.w	(Screen_Pos_Rounded_Y).w,d6					; $FFFFEE8A
-		bra.s	Draw_Background_D6					   ; Offset_0x02FB90
+		movem.l	d5/a4-a5,-(sp)
+		lea	(Screen_Pos_Buffer_Y).w,a6
+		jsr	Get_Deform_Draw_Position_Vertical(pc)
+		lea	(Screen_Pos_Rounded_Y).w,a5
+		jsr	Draw_Tile_Row_2(pc)
+		movem.l	(sp)+,d5/a4/a6
+		move.w	(Screen_Pos_Rounded_Y).w,d6
+		bra.s	Draw_Background_D6
 ; ---------------------------------------------------------------------------
 Draw_Background:											   ; Offset_0x02FB74
-		movem.l	D5/A4-A5,-(sp)
+		movem.l	d5/a4-a5,-(sp)
 		lea	(Screen_Pos_Buffer_Y_2).w,a6				; $FFFFEE90
 		jsr	Get_Deform_Draw_Position_Vertical(PC)  ; Offset_0x02FBF4
 		lea	(Screen_Pos_Rounded_Y_2).w,a5				; $FFFFEE96
-		jsr	Draw_Tile_Row_2(PC)					   ; Offset_0x02F8F4
-		movem.l	(sp)+,d5/A4/A6
+		jsr	Draw_Tile_Row_2(pc)					   ; Offset_0x02F8F4
+		movem.l	(sp)+,d5/a4/a6
 		move.w	(Screen_Pos_Rounded_Y_2).w,d6				; $FFFFEE96
 Draw_Background_D6:											   ; Offset_0x02FB90
-		move.w	D6,d1
+		move.w	d6,d1
 Offset_0x02FB92:
 		sub.w	(A4)+,d6
 		bmi.s	Offset_0x02FBA2
