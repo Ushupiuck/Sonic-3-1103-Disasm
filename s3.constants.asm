@@ -643,6 +643,19 @@ Z80_Reset	= $A11200
 ; VDP
 VDP_Data_Port		= $C00000
 VDP_Control_Port	= $C00004
+VDP_data_port		= VDP_Data_Port
+VDP_control_port	= VDP_Control_Port
+
+; VRAM Reserved regions, Sega screen.
+VRAM_SegaScr_Plane_A_Name_Table          = $C000	; Extends until $DFFF
+VRAM_SegaScr_Plane_B_Name_Table          = $A000	; Extends until $BFFF
+VRAM_SegaScr_Plane_Table_Size            = $2000	; 128 cells x 32 cells x 2 bytes per cell
+
+; VRAM Reserved regions, Ending sequence and credits.
+VRAM_EndSeq_Plane_A_Name_Table	= $C000	; Extends until $DFFF
+VRAM_EndSeq_Plane_B_Name_Table1	= $E000	; Extends until $EFFF (plane size is 64x32)
+VRAM_EndSeq_Plane_B_Name_Table2	= $4000	; Extends until $5FFF
+VRAM_EndSeq_Plane_Table_Size	= $2000	; 64 cells x 64 cells x 2 bytes per cell
 
 ; sign-extends a 32-bit integer to 64-bit
 ; all RAM addresses are run through this function to allow them to work in both 16-bit and 32-bit addressing modes
@@ -883,6 +896,7 @@ Random_Seed:		ds.l	1
 Pause_Status:		ds.w	1
 		ds.l	1
 DMA_Trigger:		ds.l	1
+DMA_data_thunk	= DMA_Trigger
 Horizontal_Interrupt_Flag:		ds.w	1
 Water_Level_Move:		ds.w	1
 Current_Water_Level:		ds.w	1

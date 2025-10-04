@@ -96,8 +96,8 @@ zPalDblUpdCounter:	ds.b	1	; used to update the sound driver twice every five fra
 			ds.b	1	; unused
 	endif
 
-zTempVariablesStart:	ds.b	1
-zNextSound:		=	zTempVariablesStart
+zTempVariablesStart:
+zNextSound:			ds.b	1
 ; the following three variables are used for 68000 input, although only the first is functional
 zMusicNumber:		ds.b	1
 zSFXNumber0:		ds.b	1
@@ -3197,9 +3197,12 @@ z80_SoundPriority:
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $A0 - $AF
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $B0 - $BF
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $C0 - $CF
+	if fix_sndbugs
+		; This table was missing entries $D0 to $FF.
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $D0 - $DF
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $E0 - $EF
 		db  7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh	; $F0 - $FF
+	endif
 
 zmake68kPtrs macro
 		irp op,ALLARGS

@@ -70,6 +70,9 @@ menutxt	macro	text
 	dc.b	text
 	endm
 
+; function to calculate the location of a tile in plane mappings
+planeLoc function width,col,line,(((width * line) + col) * 2)
+
 ; calculates initial loop counter value for a dbf loop
 ; that writes n bytes total at 4 bytes per iteration
 bytesToLcnt function n,n>>2-1
