@@ -7708,7 +7708,7 @@ LevelSelect_DrawIcon:
 		; during V-Int. To avoid this we can upload the colours ourselves right
 		; here.
 		; Prepare the VDP for data transfer.
-		move.l  #vdpComm(2*16*2,CRAM,WRITE),VDP_control_port-VDP_data_port(a6)
+		move.l  #vdpComm(2*16*2,CRAM,WRITE),VDP_Control_Port-VDP_Data_Port(a6)
     endif
 		moveq	#bytesToLcnt($20),d1
 
