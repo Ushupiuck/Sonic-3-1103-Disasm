@@ -4,13 +4,13 @@
 ; ---------------------------------------------------------------------------
 ; Offset_0x024BCA: Obj_S2_0x6F_Special_Stage_Results:
 S2Obj6F_SSResults:
-		rts
-		moveq	#$00, D0
-		moveq	#$00, D6
-		move.b	Obj_Routine(A0), D0
-		move.w	Offset_0x024BDC(PC, D0), D1
-		jmp		Offset_0x024BDC(PC, D1)
-;-------------------------------------------------------------------------------
+		rts			; this object has been dummied out
+		moveq	#0,d0
+		moveq	#0,d6
+		move.b	Obj_Routine(a0),d0
+		move.w	Offset_0x024BDC(pc,d0.w),d1
+		jmp	Offset_0x024BDC(pc,d1.w)
+; ---------------------------------------------------------------------------
 Offset_0x024BDC:
 		dc.w	Offset_0x024C12-Offset_0x024BDC
 		dc.w	Offset_0x024C52-Offset_0x024BDC
@@ -39,286 +39,286 @@ Offset_0x024BDC:
 		dc.w	Offset_0x024EA2-Offset_0x024BDC
 		dc.w	Offset_0x024F04-Offset_0x024BDC
 		dc.w	Offset_0x024F28-Offset_0x024BDC
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024C12:
 		tst.l	(PLC_Data_Buffer).w
 		beq.s	Offset_0x024C1A
 		rts
 Offset_0x024C1A:
-		move.l	A0, A1
-		lea		Special_Stage_Screen_Pos(PC), A2
-		moveq	#$0C, D1
-;-------------------------------------------------------------------------------
+		move.l	a0,a1
+		lea	Special_Stage_Screen_Pos(pc),a2
+		moveq	#$C,d1
+; ---------------------------------------------------------------------------
 Offset_0x024C22:
-		move.l	(A0), (A1)
-		move.w	(A2), Obj_X(A1)
-		move.w	(A2)+, Obj_Control_Var_02(A1)
-		move.w	(A2)+, Obj_Control_Var_00(A1)
-		move.w	(A2)+, Obj_Y(A1)
-		move.b	(A2)+, Obj_Routine(A1)
-		move.b	(A2)+, Obj_Map_Id(A1)
-		move.l	#Special_Stage_Results_Mappings, Obj_Map(A1)
-		move.b	#$78, Obj_Width(A1)
-		lea		Obj_Size(A1), A1
-		dbra	D1, Offset_0x024C22
+		move.l	(a0),(a1)
+		move.w	(a2),Obj_X(a1)
+		move.w	(a2)+,Obj_Control_Var_02(a1)
+		move.w	(a2)+,Obj_Control_Var_00(a1)
+		move.w	(a2)+,Obj_Y(a1)
+		move.b	(a2)+,Obj_Routine(a1)
+		move.b	(a2)+,Obj_Map_Id(a1)
+		move.l	#Special_Stage_Results_Mappings,Obj_Map(a1)
+		move.b	#$78,Obj_Width(a1)
+		lea	Obj_Size(a1),a1
+		dbf	d1,Offset_0x024C22
 Offset_0x024C52:
 		tst.b	(SS_Completed_Flag).w
 		beq.s	Offset_0x024C5E
-		move.b	#$04, Obj_Map_Id(A0)
+		move.b	#4,Obj_Map_Id(a0)
 Offset_0x024C5E:
-		cmpi.b	#$07, (Emeralds_Count).w
+		cmpi.b	#7,(Emeralds_Count).w
 		bne.s	Offset_0x024C6C
-		move.b	#$19, Obj_Map_Id(A0)
+		move.b	#$19,Obj_Map_Id(a0)
 Offset_0x024C6C:
-		move.w	Obj_Control_Var_00(A0), D0
-		cmp.w	Obj_X(A0), D0
+		move.w	Obj_Control_Var_00(a0),d0
+		cmp.w	Obj_X(a0),d0
 		bne.s	Offset_0x024C82
-		move.b	#$1C, Obj_Routine(A0)
-		move.w	#$00B4, Obj_Ani_Time(A0)
+		move.b	#$1C,Obj_Routine(a0)
+		move.w	#$B4,Obj_Ani_Time(a0)
 Offset_0x024C82:
 		bra.w	S2Obj6F_SSResults
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024C86:
-		cmpi.b	#$07, (Emeralds_Count).w
+		cmpi.b	#7,(Emeralds_Count).w
 		bne.s	Offset_0x024C92
-		moveq	#$16, D0
+		moveq	#$16,d0
 		bra.s	Offset_0x024C9C
 Offset_0x024C92:
-		tst.b	(SS_Completed_Flag).w				; $FFFFFFB0
+		tst.b	(SS_Completed_Flag).w
 		beq.w	Offset_0x024BC4
-		moveq	#$01, D0
+		moveq	#1,d0
 Offset_0x024C9C:
-		cmpi.w	#$0002, (Player_Selected_Flag).w			 ; $FFFFFF08
+		cmpi.w	#2,(Player_Selected_Flag).w
 		bne.s	Offset_0x024CB0
-		addq.w	#$01, D0
-		btst	#$07, (Hardware_Id).w				; $FFFFFFF8
+		addq.w	#1,d0
+		btst	#7,(Hardware_Id).w
 		beq.s	Offset_0x024CB0
-		addq.w	#$01, D0
+		addq.w	#1,d0
 Offset_0x024CB0:
-		move.b	D0, Obj_Map_Id(A0)					   ; $0022
+		move.b	d0,Obj_Map_Id(a0)
 		bra.w	S2Obj6F_SSResults
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024CB8:
-		addq.w	#$01, D6
-;-------------------------------------------------------------------------------
+		addq.w	#1,d6
 Offset_0x024CBA:
-		addq.w	#$01, D6
-;-------------------------------------------------------------------------------
+		addq.w	#1,d6
 Offset_0x024CBC:
-		addq.w	#$01, D6
-;-------------------------------------------------------------------------------
+		addq.w	#1,d6
 Offset_0x024CBE:
-		addq.w	#$01, D6
-;-------------------------------------------------------------------------------
+		addq.w	#1,d6
 Offset_0x024CC0:
-		addq.w	#$01, D6
-;-------------------------------------------------------------------------------
+		addq.w	#1,d6
 Offset_0x024CC2:
-		addq.w	#$01, D6
-;-------------------------------------------------------------------------------
+		addq.w	#1,d6
+
 Offset_0x024CC4:
-		lea		(Emerald_Collected_Flag_List).w, A1			 ; $FFFFFFB2
-		tst.b	(A1, D6)
+		lea	(Emerald_Collected_Flag_List).w,a1
+		tst.b	(a1,d6.w)
 		beq.w	Offset_0x024BC4
-		btst	#$00, (Vint_runcount+$03).w		  ; $FFFFFE0F
+		btst	#0,(Vint_runcount+3).w
 		beq.s	Offset_0x024CDE
-		jsr		(DisplaySprite).l				; Offset_0x011148
+		jsr	(DisplaySprite).l
+
 Offset_0x024CDE:
 		rts
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024CE0:
-		tst.w	(Player_Selected_Flag).w			 ; $FFFFFF08
+		tst.w	(Player_Selected_Flag).w
 		bne.w	Offset_0x024BC4
 		beq.w	Offset_0x024BC4
-		moveq	#$0E, D0
-		btst	#$07, (Hardware_Id).w				; $FFFFFFF8
+		moveq	#$E,d0
+		btst	#7,(Hardware_Id).w
 		beq.s	Offset_0x024CF8
-		addq.w	#$01, D0
+		addq.w	#1,d0
 Offset_0x024CF8:
-		lea		(Level_Results_Ring_Bonus).w, A1			 ; $FFFFF7D4
+		lea	(Level_Results_Ring_Bonus).w,a1
 		bra.s	Offset_0x024D4C
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024CFE:
 		bne.s	Offset_0x024D24
-		move.w	#5000, (Level_Results_Time_Bonus).w			; $FFFFF7D2
-		move.b	#$2A, Obj_Routine(A0)					; $0005
-		move.w	#$0120, Obj_Y(A0)				; $0014
-		st		(HUD_Results_Refresh_Flag).w		 ; $FFFFF7D6
-		move.w	#S2_Panel_Spinning_Sfx, D0			   ; $00CF
-		jsr		(PlaySound).l				   ; Offset_0x001176
+		move.w	#5000,(Level_Results_Time_Bonus).w
+		move.b	#$2A,Obj_Routine(a0)
+		move.w	#$120,Obj_Y(a0)
+		st	(HUD_Results_Refresh_Flag).w
+		move.w	#S2_Panel_Spinning_Sfx,d0
+		jsr	(PlaySound).l
 		bra.w	Offset_0x024E8C
 Offset_0x024D24:
-		move.w	(Player_Selected_Flag).w, D0		 ; $FFFFFF08
+		move.w	(Player_Selected_Flag).w,d0
 		beq.s	Offset_0x024D46
-		move.w	#$0120, Obj_Y(A0)				; $0014
-		subq.w	#$01, D0
+		move.w	#$120,Obj_Y(a0)
+		subq.w	#1,d0
 		beq.s	Offset_0x024D46
-		moveq	#$0E, D0
-		btst	#$07, (Hardware_Id).w				; $FFFFFFF8
+		moveq	#$E,d0
+		btst	#7,(Hardware_Id).w
 		beq.s	Offset_0x024D40
-		addq.w	#$01, D0
+		addq.w	#1,d0
 Offset_0x024D40:
-		lea		(Level_Results_Ring_Bonus).w, A1			 ; $FFFFF7D4
+		lea	(Level_Results_Ring_Bonus).w,a1
 		bra.s	Offset_0x024D4C
 Offset_0x024D46:
-		moveq	#$0D, D0
-		lea		(Level_Results_Time_Bonus).w, A1			 ; $FFFFF7D2
+		moveq	#$D,d0
+		lea	(Level_Results_Time_Bonus).w,a1
 Offset_0x024D4C:
-		tst.w	(A1)
+		tst.w	(a1)
 		bne.s	Offset_0x024D52
-		addq.w	#$05, D0
+		addq.w	#5,d0
 Offset_0x024D52:
-		move.b	D0, Obj_Map_Id(A0)					   ; $0022
-;-------------------------------------------------------------------------------
+		move.b	d0,Obj_Map_Id(a0)
+; ---------------------------------------------------------------------------
 Offset_0x024D56:
 		bra.w	S2Obj6F_SSResults
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024D5A:
-		tst.b	(SS_Completed_Flag).w				; $FFFFFFB0
+		tst.b	(SS_Completed_Flag).w
 		beq.w	Offset_0x024BC4
 		bra.s	Offset_0x024D56
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024D64:
-		subq.w	#$01, Obj_Ani_Time(A0)				   ; $0024
+		subq.w	#1,Obj_Ani_Time(a0)
 		bne.s	Offset_0x024D6E
-		addq.b	#$02, Obj_Routine(A0)					; $0005
+		addq.b	#2,Obj_Routine(a0)
 Offset_0x024D6E:
-		jmp		(DisplaySprite).l				; Offset_0x011148
-;-------------------------------------------------------------------------------
+		jmp	(DisplaySprite).l
+; ---------------------------------------------------------------------------
 Offset_0x024D74:
-		jsr		(DisplaySprite).l				; Offset_0x011148
-		move.b	#$01, (HUD_Results_Refresh_Flag).w			 ; $FFFFF7D6
-		moveq	#$00, D0
-		tst.w	(Level_Results_Time_Bonus).w		 ; $FFFFF7D2
+		jsr	(DisplaySprite).l
+		move.b	#1,(HUD_Results_Refresh_Flag).w
+		moveq	#0,d0
+		tst.w	(Level_Results_Time_Bonus).w
 		beq.s	Offset_0x024D90
-		addi.w	#10, D0
-		subq.w	#$01, (Level_Results_Time_Bonus).w			 ; $FFFFF7D2
+		addi.w	#10,d0
+		subq.w	#1,(Level_Results_Time_Bonus).w
 Offset_0x024D90:
-		tst.w	(Level_Results_Ring_Bonus).w		 ; $FFFFF7D4
+		tst.w	(Level_Results_Ring_Bonus).w
 		beq.s	Offset_0x024D9E
-		addi.w	#10, D0
-		subq.w	#$01, (Level_Results_Ring_Bonus).w			 ; $FFFFF7D4
+		addi.w	#10,d0
+		subq.w	#1,(Level_Results_Ring_Bonus).w
 Offset_0x024D9E:
-		tst.w	(Level_Results_Total_Bonus).w		; $FFFFFF8E
+		tst.w	(Level_Results_Total_Bonus).w
 		beq.s	Offset_0x024DAE
-		addi.w	#10, D0
-		subi.w	#10, (Level_Results_Total_Bonus).w		  ; $FFFFFF8E
+		addi.w	#10,d0
+		subi.w	#10,(Level_Results_Total_Bonus).w
 Offset_0x024DAE:
-		tst.w	D0
+		tst.w	d0
 		bne.s	Offset_0x024DF8
-		move.w	#S2_Cha_Ching_Sfx, D0					; $00C5
-		jsr		(PlaySound).l				   ; Offset_0x001176
-		addq.b	#$02, Obj_Routine(A0)					; $0005
-		move.w	#$0078, Obj_Ani_Time(A0)				 ; $0024
-		tst.w	(Perfect_Bonus_Rings_Flag).w		 ; $FFFFFF06
+		move.w	#S2_Cha_Ching_Sfx,d0
+		jsr	(PlaySound).l
+		addq.b	#2,Obj_Routine(a0)
+		move.w	#$78,Obj_Ani_Time(a0)
+		tst.w	(Perfect_Bonus_Rings_Flag).w
 		bne.s	Offset_0x024DEA
-		cmpi.w	#$0002, (Player_Selected_Flag).w			 ; $FFFFFF08
-		beq.s	Offset_0x024DF6
-		tst.b	(SS_Completed_Flag).w				; $FFFFFFB0
-		beq.s	Offset_0x024DF6
-		cmpi.b	#$07, (Emeralds_Count).w			 ; $FFFFFFB1
-		bne.s	Offset_0x024DF6
-		move.b	#$30, Obj_Routine(A0)					; $0005
+		cmpi.w	#2,(Player_Selected_Flag).w
+		beq.s	return_24DF6
+		tst.b	(SS_Completed_Flag).w
+		beq.s	return_24DF6
+		cmpi.b	#7,(Emeralds_Count).w
+		bne.s	return_24DF6
+		move.b	#$30,Obj_Routine(a0)
 		rts
 Offset_0x024DEA:
-		move.b	#$24, Obj_Routine(A0)					; $0005
-		move.w	#$005A, Obj_Ani_Time(A0)				 ; $0024
-Offset_0x024DF6:
+		move.b	#$24,Obj_Routine(a0)
+		move.w	#$5A,Obj_Ani_Time(a0)
+
+return_24DF6:
 		rts
+; ---------------------------------------------------------------------------
 Offset_0x024DF8:
-		jsr		(Add_Points_P1).l				; Offset_0x007AB0
-		move.b	(Vint_runcount+$03).w, D0		  ; $FFFFFE0F
-		andi.b	#$03, D0
-		bne.s	Offset_0x024DF6
-		move.w	#S2_Add_Points_Blip_Sfx, D0			  ; $00CD
-		jmp		(PlaySound).l				   ; Offset_0x001176
-;-------------------------------------------------------------------------------
+		jsr	(Add_Points_P1).l
+		move.b	(Vint_runcount+3).w,d0
+		andi.b	#3,d0
+		bne.s	return_24DF6
+		move.w	#S2_Add_Points_Blip_Sfx,d0
+		jmp	(PlaySound).l
+; ---------------------------------------------------------------------------
 Offset_0x024E12:
-		move.w	#$0001, (Restart_Level_Flag).w				 ; $FFFFFE02
-		jmp		(DisplaySprite).l				; Offset_0x011148
-;-------------------------------------------------------------------------------
+		move.w	#1,(Restart_Level_Flag).w
+		jmp	(DisplaySprite).l
+; ---------------------------------------------------------------------------
 Offset_0x024E1E:
-		jsr		(DisplaySprite).l				; Offset_0x011148
-		move.b	#$01, (HUD_Results_Refresh_Flag).w			 ; $FFFFF7D6
-		moveq	#$00, D0
-		tst.w	(Level_Results_Time_Bonus).w		 ; $FFFFF7D2
+		jsr	(DisplaySprite).l
+		move.b	#1,(HUD_Results_Refresh_Flag).w
+		moveq	#0,d0
+		tst.w	(Level_Results_Time_Bonus).w
 		beq.s	Offset_0x024E3C
-		addi.w	#$0014, D0
-		subi.w	#$0014, (Level_Results_Time_Bonus).w		 ; $FFFFF7D2
+		addi.w	#$14,d0
+		subi.w	#$14,(Level_Results_Time_Bonus).w
 Offset_0x024E3C:
-		tst.w	D0
+		tst.w	d0
 		beq.s	Offset_0x024E5A
-		jsr		(Add_Points_P1).l				; Offset_0x007AB0
-		move.b	(Vint_runcount+$03).w, D0		  ; $FFFFFE0F
-		andi.b	#$03, D0
-		bne.s	Offset_0x024E8A
-		move.w	#S2_Add_Points_Blip_Sfx, D0			  ; $00CD
-		jmp		(PlaySound).l				   ; Offset_0x001176
+		jsr	(Add_Points_P1).l
+		move.b	(Vint_runcount+3).w,d0
+		andi.b	#3,d0
+		bne.s	return_24E8A
+		move.w	#S2_Add_Points_Blip_Sfx,d0
+		jmp	(PlaySound).l
 Offset_0x024E5A:
-		move.w	#S2_Cha_Ching_Sfx, D0					; $00C5
-		jsr		(PlaySound).l				   ; Offset_0x001176
-		addq.b	#$04, Obj_Routine(A0)					; $0005
-		move.w	#$0078, Obj_Ani_Time(A0)				 ; $0024
-		cmpi.w	#$0002, (Player_Selected_Flag).w			 ; $FFFFFF08
-		beq.s	Offset_0x024E8A
-		tst.b	(SS_Completed_Flag).w				; $FFFFFFB0
-		beq.s	Offset_0x024E8A
-		cmpi.b	#$07, (Emeralds_Count).w			 ; $FFFFFFB1
-		bne.s	Offset_0x024E8A
-		move.b	#$30, Obj_Routine(A0)					; $0005
-Offset_0x024E8A:
+		move.w	#S2_Cha_Ching_Sfx,d0
+		jsr	(PlaySound).l
+		addq.b	#4,Obj_Routine(a0)
+		move.w	#$78,Obj_Ani_Time(a0)
+		cmpi.w	#2,(Player_Selected_Flag).w
+		beq.s	return_24E8A
+		tst.b	(SS_Completed_Flag).w
+		beq.s	return_24E8A
+		cmpi.b	#7,(Emeralds_Count).w
+		bne.s	return_24E8A
+		move.b	#$30,Obj_Routine(a0)
+
+return_24E8A:
 		rts
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024E8C:
-		moveq	#$11, D0
-		btst	#$03, (Vint_runcount+$03).w		  ; $FFFFFE0F
+		moveq	#$11,d0
+		btst	#3,(Vint_runcount+3).w
 		beq.s	Offset_0x024E98
-		moveq	#$15, D0
+		moveq	#$15,d0
 Offset_0x024E98:
-		move.b	D0, Obj_Map_Id(A0)					   ; $0022
-		jmp		(DisplaySprite).l				; Offset_0x011148
-;-------------------------------------------------------------------------------
+		move.b	d0,Obj_Map_Id(a0)
+		jmp	(DisplaySprite).l
+; ---------------------------------------------------------------------------
 Offset_0x024EA2:
-		move.b	#$32, Obj_Size+Obj_Routine(A0)		   ; $004F
-		move.w	Obj_X(A0), D0					; $0010
-		cmp.w	Obj_Control_Var_02(A0), D0			   ; $0032
+		move.b	#$32,Obj_Size+Obj_Routine(a0)
+		move.w	Obj_X(a0),d0
+		cmp.w	Obj_Control_Var_02(a0),d0
 		bne.s	Offset_0x024F04
-		move.b	#$14, Obj_Size+Obj_Routine(A0)		   ; $004F
-		subq.w	#$08, Obj_Size+Obj_Y(A0)				 ; $005E
-		move.b	#$1A, Obj_Size+Obj_Map_Id(A0)			; $006C
-		move.b	#$34, Obj_Routine(A0)					; $0005
-		subq.w	#$08, Obj_Y(A0)				  ; $0014
-		move.b	#$1B, Obj_Map_Id(A0)					 ; $0022
-		move.l	(A0), (A1)
-		clr.w	Obj_X(A1)						; $0010
-		move.w	#$0120, Obj_Control_Var_00(A1)		   ; $0030
-		move.w	#$00B4, Obj_Y(A1)				; $0014
-		move.b	#$14, Obj_Routine(A1)					; $0005
-		move.b	#$1C, Obj_Map_Id(A1)					 ; $0022
-		move.l	#Special_Stage_Results_Mappings, Obj_Map(A1) ; Offset_0x02540C, $000C
-		move.b	#$78, Obj_Width(A1)					  ; $0007
-		jmp		(DisplaySprite).l				; Offset_0x011148
-;-------------------------------------------------------------------------------
+		move.b	#$14,Obj_Size+Obj_Routine(a0)
+		subq.w	#8,Obj_Size+Obj_Y(a0)
+		move.b	#$1A,Obj_Size+Obj_Map_Id(a0)
+		move.b	#$34,Obj_Routine(a0)
+		subq.w	#8,Obj_Y(a0)
+		move.b	#$1B,Obj_Map_Id(a0)
+		move.l	(a0),(a1)		; used to be "id(a0),id(a1)" in Sonic 2
+		clr.w	Obj_X(a1)
+		move.w	#$120,Obj_Control_Var_00(a1)
+		move.w	#$B4,Obj_Y(a1)
+		move.b	#$14,Obj_Routine(a1)
+		move.b	#$1C,Obj_Map_Id(a1)
+		move.l	#Special_Stage_Results_Mappings,Obj_Map(a1)
+		move.b	#$78,Obj_Width(a1)
+		jmp	(DisplaySprite).l
+; ---------------------------------------------------------------------------
 Offset_0x024F04:
-		moveq	#$20, D0
-		move.w	Obj_X(A0), D1					; $0010
-		cmp.w	Obj_Control_Var_02(A0), D1			   ; $0032
+		moveq	#$20,d0
+		move.w	Obj_X(a0),d1
+		cmp.w	Obj_Control_Var_02(a0),d1
 		beq.s	Offset_0x024F20
 		bhi.s	Offset_0x024F14
-		neg.w	D0
+		neg.w	d0
 Offset_0x024F14:
-		sub.w	D0, Obj_X(A0)					; $0010
-		cmpi.w	#$0200, Obj_X(A0)				; $0010
-		bhi.s	Offset_0x024F26
+		sub.w	d0,Obj_X(a0)
+		cmpi.w	#$200,Obj_X(a0)
+		bhi.s	return_24F26
 Offset_0x024F20:
-		jmp		(DisplaySprite).l				; Offset_0x011148
-Offset_0x024F26:
+		jmp	(DisplaySprite).l
+
+return_24F26:
 		rts
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 Offset_0x024F28:
-		move.w	Obj_X(A0), D0
-		cmp.w	Obj_Control_Var_00(A0), D0
+		move.w	Obj_X(a0),d0
+		cmp.w	Obj_Control_Var_00(a0),d0
 		bne.w	S2Obj6F_SSResults
-		move.w	#$00B4, Obj_Ani_Time(A0)
-		move.b	#$20, Obj_Routine(A0)
-		jmp		(DisplaySprite).l
+		move.w	#$B4,Obj_Ani_Time(a0)
+		move.b	#$20,Obj_Routine(a0)
+		jmp	(DisplaySprite).l
