@@ -5,14 +5,14 @@
 ; RingFlash:
 		moveq	#0,d0
 		move.b	Obj_Routine(a0),d0
-		move.w	RingFlash_Index(pc,d0),d1
-		jmp	RingFlash_Index(pc,d1)
-;-------------------------------------------------------------------------------
+		move.w	RingFlash_Index(pc,d0.w),d1
+		jmp	RingFlash_Index(pc,d1.w)
+; ---------------------------------------------------------------------------
 RingFlash_Index:
 		dc.w	Flash_Main-RingFlash_Index
 		dc.w	Flash_ChkDel-RingFlash_Index
 		dc.w	Flash_Delete-RingFlash_Index
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
 Flash_Main:	; Routine 0
 		addq.b	#2,Obj_Routine(a0)
@@ -34,7 +34,7 @@ Flash_ChkDel:	; Routine 2
 		bhi.w	DeleteObject
 		bra.w	DisplaySprite
 
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
 Flash_Collect:
 		subq.b	#1,Obj_Ani_Time(a0)
@@ -55,7 +55,7 @@ Flash_Collect:
 
 locret_10DC4:
 		rts
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
 Flash_End:
 		addq.b	#2,Obj_Routine(a0)
@@ -64,7 +64,7 @@ Flash_End:
 		rts
 ; End of function Flash_Collect
 
-;-------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
 Flash_Delete:	; Routine 4
 		bra.w	DeleteObject
