@@ -95,22 +95,22 @@ Prog_Start_Vector:
 		dc.l	ErrorTrap			; TRAP #$0D exception
 		dc.l	ErrorTrap			; TRAP #$0E exception
 		dc.l	Trap_0x0F			; TRAP #$0F exception
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
-		dc.l	ErrorTrap				; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
+		dc.l	ErrorTrap			; Unused (reserved)
 		dc.b	"SEGA GENESIS    "
 		dc.b	"(C)SEGA 1993.OCT"
 Title_Local:	dc.b	"SONIC THE             HEDGEHOG 3                "
@@ -647,11 +647,11 @@ VBlank_Title:
 Offset_0x0006E0:
 		rts
 ; ---------------------------------------------------------------------------
-VBlank_06:													   ; Offset_0x0006E2
+VBlank_06:
 		bsr.w	Offset_0x000B80
 		rts
 ; ---------------------------------------------------------------------------
-VBlank_08:													   ; Offset_0x0006E8
+VBlank_08:
 VBlank_10:
 		stopZ80
 		bsr.w	Control_Ports_Read					   ; Offset_0x000F16
@@ -671,8 +671,8 @@ Offset_0x00071E:
 		move.w	#$EEE,d0
 		move.w	#bytesToWcnt($40),d1
 Offset_0x00073E:
-		move.w	D0,(A6)
-		dbf	D1,Offset_0x00073E
+		move.w	d0,(a6)
+		dbf	d1,Offset_0x00073E
 		move.l	#$C0420000,(VDP_Control_Port).l				; $00C00004
 	if FixBugs
 		move.w	#bytesToWcnt($3E),d1
@@ -680,8 +680,8 @@ Offset_0x00073E:
 		move.w	#bytesToWcnt($40),d1
 	endif
 Offset_0x000752:
-		move.w	D0,(A6)
-		dbf	D1,Offset_0x000752
+		move.w	d0,(a6)
+		dbf	d1,Offset_0x000752
 		bra.s	Offset_0x0007AA
 Offset_0x00075A:
 		tst.b	(Underwater_Flag).w							 ; $FFFFF64E
@@ -750,7 +750,7 @@ Offset_0x000896:
 		rts
 ; ===========================================================================
 
-VBlank_0A:													   ; Offset_0x000898
+VBlank_0A:
 VBlank_0C:
 		stopZ80
 		bsr.w	Control_Ports_Read					   ; Offset_0x000F16
@@ -761,7 +761,7 @@ VBlank_0C:
 Offset_0x0008DA:
 		dma68kToVDP	Palette_Underwater_Buffer,$0000,$80,CRAM
 Offset_0x0008FE:
-		move.w	(Horizontal_Int_Count_Cmd).w,(A5)			; $FFFFF624
+		move.w	(Horizontal_Int_Count_Cmd).w,(a5)			; $FFFFF624
 		dma68kToVDP Horizontal_Scroll_Buffer,$F000,$380,VRAM
 		dma68kToVDP Sprite_Table_Buffer,$F800,$280,VRAM
 		bsr.w	ProcessDMAQueue							   ; Offset_0x00135E
@@ -778,7 +778,7 @@ VBlank_0E:													   ; Offset_0x00096C
 ; ---------------------------------------------------------------------------
 VBlank_12:													   ; Offset_0x000978
 		bsr.w	Offset_0x000B80
-		move.w	(Horizontal_Int_Count_Cmd).w,(A5)			; $FFFFF624
+		move.w	(Horizontal_Int_Count_Cmd).w,(a5)			; $FFFFF624
 		bra.w	ProcessDPLC					 ; Offset_0x0015AE
 ; ---------------------------------------------------------------------------
 VBlank_18:													   ; Offset_0x000984
@@ -803,9 +803,9 @@ Offset_0x000A4C:
 		dmaFillVRAM 0,VRAM_EndSeq_Plane_B_Name_Table2,VRAM_EndSeq_Plane_Table_Size
 		dmaFillVRAM 0,VRAM_EndSeq_Plane_A_Name_Table,VRAM_EndSeq_Plane_Table_Size
 		lea	(VDP_Control_Port).l,a6						; $00C00004
-		move.w	#$8B00,(A6)
-		move.w	#$8402,(A6)
-		move.w	#$9011,(A6)
+		move.w	#$8B00,(a6)
+		move.w	#$8402,(a6)
+		move.w	#$9011,(a6)
 		lea	(RAM_Start).l,a1						   ; $FFFF0000
 		move.l	#$50AC0003,d0
 		moveq	#23-1,d1
@@ -1118,7 +1118,7 @@ JoypadInit:
 ; Leitura das portas 0, 1 e expans�o
 ; ->>>
 ;===============================================================================
-Control_Ports_Read:											   ; Offset_0x000F16
+Control_Ports_Read:
 		lea	(Control_Ports_Buffer_Data).w,a0			; $FFFFF604
 		lea	(IO_Joypad_Port_0).l,a1						; $00A10003
 		bsr.s	Offset_0x000F24
@@ -1152,7 +1152,7 @@ Offset_0x000F24:
 ; VDPRegSetup
 ; ->>>
 ;===============================================================================
-VDPRegSetup:												   ; Offset_0x000F52
+VDPRegSetup:
 		lea	(VDP_Control_Port).l,a0						; $00C00004
 		lea	(VDP_Data_Port).l,a1							; $00C00000
 		lea	(VDPRegSetup_Array).l,a2				; Offset_0x000FDC
@@ -1179,7 +1179,7 @@ Offset_0x000F9A:
 		move.l	(sp)+,d1
 		rts
 ; ---------------------------------------------------------------------------
-VDPRegSetup_Array:											   ; Offset_0x000FDC
+VDPRegSetup_Array:
 		dc.w	$8004  ; H Int
 		dc.w	$8134  ; V Int
 		dc.w	$8230  ; Scroll A
@@ -1355,7 +1355,7 @@ PlaySound_Exit:
 ; Rotina para tratar o Pause
 ; ->>>
 ;===============================================================================
-Pause:														   ; Offset_0x0011E0
+Pause:
 		nop
 		tst.b	(Life_count).w								 ; $FFFFFE12
 		beq.w	Unpause								   ; Offset_0x00128A
@@ -1365,12 +1365,12 @@ Pause:														   ; Offset_0x0011E0
 		or.b	(Control_Ports_Buffer_Data+3).w,d0		; $FFFFF607
 		andi.b	#button_start_mask,d0
 		beq.w	Pause_DoNothing						   ; Offset_0x001290
-Pause_AlreadyPaused:										   ; Offset_0x001200
+Pause_AlreadyPaused:
 		move.w	#1,(Pause_Status).w						; $FFFFF63A
 		stopZ80
 		move.b	#1,(Z80_RAM+zPauseFlag).l
 		startZ80
-Pause_Loop:													   ; Offset_0x001228
+Pause_Loop:
 		move.b	#$10,(VBlank_Index).w						; $FFFFF62A
 		bsr.w	Wait_For_VSync						   ; Offset_0x001AEE
 		tst.b	(Slow_Motion_Flag).w						 ; $FFFFFFD1
@@ -1380,12 +1380,12 @@ Pause_Loop:													   ; Offset_0x001228
 		move.b	#gm_TitleScreen,(Game_Mode).w		   ; $04, $FFFFF600
 		nop
 		bra.s	Offset_0x001268
-Pause_CheckBC:												   ; Offset_0x00124A
+Pause_CheckBC:
 		btst	#button_B,(Control_Ports_Buffer_Data).w			 ; $FFFFF604
 		bne.s	Pause_SlowMotion					   ; Offset_0x001292
 		btst	#button_C,(Control_Ports_Buffer_Data+1).w	 ; $FFFFF605
 		bne.s	Pause_SlowMotion					   ; Offset_0x001292
-Pause_CheckStart:											   ; Offset_0x00125A
+Pause_CheckStart:
 		move.b	(Control_Ports_Buffer_Data+1).w,d0		; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0		; $FFFFF607
 		andi.b	#button_start_mask,d0
@@ -1394,11 +1394,11 @@ Offset_0x001268:
 		stopZ80
 		move.b	#$80,(Z80_RAM+zPauseFlag).l
 		startZ80
-Unpause:													   ; Offset_0x00128A
+Unpause:
 		move.w	#0,(Pause_Status).w						; $FFFFF63A
-Pause_DoNothing:											   ; Offset_0x001290
+Pause_DoNothing:
 		rts
-Pause_SlowMotion:											   ; Offset_0x001292
+Pause_SlowMotion:
 		move.w	#1,(Pause_Status).w						; $FFFFF63A
 		stopZ80
 		move.b	#$80,(Z80_RAM+zPauseFlag).l
@@ -1578,18 +1578,18 @@ ProcessDMAQueue_Done:
 ; Rotina de descompress�o no formato Nemesis
 ; ->>>
 ;===============================================================================
-NemesisDec:													   ; Offset_0x001390
-		movem.l	D0-D7/A0/A1/A3-A5,-(sp)
+NemesisDec:
+		movem.l	d0-d7/a0/a1/a3-a5,-(sp)
 		lea	(NemesisDec_Output).l,a3				; Offset_0x001452
 		lea	(VDP_Data_Port).l,a4							; $00C00000
 		bra.s	NemesisDec_Main						   ; Offset_0x0013AC
 ; ---------------------------------------------------------------------------
-NemesisDecToRAM:											   ; Offset_0x0013A2
-		movem.l	D0-D7/A0/A1/A3-A5,-(sp)
+NemesisDecToRAM:
+		movem.l	d0-d7/a0/a1/a3-a5,-(sp)
 		lea	(NemesisDec_OutputToRAM).l,a3			; Offset_0x001468
-NemesisDec_Main:											   ; Offset_0x0013AC
+NemesisDec_Main:
 		lea	(NemesisDec_Data_Buffer).w,a1				; $FFFFAA00
-		move.w	(A0)+,d2
+		move.w	(a0)+,d2
 		lsl.w	#1,d2
 		bcc.s	Offset_0x0013BA
 		; Points A3 to NemesisDec_Output_XOR if A3 = NemesisDec_Output or
@@ -1597,57 +1597,57 @@ NemesisDec_Main:											   ; Offset_0x0013AC
 		adda.w	#NemesisDec_Output_XOR-NemesisDec_Output,a3	  ; $000A
 Offset_0x0013BA:
 		lsl.w	#2,d2
-		move.w	D2,a5
+		move.w	d2,a5
 		moveq	#8,d3
 		moveq	#0,d2
 		moveq	#0,d4
-		bsr.w	NemesisDec_4						   ; Offset_0x00147E
-		move.b	(A0)+,d5
+		bsr.w	NemesisDec_4
+		move.b	(a0)+,d5
 		asl.w	#8,d5
-		move.b	(A0)+,d5
+		move.b	(a0)+,d5
 		move.w	#$10,d6
-		bsr.s	NemesisDec_2						   ; Offset_0x0013DA
-		movem.l	(sp)+,d0-D7/A0/A1/A3-A5
+		bsr.s	NemesisDec_2
+		movem.l	(sp)+,d0-d7/a0/a1/a3-a5
 		rts
 ; ---------------------------------------------------------------------------
-NemesisDec_2:												   ; Offset_0x0013DA
-		move.w	D6,d7
+NemesisDec_2:
+		move.w	d6,d7
 		subq.w	#8,d7
-		move.w	D5,d1
-		lsr.w	D7,d1
+		move.w	d5,d1
+		lsr.w	d7,d1
 		cmpi.b	#$FC,d1
 		bcc.s	Offset_0x001426
 		andi.w	#$FF,d1
-		add.w	D1,d1
-		move.b	(A1,d1.w),d0
-		ext.w	D0
-		sub.w	D0,d6
+		add.w	d1,d1
+		move.b	(a1,d1.w),d0
+		ext.w	d0
+		sub.w	d0,d6
 		cmpi.w	#9,d6
 		bcc.s	Offset_0x001402
 		addq.w	#8,d6
 		asl.w	#8,d5
-		move.b	(A0)+,d5
+		move.b	(a0)+,d5
 Offset_0x001402:
-		move.b	1(A1,d1.w),d1
-		move.w	D1,d0
+		move.b	1(a1,d1.w),d1
+		move.w	d1,d0
 		andi.w	#$F,d1
 		andi.w	#$F0,d0
-NemesisDec_SubType:											   ; Offset_0x001410
+NemesisDec_SubType:
 		lsr.w	#4,d0
-NemesisDec_Loop_SubType:									   ; Offset_0x001412
+NemesisDec_Loop_SubType:
 		lsl.l	#4,d4
-		or.b	D1,d4
+		or.b	d1,d4
 		subq.w	#1,d3
 		bne.s	Offset_0x001420
-		; A3 Contains one of the decompression routines in Nemesis format.
+		; a3 Contains one of the decompression routines in Nemesis format.
 		; ( NemesisDec_Output_XOR or NemesisDec_OutputRAM_XOR )
-		jmp	(A3)
+		jmp	(a3)
 ; ---------------------------------------------------------------------------
-NemesisDec_3:												   ; Offset_0x00141C
+NemesisDec_3:
 		moveq	#0,d4
 		moveq	#8,d3
 Offset_0x001420:
-		dbf	D0,NemesisDec_Loop_SubType			   ; Offset_0x001412
+		dbf	d0,NemesisDec_Loop_SubType			   ; Offset_0x001412
 		bra.s	NemesisDec_2
 ; ---------------------------------------------------------------------------
 Offset_0x001426:
@@ -1656,89 +1656,89 @@ Offset_0x001426:
 		bcc.s	Offset_0x001434
 		addq.w	#8,d6
 		asl.w	#8,d5
-		move.b	(A0)+,d5
+		move.b	(a0)+,d5
 Offset_0x001434:
 		subq.w	#7,d6
-		move.w	D5,d1
-		lsr.w	D6,d1
-		move.w	D1,d0
+		move.w	d5,d1
+		lsr.w	d6,d1
+		move.w	d1,d0
 		andi.w	#$F,d1
 		andi.w	#$70,d0
 		cmpi.w	#9,d6
-		bcc.s	NemesisDec_SubType					   ; Offset_0x001410
+		bcc.s	NemesisDec_SubType
 		addq.w	#8,d6
 		asl.w	#8,d5
-		move.b	(A0)+,d5
-		bra.s	NemesisDec_SubType					   ; Offset_0x001410
+		move.b	(a0)+,d5
+		bra.s	NemesisDec_SubType
 ; ---------------------------------------------------------------------------
-NemesisDec_Output:											   ; Offset_0x001452
-		move.l	D4,(A4)
+NemesisDec_Output:
+		move.l	d4,(a4)
 		subq.w	#1,a5
-		move.w	A5,d4
+		move.w	a5,d4
+		bne.s	NemesisDec_3
+		rts
+; ---------------------------------------------------------------------------
+NemesisDec_Output_XOR:
+		eor.l	d4,d2
+		move.l	d2,(a4)
+		subq.w	#1,a5
+		move.w	a5,d4
+		bne.s	NemesisDec_3
+		rts
+; ---------------------------------------------------------------------------
+NemesisDec_OutputToRAM:
+		move.l	d4,(a4)+
+		subq.w	#1,a5
+		move.w	a5,d4
 		bne.s	NemesisDec_3						   ; Offset_0x00141C
 		rts
 ; ---------------------------------------------------------------------------
-NemesisDec_Output_XOR:										   ; Offset_0x00145C
-		eor.l	D4,d2
-		move.l	D2,(A4)
+NemesisDec_Output_XORToRAM:
+		eor.l	d4,d2
+		move.l	d2,(a4)+
 		subq.w	#1,a5
-		move.w	A5,d4
+		move.w	a5,d4
 		bne.s	NemesisDec_3						   ; Offset_0x00141C
 		rts
 ; ---------------------------------------------------------------------------
-NemesisDec_OutputToRAM:										   ; Offset_0x001468
-		move.l	D4,(A4)+
-		subq.w	#1,a5
-		move.w	A5,d4
-		bne.s	NemesisDec_3						   ; Offset_0x00141C
-		rts
-; ---------------------------------------------------------------------------
-NemesisDec_Output_XORToRAM:									   ; Offset_0x001472
-		eor.l	D4,d2
-		move.l	D2,(A4)+
-		subq.w	#1,a5
-		move.w	A5,d4
-		bne.s	NemesisDec_3						   ; Offset_0x00141C
-		rts
-; ---------------------------------------------------------------------------
-NemesisDec_4:												   ; Offset_0x00147E
-		move.b	(A0)+,d0
+NemesisDec_4:
+		move.b	(a0)+,d0
 Offset_0x001480:
 		cmpi.b	#$FF,d0
 		bne.s	Offset_0x001488
 		rts
 Offset_0x001488:
-		move.w	D0,d7
+		move.w	d0,d7
 Offset_0x00148A:
-		move.b	(A0)+,d0
+		move.b	(a0)+,d0
 		cmpi.b	#$80,d0
 		bcc.s	Offset_0x001480
-		move.b	D0,d1
+		move.b	d0,d1
 		andi.w	#$F,d7
 		andi.w	#$70,d1
-		or.w	D1,d7
+		or.w	d1,d7
 		andi.w	#$F,d0
-		move.b	D0,d1
+		move.b	d0,d1
 		lsl.w	#8,d1
-		or.w	D1,d7
+		or.w	d1,d7
 		moveq	#8,d1
-		sub.w	D0,d1
+		sub.w	d0,d1
 		bne.s	Offset_0x0014B8
-		move.b	(A0)+,d0
-		add.w	D0,d0
-		move.w	D7,(A1,d0.w)
+		move.b	(a0)+,d0
+		add.w	d0,d0
+		move.w	d7,(a1,d0.w)
 		bra.s	Offset_0x00148A
 Offset_0x0014B8:
-		move.b	(A0)+,d0
-		lsl.w	D1,d0
-		add.w	D0,d0
+		move.b	(a0)+,d0
+		lsl.w	d1,d0
+		add.w	d0,d0
 		moveq	#1,d5
-		lsl.w	D1,d5
+		lsl.w	d1,d5
 		subq.w	#1,d5
 Offset_0x0014C4:
-		move.w	D7,(A1,d0.w)
+		move.w	d7,(a1,d0.w)
 		addq.w	#2,d0
-		dbf	D5,Offset_0x0014C4
+		dbf	d5,Offset_0x0014C4
 		bra.s	Offset_0x00148A
 ;===============================================================================
 ; Rotina de descompress�o no formato Nemesis
@@ -2025,198 +2025,272 @@ RunPLC_ROM_Loop:
 		rts
 ; End of function RunPLC_ROM
 
-;===============================================================================
-; Rotina de descompress�o no formato Enigma
-; ->>>
-;===============================================================================
-EnigmaDec:													   ; Offset_0x00168A
-		movem.l	D0-D7/A1-A5,-(sp)
-		move.w	D0,a3
-		move.b	(A0)+,d0
-		ext.w	D0
-		move.w	D0,a5
-		move.b	(A0)+,d4
-		lsl.b	#3,d4
-		move.w	(A0)+,a2
-		adda.w	A3,a2
-		move.w	(A0)+,a4
-		adda.w	A3,a4
-		move.b	(A0)+,d5
+; ---------------------------------------------------------------------------
+; Enigma decompression subroutine
+; Inputs:
+; a0 = compressed data location
+; a1 = destination (in RAM)
+; d0 = starting art tile
+; See http://www.segaretro.org/Enigma_compression for format description
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+
+Eni_Decomp:
+		movem.l	d0-d7/a1-a5,-(sp)
+		movea.w	d0,a3	; store starting art tile
+		move.b	(a0)+,d0
+		ext.w	d0
+		movea.w	d0,a5	; store number of bits in inline copy value
+		move.b	(a0)+,d4
+		lsl.b	#3,d4	; store PCCVH flags bitfield
+		movea.w	(a0)+,a2
+		adda.w	a3,a2	; store incremental copy word
+		movea.w	(a0)+,a4
+		adda.w	a3,a4	; store literal copy word
+		move.b	(a0)+,d5
 		asl.w	#8,d5
-		move.b	(A0)+,d5
-		moveq	#$10,d6
-EnigmaDec_Loop:												   ; Offset_0x0016AA
-		moveq	#7,d0
-		move.w	D6,d7
-		sub.w	D0,d7
-		move.w	D5,d1
-		lsr.w	D7,d1
-		andi.w	#$7F,d1
-		move.w	D1,d2
-		cmpi.w	#$40,d1
-		bcc.s	Offset_0x0016C4
-		moveq	#6,d0
+		move.b	(a0)+,d5	; get first word in format list
+		moveq	#$10,d6		; initial shift value
+
+Eni_Decomp_Loop:
+		moveq	#7,d0	; assume a format list entry is 7 bits
+		move.w	d6,d7
+		sub.w	d0,d7
+		move.w	d5,d1
+		lsr.w	d7,d1
+		andi.w	#$7F,d1	; get format list entry
+		move.w	d1,d2	; and copy it
+		cmpi.w	#$40,d1	; is the high bit of the entry set?
+		bhs.s	+
+		moveq	#6,d0	; if it isn't, the entry is actually 6 bits
 		lsr.w	#1,d2
-Offset_0x0016C4:
-		bsr.w	Enigma_Dec_Fetch_Byte				   ; Offset_0x0017F8
-		andi.w	#$F,d2
+
++
+		bsr.w	Eni_Decomp_FetchByte
+		andi.w	#$F,d2	; get repeat count
 		lsr.w	#4,d1
-		add.w	D1,d1
-		jmp	Enigma_Dec_Routines(pc,d1.w)			; Offset_0x001720
+		add.w	d1,d1
+		jmp	Eni_Decomp_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Enigma_Dec_00:												   ; Offset_0x0016D4
-		move.w	A2,(A1)+
-		addq.w	#1,a2
-		dbf	D2,Enigma_Dec_00					  ; Offset_0x0016D4
-		bra.s	EnigmaDec_Loop						   ; Offset_0x0016AA
+
+Eni_Decomp_00:
+		move.w	a2,(a1)+	; copy incremental copy word
+		addq.w	#1,a2	; increment it
+		dbf	d2,Eni_Decomp_00	; repeat
+		bra.s	Eni_Decomp_Loop
 ; ---------------------------------------------------------------------------
-Enigma_Dec_01:												   ; Offset_0x0016DE
-		move.w	A4,(A1)+
-		dbf	D2,Enigma_Dec_01					  ; Offset_0x0016DE
-		bra.s	EnigmaDec_Loop						   ; Offset_0x0016AA
+
+Eni_Decomp_01:
+		move.w	a4,(a1)+	; copy literal copy word
+		dbf	d2,Eni_Decomp_01	; repeat
+		bra.s	Eni_Decomp_Loop
 ; ---------------------------------------------------------------------------
-Enigma_Dec_02:												   ; Offset_0x0016E6
-		bsr.w	Enigma_Dec_Fetch					   ; Offset_0x001748
-Offset_0x0016EA:
-		move.w	D1,(A1)+
-		dbf	D2,Offset_0x0016EA
-		bra.s	EnigmaDec_Loop						   ; Offset_0x0016AA
+
+Eni_Decomp_100:
+		bsr.w	Eni_Decomp_FetchInlineValue
+
+$$loop:
+		move.w	d1,(a1)+	; copy inline value
+		dbf	d2,$$loop	; repeat
+		bra.s	Eni_Decomp_Loop
 ; ---------------------------------------------------------------------------
-Enigma_Dec_03:												   ; Offset_0x0016F2
-		bsr.w	Enigma_Dec_Fetch					   ; Offset_0x001748
-Offset_0x0016F6:
-		move.w	D1,(A1)+
-		addq.w	#1,d1
-		dbf	D2,Offset_0x0016F6
-		bra.s	EnigmaDec_Loop						   ; Offset_0x0016AA
+
+Eni_Decomp_101:
+		bsr.w	Eni_Decomp_FetchInlineValue
+
+$$loop:
+		move.w	d1,(a1)+	; copy inline value
+		addq.w	#1,d1	; increment
+		dbf	d2,$$loop	; repeat
+		bra.s	Eni_Decomp_Loop
 ; ---------------------------------------------------------------------------
-Enigma_Dec_04:												   ; Offset_0x001700
-		bsr.w	Enigma_Dec_Fetch					   ; Offset_0x001748
-Offset_0x001704:
-		move.w	D1,(A1)+
-		subq.w	#1,d1
-		dbf	D2,Offset_0x001704
-		bra.s	EnigmaDec_Loop						   ; Offset_0x0016AA
+
+Eni_Decomp_110:
+		bsr.w	Eni_Decomp_FetchInlineValue
+
+$$loop:
+		move.w	d1,(a1)+	; copy inline value
+		subq.w	#1,d1	; decrement
+		dbf	d2,$$loop	; repeat
+		bra.s	Eni_Decomp_Loop
 ; ---------------------------------------------------------------------------
-Enigma_Dec_05:												   ; Offset_0x00170E
+
+Eni_Decomp_111:
 		cmpi.w	#$F,d2
-		beq.s	Enigma_Dec_Finalize					   ; Offset_0x001730
-Offset_0x001714:
-		bsr.w	Enigma_Dec_Fetch					   ; Offset_0x001748
-		move.w	D1,(A1)+
-		dbf	D2,Offset_0x001714
-		bra.s	EnigmaDec_Loop						   ; Offset_0x0016AA
+		beq.s	Eni_Decomp_Done
+
+$$loop:
+		bsr.w	Eni_Decomp_FetchInlineValue	; fetch new inline value
+		move.w	d1,(a1)+	; copy it
+		dbf	d2,$$loop	; and repeat
+		bra.s	Eni_Decomp_Loop
 ; ---------------------------------------------------------------------------
-Enigma_Dec_Routines											   ; Offset_0x001720
-		bra.s	Enigma_Dec_00						   ; Offset_0x0016D4
-		bra.s	Enigma_Dec_00						   ; Offset_0x0016D4
-		bra.s	Enigma_Dec_01						   ; Offset_0x0016DE
-		bra.s	Enigma_Dec_01						   ; Offset_0x0016DE
-		bra.s	Enigma_Dec_02						   ; Offset_0x0016E6
-		bra.s	Enigma_Dec_03						   ; Offset_0x0016F2
-		bra.s	Enigma_Dec_04						   ; Offset_0x001700
-		bra.s	Enigma_Dec_05						   ; Offset_0x00170E
+
+Eni_Decomp_Index:
+		bra.s	Eni_Decomp_00
 ; ---------------------------------------------------------------------------
-Enigma_Dec_Finalize:										   ; Offset_0x001730
-		subq.w	#1,a0
+		bra.s	Eni_Decomp_00
+; ---------------------------------------------------------------------------
+		bra.s	Eni_Decomp_01
+; ---------------------------------------------------------------------------
+		bra.s	Eni_Decomp_01
+; ---------------------------------------------------------------------------
+		bra.s	Eni_Decomp_100
+; ---------------------------------------------------------------------------
+		bra.s	Eni_Decomp_101
+; ---------------------------------------------------------------------------
+		bra.s	Eni_Decomp_110
+; ---------------------------------------------------------------------------
+		bra.s	Eni_Decomp_111
+; ---------------------------------------------------------------------------
+
+Eni_Decomp_Done:
+		subq.w	#1,a0	; go back by one byte
 		cmpi.w	#$10,d6
-		bne.s	Offset_0x00173A
-		subq.w	#1,a0
-Offset_0x00173A:
-		move.w	A0,d0
+		bne.s	+
+		subq.w	#1,a0	; and another one if needed
+
++
+		move.w	a0,d0
 		lsr.w	#1,d0
-		bcc.s	Offset_0x001742
-		addq.w	#1,a0
-Offset_0x001742:
-		movem.l	(sp)+,d0-D7/A1-A5
+		bcc.s	+
+		addq.w	#1,a0	; make sure it's an even address
+
++
+		movem.l	(sp)+,d0-d7/a1-a5
 		rts
+; End of function Eni_Decomp
+
 ; ---------------------------------------------------------------------------
-Enigma_Dec_Fetch:											   ; Offset_0x001748
-		move.w	A3,d3
-		move.b	D4,d1
-		add.b	D1,d1
-		bcc.s	Offset_0x00175A
+; Part of the Enigma decompressor
+; Fetches an inline copy value and stores it in d1
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+
+Eni_Decomp_FetchInlineValue:
+		move.w	a3,d3	; copy starting art tile
+		move.b	d4,d1	; copy PCCVH bitfield
+		add.b	d1,d1	; is the priority bit set?
+		bcc.s	+	; if not, branch
 		subq.w	#1,d6
-		btst	D6,d5
-		beq.s	Offset_0x00175A
-		ori.w	#$8000,d3
-Offset_0x00175A:
-		add.b	D1,d1
-		bcc.s	Offset_0x001768
+		btst	d6,d5	; is the priority bit set in the inline render flags?
+		beq.s	+	; if not, branch
+		ori.w	#$8000,d3	; otherwise set priority bit in art tile
+
++
+		add.b	d1,d1	; is the high palette line bit set?
+		bcc.s	+	; if not, branch
 		subq.w	#1,d6
-		btst	D6,d5
-		beq.s	Offset_0x001768
+		btst	d6,d5
+		beq.s	+
 		addi.w	#$4000,d3
-Offset_0x001768:
-		add.b	D1,d1
-		bcc.s	Offset_0x001776
+
++
+		add.b	d1,d1	; is the low palette line bit set?
+		bcc.s	+	; if not, branch
 		subq.w	#1,d6
-		btst	D6,d5
-		beq.s	Offset_0x001776
+		btst	d6,d5
+		beq.s	+
 		addi.w	#$2000,d3
-Offset_0x001776:
-		add.b	D1,d1
-		bcc.s	Offset_0x001784
+
++
+		add.b	d1,d1	; is the vertical flip flag set?
+		bcc.s	+	; if not, branch
 		subq.w	#1,d6
-		btst	D6,d5
-		beq.s	Offset_0x001784
+		btst	d6,d5
+		beq.s	+
 		ori.w	#$1000,d3
-Offset_0x001784:
-		add.b	D1,d1
-		bcc.s	Offset_0x001792
+
++
+		add.b	d1,d1	; is the horizontal flip flag set?
+		bcc.s	+	; if not, branch
 		subq.w	#1,d6
-		btst	D6,d5
-		beq.s	Offset_0x001792
+		btst	d6,d5
+		beq.s	+
 		ori.w	#$800,d3
-Offset_0x001792:
-		move.w	D5,d1
-		move.w	D6,d7
-		sub.w	A5,d7
-		bcc.s	Offset_0x0017C2
-		move.w	D7,d6
+
++
+		move.w	d5,d1
+		move.w	d6,d7
+		sub.w	a5,d7	; subtract length in bits of inline copy value
+		bcc.s	$$enoughBits	; branch if a new word doesn't need to be read
+		move.w	d7,d6
 		addi.w	#$10,d6
-		neg.w	D7
-		lsl.w	D7,d1
-		move.b	(A0),d5
-		rol.b	D7,d5
-		add.w	D7,d7
-		and.w	Enigma_Dec_Mask-2(pc,d7.w),d5		 ; Offset_0x0017D6
-		add.w	D5,d1
-Offset_0x0017B0:
-		move.w	A5,d0
-		add.w	D0,d0
-		and.w	Enigma_Dec_Mask-2(pc,d0.w),d1		 ; Offset_0x0017D6
-		add.w	D3,d1
-		move.b	(A0)+,d5
+		neg.w	d7	; calculate bit deficit
+		lsl.w	d7,d1	; and make space for that many bits
+		move.b	(a0),d5	; get next byte
+		rol.b	d7,d5	; and rotate the required bits into the lowest positions
+		add.w	d7,d7
+		and.w	Eni_Decomp_Masks-2(pc,d7.w),d5
+		add.w	d5,d1	; combine upper bits with lower bits
+
+$$maskValue:
+		move.w	a5,d0	; get length in bits of inline copy value
+		add.w	d0,d0
+		and.w	Eni_Decomp_Masks-2(pc,d0.w),d1	; mask value appropriately
+		add.w	d3,d1	; add starting art tile
+		move.b	(a0)+,d5
 		lsl.w	#8,d5
-		move.b	(A0)+,d5
+		move.b	(a0)+,d5	; get next word
 		rts
-Offset_0x0017C2:
-		beq.s	Offset_0x0017D4
-		lsr.w	D7,d1
-		move.w	A5,d0
-		add.w	D0,d0
-		and.w	Enigma_Dec_Mask-2(pc,d0.w),d1		 ; Offset_0x0017D6
-		add.w	D3,d1
-		move.w	A5,d0
-		bra.s	Enigma_Dec_Fetch_Byte				   ; Offset_0x0017F8
-Offset_0x0017D4:
-		moveq	#$10,d6
-		bra.s	Offset_0x0017B0
 ; ---------------------------------------------------------------------------
-Enigma_Dec_Mask:											   ; Offset_0x0017D8
-		dc.w	$0001, $0003, $0007, $000F, $001F, $003F, $007F, $00FF
-		dc.w	$01FF, $03FF, $07FF, $0FFF, $1FFF, $3FFF, $7FFF, $FFFF
+
+$$enoughBits:
+		beq.s	$$justEnough	; if the word has been exactly exhausted, branch
+		lsr.w	d7,d1	; get inline copy value
+		move.w	a5,d0
+		add.w	d0,d0
+		and.w	Eni_Decomp_Masks-2(pc,d0.w),d1	; and mask it appropriately
+		add.w	d3,d1	; add starting art tile
+		move.w	a5,d0
+		bra.s	Eni_Decomp_FetchByte
 ; ---------------------------------------------------------------------------
-Enigma_Dec_Fetch_Byte:										   ; Offset_0x0017F8
-		sub.w	D0,d6
-		cmpi.w	#9,d6
-		bcc.s	Offset_0x001806
+
+$$justEnough:
+		moveq	#$10,d6	; reset shift value
+		bra.s	$$maskValue
+; End of function Eni_Decomp_FetchInlineValue
+
+; ---------------------------------------------------------------------------
+Eni_Decomp_Masks:
+		dc.w     1
+		dc.w     3
+		dc.w     7
+		dc.w    $F
+		dc.w   $1F
+		dc.w   $3F
+		dc.w   $7F
+		dc.w   $FF
+		dc.w  $1FF
+		dc.w  $3FF
+		dc.w  $7FF
+		dc.w  $FFF
+		dc.w $1FFF
+		dc.w $3FFF
+		dc.w $7FFF
+		dc.w $FFFF
+; ---------------------------------------------------------------------------
+; Part of the Enigma decompressor, fetches the next byte if needed
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+
+Eni_Decomp_FetchByte:
+		sub.w	d0,d6	; subtract length of current entry from shift value so that next entry is read next time around
+		cmpi.w	#9,d6	; does a new byte need to be read?
+		bhs.s	+	; if not, branch
 		addq.w	#8,d6
 		asl.w	#8,d5
-		move.b	(A0)+,d5
-Offset_0x001806:
+		move.b	(a0)+,d5
+
++
 		rts
+; End of function Eni_Decomp_FetchByte
 ;===============================================================================
 ; Rotina de descompress�o no formato Enigma
 ; <<<-
@@ -3957,7 +4031,7 @@ Offset_0x00309A:
 		lea	(RAM_Start).l,a1
 		lea	(SEGA_Mappings).l,a0
 		move.w	#0,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 
 		lea	(RAM_Start).l,a1
 		move.l	#$60000002,d0
@@ -4100,7 +4174,7 @@ Offset_0x003300:
 		lea	(RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$6400,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 		lea	(RAM_Start+$4000).l,a1
 		move.l	#$40000003,d0
 		moveq	#40-1,d1
@@ -4462,7 +4536,7 @@ Offset_0x0036F2:
 		lea	(RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$4000,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 		move	#$2700,sr
 		lea	(RAM_Start+$4000).l,a1
 		move.l	#$60000003,d0
@@ -4477,7 +4551,7 @@ Offset_0x00372E:
 		lea	(RAM_Start+$4000).l,a1
 		move.l	(a2)+,a0
 		move.w	#$4200,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 		move	#$2700,sr
 		lea	(RAM_Start+$4000).l,a1
 		move.l	#$60000002,d0
@@ -6457,7 +6531,7 @@ S2_Menus:													   ; Offset_0x0052CC
 		lea	(RAM_Start).l,a1						 ; $FFFF0000
 		lea	(Versus_Menu_Bg_Mappings).l,a0			; Offset_0x109D1C
 		move.w	#$6000,d0
-		bsr.w	EnigmaDec							   ; Offset_0x00168A
+		bsr.w	Eni_Decomp							   ; Offset_0x00168A
 		lea	(RAM_Start).l,a1						 ; $FFFF0000
 		move.l	#$60000003,d0
 		moveq	#40-1,d1
@@ -6472,15 +6546,15 @@ S2_Menus:													   ; Offset_0x0052CC
 		lea	(RAM_Start).l,a1						 ; $FFFF0000
 		lea	(Vs_Level_Select_Frame_Mappings).l,a0	; Offset_0x006410
 		move.w	#$70,d0
-		bsr.w	EnigmaDec							   ; Offset_0x00168A
+		bsr.w	Eni_Decomp							   ; Offset_0x00168A
 		lea	(RAM_Start+$198).l,a1					; $FFFF0198
 		lea	(Vs_Level_Select_Frame_Mappings).l,a0	; Offset_0x006410
 		move.w	#$2070,d0
-		bsr.w	EnigmaDec							   ; Offset_0x00168A
+		bsr.w	Eni_Decomp							   ; Offset_0x00168A
 		lea	(RAM_Start+$330).l,a1					; $FFFF0330
 		lea	(Menu_Icons_Mappings).l,a0				; Offset_0x0065E2
 		move.w	#$90,d0
-		bsr.w	EnigmaDec							   ; Offset_0x00168A
+		bsr.w	Eni_Decomp							   ; Offset_0x00168A
 		lea	(RAM_Start+$498).l,a2					; $FFFF0498
 		moveq	#bytesToWcnt($20),d1
 Offset_0x0053F2:
@@ -6722,11 +6796,11 @@ OptionsMenu:
 		lea	(RAM_Start).l,a1
 		lea	(Options_Frame_Mappings).l,a0
 		move.w	#$70,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 		lea	(RAM_Start+$160).l,a1
 		lea	(Options_Frame_Mappings).l,a0
 		move.w	#$2070,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 
 		clr.b	(Options_Menu_Cursor).w
 		bsr.w	OptionsMenu_DrawSelected
@@ -7036,7 +7110,7 @@ LevelSelect_Menu:
 		lea	(RAM_Start).l,a1
 		lea	(S2_Menu_Level_Select_Text).l,a0
 		move.w	#0,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 		; then clear most of it, except the bottom (again, for the icons)
 		lea	(RAM_Start).l,a3
 		move.w	#bytesToWcnt($640),d1
@@ -7105,7 +7179,7 @@ Offset_0x005A40:
 		lea	(RAM_Start+$8C0).l,a1
 		lea	(Menu_Icons_Mappings).l,a0
 		move.w	#$90,d0
-		bsr.w	EnigmaDec
+		bsr.w	Eni_Decomp
 		bsr.w	LevelSelect_DrawIcon
 
 		clr.w	(Player_Selected_Flag).w
