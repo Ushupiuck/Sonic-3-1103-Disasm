@@ -2712,22 +2712,22 @@ Wait_For_VSync_Inf_Loop:									   ; Offset_0x001AF2
 ; Gera��o de n�meros pseudo aleat�rios
 ; ->>>
 ;===============================================================================
-PseudoRandomNumber:											   ; Offset_0x001AFA
+PseudoRandomNumber:
 		move.l	(Random_Seed).w,d1							; $FFFFF636
 		bne.s	Offset_0x001B06
 		move.l	#$2A6D365A,d1
 Offset_0x001B06:
-		move.l	D1,d0
+		move.l	d1,d0
 		asl.l	#2,d1
-		add.l	D0,d1
+		add.l	d0,d1
 		asl.l	#3,d1
-		add.l	D0,d1
-		move.w	D1,d0
-		swap	D1
-		add.w	D1,d0
-		move.w	D0,d1
-		swap	D1
-		move.l	D1,(Random_Seed).w							; $FFFFF636
+		add.l	d0,d1
+		move.w	d1,d0
+		swap	d1
+		add.w	d1,d0
+		move.w	d0,d1
+		swap	d1
+		move.l	d1,(Random_Seed).w							; $FFFFF636
 		rts
 ;===============================================================================
 ; Gera��o de n�meros pseudo aleat�rios
@@ -2738,16 +2738,16 @@ Offset_0x001B06:
 ; Rotina para calcular o Seno usando tabela pr�-calculada
 ; ->>>
 ;===============================================================================
-CalcSine:													   ; Offset_0x001B20
+CalcSine:
 		andi.w	#$FF,d0
-		add.w	D0,d0
+		add.w	d0,d0
 		addi.w	#$80,d0
 		move.w	Sine_Table(pc,d0.w),d1				   ; Offset_0x001B38
 		subi.w	#$80,d0
 		move.w	Sine_Table(pc,d0.w),d0				   ; Offset_0x001B38
 		rts
 ; ---------------------------------------------------------------------------
-Sine_Table:													   ; Offset_0x001B38
+Sine_Table:
 		dc.w	$0000, $0006, $000C, $0012, $0019, $001F, $0025, $002B
 		dc.w	$0031, $0038, $003E, $0044, $004A, $0050, $0056, $005C
 		dc.w	$0061, $0067, $006D, $0073, $0078, $007E, $0083, $0088
@@ -2797,51 +2797,51 @@ Sine_Table:													   ; Offset_0x001B38
 ; Rotina para calcular o �ngulo usando tabela pr�-calculada
 ; ->>>
 ;===============================================================================
-CalcAngle:													   ; Offset_0x001DB8
-		movem.l	D3-D4,-(sp)
+CalcAngle:
+		movem.l	d3-d4,-(sp)
 		moveq	#0,d3
 		moveq	#0,d4
-		move.w	D1,d3
-		move.w	D2,d4
-		or.w	D3,d4
+		move.w	d1,d3
+		move.w	d2,d4
+		or.w	d3,d4
 		beq.s	Offset_0x001E0A
-		move.w	D2,d4
-		tst.w	D3
+		move.w	d2,d4
+		tst.w	d3
 		bpl.s	Offset_0x001DD0
-		neg.w	D3
+		neg.w	d3
 Offset_0x001DD0:
-		tst.w	D4
+		tst.w	d4
 		bpl.s	Offset_0x001DD6
-		neg.w	D4
+		neg.w	d4
 Offset_0x001DD6:
-		cmp.w	D3,d4
+		cmp.w	d3,d4
 		bcc.s	Offset_0x001DE6
 		lsl.l	#8,d4
-		divu.w	D3,d4
+		divu.w	d3,d4
 		moveq	#0,d0
 		move.b	Angle_Table(pc,d4.w),d0				   ; Offset_0x001E14
 		bra.s	Offset_0x001DF0
 Offset_0x001DE6:
 		lsl.l	#8,d3
-		divu.w	D4,d3
+		divu.w	d4,d3
 		moveq	#$40,d0
 		sub.b	Angle_Table(pc,d3.w),d0				   ; Offset_0x001E14
 Offset_0x001DF0:
-		tst.w	D1
+		tst.w	d1
 		bpl.s	Offset_0x001DFA
-		neg.w	D0
+		neg.w	d0
 		addi.w	#$80,d0
 Offset_0x001DFA:
-		tst.w	D2
+		tst.w	d2
 		bpl.s	Offset_0x001E04
-		neg.w	D0
+		neg.w	d0
 		addi.w	#$100,d0
 Offset_0x001E04:
 		movem.l	(sp)+,d3-D4
 		rts
 Offset_0x001E0A:
 		move.w	#$40,d0
-		movem.l	(sp)+,d3-D4
+		movem.l	(sp)+,d3-d4
 		rts
 ; ---------------------------------------------------------------------------
 Angle_Table:												   ; Offset_0x001E14
