@@ -1115,7 +1115,6 @@ Offset_0x000F24:
 		and.b	d0,d1
 		move.b	d1,(a0)+
 		rts
-
 ;===============================================================================
 ; VDPRegSetup
 ;===============================================================================
@@ -2824,12 +2823,12 @@ PalCycle_Index:
 		dc.w	PalCycle_Hz_2-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
-		dc.w	PalCycle_CNz_1-PalCycle_Index
-		dc.w	PalCycle_CNz_2-PalCycle_Index
-		dc.w	PalCycle_FBz_1-PalCycle_Index
-		dc.w	PalCycle_FBz_2-PalCycle_Index
-		dc.w	PalCycle_Iz_1-PalCycle_Index
-		dc.w	PalCycle_Iz_2-PalCycle_Index
+		dc.w	PalCycle_CNz-PalCycle_Index
+		dc.w	PalCycle_CNz-PalCycle_Index
+		dc.w	PalCycle_FBz-PalCycle_Index
+		dc.w	PalCycle_FBz-PalCycle_Index
+		dc.w	PalCycle_Iz-PalCycle_Index
+		dc.w	PalCycle_Iz-PalCycle_Index
 		dc.w	PalCycle_LBz_1-PalCycle_Index
 		dc.w	PalCycle_LBz_2-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
@@ -2848,14 +2847,14 @@ PalCycle_Index:
 		dc.w	PalCycle_Null-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
-		dc.w	PalCycle_BPz_1-PalCycle_Index
-		dc.w	PalCycle_BPz_2-PalCycle_Index
+		dc.w	PalCycle_BPz-PalCycle_Index
+		dc.w	PalCycle_BPz-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
-		dc.w	PalCycle_CGz_1-PalCycle_Index
-		dc.w	PalCycle_CGz_2-PalCycle_Index
-		dc.w	PalCycle_EMz_1-PalCycle_Index
-		dc.w	PalCycle_EMz_2-PalCycle_Index
+		dc.w	PalCycle_CGz-PalCycle_Index
+		dc.w	PalCycle_CGz-PalCycle_Index
+		dc.w	PalCycle_EMz-PalCycle_Index
+		dc.w	PalCycle_EMz-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
 		dc.w	PalCycle_Null-PalCycle_Index
@@ -2934,8 +2933,8 @@ PalCycle_AIz_2:
 		addq.w	#8,(Palette_Cycle_Count_0).w
 		andi.w	#$18,d0
 		lea	(Pal_AIz2_Cyc1).l,a0
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+$18).w
-		move.l	4(A0,d0.w),(Palette_Row_3_Offset+$1C).w
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+$18).w
+		move.l	4(a0,d0.w),(Palette_Row_3_Offset+$1C).w
 		move.w	(Palette_Cycle_Counters+2).w,d0
 		addq.w	#6,(Palette_Cycle_Counters+2).w
 		cmpi.w	#$30,(Palette_Cycle_Counters+2).w
@@ -2947,280 +2946,274 @@ Offset_0x00208A:
 		bcs.s	Offset_0x00209E
 		lea	(Pal_AIz2_Cyc3).l,a0
 Offset_0x00209E:
-		move.w	(A0,d0.w),(Palette_Row_2_Offset+8).w
-		move.w	2(A0,d0.w),(Palette_Row_2_Offset+$10).w
-		move.w	4(A0,d0.w),(Palette_Row_3_Offset+$16).w
-		move.w	#$A0E,(Palette_Row_2_Offset+$1C).w		   ; $FFFFED5C
-		cmpi.w	#$1C0,(Camera_X).w						   ; $FFFFEE78
+		move.w	(a0,d0.w),(Palette_Row_2_Offset+8).w
+		move.w	2(a0,d0.w),(Palette_Row_2_Offset+$10).w
+		move.w	4(a0,d0.w),(Palette_Row_3_Offset+$16).w
+		move.w	#$A0E,(Palette_Row_2_Offset+$1C).w
+		cmpi.w	#$1C0,(Camera_X).w
 		bcc.s	Offset_0x0020C4
-		move.w	4(A0,d0.w),(Palette_Row_2_Offset+$1C).w	 ; $FFFFED5C
+		move.w	4(a0,d0.w),(Palette_Row_2_Offset+$1C).w
 Offset_0x0020C4:
-		subq.w	#1,(Palette_Cycle_Counters+8).w			; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w
 		bpl.s	Offset_0x002100
-		move.w	#2-1,(Palette_Cycle_Counters+8).w		; $FFFFF658
-		move.w	(Palette_Cycle_Counters+4).w,d0			  ; $FFFFF654
-		addq.w	#2,(Palette_Cycle_Counters+4).w			; $FFFFF654
-		cmpi.w	#$34,(Palette_Cycle_Counters+4).w		; $FFFFF654
+		move.w	#2-1,(Palette_Cycle_Counters+8).w
+		move.w	(Palette_Cycle_Counters+4).w,d0
+		addq.w	#2,(Palette_Cycle_Counters+4).w
+		cmpi.w	#$34,(Palette_Cycle_Counters+4).w
 		bcs.s	Offset_0x0020E6
-		move.w	#0,(Palette_Cycle_Counters+4).w		  ; $FFFFF654
+		move.w	#0,(Palette_Cycle_Counters+4).w
 Offset_0x0020E6:
-		lea	(Pal_AIz2_Cyc4).l,a0					; Offset_0x0025E0
-		cmpi.w	#$3800,(Camera_X).w							; $FFFFEE78
+		lea	(Pal_AIz2_Cyc4).l,a0
+		cmpi.w	#$3800,(Camera_X).w
 		bcs.s	Offset_0x0020FA
-		lea	(Pal_AIz2_Cyc5).l,a0					; Offset_0x002614
+		lea	(Pal_AIz2_Cyc5).l,a0
 Offset_0x0020FA:
-		move.w	(A0,d0.w),(Palette_Row_3_Offset+2).w	  ; $FFFFED62
+		move.w	(a0,d0.w),(Palette_Row_3_Offset+2).w
 Offset_0x002100:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_Hz_1:												   ; Offset_0x002102
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_Hz_1:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x00214E
-		move.w	#8-1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
-		tst.b	(Palette_Cycle_Counters).w					 ; $FFFFF650
+		move.w	#8-1,(Palette_Cycle_Count_1).w
+		tst.b	(Palette_Cycle_Counters).w
 		beq.s	Offset_0x00211A
-		move.w	#0,(Palette_Cycle_Count_1).w			; $FFFFF634
+		move.w	#0,(Palette_Cycle_Count_1).w
 Offset_0x00211A:
-		lea	(Pal_Hz1_Cyc).l,a0						; Offset_0x002648
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#8,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$20,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		lea	(Pal_Hz1_Cyc).l,a0
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#8,(Palette_Cycle_Count_0).w
+		cmpi.w	#$20,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x002136
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x002136:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+6).w	  ; $FFFFED46
-		move.l	4(A0,d0.w),(Palette_Row_2_Offset+$A).w	; $FFFFED4A
-		move.l	(A0,d0.w),(Palette_UW_Row_2_Offset+6).w ; $FFFFF0C6
-		move.l	4(A0,d0.w),(Palette_UW_Row_2_Offset+$A).w ; $FFFFF0CA
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+6).w
+		move.l	4(a0,d0.w),(Palette_Row_2_Offset+$A).w
+		move.l	(a0,d0.w),(Palette_UW_Row_2_Offset+6).w
+		move.l	4(a0,d0.w),(Palette_UW_Row_2_Offset+$A).w
 Offset_0x00214E:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_Hz_2:												   ; Offset_0x002150
+PalCycle_Hz_2:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_CNz_1:												   ; Offset_0x002152
-PalCycle_CNz_2:
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_CNz:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x002186
-		move.w	#4-1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
-		lea	(Pal_CNz_Cyc1).l,a0						; Offset_0x002668
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#6,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$60,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#4-1,(Palette_Cycle_Count_1).w
+		lea	(Pal_CNz_Cyc1).l,a0
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#6,(Palette_Cycle_Count_0).w
+		cmpi.w	#$60,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x00217A
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x00217A:
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+$12).w	; $FFFFED72
-		move.w	4(A0,d0.w),(Palette_Row_3_Offset+$16).w	 ; $FFFFED76
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+$12).w
+		move.w	4(a0,d0.w),(Palette_Row_3_Offset+$16).w
 Offset_0x002186:
-		lea	(Pal_CNz_Cyc2).l,a0						; Offset_0x0026C8
-		move.w	(Palette_Cycle_Counters+2).w,d0			  ; $FFFFF652
-		addq.w	#6,(Palette_Cycle_Counters+2).w			; $FFFFF652
-		cmpi.w	#$B4,(Palette_Cycle_Counters+2).w		; $FFFFF652
+		lea	(Pal_CNz_Cyc2).l,a0
+		move.w	(Palette_Cycle_Counters+2).w,d0
+		addq.w	#6,(Palette_Cycle_Counters+2).w
+		cmpi.w	#$B4,(Palette_Cycle_Counters+2).w
 		bcs.s	Offset_0x0021A2
-		move.w	#0,(Palette_Cycle_Counters+2).w		  ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w
 Offset_0x0021A2:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+$12).w	; $FFFFED52
-		move.w	4(A0,d0.w),(Palette_Row_2_Offset+$16).w	 ; $FFFFED56
-		subq.w	#1,(Palette_Cycle_Counters+8).w			; $FFFFF658
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+$12).w
+		move.w	4(a0,d0.w),(Palette_Row_2_Offset+$16).w
+		subq.w	#1,(Palette_Cycle_Counters+8).w
 		bpl.s	Offset_0x0021DC
-		move.w	#3-1,(Palette_Cycle_Counters+8).w		; $FFFFF658
-		lea	(Pal_CNz_Cyc3).l,a0						; Offset_0x00277C
-		move.w	(Palette_Cycle_Counters+4).w,d0			  ; $FFFFF654
-		addq.w	#4,(Palette_Cycle_Counters+4).w			; $FFFFF654
-		cmpi.w	#$40,(Palette_Cycle_Counters+4).w		; $FFFFF654
+		move.w	#3-1,(Palette_Cycle_Counters+8).w
+		lea	(Pal_CNz_Cyc3).l,a0
+		move.w	(Palette_Cycle_Counters+4).w,d0
+		addq.w	#4,(Palette_Cycle_Counters+4).w
+		cmpi.w	#$40,(Palette_Cycle_Counters+4).w
 		bcs.s	Offset_0x0021D6
-		move.w	#0,(Palette_Cycle_Counters+4).w		  ; $FFFFF654
+		move.w	#0,(Palette_Cycle_Counters+4).w
 Offset_0x0021D6:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+$E).w	   ; $FFFFED4E
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+$E).w
 Offset_0x0021DC:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_FBz_1:												   ; Offset_0x0021DE
-PalCycle_FBz_2:
+PalCycle_FBz:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_Iz_1:												   ; Offset_0x0021E0
-PalCycle_Iz_2:
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_Iz:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x00220E
-		move.w	#6-1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
-		lea	(Pal_Iz_Cyc1).l,a0						; Offset_0x0027BC
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#4,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$40,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#6-1,(Palette_Cycle_Count_1).w
+		lea	(Pal_Iz_Cyc1).l,a0
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#4,(Palette_Cycle_Count_0).w
+		cmpi.w	#$40,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x002208
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x002208:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+$1C).w	; $FFFFED5C
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+$1C).w
 Offset_0x00220E:
-		subq.w	#1,(Palette_Cycle_Counters+8).w			; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w
 		bpl.s	Offset_0x002242
-		move.w	#$A-1,(Palette_Cycle_Counters+8).w		 ; $FFFFF658
-		lea	(Pal_Iz_Cyc2).l,a0						; Offset_0x0027FC
-		move.w	(Palette_Cycle_Counters+2).w,d0			  ; $FFFFF652
-		addq.w	#4,(Palette_Cycle_Counters+2).w			; $FFFFF652
-		cmpi.w	#$48,(Palette_Cycle_Counters+2).w		; $FFFFF652
+		move.w	#$A-1,(Palette_Cycle_Counters+8).w
+		lea	(Pal_Iz_Cyc2).l,a0
+		move.w	(Palette_Cycle_Counters+2).w,d0
+		addq.w	#4,(Palette_Cycle_Counters+2).w
+		cmpi.w	#$48,(Palette_Cycle_Counters+2).w
 		bcs.s	Offset_0x002236
-		move.w	#0,(Palette_Cycle_Counters+2).w		  ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w
 Offset_0x002236:
-		tst.w	(Background_Events+$16).w					 ; $FFFFEEE8
+		tst.w	(Background_Events+$16).w
 		beq.s	Offset_0x002242
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+$1C).w	; $FFFFED7C
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+$1C).w
 Offset_0x002242:
-		subq.w	#1,(Palette_Cycle_Counters+$A).w		 ; $FFFFF65A
+		subq.w	#1,(Palette_Cycle_Counters+$A).w
 		bpl.s	Offset_0x002298
-		move.w	#8-1,(Palette_Cycle_Counters+$A).w		 ; $FFFFF65A
-		lea	(Pal_Iz_Cyc3).l,a0						; Offset_0x002844
-		move.w	(Palette_Cycle_Counters+4).w,d0			  ; $FFFFF654
-		addq.w	#4,(Palette_Cycle_Counters+4).w			; $FFFFF654
-		cmpi.w	#$18,(Palette_Cycle_Counters+4).w		; $FFFFF654
+		move.w	#8-1,(Palette_Cycle_Counters+$A).w
+		lea	(Pal_Iz_Cyc3).l,a0
+		move.w	(Palette_Cycle_Counters+4).w,d0
+		addq.w	#4,(Palette_Cycle_Counters+4).w
+		cmpi.w	#$18,(Palette_Cycle_Counters+4).w
 		bcs.s	Offset_0x00226A
-		move.w	#0,(Palette_Cycle_Counters+4).w		  ; $FFFFF654
+		move.w	#0,(Palette_Cycle_Counters+4).w
 Offset_0x00226A:
-		tst.w	(Background_Events+$16).w					 ; $FFFFEEE8
+		tst.w	(Background_Events+$16).w
 		beq.s	Offset_0x002276
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+$18).w	; $FFFFED78
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+$18).w
 Offset_0x002276:
-		lea	(Pal_Iz_Cyc4).l,a0						; Offset_0x00285C
-		move.w	(Palette_Cycle_Counters+6).w,d0			  ; $FFFFF656
-		addq.w	#4,(Palette_Cycle_Counters+6).w			; $FFFFF656
-		cmpi.w	#$40,(Palette_Cycle_Counters+6).w		; $FFFFF656
+		lea	(Pal_Iz_Cyc4).l,a0
+		move.w	(Palette_Cycle_Counters+6).w,d0
+		addq.w	#4,(Palette_Cycle_Counters+6).w
+		cmpi.w	#$40,(Palette_Cycle_Counters+6).w
 		bcs.s	Offset_0x002292
-		move.w	#0,(Palette_Cycle_Counters+6).w		  ; $FFFFF656
+		move.w	#0,(Palette_Cycle_Counters+6).w
 Offset_0x002292:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+$18).w	; $FFFFED58
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+$18).w
 Offset_0x002298:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_LBz_1:												   ; Offset_0x00229A
-		lea	(Pal_LBz1_Cyc).l,a0						; Offset_0x00289C
-		bra.s	PalCycle_LBz_Main					   ; Offset_0x0022A8
+PalCycle_LBz_1:
+		lea	(Pal_LBz1_Cyc).l,a0
+		bra.s	PalCycle_LBz_Main
 ; ---------------------------------------------------------------------------
-PalCycle_LBz_2:												   ; Offset_0x0022A2
-		lea	(Pal_LBz2_Cyc).l,a0						; Offset_0x0028AE
+PalCycle_LBz_2:
+		lea	(Pal_LBz2_Cyc).l,a0
 PalCycle_LBz_Main:
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x0022D6
-		move.w	#4-1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#6,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$12,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#4-1,(Palette_Cycle_Count_1).w
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#6,(Palette_Cycle_Count_0).w
+		cmpi.w	#$12,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x0022CA
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x0022CA:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+$10).w	; $FFFFED50
-		move.w	4(A0,d0.w),(Palette_Row_2_Offset+$14).w	 ; $FFFFED54
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+$10).w
+		move.w	4(a0,d0.w),(Palette_Row_2_Offset+$14).w
 Offset_0x0022D6:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_LRz_1:												   ; Offset_0x0022D8
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_LRz_1:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x00232E
-		move.w	#$10-1,(Palette_Cycle_Count_1).w			; $FFFFF634
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#8,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$80,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#$10-1,(Palette_Cycle_Count_1).w
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#8,(Palette_Cycle_Count_0).w
+		cmpi.w	#$80,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x0022FA
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x0022FA:
-		lea	(Pal_LRz1_Cyc1).l,a0					; Offset_0x0028C0
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+2).w	  ; $FFFFED42
-		move.l	4(A0,d0.w),(Palette_Row_2_Offset+6).w	   ; $FFFFED46
-		move.w	(Palette_Cycle_Counters+2).w,d0			  ; $FFFFF652
-		addq.w	#4,(Palette_Cycle_Counters+2).w			; $FFFFF652
-		cmpi.w	#$1C,(Palette_Cycle_Counters+2).w		; $FFFFF652
+		lea	(Pal_LRz1_Cyc1).l,a0
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+2).w
+		move.l	4(a0,d0.w),(Palette_Row_2_Offset+6).w
+		move.w	(Palette_Cycle_Counters+2).w,d0
+		addq.w	#4,(Palette_Cycle_Counters+2).w
+		cmpi.w	#$1C,(Palette_Cycle_Counters+2).w
 		bcs.s	Offset_0x002322
-		move.w	#0,(Palette_Cycle_Counters+2).w		  ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w
 Offset_0x002322:
-		lea	(Pal_LRz1_Cyc2).l,a0					; Offset_0x002940
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+2).w	  ; $FFFFED62
+		lea	(Pal_LRz1_Cyc2).l,a0
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+2).w
 Offset_0x00232E:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_LRz_2:												   ; Offset_0x002330
+PalCycle_LRz_2:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_BPz_1:												   ; Offset_0x002332
-PalCycle_BPz_2:
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_BPz:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x002366
-		move.w	#8-1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
-		lea	(Pal_BPz_Cyc1).l,a0						; Offset_0x002964
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#6,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$12,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#8-1,(Palette_Cycle_Count_1).w
+		lea	(Pal_BPz_Cyc1).l,a0
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#6,(Palette_Cycle_Count_0).w
+		cmpi.w	#$12,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x00235A
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x00235A:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+$1A).w	; $FFFFED5A
-		move.w	4(A0,d0.w),(Palette_Row_2_Offset+$1E).w	 ; $FFFFED5E
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+$1A).w
+		move.w	4(a0,d0.w),(Palette_Row_2_Offset+$1E).w
 Offset_0x002366:
-		subq.w	#1,(Palette_Cycle_Counters+8).w			; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w
 		bpl.s	Offset_0x00239A
-		move.w	#$12-1,(Palette_Cycle_Counters+8).w		  ; $FFFFF658
-		lea	(Pal_BPz_Cyc2).l,a0						; Offset_0x002976
-		move.w	(Palette_Cycle_Counters+2).w,d0			  ; $FFFFF652
-		addq.w	#6,(Palette_Cycle_Counters+2).w			; $FFFFF652
-		cmpi.w	#$7E,(Palette_Cycle_Counters+2).w		; $FFFFF652
+		move.w	#$12-1,(Palette_Cycle_Counters+8).w
+		lea	(Pal_BPz_Cyc2).l,a0
+		move.w	(Palette_Cycle_Counters+2).w,d0
+		addq.w	#6,(Palette_Cycle_Counters+2).w
+		cmpi.w	#$7E,(Palette_Cycle_Counters+2).w
 		bcs.s	Offset_0x00238E
-		move.w	#0,(Palette_Cycle_Counters+2).w		  ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w
 Offset_0x00238E:
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+4).w	  ; $FFFFED64
-		move.w	4(A0,d0.w),(Palette_Row_3_Offset+8).w	   ; $FFFFED68
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+4).w
+		move.w	4(a0,d0.w),(Palette_Row_3_Offset+8).w
 Offset_0x00239A:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_CGz_1:												   ; Offset_0x00239C
-PalCycle_CGz_2:
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_CGz:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x0023D0
-		move.w	#$A-1,(Palette_Cycle_Count_1).w			   ; $FFFFF634
-		lea	(Pal_CGz_Cyc).l,a0						; Offset_0x0029F4
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#8,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$50,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#$A-1,(Palette_Cycle_Count_1).w
+		lea	(Pal_CGz_Cyc).l,a0
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#8,(Palette_Cycle_Count_0).w
+		cmpi.w	#$50,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x0023C4
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x0023C4:
-		move.l	(A0,d0.w),(Palette_Row_2_Offset+4).w	  ; $FFFFED44
-		move.l	4(A0,d0.w),(Palette_Row_2_Offset+8).w	   ; $FFFFED48
+		move.l	(a0,d0.w),(Palette_Row_2_Offset+4).w
+		move.l	4(a0,d0.w),(Palette_Row_2_Offset+8).w
 Offset_0x0023D0:
 		rts
 ; ---------------------------------------------------------------------------
-PalCycle_EMz_1:												   ; Offset_0x0023D2
-PalCycle_EMz_2:
-		subq.w	#1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
+PalCycle_EMz:
+		subq.w	#1,(Palette_Cycle_Count_1).w
 		bpl.s	Offset_0x002400
-		move.w	#8-1,(Palette_Cycle_Count_1).w			  ; $FFFFF634
-		lea	(Pal_EMz_Cyc1).l,a0						; Offset_0x002A44
-		move.w	(Palette_Cycle_Count_0).w,d0				; $FFFFF632
-		addq.w	#2,(Palette_Cycle_Count_0).w			  ; $FFFFF632
-		cmpi.w	#$3C,(Palette_Cycle_Count_0).w			  ; $FFFFF632
+		move.w	#8-1,(Palette_Cycle_Count_1).w
+		lea	(Pal_EMz_Cyc1).l,a0
+		move.w	(Palette_Cycle_Count_0).w,d0
+		addq.w	#2,(Palette_Cycle_Count_0).w
+		cmpi.w	#$3C,(Palette_Cycle_Count_0).w
 		bcs.s	Offset_0x0023FA
-		move.w	#0,(Palette_Cycle_Count_0).w			; $FFFFF632
+		move.w	#0,(Palette_Cycle_Count_0).w
 Offset_0x0023FA:
-		move.w	4(A0,d0.w),(Palette_Row_2_Offset+$1C).w	 ; $FFFFED5C
+		move.w	4(a0,d0.w),(Palette_Row_2_Offset+$1C).w
 Offset_0x002400:
-		subq.w	#1,(Palette_Cycle_Counters+8).w			; $FFFFF658
+		subq.w	#1,(Palette_Cycle_Counters+8).w
 		bpl.s	Offset_0x00242E
-		move.w	#$20-1,(Palette_Cycle_Counters+8).w		  ; $FFFFF658
-		lea	(Pal_EMz_Cyc2).l,a0						; Offset_0x002A80
-		move.w	(Palette_Cycle_Counters+2).w,d0			  ; $FFFFF652
-		addq.w	#4,(Palette_Cycle_Counters+2).w			; $FFFFF652
-		cmpi.w	#$34,(Palette_Cycle_Counters+2).w		; $FFFFF652
+		move.w	#$20-1,(Palette_Cycle_Counters+8).w
+		lea	(Pal_EMz_Cyc2).l,a0
+		move.w	(Palette_Cycle_Counters+2).w,d0
+		addq.w	#4,(Palette_Cycle_Counters+2).w
+		cmpi.w	#$34,(Palette_Cycle_Counters+2).w
 		bcs.s	Offset_0x002428
-		move.w	#0,(Palette_Cycle_Counters+2).w		  ; $FFFFF652
+		move.w	#0,(Palette_Cycle_Counters+2).w
 Offset_0x002428:
-		move.l	(A0,d0.w),(Palette_Row_3_Offset+$12).w	; $FFFFED72
+		move.l	(a0,d0.w),(Palette_Row_3_Offset+$12).w
 Offset_0x00242E:
 		rts
 ; ---------------------------------------------------------------------------
-Pal_AIz1_Cyc1:												   ; Offset_0x002430
+Pal_AIz1_Cyc1:
 		dc.w	$0EE8, $0EE2, $0EA4, $0E64, $0EE2, $0EA4, $0E64, $0EE8
 		dc.w	$0EA4, $0E64, $0EE8, $0EE2, $0E64, $0EE8, $0EE2, $0EA4
 ; ---------------------------------------------------------------------------
-Pal_AIz1_Cyc2:												   ; Offset_0x002450
+Pal_AIz1_Cyc2:
 		dc.w	$0EEC, $0EEE, $0EE8, $0E40, $0EEC, $0EE8, $0EE8, $0EEE
 		dc.w	$0EEA, $0E86, $0EE8, $0EE8, $0EE8, $0E40, $0EE8, $0E86
 		dc.w	$0EE6, $0EEE, $0EE8, $0E40, $0EEA, $0EE8, $0EE8, $0EEE
@@ -3230,7 +3223,7 @@ Pal_AIz1_Cyc2:												   ; Offset_0x002450
 		dc.w	$0EEC, $0EEE, $0EE8, $0E40, $0EEC, $0EE8, $0EE8, $0EEE
 		dc.w	$0EEC, $0E86, $0EE8, $0EE8, $0EEC, $0E40, $0EE8, $0E86
 ; ---------------------------------------------------------------------------
-Pal_AIz1_Cyc3:												   ; Offset_0x0024D0
+Pal_AIz1_Cyc3:
 		dc.w	$0CEC, $0CEE, $0EEE, $0CEE, $0EEE, $0EEE, $0EEE, $0EEE
 		dc.w	$0EEE, $0EEE, $0EEE, $0EEE, $0EEE, $0EEE, $0EEE, $0EEE
 		dc.w	$0EEE, $0EEE, $0EEE, $0EEE, $0EEE, $0EE8, $0EEE, $0EEE
@@ -3238,42 +3231,42 @@ Pal_AIz1_Cyc3:												   ; Offset_0x0024D0
 		dc.w	$0EE8, $0EE8, $0EE8, $0EE8, $0EE8, $0EE8, $0EE8, $0EE8
 		dc.w	$0EE8, $0AEC, $0EE8, $0AEC, $0CEC, $0AEC, $0CEC, $0CEC
 ; ---------------------------------------------------------------------------
-Pal_AIz1_Cyc4:												   ; Offset_0x002530
+Pal_AIz1_Cyc4:
 		dc.w	$0EA4, $0E60, $0EE2, $0EA4, $0EE8, $0EA4, $0E60, $0EE8
 		dc.w	$0EEE, $0E60, $0EE2, $0EE2, $0EE8, $0EA4, $0EA4, $0EE2
 		dc.w	$0E60, $0E60, $0EE2, $0E60, $0EEE, $0EE2, $0E60, $0EE8
 ; ---------------------------------------------------------------------------
-Pal_AIz2_Cyc1:												   ; Offset_0x002560
+Pal_AIz2_Cyc1:
 		dc.w	$0EE8, $0EE2, $0EC4, $0EA4, $0EE2, $0EC4, $0EA4, $0EE8
 		dc.w	$0EC4, $0EA4, $0EE8, $0EE2, $0EA4, $0EE8, $0EE2, $0EC4
 ; ---------------------------------------------------------------------------
-Pal_AIz2_Cyc2:												   ; Offset_0x002580
+Pal_AIz2_Cyc2:
 		dc.w	$0024, $0044, $008E, $0026, $0046, $00AE, $0024, $0048
 		dc.w	$008E, $0026, $004A, $00AE, $0024, $004C, $008E, $0026
 		dc.w	$004A, $00AE, $0024, $0048, $008E, $0024, $0046, $008E
 ; ---------------------------------------------------------------------------
-Pal_AIz2_Cyc3:												   ; Offset_0x0025B0
+Pal_AIz2_Cyc3:
 		dc.w	$0024, $0044, $000C, $0026, $0046, $000E, $0024, $0048
 		dc.w	$000C, $0026, $004A, $000E, $0024, $004C, $000C, $0026
 		dc.w	$004A, $000E, $0024, $0048, $000C, $0024, $0046, $000C
 ; ---------------------------------------------------------------------------
-Pal_AIz2_Cyc4:												   ; Offset_0x0025E0
+Pal_AIz2_Cyc4:
 		dc.w	$006E, $006E, $006E, $006E, $028E, $04AE, $06AE, $08CE
 		dc.w	$08EE, $0AEE, $0AEE, $0AEE, $0AEE, $0AEE, $08EE, $08EE
 		dc.w	$08EE, $08EE, $08CE, $08CE, $08CE, $06AE, $06AE, $04AE
 		dc.w	$04AE, $028E
 ; ---------------------------------------------------------------------------
-Pal_AIz2_Cyc5:												   ; Offset_0x002614
+Pal_AIz2_Cyc5:
 		dc.w	$000C, $000C, $000C, $000C, $002C, $000E, $002E, $004E
 		dc.w	$006E, $008E, $008E, $008E, $008E, $008E, $006E, $004E
 		dc.w	$004E, $004E, $002E, $002E, $002E, $000E, $000E, $002C
 		dc.w	$002C, $002C
 ; ---------------------------------------------------------------------------
-Pal_Hz1_Cyc:												   ; Offset_0x002648
+Pal_Hz1_Cyc:
 		dc.w	$0EC8, $0EC0, $0EA0, $0E80, $0EC0, $0EA0, $0E80, $0EC8
 		dc.w	$0EA0, $0E80, $0EC8, $0EC0, $0E80, $0EC8, $0EC0, $0EA0
 ; ---------------------------------------------------------------------------
-Pal_CNz_Cyc1:												   ; Offset_0x002668
+Pal_CNz_Cyc1:
 		dc.w	$0000, $0066, $00EE, $0022, $0044, $00CC, $0044, $0022
 		dc.w	$00AA, $0066, $0000, $0088, $0088, $0000, $0066, $00AA
 		dc.w	$0022, $0044, $00CC, $0044, $0022, $00EE, $0066, $0000
@@ -3281,7 +3274,7 @@ Pal_CNz_Cyc1:												   ; Offset_0x002668
 		dc.w	$0044, $0088, $00EE, $0066, $0066, $00EE, $0088, $0044
 		dc.w	$00CC, $00AA, $0022, $00AA, $00CC, $0000, $0088, $00EE
 ; ---------------------------------------------------------------------------
-Pal_CNz_Cyc2:												   ; Offset_0x0026C8
+Pal_CNz_Cyc2:
 		dc.w	$0E20, $008A, $0C0E, $0C42, $006C, $0E0E, $0A64, $004C
 		dc.w	$0E0C, $0884, $002E, $0E0A, $06A6, $000E, $0E08, $04C6
 		dc.w	$020E, $0E06, $02E8, $040E, $0E04, $00E8, $060E, $0E02
@@ -3295,44 +3288,44 @@ Pal_CNz_Cyc2:												   ; Offset_0x0026C8
 		dc.w	$040E, $0E02, $00E8, $060E, $0E00, $00C8, $080E, $0E00
 		dc.w	$00AA, $0A0E
 ; ---------------------------------------------------------------------------
-Pal_CNz_Cyc3:												   ; Offset_0x00277C
+Pal_CNz_Cyc3:
 		dc.w	$02E0, $0ECE, $04E2, $0EAC, $06E4, $0E8A, $08E6, $0E68
 		dc.w	$0AE8, $0E46, $0CEA, $0E24, $0EEC, $0E02, $0EEE, $0E00
 		dc.w	$0EEC, $0E02, $0CEA, $0E24, $0AE8, $0E46, $08E6, $0E68
 		dc.w	$06E4, $0E8A, $04E2, $0EAC, $02E0, $0ECE, $00E0, $0EEE
 ; ---------------------------------------------------------------------------
-Pal_Iz_Cyc1:												   ; Offset_0x0027BC
+Pal_Iz_Cyc1:
 		dc.w	$0E62, $0E20, $0E44, $0E20, $0E44, $0E00, $0E42, $0E00
 		dc.w	$0E62, $0C00, $0E82, $0A00, $0EA2, $0C00, $0EC0, $0E00
 		dc.w	$0EE0, $0E20, $0EE4, $0E00, $0EE4, $0C00, $0EE4, $0A00
 		dc.w	$0EE0, $0800, $0EC2, $0A00, $0EA2, $0C00, $0E82, $0E20
 ; ---------------------------------------------------------------------------
-Pal_Iz_Cyc2:												   ; Offset_0x0027FC
+Pal_Iz_Cyc2:
 		dc.w	$0E06, $0E08, $0E04, $0E06, $0C04, $0E04, $0C02, $0C04
 		dc.w	$0A02, $0C02, $0A00, $0A02, $0800, $0A00, $0600, $0800
 		dc.w	$0600, $0800, $0600, $0800, $0600, $0800, $0800, $0A00
 		dc.w	$0A00, $0A02, $0A02, $0C02, $0C02, $0C04, $0C04, $0E04
 		dc.w	$0E04, $0E06, $0E06, $0E08
 ; ---------------------------------------------------------------------------
-Pal_Iz_Cyc3:												   ; Offset_0x002844
+Pal_Iz_Cyc3:
 		dc.w	$0840, $0EEA, $0860, $0EE0, $0A80, $0EC0, $0EC0, $0A80
 		dc.w	$0A80, $0EC0, $0860, $0EE0
 ; ---------------------------------------------------------------------------
-Pal_Iz_Cyc4:												   ; Offset_0x00285C
+Pal_Iz_Cyc4:
 		dc.w	$00E8, $0CEC, $00C8, $0AEA, $00C8, $0AEA, $00A6, $06E8
 		dc.w	$00A6, $06E8, $0084, $00E8, $0084, $00E8, $0082, $00C8
 		dc.w	$0064, $00A6, $0064, $00A6, $0082, $00C8, $0084, $00E8
 		dc.w	$00A6, $06E8, $00C8, $0AEA, $00E8, $0CEC, $00E8, $0CEC
 ; ---------------------------------------------------------------------------
-Pal_LBz1_Cyc:												   ; Offset_0x00289C
+Pal_LBz1_Cyc:
 		dc.w	$08E0, $00C0, $0080, $00C0, $0080, $08E0, $0080, $08E0
 		dc.w	$00C0
 ; ---------------------------------------------------------------------------
-Pal_LBz2_Cyc:												   ; Offset_0x0028AE
+Pal_LBz2_Cyc:
 		dc.w	$0EEA, $0EA4, $0C62, $0EA4, $0C62, $0EEA, $0C62, $0EEA
 		dc.w	$0EA4
 ; ---------------------------------------------------------------------------
-Pal_LRz1_Cyc1:												   ; Offset_0x0028C0
+Pal_LRz1_Cyc1:
 		dc.w	$00EE, $00AE, $006E, $000E, $00AE, $006E, $000E, $00EE
 		dc.w	$006E, $000E, $00EE, $02CE, $002E, $08EE, $04EE, $006E
 		dc.w	$0AEE, $06EE, $008E, $004E, $04EE, $006E, $002E, $08EE
@@ -3342,16 +3335,16 @@ Pal_LRz1_Cyc1:												   ; Offset_0x0028C0
 		dc.w	$00AC, $006E, $002E, $000A, $008E, $004E, $000C, $00CE
 		dc.w	$006E, $000E, $00EE, $00AE, $000E, $00EE, $00AE, $006E
 ; ---------------------------------------------------------------------------
-Pal_LRz1_Cyc2:												   ; Offset_0x002940
+Pal_LRz1_Cyc2:
 		dc.w	$0224, $0224, $0224, $0424, $0224, $0426, $0426, $0224
 		dc.w	$0424, $0224, $0224, $0224, $0224, $0224, $0224, $0422
 		dc.w	$0422, $0422
 ; ---------------------------------------------------------------------------
-Pal_BPz_Cyc1:												   ; Offset_0x002964
+Pal_BPz_Cyc1:
 		dc.w	$00EE, $00AE, $006C, $00AE, $006E, $00EE, $006E, $00EE
 		dc.w	$00AE
 ; ---------------------------------------------------------------------------
-Pal_BPz_Cyc2:												   ; Offset_0x002976
+Pal_BPz_Cyc2:
 		dc.w	$0EE0, $0E0E, $00EE, $0EA0, $0A0E, $00EA, $0E60, $060E
 		dc.w	$00E6, $0E20, $020E, $00E2, $0E02, $002E, $02E0, $0E06
 		dc.w	$006E, $06E0, $0E0A, $00AE, $0AE0, $0E0E, $00EE, $0EE0
@@ -3361,25 +3354,24 @@ Pal_BPz_Cyc2:												   ; Offset_0x002976
 		dc.w	$00E6, $0E60, $060E, $00E2, $0E20, $020E, $02E0, $0E02
 		dc.w	$002E, $06E0, $0E06, $006E, $0AE0, $0E0A, $00AE
 ; ---------------------------------------------------------------------------
-Pal_CGz_Cyc:												   ; Offset_0x0029F4
+Pal_CGz_Cyc:
 		dc.w	$000E, $0008, $0004, $0EEE, $000C, $0006, $0002, $0CCE
 		dc.w	$000A, $0004, $0000, $0AAE, $0008, $0002, $0000, $088E
 		dc.w	$0006, $0000, $0000, $066E, $0004, $0000, $0000, $044E
 		dc.w	$0006, $0000, $0000, $066E, $0008, $0002, $0000, $088E
 		dc.w	$000A, $0004, $0002, $0AAE, $000C, $0006, $0004, $0CCE
 ; ---------------------------------------------------------------------------
-Pal_EMz_Cyc1:												   ; Offset_0x002A44
+Pal_EMz_Cyc1:
 		dc.w	$0006, $0008, $000A, $000C, $000E, $000E, $000E, $000E
 		dc.w	$000C, $000A, $0008, $0006, $0006, $0006, $0006, $0008
 		dc.w	$000A, $000C, $000E, $000E, $000E, $000C, $000A, $0008
 		dc.w	$0006, $0008, $000A, $000A, $000A, $0008
 ; ---------------------------------------------------------------------------
-Pal_EMz_Cyc2:												   ; Offset_0x002A80
+Pal_EMz_Cyc2:
 		dc.w	$0000, $000E, $0002, $000C, $0004, $000A, $0006, $0008
 		dc.w	$0008, $0006, $000A, $0004, $000C, $0002, $000E, $0000
 		dc.w	$000C, $0002, $000A, $0004, $0008, $0006, $0006, $0008
 		dc.w	$0004, $000A, $0002, $000C
-
 ; ===========================================================================
 ; Offset_0x002AB8:
 PalCycle_SuperSonic:
@@ -3437,32 +3429,32 @@ Offset_0x002B2A:
 		rts
 
 Offset_0x002B50:
-		subq.b	#1,(Super_Sonic_Palette_Timer).w		  ; $FFFFF65E
+		subq.b	#1,(Super_Sonic_Palette_Timer).w
 		bpl.s	Offset_0x002B00
-		move.b	#8-1,(Super_Sonic_Palette_Timer).w			; $FFFFF65E
-		lea	(Pal_SuperSonic_Cyc).l,a0				; Offset_0x002BA0
-		move.w	(Super_Sonic_Palette_Frame).w,d0			; $FFFFF65C
-		addq.w	#8,(Super_Sonic_Palette_Frame).w		  ; $FFFFF65C
-		cmpi.w	#$78,(Super_Sonic_Palette_Frame).w		  ; $FFFFF65C
+		move.b	#8-1,(Super_Sonic_Palette_Timer).w
+		lea	(Pal_SuperSonic_Cyc).l,a0
+		move.w	(Super_Sonic_Palette_Frame).w,d0
+		addq.w	#8,(Super_Sonic_Palette_Frame).w
+		cmpi.w	#$78,(Super_Sonic_Palette_Frame).w
 	if FixBugs
 		bls.s	Offset_0x002B78
 	else
 		bcs.s	Offset_0x002B78
 	endif
-		move.w	#$30,(Super_Sonic_Palette_Frame).w		  ; $FFFFF65C
+		move.w	#$30,(Super_Sonic_Palette_Frame).w
 Offset_0x002B78:
-		lea	(Palette_Row_0_Offset+4).w,a1			  ; $FFFFED04
-		move.l	(A0,d0.w),(A1)+
-		move.w	4(A0,d0.w),(A1)
-		lea	(Pal_SuperSonic_Underwater_Cyc).l,a0	; Offset_0x002C20
-		tst.b	(Water_Level_Flag).w						 ; $FFFFF730
+		lea	(Palette_Row_0_Offset+4).w,a1
+		move.l	(a0,d0.w),(A1)+
+		move.w	4(a0,d0.w),(A1)
+		lea	(Pal_SuperSonic_Underwater_Cyc).l,a0
+		tst.b	(Water_Level_Flag).w
 		beq.w	Offset_0x002B00
-		lea	(Palette_UW_Row_0_Offset+4).w,a1		  ; $FFFFF084
-		move.l	(A0,d0.w),(A1)+
-		move.w	4(A0,d0.w),(A1)
+		lea	(Palette_UW_Row_0_Offset+4).w,a1
+		move.l	(a0,d0.w),(A1)+
+		move.w	4(a0,d0.w),(A1)
 		rts
 ; ---------------------------------------------------------------------------
-Pal_SuperSonic_Cyc:											   ; Offset_0x002BA0
+Pal_SuperSonic_Cyc:
 		dc.w	$0A22, $0C42, $0E44, $0E66, $0844, $0A64, $0E66, $0E88
 		dc.w	$0666, $0A86, $0E88, $0EAA, $0488, $0AA8, $0EAA, $0ECC
 		dc.w	$04AA, $0ACA, $0ECC, $0EEE, $04CC, $0AEC, $0EEE, $0EEE
@@ -3472,7 +3464,7 @@ Pal_SuperSonic_Cyc:											   ; Offset_0x002BA0
 		dc.w	$00EE, $06EE, $0AEE, $0EEE, $00EE, $04EE, $08EE, $0CEE
 		dc.w	$00EE, $06EE, $0AEE, $0EEE, $00EE, $08EE, $0CEE, $0EEE
 ; ---------------------------------------------------------------------------
-Pal_SuperSonic_Underwater_Cyc:								   ; Offset_0x002C20
+Pal_SuperSonic_Underwater_Cyc:
 		dc.w	$0E08, $0E28, $0E2A, $0E4C, $0C2A, $0E4A, $0E4C, $0E6E
 		dc.w	$0A4C, $0E6C, $0E6E, $0E8E, $0A6E, $0E8E, $0E8E, $0E8E
 		dc.w	$0A6E, $0E8E, $0E8E, $0E8E, $0A6E, $0E8E, $0E8E, $0E8E
@@ -3639,184 +3631,179 @@ Pal_FadeToBlack:
 		dbf	d4,.loop
 		rts
 ; ---------------------------------------------------------------------------
-Pal_FadeOut:												   ; Offset_0x002E08
+Pal_FadeOut:
 		moveq	#0,d0
-		lea	(Palette_Buffer).w,a0						; $FFFFED00
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		lea	(Palette_Buffer).w,a0
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002E18:
-		bsr.s	Pal_DecColor						   ; Offset_0x002E36
-		dbf	D0,Offset_0x002E18
+		bsr.s	Pal_DecColor
+		dbf	d0,Offset_0x002E18
 		moveq	#0,d0
-		lea	(Palette_Underwater_Buffer).w,a0			; $FFFFF080
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		lea	(Palette_Underwater_Buffer).w,a0
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002E2E:
-		bsr.s	Pal_DecColor						   ; Offset_0x002E36
-		dbf	D0,Offset_0x002E2E
+		bsr.s	Pal_DecColor
+		dbf	d0,Offset_0x002E2E
 		rts
-Pal_DecColor:												   ; Offset_0x002E36
-		move.w	(A0),d2
-		beq.s	Pal_NoDec							   ; Offset_0x002E62
+Pal_DecColor:
+		move.w	(a0),d2
+		beq.s	Pal_NoDec
 Pal_DecRed:
-		move.w	D2,d1
+		move.w	d2,d1
 		andi.w	#$E,d1
-		beq.s	Pal_DecGreen						   ; Offset_0x002E46
-		subq.w	#2,(A0)+
+		beq.s	Pal_DecGreen
+		subq.w	#2,(a0)+
 		rts
-Pal_DecGreen:												   ; Offset_0x002E46
-		move.w	D2,d1
+Pal_DecGreen:
+		move.w	d2,d1
 		andi.w	#$E0,d1
-		beq.s	Pal_DecBlue							   ; Offset_0x002E54
-		subi.w	#$20,(A0)+
+		beq.s	Pal_DecBlue
+		subi.w	#$20,(a0)+
 		rts
-Pal_DecBlue:												   ; Offset_0x002E54
-		move.w	D2,d1
+Pal_DecBlue:
+		move.w	d2,d1
 		andi.w	#$E00,d1
-		beq.s	Pal_NoDec							   ; Offset_0x002E62
-		subi.w	#$200,(A0)+
+		beq.s	Pal_NoDec
+		subi.w	#$200,(a0)+
 		rts
-Pal_NoDec:													   ; Offset_0x002E62
+Pal_NoDec:
 		addq.w	#2,a0
 		rts
 ; ---------------------------------------------------------------------------
-Pal_MakeWhite: ; Usado pelo Special Stage					   ; Offset_0x002E66
-		move.w	#$3F,(Palette_Fade_Info).w				  ; $FFFFF626
+Pal_MakeWhite: ; Usado pelo Special Stage
+		move.w	#$3F,(Palette_Fade_Info).w
 		moveq	#0,d0
-		lea	(Palette_Buffer).w,a0						; $FFFFED00
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
+		lea	(Palette_Buffer).w,a0
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
 		move.w	#$EEE,d1
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002E80:
-		move.w	D1,(A0)+
-		dbf	D0,Offset_0x002E80
+		move.w	d1,(a0)+
+		dbf	d0,Offset_0x002E80
 		move.w	#$15,d4
 Offset_0x002E8A:
-		move.b	#$12,(VBlank_Index).w						; $FFFFF62A
-		bsr.w	Wait_For_VSync						   ; Offset_0x001AEE
-		bsr.s	Pal_WhiteToBlack					   ; Offset_0x002EA0
-		bsr.w	RunPLC_RAM								   ; Offset_0x001556
-		dbf	D4,Offset_0x002E8A
+		move.b	#$12,(VBlank_Index).w
+		bsr.w	Wait_For_VSync
+		bsr.s	Pal_WhiteToBlack
+		bsr.w	RunPLC_RAM
+		dbf	d4,Offset_0x002E8A
 		rts
 ; ---------------------------------------------------------------------------
-Pal_WhiteToBlack:											   ; Offset_0x002EA0
+Pal_WhiteToBlack:
 		moveq	#0,d0
-		lea	(Palette_Buffer).w,a0						; $FFFFED00
-		lea	(Palette_Data_Target).w,a1					; $FFFFED80
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
-		adda.w	D0,a1
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		lea	(Palette_Buffer).w,a0
+		lea	(Palette_Data_Target).w,a1
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
+		adda.w	d0,a1
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002EB6:
-		bsr.s	Pal_DecColor_2						   ; Offset_0x002EE0
-		dbf	D0,Offset_0x002EB6
-		tst.b	(Water_Level_Flag).w						 ; $FFFFF730
+		bsr.s	Pal_DecColor_2
+		dbf	d0,Offset_0x002EB6
+		tst.b	(Water_Level_Flag).w
 		beq.s	Offset_0x002EDE
 		moveq	#0,d0
-		lea	(Palette_Underwater_Buffer).w,a0			; $FFFFF080
-		lea	(Palette_Underwater_Target).w,a1			; $FFFFF000
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
-		adda.w	D0,a1
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		lea	(Palette_Underwater_Buffer).w,a0
+		lea	(Palette_Underwater_Target).w,a1
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
+		adda.w	d0,a1
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002ED8:
-		bsr.s	Pal_DecColor_2						   ; Offset_0x002EE0
-		dbf	D0,Offset_0x002ED8
+		bsr.s	Pal_DecColor_2
+		dbf	d0,Offset_0x002ED8
 Offset_0x002EDE:
 		rts
 ; ---------------------------------------------------------------------------
-Pal_DecColor_2:												   ; Offset_0x002EE0
-		move.w	(A1)+,d2
-		move.w	(A0),d3
-		cmp.w	D2,d3
-		beq.s	Pal_NoDec_2							   ; Offset_0x002F0C
+Pal_DecColor_2:
+		move.w	(a1)+,d2
+		move.w	(a0),d3
+		cmp.w	d2,d3
+		beq.s	Pal_NoDec_2
 Pal_DecBlue_2:
-		move.w	D3,d1
+		move.w	d3,d1
 		subi.w	#$200,d1
-		bcs.s	Pal_DecGreen_2						   ; Offset_0x002EF8
-		cmp.w	D2,d1
-		bcs.s	Pal_DecGreen_2						   ; Offset_0x002EF8
-		move.w	D1,(A0)+
+		bcs.s	Pal_DecGreen_2
+		cmp.w	d2,d1
+		bcs.s	Pal_DecGreen_2
+		move.w	d1,(a0)+
 		rts
-Pal_DecGreen_2:												   ; Offset_0x002EF8
-		move.w	D3,d1
+Pal_DecGreen_2:
+		move.w	d3,d1
 		subi.w	#$20,d1
-		bcs.s	Pal_DecRed_2						   ; Offset_0x002F08
-		cmp.w	D2,d1
-		bcs.s	Pal_DecRed_2						   ; Offset_0x002F08
-		move.w	D1,(A0)+
+		bcs.s	Pal_DecRed_2
+		cmp.w	d2,d1
+		bcs.s	Pal_DecRed_2
+		move.w	d1,(a0)+
 		rts
-Pal_DecRed_2:												   ; Offset_0x002F08
-		subq.w	#2,(A0)+
+Pal_DecRed_2:
+		subq.w	#2,(a0)+
 		rts
-Pal_NoDec_2:												   ; Offset_0x002F0C
+Pal_NoDec_2:
 		addq.w	#2,a0
 		rts
 ; ---------------------------------------------------------------------------
-Pal_MakeFlash:	; Usado pelo Special Stage					   ; Offset_0x002F10
-		move.w	#$3F,(Palette_Fade_Info).w				  ; $FFFFF626
+Pal_MakeFlash:	; Usado pelo Special Stage
+		move.w	#$3F,(Palette_Fade_Info).w
 		move.w	#$15,d4
 Offset_0x002F1A:
-		move.b	#$12,(VBlank_Index).w						; $FFFFF62A
-		bsr.w	Wait_For_VSync						   ; Offset_0x001AEE
-		bsr.s	Pal_ToWhite							   ; Offset_0x002F30
-		bsr.w	RunPLC_RAM								   ; Offset_0x001556
-		dbf	D4,Offset_0x002F1A
+		move.b	#$12,(VBlank_Index).w
+		bsr.w	Wait_For_VSync
+		bsr.s	Pal_ToWhite
+		bsr.w	RunPLC_RAM
+		dbf	d4,Offset_0x002F1A
 		rts
-Pal_ToWhite:												   ; Offset_0x002F30
+Pal_ToWhite:
 		moveq	#0,d0
-		lea	(Palette_Buffer).w,a0						; $FFFFED00
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		lea	(Palette_Buffer).w,a0
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002F40:
-		bsr.s	Pal_AddColor_2						   ; Offset_0x002F5E
-		dbf	D0,Offset_0x002F40
+		bsr.s	Pal_AddColor_2
+		dbf	d0,Offset_0x002F40
 		moveq	#0,d0
-		lea	(Palette_Underwater_Buffer).w,a0			; $FFFFF080
-		move.b	(Palette_Fade_Info).w,d0					; $FFFFF626
-		adda.w	D0,a0
-		move.b	(Palette_Fade_Count).w,d0					; $FFFFF627
+		lea	(Palette_Underwater_Buffer).w,a0
+		move.b	(Palette_Fade_Info).w,d0
+		adda.w	d0,a0
+		move.b	(Palette_Fade_Count).w,d0
 Offset_0x002F56:
-		bsr.s	Pal_AddColor_2						   ; Offset_0x002F5E
-		dbf	D0,Offset_0x002F56
+		bsr.s	Pal_AddColor_2
+		dbf	d0,Offset_0x002F56
 		rts
-Pal_AddColor_2:												   ; Offset_0x002F5E
-		move.w	(A0),d2
+Pal_AddColor_2:
+		move.w	(a0),d2
 		cmpi.w	#$EEE,d2
-		beq.s	Pal_NoAdd_2							   ; Offset_0x002F9A
+		beq.s	Pal_NoAdd_2
 Pal_AddRed_2:
-		move.w	D2,d1
+		move.w	d2,d1
 		andi.w	#$E,d1
 		cmpi.w	#$E,d1
-		beq.s	Pal_AddGreen_2						   ; Offset_0x002F76
-		addq.w	#2,(A0)+
+		beq.s	Pal_AddGreen_2
+		addq.w	#2,(a0)+
 		rts
-Pal_AddGreen_2:												   ; Offset_0x002F76
-		move.w	D2,d1
+Pal_AddGreen_2:
+		move.w	d2,d1
 		andi.w	#$E0,d1
 		cmpi.w	#$E0,d1
-		beq.s	Pal_AddBlue_2						   ; Offset_0x002F88
-		addi.w	#$20,(A0)+
+		beq.s	Pal_AddBlue_2
+		addi.w	#$20,(a0)+
 		rts
-Pal_AddBlue_2:												   ; Offset_0x002F88
-		move.w	D2,d1
+Pal_AddBlue_2:
+		move.w	d2,d1
 		andi.w	#$E00,d1
 		cmpi.w	#$E00,d1
-		beq.s	Pal_NoAdd_2							   ; Offset_0x002F9A
-		addi.w	#$200,(A0)+
+		beq.s	Pal_NoAdd_2
+		addi.w	#$200,(a0)+
 		rts
-Pal_NoAdd_2:												   ; Offset_0x002F9A
+Pal_NoAdd_2:
 		addq.w	#2,a0
 		rts
-;===============================================================================
-; Rotinas para escurecer / clarear a tela progressivamente
-; <<<-
-;===============================================================================
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Subroutines to load the palette for various circumstances
@@ -3831,7 +3818,7 @@ PalLoad_ForFade:
 		adda.w	d0,a1
 		move.l	(a1)+,a2
 		move.w	(a1)+,a3
-		adda.w	#$80,a3
+		adda.w	#Palette_Data_Target-Palette_Buffer,a3
 		move.w	(a1)+,d7
 ; Offset_0x002FB2: PalLoad1_Loop:
 .loop:
@@ -3864,7 +3851,7 @@ PalLoad_Water_Now:
 		adda.w	d0,a1
 		move.l	(a1)+,a2
 		move.w	(a1)+,a3
-		adda.w	#$380,a3
+		adda.w	#Palette_Underwater_Buffer-Palette_Buffer,a3
 		move.w	(a1)+,d7
 ; Offset_0x02FE6:
 PalLoad3_Loop:
@@ -3881,7 +3868,7 @@ PalLoad_Water_ForFade:
 		adda.w	d0,a1
 		move.l	(a1)+,a2
 		move.w	(a1)+,a3
-		adda.w	#$300,a3
+		adda.w	#Palette_Underwater_Target-Palette_Buffer,a3
 		move.w	(a1)+,d7
 ; Offset_0x003002:
 PalLoad4_Loop:
@@ -4013,11 +4000,6 @@ Offset_0x0031C6:
 		add.l	d4,d0
 		dbf	d2,Offset_0x0031C0
 		rts
-;===============================================================================
-; Logo da SEGA
-; <<<-
-;===============================================================================
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; GAME MODE - Title Screen
@@ -4612,10 +4594,9 @@ TitleSonic_Frames:
 		dc.l	Pal_Title_Screen_Sonic
 		dc.l	Map_Title_Screen_Sonic
 ;===============================================================================
-; Modo de jogo ou demonstra��o das fases
-; ->>>
+; Music playlist
 ;===============================================================================
-PlayList:													   ; Offset_0x00396E
+PlayList:
 		dc.b	mus_AIZ1			; $01
 		dc.b	mus_AIZ2			; $02
 		dc.b	mus_HCZ1			; $03
@@ -5027,7 +5008,7 @@ Offset_0x003EE2:
 		bne.s	Offset_0x003EFC
 		move.w	(Sound_Test_Sound).w,d0
 		lsl.w	#8,d0
-		move.w	D0,(Tmp_FF7E).w
+		move.w	d0,(Tmp_FF7E).w
 Offset_0x003EFC:
 		move.w	#$3F,(Palette_Fade_Info).w
 		jsr	(Pal_Clear).l
@@ -5046,7 +5027,7 @@ Level_Main_Loop:
 ; ---------------------------------------------------------------------------
 Offset_0x003F38:
 		move.w	(Tmp_FF7E).w,d0
-		add.w	D0,(Tmp_FF7C).w
+		add.w	d0,(Tmp_FF7C).w
 		bcc.s	Offset_0x003F8C
 		bsr.w	Pause
 		move.w	#$100,(Z80_Bus_Request).l
@@ -5056,8 +5037,8 @@ Offset_0x003F38:
 		move.l	#DMA_Buffer_List,(DMA_Buffer_List_End).w
 		lea	(Sprite_Table_Input).w,a5
 Offset_0x003F6C:
-		move.w	#0,(A5)
-		lea	$80(A5),a5
+		move.w	#0,(a5)
+		lea	$80(a5),a5
 		cmpa.l	#Obj_Player_One,a5
 		bcs.s	Offset_0x003F6C
 Offset_0x003F7C:
@@ -5126,7 +5107,7 @@ Offset_0x004050:
 
 ; Offset_0x004058: Init_Player_Selected:
 Level_SetPlayerMode:
-		cmpi.b	#$80+gm_DemoMode,(Game_Mode).w
+		cmpi.b	#$80|gm_DemoMode,(Game_Mode).w
 		beq.s	Offset_0x00406E
 		tst.w	(Two_Player_Flag).w
 		bne.s	Offset_0x00406E
@@ -5183,11 +5164,10 @@ InitPlayers_TailsAlone:
 
 ; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
-
 Offset_0x0040F2:
 		move.b	(Menu_Player_One_Cursor).w,d0
 		bsr.s	Offset_0x004130
-		move.l	D1,(Obj_Player_One).w
+		move.l	d1,(Obj_Player_One).w
 		move.b	(Menu_Player_Two_Cursor).w,d0
 		bsr.s	Offset_0x004130
 		move.l	d1,(Obj_Player_Two).w
@@ -5220,11 +5200,8 @@ Offset_0x00415C:
 		rts
 ; ---------------------------------------------------------------------------
 Pal_Level_2P:
-		dc.w	$0A86, $0EEE, $084E, $040C, $0206, $0080, $000E, $0008
-		dc.w	$00AE, $008E, $08AE, $046A, $0ECC, $0CAA, $0866, $0222
-; ---------------------------------------------------------------------------
-; Rotina para carregar o jogador selecionado no modo 1 PLAYER
-; <<<- Sonic And Miles / Sonic Alone / Miles Alone
+		dc.w	$A86, $EEE, $84E, $40C, $206, $80, $E, 8
+		dc.w	$AE, $8E, $8AE, $46A, $ECC, $CAA, $866, $222
 ; ---------------------------------------------------------------------------
 
 Obj_Clear_Collision_Response_List:
@@ -5242,6 +5219,12 @@ UpdateWaterSurface:
 		tst.b	(Water_Level_Flag).w
 		beq.s	Offset_0x0041AE
 		move.w	(Camera_X).w,d1
+	if FixBugs
+		move.b	(Control_Ports_Buffer_Data+1).w,d0
+		or.b	(Control_Ports_Buffer_Data+3).w,d0
+		andi.b	#button_start_mask,d0
+		beq.s	Offset_0x0041A4
+	endif
 		btst	#0,(Level_frame_counter+1).w
 		beq.s	Offset_0x0041A4
 		addi.w	#$20,d1
@@ -5756,10 +5739,7 @@ Hz2_Slide_Action_Data:
 Iz_Slide_Tile_Data:
 		dc.b	$30, $C0, $35, $BF, $27, $2D, $46, $22
 		dc.b	$2A, $2E
-;===============================================================================
-; Modo de jogo ou demonstra��o das fases
-; <<<-
-;===============================================================================
+; ---------------------------------------------------------------------------
 AIz_1_Water_Transistion:
 		dc.w	bytesToWcnt(AIz_1_Water_Transistion_End-AIz_1_Water_Transistion_Start)
 
@@ -5804,14 +5784,14 @@ Unused_Water_Transistion_Start:
 		dc.w	$0028, $002E, $0034, $003A
 Unused_Water_Transistion_End
 ;===============================================================================
-; Rotina de controle autom�tico do jogador usado no modo de demonstra��o
+; Automatic player control routine used in demo mode
 ;===============================================================================
 Init_Demo_Control:
 		tst.w	(Auto_Control_Player_Flag).w
 		bne.w	Run_Demo_Mode
 		rts
 ; ---------------------------------------------------------------------------
-; Offset_0x004800: ; Sonic 2 Left over
+; Offset_0x004800: ; Sonic 2 Leftover
 		lea	(Demo_Index).l,a1
 		moveq	#0,d0
 		move.b	(Current_Zone).w,d0
@@ -5834,7 +5814,7 @@ Offset_0x00482E:
 Offset_0x004842:
 		rts
 ; ---------------------------------------------------------------------------
-; Offset_0x004844: ; Sonic 2 Left over
+; Offset_0x004844: ; Sonic 2 Leftover
 		cmpi.b	#S2_EHz_Id,(Current_Zone).w
 		bne.s	Offset_0x004882
 		lea	((Dev_RAM_Start+$C000)&$FFFFFF).l,a1
@@ -5894,7 +5874,7 @@ Offset_0x00489E:
 Offset_0x0048DC:
 		rts
 ; ---------------------------------------------------------------------------
-; Offset_0x0048DE: ; Sonic 2 Left Over
+; Offset_0x0048DE: ; Sonic 2 Leftover
 		cmpi.b	#S2_EHz_Id,(Current_Zone).w
 		bne.s	Offset_0x004916
 		lea	(Demo_Angel_Island).l,a1
@@ -5924,38 +5904,35 @@ Offset_0x004914:
 Offset_0x004916:
 		move.w	#0,(Control_Ports_Buffer_Data+2).w
 		rts
-;===============================================================================
-; Rotina de controle autom�tico do jogador usado no modo de demonstra��o
-;===============================================================================
-
-Demo_Index:													   ; Offset_0x00491E
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
-		dc.l	Demo_Angel_Island					   ; Offset_0x004BEA
 ; ---------------------------------------------------------------------------
-Demo_End_Index: ; Left over do Sonic 1						   ; Offset_0x004982
+Demo_Index:
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+		dc.l	Demo_Angel_Island
+; ---------------------------------------------------------------------------
+Demo_End_Index: ; Leftover from Sonic 1
 		dc.w	$008B, $0837, $0042, $085C, $006A, $085F, $002F, $082C
 		dc.w	$0021, $0803, $2830, $0808, $002E, $0815, $000F, $0846
 		dc.w	$001A, $08FF, $08CA, $0000, $0000, $0000, $0000, $0000
@@ -5983,19 +5960,18 @@ LoadCollisionIndex:
 ; End of subroutine LoadCollisionIndex
 
 ;===============================================================================
-; Rotina Oscillate_Num_Init
-; ->>>
+; Routine Oscillate_Num_Init
 ;===============================================================================
-Oscillate_Num_Init:											   ; Offset_0x0049DE
-		lea	(Oscillate_Data_Buffer).w,a1				; $FFFFFE5E
-		lea	(Oscillate_Data).l,a2					; Offset_0x0049F2
+Oscillate_Num_Init:
+		lea	(Oscillate_Data_Buffer).w,a1
+		lea	(Oscillate_Data).l,a2
 		moveq	#bytesToWcnt(Oscillate_Data_End-Oscillate_Data),d1
 Offset_0x0049EA:
-		move.w	(A2)+,(A1)+
-		dbf	D1,Offset_0x0049EA
+		move.w	(a2)+,(a1)+
+		dbf	d1,Offset_0x0049EA
 		rts
 ; ---------------------------------------------------------------------------
-Oscillate_Data:												   ; Offset_0x0049F2
+Oscillate_Data:
 		dc.w	$007D, $0080, $0000, $0080, $0000, $0080, $0000, $0080
 		dc.w	$0000, $0080, $0000, $0080, $0000, $0080, $0000, $0080
 		dc.w	$0000, $0080, $0000, $3848, $00EE, $2080, $00B4, $3080
@@ -6003,63 +5979,52 @@ Oscillate_Data:												   ; Offset_0x0049F2
 		dc.w	$00FE
 Oscillate_Data_End:
 ;===============================================================================
-; Rotina Oscillate_Num_Init
-; <<<-
+; Routine Oscillate_Num_Do
 ;===============================================================================
-
-;===============================================================================
-; Rotina Oscillate_Num_Do
-; ->>>
-;===============================================================================
-Oscillate_Num_Do:											  ;	 Offset_0x004A34
-		tst.w	(Two_Player_Flag).w							 ; $FFFFFFD8
+Oscillate_Num_Do:
+		tst.w	(Two_Player_Flag).w
 		bne.s	Offset_0x004A42
-		cmpi.b	#6,(Obj_Player_One+routine).w		  ; $FFFFB005
+		cmpi.b	#6,(Obj_Player_One+routine).w
 		bcc.s	Offset_0x004A88
 Offset_0x004A42:
-		lea	(Oscillate_Data_Buffer).w,a1				; $FFFFFE5E
-		lea	(Oscillate_Data2).l,a2					; Offset_0x004A8A
-		move.w	(A1)+,d3
+		lea	(Oscillate_Data_Buffer).w,a1
+		lea	(Oscillate_Data2).l,a2
+		move.w	(a1)+,d3
 		moveq	#bytesToLcnt(Oscillate_Data2_End-Oscillate_Data2),d1
 Offset_0x004A50:
-		move.w	(A2)+,d2
-		move.w	(A2)+,d4
-		btst	D1,d3
+		move.w	(a2)+,d2
+		move.w	(a2)+,d4
+		btst	d1,d3
 		bne.s	Offset_0x004A6C
-		move.w	2(A1),d0
-		add.w	D2,d0
-		move.w	D0,2(A1)
-		add.w	D0,(A1)
-		cmp.b	(A1),d4
+		move.w	2(a1),d0
+		add.w	d2,d0
+		move.w	d0,2(a1)
+		add.w	d0,(a1)
+		cmp.b	(a1),d4
 		bhi.s	Offset_0x004A7E
-		bset	D1,d3
+		bset	d1,d3
 		bra.s	Offset_0x004A7E
 Offset_0x004A6C:
-		move.w	2(A1),d0
-		sub.w	D2,d0
-		move.w	D0,2(A1)
-		add.w	D0,(A1)
-		cmp.b	(A1),d4
+		move.w	2(a1),d0
+		sub.w	d2,d0
+		move.w	d0,2(a1)
+		add.w	d0,(a1)
+		cmp.b	(a1),d4
 		bls.s	Offset_0x004A7E
-		bclr	D1,d3
+		bclr	d1,d3
 Offset_0x004A7E:
 		addq.w	#4,a1
-		dbf	D1,Offset_0x004A50
-		move.w	D3,(Oscillate_Data_Buffer).w				; $FFFFFE5E
+		dbf	d1,Offset_0x004A50
+		move.w	d3,(Oscillate_Data_Buffer).w
 Offset_0x004A88:
 		rts
 ; ---------------------------------------------------------------------------
-Oscillate_Data2:											   ; Offset_0x004A8A
+Oscillate_Data2:
 		dc.w	$0002, $0010, $0002, $0018, $0002, $0020, $0002, $0030
 		dc.w	$0004, $0020, $0008, $0008, $0008, $0040, $0004, $0040
 		dc.w	$0002, $0038, $0002, $0038, $0002, $0020, $0003, $0030
 		dc.w	$0005, $0050, $0007, $0070, $0002, $0040, $0002, $0040
 Oscillate_Data2_End:
-;===============================================================================
-; Rotina Oscillate_Num_Do
-; <<<-
-;===============================================================================
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to change global object animation variables (rings)
 ; ---------------------------------------------------------------------------
@@ -6091,17 +6056,11 @@ Offset_0x004B02:
 		rts
 ; End of function ChangeRingFrame
 
-;===============================================================================
-; Rotina para fazer os an�is e outros objetos girarem em torno de si
-; <<<-
-;===============================================================================
-
-Clear_End_Level_Art_Load_Flag:								   ; Offset_0x004B0A
-		move.w	#0,(End_Level_Art_Load_Flag).w			; $FFFFFFC8
+Clear_End_Level_Art_Load_Flag:
+		move.w	#0,(End_Level_Art_Load_Flag).w
 		rts
 ;===============================================================================
-; Rotina para testar e setar o flag de carga da arte de fim de fase
-; ->>>
+; Routine to test and set the load flag of the end-of-phase art
 ;===============================================================================
 S2_Test_End_Level_Art_Load:									   ; Offset_0x004B12
 		move.w	#0,(End_Level_Art_Load_Flag).w			; $FFFFFFC8
@@ -6133,11 +6092,6 @@ Set_End_Level_Flag:											   ; Offset_0x004B80
 		move.w	#1,(End_Level_Art_Load_Flag).w			; $FFFFFFC8
 Dont_Set_End_Level_Flag:									   ; Offset_0x004B86
 		rts
-;===============================================================================
-; Rotina para testar e setar o flag de carga da arte de fim de fase
-; ->>>
-;===============================================================================
-
 ; ---------------------------------------------------------------------------
 ; Subroutine to load signpost art when a flag is set (leftover from Sonic 2)
 ; ---------------------------------------------------------------------------
@@ -6186,12 +6140,7 @@ SignpostUpdateEnd:
 		rts
 ; End of function CheckLoadSignpostArt
 
-;===============================================================================
-; Rotina para carregar a arte de fim de fase
-; <<<-
-;===============================================================================
-
-Demo_Angel_Island:											   ; Offset_0x004BEA
+Demo_Angel_Island:
 		binclude	"data\aiz\demo.dat"
 		even
 ; ===========================================================================
@@ -38490,7 +38439,7 @@ Offset_0x04B332:
 Offset_0x04B34A:
 		bra.w	Offset_0x04B3F6
 Offset_0x04B34E:
-		btst	#5,(Control_Ports_Buffer_Data+$01).w		; $FFFFF605
+		btst	#5,(Control_Ports_Buffer_Data+1).w		; $FFFFF605
 		beq.s	Offset_0x04B39A
 		jsr	(AllocateObject).l					 ; Offset_0x011DD8
 		bne.s	Offset_0x04B39A
@@ -38501,19 +38450,19 @@ Offset_0x04B34E:
 		andi.b	#$7F,status(A1)								; $002A
 		moveq	#0,d0
 		move.b	(Debug_object).w,d0				 ; $FFFFFE06
-		add.w	D0,d0
-		move.w	D0,d1
+		add.w	d0,d0
+		move.w	d0,d1
 		lsl.w	#2,d0
-		add.w	D1,d0
-		move.b	4(A2,d0.w),subtype(A1)					   ; $002C
-		move.l	(A2,d0.w),(A1)
-		move.b	#0,(A1)
+		add.w	d1,d0
+		move.b	4(a2,d0.w),subtype(a1)					   ; $002C
+		move.l	(a2,d0.w),(a1)
+		move.b	#0,(a1)
 		rts
 Offset_0x04B39A:
-		btst	#4,(Control_Ports_Buffer_Data+$01).w		; $FFFFF605
+		btst	#4,(Control_Ports_Buffer_Data+1).w		; $FFFFF605
 		beq.s	Offset_0x04B3C6
 		moveq	#0,d0
-		move.w	D0,(Debug_placement_mode).w				   ; $FFFFFE08
+		move.w	d0,(Debug_placement_mode).w				   ; $FFFFFE08
 		lea	(Obj_Memory_Address).w,a1					; $FFFFB000
 		move.l	(Debug_Player_Obj_Map).w,mappings(A1) ; $FFFFFFCA, $000C
 		move.w	(Debug_Player_Obj_Art_VRAM).w,Obj_Art_VRAM(A1) ; $FFFFFFCE, $000A
@@ -38523,27 +38472,27 @@ Offset_0x04B39A:
 Offset_0x04B3C6:
 		rts
 Offset_0x04B3C8:
-		move.b	D0,anim(A1)							; $0020
-		move.w	D0,Obj_Sub_X(A1)								; $0012
-		move.w	D0,Obj_Sub_Y(A1)								; $0016
-		move.b	D0,Obj_Player_Control(A1)						; $002E
-		move.b	D0,Obj_Player_Spdsh_Flag(A1)					; $003D
-		move.w	D0,Obj_Speed_X(A1)								; $0018
-		move.w	D0,Obj_Speed_Y(A1)								; $001A
-		move.w	D0,Obj_Inertia(A1)								; $001C
+		move.b	d0,anim(A1)							; $0020
+		move.w	d0,Obj_Sub_X(A1)								; $0012
+		move.w	d0,Obj_Sub_Y(A1)								; $0016
+		move.b	d0,Obj_Player_Control(A1)						; $002E
+		move.b	d0,Obj_Player_Spdsh_Flag(A1)					; $003D
+		move.w	d0,Obj_Speed_X(A1)								; $0018
+		move.w	d0,Obj_Speed_Y(A1)								; $001A
+		move.w	d0,Obj_Inertia(A1)								; $001C
 		move.b	#2,status(A1)								; $002A
 		move.b	#2,routine(A1)							; $0005
 		rts
 Offset_0x04B3F6:
 		moveq	#0,d0
 		move.b	(Debug_object).w,d0				 ; $FFFFFE06
-		add.w	D0,d0
-		move.w	D0,d1
+		add.w	d0,d0
+		move.w	d0,d1
 		lsl.w	#2,d0
-		add.w	D1,d0
-		move.l	4(A2,d0.w),mappings(A0)						   ; $000C
-		move.w	8(A2,d0.w),Obj_Art_VRAM(A0)					   ; $000A
-		move.b	(A2,d0.w),mapping_frame(A0)						; $0022
+		add.w	d1,d0
+		move.l	4(a2,d0.w),mappings(A0)						   ; $000C
+		move.w	8(a2,d0.w),Obj_Art_VRAM(A0)					   ; $000A
+		move.b	(a2,d0.w),mapping_frame(A0)						; $0022
 		rts
 ; ===========================================================================
 ; Offset_0x04B418:
@@ -40517,7 +40466,6 @@ Offset_0x04CD0E:
 ; Left over - Parte de ponteiros de objetos de uma compila��o anterior
 ; <<<-
 ; ---------------------------------------------------------------------------
-Offset_0x04CD18:
 		binclude	"data\star trek\part1.bin"
 ;===============================================================================
 ; Lista de objetos das fases
@@ -40551,6 +40499,7 @@ Art_Water_Shield:											   ; Offset_0x084E80
 		binclude	"data\art\w_shield.dat"
 Art_Dust_2P:												   ; Offset_0x0858E0
 		binclude	"data\art\dust_2p.nem"
+		even
 		align0 4
 Art_CNz_Cannon:												   ; Offset_0x0859A0
 		binclude	"data\cnz\cannon.dat"
@@ -40662,199 +40611,189 @@ Art_Oxygen_Numbers:											   ; Offset_0x0A8640
 		binclude	"data\art\oxygnumb.dat"
 Art_Menu_Sonic_Miles:										   ; Offset_0x0A8DC0
 		binclude	"data\menus\soncmils.dat"
-Offset_0x0A92C0:
 		binclude	"data\star trek\part2.bin"
-; ---------------------------------------------------------------------------
-Asm_Code_1:													   ; Offset_0x0AFF0F
 		binclude	"data\star trek\source code 1.bin"
 ; ---------------------------------------------------------------------------
-
 ; Z80 Bank $16
 Snd_Bank1_Start:	startBank
-Angel_Island_1_Snd_Data:									   ; Offset_0x0B0000
+Angel_Island_1_Snd_Data:
 		include	"Sound\Music\AIZ1.asm"
-Angel_Island_2_Snd_Data:									   ; Offset_0x0B2210
+Angel_Island_2_Snd_Data:
 		include	"Sound\Music\AIZ2.asm"
-Hydrocity_1_Snd_Data:										   ; Offset_0x0B3F24
+Hydrocity_1_Snd_Data:
 		include	"Sound\Music\HCZ1.asm"
-Hydrocity_2_Snd_Data:										   ; Offset_0x0B5492
+Hydrocity_2_Snd_Data:
 		include	"Sound\Music\HCZ2.asm"
-Marble_Garden_1_Snd_Data:									   ; Offset_0x0B6E51
+Marble_Garden_1_Snd_Data:
 		include	"Sound\Music\MGZ1.asm"
-Marble_Garden_2_Snd_Data:									   ; Offset_0x0B7468
+Marble_Garden_2_Snd_Data:
 		include	"Sound\Music\MGZ2.asm"
 		binclude "data\star trek\part3.bin"
 	finishBank
+; ---------------------------------------------------------------------------
 ; Z80 Bank $17
 Snd_Bank2_Start:	startBank
-Carnival_Night_1_Snd_Data:									   ; Offset_0x0B8000
+Carnival_Night_1_Snd_Data:
 		include	"Sound\Music\CNZ1.asm"
-Carnival_Night_2_Snd_Data:									   ; Offset_0x0B9BBB
+Carnival_Night_2_Snd_Data:
 		include	"Sound\Music\CNZ2.asm"
-Flying_Battery_1_Snd_Data:									   ; Offset_0x0BB99E
+Flying_Battery_1_Snd_Data:
 		include	"Sound\Music\FBZ1.asm"
-Flying_Battery_2_Snd_Data:									   ; Offset_0x0BBF36
+Flying_Battery_2_Snd_Data:
 		include	"Sound\Music\FBZ2.asm"
-Icecap_1_Snd_Data:											   ; Offset_0x0BC499
+Icecap_1_Snd_Data:
 		include	"Sound\Music\ICZ1.asm"
-Icecap_2_Snd_Data:											   ; Offset_0x0BCA37
+Icecap_2_Snd_Data:
 		include	"Sound\Music\ICZ2.asm"
-Launch_Base_1_Snd_Data:										   ; Offset_0x0BD04B
+Launch_Base_1_Snd_Data:
 		include	"Sound\Music\LBZ1.asm"
 		binclude "data\star trek\part4.bin"
-; ---------------------------------------------------------------------------
-Asm_Code_2:													   ; Offset_0x0BFBA4
 		include	"data\star trek\source code 2.asm"
 	finishBank
 ; ---------------------------------------------------------------------------
 ; Z80 Bank $18
 Snd_Bank3_Start:	startBank
-Launch_Base_2_Snd_Data:										   ; Offset_0x0C0000
+Launch_Base_2_Snd_Data:
 		include	"Sound\Music\LBZ2.asm"
-Mushroom_Valley_1_Snd_Data:									   ; Offset_0x0C252A
+Mushroom_Valley_1_Snd_Data:
 		include	"Sound\Music\MVZ1.asm"
-Mushroom_Valley_2_Snd_Data:									   ; Offset_0x0C2A9C
+Mushroom_Valley_2_Snd_Data:
 		include	"Sound\Music\MVZ2.asm"
-Sandopolis_1_Snd_Data:										   ; Offset_0x0C3005
+Sandopolis_1_Snd_Data:
 		include	"Sound\Music\SOZ1.asm"
-Sandopolis_2_Snd_Data:										   ; Offset_0x0C366F
+Sandopolis_2_Snd_Data:
 		include	"Sound\Music\SOZ2.asm"
-Lava_Reef_1_Snd_Data:										   ; Offset_0x0C3C62
+Lava_Reef_1_Snd_Data:
 		include	"Sound\Music\LRZ1.asm"
-Lava_Reef_2_Snd_Data:										   ; Offset_0x0C504F
+Lava_Reef_2_Snd_Data:
 		include	"Sound\Music\LRZ2.asm"
-Sky_Sanctuary_Snd_Data:										   ; Offset_0x0C6642
+Sky_Sanctuary_Snd_Data:
 		include	"Sound\Music\SSZ.asm"
-Death_Egg_1_Snd_Data:										   ; Offset_0x0C7954
+Death_Egg_1_Snd_Data:
 		include	"Sound\Music\DEZ1.asm"
 		binclude "data\star trek\part5.bin"
 	finishBank
+; ---------------------------------------------------------------------------
 ; Z80 Bank $19
 Snd_Bank4_Start:	startBank
-Death_Egg_2_Snd_Data:										   ; Offset_0x0C8000
+Death_Egg_2_Snd_Data:
 		include	"Sound\Music\DEZ2.asm"
-Mini_Boss_Snd_Data:											   ; Offset_0x0C8412
+Mini_Boss_Snd_Data:
 		include	"Sound\Music\Miniboss.asm"
-Boss_Snd_Data:												   ; Offset_0x0C8742
+Boss_Snd_Data:
 		include	"Sound\Music\Zone Boss.asm"
-The_Doomsday_Snd_Data:										   ; Offset_0x0C8C3E
+The_Doomsday_Snd_Data:
 		include	"Sound\Music\DDZ.asm"
-Glowing_Spheres_Bonus_Stage_Snd_Data:						   ; Offset_0x0C9521
+Glowing_Spheres_Bonus_Stage_Snd_Data:
 		include	"Sound\Music\Pachinko.asm"
-Special_Stage_Snd_Data:										   ; Offset_0x0C9A84
+Special_Stage_Snd_Data:
 		include	"Sound\Music\Special Stage.asm"
-Slot_Machine_Bonus_Stage_Snd_Data:							   ; Offset_0x0CA31C
+Slot_Machine_Bonus_Stage_Snd_Data:
 		include	"Sound\Music\Slots.asm"
-Gumball_Machine_Bonus_Stage_Snd_Data:						   ; Offset_0x0CAE04
+Gumball_Machine_Bonus_Stage_Snd_Data:
 		include	"Sound\Music\Gum Ball Machine.asm"
-Knuckles_Theme_Snd_Data:									   ; Offset_0x0CBB19
+Knuckles_Theme_Snd_Data:
 		include	"Sound\Music\Knuckles.asm"
-Azure_Lake_Snd_Data:										   ; Offset_0x0CBE82
+Azure_Lake_Snd_Data:
 		include	"Sound\Music\Azure Lake.asm"
-Balloon_Park_Snd_Data:										   ; Offset_0x0CC988
+Balloon_Park_Snd_Data:
 		include	"Sound\Music\Balloon Park.asm"
-Desert_Palace_Snd_Data:										   ; Offset_0x0CD620
+Desert_Palace_Snd_Data:
 		include	"Sound\Music\Desert Palace.asm"
 		binclude "data\star trek\part6.bin"
-; ---------------------------------------------------------------------------
-Asm_Code_3:													   ; Offset_0x0CF962
 		include	"data\star trek\source code 3.asm"
 	finishBank
 ; ---------------------------------------------------------------------------
 ; Z80 Bank $1A
 Snd_Bank5_Start:	startBank
-Chrome_Gadget_Snd_Data:										   ; Offset_0x0D0000
+Chrome_Gadget_Snd_Data:
 		include	"Sound\Music\Chrome Gadget.asm"
-Endless_Mine_Snd_Data:										   ; Offset_0x0D224B
+Endless_Mine_Snd_Data:
 		include	"Sound\Music\Endless Mine.asm"
-Title_Screen_Snd_Data:										   ; Offset_0x0D2993
+Title_Screen_Snd_Data:
 		include	"Sound\Music\Title.asm"
-Credits_Snd_Data:											   ; Offset_0x0D2DCC
+Credits_Snd_Data:
 		include	"Sound\Music\Credits.asm"
-Time_Game_Over_Snd_Data:									   ; Offset_0x0D383C
+Time_Game_Over_Snd_Data:
 		include	"Sound\Music\Game Over.asm"
-Continue_Snd_Data:											   ; Offset_0x0D3A99
+Continue_Snd_Data:
 		include	"Sound\Music\Continue.asm"
-Level_Results_Snd_Data:										   ; Offset_0x0D427A
+Level_Results_Snd_Data:
 		include	"Sound\Music\Level Outro.asm"
-Extra_Life_Snd_Data:										   ; Offset_0x0D476A
+Extra_Life_Snd_Data:
 		include	"Sound\Music\1UP.asm"
-Got_Emerald_Snd_Data:										   ; Offset_0x0D496A
+Got_Emerald_Snd_Data:
 		include	"Sound\Music\Chaos Emerald.asm"
-Invincibility_Snd_Data:										   ; Offset_0x0D4A38
+Invincibility_Snd_Data:
 		include	"Sound\Music\Invincible.asm"
-Competition_Menu_Snd_Data:									   ; Offset_0x0D4CB8
+Competition_Menu_Snd_Data:
 		include	"Sound\Music\Competition Menu.asm"
-Super_Sonic_Theme_Snd_Data:									   ; Offset_0x0D5EAA
+Super_Sonic_Theme_Snd_Data:
 		include	"Sound\Music\Unused.asm"
-Data_Select_Menu_Snd_Data:									   ; Offset_0x0D695E
+Data_Select_Menu_Snd_Data:
 		include	"Sound\Music\Menu.asm"
 		binclude "data\star trek\part7.bin"
 	finishBank
+; ---------------------------------------------------------------------------
 ; Z80 Bank $1B
 Snd_Bank6_Start:	startBank
-Final_Boss_Snd_Data:										   ; Offset_0x0D8000
+Final_Boss_Snd_Data:
 		include	"Sound\Music\Final Boss.asm"
-Panic_Snd_Data:												   ; Offset_0x0D8592
+Panic_Snd_Data:
 		include	"Sound\Music\Countdown.asm"
-; ---------------------------------------------------------------------------
-; Offset_0x0D86C0:
 		binclude	"data\star trek\part8.bin"
-Asm_Code_4:													   ; Offset_0x0DFEF2
 		include	"data\star trek\source code 4.asm"
 	finishBank
 ; ---------------------------------------------------------------------------
 ; Offset_0xE0000:
 Z80_Driver:	include	"s3.sounddriver.asm"
 Z80_Driver_End
-; ---------------------------------------------------------------------------
-Offset_0x0E1852:
 		binclude	"data\star trek\part11.bin"
 ; ---------------------------------------------------------------------------
 	cnop -Size_of_SndBank, $8000	; aligned to end of bank
 
 SndBank:
-Ring_Sfx_Data:											 ; $32 ; Offset_0x0EC000
+Ring_Sfx_Data:
 		include	"Sound\SFX\32 - Ring (Right).asm"
-Ring_Left_Speaker_Sfx_Data:									   ; Offset_0x0EC02E
+Ring_Left_Speaker_Sfx_Data:
 		include	"Sound\SFX\33 - Ring (Left).asm"
-Ring_Lost_Sfx_Data:											   ; Offset_0x0EC05C
+Ring_Lost_Sfx_Data:
 		include	"Sound\SFX\34 - Ring Loss.asm"
-Hurt_Sfx_Data:												   ; Offset_0x0EC084
+Hurt_Sfx_Data:
 		include	"Sound\SFX\35 - Death.asm"
-Skidding_Sfx_Data:											   ; Offset_0x0EC0B6
+Skidding_Sfx_Data:
 		include	"Sound\SFX\36 - Skid.asm"
-Spike_Hurt_Sfx_Data:										   ; Offset_0x0EC0EB
+Spike_Hurt_Sfx_Data:
 		include	"Sound\SFX\37 - Spike Hit.asm"
-Collect_Oxygen_Sfx_Data:									   ; Offset_0x0EC11A
+Collect_Oxygen_Sfx_Data:
 		include	"Sound\SFX\38 - Bubble.asm"
-Water_Splash_Sfx_Data:										   ; Offset_0x0EC150
+Water_Splash_Sfx_Data:
 		include	"Sound\SFX\39 - Splash.asm"
-Got_Classic_Shield_Sfx_Data:								   ; Offset_0x0EC191
+Got_Classic_Shield_Sfx_Data:
 		include	"Sound\SFX\3A - Shield.asm"
-Drowning_Sfx_Data:											   ; Offset_0x0EC1BC
+Drowning_Sfx_Data:
 		include	"Sound\SFX\3B - Drown.asm"
-Rolling_Sfx_Data:											   ; Offset_0x0EC20B
+Rolling_Sfx_Data:
 		include	"Sound\SFX\3C - Roll.asm"
-Object_Hit_Sfx_Data:										   ; Offset_0x0EC249
+Object_Hit_Sfx_Data:
 		include	"Sound\SFX\3D - Break.asm"
-Got_Fire_Shield_Sfx_Data:									   ; Offset_0x0EC283
+Got_Fire_Shield_Sfx_Data:
 		include	"Sound\SFX\3E - Fire Shield.asm"
-Got_Water_Shield_Sfx_Data:									   ; Offset_0x0EC2AE
+Got_Water_Shield_Sfx_Data:
 		include	"Sound\SFX\3F - Bubble Shield.asm"
 Offset_0x0EC2D1:
 		include	"Sound\SFX\40 - Unknown Shield.asm"
-Got_Lightning_Shield_Sfx_Data:								   ; Offset_0x0EC2F4
+Got_Lightning_Shield_Sfx_Data:
 		include	"Sound\SFX\41 - Lightning Shield.asm"
 Offset_0x0EC317:
 		include	"Sound\SFX\42 - Insta Shield Attack.asm"
-Fire_Shield_Sfx_Data:										   ; Offset_0x0EC32F
+Fire_Shield_Sfx_Data:
 		include	"Sound\SFX\43 - Fire Shield Attack.asm"
 Offset_0x0EC34A:
 		include	"Sound\SFX\44 - Bubble Shield Attack.asm"
 Offset_0x0EC377:
 		include	"Sound\SFX\45 - Lightning Shield Attack.asm"
-Hyper_Form_Change_Sfx_Data:									   ; Offset_0x0EC39F
+Hyper_Form_Change_Sfx_Data:
 		include	"Sound\SFX\46 - Whistle.asm"
 Offset_0x0EC3CC:
 		include	"Sound\SFX\47 - Sand Wall Rise.asm"
@@ -40862,7 +40801,7 @@ Offset_0x0EC3EC:
 		include	"Sound\SFX\48 - Flying.asm"
 Offset_0x0EC414:
 		include	"Sound\SFX\49 - Flying (Tired).asm"
-Grab_Sfx_Data:												   ; Offset_0x0EC41E
+Grab_Sfx_Data:
 		include	"Sound\SFX\4A - Blast.asm"
 Offset_0x0EC438:
 		include	"Sound\SFX\4B - Thump.asm"
@@ -40872,25 +40811,25 @@ Offset_0x0EC483:
 		include	"Sound\SFX\4D - Waterfall.asm"
 Offset_0x0EC498:
 		include	"Sound\SFX\4E - Slide Skid (Loud).asm"
-Waterfall_Splash_Sfx_Data:									   ; Offset_0x0EC4C0
+Waterfall_Splash_Sfx_Data:
 		include	"Sound\SFX\4F - Waterfall Splash.asm"
 Offset_0x0EC4F1:
 		include	"Sound\SFX\50 - Glide Land.asm"
-Projectile_Sfx_Data:										   ; Offset_0x0EC51B
+Projectile_Sfx_Data:
 		include	"Sound\SFX\51 - Projectile.asm"
-Missile_Explosion_Sfx_Data:									   ; Offset_0x0EC548
+Missile_Explosion_Sfx_Data:
 		include	"Sound\SFX\52 - Missile Explode.asm"
-Flame_Sfx_Data:												   ; Offset_0x0EC58C
+Flame_Sfx_Data:
 		include	"Sound\SFX\53 - Flamethrower (Quiet).asm"
-Flying_Battery_Move_Sfx_Data:								   ; Offset_0x0EC59D
+Flying_Battery_Move_Sfx_Data:
 		include	"Sound\SFX\54 - Large Ship.asm"
 Offset_0x0EC5D1:
 		include	"Sound\SFX\55 - Boss Activate.asm"
-Missile_Throw_Sfx_Data:										   ; Offset_0x0EC609
+Missile_Throw_Sfx_Data:
 		include	"Sound\SFX\56 - Missile Throw.asm"
-Robotnik_Buzzer_Sfx_Data:									   ; Offset_0x0EC63A
+Robotnik_Buzzer_Sfx_Data:
 		include	"Sound\SFX\57 - Robotnik Alarm.asm"
-Spike_Move_Sfx_Data:										   ; Offset_0x0EC671
+Spike_Move_Sfx_Data:
 		include	"Sound\SFX\58 - Spike Move.asm"
 Offset_0x0EC68E:
 		include	"Sound\SFX\59 - Charging.asm"
@@ -40898,11 +40837,11 @@ Offset_0x0EC6CE:
 		include	"Sound\SFX\5A - Boss Laser.asm"
 Offset_0x0EC711:
 		include	"Sound\SFX\5B - Block Conveyor.asm"
-Draw_Bridge_Move_Sfx_Data:									   ; Offset_0x0EC739
+Draw_Bridge_Move_Sfx_Data:
 		include	"Sound\SFX\5C - Flip Bridge.asm"
-Geyser_Sfx_Data:											   ; Offset_0x0EC749
+Geyser_Sfx_Data:
 		include	"Sound\SFX\5D - Geyser.asm"
-Fan_Big_Sfx_Data:											   ; Offset_0x0EC762
+Fan_Big_Sfx_Data:
 		include	"Sound\SFX\5E - Boss Rotate.asm"
 Offset_0x0EC794:
 		include	"Sound\SFX\5F - Fan (Big).asm"
@@ -40910,11 +40849,11 @@ Offset_0x0EC7C5:
 		include	"Sound\SFX\60 - Fan (Small).asm"
 Offset_0x0EC7DD:
 		include	"Sound\SFX\61 - Fan Latch.asm"
-Smash_Sfx_Data:												   ; Offset_0x0EC7F6
+Smash_Sfx_Data:
 		include	"Sound\SFX\62 - Collapse.asm"
 Offset_0x0EC852:
 		include	"Sound\SFX\63 - Unknown Charge.asm"
-Switch_Blip_Sfx_Data:										   ; Offset_0x0EC87F
+Switch_Blip_Sfx_Data:
 		include	"Sound\SFX\64 - Switch.asm"
 Offset_0x0EC88C:
 		include	"Sound\SFX\65 - Flamethrower (Loud).asm"
@@ -40922,7 +40861,7 @@ Offset_0x0EC89B:
 		include	"Sound\SFX\66 - Mecha Spark.asm"
 Offset_0x0EC8C3:
 		include	"Sound\SFX\67.asm"
-Floor_Thump_Sfx_Data:										   ; Offset_0x0EC8F9
+Floor_Thump_Sfx_Data:
 		include	"Sound\SFX\68 - Floor Thump.asm"
 Offset_0x0EC922:
 		include	"Sound\SFX\69 - Laser.asm"
@@ -40930,13 +40869,13 @@ Offset_0x0EC94A:
 		include	"Sound\SFX\6A - Boss Panic.asm"
 Offset_0x0EC97C:
 		include	"Sound\SFX\6B - Unknown Spin.asm"
-Crash_Sfx_Data:												   ; Offset_0x0EC997
+Crash_Sfx_Data:
 		include	"Sound\SFX\6C - Crash.asm"
 Offset_0x0EC9BF:
 		include	"Sound\SFX\6D - Boss Zoom.asm"
 Offset_0x0ECA00:
 		include	"Sound\SFX\6E-6F - Boss Hit Floor.asm"
-Jump_Sfx_Data:												   ; Offset_0x0ECA31
+Jump_Sfx_Data:
 		include	"Sound\SFX\70 - Jump.asm"
 Offset_0x0ECA47:
 		include	"Sound\SFX\71 - Star Post.asm"
@@ -40946,7 +40885,7 @@ Offset_0x0ECA90:
 		include	"Sound\SFX\73 - Death 2.asm"
 Offset_0x0ECAC2:
 		include	"Sound\SFX\74 - Skid 2.asm"
-Level_Projectile_Sfx_Data:									   ; Offset_0x0ECAF7
+Level_Projectile_Sfx_Data:
 		include	"Sound\SFX\75 - Level Projectile.asm"
 Offset_0x0ECB23:
 		include	"Sound\SFX\76 - Spike Hit 2.asm"
@@ -40954,13 +40893,13 @@ Offset_0x0ECB52:
 		include	"Sound\SFX\77 - Push Block.asm"
 Offset_0x0ECB7F:
 		include	"Sound\SFX\78 - Goal.asm"
-Underwater_Sfx_Data:										   ; Offset_0x0ECBB2
+Underwater_Sfx_Data:
 		include	"Sound\SFX\79 - Action Block.asm"
 Offset_0x0ECBC4:
 		include	"Sound\SFX\7A - Splash 2.asm"
 Offset_0x0ECC05:
 		include	"Sound\SFX\7B - Unknown Shift.asm"
-Boss_Hit_Sfx_Data:											   ; Offset_0x0ECC24
+Boss_Hit_Sfx_Data:
 		include	"Sound\SFX\7C - Boss Hit.asm"
 Offset_0x0ECC58:
 		include	"Sound\SFX\7D - Bubble 2.asm"
@@ -40968,21 +40907,21 @@ Offset_0x0ECC8E:
 		include	"Sound\SFX\7E - Lava Ball.asm"
 Offset_0x0ECCD8:
 		include	"Sound\SFX\7F - Shield 2.asm"
-Hoverpad_Sfx_Data:											   ; Offset_0x0ECD05
+Hoverpad_Sfx_Data:
 		include	"Sound\SFX\80 - Hoverpad.asm"
-Transporter_Sfx_Data:										   ; Offset_0x0ECD32
+Transporter_Sfx_Data:
 		include	"Sound\SFX\81 - Transporter.asm"
-Tunnel_Booster_Sfx_Data:									   ; Offset_0x0ECD66
+Tunnel_Booster_Sfx_Data:
 		include	"Sound\SFX\82 - Tunnel Booster.asm"
-Rising_Platform_Sfx_Data:									   ; Offset_0x0ECD96
+Rising_Platform_Sfx_Data:
 		include	"Sound\SFX\83 - Balloon Platform.asm"
-Wave_Hover_Sfx_Data:										   ; Offset_0x0ECDC5
+Wave_Hover_Sfx_Data:
 		include	"Sound\SFX\84.asm"
-Trapdoor_Sfx_Data:											   ; Offset_0x0ECDF6
+Trapdoor_Sfx_Data:
 		include	"Sound\SFX\85 - Trap Door.asm"
-Balloon_Pop_Sfx_Data:										   ; Offset_0x0ECE20
+Balloon_Pop_Sfx_Data:
 		include	"Sound\SFX\86 - Balloon.asm"
-Cannon_Turn_Sfx_Data:										   ; Offset_0x0ECE6A
+Cannon_Turn_Sfx_Data:
 		include	"Sound\SFX\87 - Cannon Turn.asm"
 Offset_0x0ECE99:
 		include	"Sound\SFX\88 - Gravity Machine.asm"
@@ -40990,7 +40929,7 @@ Offset_0x0ECEC6:
 		include	"Sound\SFX\89 - Lightning.asm"
 Offset_0x0ECF11:
 		include	"Sound\SFX\8A - Boss Magma.asm"
-Small_Bumper_Sfx_Data:										   ; Offset_0x0ECF45
+Small_Bumper_Sfx_Data:
 		include	"Sound\SFX\8B - Small Bumpers.asm"
 Offset_0x0ECF75:
 		include	"Sound\SFX\8C - Chain Tension.asm"
@@ -41002,19 +40941,19 @@ Offset_0x0ECFE4:
 		include	"Sound\SFX\8F - Ground Slide.asm"
 Offset_0x0ECFFC:
 		include	"Sound\SFX\90 - Spike Balls.asm"
-Frost_Puff_Sfx_Data:										   ; Offset_0x0ED032
+Frost_Puff_Sfx_Data:
 		include	"Sound\SFX\91 - Frost Puff.asm"
-Ice_Spike_Sfx_Data:											   ; Offset_0x0ED050
+Ice_Spike_Sfx_Data:
 		include	"Sound\SFX\92 - Ice Spikes.asm"
 Offset_0x0ED07F:
 		include	"Sound\SFX\93 - Light Tunnel.asm"
 Offset_0x0ED0B2:
 		include	"Sound\SFX\94 - Rumble.asm"
-Tube_Launcher_Sfx_Data:										   ; Offset_0x0ED0E4
+Tube_Launcher_Sfx_Data:
 		include	"Sound\SFX\95 - Tube Launcher.asm"
 Offset_0x0ED12F:
 		include	"Sound\SFX\96.asm"
-Bridge_Collapse_Sfx_Data:									   ; Offset_0x0ED14D
+Bridge_Collapse_Sfx_Data:
 		include	"Sound\SFX\97 - Bridge Collapse.asm"
 Offset_0x0ED199:
 		include	"Sound\SFX\98 - Big Rumble.asm"
@@ -41022,7 +40961,7 @@ Offset_0x0ED1D1:
 		include	"Sound\SFX\99 - Unknown Power-Up.asm"
 Offset_0x0ED1FE:
 		include	"Sound\SFX\9A - Unknown Power-Down.asm"
-Buzzer_Sfx_Data:											   ; Offset_0x0ED22B
+Buzzer_Sfx_Data:
 		include	"Sound\SFX\9B - Alarm.asm"
 Offset_0x0ED258:
 		include	"Sound\SFX\9C - Death Egg Rise (Loud).asm"
@@ -41052,7 +40991,7 @@ Offset_0x0ED45E:
 		include	"Sound\SFX\A8 - Door Open.asm"
 Offset_0x0ED494:
 		include	"Sound\SFX\A9 - Door Move.asm"
-Door_Close_Sfx_Data:										   ; Offset_0x0ED4C6
+Door_Close_Sfx_Data:
 		include	"Sound\SFX\AA - Door Close.asm"
 Offset_0x0ED4FC:
 		include	"Sound\SFX\AB - Ghost Appear.asm"
@@ -41064,7 +41003,7 @@ Offset_0x0ED5A9:
 		include	"Sound\SFX\AE - Gumball Tab.asm"
 Offset_0x0ED5DC:
 		include	"Sound\SFX\AF - Boss Hand.asm"
-Slide_Thunk_Sfx_Data:										   ; Offset_0x0ED60B
+Slide_Thunk_Sfx_Data:
 		include	"Sound\SFX\B0 - Mecha Land.asm"
 Offset_0x0ED63F:
 		include	"Sound\SFX\B1 - Enemy Breath.asm"
@@ -41086,7 +41025,7 @@ Offset_0x0ED7DB:
 		include	"Sound\SFX\B9 - Targeting.asm"
 Offset_0x0ED80F:
 		include	"Sound\SFX\BA - Clank.asm"
-Super_Form_Change_Sfx_Data:									   ; Offset_0x0ED850
+Super_Form_Change_Sfx_Data:
 		include	"Sound\SFX\BB - Super Transform.asm"
 Offset_0x0ED88C:
 		include	"Sound\SFX\BC - Unknown Zap.asm"
@@ -41114,7 +41053,7 @@ Offset_0x0EDA6F:
 		include	"Sound\SFX\C7 - Launch Grab.asm"
 Offset_0x0EDA87:
 		include	"Sound\SFX\C8 - Launch Ready.asm"
-Energy_Zap_Sfx_Data:										   ; Offset_0x0EDAB7
+Energy_Zap_Sfx_Data:
 		include	"Sound\SFX\C9 - Energy Zap.asm"
 Offset_0x0EDAE1:
 		include	"Sound\SFX\CA - Jump 2.asm"
@@ -41124,17 +41063,17 @@ Offset_0x0EDB52:
 		include	"Sound\SFX\CC - Spin Dash.asm"
 Offset_0x0EDBA3:
 		include	"Sound\SFX\CD - Continue.asm"
-Check_Point_Sfx_Data:										   ; Offset_0x0EDC15
+Check_Point_Sfx_Data:
 		include	"Sound\SFX\CE - Star Post 2.asm"
 Offset_0x0EDC3F:
 		include	"Sound\SFX\CF - Flipper.asm"
-Special_Stage_Entry_Sfx_Data:								   ; Offset_0x0EDC74
+Special_Stage_Entry_Sfx_Data:
 		include	"Sound\SFX\D0 - Enter Special Stage.asm"
 Offset_0x0EDCA1:
 		include	"Sound\SFX\D1 - Register.asm"
-Spring_Sfx_Data:											   ; Offset_0x0EDD1C
+Spring_Sfx_Data:
 		include	"Sound\SFX\D2 - Spring.asm"
-Error_Sfx_Data:												   ; Offset_0x0EDD71
+Error_Sfx_Data:
 		include	"Sound\SFX\D3 - Error.asm"
 Offset_0x0EDD9D:
 		include	"Sound\SFX\D4 - Big Ring.asm"
@@ -41149,2688 +41088,235 @@ Offset_0x0EDEB4:
 Offset_0x0EDEDC:
 		include	"Sound\SFX\D9 - Signpost.asm"
 	if ~~FixMusicAndSFXDataBugs
-Offset_0x0EDF03:
 		binclude	"data\star trek\part12.bin"
-Left_Over_Code:												   ; Offset_0x0EF1DD
 		binclude	"data\star trek\part13.bin"
 	endif
 SndBank_End
-
 	if SndBank_End - SndBank > $8000
 		fatal "SndBank must fit within $8000 bytes, but was $\{SndBank_End-SndBank }. Try moving something to the other bank."
 	endif
 	if SndBank_End - SndBank > Size_of_SndBank
 		fatal "Size_of_SndBank = $\{Size_of_SndBank}, but you have $\{SndBank_End-SndBank} bytes of sound effects."
 	endif
-
+; ---------------------------------------------------------------------------
 DACBank:	startBank
-DAC_Table:													   ; Offset_0x0F0000
-		dc.w	z80_ptr(DAC_81_Setup)	 ; $8036
-		dc.w	z80_ptr(DAC_82_Setup)	 ; $803B
-		dc.w	z80_ptr(DAC_83_Setup)	 ; $8040
-		dc.w	z80_ptr(DAC_84_Setup)	 ; $8045
-		dc.w	z80_ptr(DAC_85_Setup)	 ; $804A
-		dc.w	z80_ptr(DAC_86_Setup)	 ; $804F
-		dc.w	z80_ptr(DAC_87_Setup)	 ; $8054
-		dc.w	z80_ptr(DAC_88_Setup)	 ; $8059
-		dc.w	z80_ptr(DAC_89_Setup)	 ; $805E
-		dc.w	z80_ptr(DAC_8A_Setup)	 ; $8063
-		dc.w	z80_ptr(DAC_8B_Setup)	 ; $8068
-		dc.w	z80_ptr(DAC_8C_Setup)	 ; $806D
-		dc.w	z80_ptr(DAC_8D_Setup)	 ; $8072
-		dc.w	z80_ptr(DAC_8E_Setup)	 ; $8077
-		dc.w	z80_ptr(DAC_8F_Setup)	 ; $807C
-		dc.w	z80_ptr(DAC_90_Setup)	 ; $8081
-		dc.w	z80_ptr(DAC_91_Setup)	 ; $8086
-		dc.w	z80_ptr(DAC_92_Setup)	 ; $808B
-		dc.w	z80_ptr(DAC_93_Setup)	 ; $8090
-		dc.w	z80_ptr(DAC_94_Setup)	 ; $8095
-		dc.w	z80_ptr(DAC_95_Setup)	 ; $809A
-		dc.w	z80_ptr(DAC_96_Setup)	 ; $809F
-		dc.w	z80_ptr(DAC_97_Setup)	 ; $80A4
-		dc.w	z80_ptr(DAC_98_Setup)	 ; $80A9
-		dc.w	z80_ptr(DAC_99_Setup)	 ; $80AE
-		dc.w	z80_ptr(DAC_9A_Setup)	 ; $80B3
-		dc.w	z80_ptr(DAC_9B_Setup)	 ; $80B8
-DAC_81_Setup:												   ; Offset_0x0F0036
+DAC_Table:
+		dc.w	z80_ptr(DAC_81_Setup)
+		dc.w	z80_ptr(DAC_82_Setup)
+		dc.w	z80_ptr(DAC_83_Setup)
+		dc.w	z80_ptr(DAC_84_Setup)
+		dc.w	z80_ptr(DAC_85_Setup)
+		dc.w	z80_ptr(DAC_86_Setup)
+		dc.w	z80_ptr(DAC_87_Setup)
+		dc.w	z80_ptr(DAC_88_Setup)
+		dc.w	z80_ptr(DAC_89_Setup)
+		dc.w	z80_ptr(DAC_8A_Setup)
+		dc.w	z80_ptr(DAC_8B_Setup)
+		dc.w	z80_ptr(DAC_8C_Setup)
+		dc.w	z80_ptr(DAC_8D_Setup)
+		dc.w	z80_ptr(DAC_8E_Setup)
+		dc.w	z80_ptr(DAC_8F_Setup)
+		dc.w	z80_ptr(DAC_90_Setup)
+		dc.w	z80_ptr(DAC_91_Setup)
+		dc.w	z80_ptr(DAC_92_Setup)
+		dc.w	z80_ptr(DAC_93_Setup)
+		dc.w	z80_ptr(DAC_94_Setup)
+		dc.w	z80_ptr(DAC_95_Setup)
+		dc.w	z80_ptr(DAC_96_Setup)
+		dc.w	z80_ptr(DAC_97_Setup)
+		dc.w	z80_ptr(DAC_98_Setup)
+		dc.w	z80_ptr(DAC_99_Setup)
+		dc.w	z80_ptr(DAC_9A_Setup)
+		dc.w	z80_ptr(DAC_9B_Setup)
+DAC_81_Setup:
 		dc.b	dpcmLoopCounter(18790)
 		dc.w	little_endian(DAC_81_Data_End-DAC_81_Data)
 		dc.w	k68z80Pointer(DAC_81_Data)
-DAC_82_Setup:												   ; Offset_0x0F003B
+DAC_82_Setup:
 		dc.b	dpcmLoopCounter(11169)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
-DAC_83_Setup:												   ; Offset_0x0F0040
+DAC_83_Setup:
 		dc.b	dpcmLoopCounter(8935)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
-DAC_84_Setup:												   ; Offset_0x0F0045
+DAC_84_Setup:
 		dc.b	dpcmLoopCounter(7483)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
-DAC_85_Setup:												   ; Offset_0x0F004A
+DAC_85_Setup:
 		dc.b	dpcmLoopCounter(6478)
 		dc.w	little_endian(DAC_82_83_84_85_Data_End-DAC_82_83_84_85_Data)
 		dc.w	k68z80Pointer(DAC_82_83_84_85_Data)
-DAC_86_Setup:												   ; Offset_0x0F004F
+DAC_86_Setup:
 		dc.b	dpcmLoopCounter(18790)
 		dc.w	little_endian(DAC_86_Data_End-DAC_86_Data)
 		dc.w	k68z80Pointer(DAC_86_Data)
-DAC_87_Setup:												   ; Offset_0x0F0054
+DAC_87_Setup:
 		dc.b	dpcmLoopCounter(18790)
 		dc.w	little_endian(DAC_87_Data_End-DAC_87_Data)
 		dc.w	k68z80Pointer(DAC_87_Data)
-DAC_88_Setup:												   ; Offset_0x0F0059
+DAC_88_Setup:
 		dc.b	dpcmLoopCounter(16534)
 		dc.w	little_endian(DAC_88_Data_End-DAC_88_Data)
 		dc.w	k68z80Pointer(DAC_88_Data)
-DAC_89_Setup:												   ; Offset_0x0F005E
+DAC_89_Setup:
 		dc.b	dpcmLoopCounter(13332)
 		dc.w	little_endian(DAC_89_Data_End-DAC_89_Data)
 		dc.w	k68z80Pointer(DAC_89_Data)
-DAC_8A_Setup:												   ; Offset_0x0F0063
+DAC_8A_Setup:
 		dc.b	dpcmLoopCounter(8983)
 		dc.w	little_endian(DAC_8A_8B_Data_End-DAC_8A_8B_Data)
 		dc.w	k68z80Pointer(DAC_8A_8B_Data)
-DAC_8B_Setup:												   ; Offset_0x0F0068
+DAC_8B_Setup:
 		dc.b	dpcmLoopCounter(7366)
 		dc.w	little_endian(DAC_8A_8B_Data_End-DAC_8A_8B_Data)
 		dc.w	k68z80Pointer(DAC_8A_8B_Data)
-DAC_8C_Setup:												   ; Offset_0x0F006D
+DAC_8C_Setup:
 		dc.b	dpcmLoopCounter(14761)
 		dc.w	little_endian(DAC_8C_Data_End-DAC_8C_Data)
 		dc.w	k68z80Pointer(DAC_8C_Data)
-DAC_8D_Setup:												   ; Offset_0x0F0072
+DAC_8D_Setup:
 		dc.b	dpcmLoopCounter(12716)
 		dc.w	little_endian(DAC_8D_8E_Data_End-DAC_8D_8E_Data)
 		dc.w	k68z80Pointer(DAC_8D_8E_Data)
-DAC_8E_Setup:												   ; Offset_0x0F0077
+DAC_8E_Setup:
 		dc.b	dpcmLoopCounter(9791)
 		dc.w	little_endian(DAC_8D_8E_Data_End-DAC_8D_8E_Data)
 		dc.w	k68z80Pointer(DAC_8D_8E_Data)
-DAC_8F_Setup:												   ; Offset_0x0F007C
+DAC_8F_Setup:
 		dc.b	dpcmLoopCounter(14761)
 		dc.w	little_endian(DAC_8F_Data_End-DAC_8F_Data)
 		dc.w	k68z80Pointer(DAC_8F_Data)
-DAC_90_Setup:												   ; Offset_0x0F0081
+DAC_90_Setup:
 		dc.b	dpcmLoopCounter(20166)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
-DAC_91_Setup:												   ; Offset_0x0F0086
+DAC_91_Setup:
 		dc.b	dpcmLoopCounter(15729)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
-DAC_92_Setup:												   ; Offset_0x0F008B
+DAC_92_Setup:
 		dc.b	dpcmLoopCounter(13309)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
-DAC_93_Setup:												   ; Offset_0x0F0090
+DAC_93_Setup:
 		dc.b	dpcmLoopCounter(11293)
 		dc.w	little_endian(DAC_90_91_92_93_Data_End-DAC_90_91_92_93_Data)
 		dc.w	k68z80Pointer(DAC_90_91_92_93_Data)
-DAC_94_Setup:												   ; Offset_0x0F0095
+DAC_94_Setup:
 		dc.b	dpcmLoopCounter(16534)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
-DAC_95_Setup:												   ; Offset_0x0F009A
+DAC_95_Setup:
 		dc.b	dpcmLoopCounter(13062)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
-DAC_96_Setup:												   ; Offset_0x0F009F
+DAC_96_Setup:
 		dc.b	dpcmLoopCounter(11574)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
-DAC_97_Setup:												   ; Offset_0x0F00A4
+DAC_97_Setup:
 		dc.b	dpcmLoopCounter(9590)
 		dc.w	little_endian(DAC_94_95_96_97_Data_End-DAC_94_95_96_97_Data)
 		dc.w	k68z80Pointer(DAC_94_95_96_97_Data)
-DAC_98_Setup:												   ; Offset_0x0F00A9
+DAC_98_Setup:
 		dc.b	dpcmLoopCounter(12716)
 		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
 		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
-DAC_99_Setup:												   ; Offset_0x0F00AE
+DAC_99_Setup:
 		dc.b	dpcmLoopCounter(9283)
 		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
 		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
-DAC_9A_Setup:												   ; Offset_0x0F00B3
+DAC_9A_Setup:
 		dc.b	dpcmLoopCounter(8393)
 		dc.w	little_endian(DAC_98_99_9A_Data_End-DAC_98_99_9A_Data)
 		dc.w	k68z80Pointer(DAC_98_99_9A_Data)
-DAC_9B_Setup:												   ; Offset_0x0F00B8
+DAC_9B_Setup:
 		dc.b	dpcmLoopCounter(9590)
 		dc.w	little_endian(DAC_9B_Data_End-DAC_9B_Data)
 		dc.w	k68z80Pointer(DAC_9B_Data)
 ; ---------------------------------------------------------------------------
-DAC_86_Data:												   ; Offset_0x0F00BD
+DAC_86_Data:
 		binclude	"Sound\DAC\dac_86.bin"
 DAC_86_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_81_Data:												   ; Offset_0x0F03BD
+DAC_81_Data:
 		binclude	"Sound\DAC\dac_81.bin"
 DAC_81_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_82_83_84_85_Data:											   ; Offset_0x0F0B4D
+DAC_82_83_84_85_Data:
 		binclude	"Sound\DAC\dac82-85.bin"
 DAC_82_83_84_85_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_94_95_96_97_Data:											   ; Offset_0x0F100D
+DAC_94_95_96_97_Data:
 		binclude	"Sound\DAC\dac94-97.bin"
 DAC_94_95_96_97_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_90_91_92_93_Data:											   ; Offset_0x0F199D
+DAC_90_91_92_93_Data:
 		binclude	"Sound\DAC\dac90-93.bin"
 DAC_90_91_92_93_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_88_Data:												   ; Offset_0x0F1FED
+DAC_88_Data:
 		binclude	"Sound\DAC\dac_88.bin"
 DAC_88_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_8A_8B_Data:											   ; Offset_0x0F323D
+DAC_8A_8B_Data:
 		binclude	"Sound\DAC\dac8A-8B.bin"
 DAC_8A_8B_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_8C_Data:												   ; Offset_0x0F339D
+DAC_8C_Data:
 		binclude	"Sound\DAC\dac_8C.bin"
 DAC_8C_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_8D_8E_Data:											   ; Offset_0x0F3408
+DAC_8D_8E_Data:
 		binclude	"Sound\DAC\dac8D-8E.bin"
 DAC_8D_8E_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_87_Data:												   ; Offset_0x0F38D8
+DAC_87_Data:
 		binclude	"Sound\DAC\dac_87.bin"
 DAC_87_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_8F_Data:												   ; Offset_0x0F4018
+DAC_8F_Data:
 		binclude	"Sound\DAC\dac_8F.bin"
 DAC_8F_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_89_Data:												   ; Offset_0x0F4528
+DAC_89_Data:
 		binclude	"Sound\DAC\dac_89.bin"
 DAC_89_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_98_99_9A_Data:											   ; Offset_0x0F4F48
+DAC_98_99_9A_Data:
 		binclude	"Sound\DAC\dac98-9A.bin"
 DAC_98_99_9A_Data_End:
 ; ---------------------------------------------------------------------------
-DAC_9B_Data:												   ; Offset_0x0F5C67
+DAC_9B_Data:
 		binclude	"Sound\DAC\dac_9B.bin"
 DAC_9B_Data_End:
 ; ---------------------------------------------------------------------------
-Offset_0x0F7304:
 		binclude	"data\star trek\part14.bin"
 	finishBank
 ; ---------------------------------------------------------------------------
 SEGABank:	startBank
-SEGA_PCM_Data:												   ; Offset_0x0F8000
+SEGA_PCM_Data:
 		binclude	"Sound\SEGA.pcm"
 SEGA_PCM_Data_End:
 		binclude	"data\star trek\part15.bin"
 	finishBank
 ;===============================================================================
-; Mapeamento dos Sprites do Sonic
-; ->>>
+; Player mappings and DPLCs
 ;===============================================================================
-; Offset_100000:
-Sonic_Mappings:		include	"data/mappings/Sonic.asm"
-; Offset_0x101622:
-Sonic_Dyn_Script:	include	"data/mappings/Sonic DPLC.asm"
-;===============================================================================
-; Script para carga dos Sprites do Sonic
-; <<<-
-;===============================================================================
-Miles_Mappings:												   ; Offset_0x101FF4
-		dc.w	Offset_0x10210A-Miles_Mappings
-		dc.w	Offset_0x10210C-Miles_Mappings
-		dc.w	Offset_0x10211A-Miles_Mappings
-		dc.w	Offset_0x102128-Miles_Mappings
-		dc.w	Offset_0x102136-Miles_Mappings
-		dc.w	Offset_0x102144-Miles_Mappings
-		dc.w	Offset_0x10214C-Miles_Mappings
-		dc.w	Offset_0x102154-Miles_Mappings
-		dc.w	Offset_0x102162-Miles_Mappings
-		dc.w	Offset_0x102170-Miles_Mappings
-		dc.w	Offset_0x102178-Miles_Mappings
-		dc.w	Offset_0x102180-Miles_Mappings
-		dc.w	Offset_0x102188-Miles_Mappings
-		dc.w	Offset_0x102190-Miles_Mappings
-		dc.w	Offset_0x102198-Miles_Mappings
-		dc.w	Offset_0x1021AC-Miles_Mappings
-		dc.w	Offset_0x1021C0-Miles_Mappings
-		dc.w	Offset_0x1021D4-Miles_Mappings
-		dc.w	Offset_0x1021E8-Miles_Mappings
-		dc.w	Offset_0x1021FC-Miles_Mappings
-		dc.w	Offset_0x102210-Miles_Mappings
-		dc.w	Offset_0x102224-Miles_Mappings
-		dc.w	Offset_0x102238-Miles_Mappings
-		dc.w	Offset_0x10224C-Miles_Mappings
-		dc.w	Offset_0x102260-Miles_Mappings
-		dc.w	Offset_0x102274-Miles_Mappings
-		dc.w	Offset_0x102288-Miles_Mappings
-		dc.w	Offset_0x10229C-Miles_Mappings
-		dc.w	Offset_0x1022B0-Miles_Mappings
-		dc.w	Offset_0x1022C4-Miles_Mappings
-		dc.w	Offset_0x1022D8-Miles_Mappings
-		dc.w	Offset_0x1022EC-Miles_Mappings
-		dc.w	Offset_0x102300-Miles_Mappings
-		dc.w	Offset_0x102314-Miles_Mappings
-		dc.w	Offset_0x102328-Miles_Mappings
-		dc.w	Offset_0x10233C-Miles_Mappings
-		dc.w	Offset_0x102350-Miles_Mappings
-		dc.w	Offset_0x102364-Miles_Mappings
-		dc.w	Offset_0x102378-Miles_Mappings
-		dc.w	Offset_0x102386-Miles_Mappings
-		dc.w	Offset_0x10239A-Miles_Mappings
-		dc.w	Offset_0x1023A8-Miles_Mappings
-		dc.w	Offset_0x1023BC-Miles_Mappings
-		dc.w	Offset_0x1023CA-Miles_Mappings
-		dc.w	Offset_0x1023DE-Miles_Mappings
-		dc.w	Offset_0x1023EC-Miles_Mappings
-		dc.w	Offset_0x102400-Miles_Mappings
-		dc.w	Offset_0x10240E-Miles_Mappings
-		dc.w	Offset_0x10241C-Miles_Mappings
-		dc.w	Offset_0x10242A-Miles_Mappings
-		dc.w	Offset_0x102438-Miles_Mappings
-		dc.w	Offset_0x102446-Miles_Mappings
-		dc.w	Offset_0x102454-Miles_Mappings
-		dc.w	Offset_0x102468-Miles_Mappings
-		dc.w	Offset_0x10247C-Miles_Mappings
-		dc.w	Offset_0x102490-Miles_Mappings
-		dc.w	Offset_0x1024A4-Miles_Mappings
-		dc.w	Offset_0x1024B8-Miles_Mappings
-		dc.w	Offset_0x1024CC-Miles_Mappings
-		dc.w	Offset_0x1024E0-Miles_Mappings
-		dc.w	Offset_0x1024F4-Miles_Mappings
-		dc.w	Offset_0x1024E0-Miles_Mappings
-		dc.w	Offset_0x102508-Miles_Mappings
-		dc.w	Offset_0x10251C-Miles_Mappings
-		dc.w	Offset_0x102530-Miles_Mappings
-		dc.w	Offset_0x102544-Miles_Mappings
-		dc.w	Offset_0x102558-Miles_Mappings
-		dc.w	Offset_0x10256C-Miles_Mappings
-		dc.w	Offset_0x102580-Miles_Mappings
-		dc.w	Offset_0x102594-Miles_Mappings
-		dc.w	Offset_0x1025A8-Miles_Mappings
-		dc.w	Offset_0x1025B0-Miles_Mappings
-		dc.w	Offset_0x1025B8-Miles_Mappings
-		dc.w	Offset_0x1025C0-Miles_Mappings
-		dc.w	Offset_0x1025C8-Miles_Mappings
-		dc.w	Offset_0x1025D0-Miles_Mappings
-		dc.w	Offset_0x1025D8-Miles_Mappings
-		dc.w	Offset_0x1025E0-Miles_Mappings
-		dc.w	Offset_0x1025E8-Miles_Mappings
-		dc.w	Offset_0x1025F0-Miles_Mappings
-		dc.w	Offset_0x1025F8-Miles_Mappings
-		dc.w	Offset_0x102600-Miles_Mappings
-		dc.w	Offset_0x102608-Miles_Mappings
-		dc.w	Offset_0x102610-Miles_Mappings
-		dc.w	Offset_0x102618-Miles_Mappings
-		dc.w	Offset_0x102620-Miles_Mappings
-		dc.w	Offset_0x102628-Miles_Mappings
-		dc.w	Offset_0x102630-Miles_Mappings
-		dc.w	Offset_0x102638-Miles_Mappings
-		dc.w	Offset_0x102640-Miles_Mappings
-		dc.w	Offset_0x10264E-Miles_Mappings
-		dc.w	Offset_0x10265C-Miles_Mappings
-		dc.w	Offset_0x102664-Miles_Mappings
-		dc.w	Offset_0x10266C-Miles_Mappings
-		dc.w	Offset_0x102674-Miles_Mappings
-		dc.w	Offset_0x102682-Miles_Mappings
-		dc.w	Offset_0x102690-Miles_Mappings
-		dc.w	Offset_0x102698-Miles_Mappings
-		dc.w	Offset_0x1026A0-Miles_Mappings
-		dc.w	Offset_0x1026A8-Miles_Mappings
-		dc.w	Offset_0x1026B6-Miles_Mappings
-		dc.w	Offset_0x1026C4-Miles_Mappings
-		dc.w	Offset_0x1026D2-Miles_Mappings
-		dc.w	Offset_0x1026E0-Miles_Mappings
-		dc.w	Offset_0x1026EE-Miles_Mappings
-		dc.w	Offset_0x1026FC-Miles_Mappings
-		dc.w	Offset_0x10270A-Miles_Mappings
-		dc.w	Offset_0x102718-Miles_Mappings
-		dc.w	Offset_0x102720-Miles_Mappings
-		dc.w	Offset_0x10272E-Miles_Mappings
-		dc.w	Offset_0x10273C-Miles_Mappings
-		dc.w	Offset_0x10274A-Miles_Mappings
-		dc.w	Offset_0x102758-Miles_Mappings
-		dc.w	Offset_0x102766-Miles_Mappings
-		dc.w	Offset_0x102774-Miles_Mappings
-		dc.w	Offset_0x102782-Miles_Mappings
-		dc.w	Offset_0x102790-Miles_Mappings
-		dc.w	Offset_0x102798-Miles_Mappings
-		dc.w	Offset_0x1027A0-Miles_Mappings
-		dc.w	Offset_0x1027AE-Miles_Mappings
-		dc.w	Offset_0x1027B6-Miles_Mappings
-		dc.w	Offset_0x1027BE-Miles_Mappings
-		dc.w	Offset_0x1027C6-Miles_Mappings
-		dc.w	Offset_0x1027CE-Miles_Mappings
-		dc.w	Offset_0x1027D6-Miles_Mappings
-		dc.w	Offset_0x1027DE-Miles_Mappings
-		dc.w	Offset_0x1027E6-Miles_Mappings
-		dc.w	Offset_0x1027EE-Miles_Mappings
-		dc.w	Offset_0x1027FC-Miles_Mappings
-		dc.w	Offset_0x10280A-Miles_Mappings
-		dc.w	Offset_0x102812-Miles_Mappings
-		dc.w	Offset_0x10281A-Miles_Mappings
-		dc.w	Offset_0x102822-Miles_Mappings
-		dc.w	Offset_0x10282A-Miles_Mappings
-		dc.w	Offset_0x102838-Miles_Mappings
-		dc.w	Offset_0x102846-Miles_Mappings
-		dc.w	Offset_0x10284E-Miles_Mappings
-		dc.w	Offset_0x102856-Miles_Mappings
-		dc.w	Offset_0x10285E-Miles_Mappings
-Offset_0x10210A:
-		dc.w	$0000
-Offset_0x10210C:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF4
-		dc.w	$0009, $0006, $FFF4
-Offset_0x10211A:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF4
-		dc.w	$0009, $0006, $FFF4
-Offset_0x102128:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF4
-		dc.w	$0009, $0006, $FFF4
-Offset_0x102136:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF4
-		dc.w	$0009, $0006, $FFF4
-Offset_0x102144:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x10214C:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x102154:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF4
-		dc.w	$0009, $0006, $FFF4
-Offset_0x102162:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF4
-		dc.w	$0009, $0006, $FFF4
-Offset_0x102170:
-		dc.w	$0001
-		dc.w	$F007, $0000, $FFEC
-Offset_0x102178:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFE4
-Offset_0x102180:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFE4
-Offset_0x102188:
-		dc.w	$0001
-		dc.w	$0009, $0000, $FFE4
-Offset_0x102190:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFE4
-Offset_0x102198:
-		dc.w	$0003
-		dc.w	$EC09, $0000, $FFF0
-		dc.w	$FC0D, $0006, $FFF0
-		dc.w	$FC09, $000E, $FFE2
-Offset_0x1021AC:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF3
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$0009, $000E, $FFE4
-Offset_0x1021C0:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF8
-		dc.w	$0009, $0006, $FFF3
-		dc.w	$FD09, $000C, $FFE4
-Offset_0x1021D4:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF2
-		dc.w	$0009, $0006, $FFF2
-		dc.w	$FD09, $000C, $FFE6
-Offset_0x1021E8:
-		dc.w	$0003
-		dc.w	$EC09, $0000, $FFF0
-		dc.w	$FC0D, $0006, $FFF0
-		dc.w	$FC09, $000E, $FFE2
-Offset_0x1021FC:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF3
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$0009, $000E, $FFE4
-Offset_0x102210:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF8
-		dc.w	$0009, $0006, $FFF1
-		dc.w	$FD09, $000C, $FFE4
-Offset_0x102224:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF2
-		dc.w	$0009, $0006, $FFF2
-		dc.w	$FD09, $000C, $FFE6
-Offset_0x102238:
-		dc.w	$0003
-		dc.w	$E301, $0000, $FFF3
-		dc.w	$F303, $0002, $FFEC
-		dc.w	$F30B, $0006, $FFF4
-Offset_0x10224C:
-		dc.w	$0003
-		dc.w	$E705, $0000, $FFF6
-		dc.w	$F70B, $0004, $FFEE
-		dc.w	$FE05, $0010, $0006
-Offset_0x102260:
-		dc.w	$0003
-		dc.w	$E605, $0000, $FFF8
-		dc.w	$F603, $0004, $FFEF
-		dc.w	$F60B, $0008, $FFF7
-Offset_0x102274:
-		dc.w	$0003
-		dc.w	$E301, $0000, $FFF7
-		dc.w	$F30F, $0002, $FFEC
-		dc.w	$FB01, $0012, $000C
-Offset_0x102288:
-		dc.w	$0003
-		dc.w	$E301, $0000, $FFF3
-		dc.w	$F303, $0002, $FFEC
-		dc.w	$F30B, $0006, $FFF4
-Offset_0x10229C:
-		dc.w	$0003
-		dc.w	$E705, $0000, $FFF6
-		dc.w	$F70B, $0004, $FFEE
-		dc.w	$FF05, $0010, $0006
-Offset_0x1022B0:
-		dc.w	$0003
-		dc.w	$E605, $0000, $FFF8
-		dc.w	$F603, $0004, $FFEF
-		dc.w	$F60B, $0008, $FFF7
-Offset_0x1022C4:
-		dc.w	$0003
-		dc.w	$E301, $0000, $FFF7
-		dc.w	$F30F, $0002, $FFEC
-		dc.w	$0301, $0012, $000C
-Offset_0x1022D8:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFEC
-		dc.w	$F007, $0008, $FFFC
-		dc.w	$0607, $0010, $FFFC
-Offset_0x1022EC:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0008, $0000
-		dc.w	$0407, $0010, $0000
-Offset_0x102300:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0008, $0000
-		dc.w	$0407, $0010, $FFFD
-Offset_0x102314:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0008, $0000
-		dc.w	$0407, $0010, $FFFD
-Offset_0x102328:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFEC
-		dc.w	$F007, $0008, $FFFC
-		dc.w	$0607, $0010, $FFFC
-Offset_0x10233C:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0008, $0000
-		dc.w	$0407, $0010, $0000
-Offset_0x102350:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0008, $0000
-		dc.w	$0407, $0010, $FFFD
-Offset_0x102364:
-		dc.w	$0003
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0008, $0000
-		dc.w	$0407, $0010, $FFFD
-Offset_0x102378:
-		dc.w	$0002
-		dc.w	$0401, $0000, $FFEB
-		dc.w	$F40F, $0002, $FFF3
-Offset_0x102386:
-		dc.w	$0003
-		dc.w	$E205, $0000, $FFF8
-		dc.w	$FA01, $0004, $FFF0
-		dc.w	$F20F, $0006, $FFF8
-Offset_0x10239A:
-		dc.w	$0002
-		dc.w	$F901, $0000, $FFEC
-		dc.w	$F10F, $0002, $FFF4
-Offset_0x1023A8:
-		dc.w	$0003
-		dc.w	$FC01, $0000, $FFEF
-		dc.w	$E501, $0002, $FFFF
-		dc.w	$F50F, $0004, $FFF7
-Offset_0x1023BC:
-		dc.w	$0002
-		dc.w	$0401, $0000, $FFEB
-		dc.w	$F40F, $0002, $FFF3
-Offset_0x1023CA:
-		dc.w	$0003
-		dc.w	$E201, $0000, $0000
-		dc.w	$FA01, $0002, $FFF0
-		dc.w	$F20F, $0004, $FFF8
-Offset_0x1023DE:
-		dc.w	$0002
-		dc.w	$F901, $0000, $FFEC
-		dc.w	$F10F, $0002, $FFF4
-Offset_0x1023EC:
-		dc.w	$0003
-		dc.w	$E401, $0000, $FFFF
-		dc.w	$FC01, $0002, $FFEF
-		dc.w	$F40F, $0004, $FFF7
-Offset_0x102400:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$F007, $0010, $FFEA
-Offset_0x10240E:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$F805, $0010, $FFEA
-Offset_0x10241C:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$F805, $0010, $FFEA
-Offset_0x10242A:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$F805, $1010, $FFEA
-Offset_0x102438:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$F007, $0010, $FFEA
-Offset_0x102446:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$F007, $1810, $FFE8
-Offset_0x102454:
-		dc.w	$0003
-		dc.w	$E401, $0000, $FFFA
-		dc.w	$F40B, $0002, $FFF0
-		dc.w	$FE0B, $000E, $FFE8
-Offset_0x102468:
-		dc.w	$0003
-		dc.w	$E405, $0000, $FFF8
-		dc.w	$F40B, $0004, $FFF0
-		dc.w	$0405, $0010, $FFEF
-Offset_0x10247C:
-		dc.w	$0003
-		dc.w	$E401, $0000, $FFFA
-		dc.w	$F40B, $0002, $FFF0
-		dc.w	$0405, $000E, $FFEF
-Offset_0x102490:
-		dc.w	$0003
-		dc.w	$E405, $0000, $FFF8
-		dc.w	$F40B, $0004, $FFF0
-		dc.w	$0405, $0010, $FFEF
-Offset_0x1024A4:
-		dc.w	$0003
-		dc.w	$E401, $0000, $FFFA
-		dc.w	$F40B, $0002, $FFF0
-		dc.w	$FC0B, $000E, $FFEA
-Offset_0x1024B8:
-		dc.w	$0003
-		dc.w	$E405, $0000, $FFF8
-		dc.w	$F40B, $0004, $FFF0
-		dc.w	$F70B, $1810, $FFEA
-Offset_0x1024CC:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$060D, $000E, $FFF0
-Offset_0x1024E0:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$0605, $000E, $FFF8
-Offset_0x1024F4:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$0605, $000E, $FFF8
-Offset_0x102508:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$060D, $000E, $FFF0
-Offset_0x10251C:
-		dc.w	$0003
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-		dc.w	$080D, $180E, $FFF0
-Offset_0x102530:
-		dc.w	$0003
-		dc.w	$F80B, $0000, $FFEC
-		dc.w	$F805, $000C, $0004
-		dc.w	$FE0B, $0810, $0000
-Offset_0x102544:
-		dc.w	$0003
-		dc.w	$F80B, $0000, $FFEC
-		dc.w	$F805, $000C, $0004
-		dc.w	$0105, $0810, $0004
-Offset_0x102558:
-		dc.w	$0003
-		dc.w	$F80B, $0000, $FFEC
-		dc.w	$F805, $000C, $0004
-		dc.w	$0105, $0810, $0004
-Offset_0x10256C:
-		dc.w	$0003
-		dc.w	$F80B, $0000, $FFEC
-		dc.w	$F805, $000C, $0004
-		dc.w	$0105, $0810, $0004
-Offset_0x102580:
-		dc.w	$0003
-		dc.w	$F80B, $0000, $FFEC
-		dc.w	$F805, $000C, $0004
-		dc.w	$FC0B, $0810, $FFFE
-Offset_0x102594:
-		dc.w	$0003
-		dc.w	$F80B, $0000, $FFEC
-		dc.w	$F805, $000C, $0004
-		dc.w	$F70B, $1010, $FFFF
-Offset_0x1025A8:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x1025B0:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x1025B8:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x1025C0:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFDC
-Offset_0x1025C8:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFDC
-Offset_0x1025D0:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFDC
-Offset_0x1025D8:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFDC
-Offset_0x1025E0:
-		dc.w	$0001
-		dc.w	$0709, $0000, $FFE1
-Offset_0x1025E8:
-		dc.w	$0001
-		dc.w	$0709, $0000, $FFE1
-Offset_0x1025F0:
-		dc.w	$0001
-		dc.w	$0709, $0000, $FFE1
-Offset_0x1025F8:
-		dc.w	$0001
-		dc.w	$0709, $0000, $FFE1
-Offset_0x102600:
-		dc.w	$0001
-		dc.w	$0C07, $0000, $FFF8
-Offset_0x102608:
-		dc.w	$0001
-		dc.w	$0C07, $0000, $FFF8
-Offset_0x102610:
-		dc.w	$0001
-		dc.w	$0C07, $0000, $FFF8
-Offset_0x102618:
-		dc.w	$0001
-		dc.w	$0C07, $0000, $FFF8
-Offset_0x102620:
-		dc.w	$0001
-		dc.w	$0707, $0000, $0007
-Offset_0x102628:
-		dc.w	$0001
-		dc.w	$0707, $0000, $0007
-Offset_0x102630:
-		dc.w	$0001
-		dc.w	$0707, $0000, $0007
-Offset_0x102638:
-		dc.w	$0001
-		dc.w	$0707, $0000, $0007
-Offset_0x102640:
-		dc.w	$0002
-		dc.w	$E805, $0000, $FFF8
-		dc.w	$F80B, $0004, $FFF0
-Offset_0x10264E:
-		dc.w	$0002
-		dc.w	$E805, $0000, $FFF8
-		dc.w	$F80B, $0004, $FFF0
-Offset_0x10265C:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF9
-Offset_0x102664:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x10266C:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x102674:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$E40D, $0010, $FFEA
-Offset_0x102682:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFF0
-		dc.w	$E40D, $0810, $FFEA
-Offset_0x102690:
-		dc.w	$0001
-		dc.w	$F40F, $0000, $FFF0
-Offset_0x102698:
-		dc.w	$0001
-		dc.w	$F40F, $0000, $FFF0
-Offset_0x1026A0:
-		dc.w	$0001
-		dc.w	$F40F, $0000, $FFF0
-Offset_0x1026A8:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF8
-		dc.w	$000D, $0006, $FFF0
-Offset_0x1026B6:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF8
-		dc.w	$0009, $0006, $FFF8
-Offset_0x1026C4:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF8
-		dc.w	$0009, $0006, $FFF8
-Offset_0x1026D2:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF8
-		dc.w	$0009, $0006, $FFF8
-Offset_0x1026E0:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-Offset_0x1026EE:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFF0
-Offset_0x1026FC:
-		dc.w	$0002
-		dc.w	$F801, $0000, $FFE8
-		dc.w	$F00B, $0002, $FFF0
-Offset_0x10270A:
-		dc.w	$0002
-		dc.w	$F009, $0000, $FFF0
-		dc.w	$000D, $0006, $FFE8
-Offset_0x102718:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x102720:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFEC
-		dc.w	$F003, $0010, $000C
-Offset_0x10272E:
-		dc.w	$0002
-		dc.w	$F00F, $0000, $FFEC
-		dc.w	$F003, $0010, $000C
-Offset_0x10273C:
-		dc.w	$0002
-		dc.w	$F805, $0000, $FFEC
-		dc.w	$F00B, $0004, $FFFC
-Offset_0x10274A:
-		dc.w	$0002
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F007, $0800, $0000
-Offset_0x102758:
-		dc.w	$0002
-		dc.w	$F805, $0800, $0004
-		dc.w	$F00B, $0804, $FFEC
-Offset_0x102766:
-		dc.w	$0002
-		dc.w	$F007, $0000, $FFF0
-		dc.w	$F805, $0008, $0000
-Offset_0x102774:
-		dc.w	$0002
-		dc.w	$F007, $0800, $0000
-		dc.w	$F805, $0808, $FFF0
-Offset_0x102782:
-		dc.w	$0002
-		dc.w	$F805, $0000, $FFEC
-		dc.w	$F00B, $0004, $FFFC
-Offset_0x102790:
-		dc.w	$0001
-		dc.w	$F00F, $0000, $FFF0
-Offset_0x102798:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF1
-Offset_0x1027A0:
-		dc.w	$0002
-		dc.w	$E405, $0000, $FFF8
-		dc.w	$F40B, $0004, $FFF1
-Offset_0x1027AE:
-		dc.w	$0001
-		dc.w	$F20B, $0000, $FFF2
-Offset_0x1027B6:
-		dc.w	$0001
-		dc.w	$F40B, $0000, $FFF0
-Offset_0x1027BE:
-		dc.w	$0001
-		dc.w	$F30B, $0000, $FFF2
-Offset_0x1027C6:
-		dc.w	$0001
-		dc.w	$F20B, $0000, $FFF2
-Offset_0x1027CE:
-		dc.w	$0001
-		dc.w	$F20B, $0000, $FFF2
-Offset_0x1027D6:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF1
-Offset_0x1027DE:
-		dc.w	$0001
-		dc.w	$ED0B, $0000, $FFF0
-Offset_0x1027E6:
-		dc.w	$0001
-		dc.w	$EC0B, $0000, $FFF1
-Offset_0x1027EE:
-		dc.w	$0002
-		dc.w	$F409, $0000, $FFF3
-		dc.w	$0405, $0006, $FFF3
-Offset_0x1027FC:
-		dc.w	$0002
-		dc.w	$F207, $0000, $FFF0
-		dc.w	$EC03, $0008, $0000
-Offset_0x10280A:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFE0
-Offset_0x102812:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFE0
-Offset_0x10281A:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFE0
-Offset_0x102822:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFE0
-Offset_0x10282A:
-		dc.w	$0002
-		dc.w	$E809, $0000, $FFF4
-		dc.w	$F80D, $0006, $FFF4
-Offset_0x102838:
-		dc.w	$0002
-		dc.w	$E809, $0000, $FFF4
-		dc.w	$F80D, $0006, $FFF4
-Offset_0x102846:
-		dc.w	$0001
-		dc.w	$FD09, $0000, $FFE3
-Offset_0x10284E:
-		dc.w	$0001
-		dc.w	$FD09, $0000, $FFE3
-Offset_0x102856:
-		dc.w	$0001
-		dc.w	$FD09, $0000, $FFE3
-Offset_0x10285E:
-		dc.w	$0001
-		dc.w	$FD09, $0000, $FFE3
-;===============================================================================
-; Script para carga dos Sprites do Miles
-; ->>>
-;===============================================================================
-Miles_Dyn_Script:											   ; Offset_0x102866
-		dc.w	Offset_0x10297C-Miles_Dyn_Script
-		dc.w	Offset_0x10297E-Miles_Dyn_Script
-		dc.w	Offset_0x102984-Miles_Dyn_Script
-		dc.w	Offset_0x10298A-Miles_Dyn_Script
-		dc.w	Offset_0x102990-Miles_Dyn_Script
-		dc.w	Offset_0x102996-Miles_Dyn_Script
-		dc.w	Offset_0x10299A-Miles_Dyn_Script
-		dc.w	Offset_0x10299E-Miles_Dyn_Script
-		dc.w	Offset_0x1029A4-Miles_Dyn_Script
-		dc.w	Offset_0x1029AA-Miles_Dyn_Script
-		dc.w	Offset_0x1029AE-Miles_Dyn_Script
-		dc.w	Offset_0x1029B2-Miles_Dyn_Script
-		dc.w	Offset_0x1029B6-Miles_Dyn_Script
-		dc.w	Offset_0x1029BA-Miles_Dyn_Script
-		dc.w	Offset_0x1029BE-Miles_Dyn_Script
-		dc.w	Offset_0x1029C6-Miles_Dyn_Script
-		dc.w	Offset_0x1029CE-Miles_Dyn_Script
-		dc.w	Offset_0x1029D6-Miles_Dyn_Script
-		dc.w	Offset_0x1029DE-Miles_Dyn_Script
-		dc.w	Offset_0x1029E6-Miles_Dyn_Script
-		dc.w	Offset_0x1029EE-Miles_Dyn_Script
-		dc.w	Offset_0x1029F6-Miles_Dyn_Script
-		dc.w	Offset_0x1029FE-Miles_Dyn_Script
-		dc.w	Offset_0x102A06-Miles_Dyn_Script
-		dc.w	Offset_0x102A0E-Miles_Dyn_Script
-		dc.w	Offset_0x102A16-Miles_Dyn_Script
-		dc.w	Offset_0x102A1E-Miles_Dyn_Script
-		dc.w	Offset_0x102A26-Miles_Dyn_Script
-		dc.w	Offset_0x102A2E-Miles_Dyn_Script
-		dc.w	Offset_0x102A36-Miles_Dyn_Script
-		dc.w	Offset_0x102A3E-Miles_Dyn_Script
-		dc.w	Offset_0x102A46-Miles_Dyn_Script
-		dc.w	Offset_0x102A4E-Miles_Dyn_Script
-		dc.w	Offset_0x102A56-Miles_Dyn_Script
-		dc.w	Offset_0x102A5E-Miles_Dyn_Script
-		dc.w	Offset_0x102A66-Miles_Dyn_Script
-		dc.w	Offset_0x102A6E-Miles_Dyn_Script
-		dc.w	Offset_0x102A76-Miles_Dyn_Script
-		dc.w	Offset_0x102A7E-Miles_Dyn_Script
-		dc.w	Offset_0x102A84-Miles_Dyn_Script
-		dc.w	Offset_0x102A8C-Miles_Dyn_Script
-		dc.w	Offset_0x102A92-Miles_Dyn_Script
-		dc.w	Offset_0x102A9A-Miles_Dyn_Script
-		dc.w	Offset_0x102AA0-Miles_Dyn_Script
-		dc.w	Offset_0x102AA8-Miles_Dyn_Script
-		dc.w	Offset_0x102AAE-Miles_Dyn_Script
-		dc.w	Offset_0x102AB6-Miles_Dyn_Script
-		dc.w	Offset_0x102ABC-Miles_Dyn_Script
-		dc.w	Offset_0x102AC2-Miles_Dyn_Script
-		dc.w	Offset_0x102ABC-Miles_Dyn_Script
-		dc.w	Offset_0x102AC8-Miles_Dyn_Script
-		dc.w	Offset_0x102ACE-Miles_Dyn_Script
-		dc.w	Offset_0x102AD4-Miles_Dyn_Script
-		dc.w	Offset_0x102ADC-Miles_Dyn_Script
-		dc.w	Offset_0x102AE4-Miles_Dyn_Script
-		dc.w	Offset_0x102AEC-Miles_Dyn_Script
-		dc.w	Offset_0x102AF4-Miles_Dyn_Script
-		dc.w	Offset_0x102AFC-Miles_Dyn_Script
-		dc.w	Offset_0x102B04-Miles_Dyn_Script
-		dc.w	Offset_0x102B0C-Miles_Dyn_Script
-		dc.w	Offset_0x102B14-Miles_Dyn_Script
-		dc.w	Offset_0x102B0C-Miles_Dyn_Script
-		dc.w	Offset_0x102B1C-Miles_Dyn_Script
-		dc.w	Offset_0x102B24-Miles_Dyn_Script
-		dc.w	Offset_0x102B2C-Miles_Dyn_Script
-		dc.w	Offset_0x102B34-Miles_Dyn_Script
-		dc.w	Offset_0x102B3C-Miles_Dyn_Script
-		dc.w	Offset_0x102B44-Miles_Dyn_Script
-		dc.w	Offset_0x102B4C-Miles_Dyn_Script
-		dc.w	Offset_0x102B54-Miles_Dyn_Script
-		dc.w	Offset_0x102B5C-Miles_Dyn_Script
-		dc.w	Offset_0x102B60-Miles_Dyn_Script
-		dc.w	Offset_0x102B64-Miles_Dyn_Script
-		dc.w	Offset_0x102B68-Miles_Dyn_Script
-		dc.w	Offset_0x102B6C-Miles_Dyn_Script
-		dc.w	Offset_0x102B70-Miles_Dyn_Script
-		dc.w	Offset_0x102B74-Miles_Dyn_Script
-		dc.w	Offset_0x102B78-Miles_Dyn_Script
-		dc.w	Offset_0x102B7C-Miles_Dyn_Script
-		dc.w	Offset_0x102B80-Miles_Dyn_Script
-		dc.w	Offset_0x102B84-Miles_Dyn_Script
-		dc.w	Offset_0x102B88-Miles_Dyn_Script
-		dc.w	Offset_0x102B8C-Miles_Dyn_Script
-		dc.w	Offset_0x102B90-Miles_Dyn_Script
-		dc.w	Offset_0x102B94-Miles_Dyn_Script
-		dc.w	Offset_0x102B98-Miles_Dyn_Script
-		dc.w	Offset_0x102B9C-Miles_Dyn_Script
-		dc.w	Offset_0x102BA0-Miles_Dyn_Script
-		dc.w	Offset_0x102BA4-Miles_Dyn_Script
-		dc.w	Offset_0x102BA8-Miles_Dyn_Script
-		dc.w	Offset_0x102BAE-Miles_Dyn_Script
-		dc.w	Offset_0x102BB4-Miles_Dyn_Script
-		dc.w	Offset_0x102BB8-Miles_Dyn_Script
-		dc.w	Offset_0x102BBC-Miles_Dyn_Script
-		dc.w	Offset_0x102BC0-Miles_Dyn_Script
-		dc.w	Offset_0x102BC0-Miles_Dyn_Script
-		dc.w	Offset_0x102BC6-Miles_Dyn_Script
-		dc.w	Offset_0x102BCA-Miles_Dyn_Script
-		dc.w	Offset_0x102BCE-Miles_Dyn_Script
-		dc.w	Offset_0x102BD2-Miles_Dyn_Script
-		dc.w	Offset_0x102BD8-Miles_Dyn_Script
-		dc.w	Offset_0x102BDE-Miles_Dyn_Script
-		dc.w	Offset_0x102BE4-Miles_Dyn_Script
-		dc.w	Offset_0x102BEA-Miles_Dyn_Script
-		dc.w	Offset_0x102BF0-Miles_Dyn_Script
-		dc.w	Offset_0x102BF6-Miles_Dyn_Script
-		dc.w	Offset_0x102BFC-Miles_Dyn_Script
-		dc.w	Offset_0x102C02-Miles_Dyn_Script
-		dc.w	Offset_0x102C06-Miles_Dyn_Script
-		dc.w	Offset_0x102C0C-Miles_Dyn_Script
-		dc.w	Offset_0x102C12-Miles_Dyn_Script
-		dc.w	Offset_0x102C18-Miles_Dyn_Script
-		dc.w	Offset_0x102C12-Miles_Dyn_Script
-		dc.w	Offset_0x102C1E-Miles_Dyn_Script
-		dc.w	Offset_0x102C1E-Miles_Dyn_Script
-		dc.w	Offset_0x102C24-Miles_Dyn_Script
-		dc.w	Offset_0x102C2A-Miles_Dyn_Script
-		dc.w	Offset_0x102C2E-Miles_Dyn_Script
-		dc.w	Offset_0x102C32-Miles_Dyn_Script
-		dc.w	Offset_0x102C38-Miles_Dyn_Script
-		dc.w	Offset_0x102C3C-Miles_Dyn_Script
-		dc.w	Offset_0x102C40-Miles_Dyn_Script
-		dc.w	Offset_0x102C44-Miles_Dyn_Script
-		dc.w	Offset_0x102C48-Miles_Dyn_Script
-		dc.w	Offset_0x102C4C-Miles_Dyn_Script
-		dc.w	Offset_0x102C50-Miles_Dyn_Script
-		dc.w	Offset_0x102C54-Miles_Dyn_Script
-		dc.w	Offset_0x102C58-Miles_Dyn_Script
-		dc.w	Offset_0x102C5E-Miles_Dyn_Script
-		dc.w	Offset_0x102B68-Miles_Dyn_Script
-		dc.w	Offset_0x102B6C-Miles_Dyn_Script
-		dc.w	Offset_0x102B70-Miles_Dyn_Script
-		dc.w	Offset_0x102B74-Miles_Dyn_Script
-		dc.w	Offset_0x102C64-Miles_Dyn_Script
-		dc.w	Offset_0x102C6A-Miles_Dyn_Script
-		dc.w	Offset_0x102B68-Miles_Dyn_Script
-		dc.w	Offset_0x102B6C-Miles_Dyn_Script
-		dc.w	Offset_0x102B70-Miles_Dyn_Script
-		dc.w	Offset_0x102B74-Miles_Dyn_Script
-Offset_0x10297C:
-		dc.w	$0000
-Offset_0x10297E:
-		dc.w	$0002
-		dc.w	$5000, $5006
-Offset_0x102984:
-		dc.w	$0002
-		dc.w	$500C, $5006
-Offset_0x10298A:
-		dc.w	$0002
-		dc.w	$5012, $5006
-Offset_0x102990:
-		dc.w	$0002
-		dc.w	$5018, $5006
-Offset_0x102996:
-		dc.w	$0001
-		dc.w	$B01E
-Offset_0x10299A:
-		dc.w	$0001
-		dc.w	$B02A
-Offset_0x10299E:
-		dc.w	$0002
-		dc.w	$5036, $503C
-Offset_0x1029A4:
-		dc.w	$0002
-		dc.w	$5036, $5042
-Offset_0x1029AA:
-		dc.w	$0001
-		dc.w	$7048
-Offset_0x1029AE:
-		dc.w	$0001
-		dc.w	$B050
-Offset_0x1029B2:
-		dc.w	$0001
-		dc.w	$B05C
-Offset_0x1029B6:
-		dc.w	$0001
-		dc.w	$5068
-Offset_0x1029BA:
-		dc.w	$0001
-		dc.w	$B06E
-Offset_0x1029BE:
-		dc.w	$0003
-		dc.w	$507A, $7080, $50CA
-Offset_0x1029C6:
-		dc.w	$0003
-		dc.w	$5088, $708E, $50D0
-Offset_0x1029CE:
-		dc.w	$0003
-		dc.w	$5096, $509C, $50D6
-Offset_0x1029D6:
-		dc.w	$0003
-		dc.w	$50A2, $50A8, $50DC
-Offset_0x1029DE:
-		dc.w	$0003
-		dc.w	$507A, $70AE, $50CA
-Offset_0x1029E6:
-		dc.w	$0003
-		dc.w	$5088, $70B6, $50D0
-Offset_0x1029EE:
-		dc.w	$0003
-		dc.w	$5096, $50BE, $50D6
-Offset_0x1029F6:
-		dc.w	$0003
-		dc.w	$50A2, $50C4, $50DC
-Offset_0x1029FE:
-		dc.w	$0003
-		dc.w	$10E2, $30E4, $B0E8
-Offset_0x102A06:
-		dc.w	$0003
-		dc.w	$30F4, $B0F8, $3104
-Offset_0x102A0E:
-		dc.w	$0003
-		dc.w	$3108, $310C, $B110
-Offset_0x102A16:
-		dc.w	$0003
-		dc.w	$111C, $F11E, $112E
-Offset_0x102A1E:
-		dc.w	$0003
-		dc.w	$10E2, $30E4, $B130
-Offset_0x102A26:
-		dc.w	$0003
-		dc.w	$30F4, $B13C, $3148
-Offset_0x102A2E:
-		dc.w	$0003
-		dc.w	$3108, $310C, $B14C
-Offset_0x102A36:
-		dc.w	$0003
-		dc.w	$111C, $F158, $1168
-Offset_0x102A3E:
-		dc.w	$0003
-		dc.w	$716A, $7172, $71CA
-Offset_0x102A46:
-		dc.w	$0003
-		dc.w	$717A, $7182, $71D2
-Offset_0x102A4E:
-		dc.w	$0003
-		dc.w	$718A, $7192, $71DA
-Offset_0x102A56:
-		dc.w	$0003
-		dc.w	$719A, $71A2, $75BE
-Offset_0x102A5E:
-		dc.w	$0003
-		dc.w	$716A, $71AA, $71CA
-Offset_0x102A66:
-		dc.w	$0003
-		dc.w	$717A, $71B2, $71D2
-Offset_0x102A6E:
-		dc.w	$0003
-		dc.w	$718A, $71BA, $71DA
-Offset_0x102A76:
-		dc.w	$0003
-		dc.w	$719A, $71C2, $75BE
-Offset_0x102A7E:
-		dc.w	$0002
-		dc.w	$11EA, $F1EC
-Offset_0x102A84:
-		dc.w	$0003
-		dc.w	$31FC, $1200, $F202
-Offset_0x102A8C:
-		dc.w	$0002
-		dc.w	$1212, $F214
-Offset_0x102A92:
-		dc.w	$0003
-		dc.w	$1224, $1226, $F228
-Offset_0x102A9A:
-		dc.w	$0002
-		dc.w	$11EA, $F238
-Offset_0x102AA0:
-		dc.w	$0003
-		dc.w	$1248, $1200, $F24A
-Offset_0x102AA8:
-		dc.w	$0002
-		dc.w	$1212, $F25A
-Offset_0x102AAE:
-		dc.w	$0003
-		dc.w	$126A, $1224, $F26C
-Offset_0x102AB6:
-		dc.w	$0002
-		dc.w	$F27C, $729C
-Offset_0x102ABC:
-		dc.w	$0002
-		dc.w	$F28C, $32A4
-Offset_0x102AC2:
-		dc.w	$0002
-		dc.w	$F27C, $32A8
-Offset_0x102AC8:
-		dc.w	$0002
-		dc.w	$F27C, $72AC
-Offset_0x102ACE:
-		dc.w	$0002
-		dc.w	$F28C, $72AC
-Offset_0x102AD4:
-		dc.w	$0003
-		dc.w	$12B4, $B2B6, $B2D2
-Offset_0x102ADC:
-		dc.w	$0003
-		dc.w	$32C2, $B2C6, $32DE
-Offset_0x102AE4:
-		dc.w	$0003
-		dc.w	$12B4, $B2B6, $32E2
-Offset_0x102AEC:
-		dc.w	$0003
-		dc.w	$32C2, $B2C6, $32E6
-Offset_0x102AF4:
-		dc.w	$0003
-		dc.w	$12B4, $B2B6, $B2EA
-Offset_0x102AFC:
-		dc.w	$0003
-		dc.w	$32C2, $B2C6, $B2EA
-Offset_0x102B04:
-		dc.w	$0003
-		dc.w	$52F6, $72FC, $7312
-Offset_0x102B0C:
-		dc.w	$0003
-		dc.w	$5304, $730A, $331E
-Offset_0x102B14:
-		dc.w	$0003
-		dc.w	$52F6, $72FC, $331A
-Offset_0x102B1C:
-		dc.w	$0003
-		dc.w	$52F6, $72FC, $7322
-Offset_0x102B24:
-		dc.w	$0003
-		dc.w	$5304, $730A, $7322
-Offset_0x102B2C:
-		dc.w	$0003
-		dc.w	$B32A, $3336, $B2D2
-Offset_0x102B34:
-		dc.w	$0003
-		dc.w	$B33A, $3346, $32DE
-Offset_0x102B3C:
-		dc.w	$0003
-		dc.w	$B32A, $3336, $32E2
-Offset_0x102B44:
-		dc.w	$0003
-		dc.w	$B33A, $3346, $32E6
-Offset_0x102B4C:
-		dc.w	$0003
-		dc.w	$B32A, $3336, $B2EA
-Offset_0x102B54:
-		dc.w	$0003
-		dc.w	$B33A, $3346, $B2EA
-Offset_0x102B5C:
-		dc.w	$0001
-		dc.w	$F34A
-Offset_0x102B60:
-		dc.w	$0001
-		dc.w	$F35A
-Offset_0x102B64:
-		dc.w	$0001
-		dc.w	$F36A
-Offset_0x102B68:
-		dc.w	$0001
-		dc.w	$50CA
-Offset_0x102B6C:
-		dc.w	$0001
-		dc.w	$50D0
-Offset_0x102B70:
-		dc.w	$0001
-		dc.w	$50D6
-Offset_0x102B74:
-		dc.w	$0001
-		dc.w	$50DC
-Offset_0x102B78:
-		dc.w	$0001
-		dc.w	$537A
-Offset_0x102B7C:
-		dc.w	$0001
-		dc.w	$5380
-Offset_0x102B80:
-		dc.w	$0001
-		dc.w	$5386
-Offset_0x102B84:
-		dc.w	$0001
-		dc.w	$538C
-Offset_0x102B88:
-		dc.w	$0001
-		dc.w	$71CA
-Offset_0x102B8C:
-		dc.w	$0001
-		dc.w	$71D2
-Offset_0x102B90:
-		dc.w	$0001
-		dc.w	$71DA
-Offset_0x102B94:
-		dc.w	$0001
-		dc.w	$75BE
-Offset_0x102B98:
-		dc.w	$0001
-		dc.w	$7392
-Offset_0x102B9C:
-		dc.w	$0001
-		dc.w	$739A
-Offset_0x102BA0:
-		dc.w	$0001
-		dc.w	$73A2
-Offset_0x102BA4:
-		dc.w	$0001
-		dc.w	$73AA
-Offset_0x102BA8:
-		dc.w	$0002
-		dc.w	$33B2, $B3B6
-Offset_0x102BAE:
-		dc.w	$0002
-		dc.w	$33B2, $B3C2
-Offset_0x102BB4:
-		dc.w	$0001
-		dc.w	$B3CE
-Offset_0x102BB8:
-		dc.w	$0001
-		dc.w	$F3DA
-Offset_0x102BBC:
-		dc.w	$0001
-		dc.w	$F3EA
-Offset_0x102BC0:
-		dc.w	$0002
-		dc.w	$F3FA, $740A
-Offset_0x102BC6:
-		dc.w	$0001
-		dc.w	$F412
-Offset_0x102BCA:
-		dc.w	$0001
-		dc.w	$F422
-Offset_0x102BCE:
-		dc.w	$0001
-		dc.w	$F432
-Offset_0x102BD2:
-		dc.w	$0002
-		dc.w	$5442, $7448
-Offset_0x102BD8:
-		dc.w	$0002
-		dc.w	$5442, $5450
-Offset_0x102BDE:
-		dc.w	$0002
-		dc.w	$5442, $5456
-Offset_0x102BE4:
-		dc.w	$0002
-		dc.w	$5442, $545C
-Offset_0x102BEA:
-		dc.w	$0002
-		dc.w	$5462, $7468
-Offset_0x102BF0:
-		dc.w	$0002
-		dc.w	$5470, $7476
-Offset_0x102BF6:
-		dc.w	$0002
-		dc.w	$147E, $B480
-Offset_0x102BFC:
-		dc.w	$0002
-		dc.w	$548C, $7492
-Offset_0x102C02:
-		dc.w	$0001
-		dc.w	$F49A
-Offset_0x102C06:
-		dc.w	$0002
-		dc.w	$F4AA, $34BA
-Offset_0x102C0C:
-		dc.w	$0002
-		dc.w	$F4BE, $34CE
-Offset_0x102C12:
-		dc.w	$0002
-		dc.w	$34D2, $B4D6
-Offset_0x102C18:
-		dc.w	$0002
-		dc.w	$74E2, $74E2
-Offset_0x102C1E:
-		dc.w	$0002
-		dc.w	$74EA, $34F2
-Offset_0x102C24:
-		dc.w	$0002
-		dc.w	$34F6, $B4FA
-Offset_0x102C2A:
-		dc.w	$0001
-		dc.w	$F506
-Offset_0x102C2E:
-		dc.w	$0001
-		dc.w	$B516
-Offset_0x102C32:
-		dc.w	$0002
-		dc.w	$3522, $B526
-Offset_0x102C38:
-		dc.w	$0001
-		dc.w	$B532
-Offset_0x102C3C:
-		dc.w	$0001
-		dc.w	$B53E
-Offset_0x102C40:
-		dc.w	$0001
-		dc.w	$B54A
-Offset_0x102C44:
-		dc.w	$0001
-		dc.w	$B556
-Offset_0x102C48:
-		dc.w	$0001
-		dc.w	$B562
-Offset_0x102C4C:
-		dc.w	$0001
-		dc.w	$B56E
-Offset_0x102C50:
-		dc.w	$0001
-		dc.w	$B57A
-Offset_0x102C54:
-		dc.w	$0001
-		dc.w	$B586
-Offset_0x102C58:
-		dc.w	$0002
-		dc.w	$5592, $3598
-Offset_0x102C5E:
-		dc.w	$0002
-		dc.w	$759C, $35A4
-Offset_0x102C64:
-		dc.w	$0002
-		dc.w	$55A8, $75AE
-Offset_0x102C6A:
-		dc.w	$0002
-		dc.w	$55A8, $75B6
-;===============================================================================
-; Script para carga dos Sprites do Miles
-; <<<-
-;===============================================================================
-Sonic_Mappings_2P:											   ; Offset_0x102C70
-		dc.w	Offset_0x102CC8-Sonic_Mappings_2P
-		dc.w	Offset_0x102CCA-Sonic_Mappings_2P
-		dc.w	Offset_0x102CD2-Sonic_Mappings_2P
-		dc.w	Offset_0x102CDA-Sonic_Mappings_2P
-		dc.w	Offset_0x102CE2-Sonic_Mappings_2P
-		dc.w	Offset_0x102CEA-Sonic_Mappings_2P
-		dc.w	Offset_0x102CF2-Sonic_Mappings_2P
-		dc.w	Offset_0x102CFA-Sonic_Mappings_2P
-		dc.w	Offset_0x102D02-Sonic_Mappings_2P
-		dc.w	Offset_0x102D0A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D12-Sonic_Mappings_2P
-		dc.w	Offset_0x102D1A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D22-Sonic_Mappings_2P
-		dc.w	Offset_0x102D2A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D32-Sonic_Mappings_2P
-		dc.w	Offset_0x102D3A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D42-Sonic_Mappings_2P
-		dc.w	Offset_0x102D4A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D52-Sonic_Mappings_2P
-		dc.w	Offset_0x102D5A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D62-Sonic_Mappings_2P
-		dc.w	Offset_0x102D6A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D72-Sonic_Mappings_2P
-		dc.w	Offset_0x102D7A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D82-Sonic_Mappings_2P
-		dc.w	Offset_0x102D8A-Sonic_Mappings_2P
-		dc.w	Offset_0x102D92-Sonic_Mappings_2P
-		dc.w	Offset_0x102D9A-Sonic_Mappings_2P
-		dc.w	Offset_0x102DA2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DAA-Sonic_Mappings_2P
-		dc.w	Offset_0x102DB2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DBA-Sonic_Mappings_2P
-		dc.w	Offset_0x102DC2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DCA-Sonic_Mappings_2P
-		dc.w	Offset_0x102DD2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DDA-Sonic_Mappings_2P
-		dc.w	Offset_0x102DE2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DEA-Sonic_Mappings_2P
-		dc.w	Offset_0x102DF2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DF2-Sonic_Mappings_2P
-		dc.w	Offset_0x102DFA-Sonic_Mappings_2P
-		dc.w	Offset_0x102E02-Sonic_Mappings_2P
-		dc.w	Offset_0x102E0A-Sonic_Mappings_2P
-		dc.w	Offset_0x102E12-Sonic_Mappings_2P
-Offset_0x102CC8:
-		dc.w	$0000
-Offset_0x102CCA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102CD2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102CDA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102CE2:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x102CEA:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x102CF2:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x102CFA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D02:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D0A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D12:
-		dc.w	$0001
-		dc.w	$F40E, $0000, $FFF0
-Offset_0x102D1A:
-		dc.w	$0001
-		dc.w	$F40E, $0000, $FFF0
-Offset_0x102D22:
-		dc.w	$0001
-		dc.w	$F40E, $0000, $FFF0
-Offset_0x102D2A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D32:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D3A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D42:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D4A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D52:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D5A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D62:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D6A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D72:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D7A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D82:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D8A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D92:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102D9A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DA2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DAA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DB2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DBA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DC2:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x102DCA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DD2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DDA:
-		dc.w	$0001
-		dc.w	$FC09, $0000, $FFF4
-Offset_0x102DE2:
-		dc.w	$0001
-		dc.w	$FC09, $0000, $FFF4
-Offset_0x102DEA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DF2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102DFA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102E02:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102E0A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x102E12:
-		dc.w	$0001
-		dc.w	$FC09, $0000, $FFF4
-; ---------------------------------------------------------------------------
-Sonic_Dyn_Script_2P:										   ; Offset_0x102E1A
-		dc.w	Offset_0x102E72-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E74-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E78-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E7C-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E80-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E84-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E88-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E8C-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E90-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E94-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E98-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102E9C-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EA0-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EA4-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EA8-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EAC-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EB0-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EB4-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EB8-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EBC-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EC0-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EC4-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EC8-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102ECC-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102ED0-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102ED4-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102ED8-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EDC-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EE0-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EE4-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EE8-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EEC-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EF0-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EF4-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EF8-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102EFC-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F00-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F04-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F08-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F08-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F0C-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F10-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F14-Sonic_Dyn_Script_2P
-		dc.w	Offset_0x102F18-Sonic_Dyn_Script_2P
-Offset_0x102E72:
-		dc.w	$0000
-Offset_0x102E74:
-		dc.w	$0001
-		dc.w	$8000
-Offset_0x102E78:
-		dc.w	$0001
-		dc.w	$8009
-Offset_0x102E7C:
-		dc.w	$0001
-		dc.w	$8012
-Offset_0x102E80:
-		dc.w	$0001
-		dc.w	$B01B
-Offset_0x102E84:
-		dc.w	$0001
-		dc.w	$B027
-Offset_0x102E88:
-		dc.w	$0001
-		dc.w	$B033
-Offset_0x102E8C:
-		dc.w	$0001
-		dc.w	$803F
-Offset_0x102E90:
-		dc.w	$0001
-		dc.w	$8048
-Offset_0x102E94:
-		dc.w	$0001
-		dc.w	$8051
-Offset_0x102E98:
-		dc.w	$0001
-		dc.w	$B05A
-Offset_0x102E9C:
-		dc.w	$0001
-		dc.w	$B066
-Offset_0x102EA0:
-		dc.w	$0001
-		dc.w	$B072
-Offset_0x102EA4:
-		dc.w	$0001
-		dc.w	$807E
-Offset_0x102EA8:
-		dc.w	$0001
-		dc.w	$8087
-Offset_0x102EAC:
-		dc.w	$0001
-		dc.w	$8090
-Offset_0x102EB0:
-		dc.w	$0001
-		dc.w	$8099
-Offset_0x102EB4:
-		dc.w	$0001
-		dc.w	$80A2
-Offset_0x102EB8:
-		dc.w	$0001
-		dc.w	$80AB
-Offset_0x102EBC:
-		dc.w	$0001
-		dc.w	$80B4
-Offset_0x102EC0:
-		dc.w	$0001
-		dc.w	$80BD
-Offset_0x102EC4:
-		dc.w	$0001
-		dc.w	$80C6
-Offset_0x102EC8:
-		dc.w	$0001
-		dc.w	$80CF
-Offset_0x102ECC:
-		dc.w	$0001
-		dc.w	$80D8
-Offset_0x102ED0:
-		dc.w	$0001
-		dc.w	$80E1
-Offset_0x102ED4:
-		dc.w	$0001
-		dc.w	$80EA
-Offset_0x102ED8:
-		dc.w	$0001
-		dc.w	$80F3
-Offset_0x102EDC:
-		dc.w	$0001
-		dc.w	$80FC
-Offset_0x102EE0:
-		dc.w	$0001
-		dc.w	$8105
-Offset_0x102EE4:
-		dc.w	$0001
-		dc.w	$810E
-Offset_0x102EE8:
-		dc.w	$0001
-		dc.w	$8117
-Offset_0x102EEC:
-		dc.w	$0001
-		dc.w	$8120
-Offset_0x102EF0:
-		dc.w	$0001
-		dc.w	$B129
-Offset_0x102EF4:
-		dc.w	$0001
-		dc.w	$8135
-Offset_0x102EF8:
-		dc.w	$0001
-		dc.w	$813E
-Offset_0x102EFC:
-		dc.w	$0001
-		dc.w	$5147
-Offset_0x102F00:
-		dc.w	$0001
-		dc.w	$514D
-Offset_0x102F04:
-		dc.w	$0001
-		dc.w	$8153
-Offset_0x102F08:
-		dc.w	$0001
-		dc.w	$815C
-Offset_0x102F0C:
-		dc.w	$0001
-		dc.w	$8165
-Offset_0x102F10:
-		dc.w	$0001
-		dc.w	$816E
-Offset_0x102F14:
-		dc.w	$0001
-		dc.w	$8177
-Offset_0x102F18:
-		dc.w	$0001
-		dc.w	$5180
-; ---------------------------------------------------------------------------
-Miles_2P_Mappings:											   ; Offset_0x102F1C
-		dc.w	Offset_0x102F78-Miles_2P_Mappings
-		dc.w	Offset_0x102F7A-Miles_2P_Mappings
-		dc.w	Offset_0x102F82-Miles_2P_Mappings
-		dc.w	Offset_0x102F8A-Miles_2P_Mappings
-		dc.w	Offset_0x102F92-Miles_2P_Mappings
-		dc.w	Offset_0x102F9A-Miles_2P_Mappings
-		dc.w	Offset_0x102FA2-Miles_2P_Mappings
-		dc.w	Offset_0x102FAA-Miles_2P_Mappings
-		dc.w	Offset_0x102FB2-Miles_2P_Mappings
-		dc.w	Offset_0x102FBA-Miles_2P_Mappings
-		dc.w	Offset_0x102FC2-Miles_2P_Mappings
-		dc.w	Offset_0x102FCA-Miles_2P_Mappings
-		dc.w	Offset_0x102FD2-Miles_2P_Mappings
-		dc.w	Offset_0x102FDA-Miles_2P_Mappings
-		dc.w	Offset_0x102FE2-Miles_2P_Mappings
-		dc.w	Offset_0x102FEA-Miles_2P_Mappings
-		dc.w	Offset_0x102FF2-Miles_2P_Mappings
-		dc.w	Offset_0x102FFA-Miles_2P_Mappings
-		dc.w	Offset_0x103002-Miles_2P_Mappings
-		dc.w	Offset_0x10300A-Miles_2P_Mappings
-		dc.w	Offset_0x103012-Miles_2P_Mappings
-		dc.w	Offset_0x10301A-Miles_2P_Mappings
-		dc.w	Offset_0x103022-Miles_2P_Mappings
-		dc.w	Offset_0x10302A-Miles_2P_Mappings
-		dc.w	Offset_0x103032-Miles_2P_Mappings
-		dc.w	Offset_0x10303A-Miles_2P_Mappings
-		dc.w	Offset_0x103042-Miles_2P_Mappings
-		dc.w	Offset_0x10304A-Miles_2P_Mappings
-		dc.w	Offset_0x103052-Miles_2P_Mappings
-		dc.w	Offset_0x10305A-Miles_2P_Mappings
-		dc.w	Offset_0x103062-Miles_2P_Mappings
-		dc.w	Offset_0x10306A-Miles_2P_Mappings
-		dc.w	Offset_0x103072-Miles_2P_Mappings
-		dc.w	Offset_0x10307A-Miles_2P_Mappings
-		dc.w	Offset_0x103082-Miles_2P_Mappings
-		dc.w	Offset_0x10308A-Miles_2P_Mappings
-		dc.w	Offset_0x103092-Miles_2P_Mappings
-		dc.w	Offset_0x10309A-Miles_2P_Mappings
-		dc.w	Offset_0x1030A2-Miles_2P_Mappings
-		dc.w	Offset_0x1030A2-Miles_2P_Mappings
-		dc.w	Offset_0x1030AA-Miles_2P_Mappings
-		dc.w	Offset_0x1030B2-Miles_2P_Mappings
-		dc.w	Offset_0x1030BA-Miles_2P_Mappings
-		dc.w	Offset_0x1030C2-Miles_2P_Mappings
-		dc.w	Offset_0x1030CA-Miles_2P_Mappings
-		dc.w	Offset_0x1030D2-Miles_2P_Mappings
-Offset_0x102F78:
-		dc.w	$0000
-Offset_0x102F7A:
-		dc.w	$0001
-		dc.w	$F40E, $0000, $FFF0
-Offset_0x102F82:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF0
-Offset_0x102F8A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF0
-Offset_0x102F92:
-		dc.w	$0001
-		dc.w	$F60A, $0000, $FFF6
-Offset_0x102F9A:
-		dc.w	$0001
-		dc.w	$F60A, $0000, $FFF6
-Offset_0x102FA2:
-		dc.w	$0001
-		dc.w	$F60A, $0000, $FFF6
-Offset_0x102FAA:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-Offset_0x102FB2:
-		dc.w	$0001
-		dc.w	$F80A, $0000, $FFF4
-Offset_0x102FBA:
-		dc.w	$0001
-		dc.w	$F80A, $0000, $FFF4
-Offset_0x102FC2:
-		dc.w	$0001
-		dc.w	$F20A, $0000, $FFF6
-Offset_0x102FCA:
-		dc.w	$0001
-		dc.w	$F20A, $0000, $FFF6
-Offset_0x102FD2:
-		dc.w	$0001
-		dc.w	$F20A, $0000, $FFF6
-Offset_0x102FDA:
-		dc.w	$0001
-		dc.w	$F70A, $0000, $FFF4
-Offset_0x102FE2:
-		dc.w	$0001
-		dc.w	$F70A, $0000, $FFF4
-Offset_0x102FEA:
-		dc.w	$0001
-		dc.w	$F20B, $0000, $FFF2
-Offset_0x102FF2:
-		dc.w	$0001
-		dc.w	$F606, $0000, $FFF8
-Offset_0x102FFA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF7
-Offset_0x103002:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF7
-Offset_0x10300A:
-		dc.w	$0001
-		dc.w	$F60E, $0000, $FFF2
-Offset_0x103012:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFF6
-Offset_0x10301A:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103022:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10302A:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103032:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10303A:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103042:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10304A:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103052:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10305A:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103062:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10306A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103072:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10307A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103082:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10308A:
-		dc.w	$0001
-		dc.w	$FC0D, $0000, $FFEA
-Offset_0x103092:
-		dc.w	$0001
-		dc.w	$FC0D, $0000, $FFEA
-Offset_0x10309A:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1030A2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1030AA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1030B2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1030BA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1030C2:
-		dc.w	$0001
-		dc.w	$FC05, $0000, $FFF8
-Offset_0x1030CA:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1030D2:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-; ---------------------------------------------------------------------------
-Miles_Tails_2P_Mappings:									   ; Offset_0x1030DA
-		dc.w	Offset_0x1030FA-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x1030FC-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103104-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10310C-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103114-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10311C-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103124-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10312C-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103134-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10313C-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103144-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10314C-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103154-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10315C-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x103164-Miles_Tails_2P_Mappings
-		dc.w	Offset_0x10316C-Miles_Tails_2P_Mappings
-Offset_0x1030FA:
-		dc.w	$0000
-Offset_0x1030FC:
-		dc.w	$0001
-		dc.w	$FC05, $0000, $FFF0
-Offset_0x103104:
-		dc.w	$0001
-		dc.w	$FC05, $0000, $FFF0
-Offset_0x10310C:
-		dc.w	$0001
-		dc.w	$FC05, $0000, $FFF0
-Offset_0x103114:
-		dc.w	$0001
-		dc.w	$FC04, $0000, $FFEC
-Offset_0x10311C:
-		dc.w	$0001
-		dc.w	$FC04, $0000, $FFEC
-Offset_0x103124:
-		dc.w	$0001
-		dc.w	$FC04, $0000, $FFEC
-Offset_0x10312C:
-		dc.w	$0001
-		dc.w	$0405, $0000, $FFEC
-Offset_0x103134:
-		dc.w	$0001
-		dc.w	$0405, $0000, $FFEC
-Offset_0x10313C:
-		dc.w	$0001
-		dc.w	$0804, $0000, $FFEC
-Offset_0x103144:
-		dc.w	$0001
-		dc.w	$0201, $0000, $FFFC
-Offset_0x10314C:
-		dc.w	$0001
-		dc.w	$0201, $0000, $FFFC
-Offset_0x103154:
-		dc.w	$0001
-		dc.w	$0201, $0000, $FFFC
-Offset_0x10315C:
-		dc.w	$0001
-		dc.w	$0405, $0000, $0004
-Offset_0x103164:
-		dc.w	$0001
-		dc.w	$0405, $0000, $0004
-Offset_0x10316C:
-		dc.w	$0001
-		dc.w	$0401, $0000, $0008
-; ---------------------------------------------------------------------------
-Miles_Dyn_Script_2P:										   ; Offset_0x103174
-		dc.w	Offset_0x1031D0-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031D2-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031D6-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031DA-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031DE-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031E2-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031E6-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031EA-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031EE-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031F2-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031F6-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031FA-Miles_Dyn_Script_2P
-		dc.w	Offset_0x1031FE-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103202-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103206-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10320A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10320E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103212-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103216-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10321A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10321E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103222-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103226-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10322A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10322E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103232-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103236-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10323A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10323E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103242-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103246-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10324A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10324E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103252-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103256-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10325A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10325E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103262-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103266-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103266-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10326A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10326E-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103272-Miles_Dyn_Script_2P
-		dc.w	Offset_0x103276-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10327A-Miles_Dyn_Script_2P
-		dc.w	Offset_0x10327E-Miles_Dyn_Script_2P
-Offset_0x1031D0:
-		dc.w	$0000
-Offset_0x1031D2:
-		dc.w	$0001
-		dc.w	$B000
-Offset_0x1031D6:
-		dc.w	$0001
-		dc.w	$800C
-Offset_0x1031DA:
-		dc.w	$0001
-		dc.w	$8015
-Offset_0x1031DE:
-		dc.w	$0001
-		dc.w	$801E
-Offset_0x1031E2:
-		dc.w	$0001
-		dc.w	$8027
-Offset_0x1031E6:
-		dc.w	$0001
-		dc.w	$8030
-Offset_0x1031EA:
-		dc.w	$0001
-		dc.w	$B039
-Offset_0x1031EE:
-		dc.w	$0001
-		dc.w	$8045
-Offset_0x1031F2:
-		dc.w	$0001
-		dc.w	$804E
-Offset_0x1031F6:
-		dc.w	$0001
-		dc.w	$8057
-Offset_0x1031FA:
-		dc.w	$0001
-		dc.w	$8060
-Offset_0x1031FE:
-		dc.w	$0001
-		dc.w	$8069
-Offset_0x103202:
-		dc.w	$0001
-		dc.w	$8072
-Offset_0x103206:
-		dc.w	$0001
-		dc.w	$807B
-Offset_0x10320A:
-		dc.w	$0001
-		dc.w	$B084
-Offset_0x10320E:
-		dc.w	$0001
-		dc.w	$5090
-Offset_0x103212:
-		dc.w	$0001
-		dc.w	$8096
-Offset_0x103216:
-		dc.w	$0001
-		dc.w	$809F
-Offset_0x10321A:
-		dc.w	$0001
-		dc.w	$B0A8
-Offset_0x10321E:
-		dc.w	$0001
-		dc.w	$50B4
-Offset_0x103222:
-		dc.w	$0001
-		dc.w	$50BA
-Offset_0x103226:
-		dc.w	$0001
-		dc.w	$50C0
-Offset_0x10322A:
-		dc.w	$0001
-		dc.w	$50C6
-Offset_0x10322E:
-		dc.w	$0001
-		dc.w	$50CC
-Offset_0x103232:
-		dc.w	$0001
-		dc.w	$50D2
-Offset_0x103236:
-		dc.w	$0001
-		dc.w	$50D8
-Offset_0x10323A:
-		dc.w	$0001
-		dc.w	$50DE
-Offset_0x10323E:
-		dc.w	$0001
-		dc.w	$50E4
-Offset_0x103242:
-		dc.w	$0001
-		dc.w	$50EA
-Offset_0x103246:
-		dc.w	$0001
-		dc.w	$50F0
-Offset_0x10324A:
-		dc.w	$0001
-		dc.w	$80F6
-Offset_0x10324E:
-		dc.w	$0001
-		dc.w	$80FF
-Offset_0x103252:
-		dc.w	$0001
-		dc.w	$8108
-Offset_0x103256:
-		dc.w	$0001
-		dc.w	$8111
-Offset_0x10325A:
-		dc.w	$0001
-		dc.w	$711A
-Offset_0x10325E:
-		dc.w	$0001
-		dc.w	$7122
-Offset_0x103262:
-		dc.w	$0001
-		dc.w	$812A
-Offset_0x103266:
-		dc.w	$0001
-		dc.w	$8133
-Offset_0x10326A:
-		dc.w	$0001
-		dc.w	$813C
-Offset_0x10326E:
-		dc.w	$0001
-		dc.w	$8145
-Offset_0x103272:
-		dc.w	$0001
-		dc.w	$814E
-Offset_0x103276:
-		dc.w	$0001
-		dc.w	$3169
-Offset_0x10327A:
-		dc.w	$0001
-		dc.w	$8157
-Offset_0x10327E:
-		dc.w	$0001
-		dc.w	$8160
-; ---------------------------------------------------------------------------
-Miles_Tails_2P_Dyn_Script:									   ; Offset_0x103282
-		dc.w	Offset_0x1032A2-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032A4-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032A8-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032AC-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032B0-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032B4-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032B8-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032BC-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032C0-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032C4-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032C8-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032CC-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032D0-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032D4-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032D8-Miles_Tails_2P_Dyn_Script
-		dc.w	Offset_0x1032DC-Miles_Tails_2P_Dyn_Script
-Offset_0x1032A2:
-		dc.w	$0000
-Offset_0x1032A4:
-		dc.w	$0001
-		dc.w	$3000
-Offset_0x1032A8:
-		dc.w	$0001
-		dc.w	$3004
-Offset_0x1032AC:
-		dc.w	$0001
-		dc.w	$3008
-Offset_0x1032B0:
-		dc.w	$0001
-		dc.w	$100C
-Offset_0x1032B4:
-		dc.w	$0001
-		dc.w	$100E
-Offset_0x1032B8:
-		dc.w	$0001
-		dc.w	$1010
-Offset_0x1032BC:
-		dc.w	$0001
-		dc.w	$3012
-Offset_0x1032C0:
-		dc.w	$0001
-		dc.w	$3016
-Offset_0x1032C4:
-		dc.w	$0001
-		dc.w	$101A
-Offset_0x1032C8:
-		dc.w	$0001
-		dc.w	$101C
-Offset_0x1032CC:
-		dc.w	$0001
-		dc.w	$101E
-Offset_0x1032D0:
-		dc.w	$0001
-		dc.w	$1020
-Offset_0x1032D4:
-		dc.w	$0001
-		dc.w	$3022
-Offset_0x1032D8:
-		dc.w	$0001
-		dc.w	$3026
-Offset_0x1032DC:
-		dc.w	$0001
-		dc.w	$102A
-; ---------------------------------------------------------------------------
-Knuckles_Mappings_2P:										   ; Offset_0x1032E0
-		dc.w	Offset_0x103344-Knuckles_Mappings_2P
-		dc.w	Offset_0x103346-Knuckles_Mappings_2P
-		dc.w	Offset_0x10334E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103356-Knuckles_Mappings_2P
-		dc.w	Offset_0x10335E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103366-Knuckles_Mappings_2P
-		dc.w	Offset_0x10336E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103376-Knuckles_Mappings_2P
-		dc.w	Offset_0x10337E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103386-Knuckles_Mappings_2P
-		dc.w	Offset_0x10338E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103396-Knuckles_Mappings_2P
-		dc.w	Offset_0x10339E-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033A6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033AE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033B6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033BE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033C6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033CE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033D6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033DE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033E6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033EE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033F6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1033FE-Knuckles_Mappings_2P
-		dc.w	Offset_0x103406-Knuckles_Mappings_2P
-		dc.w	Offset_0x10340E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103416-Knuckles_Mappings_2P
-		dc.w	Offset_0x10341E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103426-Knuckles_Mappings_2P
-		dc.w	Offset_0x10342E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103436-Knuckles_Mappings_2P
-		dc.w	Offset_0x10343E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103446-Knuckles_Mappings_2P
-		dc.w	Offset_0x10344E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103456-Knuckles_Mappings_2P
-		dc.w	Offset_0x10345E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103466-Knuckles_Mappings_2P
-		dc.w	Offset_0x10346E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103476-Knuckles_Mappings_2P
-		dc.w	Offset_0x10347E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103486-Knuckles_Mappings_2P
-		dc.w	Offset_0x10348E-Knuckles_Mappings_2P
-		dc.w	Offset_0x103496-Knuckles_Mappings_2P
-		dc.w	Offset_0x10349E-Knuckles_Mappings_2P
-		dc.w	Offset_0x1034A6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1034AE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1034B6-Knuckles_Mappings_2P
-		dc.w	Offset_0x1034BE-Knuckles_Mappings_2P
-		dc.w	Offset_0x1034C6-Knuckles_Mappings_2P
-Offset_0x103344:
-		dc.w	$0000
-Offset_0x103346:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10334E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103356:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10335E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103366:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10336E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103376:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10337E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103386:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10338E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103396:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10339E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033A6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033AE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033B6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033BE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033C6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033CE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033D6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033DE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033E6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033EE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033F6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1033FE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103406:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10340E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103416:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10341E:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103426:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x10342E:
-		dc.w	$0001
-		dc.w	$F406, $0000, $FFF8
-Offset_0x103436:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10343E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103446:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10344E:
-		dc.w	$0001
-		dc.w	$F40E, $0000, $FFF0
-Offset_0x103456:
-		dc.w	$0001
-		dc.w	$FC09, $0000, $FFF4
-Offset_0x10345E:
-		dc.w	$0001
-		dc.w	$FC09, $0000, $FFF4
-Offset_0x103466:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10346E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103476:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10347E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103486:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x10348E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x103496:
-		dc.w	$0001
-		dc.w	$FC05, $0000, $FFF8
-Offset_0x10349E:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1034A6:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1034AE:
-		dc.w	$0001
-		dc.w	$F40A, $0000, $FFF4
-Offset_0x1034B6:
-		dc.w	$0001
-		dc.w	$F80D, $0000, $FFF0
-Offset_0x1034BE:
-		dc.w	$0001
-		dc.w	$F809, $0000, $FFF4
-Offset_0x1034C6:
-		dc.w	$0001
-		dc.w	$F00B, $0000, $FFF4
-; ---------------------------------------------------------------------------
-Knuckles_Dyn_Script_2P:										   ; Offset_0x1034CE
-		dc.w	Offset_0x103532-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103534-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103538-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10353C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103540-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103544-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103548-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10354C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103550-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103554-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103558-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10355C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103560-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103564-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103568-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10356C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103570-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103574-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103578-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10357C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103580-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103584-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103588-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10358C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103590-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103594-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x103598-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x10359C-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035A0-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035A4-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035A8-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035AC-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035B0-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035B4-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035B8-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035BC-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035C0-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035C4-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035C8-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035CC-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035D0-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035D4-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035D8-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035DC-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035E0-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035E4-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035E8-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035EC-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035F0-Knuckles_Dyn_Script_2P
-		dc.w	Offset_0x1035F4-Knuckles_Dyn_Script_2P
-Offset_0x103532:
-		dc.w	$0000
-Offset_0x103534:
-		dc.w	$0001
-		dc.w	$8000
-Offset_0x103538:
-		dc.w	$0001
-		dc.w	$8009
-Offset_0x10353C:
-		dc.w	$0001
-		dc.w	$8012
-Offset_0x103540:
-		dc.w	$0001
-		dc.w	$801B
-Offset_0x103544:
-		dc.w	$0001
-		dc.w	$8024
-Offset_0x103548:
-		dc.w	$0001
-		dc.w	$802D
-Offset_0x10354C:
-		dc.w	$0001
-		dc.w	$8036
-Offset_0x103550:
-		dc.w	$0001
-		dc.w	$803F
-Offset_0x103554:
-		dc.w	$0001
-		dc.w	$8048
-Offset_0x103558:
-		dc.w	$0001
-		dc.w	$8051
-Offset_0x10355C:
-		dc.w	$0001
-		dc.w	$805A
-Offset_0x103560:
-		dc.w	$0001
-		dc.w	$8063
-Offset_0x103564:
-		dc.w	$0001
-		dc.w	$806C
-Offset_0x103568:
-		dc.w	$0001
-		dc.w	$8075
-Offset_0x10356C:
-		dc.w	$0001
-		dc.w	$807E
-Offset_0x103570:
-		dc.w	$0001
-		dc.w	$8087
-Offset_0x103574:
-		dc.w	$0001
-		dc.w	$8090
-Offset_0x103578:
-		dc.w	$0001
-		dc.w	$8099
-Offset_0x10357C:
-		dc.w	$0001
-		dc.w	$80A2
-Offset_0x103580:
-		dc.w	$0001
-		dc.w	$80AB
-Offset_0x103584:
-		dc.w	$0001
-		dc.w	$80B4
-Offset_0x103588:
-		dc.w	$0001
-		dc.w	$80BD
-Offset_0x10358C:
-		dc.w	$0001
-		dc.w	$80C6
-Offset_0x103590:
-		dc.w	$0001
-		dc.w	$80CF
-Offset_0x103594:
-		dc.w	$0001
-		dc.w	$80D8
-Offset_0x103598:
-		dc.w	$0001
-		dc.w	$80E1
-Offset_0x10359C:
-		dc.w	$0001
-		dc.w	$50EA
-Offset_0x1035A0:
-		dc.w	$0001
-		dc.w	$50F0
-Offset_0x1035A4:
-		dc.w	$0001
-		dc.w	$50F6
-Offset_0x1035A8:
-		dc.w	$0001
-		dc.w	$50FC
-Offset_0x1035AC:
-		dc.w	$0001
-		dc.w	$8102
-Offset_0x1035B0:
-		dc.w	$0001
-		dc.w	$810B
-Offset_0x1035B4:
-		dc.w	$0001
-		dc.w	$8114
-Offset_0x1035B8:
-		dc.w	$0001
-		dc.w	$B11D
-Offset_0x1035BC:
-		dc.w	$0001
-		dc.w	$5129
-Offset_0x1035C0:
-		dc.w	$0001
-		dc.w	$512F
-Offset_0x1035C4:
-		dc.w	$0001
-		dc.w	$8135
-Offset_0x1035C8:
-		dc.w	$0001
-		dc.w	$813E
-Offset_0x1035CC:
-		dc.w	$0001
-		dc.w	$8147
-Offset_0x1035D0:
-		dc.w	$0001
-		dc.w	$8150
-Offset_0x1035D4:
-		dc.w	$0001
-		dc.w	$8159
-Offset_0x1035D8:
-		dc.w	$0001
-		dc.w	$8162
-Offset_0x1035DC:
-		dc.w	$0001
-		dc.w	$31A0
-Offset_0x1035E0:
-		dc.w	$0001
-		dc.w	$816B
-Offset_0x1035E4:
-		dc.w	$0001
-		dc.w	$8174
-Offset_0x1035E8:
-		dc.w	$0001
-		dc.w	$817D
-Offset_0x1035EC:
-		dc.w	$0001
-		dc.w	$7186
-Offset_0x1035F0:
-		dc.w	$0001
-		dc.w	$518E
-Offset_0x1035F4:
-		dc.w	$0001
-		dc.w	$B194
+Sonic_Mappings:		include	"data\mappings\Sonic.asm"
+Sonic_Dyn_Script:	include	"data\mappings\Sonic DPLC.asm"
+Miles_Mappings:		include "data\mappings\Tails.asm"
+Miles_Dyn_Script:	include	"data\mappings\Tails DPLC.asm"
+Sonic_Mappings_2P:	include	"data\mappings\Sonic 2P.asm"
+Sonic_Dyn_Script_2P:	include	"data\mappings\Sonic 2P DPLC.asm"
+Miles_2P_Mappings:	include	"data\mappings\Tails 2P.asm"
+Miles_Tails_2P_Mappings:	include	"data\mappings\Tails' Tails 2P.asm"
+Miles_Dyn_Script_2P:	include	"data\mappings\Tails 2P DPLC.asm"
+Miles_Tails_2P_Dyn_Script:	include	"data\mappings\Tails' Tails 2P DPLC.asm"
+Knuckles_Mappings_2P:	include	"data\mappings\Knuckles 2P.asm"
+Knuckles_Dyn_Script_2P:	include	"data\mappings\Knuckles 2P DPLC.asm"
 ; ---------------------------------------------------------------------------
 Art_Intro_Water_Waves:
 		binclude	"data\aiz\wtrwaves.nem"
@@ -43944,10 +41430,13 @@ Versus_Menu_Bg_Mappings:
 		even
 Art_Menu_Frame:
 		binclude	"data\menus\menu_frm.nem"
+		even
 Art_Level_Icons:
 		binclude	"data\menus\levelico.nem"
+		even
 Art_Seal:			; N�o usado ; Left over ???
 		binclude	"data\art\seal.nem"
+		even
 Art_Pig:			; N�o usado ; Left over ???
 		binclude	"data\art\pig.nem"
 		even
@@ -50885,14 +48374,14 @@ Left_Over_Incomplete_LRz_Rocks_Layout_2:					   ; Offset_0x1F6840
 Left_Over_LRz_Rocks_Layout_2a:								  ; Offset_0x1F5D0A
 		binclude	"data\lrz\rockpos2.dat"
 ; ---------------------------------------------------------------------------
-		align	 $1000	; $FF Fill
+		align	 $1000
 ; ---------------------------------------------------------------------------
-Player_Start_Speed_Array:									   ; Offset_0x1F7000
+Player_Start_Speed_Array:
 		dc.w	$0600, $0010, $0020, $0000
 		dc.w	$04C0, $001C, $0070, $0000
 		dc.w	$0580, $0010, $0200, $0000
 ; ---------------------------------------------------------------------------
-Player_Start_Position_Array:								   ; Offset_0x1F7018
+Player_Start_Position_Array:
 		binclude	"Levels\AIZ\Starting Position - Act 1.bin"
 		binclude	"Levels\AIZ\Starting Position - Act 2.bin"
 		dc.w	$0280, $0020, $0220, $082C	; Hz
@@ -50920,9 +48409,8 @@ Player_Start_Position_Array:								   ; Offset_0x1F7018
 		dc.w	$0060, $0070, $0060, $0070	; DEz Boss / HPz Portal
 ;===============================================================================
 ; Array do posicionamento dos objetos das fases
-; ->>>
 ;===============================================================================
-Objects_Layout:												   ; Offset_0x1F70D8
+Objects_Layout:
 		dc.l	AIz_Obj_Act1						   ; Offset_0x1F72DE
 		dc.l	AIz_Obj_Act2						   ; Offset_0x1F75C6
 		dc.l	Hz_Obj_Act1							   ; Offset_0x1F7F46
@@ -50972,13 +48460,7 @@ Objects_Layout:												   ; Offset_0x1F70D8
 		dc.l	DEz_Final_Boss_Obj					   ; Offset_0x1FFBB4
 		dc.l	HPz_Obj_2							   ; Offset_0x1FFBC0
 ;===============================================================================
-; Array do posicionamento dos objetos das fases
-; <<<-
-;===============================================================================
-
-;===============================================================================
 ; Array do posicionamento dos an�is das fases
-; ->>>
 ;===============================================================================
 Rings_Layout:												   ; Offset_0x1F7198
 		dc.l	AIz_Rng_Act1						   ; Offset_0x1F7A4C
@@ -51030,11 +48512,6 @@ Rings_Layout:												   ; Offset_0x1F7198
 		dc.l	DEz_Final_Boss_Rng					   ; Offset_0x1FFBCC
 		dc.l	HPz_Rng_2							   ; Offset_0x1FFBD2
 ;===============================================================================
-; Array do posicionamento dos an�is das fases
-; <<<-
-;===============================================================================
-
-;===============================================================================
 ; Ponteiro para origem e destino dos tuneis trasportadores usados na LBz de
 ; ->>>	   acordo com o sub-tipo do objeto
 ;===============================================================================
@@ -51060,10 +48537,6 @@ LBz_Automatic_Tunnel_From_To_Data:							   ; Offset_0x1F7258
 		dc.l	Teleport_Data_0x12					   ; Offset_0x1FF548
 		dc.l	Teleport_Data_0x13					   ; Offset_0x1FF5C6
 		dc.l	Teleport_Data_0x14					   ; Offset_0x1FF5F0
-;===============================================================================
-; Ponteiro para origem e destino dos tuneis trasportadores usados na LBz de
-; <<<-	   acordo com o sub-tipo do objeto
-;===============================================================================
 		dc.l	Offset_0x1FF61A
 		dc.l	Offset_0x1FF61A
 		dc.l	Offset_0x1FF61A
@@ -51075,7 +48548,6 @@ LBz_Automatic_Tunnel_From_To_Data:							   ; Offset_0x1F7258
 		dc.l	Offset_0x1FF61A
 		dc.l	Offset_0x1FF61A
 		dc.l	Offset_0x1FF61A
-
 		dc.w	$FFFF, 0, 0
 ; ---------------------------------------------------------------------------
 ; Offset_0x1F72DE:
@@ -51088,7 +48560,6 @@ AIz_Obj_Act2:	binclude	"Levels\AIZ\Object Layout - Act 2.bin"
 AIz_Rng_Act1:	binclude	"Levels\AIZ\Ring Layout - Act 1.bin"
 ; Offset_0x1F7BE4:
 AIz_Rng_Act2:	binclude	"Levels\AIZ\Ring Layout - Act 2.bin"
-
 ; ---------------------------------------------------------------------------
 		dc.w	$FFFF, $0000, $0000
 Hz_Obj_Act1:												   ; Offset_0x1F7F46
