@@ -6242,49 +6242,45 @@ Offset_0x005174:
 		rts
 ; End of subroutine Level_InitWaterLevels
 
-;===============================================================================
-; Rotina para inicializar as fases com �gua
-; <<<-
-;===============================================================================
-
+; ---------------------------------------------------------------------------
 ; Offset_0x005176:
-		subq.w	#1,anim_frame_timer(A0)							  ; $0024
+		subq.w	#1,anim_frame_timer(a0)
 		bpl.s	Offset_0x0051EE
-		move.w	#7,anim_frame_timer(A0)							; $0024
+		move.w	#7,anim_frame_timer(a0)
 		moveq	#0,d0
-		move.b	Obj_Timer(A0),d0								; $002E
-		addq.b	#1,Obj_Timer(A0)							  ; $002E
+		move.b	Obj_Timer(a0),d0
+		addq.b	#1,Obj_Timer(a0)
 		move.b	Offset_0x0051FA(pc,d0.w),d0
 		bne.s	Offset_0x00519C
-		move.b	#1,Obj_Timer(A0)							  ; $002E
-		move.b	Offset_0x0051FA(PC),d0
+		move.b	#1,Obj_Timer(a0)
+		move.b	Offset_0x0051FA(pc),d0
 Offset_0x00519C:
 		lsl.w	#7,d0
-		lea	(RAM_Start).l,a1						   ; $FFFF0000
-		lea	(A1,d0.w),a1
-		lea	(RAM_Start+$200).l,a2					  ; $FFFF0200
+		lea	(RAM_Start).l,a1
+		lea	(a1,d0.w),a1
+		lea	(RAM_Start+$200).l,a2
 		move.w	#bytesToWcnt($100),d0
 Offset_0x0051B2:
-		move.w	(A1)+,(A2)+
-		dbf	D0,Offset_0x0051B2
+		move.w	(a1)+,(a2)+
+		dbf	d0,Offset_0x0051B2
 		moveq	#0,d0
-		move.b	$2F(A0),d0
-		addq.b	#1,$2F(A0)
+		move.b	$2F(a0),d0
+		addq.b	#1,$2F(a0)
 		move.b	Offset_0x005214(pc,d0.w),d0
 		bne.s	Offset_0x0051D2
-		move.b	#1,$2F(A0)
-		move.b	Offset_0x005214(PC),d0
+		move.b	#1,$2F(a0)
+		move.b	Offset_0x005214(pc),d0
 Offset_0x0051D2:
 		lsl.w	#7,d0
-		lea	(RAM_Start).l,a1						   ; $FFFF0000
-		lea	(A1,d0.w),a1
-		lea	(RAM_Start+$F00).l,a2					  ; $FFFF0F00
+		lea	(RAM_Start).l,a1
+		lea	(a1,d0.w),a1
+		lea	(RAM_Start+$F00).l,a2
 		move.w	#bytesToWcnt($80),d0
 Offset_0x0051E8:
-		move.w	(A1)+,(A2)+
-		dbf	D0,Offset_0x0051E8
+		move.w	(a1)+,(a2)+
+		dbf	d0,Offset_0x0051E8
 Offset_0x0051EE:
-		cmpi.w	#6,anim_frame_timer(A0)							; $0024
+		cmpi.w	#6,anim_frame_timer(a0)
 		beq.w	Offset_0x005296
 		rts
 ; ---------------------------------------------------------------------------
@@ -6293,6 +6289,7 @@ Offset_0x0051FA:
 		dc.b	$0C, $18, $0A, $16, $08, $14, $06, $12
 		dc.b	$03, $1A, $0E, $1C, $10, $1C, $0E, $1A
 		dc.b	$00, $00
+		even
 ; ---------------------------------------------------------------------------
 Offset_0x005214:
 		dc.b	$02, $1F, $20, $21, $22, $23, $24, $25
@@ -6312,32 +6309,32 @@ Offset_0x005214:
 		dc.b	$5E, $5D, $5C, $5B, $5A, $59, $58, $57
 		dc.b	$56, $55, $54, $53, $52, $51, $50, $4F
 		dc.b	$00, $00
+		even
 ; ---------------------------------------------------------------------------
 Offset_0x005296:
-		move	#$2700,SR
+		move	#$2700,sr
 		movem.l	d0-a6,-(sp)
-		lea	(Plane_Buffer).w,a0							; $FFFFF100
-		lea	(Blocks_Mem_Address).w,a2					; $FFFF9000
-		lea	(Fg_Mem_Index_Address).w,a3					; $FFFF8008
+		lea	(Plane_Buffer).w,a0
+		lea	(Blocks_Mem_Address).w,a2
+		lea	(Fg_Mem_Index_Address).w,a3
 		move.w	#$C000,d7
-		move.w	(Camera_X).w,d0								; $FFFFEE78
-		move.w	D0,d1
-		move.w	(Camera_Y).w,d0								; $FFFFEE7C
+		move.w	(Camera_X).w,d0
+		move.w	d0,d1
+		move.w	(Camera_Y).w,d0
 		andi.w	#$FF0,d0
-		jsr	(Refresh_Plane_Full).l					 ; Offset_0x02FA7C
+		jsr	(Refresh_Plane_Full).l
 		movem.l	(sp)+,d0-a6
 		move	#$2300,sr
 		rts
 ;===============================================================================
-; Menu de op��es, menu de sele��o de fases no modo 1 e 2 jogadores
-; ->>>
+; Options menu, level select menu in 1 and 2 player mode
 ;===============================================================================
 S2_Versus_Mode_Menu:
 S2_Options_Menu:
 S2_Level_Select_Menu:
-S2_Menus:													   ; Offset_0x0052CC
-		bsr.w	Pal_FadeToBlack							  ; Offset_0x002DE8
-		move	#$2700,SR
+S2_Menus:
+		bsr.w	Pal_FadeToBlack
+		move	#$2700,sr
 		move.w	(VDP_Register_1_Command).w,d0				; $FFFFF60E
 		andi.b	#$BF,d0
 		move.w	D0,(VDP_Control_Port)						; $00C00004
@@ -6393,8 +6390,8 @@ S2_Menus:													   ; Offset_0x0052CC
 		lea	(RAM_Start+$498).l,a2					; $FFFF0498
 		moveq	#bytesToWcnt($20),d1
 Offset_0x0053F2:
-		move.w	#$207B,(A2)+
-		dbf	D1,Offset_0x0053F2
+		move.w	#$207B,(a2)+
+		dbf	d1,Offset_0x0053F2
 		bsr.w	Offset_0x005580
 		addq.b	#1,(Level_Id_2P).w						  ; $FFFFFF88
 		andi.b	#3,(Level_Id_2P).w						  ; $FFFFFF88
@@ -6421,9 +6418,9 @@ Offset_0x0053F2:
 		lea	(Palette_Row_2_Data_Target).w,a2			  ; $FFFFEDC0
 		moveq	#bytesToLcnt($20),d1
 Offset_0x005466:
-		move.l	(A1),(A2)+
-		clr.l	(A1)+
-		dbf	D1,Offset_0x005466
+		move.l	(a1),(a2)+
+		clr.l	(a1)+
+		dbf	d1,Offset_0x005466
 		move.w	#(30*60)-1,(Demo_Timer).w						; $FFFFF614
 		clr.w	(Two_Player_Flag).w							 ; $FFFFFFD8
 		clr.l	(Camera_X).w								 ; $FFFFEE78
@@ -6432,16 +6429,16 @@ Offset_0x005466:
 		bsr.w	Wait_For_VSync						   ; Offset_0x001AEE
 		move.w	(VDP_Register_1_Command).w,d0				; $FFFFF60E
 		ori.b	#$40,d0
-		move.w	D0,(VDP_Control_Port).l						; $00C00004
+		move.w	d0,(VDP_Control_Port).l						; $00C00004
 		bsr.w	Pal_FadeFromBlack							  ; Offset_0x002D20
 Offset_0x00549C:
 		move.b	#$16,(VBlank_Index).w						; $FFFFF62A
 		bsr.w	Wait_For_VSync						   ; Offset_0x001AEE
-		move	#$2700,SR
+		move	#$2700,sr
 		bsr.w	Offset_0x00561A
 		bsr.w	Offset_0x00555C
 		bsr.w	Offset_0x005580
-		move	#$2300,SR
+		move	#$2300,sr
 		lea	(Anim_SonicMilesBG).l,a2					 ; Offset_0x006614
 		jsr	(Dynamic_Normal).l						 ; Offset_0x01F2DE
 		move.b	(Control_Ports_Buffer_Data+1).w,d0		; $FFFFF605
@@ -6462,18 +6459,18 @@ Offset_0x0054EA:
 Load_Selected_Level_2P:										   ; Offset_0x0054F2
 		moveq	#0,d0
 		move.b	(Level_Id_2P).w,d0							; $FFFFFF88
-		add.w	D0,d0
+		add.w	d0,d0
 		move.w	Menu_Level_Select_Array_2P(pc,d0.w),d0 ; Offset_0x005554
 		bmi.s	Menu_Load_Special_Stage_2P			   ; Offset_0x00553C
-		move.w	D0,(Current_ZoneAndAct).w							  ; $FFFFFE10
-		move.w	D0,(Apparent_ZoneAndAct).w							 ; $FFFFEE54
+		move.w	d0,(Current_ZoneAndAct).w							  ; $FFFFFE10
+		move.w	d0,(Apparent_ZoneAndAct).w							 ; $FFFFEE54
 		move.w	#1,(Two_Player_Flag).w					; $FFFFFFD8
 		move.b	#gm_PlayMode,(Game_Mode).w			   ; $0C, $FFFFF600
 		move.b	#0,(Saved_Level_Flag).w					  ; $FFFFFE30
 		move.b	#0,(Saved_Level_Flag_P2).w				  ; $FFFFFEE0
 		moveq	#0,d0
-		move.l	D0,(Score_Count_Address).w					; $FFFFFE26
-		move.l	D0,(Score_Count_Address_P2).w				; $FFFFFED6
+		move.l	d0,(Score_Count_Address).w					; $FFFFFE26
+		move.l	d0,(Score_Count_Address_P2).w				; $FFFFFED6
 		move.l	#5000,(Next_Extra_Life_Score).w		   ; $FFFFFFC0
 		move.l	#5000,(Next_Extra_Life_Score_P2).w	   ; $FFFFFFC4
 		rts
@@ -6481,8 +6478,8 @@ Menu_Load_Special_Stage_2P:									   ; Offset_0x00553C
 		move.b	#4,(Current_SpecialStage).w					  ; $FFFFFE16
 		move.b	#gm_S2_SpecialStage,(Game_Mode).w	   ; $10, $FFFFF600
 		moveq	#1,d0
-		move.w	D0,(Two_Player_Flag).w						; $FFFFFFD8
-		move.w	D0,(Two_Player_Flag_2).w					; $FFFFFF8A
+		move.w	d0,(Two_Player_Flag).w						; $FFFFFFD8
+		move.w	d0,(Two_Player_Flag_2).w					; $FFFFFF8A
 		rts
 Menu_Level_Select_Array_2P:									   ; Offset_0x005554
 		dc.w	S2_EHz_Id<<8, S2_MCz_Id<<8, S2_CNz_Id<<8, $FFFF
@@ -6490,7 +6487,7 @@ Menu_Level_Select_Array_2P:									   ; Offset_0x005554
 Offset_0x00555C:
 		move.b	(Control_Ports_Buffer_Data+1).w,d0		; $FFFFF605
 		or.b	(Control_Ports_Buffer_Data+3).w,d0		; $FFFFF607
-		move.b	D0,d1
+		move.b	d0,d1
 		andi.b	#3,d0
 		beq.s	Offset_0x005572
 		bchg	#1,(Level_Id_2P).w						   ; $FFFFFF88
@@ -6506,52 +6503,52 @@ Offset_0x005580:
 		move.b	(Level_Id_2P).w,d0							; $FFFFFF88
 		lsl.w	#4,d0
 		lea	(Level_Select_Text_2P).l,a3				; Offset_0x00567C
-		lea	(A3,d0.w),a3
+		lea	(a3,d0.w),a3
 		move.w	#$6000,d0
 		lea	(RAM_Start+$48).l,a2				   ; $FFFF0048
-		movea.l	(A3)+,a1
+		movea.l	(a3)+,a1
 		bsr.w	MenuScreenTextToRAM
 		lea	(RAM_Start+$94).l,a2				   ; $FFFF0094
-		movea.l	(A3)+,a1
+		movea.l	(a3)+,a1
 		bsr.w	MenuScreenTextToRAM
 		lea	(RAM_Start+$D8).l,a2				   ; $FFFF00D8
-		movea.l	4(A3),a1
+		movea.l	4(a3),a1
 		bsr.w	Offset_0x005600
 		bmi.s	Offset_0x0055C4
 		lea	(RAM_Start+$468).l,a1					; $FFFF0468
 Offset_0x0055C4:
 		moveq	#2,d1
 Offset_0x0055C6:
-		move.l	(A1)+,(A2)+
-		move.l	(A1)+,(A2)+
-		lea	$1A(A2),a2
-		dbf	D1,Offset_0x0055C6
+		move.l	(a1)+,(a2)+
+		move.l	(a1)+,(a2)+
+		lea	$1A(a2),a2
+		dbf	d1,Offset_0x0055C6
 		lea	(RAM_Start).l,a1						 ; $FFFF0000
-		move.l	(A3)+,d0
+		move.l	(a3)+,d0
 		moveq	#17-1,d1
 		moveq	#12-1,d2
 		bsr.w	PlaneMapToVRAM_H40						  ; Offset_0x0012BC
 		lea	(Palette_S2LevelIcons).l,a1					; Offset_0x006230
 		moveq	#0,d0
-		move.b	(A3),d0
+		move.b	(a3),d0
 		lsl.w	#5,d0
-		lea	(A1,d0.w),a1
+		lea	(a1,d0.w),a1
 		lea	(Palette_Row_2_Offset).w,a2					; $FFFFED40
 		moveq	#bytesToLcnt(Palette_Row_3_Offset-Palette_Row_2_Offset),d1
 Offset_0x0055F8:
-		move.l	(A1)+,(A2)+
-		dbf	D1,Offset_0x0055F8
+		move.l	(a1)+,(a2)+
+		dbf	d1,Offset_0x0055F8
 		rts
 Offset_0x005600:
 		moveq	#0,d0
 		move.b	(Level_Id_2P).w,d0							; $FFFFFF88
-		move.w	D0,d1
-		add.w	D0,d0
-		add.w	D1,d0
-		add.w	D0,d0
-		lea	(A5,d0.w),a5
-		move.w	(A5),d0
-		add.w	2(A5),d0
+		move.w	d0,d1
+		add.w	d0,d0
+		add.w	d1,d0
+		add.w	d0,d0
+		lea	(a5,d0.w),a5
+		move.w	(a5),d0
+		add.w	2(a5),d0
 		rts
 ; ---------------------------------------------------------------------------
 Offset_0x00561A:
@@ -6559,13 +6556,13 @@ Offset_0x00561A:
 		move.b	(Level_Id_2P).w,d0							; $FFFFFF88
 		lsl.w	#4,d0
 		lea	(Level_Select_Text_2P).l,a3				; Offset_0x00567C
-		lea	(A3,d0.w),a3
+		lea	(a3,d0.w),a3
 		moveq	#0,d0
 		lea	(RAM_Start+$1E0).l,a2					; $FFFF01E0
-		movea.l	(A3)+,a1
+		movea.l	(a3)+,a1
 		bsr.w	MenuScreenTextToRAM
 		lea	(RAM_Start+$22C).l,a2					; $FFFF022C
-		movea.l	(A3)+,a1
+		movea.l	(a3)+,a1
 		bsr.w	MenuScreenTextToRAM
 		lea	(RAM_Start+$270).l,a2					; $FFFF0270
 		lea	(RAM_Start+$498).l,a1					; $FFFF0498
@@ -6575,12 +6572,12 @@ Offset_0x00561A:
 Offset_0x00565E:
 		moveq	#2,d1
 Offset_0x005660:
-		move.l	(A1)+,(A2)+
-		move.l	(A1)+,(A2)+
-		lea	$1A(A2),a2
-		dbf	D1,Offset_0x005660
+		move.l	(a1)+,(a2)+
+		move.l	(a1)+,(a2)+
+		lea	$1A(a2),a2
+		dbf	d1,Offset_0x005660
 		lea	(RAM_Start+$198).l,a1					; $FFFF0198
-		move.l	(A3)+,d0
+		move.l	(a3)+,d0
 		moveq	#17-1,d1
 		moveq	#12-1,d2
 		bra.w	PlaneMapToVRAM_H40						  ; Offset_0x0012BC
@@ -7624,13 +7621,12 @@ Anim_SonicMilesBG:
 		even
 ;===============================================================================
 ; Modo de teste para o Special Stage
-; ->>>
 ;===============================================================================
 Special_Stage_Test_1:										   ; Offset_0x00662A
 		moveq	#signextendB(cmd_Stop),d0									; -$1F
 		bsr.w	PlaySound							  ; Offset_0x001176
 		bsr.w	ClearPLC							   ; Offset_0x001548
-		bsr.w	Pal_FadeToBlack							  ; Offset_0x002DE8
+		bsr.w	Pal_FadeToBlack
 		move	#$2700,SR
 		lea	(VDP_Control_Port).l,a6						; $00C00004
 		move.w	#$8004,(A6)
@@ -7729,7 +7725,7 @@ Special_Stage_Test_2:										   ; Offset_0x0070DC
 		moveq	#signextendB(cmd_Stop),d0									; -$1F
 		bsr.w	PlaySound							  ; Offset_0x001176
 		bsr.w	ClearPLC							   ; Offset_0x001548
-		bsr.w	Pal_FadeToBlack							  ; Offset_0x002DE8
+		bsr.w	Pal_FadeToBlack
 		move	#$2700,SR
 		lea	(VDP_Control_Port).l,a6						; $00C00004
 		move.w	#$8004,(A6)
@@ -40243,7 +40239,6 @@ Art_Water_Shield:											   ; Offset_0x084E80
 		binclude	"data\art\w_shield.dat"
 Art_Dust_2P:												   ; Offset_0x0858E0
 		binclude	"data\art\dust_2p.nem"
-		even
 		align0 4
 Art_CNz_Cannon:												   ; Offset_0x0859A0
 		binclude	"data\cnz\cannon.dat"
