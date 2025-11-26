@@ -34104,7 +34104,7 @@ Child_Delete:												   ; Offset_0x04246E
 ;===============================================================================
 Child_Display_Touch_Or_Delete:								   ; Offset_0x042472
 		movea.w	Obj_Child_Ref(A0),a1							; $0046
-		btst	#7,status(A1)			
+		btst	#7,status(A1)
 		bne.s	Child_Delete_2						   ; Offset_0x04248A
 		jsr	(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
 		jmp	(DisplaySprite).l						   ; Offset_0x011148
@@ -34172,7 +34172,7 @@ Child_Display_Touch_Or_Flicker_Move_2:						   ; Offset_0x042538
 		bne.s	Run_Flicker_Move					   ; Offset_0x0424F4
 		btst	#7,status(A1)			
 		beq.s	Offset_0x042558
-		bset	#7,status(A0)			
+		bset	#7,status(A0)
 		jmp	(DisplaySprite).l						   ; Offset_0x011148
 Offset_0x042558:
 		jsr	(Add_SpriteToCollisionResponseList).l		  ; Offset_0x00A540
@@ -36014,7 +36014,7 @@ Obj90_Fireworm:
 ; Offset_0x049FD0:
 Fireworm_Index:	dc.w Fireworm_Init-Fireworm_Index
 		dc.w Fireworm_Main-Fireworm_Index
-		dc.w return_4A008-Fireworm_Index
+		dc.w return_4A006-Fireworm_Index
 ; ===========================================================================
 ; Offset_0x049FD6:
 Fireworm_Init:
@@ -36037,10 +36037,6 @@ Offset_0x049FEE:
 		move.b	subtype(a0),subtype(a1)
 
 return_4A006:
-		rts
-; ---------------------------------------------------------------------------
-
-return_4A008:
 		rts
 ; ===========================================================================
 ; Offset_0x04A008:
