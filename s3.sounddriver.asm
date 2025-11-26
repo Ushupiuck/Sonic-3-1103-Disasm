@@ -244,7 +244,7 @@ zID_MusicPointers	= 4
 zID_SFXPointers		= 6
 zID_ModEnvPointers	= 8
 zID_VolEnvPointers	= 0Ah
-zID_SongLimit		= 0Ch		; Earlier drivers had this; unused
+zID_SongLimit		= 0Ch	; unused
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -252,7 +252,7 @@ zID_SongLimit		= 0Ch		; Earlier drivers had this; unused
 ; ---------------------------------------------------------------------------
 
 zEntryPoint:
-		di					; disable interrupts...
+		di					; disable interrupts
 		di					; twice
 		im	1				; set interrupt mode 1
 		jp	zInitAudioDriver
@@ -334,7 +334,6 @@ zVInt:	rsttarget
 		push	af
 		push	iy
 		exx
-
 	if fix_sndbugs
 .doupdate:
 	endif
@@ -357,7 +356,6 @@ zVInt:	rsttarget
 
 .not_pal:
 	endif
-
 		; DAC bankswitch
 		bankswitch DACBank
 		exx
@@ -377,7 +375,7 @@ zInitAudioDriver:
 		dec	c
 		jr	z,.loop
 
-		ld	a,zmakeSongBank(Snd_Bank1_Start)
+		ld	a,zmakeSongBank(Snd_Bank1_Start)	; set the initial music bank to use bank 1
 		ld	(zSongBank),a			; store the music bank
 		xor	a
 		ld	(zDACIndex),a			; clear the DAC index
@@ -385,12 +383,11 @@ zInitAudioDriver:
 		call	zStopAllSound			; stop all music
 		ld	a,5				; set PAL double-update timer to 5
 		ld	(zPalDblUpdCounter),a		; (that is, do not double-update for 5 frames)
-
 	if ~~fix_sndbugs
 		; duplicate DAC bankswitch
 		bankswitch2 DACBank
 	endif
-		ei
+		ei							; enable interrupts (only for them to be disabled in zPlayDigitalAudio)
 		jp	zPlayDigitalAudio
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -421,9 +418,9 @@ zWriteFMIorII:
 zWriteFMI:
 		ld	(zYM2612_A0),a			; select YM2612 register
 	if ~~fix_sndbugs
-		nop
+		nop							; delay
 	endif
-		ld	a,c
+		ld	a,c						; load data from c into a
 		ld	(zYM2612_D0),a			; send data to register
 		ret
 ; End of function zWriteFMI
@@ -443,9 +440,9 @@ zWriteFMII_reduced:
 zWriteFMII:
 		ld	(zYM2612_A1),a			; select YM2612 register
 	if ~~fix_sndbugs
-		nop
+		nop							; delay
 	endif
-		ld	a,c
+		ld	a,c						; load data from c into a
 		ld	(zYM2612_D1),a			; send data to register
 		ret
 ; End of function zWriteFMII
@@ -461,7 +458,7 @@ zUpdateEverything:
 		call	zCycleSoundQueue
 		call	zUpdateSFXTracks
 
-; zUpdateMusicTracks:
+;zUpdateMusicTracks:
 		ld	hl,zBankRegister
 		ld	a,(zSongBank)			; get bank ID for music
 		bankswitchToMusic Snd_Bank1_Start
@@ -554,10 +551,10 @@ zFMSendFreq:
 		ld	a,0A0h				; update frequency LSB
 		ld	c,l
 	if fix_sndbugs
-		jp	zWriteFMIorII			; Send it to YM2612
+		jp	zWriteFMIorII			; Send it to YM2612 and return to caller
 	else
-		call	zWriteFMIorII			; Send it to YM2612
-		ret
+		call	zWriteFMIorII		; Send it to YM2612
+		ret							; return to caller
 	endif
 ; ---------------------------------------------------------------------------
 
@@ -652,7 +649,7 @@ zGetNextNote_cont:
 		jr	nz,zGotNoteFreq
 		push	de
 		ld	d,8
-		ld	e,12
+		ld	e,12					; 12 notes per octave
 		ex	af,af'
 		xor	a
 
@@ -1170,7 +1167,7 @@ zSilenceStopTrack:
 
 zPlayMusic:
 		sub	mus__First
-		ret	m
+		ret	m					; if negative, return
 		push	af
 		call	zStopAllSound
 		pop	af
@@ -1630,9 +1627,14 @@ zDoMusicFadeOut:
 .timerExpired:
 		ld	a,(zFadeDelay)
 		ld	(zFadeDelayTimeout),a
-		ld	a,(zFadeOutTimeout)
-		dec	a
-		ld	(zFadeOutTimeout),a
+	if fix_sndbugs
+		ld	hl, zFadeOutTimeout		; (hl) = fade timeout
+		dec	(hl)				; Decrement it
+	else
+		ld	a, (zFadeOutTimeout)		; a = fade timeout
+		dec	a				; Decrement it
+		ld	(zFadeOutTimeout), a		; Then store it back
+	endif
 		jr	z,zStopAllSound
 		ld	a,(zSongBank)
 
@@ -1674,24 +1676,41 @@ zStopAllSound:
 
 .loop:
 		push	bc
+	if fix_sndbugs
+		; Inline it because zKeyOnOff tries to write to ix+0, which we don't want
+		call	zSetMaxRelRate
+		ld	a, 40h				; Set total level...
+		ld	c, 7Fh				; ... to minimum envelope amplitude...
+		call	zFMOperatorWriteLoop		; ... for all operators of this track's channel
+		ld	a, 28h				; Write to KEY ON/OFF port
+		ld	c, (ix+zTrack.VoiceControl)	; Send key off
+		call	zWriteFMI			; Send it
+	else
 		call	zFMSilenceChannel
+	endif
 		call	zFMClearSSGEGOps
 		inc	ix
 		inc	ix
 		pop	bc
 		djnz	.loop
+	if ~~fix_sndbugs
 		ld	b,7
 		xor	a
 		ld	(zFadeOutTimeout),a
+	endif
 		call	zPSGSilenceAll
 		ld	c,0
 		ld	a,2Bh
 		call	zWriteFMI
 
 zFM3NormalMode:
+	if fix_sndbugs
+		ld	c,0
+	else
 		xor	a
 		ld	(zFM3Settings),a
 		ld	c,a
+	endif
 		ld	a,27h
 		call	zWriteFMI
 		jp	zClearNextSound
@@ -1773,10 +1792,10 @@ zDoUpdate:
 		ld	(unk_1C17),a
 	endif
 		ld	de,zMusicNumber
-		call	zloc_7D4
-		call	zloc_7D4
+		call	zFillSoundQueue
+		call	zFillSoundQueue
 
-zloc_7D4:
+zFillSoundQueue:
 		ld	a,(de)
 		or	a
 		ret	z
@@ -1828,7 +1847,16 @@ zFMOperatorWriteLoop:
 		ret
 
 zPlaySegaSound:
-		ld	a,1
+	if fix_sndbugs
+		call	zStopAllSound				; Fade music before playing the sound
+		xor	a					; a = 0
+		ld	(zMusicNumber), a			; Clear M68K input queue...
+		ld	(zSFXNumber0), a			; ... including SFX slot 0...
+		ld	(zSFXNumber1), a			; ... and SFX slot 1
+		inc	a					; a = 1
+	else
+		ld	a,1					; a = 1
+	endif
 		ld	(zPlaySegaPCMFlag),a
 		pop	hl
 		ret
@@ -3035,7 +3063,9 @@ zPlaySEGAPCM:
 								; 68 cycles in total
 		xor	a
 		ld	(zPlaySegaPCMFlag),a
+	if ~~fix_sndbugs
 		call	zStopAllSound
+	endif
 		jp	zPlayDigitalAudio
 
 		binclude	"data\star trek\part9.bin"
@@ -3127,6 +3157,11 @@ z80_VolEnvPointers:
 		dw	VolEnv_22
 		dw	VolEnv_23
 		dw	VolEnv_24
+
+		; DANGER! There is no pointer for VolEnv_25 here, thankfully no song in the prototype uses this.
+		; Trying to play VolEnv_25 (sTone_26 in SMPS2ASM) will cause the driver to read this unused Star Trek data,
+		; which thankfully doesn't crash the game, just plays a random note.
+		; Side note there is also no VolEnv_26 (sTone_27 in SMPS2ASM) in this driver.
 
 		binclude	"data\star trek\part10.bin"
 
