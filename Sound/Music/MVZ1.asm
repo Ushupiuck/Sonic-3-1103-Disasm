@@ -296,4 +296,3 @@ s3p15_Voices:
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $06, $19, $05, $11
-

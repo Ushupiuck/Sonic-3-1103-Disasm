@@ -387,4 +387,3 @@ s3p48_Voices:
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $04, $05, $07, $1D
-

@@ -451,4 +451,3 @@ s3p33_Voices:
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $16, $1E, $16, $1A
-

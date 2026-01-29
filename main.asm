@@ -30460,12 +30460,11 @@ Trap_Routines_List:
 		include	"data/S2_Obj/Object to Hide TM on the Sega Screen.asm"
 ;===============================================================================
 ; Rotina executada durante a VBlank
-; ->>>
 ;===============================================================================
-VInt_SEGA_Screen:											   ; Offset_0x034926
-		move.w	(VBlank_Subroutine).w,d0					; $FFFFF662
-		beq.w	Null_Sub_3							   ; Offset_0x034652
-		clr.w	(VBlank_Subroutine).w						 ; $FFFFF662
+VInt_SEGA_Screen:
+		move.w	(VBlank_Subroutine).w,d0
+		beq.w	Null_Sub_3
+		clr.w	(VBlank_Subroutine).w
 		move.w	Offset_0x03493A-2(pc,d0.w),d0
 		jmp	Offset_0x03493A(pc,d0.w)
 ; ---------------------------------------------------------------------------
@@ -30486,30 +30485,30 @@ Offset_0x034970:
 		move.l	#vdpComm(VRAM_SegaScr_Plane_A_Name_Table + planeLoc(128,80,9),VRAM,WRITE),d0
 		bra.w	Offset_0x0349AC
 Offset_0x0349AC:
-		lea	(VDP_Data_Port).l,a6							; $00C00000
+		lea	(VDP_Data_Port).l,a6
 		move.l	#vdpCommDelta(planeLoc(128,0,1)),d6
 		moveq	#7,d1
 		moveq	#9,d2
 Offset_0x0349BC:
-		move.l	D0,4(A6)
-		move.w	D1,d3
-		move.l	A1,a2
+		move.l	d0,4(a6)
+		move.w	d1,d3
+		movea.l	a1,a2
 Offset_0x0349C4:
-		move.w	(A2)+,d4
+		move.w	(a2)+,d4
 		bclr	#$A,d4
 		beq.s	Offset_0x0349D0
 		bsr.w	Offset_0x0349DE
 Offset_0x0349D0:
-		move.w	D4,(A6)
-		dbf	D3,Offset_0x0349C4
-		add.l	D6,d0
-		dbf	D2,Offset_0x0349BC
+		move.w	d4,(a6)
+		dbf	d3,Offset_0x0349C4
+		add.l	d6,d0
+		dbf	d2,Offset_0x0349BC
 		rts
 Offset_0x0349DE:
-		moveq	#$28,d5
+		moveq	#bytesToWcnt($52),d5
 Offset_0x0349E0:
-		move.w	D4,(A6)
-		dbf	D5,Offset_0x0349E0
+		move.w	d4,(a6)
+		dbf	d5,Offset_0x0349E0
 		rts
 ; ---------------------------------------------------------------------------
 Offset_0x0349E8:
@@ -30528,48 +30527,48 @@ Offset_0x034A08:
 		dc.b	$04, $06, $06, $08, $08, $0A, $0A, $0C
 		dc.b	$0E, $10, $16, $00
 ; ---------------------------------------------------------------------------
-Sub_Sega_Intro:												   ; Offset_0x034A2C
-		move.w	D1,d2
+Sub_Sega_Intro:
+		move.w	d1,d2
 		andi.w	#1,d2
 		addq.w	#1,d2
 		lsl.w	#6,d2
-		swap	D2
-		move.w	D1,d3
+		swap	d2
+		move.w	d1,d3
 		lsr.w	#1,d3
 		addq.w	#1,d3
 		lsl.w	#6,d3
-		swap	D3
+		swap	d3
 		bsr.w	Offset_0x034A58
 		btst	#1,d0
-		beq.w	Null_Sub_3							   ; Offset_0x034652
+		beq.w	Null_Sub_3
 		btst	#1,d1
 		bne.s	Offset_0x034A56
-		movea.l	A3,a5
+		movea.l	a3,a5
 Offset_0x034A56:
-		movea.l	A5,a2
+		movea.l	a5,a2
 Offset_0x034A58:
-		movea.l	A2,a4
-		swap	D2
-		lea	(A2,d2.w),a3
-		swap	D2
-		move.w	D1,d5
+		movea.l	a2,a4
+		swap	d2
+		lea	(a2,d2.w),a3
+		swap	d2
+		move.w	d1,d5
 		andi.w	#1,d5
 		bsr.w	Offset_0x034AD2
 		btst	#1,d1
 		beq.s	Offset_0x034A94
-		swap	D2
-		move.w	D2,d4
-		swap	D2
-		add.w	D4,d4
-		move.w	D0,d3
+		swap	d2
+		move.w	d2,d4
+		swap	d2
+		add.w	d4,d4
+		move.w	d0,d3
 		andi.w	#1,d3
-		lsl.w	D3,d4
-		adda.w	D4,a4
-		move.w	D1,d5
+		lsl.w	d3,d4
+		adda.w	d4,a4
+		move.w	d1,d5
 		lsr.w	#1,d5
-		swap	D3
-		lea	(A4,d3.w),a5
-		swap	D3
+		swap	d3
+		lea	(a4,d3.w),a5
+		swap	d3
 		bsr.w	Offset_0x034AEA
 Offset_0x034A94:
 		btst	#0,d0
@@ -30577,21 +30576,21 @@ Offset_0x034A94:
 		btst	#1,d0
 		beq.s	Offset_0x034AD0
 Offset_0x034AA0:
-		swap	D2
-		lea	(A2,d2.w),a2
-		lea	(A2,d2.w),a3
-		swap	D2
-		move.w	D1,d5
+		swap	d2
+		lea	(a2,d2.w),a2
+		lea	(a2,d2.w),a3
+		swap	d2
+		move.w	d1,d5
 		andi.w	#1,d5
 		bsr.w	Offset_0x034AD2
 		btst	#1,d1
 		beq.s	Offset_0x034AD0
-		move.w	D1,d5
+		move.w	d1,d5
 		lsr.w	#1,d5
-		swap	D3
-		lea	(A4,d3.w),a4
-		lea	(A4,d3.w),a5
-		swap	D3
+		swap	d3
+		lea	(a4,d3.w),a4
+		lea	(a4,d3.w),a5
+		swap	d3
 		bsr.w	Offset_0x034AEA
 Offset_0x034AD0:
 		rts
@@ -30602,8 +30601,8 @@ Offset_0x034AD4:
 		addq.w	#4,a2
 		bsr.w	Offset_0x034B2C
 		addq.w	#4,a3
-		dbf	D6,Offset_0x034AD4
-		dbf	D5,Offset_0x034AD2
+		dbf	d6,Offset_0x034AD4
+		dbf	d5,Offset_0x034AD2
 		rts
 Offset_0x034AEA:
 		moveq	#7,d6
@@ -30612,85 +30611,85 @@ Offset_0x034AEC:
 		addq.w	#4,a4
 		bsr.w	Offset_0x034B80
 		addq.w	#4,a5
-		dbf	D6,Offset_0x034AEC
-		dbf	D5,Offset_0x034AEA
+		dbf	d6,Offset_0x034AEC
+		dbf	d5,Offset_0x034AEA
 		rts
 Offset_0x034B02:
 		bsr.w	Offset_0x034B06
 Offset_0x034B06:
-		move.b	(A1)+,d2
-		move.b	D2,d3
+		move.b	(a1)+,d2
+		move.b	d2,d3
 		andi.b	#$F0,d2
-		move.b	D2,d4
+		move.b	d2,d4
 		lsr.b	#4,d4
-		or.b	D2,d4
-		move.b	D4,(A2)+
-		move.b	D4,3(A2)
+		or.b	d2,d4
+		move.b	d4,(a2)+
+		move.b	d4,3(a2)
 		andi.b	#$F,d3
-		move.b	D3,d4
+		move.b	d3,d4
 		lsl.b	#4,d4
-		or.b	D3,d4
-		move.b	D4,(A2)+
-		move.b	D4,3(A2)
+		or.b	d3,d4
+		move.b	d4,(a2)+
+		move.b	d4,3(a2)
 		rts
 Offset_0x034B2C:
 		bsr.w	Offset_0x034B30
 Offset_0x034B30:
-		move.b	(A1)+,d2
-		move.b	D2,d3
+		move.b	(a1)+,d2
+		move.b	d2,d3
 		andi.b	#$F0,d2
-		move.b	D2,d4
+		move.b	d2,d4
 		lsr.b	#4,d4
-		or.b	D2,d4
-		move.b	D4,(A3)+
-		move.b	D4,3(A3)
+		or.b	d2,d4
+		move.b	d4,(a3)+
+		move.b	d4,3(a3)
 		andi.b	#$F,d3
-		move.b	D3,d4
+		move.b	d3,d4
 		lsl.b	#4,d4
-		or.b	D3,d4
-		move.b	D4,(A3)+
-		move.b	D4,3(A3)
+		or.b	d3,d4
+		move.b	d4,(a3)+
+		move.b	d4,3(a3)
 		rts
 Offset_0x034B56:
 		bsr.w	Offset_0x034B5A
 Offset_0x034B5A:
-		move.b	(A1)+,d2
-		move.b	D2,d3
+		move.b	(a1)+,d2
+		move.b	d2,d3
 		andi.b	#$F0,d2
-		move.b	D2,d4
+		move.b	d2,d4
 		lsr.b	#4,d4
-		or.b	D2,d4
-		move.b	D4,(A4)+
-		move.b	D4,3(A4)
+		or.b	d2,d4
+		move.b	d4,(a4)+
+		move.b	d4,3(a4)
 		andi.b	#$F,d3
-		move.b	D3,d4
+		move.b	d3,d4
 		lsl.b	#4,d4
-		or.b	D3,d4
-		move.b	D4,(A4)+
-		move.b	D4,3(A4)
+		or.b	d3,d4
+		move.b	d4,(a4)+
+		move.b	d4,3(a4)
 		rts
 Offset_0x034B80:
 		bsr.w	Offset_0x034B84
 Offset_0x034B84:
-		move.b	(A1)+,d2
-		move.b	D2,d3
+		move.b	(a1)+,d2
+		move.b	d2,d3
 		andi.b	#$F0,d2
-		move.b	D2,d4
+		move.b	d2,d4
 		lsr.b	#4,d4
-		or.b	D2,d4
-		move.b	D4,(A5)+
-		move.b	D4,3(A5)
+		or.b	d2,d4
+		move.b	d4,(a5)+
+		move.b	d4,3(a5)
 		andi.b	#$F,d3
-		move.b	D3,d4
+		move.b	d3,d4
 		lsl.b	#4,d4
-		or.b	D3,d4
-		move.b	D4,(A5)+
-		move.b	D4,3(A5)
+		or.b	d3,d4
+		move.b	d4,(a5)+
+		move.b	d4,3(a5)
 		rts
 ; ---------------------------------------------------------------------------
 ; Offset_0x034BAA: Obj_0xC7_Knuckles: ObjC7_CutsceneKnuckles:
 		include	"obj\C7 - Knuckles in Cutscenes.asm"
-Obj_0xC9_Knuckles_Switch:									   ; Offset_0x035484
+Obj_0xC9_Knuckles_Switch:
 		include "obj\obj_0xC9.asm"
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -31787,43 +31786,43 @@ ScrewMobile_FanAttack:
 ; ===========================================================================
 
 Offset_0x038C48:
-		move.b	#8,routine(A0)					; $0005
-		bclr	#3,Obj_Control_Var_08(A0)			; $0038
-		move.w	Obj_Height_3(A0),Obj_Speed_X(A0)		; $0044, $0018
-		move.w	#$BF,Obj_Timer(A0)					; $002E
-		move.l	#Offset_0x038C9A,Obj_Child(A0)			; $0034
-		move.b	#8,Obj_Control_Var_09(A0)			; $0039
+		move.b	#8,routine(A0)
+		bclr	#3,Obj_Control_Var_08(A0)
+		move.w	Obj_Height_3(A0),Obj_Speed_X(A0)
+		move.w	#$BF,Obj_Timer(A0)
+		move.l	#Offset_0x038C9A,Obj_Child(A0)
+		move.b	#8,Obj_Control_Var_09(A0)
 		rts
 ; ---------------------------------------------------------------------------
 Offset_0x038C70:
-		jsr	(Swing_Up_And_Down).l			; Offset_0x04232E
-		jsr	(SpeedToPos).l				 ; Offset_0x01111E
-		jsr	(Run_Object_Wait_Timer_A0).l			; Offset_0x0423D2
-		subq.w	#1,Obj_Child_Data(A0)				; $0030
+		jsr	(Swing_Up_And_Down).l
+		jsr	(SpeedToPos).l
+		jsr	(Run_Object_Wait_Timer_A0).l
+		subq.w	#1,Obj_Child_Data(A0)
 		bpl.s	Offset_0x038C98
-		neg.w	Obj_Speed_X(A0)					; $0018
+		neg.w	Obj_Speed_X(A0)
 		bchg	#0,render_flags(A0)
-		move.w	#$13F,Obj_Child_Data(A0)				; $0030
+		move.w	#$13F,Obj_Child_Data(A0)
 Offset_0x038C98:
 		rts
 ; ---------------------------------------------------------------------------
 Offset_0x038C9A:
-		move.w	#$5F,Obj_Timer(A0)					; $002E
-		subq.b	#1,Obj_Control_Var_09(A0)			; $0039
+		move.w	#$5F,Obj_Timer(A0)
+		subq.b	#1,Obj_Control_Var_09(A0)
 		bmi.s	Offset_0x038CAE
-		bset	#1,Obj_Control_Var_08(A0)			; $0038
+		bset	#1,Obj_Control_Var_08(A0)
 		rts
 Offset_0x038CAE:
-		move.w	Obj_Speed_X(A0),Obj_Height_3(A0)		; $0018, $0044
-		clr.w	Obj_Speed_X(A0)					; $0018
+		move.w	Obj_Speed_X(A0),Obj_Height_3(A0)
+		clr.w	Obj_Speed_X(A0)
 		bra.w	ScrewMobile_FanAttack
 ; ---------------------------------------------------------------------------
 Offset_0x038CBC:
 		move.l	#Offset_0x038CE6,(A0)
-		bset	#$04,Obj_Control_Var_08(A0)			; $0038
-		move.w	#$007F,Obj_Timer(A0)					; $002E
-		move.l	#Offset_0x038D02,Obj_Child(A0)			; $0034
-		moveq	#signextendB(cmd_FadeOut),d0					; -$20
+		bset	#$04,Obj_Control_Var_08(A0)
+		move.w	#$007F,Obj_Timer(A0)
+		move.l	#Offset_0x038D02,Obj_Child(A0)
+		moveq	#signextendB(cmd_FadeOut),d0
 		jsr	(Play_Music).l
 		moveq	#$C,d0
 		jmp	(Set_Indexed_Velocity).l		 ; Offset_0x042D5A
@@ -46323,11 +46322,11 @@ BS_Slot_Machine_Chunks:										   ; Offset_0x1AA46E
 ; Offset_0x1ABDDC:
 		binclude	"data\unknown\unkdata5.kos"
 Left_Over_Lava_Reef_Blocks:
-		binclude	"data\lrz\Blocks.kos"
+		binclude	"levels\lrz\blocks\Blocks.kos"
 Left_Over_Lava_Reef_Tiles:									   ; Offset_0x1AEF34
-		binclude	"data\lrz\tiles_1.kosm"
+		binclude	"levels\lrz\tiles\tiles.kosm"
 Left_Over_Lava_Reef_Chunks_2:								   ; Offset_0x1B2ED6
-		binclude	"data\lrz\chunks_2.kos"
+		binclude	"levels\lrz\chunks\chunks.kos"
 Left_Over_Azure_Lake_Blocks:								   ; Offset_0x1B5DB6
 		binclude	"data\alz\blocks_1.kos"
 Left_Over_Azure_Lake_Tiles:									   ; Offset_0x1B66D6

@@ -408,4 +408,3 @@ s3p36_Voices:
 	smpsVcDecayLevel    $01, $05, $03, $01
 	smpsVcReleaseRate   $08, $08, $08, $08
 	smpsVcTotalLevel    $06, $1C, $25, $20
-

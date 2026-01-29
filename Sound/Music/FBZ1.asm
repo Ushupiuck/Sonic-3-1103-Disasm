@@ -345,4 +345,3 @@ s3p9_Voices:
 	smpsVcDecayLevel    $08, $0D, $0E, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $05, $1D, $2F, $2F
-

@@ -283,4 +283,3 @@ s3p24_Voices:
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $07, $08, $0A, $1D
-
