@@ -470,103 +470,103 @@ s3p19_PSG3:
 s3p19_Jump03:
 	dc.b	nRst, $0C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $3C
+	dc.b	nMaxPSG1, $3C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $18
+	dc.b	nMaxPSG1, $18
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $3C
+	dc.b	nMaxPSG1, $3C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $18
+	dc.b	nMaxPSG1, $18
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $3C
+	dc.b	nMaxPSG1, $3C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $18
+	dc.b	nMaxPSG1, $18
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $3C
+	dc.b	nMaxPSG1, $3C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $18
+	dc.b	nMaxPSG1, $18
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $3C
+	dc.b	nMaxPSG1, $3C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $18
+	dc.b	nMaxPSG1, $18
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $3C
+	dc.b	nMaxPSG1, $3C
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $48
+	dc.b	nMaxPSG1, $48
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $12
+	dc.b	nMaxPSG1, $12
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $48
+	dc.b	nMaxPSG1, $48
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $12
+	dc.b	nMaxPSG1, $12
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $60, $60, $48
+	dc.b	nMaxPSG1, $60, $60, $48
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $12
+	dc.b	nMaxPSG1, $12
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $5A
+	dc.b	nMaxPSG1, $5A
 	smpsPSGvoice        sTone_01
-	dc.b	nBb6, $06
+	dc.b	nMaxPSG1, $06
 	smpsPSGvoice        sTone_08
-	dc.b	nBb6, $60, $0C
+	dc.b	nMaxPSG1, $60, $0C
 	smpsJump            s3p19_Jump03
 
 ; Unreachable

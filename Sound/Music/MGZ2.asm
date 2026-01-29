@@ -288,4 +288,3 @@ s3p6_Voices:
 	smpsVcDecayLevel    $08, $0D, $0E, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $01, $0F, $0C, $30
-

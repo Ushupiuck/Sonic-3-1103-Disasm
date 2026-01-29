@@ -318,4 +318,3 @@ s3p27_Voices:
 	smpsVcDecayLevel    $0F, $0F, $0F, $08
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $0A, $08, $08, $17
-

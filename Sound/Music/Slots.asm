@@ -282,37 +282,37 @@ s3p29_Loop04:
 
 s3p29_Call00:
 	smpsPSGvoice        sTone_01
-	dc.b	nB6, $18, nB6, nB6, nB6
+	dc.b	nMaxPSG2, $18, nMaxPSG2, nMaxPSG2, nMaxPSG2
 	smpsReturn
 
 s3p29_Call01:
 	dc.b	nRst, $30
 	smpsPSGvoice        sTone_01
-	dc.b	nB6, $18
+	dc.b	nMaxPSG2, $18
 	smpsPSGvoice        sTone_02
-	dc.b	nB6, $18
+	dc.b	nMaxPSG2, $18
 	smpsReturn
 
 s3p29_Call02:
 	smpsPSGvoice        sTone_01
-	dc.b	nB6, $0C, nB6, nB6, nB6, nB6, nB6, nB6, nB6
+	dc.b	nMaxPSG2, $0C, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2
 	smpsReturn
 
 s3p29_Call03:
 	dc.b	nRst, $30
 	smpsPSGvoice        sTone_02
-	dc.b	nB6, $18, nB6
+	dc.b	nMaxPSG2, $18, nMaxPSG2
 	smpsReturn
 
 s3p29_Call04:
 	dc.b	nRst, $0C
 	smpsPSGvoice        sTone_01
-	dc.b	nB6, $0C, nB6, nB6, nB6, nB6, nB6, nB6
+	dc.b	nMaxPSG2, $0C, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2, nMaxPSG2
 	smpsReturn
 
 s3p29_Call05:
 	smpsPSGvoice        sTone_02
-	dc.b	nB6, $18, nB6, nB6, nB6
+	dc.b	nMaxPSG2, $18, nMaxPSG2, nMaxPSG2, nMaxPSG2
 	smpsReturn
 
 ; DAC Data
@@ -446,4 +446,3 @@ s3p29_Voices:
 	smpsVcDecayLevel    $00, $01, $02, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
 	smpsVcTotalLevel    $00, $1F, $27, $29
-

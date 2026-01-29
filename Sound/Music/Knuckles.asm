@@ -233,7 +233,7 @@ s3p31_Voices:
 	smpsVcDecayRate2    $07, $00, $00, $00
 	smpsVcDecayLevel    $00, $01, $0F, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $27, $28, $18
+	smpsVcTotalLevel    $00, $27, $28, $18
 
 ;	Voice $01
 ;	$31
@@ -251,7 +251,7 @@ s3p31_Voices:
 	smpsVcDecayRate2    $08, $07, $07, $07
 	smpsVcDecayLevel    $02, $01, $01, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $14, $32, $17
+	smpsVcTotalLevel    $00, $14, $32, $17
 
 ;	Voice $02
 ;	$3D
@@ -269,5 +269,4 @@ s3p31_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $01, $01, $01, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $9B, $80, $80, $1B
-
+	smpsVcTotalLevel    $1B, $80, $80, $1B
